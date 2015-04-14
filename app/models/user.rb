@@ -6,11 +6,12 @@ class User < ActiveRecord::Base
 
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable
-  devise :database_authenticatable, :registerable, :confirmable,
+  devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
          
   validates_format_of :email, :without => TEMP_EMAIL_REGEX, on: :update         
-         
+  validates :name, presence: true, on: :update   
+       
  def self.find_for_oauth(auth, signed_in_resource = nil)
 
     # Get the identity and user if they exist
@@ -40,7 +41,7 @@ class User < ActiveRecord::Base
           email: email ? email : "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com",
           password: Devise.friendly_token[0,20]
         )
-        user.skip_confirmation!
+        #user.skip_confirmation!
         user.save!
       end
     end
@@ -55,7 +56,6 @@ class User < ActiveRecord::Base
 
   def email_verified?
     self.email && self.email !~ TEMP_EMAIL_REGEX
-  end         
-         
+  end               
          
 end

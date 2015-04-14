@@ -12,13 +12,7 @@
     <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
   <% end %>
 
-	<div class="form-group">
-		<label class="col-sm-2 control-label">聯絡地址*</label>
-		<div class="form-inline col-sm-6">
-			<span id="twzipcode"></span>
-			<%= f.text_field :address, class: "form-control" %>
-		</div>
-	</div>	
+
 
   <div class="field">
     <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
@@ -46,16 +40,4 @@
 
 <%= link_to "Back", :back %>
 
-<script>
-$('#twzipcode').twzipcode({
-	zipcodeName: 'user[postal]',
-    countyName: 'user[county]',
-    districtName: 'user[district]',
-    zipcodeIntoDistrict: true,
-    css: ['form-control', 'form-control'], 
-    <%unless @user.county.blank?%>
-	countySel: '<%=@user.county%>',
-	districtSel: '<%=@user.district%>'
-	<%end%>    
-});
-</script>
+
