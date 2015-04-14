@@ -15,4 +15,5 @@
 //= require turbolinks
 //= require bootstrap-sprockets
 //= require jquery.twzipcode.min.js
+//= require alert.js
 //= require_tree .

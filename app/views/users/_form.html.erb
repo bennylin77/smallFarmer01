@@ -1,20 +1,11 @@
 <%= form_for(@user, html: {class: "form-horizontal", role: "form"}) do |f| %>
-  <% if @user.errors.any? %>
-      <% @user.errors.full_messages.each do |message| %>
-        
-        
-        
-        <li><%= message %></li>
-      <% end %>
-  <% end %>
-
  	<div class="form-group">
 		<label class="col-sm-2 control-label">Email</label>
 		<div class="col-sm-6"><%= @user.email %></div>
 	</div>	
  	<div class="form-group">
 		<label class="col-sm-2 control-label">姓名*</label>
-		<div class="col-sm-6"><%= f.text_field :name %></div>
+		<div class="col-sm-6"><%= f.text_field :name, class: "form-control" %></div>
 	</div>		 
 	<div class="form-group">
 		<label class="col-sm-2 control-label">聯絡電話</label>
@@ -47,4 +38,8 @@ $('#twzipcode').twzipcode({
 	districtSel: '<%=@user.district%>'
 	<%end%>    
 });
+  	
+<% @user.errors.full_messages.each do |message| %>
+	addAlert('error', '<%=message%>')
+<% end %>
 </script>

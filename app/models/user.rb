@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
          
   validates_format_of :email, :without => TEMP_EMAIL_REGEX, on: :update         
   validates :name, presence: true, on: :update   
+  validates :address, presence: true, on: :update  
        
  def self.find_for_oauth(auth, signed_in_resource = nil)
 
