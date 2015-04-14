@@ -20,3 +20,4 @@ gem 'omniauth-facebook'
 gem 'bootstrap-sass', '~> 3.3.4'
 gem "paperclip", "~> 4.2"
 gem 'rails-i18n', '~> 4.0.0' # For 4.0.x
+gem "recaptcha", :require => "recaptcha/rails"

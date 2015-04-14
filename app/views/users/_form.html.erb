@@ -4,8 +4,11 @@
 		<div class="col-sm-6"><%= @user.email %></div>
 	</div>	
  	<div class="form-group">
-		<label class="col-sm-2 control-label">姓名*</label>
-		<div class="col-sm-6"><%= f.text_field :name, class: "form-control" %></div>
+		<label class="col-sm-2 control-label">姓名</label>
+		<div class="form-inline col-sm-6">
+			<%= f.text_field :last_name, class: "form-control", placeholder: '姓' %>
+			<%= f.text_field :first_name, class: "form-control", placeholder: '名' %>			
+		</div>
 	</div>		 
 	<div class="form-group">
 		<label class="col-sm-2 control-label">聯絡電話</label>

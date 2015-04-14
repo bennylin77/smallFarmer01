@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.update(user_params)
         sign_in(@user == current_user ? @user : current_user, :bypass => true)
-        flash.now[:notice] ='成功更改會員資料'
+        flash.now[:notice] ='成功更改個人資料'
         format.html { render action: 'edit' }
       else
         format.html { render action: 'edit' }
@@ -55,7 +55,7 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      accessible = [ :name, :email, :phone_no, :postal, :county, :district, :address] # extend with your own params
+      accessible = [ :first_name, :last_name, :email, :phone_no, :postal, :county, :district, :address] # extend with your own params
       accessible << [ :password, :password_confirmation ] unless params[:user][:password].blank?
       params.require(:user).permit(accessible)
     end

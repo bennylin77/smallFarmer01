@@ -15,8 +15,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
          
-  validates_format_of :email, :without => TEMP_EMAIL_REGEX, on: :update         
-  validates :name, presence: true, on: :update    
+  validates_format_of :email, without: TEMP_EMAIL_REGEX, on: :update         
        
  def self.find_for_oauth(auth, signed_in_resource = nil)
 
@@ -45,7 +44,8 @@ class User < ActiveRecord::Base
         uri.scheme = 'https'  
             
         user = User.new(
-          name: auth.extra.raw_info.name,
+          first_name: auth.extra.raw_info.first_name,
+          last_name: auth.extra.raw_info.last_name, 
           #username: auth.info.nickname || auth.uid,
           avatar: uri,
           email: email ? email : "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com",

@@ -31,7 +31,8 @@ class DeviseCreateUsers < ActiveRecord::Migration
       # t.datetime :locked_at
       
       ## Costomize
-      t.string   :name
+      t.string   :first_name
+      t.string   :last_name
       t.string   :phone_no
       t.string   :phone_no_confirmation_token
       t.datetime :phone_no_confirmed_at
