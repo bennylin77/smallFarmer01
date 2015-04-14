@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.update(user_params)
         sign_in(@user == current_user ? @user : current_user, :bypass => true)
-        flash[:notice] ='成功更改會員資料'
+        flash.now[:notice] ='成功更改會員資料'
         format.html { render action: 'edit' }
       else
         format.html { render action: 'edit' }
