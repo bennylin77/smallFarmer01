@@ -1,4 +1,6 @@
 				<%if user_signed_in?%>
+				    <%= image_tag current_user.avatar.url, class: 'img-circle' %>
+				    
 					<%= link_to "更改密碼", edit_user_registration_path %>
 					<%= link_to '登出', destroy_user_session_path, :method => :delete %>		
 				<%else%>

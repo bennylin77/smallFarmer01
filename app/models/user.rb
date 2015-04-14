@@ -3,15 +3,20 @@ class User < ActiveRecord::Base
   TEMP_EMAIL_REGEX = /\Achange@me/
 
   has_many :companies
-
+  
+  has_attached_file :avatar, 
+                    styles: { original: "300x300>" },
+                    default_url: "/images/:style/missing.png"  
+  validates_attachment :avatar, 
+                       content_type: { content_type: /\Aimage\/.*\Z/, message: "圖片格式錯誤" }, 
+                       size: { less_than: 10.megabytes, message: "圖片大小超過10MB" }  
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
          
   validates_format_of :email, :without => TEMP_EMAIL_REGEX, on: :update         
-  validates :name, presence: true, on: :update   
-  validates :address, presence: true, on: :update  
+  validates :name, presence: true, on: :update    
        
  def self.find_for_oauth(auth, signed_in_resource = nil)
 
@@ -35,10 +40,14 @@ class User < ActiveRecord::Base
       user = User.where(:email => email).first if email
 
       # Create the user if it's a new registration
-      if user.nil?
+      if user.nil?              
+        uri = URI.parse(auth.info.image)
+        uri.scheme = 'https'  
+            
         user = User.new(
           name: auth.extra.raw_info.name,
           #username: auth.info.nickname || auth.uid,
+          avatar: uri,
           email: email ? email : "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com",
           password: Devise.friendly_token[0,20]
         )

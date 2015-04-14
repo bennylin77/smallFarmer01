@@ -36,12 +36,12 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.string   :phone_no_confirmation_token
       t.datetime :phone_no_confirmed_at
       t.datetime :phone_no_confirmation_sent_at      
-      
       t.string  :postal
       t.string  :county
       t.string  :district                        
       t.string  :address   
-      t.boolean :delete_c       
+      t.boolean :delete_c      
+      t.attachment :avatar       
 
       t.timestamps
     end
