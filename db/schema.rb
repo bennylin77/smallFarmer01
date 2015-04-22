@@ -50,12 +50,12 @@ ActiveRecord::Schema.define(version: 20150413070315) do
   add_index "identities", ["user_id"], name: "index_identities_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "email",                         default: "", null: false
-    t.string   "encrypted_password",            default: "", null: false
+    t.string   "email",                           default: "", null: false
+    t.string   "encrypted_password",              default: "", null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                 default: 0,  null: false
+    t.integer  "sign_in_count",                   default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -69,7 +69,7 @@ ActiveRecord::Schema.define(version: 20150413070315) do
     t.string   "phone_no"
     t.string   "phone_no_confirmation_token"
     t.datetime "phone_no_confirmed_at"
-    t.datetime "phone_no_confirmation_sent_at"
+    t.integer  "phone_no_confirmation_frequency", default: 0,  null: false
     t.string   "postal"
     t.string   "county"
     t.string   "district"

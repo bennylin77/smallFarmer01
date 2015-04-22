@@ -11,8 +11,16 @@
 		</div>
 	</div>		 
 	<div class="form-group">
-		<label class="col-sm-2 control-label">聯絡電話</label>
-		<div class="col-sm-6"><%= f.text_field :phone_no %></div>
+		<label class="col-sm-2 control-label">行動電話</label>
+		<div class="col-sm-2">
+			<%= hidden_field_tag :phone_no_full%>			
+			<%= f.text_field :phone_no, class: "form-control" %>
+			<span id="valid-msg" class="hide">✓</span>
+			<span id="error-msg" class="hide">格式錯誤</span>			
+		</div>		
+		<div class="col-sm-3">
+			<%=link_to '簡訊驗證立刻獲得回饋金', mobileSMSConfirmation_path(current_user),class:"btn btn-success"%>		
+		</div>				
 	</div>						
 	<div class="form-group">
 		<label class="col-sm-2 control-label">聯絡地址</label>
@@ -40,6 +48,47 @@ $('#twzipcode').twzipcode({
 	countySel: '<%=@user.county%>',
 	districtSel: '<%=@user.district%>'
 	<%end%>    
+});
+
+
+var telInput = $("#user_phone_no");
+errorMsg = $("#error-msg"),
+validMsg = $("#valid-msg");
+// initialise plugin
+telInput.intlTelInput({
+	//allowExtensions: true,
+    //autoFormat: false,
+    //autoHideDialCode: false,
+	autoPlaceholder: true,    
+    defaultCountry: "auto",
+    //ipinfoToken: "yolo",
+    //nationalMode: false,
+    numberType: "MOBILE",
+    //onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
+    //preferredCountries: ['cn', 'jp'],  
+    utilsScript: "<%=asset_path 'utils.js'%>"
+});
+// on blur: validate
+telInput.blur(function() {
+  if ($.trim(telInput.val())) {
+    if (telInput.intlTelInput("isValidNumber") && intlTelInputUtils.numberType.MOBILE == $("#user_phone_no").intlTelInput("getNumberType") ) {
+      validMsg.removeClass("hide");
+    } else {
+      telInput.addClass("error");
+      errorMsg.removeClass("hide");
+      validMsg.addClass("hide");
+    }
+  }
+});
+
+// on keydown: reset
+telInput.keydown(function() {
+  telInput.removeClass("error");
+  errorMsg.addClass("hide");
+  validMsg.addClass("hide");
+});
+$("form").submit(function() {
+  $("#phone_no_full").val($("#user_phone_no").intlTelInput("getNumber"));
 });
   	
 <% @user.errors.full_messages.each do |message| %>
