@@ -1,8 +1,9 @@
-<%= form_tag  mobileSMSConfirmation_path(current_user), class: "form-horizontal", role: "form" do %>
+<%= form_tag  mobileSMSConfirmation_path(current_user), method: :patch, class: "form-horizontal", role: "form" do %>
 	<div class="form-group">
 		<label class="col-sm-offset-1 col-sm-2 control-label">輸入您的手機號碼</label>
 		<div class="col-sm-5">
-			<%= phone_field_tag  :phone_no, '', placeholder: '手機號碼', class: "form-control " %>
+			<%= hidden_field_tag :phone_no_full%>				
+			<%= phone_field_tag  :phone_no, @phone_no, placeholder: '手機號碼', class: "form-control " %>
 		</div>
 	</div>	  
  	<div class="form-group">
@@ -55,9 +56,9 @@ telInput.intlTelInput({
     //preferredCountries: ['cn', 'jp'],  
     utilsScript: "<%=asset_path 'utils.js'%>"
 });
-//$("form").submit(function() {
-  //$("#phone_no_full").val($("#user_phone_no").intlTelInput("getNumber"));
-//});
+$("form").submit(function() {
+	$("#phone_no_full").val($("#phone_no").intlTelInput("getNumber"));
+});
 /*=============== Ajax ================*/  	
 $('#getConfirmationToken').click(function() {
 	if (telInput.intlTelInput("isValidNumber") && intlTelInputUtils.numberType.MOBILE == $("#phone_no").intlTelInput("getNumberType") ) 

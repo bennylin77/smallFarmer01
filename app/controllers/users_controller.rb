@@ -40,7 +40,19 @@ class UsersController < ApplicationController
   end
 
   def mobileSMSConfirmation 
-    
+    if request.patch? && params[:token] 
+      @phone_no = params[:phone_no_full]  
+      if params[:token] == current_user.phone_no_confirmation_token
+        current_user.phone_no = @phone_no
+        current_user.phone_no_confirmed_at = Time.now
+        current_user.save!
+        flash[:success] = '您已成功驗證, 並獲得30元回饋金'
+        redirect_to root_url
+      else
+        flash[:alert] = '驗證錯誤, 請重新驗證, 謝謝！'          
+      end
+    end    
+    @phone_no = params[:phone_no]      
   end  
   
   def mobileSMSConfirmationSend

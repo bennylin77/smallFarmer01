@@ -19,7 +19,7 @@
 			<span id="error-msg" class="hide">格式錯誤</span>			
 		</div>		
 		<div class="col-sm-3">
-			<%=link_to '簡訊驗證立刻獲得回饋金', mobileSMSConfirmation_path(current_user),class:"btn btn-success"%>		
+			<%=link_to '簡訊驗證立刻獲得回饋金', '/users/'+current_user.id.to_s+'/mobileSMSConfirmation?phone_no='+current_user.phone_no, class:"btn btn-success", id: "confirmation_btn"%>		
 		</div>				
 	</div>						
 	<div class="form-group">
@@ -71,6 +71,7 @@ telInput.intlTelInput({
 // on blur: validate
 telInput.blur(function() {
   if ($.trim(telInput.val())) {
+  	$('#confirmation_btn').attr('href', '/users/<%=current_user.id.to_s%>/mobileSMSConfirmation?phone_no='+telInput.val() );
     if (telInput.intlTelInput("isValidNumber") && intlTelInputUtils.numberType.MOBILE == $("#user_phone_no").intlTelInput("getNumberType") ) {
       validMsg.removeClass("hide");
     } else {
