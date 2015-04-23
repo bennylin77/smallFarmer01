@@ -12,9 +12,10 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
+//= require jquery.turbolinks
 //= require bootstrap-sprockets
 //= require jquery.twzipcode.min.js
 //= require alert.js
 //= require intlTelInput.min.js
+//= require croppic.min.js
 //= require_tree .

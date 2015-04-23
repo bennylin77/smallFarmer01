@@ -2,7 +2,6 @@ class RegistrationsController < Devise::RegistrationsController
   def create
     if verify_recaptcha
       super
-      resource.addresses.create     
     else
       build_resource(sign_up_params)
       clean_up_passwords(resource)

@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
   TEMP_EMAIL_PREFIX = 'change@me'
   TEMP_EMAIL_REGEX = /\Achange@me/
 
+  after_create :setUserAddress
+
   has_many :companies
   has_many :addresses
   accepts_nested_attributes_for :addresses
@@ -56,9 +58,6 @@ class User < ActiveRecord::Base
         )
         #user.skip_confirmation!
         user.save!
-        address = Address.new
-        address.user = user
-        address.save!
       end
     end
 
@@ -72,6 +71,10 @@ class User < ActiveRecord::Base
 
   def email_verified?
     self.email && self.email !~ TEMP_EMAIL_REGEX
-  end               
-         
+  end      
+           
+private
+  def setUserAddress
+    addresses.create()
+  end         
 end
