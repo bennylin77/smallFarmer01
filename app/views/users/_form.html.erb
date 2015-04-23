@@ -9,26 +9,36 @@
 			<%= f.text_field :last_name, class: "form-control", placeholder: '姓' %>
 			<%= f.text_field :first_name, class: "form-control", placeholder: '名' %>			
 		</div>
-	</div>		 
+	</div>	
+	<%= f.fields_for :addresses do |g| %>		 
 	<div class="form-group">
 		<label class="col-sm-2 control-label">行動電話</label>
 		<div class="col-sm-2">
-			<%= hidden_field_tag :phone_no_full%>			
-			<%= f.text_field :phone_no, class: "form-control" %>
-			<span id="valid-msg" class="hide">✓</span>
-			<span id="error-msg" class="hide">格式錯誤</span>			
+			<%= hidden_field_tag :phone_no_full%>				
+			<%if @user.addresses.first.phone_no_confirmed_at.blank?%>
+				<%= g.text_field :phone_no, class: "form-control" %>
+				<span id="valid-msg" class="hide">✓</span>
+				<span id="error-msg" class="hide">格式錯誤</span>			
+			<%else%>
+				<%= g.text_field :phone_no, class: "form-control", readonly: true %>			
+			<%end%>	
 		</div>		
 		<div class="col-sm-3">
-			<%=link_to '簡訊驗證立刻獲得回饋金', '/users/'+current_user.id.to_s+'/mobileSMSConfirmation?phone_no='+current_user.phone_no, class:"btn btn-success", id: "confirmation_btn"%>		
+		<%if @user.addresses.first.phone_no_confirmed_at.blank?%>			
+			<%=link_to '簡訊驗證立刻獲得回饋金', '/users/'+@user.id.to_s+'/mobileSMSConfirmation?phone_no='+@user.addresses.first.phone_no.to_s, class:"btn btn-success", id: "confirmation_btn"%>		
+		<%else%>
+			已驗證
+		<%end%>			
 		</div>				
 	</div>						
 	<div class="form-group">
 		<label class="col-sm-2 control-label">聯絡地址</label>
 		<div class="form-inline col-sm-6">
 			<span id="twzipcode"></span>
-			<%= f.text_field :address, class: "form-control" %>
+			<%= g.text_field :address, class: "form-control" %>
 		</div>
 	</div>	
+	<%end%>
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-10">
 			<%= f.submit '送出',  class: "btn btn-default"  %>
@@ -39,19 +49,19 @@
 
 <script>
 $('#twzipcode').twzipcode({
-	zipcodeName: 'user[postal]',
-    countyName: 'user[county]',
-    districtName: 'user[district]',
+	zipcodeName: 'user[addresses_attributes][0][postal]',
+    countyName: 'user[addresses_attributes][0][county]',
+    districtName: 'user[addresses_attributes][0][district]',
     zipcodeIntoDistrict: true,
     css: ['form-control', 'form-control'], 
-    <%unless @user.county.blank?%>
-	countySel: '<%=@user.county%>',
-	districtSel: '<%=@user.district%>'
+    <%unless @user.addresses.first.county.blank?%>
+	countySel: '<%=@user.addresses.first.county%>',
+	districtSel: '<%=@user.addresses.first.district%>'
 	<%end%>    
 });
 
 
-var telInput = $("#user_phone_no");
+var telInput = $("#user_addresses_attributes_0_phone_no");
 errorMsg = $("#error-msg"),
 validMsg = $("#valid-msg");
 // initialise plugin
@@ -71,8 +81,8 @@ telInput.intlTelInput({
 // on blur: validate
 telInput.blur(function() {
   if ($.trim(telInput.val())) {
-  	$('#confirmation_btn').attr('href', '/users/<%=current_user.id.to_s%>/mobileSMSConfirmation?phone_no='+telInput.val() );
-    if (telInput.intlTelInput("isValidNumber") && intlTelInputUtils.numberType.MOBILE == $("#user_phone_no").intlTelInput("getNumberType") ) {
+  	$('#confirmation_btn').attr('href', '/users/<%=@user.id.to_s%>/mobileSMSConfirmation?phone_no='+telInput.val() );
+    if (telInput.intlTelInput("isValidNumber") && intlTelInputUtils.numberType.MOBILE == telInput.intlTelInput("getNumberType") ) {
       validMsg.removeClass("hide");
     } else {
       telInput.addClass("error");
@@ -89,7 +99,7 @@ telInput.keydown(function() {
   validMsg.addClass("hide");
 });
 $("form").submit(function() {
-  $("#phone_no_full").val($("#user_phone_no").intlTelInput("getNumber"));
+  $("#phone_no_full").val($("#user_addresses_attributes_0_phone_no").intlTelInput("getNumber"));
 });
   	
 <% @user.errors.full_messages.each do |message| %>

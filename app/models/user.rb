@@ -3,7 +3,11 @@ class User < ActiveRecord::Base
   TEMP_EMAIL_REGEX = /\Achange@me/
 
   has_many :companies
-  
+  has_many :addresses
+  accepts_nested_attributes_for :addresses
+
+
+    
   has_attached_file :avatar, 
                     styles: { original: "300x300>" },
                     default_url: "default_avatar.png"  
@@ -41,8 +45,7 @@ class User < ActiveRecord::Base
       # Create the user if it's a new registration
       if user.nil?              
         uri = URI.parse(auth.info.image)
-        uri.scheme = 'https'  
-            
+        uri.scheme = 'https'      
         user = User.new(
           first_name: auth.extra.raw_info.first_name,
           last_name: auth.extra.raw_info.last_name, 
@@ -53,6 +56,9 @@ class User < ActiveRecord::Base
         )
         #user.skip_confirmation!
         user.save!
+        address = Address.new
+        address.user = user
+        address.save!
       end
     end
 

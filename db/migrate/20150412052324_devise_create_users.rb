@@ -32,15 +32,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
       
       ## Costomize
       t.string   :first_name
-      t.string   :last_name
-      t.string   :phone_no
-      t.string   :phone_no_confirmation_token
-      t.datetime :phone_no_confirmed_at
-      t.integer :phone_no_confirmation_frequency, default: 0, null: false      
-      t.string  :postal
-      t.string  :county
-      t.string  :district                        
-      t.string  :address   
+      t.string   :last_name  
       t.boolean :delete_c      
       t.attachment :avatar       
 

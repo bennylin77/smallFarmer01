@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.update(user_params)
         sign_in(@user == current_user ? @user : current_user, :bypass => true)
-        flash.now[:notice] ='成功更改個人資料'
+        flash[:notice] ='成功更改個人資料'
         format.html { redirect_to edit_user_path }
       else
         format.html { redirect_to edit_user_path  }
@@ -42,10 +42,11 @@ class UsersController < ApplicationController
   def mobileSMSConfirmation 
     if request.patch? && params[:token] 
       @phone_no = params[:phone_no_full]  
-      if params[:token] == current_user.phone_no_confirmation_token
-        current_user.phone_no = @phone_no
-        current_user.phone_no_confirmed_at = Time.now
-        current_user.save!
+      address = current_user.addresses.first
+      if params[:token] == address.phone_no_confirmation_token
+        address.phone_no = @phone_no
+        address.phone_no_confirmed_at = Time.now
+        address.save!
         flash[:success] = '您已成功驗證, 並獲得30元回饋金'
         redirect_to root_url
       else
@@ -56,12 +57,13 @@ class UsersController < ApplicationController
   end  
   
   def mobileSMSConfirmationSend
+    address = current_user.addresses.first
     unless params[:phone_no].blank?
-      unless current_user.phone_no_confirmation_frequency == 5
+      unless address.phone_no_confirmation_frequency == 5
         token = Random.rand(10000...99999)
-        current_user.phone_no_confirmation_token = token
-        current_user.phone_no_confirmation_frequency = current_user.phone_no_confirmation_frequency + 1
-        current_user.save!
+        address.phone_no_confirmation_token = token
+        address.phone_no_confirmation_frequency = address.phone_no_confirmation_frequency + 1
+        address.save!
         System.sendConfirmation(current_user).deliver   
         render json: {alert_class: 'success', message: '已送出您的驗證碼, 您將在數分鐘內收到'}          
       else
@@ -88,8 +90,10 @@ class UsersController < ApplicationController
     end
 
     def user_params
+      
+      
       params[:user][:phone_no] = params[:phone_no_full]
-      accessible = [ :first_name, :last_name, :phone_no, :postal, :county, :district, :address] # extend with your own params
+      accessible = [ :first_name, :last_name, addresses_attributes:[:id, :first_name, :last_name, :phone_no, :postal, :county, :district, :address, :country] ] # extend with your own params
       accessible << [ :password, :password_confirmation ] unless params[:user][:password].blank?
       params.require(:user).permit(accessible)
     end
