@@ -17,5 +17,6 @@
 //= require jquery.twzipcode.min.js
 //= require alert.js
 //= require intlTelInput.min.js
-//= require croppic.min.js
+//= require fileinput.min.js
+//= require fileinput_locale_zh.js
 //= require_tree .
