@@ -40,7 +40,7 @@ $("#company_cover").fileinput({showCaption: false,
 							 removeClass: "btn btn-danger",
 							 removeLabel: "刪除",
 							 removeIcon: '<i class="glyphicon glyphicon-trash"></i>',
-							 uploadClass: "btn btn-info",
+							 uploadClass: "btn btn-default",
 							 uploadLabel: "上傳",
 							 uploadIcon: '<i class="glyphicon glyphicon-upload"></i>',
 						     initialPreview: [
@@ -55,11 +55,12 @@ $("#company_cover").fileinput({showCaption: false,
 <script>
 var $input = $("#test_1");
     $input.fileinput({
-        uploadUrl: "/companies/<%=@company.id %>/companiesImageUpload", // server upload action
+		showCaption: false,    	
+        uploadUrl: "/companies/<%=@company.id %>/companyImagesUpload", // server upload action
         uploadAsync: true,
         maxFileCount: 5
     });
-    </script>
+</script>
 
   
   

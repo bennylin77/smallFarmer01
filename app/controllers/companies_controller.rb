@@ -2,7 +2,7 @@ class CompaniesController < ApplicationController
  
  
   before_action only: [:edit, :update, :destroy] { |c| c.CompanyCheckUser(params[:id])}  
-  before_action :set_company, only: [:show, :edit, :update, :destroy]
+  before_action :set_company, only: [:show, :edit, :update, :destroy, :companyImagesUpload]
 
 
   def show
@@ -20,8 +20,11 @@ class CompaniesController < ApplicationController
     end    
   end
 
-  def companiesImageUpload
+  def companyImagesUpload
+    @company.company_images<<CompanyImage.create(image: params[:test].first )
     
+    
+    render json: {error: '您未輸入任何電話'}        
   end
 
   def destroy

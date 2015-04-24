@@ -8,7 +8,7 @@ Rails.application.routes.draw do
                                        registrations: "registrations" }
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
   match '/users/:id/mobileSMSConfirmation' => 'users#mobileSMSConfirmation', via: [:get, :patch], :as => :mobileSMSConfirmation
-  match '/companies/:id/companiesImageUpload' => 'users#companiesImageUpload', via: [:patch], :as => :companiesImageUpload
+  match '/companies/:id/companyImagesUpload' => 'companies#companyImagesUpload', via: [:post], :as => :companyImagesUpload
 
  
   resources :companies
