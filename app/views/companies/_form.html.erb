@@ -1,29 +1,137 @@
-<%= form_for(@company) do |f| %>
-  <% if @company.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@company.errors.count, "error") %> prohibited this company from being saved:</h2>
-
-      <ul>
-      <% @company.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
+<%= form_for(@company, html: {class: "form-horizontal", role: "form"}) do |f| %>
+  
   <div class="field">
-    <%= f.label :cover %><br>
-    <%= f.file_field :cover %>
-  </div>
-  <div class="field">
-    <%= f.label :name %><br>
+    農場名稱<br>
     <%= f.text_field :name %>
   </div>
   <div class="field">
-    <%= f.label :description %><br>
+    農場介紹<br>
     <%= f.text_area :description %>
+  </div>  
+	<div class="form-group">
+		<label class="col-sm-2 control-label">聯絡電話</label>
+		<div class="col-sm-2">
+			<%= hidden_field_tag :phone_no_full%>				
+			<%= f.text_field :phone_no, class: "form-control" %>
+			<span id="valid-msg" class="hide">✓</span>
+			<span id="error-msg" class="hide">格式錯誤</span>			
+		</div>					
+	</div>						
+	<div class="form-group">
+		<label class="col-sm-2 control-label">聯絡地址</label>
+		<div class="form-inline col-sm-6">
+			<span id="twzipcode"></span>
+			<%= f.text_field :address, class: "form-control" %>
+		</div>
+	</div>	  
+
+  <div class="field">
+    農場封面<br>
+    <%= f.file_field :cover, class: "form-control",  accept: "image/*" %>
   </div>
+<script>	
+$("#company_cover").fileinput({showCaption: false,
+							 showRemove: false,
+							 allowedFileTypes: ["image"],
+							 previewFileType: "image",
+							 browseClass: "btn btn-success",
+							 browseLabel: " 選取圖片",
+							 browseIcon: '<i class="glyphicon glyphicon-picture"></i>',
+							 removeClass: "btn btn-danger",
+							 removeLabel: "刪除",
+							 removeIcon: '<i class="glyphicon glyphicon-trash"></i>',
+							 uploadClass: "btn btn-info",
+							 uploadLabel: "上傳",
+							 uploadIcon: '<i class="glyphicon glyphicon-upload"></i>',
+						     initialPreview: [
+						        '<%= image_tag @company.cover.url,class: 'file-preview-image' %>'
+						     ],
+						     overwriteInitial: true							 
+						    });	
+</script>  
+  
+  
+<input id="test_1" name="test[]" type="file" multiple class="file-loading">
+<script>
+var $input = $("#test_1");
+    $input.fileinput({
+        uploadUrl: "/companies/<%=@company.id %>/companiesImageUpload", // server upload action
+        uploadAsync: true,
+        maxFileCount: 5
+    });
+    </script>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
+
+
+
+<script>
+
+
+//================== twzipcode ==================//	
+$('#twzipcode').twzipcode({
+	zipcodeName: 'company[postal]',
+    countyName: 'company[county]',
+    districtName: 'company[district]',
+    zipcodeIntoDistrict: true,
+    css: ['form-control', 'form-control'], 
+    <%unless @company.county.blank?%>
+	countySel: '<%=@company.county%>',
+	districtSel: '<%=@company.district%>'
+	<%end%>    
+});
+//================== confirmation ==================//	
+var telInput = $("#company_phone_no");
+errorMsg = $("#error-msg"),
+validMsg = $("#valid-msg");
+// initialise plugin
+telInput.intlTelInput({
+	allowExtensions: true,
+    //autoFormat: false,
+    //autoHideDialCode: false,  
+    defaultCountry: "auto",
+    //ipinfoToken: "yolo",
+    //nationalMode: false,
+    //onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
+    //preferredCountries: ['cn', 'jp'],  
+    utilsScript: "<%=asset_path 'utils.js'%>"
+});
+// on blur: validate
+telInput.blur(function() {
+  if ($.trim(telInput.val())) {
+    if (telInput.intlTelInput("isValidNumber")  ) {
+      validMsg.removeClass("hide");
+    } else {
+      telInput.addClass("error");
+      errorMsg.removeClass("hide");
+      validMsg.addClass("hide");
+    }
+  }
+});
+// on keydown: reset
+telInput.keydown(function() {
+  telInput.removeClass("error");
+  errorMsg.addClass("hide");
+  validMsg.addClass("hide");
+});
+$("form").submit(function() {
+  $("#phone_no_full").val($("#company_phone_no").intlTelInput("getNumber"));
+});
+//================== error ==================//	
+<% @company.errors.full_messages.each do |message| %>
+	addAlert('error', '<%=message%>')
+<% end %>
+</script>

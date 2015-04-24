@@ -37,7 +37,7 @@
         msgProgress: '加载第 {index} 文件 共 {files} - {name} - {percent}% 完成.',
         msgSelected: '{n} {files} 選取',
         msgFoldersNotAllowed: '只支持拖拽文件! 跳过 {n} 拖拽的文件夹.',
-        dropZoneTitle: '拖拽文件到这里 &hellip;',
+        dropZoneTitle: '拖曳圖片到這裡 &hellip;',
         slugCallback: function(text) {
             return text ? text.split(/(\\|\/)/g).pop().replace(/[^\w\u4e00-\u9fa5\-.\\\/ ]+/g, '') : '';
         }

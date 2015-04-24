@@ -38,6 +38,14 @@ ActiveRecord::Schema.define(version: 20150423050035) do
     t.string   "name"
     t.text     "description"
     t.integer  "user_id"
+    t.boolean  "delete_c",           default: false, null: false
+    t.boolean  "activate_c",         default: true,  null: false
+    t.string   "phone_no"
+    t.string   "postal"
+    t.string   "county"
+    t.string   "district"
+    t.string   "address"
+    t.string   "country"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -67,12 +75,12 @@ ActiveRecord::Schema.define(version: 20150423050035) do
   add_index "identities", ["user_id"], name: "index_identities_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "email",                  default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -83,7 +91,7 @@ ActiveRecord::Schema.define(version: 20150423050035) do
     t.string   "unconfirmed_email"
     t.string   "first_name"
     t.string   "last_name"
-    t.boolean  "delete_c"
+    t.boolean  "delete_c",               default: false, null: false
     t.string   "avatar_file_name"
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"

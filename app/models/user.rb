@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
 
     
   has_attached_file :avatar, 
-                    styles: { original: "300x300>" },
+                    styles: { original: "100x100>" },
                     default_url: "default_avatar.png"  
   validates_attachment :avatar, 
                        content_type: { content_type: /\Aimage\/.*\Z/, message: "圖片格式錯誤" }, 
@@ -76,5 +76,6 @@ class User < ActiveRecord::Base
 private
   def setUserAddress
     addresses.create()
+    companies.create(activate_c: false)
   end         
 end

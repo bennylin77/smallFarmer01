@@ -33,7 +33,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
       ## Costomize
       t.string   :first_name
       t.string   :last_name  
-      t.boolean :delete_c      
+      t.boolean :delete_c, default: false, null: false      
       t.attachment :avatar       
 
       t.timestamps

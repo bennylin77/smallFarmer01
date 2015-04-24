@@ -2,43 +2,30 @@ class CompaniesController < ApplicationController
  
  
   before_action only: [:edit, :update, :destroy] { |c| c.CompanyCheckUser(params[:id])}  
- 
   before_action :set_company, only: [:show, :edit, :update, :destroy]
 
-  respond_to :html
-
-  def index
-    @companies = Company.all
-    respond_with(@companies)
-  end
 
   def show
-    respond_with(@company)
-  end
-
-  def new
-    @company = Company.new
-    respond_with(@company)
   end
 
   def edit
   end
 
-  def create
-    @company = Company.new(company_params)
-    @company.user = current_user
-    @company.save
-    respond_with(@company)
+  def update
+    if @company.update(company_params)
+      flash[:notice] ='成功更改農場資料'
+      redirect_to edit_company_path
+    else
+      redirect_to edit_company_path
+    end    
   end
 
-  def update
-    @company.update(company_params)
-    respond_with(@company)
+  def companiesImageUpload
+    
   end
 
   def destroy
     @company.destroy
-    respond_with(@company)
   end
 
   private
@@ -47,6 +34,7 @@ class CompaniesController < ApplicationController
     end
 
     def company_params
-      params.require(:company).permit(:cover, :name, :description, :user_id)
+      params[:company][:phone_no] = params[:phone_no_full]      
+      params.require(:company).permit(:cover, :name, :description, :user_id, :phone_no, :postal, :county, :district, :address)
     end
 end

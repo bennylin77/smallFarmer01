@@ -8,9 +8,8 @@
 			<%= f.file_field :avatar, class: "form-control",  accept: "image/*" %>			
 		</div>
 	</div>	
-<script>
 	
-	
+<script>	
 $("#user_avatar").fileinput({showCaption: false,
 							 showRemove: false,
 							 allowedFileTypes: ["image"],
@@ -25,14 +24,10 @@ $("#user_avatar").fileinput({showCaption: false,
 							 uploadLabel: "上傳",
 							 uploadIcon: '<i class="glyphicon glyphicon-upload"></i>',
 						     initialPreview: [
-						        '<%= image_tag current_user.avatar.url, class: 'file-preview-image' %>'
+						        '<%= image_tag current_user.avatar.url,class: 'file-preview-image' %>'
 						     ],
 						     overwriteInitial: true							 
 						    });	
-	
-	
-	
-	
 </script>
 
 
