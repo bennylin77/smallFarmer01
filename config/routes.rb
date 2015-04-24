@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  resources :products
+
   post 'users/mobileSMSConfirmationSend'
   get  'main/index'  
   
