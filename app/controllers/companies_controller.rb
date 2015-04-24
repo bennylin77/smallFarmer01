@@ -2,7 +2,8 @@ class CompaniesController < ApplicationController
  
  
   before_action only: [:edit, :update, :destroy] { |c| c.CompanyCheckUser(params[:id])}  
-  before_action :set_company, only: [:show, :edit, :update, :destroy, :companyImagesUpload]
+  before_action :set_company, only: [:show, :edit, :update, :destroy, :companyImagesUpload,
+                                     :companyImagesDelete]
 
 
   def show
@@ -21,11 +22,27 @@ class CompaniesController < ApplicationController
   end
 
   def companyImagesUpload
-    @company.company_images<<CompanyImage.create(image: params[:test].first )
-    
-    
-    render json: {error: '您未輸入任何電話'}        
+    c_i = CompanyImage.create(image: params[:test].first )
+    c_i.company = @company
+    c_i.save!  
+    render json: { initialPreview: [
+                      "<img src='"+c_i.image.url+"' class='file-preview-image'>",
+                   ],
+                   initialPreviewConfig: [{
+                      url: "/companies/"+@company.id.to_s+"/companyImagesDelete", key: c_i.id
+                   }]
+                 }        
+             
   end
+
+  def companyImagesDelete
+   
+    if @company.company_images.where(id: params[:key]).first.destroy   
+      render json: {success: '刪除成功'}     
+    else
+      render json: {error: '刪除失敗'}           
+    end    
+  end  
 
   def destroy
     @company.destroy

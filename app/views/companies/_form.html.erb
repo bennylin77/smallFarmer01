@@ -55,10 +55,29 @@ $("#company_cover").fileinput({showCaption: false,
 <script>
 var $input = $("#test_1");
     $input.fileinput({
-		showCaption: false,    	
+		showCaption: false,    
+		showRemove: false,	
+		allowedFileTypes: ["image"],
+		previewFileType: "image",
+	    browseClass: "btn btn-success",
+		browseLabel: " 選取圖片",
+		browseIcon: '<i class="glyphicon glyphicon-picture"></i>',						 				
         uploadUrl: "/companies/<%=@company.id %>/companyImagesUpload", // server upload action
         uploadAsync: true,
-        maxFileCount: 5
+        maxFileCount: 5,
+		initialPreview: [
+			<% @company.company_images.each do |c_i|%>
+			'<%= image_tag c_i.image.url, class: 'file-preview-image' %>',
+			<%end%>
+		],
+		initialPreviewConfig: [
+			<% @company.company_images.each do |c_i|%>		
+		    {
+		        url: "/companies/<%=@company.id %>/companyImagesDelete", // server delete action 
+		        key: <%=c_i.id %>
+		    },
+			<%end%>		    
+		]		        
     });
 </script>
 
