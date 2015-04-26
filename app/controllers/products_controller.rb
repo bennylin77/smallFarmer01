@@ -8,7 +8,7 @@ class ProductsController < ApplicationController
   end
 
   def show
-    respond_with(@product)
+
   end
 
   def new

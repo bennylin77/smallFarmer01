@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  resources :comments
+
   resources :products
 
   post 'users/mobileSMSConfirmationSend'

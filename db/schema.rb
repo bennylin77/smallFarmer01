@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150426054940) do
+ActiveRecord::Schema.define(version: 20150426074726) do
 
   create_table "addresses", force: true do |t|
     t.integer  "user_id"
@@ -29,6 +29,17 @@ ActiveRecord::Schema.define(version: 20150426054940) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "comments", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "product_id"
+    t.text     "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "comments", ["product_id"], name: "index_comments_on_product_id", using: :btree
+  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "companies", force: true do |t|
     t.string   "cover_file_name"
@@ -109,6 +120,17 @@ ActiveRecord::Schema.define(version: 20150426054940) do
   end
 
   add_index "products", ["company_id"], name: "index_products_on_company_id", using: :btree
+
+  create_table "sub_comments", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "comment_id"
+    t.text     "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sub_comments", ["comment_id"], name: "index_sub_comments_on_comment_id", using: :btree
+  add_index "sub_comments", ["user_id"], name: "index_sub_comments_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "",    null: false
