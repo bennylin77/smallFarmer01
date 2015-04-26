@@ -1,41 +1,69 @@
-<%= form_for(@product) do |f| %>
-  <% if @product.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@product.errors.count, "error") %> prohibited this product from being saved:</h2>
-
-      <ul>
-      <% @product.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= form_for(@product, html: {class: "form-horizontal", role: "form"}) do |f| %>
 
   <div class="field">
-    <%= f.label :name %><br>
+    名稱
     <%= f.text_field :name %>
   </div>
   <div class="field">
-    <%= f.label :description %><br>
+	水果介紹
     <%= f.text_area :description %>
   </div>
   <div class="field">
-    <%= f.label :inventory %><br>
+    水果庫存量
     <%= f.number_field :inventory %>
   </div>
-  <div class="field">
-    <%= f.label :delete_c %><br>
-    <%= f.check_box :delete_c %>
-  </div>
-  <div class="field">
-    <%= f.label :available_c %><br>
-    <%= f.check_box :available_c %>
-  </div>
-  <div class="field">
-    <%= f.label :company_id %><br>
-    <%= f.text_field :company_id %>
-  </div>
+  
+<%= f.fields_for :product_boxings do |g| %>		 
+	<div class="form-group">
+		<label class="col-sm-2 control-label"></label>
+		<div class="col-sm-2">
+			數量<%= g.text_field :quantity, class: "form-control" %>		
+			價錢<%= g.text_field :price, class: "form-control" %>			
+			單位<%= g.text_field :unit, class: "form-control" %>			
+				
+		</div>					
+	</div>		
+<%end%>		
+
+
+<input id="product_image" name="product_image[]" type="file" multiple class="file-loading">
+<script>
+var $input = $("#product_image");
+    $input.fileinput({
+		showCaption: false,    
+		showRemove: false,	
+		allowedFileTypes: ["image"],
+		previewFileType: "image",
+	    browseClass: "btn btn-success",
+		browseLabel: " 選取圖片",
+		browseIcon: '<i class="glyphicon glyphicon-picture"></i>',						 				
+        uploadUrl: "/products/<%=@product.id %>/productImagesUpload", // server upload action
+        uploadAsync: true,
+        maxFileCount: 5,
+		initialPreview: [
+			<% @product.product_images.each do |p_i|%>
+			'<%= image_tag p_i.image.url, class: 'file-preview-image' %>',
+			<%end%>
+		],
+		initialPreviewConfig: [
+			<% @product.product_images.each do |p_i|%>		
+		    {
+		        url: "/products/<%=@product.id %>/productImagesDelete", // server delete action 
+		        key: <%=c_i.id %>
+		    },
+			<%end%>		    
+		]		        
+    });
+</script>
+
+
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
+
+<script>
+<% @product.errors.full_messages.each do |message| %>
+	addAlert('error', '<%=message%>')
+<% end %>
+</script>

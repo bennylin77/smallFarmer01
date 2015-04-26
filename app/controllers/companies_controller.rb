@@ -1,9 +1,8 @@
 class CompaniesController < ApplicationController
  
  
-  before_action only: [:edit, :update, :destroy] { |c| c.CompanyCheckUser(params[:id])}  
-  before_action :set_company, only: [:show, :edit, :update, :destroy, :companyImagesUpload,
-                                     :companyImagesDelete]
+  before_action only: [:edit, :update, :destroy, :companyImagesUpload, :companyImagesDelete] { |c| c.CompanyCheckUser(params[:id])}  
+  before_action :set_company, only: [:show, :edit, :update, :destroy, :companyImagesUpload, :companyImagesDelete]
 
 
   def show
@@ -31,12 +30,10 @@ class CompaniesController < ApplicationController
                    initialPreviewConfig: [{
                       url: "/companies/"+@company.id.to_s+"/companyImagesDelete", key: c_i.id
                    }]
-                 }        
-             
+                 }              
   end
 
-  def companyImagesDelete
-   
+  def companyImagesDelete 
     if @company.company_images.where(id: params[:key]).first.destroy   
       render json: {success: '刪除成功'}     
     else

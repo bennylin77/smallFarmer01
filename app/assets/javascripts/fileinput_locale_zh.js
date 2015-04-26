@@ -24,7 +24,7 @@
         uploadTitle: '上傳選中文件',
         msgSizeTooLarge: '文件 "{name}" (<b>{size} KB</b>) 超過了允許大小 <b>{maxSize} KB</b>. 請重新上傳!',
         msgFilesTooLess: '你必须选择最少 <b>{n}</b> {files} 来上传. 请重新上传!',
-        msgFilesTooMany: '选择的上传文件个数 <b>({n})</b> 超出最大文件的限制个数 <b>{m}</b>. 请重新上传!',
+        msgFilesTooMany: '選擇的上傳圖片個數 <b>({n})</b> 超出最大圖片限制個數 <b>{m}</b>.',
         msgFileNotFound: '文件 "{name}" 未找到!',
         msgFileSecured: '安全限制，为了防止读取文件 "{name}".',
         msgFileNotReadable: '文件 "{name}" 不可读.',

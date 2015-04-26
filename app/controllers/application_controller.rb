@@ -5,16 +5,23 @@ class ApplicationController < ActionController::Base
   before_filter :configure_permitted_parameters, if: :devise_controller?  
   
   #before_filter :ensure_signup_complete, only: [:new, :create, :edit, :update, :destroy]
- 
     
-  [:Company].each do |model|
+  [:Company, :Product].each do |model|
     class_eval %Q{
       def #{model}CheckUser(id)
-       unless #{model}.where(id: id).first == nil
-         if #{model}.find(id).user != current_user
-            flash["error"]="您沒有權限"
-            redirect_to root_url          
-         end  
+       unless #{model}.where(id: id).first == nil      
+         case '#{model}'
+         when 'Company'       
+           if #{model}.find(id).user != current_user
+              flash["error"]="您沒有權限"
+              redirect_to root_url          
+           end  
+         when 'Product'  
+           if #{model}.find(id).company.user != current_user
+              flash["error"]="您沒有權限"
+              redirect_to root_url          
+           end            
+         end     
        else
         flash["error"]="項目不存在"
         redirect_to root_url        

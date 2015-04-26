@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150423050035) do
+ActiveRecord::Schema.define(version: 20150426054940) do
 
   create_table "addresses", force: true do |t|
     t.integer  "user_id"
@@ -73,6 +73,42 @@ ActiveRecord::Schema.define(version: 20150423050035) do
   end
 
   add_index "identities", ["user_id"], name: "index_identities_on_user_id", using: :btree
+
+  create_table "product_boxings", force: true do |t|
+    t.integer  "quantity"
+    t.string   "unit"
+    t.integer  "price"
+    t.integer  "product_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "product_boxings", ["product_id"], name: "index_product_boxings_on_product_id", using: :btree
+
+  create_table "product_images", force: true do |t|
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+    t.integer  "product_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "product_images", ["product_id"], name: "index_product_images_on_product_id", using: :btree
+
+  create_table "products", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.integer  "inventory"
+    t.boolean  "delete_c"
+    t.boolean  "available_c"
+    t.integer  "company_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "products", ["company_id"], name: "index_products_on_company_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "",    null: false
