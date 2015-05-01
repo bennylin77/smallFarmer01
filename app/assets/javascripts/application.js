@@ -19,4 +19,5 @@
 //= require intlTelInput.min.js
 //= require fileinput.min.js
 //= require fileinput_locale_zh.js
+//= require moment-with-locales.min.js
 //= require_tree .

@@ -4,13 +4,20 @@
 <div class="container">
 	<div class="row">
 	  <div class="col-sm-1"><%= image_tag current_user.avatar.url, class: 'img-circle', size: '50x50' %></div>
-	  <div class="col-sm-6"><textarea class="form-control" rows="2" placeholder='想對農夫說什麼...'></textarea></div>
-	  <div class="col-sm-2"><button class="btn btn-default" type="submit">留言</button></div>
+	  <div class="col-sm-6"><textarea class="form-control" rows="2" placeholder='想對農夫說什麼...' id="post_content"></textarea></div>
+	  <div class="col-sm-2"><button class="btn btn-default" id="post_button" onclick="postComment()" data-loading-text="傳送中...">留言</button></div>
 	</div>	
+</div>	
+<div class="container" id="all_comments">	
 	
+	
+</div>	
+		
+	
+<div class="container">	
 	<div class="row">
 	  <div class="col-sm-1"><%= image_tag current_user.avatar.url, class: 'img-circle', size: '50x50' %></div>
-	  <div class="col-sm-5">請問可以擺放多久</div>
+	  <div class="col-sm-5">Lin 2014/5/1 14:00pm <br> 請問可以擺放多久</div>
       <div class="col-sm-1">
 		<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>      	
       	<span class="glyphicon glyphicon-edit pull-right" aria-hidden="true"></span>
@@ -65,6 +72,90 @@
 	  <div class="col-sm-7"><span class="pull-right">回應</span></div>	  
 	</div>		
 </div>
-
-
 <%=product %>
+
+
+
+
+<script>
+
+function postComment()
+{
+	if($( "#post_content" ).val()!= '')
+	{
+		var $btn = $('#post_button').button('loading')
+		var request = $.ajax({
+		url: "/comments/post",
+		type: "POST",
+		data: { id: <%=product.id %>, content: $( "#post_content" ).val() },
+		dataType: "json"
+		});
+		request.done(function( message ) {
+		   	$btn.button('reset')		
+			$( "#post_content" ).val('')	   		
+			addAlert(message.alert_class, message.message)
+		});
+		request.fail(function( jqXHR, textStatus ) {
+			$btn.button('reset')	
+		});	
+	}
+}
+
+function show()
+{
+
+	var request = $.ajax({
+	url: "/comments/show",
+	type: "GET",
+	data: { id: <%=product.id %>},
+	dataType: "json"
+	});
+	request.done(function( message ) {
+		$.each(  message , function( i, l ){
+		  addComment(l.comment, l.sub_comments)
+		});		
+
+	});
+	request.fail(function( jqXHR, textStatus ) {
+		addAlert('error', '讀取失敗')
+	});		
+	
+}
+function addComment(comment, sub_comments)
+{
+	var $container =$("<div>", {id: 'comment_'+comment.id.toString()}); 
+	var $row_1 =$("<div>", {class: "row"}); 
+	$row_1.append('<div class="col-sm-1">'+
+		     	  '<img src="'+comment.user_avatar_url+'" alt="missing" width="50" height="50" class="img-circle">'+
+		     	  '</div>'+
+				  '<div class="col-sm-5">'+comment.user_last_name+' '+moment(comment.created_at, "YYYY-MM-DD HH:mm:ss" ).fromNow()+'<br>'+comment.content+
+				  '</div>');	
+	$container.append($row_1);
+	$("#all_comments").append($container);			  
+
+}
+show();
+
+
+</script>
+	
+function addComment(content, user_id, user_last_name, user_avatar_url, created_at)
+{
+	
+	
+	<div class="row">
+	  <div class="col-sm-1"><%= image_tag current_user.avatar.url, class: 'img-circle', size: '50x50' %></div>
+	  <div class="col-sm-5">Lin 2014/5/1 14:00pm <br> 請問可以擺放多久</div>
+      <div class="col-sm-1">
+		<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>      	
+      	<span class="glyphicon glyphicon-edit pull-right" aria-hidden="true"></span>
+	  </div> 
+	</div>
+	<div class="row">
+	  <div class="col-sm-7"><span class="pull-right">回應</span></div>	  
+	</div>	
+		
+	var $question_eg_question_outter =$("<div>", {class: "row question_eg_question_outter"}); 
+			$question_eg_question_outter.append('<div class="col-sm-1"></div>');			
+
+}
