@@ -3,7 +3,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     class_eval %Q{
       def #{provider}
         @user = User.find_for_oauth(env["omniauth.auth"], current_user)
-
         if @user.persisted?
           sign_in_and_redirect @user, event: :authentication
           set_flash_message(:notice, :success, kind: "#{provider}".capitalize) if is_navigational_format?
@@ -18,7 +17,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   [:twitter, :facebook, :linked_in].each do |provider|
     provides_callback_for provider
   end
-
+=begin
   def after_sign_in_path_for(resource)
     if resource.email_verified?
       super resource
@@ -26,4 +25,5 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       finish_signup_path(resource)
     end
   end
+=end  
 end

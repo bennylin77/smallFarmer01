@@ -1,4 +1,6 @@
 class ProductsController < ApplicationController
+
+  before_filter :authenticate_user!, except: [:show] 
   
   before_action only: [:edit, :update, :destroy, :productImagesUpload, :productImagesDelete] { |c| c.ProductCheckUser(params[:id])}    
   before_action :set_product, only: [:show, :edit, :update, :destroy, :productImagesUpload, :productImagesDelete]

@@ -9,12 +9,14 @@
 	</div>	
 </div>	
 <%else%>
-<br><br><br><br>
 <div class="container">
 	<div class="row">
-	  <div class="col-sm-3 col-sm-offset-3">  
-	  <%= link_to "一般登入留言", new_user_session_path %> |			
-	<%= link_to "使用Facebook登入留言", user_omniauth_authorize_path(:facebook) %>
+		<%= form_tag  '/comments/post', method: 'get' do %>
+		    <%= hidden_field_tag  :id,  product.id  %>	
+	  		<div class="col-sm-1"><%= image_tag 'default_avatar.png', class: 'img-circle', size: '50x50' %></div>		    
+	  		<div class="col-sm-6"><textarea name="content" class="form-control" rows="2" placeholder='想對農夫說什麼...' id="post_content"></textarea></div>
+			<div class="col-sm-2"><%= submit_tag '送出',  class: "btn btn-default"  %></div>
+		<% end %>
 	</div>	
 </div>	
 <%end%>
@@ -30,6 +32,7 @@ var	current_user = <%=current_user.id %>;
 <%else%>
 var	current_user = -1;
 <%end%>
+var default_avatar = '<%=asset_path 'default_avatar.png' %>'
 
 function postComment()
 {
@@ -49,6 +52,7 @@ function postComment()
 			showComment();			
 		});
 		request.fail(function( jqXHR, textStatus ) {
+			addAlert('error', '請先登入, 謝謝!')			
 			$btn.button('reset')	
 		});	
 	}
@@ -77,7 +81,7 @@ function addComment(comment, sub_comments)
 	var $container =$("<div>", {id: 'comment_'+comment.id.toString()}); 
 	var $row_1 =$("<div>", {class: "row"}); 
 	$row_1.append('<div class="col-sm-1">'+
-		     	  '<img src="'+comment.user_avatar_url+'" alt="missing" width="50" height="50" class="img-circle">'+
+		     	  '<img src="'+comment.user_avatar_url+'" onerror="this.src=\''+default_avatar+'\'" alt="missing" width="50" height="50" class="img-circle">'+
 		     	  '</div>'+
 				  '<div class="col-sm-5">'+comment.user_last_name+' '+moment(comment.created_at, "YYYY-MM-DD HH:mm:ss" ).fromNow()+'<br>'+comment.content+
 				  '</div>');		
@@ -112,7 +116,7 @@ function addComment(comment, sub_comments)
 		$.each( sub_comments, function( i, l ){
 			var $row_sub =$("<div>", {class: "row", id: 'sub_comment_'+l.id.toString()}); 			
 			$row_sub.append('<div class="col-sm-1 col-sm-offset-1">'+
-				     	  '<img src="'+l.user_avatar_url+'" alt="missing" width="50" height="50" class="img-circle">'+
+				     	  '<img src="'+l.user_avatar_url+'" onerror="this.src=\''+default_avatar+'\'" alt="missing" width="50" height="50" class="img-circle">'+
 				     	  '</div>'+
 						  '<div class="col-sm-4">'+l.user_last_name+' '+moment(l.created_at, "YYYY-MM-DD HH:mm:ss" ).fromNow()+'<br>'+l.content+
 						  '</div>');		

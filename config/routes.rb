@@ -1,9 +1,8 @@
 Rails.application.routes.draw do
   
 
-  
+  get  'comments/post'  
   post 'comments/post'
-  post 'comments/update'
   post 'comments/delete'
   post 'comments/reply'
   get  'comments/show'

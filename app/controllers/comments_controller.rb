@@ -1,16 +1,28 @@
 class CommentsController < ApplicationController
-  before_action :set_comment, only: [:edit, :delete, :postSub]
+
+  before_filter :authenticate_user!, except: [:show] 
+  
+  before_action :set_comment, only: [:delete, :postSub]
   before_action :set_sub_comment, only: [:deleteSub]  
   before_action :set_product, only: [:post, :show]
   
 
   def post
-    comment = Comment.new()
-    comment.content = params[:content]
-    comment.user = current_user
-    comment.product = @product
-    comment.save!
-    render json: {success: true, message: '張貼成功'}           
+    if request.xhr?
+      comment = Comment.new()
+      comment.content = params[:content]
+      comment.user = current_user
+      comment.product = @product
+      comment.save!
+      render json: {success: true, message: '張貼成功'}   
+    else
+      comment = Comment.new()
+      comment.content = params[:content]
+      comment.user = current_user
+      comment.product = @product
+      comment.save!
+      redirect_to @product       
+    end            
   end
 
   def show       
