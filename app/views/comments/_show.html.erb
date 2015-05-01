@@ -1,87 +1,35 @@
-
-
-
+<div class="container" id="all_comments">	
+</div>	
+<%if user_signed_in?%> 
 <div class="container">
 	<div class="row">
 	  <div class="col-sm-1"><%= image_tag current_user.avatar.url, class: 'img-circle', size: '50x50' %></div>
 	  <div class="col-sm-6"><textarea class="form-control" rows="2" placeholder='想對農夫說什麼...' id="post_content"></textarea></div>
-	  <div class="col-sm-2"><button class="btn btn-default" id="post_button" onclick="postComment()" data-loading-text="傳送中...">留言</button></div>
+	  <div class="col-sm-2"><button class="btn btn-default" id="post_button" onclick="postComment()" data-loading-text="傳送中...">送出</button></div>
 	</div>	
 </div>	
-<div class="container" id="all_comments">	
-	
-	
+<%else%>
+<br><br><br><br>
+<div class="container">
+	<div class="row">
+	  <div class="col-sm-3 col-sm-offset-3">  
+	  <%= link_to "一般登入留言", new_user_session_path %> |			
+	<%= link_to "使用Facebook登入留言", user_omniauth_authorize_path(:facebook) %>
+	</div>	
 </div>	
-		
-	
-<div class="container">	
-	<div class="row">
-	  <div class="col-sm-1"><%= image_tag current_user.avatar.url, class: 'img-circle', size: '50x50' %></div>
-	  <div class="col-sm-5">Lin 2014/5/1 14:00pm <br> 請問可以擺放多久</div>
-      <div class="col-sm-1">
-		<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>      	
-      	<span class="glyphicon glyphicon-edit pull-right" aria-hidden="true"></span>
-	  </div> 
-	</div>
-	<div class="row">
-	  <div class="col-sm-7"><span class="pull-right">回應</span></div>	  
-	</div>	
-	<div class="row">
-	  <div class="col-sm-1 col-sm-offset-1"><%= image_tag current_user.avatar.url, class: 'img-circle', size: '50x50' %></div>		
-	  <div class="col-sm-4">7天</div>	
-      <div class="col-sm-1">
-		<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>      	
-      	<span class="glyphicon glyphicon-edit pull-right" aria-hidden="true"></span>
-	  </div> 	    
-	</div>		
-	<div class="row">
-	  <div class="col-sm-1 col-sm-offset-1"><%= image_tag current_user.avatar.url, class: 'img-circle', size: '50x50' %></div>		
-	  <div class="col-sm-4">靠腰這麼短？</div>	
-      <div class="col-sm-1">
-		<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>      	
-      	<span class="glyphicon glyphicon-edit pull-right" aria-hidden="true"></span>
-	  </div> 	    
-	</div>	
-	<div class="row">
-	  <div class="col-sm-1 col-sm-offset-1"><%= image_tag current_user.avatar.url, class: 'img-circle', size: '50x50' %></div>		
-	  <div class="col-sm-4">對啊就這麼短, 不然勒</div>	
-      <div class="col-sm-1">
-		<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>      	
-      	<span class="glyphicon glyphicon-edit pull-right" aria-hidden="true"></span>
-	  </div> 	    
-	</div>
-	<div class="row">
-	  <div class="col-sm-1 col-sm-offset-1"><%= image_tag current_user.avatar.url, class: 'img-circle', size: '50x50' %></div>		
-	  <div class="col-sm-4">幹你娘</div>	
-      <div class="col-sm-1">
-		<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>      	
-      	<span class="glyphicon glyphicon-edit pull-right" aria-hidden="true"></span>
-	  </div> 	    
-	</div>					
-	<div class="row">
-	  <div class="col-sm-1 col-sm-offset-1"><%= image_tag current_user.avatar.url, class: 'img-circle', size: '50x50' %></div>				
-	  <div class="col-sm-5" ><textarea class="form-control" rows="2" placeholder='想對農夫說什麼...'></textarea></div>		
-	  <div class="col-sm-1"><button class="btn btn-default" type="submit">回應</button></div>	  
-	</div>
-		
-	<div class="row">
-	  <div class="col-sm-1"><%= image_tag current_user.avatar.url, class: 'img-circle', size: '50x50' %></div>
-	  <div class="col-sm-6">也未免太好吃了吧</div>	  
-	</div>	
-	<div class="row">
-	  <div class="col-sm-7"><span class="pull-right">回應</span></div>	  
-	</div>		
-</div>
-<%=product %>
-
-
-
+<%end%>
+<br><br><br><br>
 
 <script>
 $(function () {
 	showComment();
 })
 
+<%if user_signed_in?%>  
+var	current_user = <%=current_user.id %>;
+<%else%>
+var	current_user = -1;
+<%end%>
 
 function postComment()
 {
@@ -97,7 +45,7 @@ function postComment()
 		request.done(function( message ) {
 		   	$btn.button('reset')		
 			$( "#post_content" ).val('')	   		
-			addAlert('success', message.message)
+			//addAlert('success', message.message)
 			showComment();			
 		});
 		request.fail(function( jqXHR, textStatus ) {
@@ -133,7 +81,7 @@ function addComment(comment, sub_comments)
 		     	  '</div>'+
 				  '<div class="col-sm-5">'+comment.user_last_name+' '+moment(comment.created_at, "YYYY-MM-DD HH:mm:ss" ).fromNow()+'<br>'+comment.content+
 				  '</div>');		
-	if(comment.user_id == <%=current_user.id %>)			  
+	if(comment.user_id == current_user)			  
 	{			  		  
 		var $op_container =$("<div>", {class: 'col-sm-1'}); 	
 		var $delete_but = $("<span>", { onclick: 'delComment('+comment.id.toString()+');', class: "glyphicon glyphicon-remove pull-right", style: "cursor: pointer", title: "刪除"}); 	  
@@ -141,25 +89,47 @@ function addComment(comment, sub_comments)
 		$delete_but.tooltip({placement: 'top'});//$edit_but.tooltip({placement: 'top'});	
 		$op_container.append($delete_but); //$op_container.append($edit_but) 	
 		$row_1.append($op_container);	
-	}				
-	//sub comment post
-	var $row_reply_but = $("<div>", {class: "row"}); 
-	$row_reply_but.append('<div class="col-sm-7"><span onclick="$(\'#post_sub_comment_'+comment.id.toString()+'\').show();" style="cursor: pointer" class="pull-right">回應</span></div>')	  
-	var $row_post_sub_comment =$("<div>", {class: "row", id: "post_sub_comment_"+comment.id.toString() }); 
-	$row_post_sub_comment.append('<div class="col-sm-1 col-sm-offset-1">'+
-								 '<img src="'+comment.user_avatar_url+'" alt="missing" width="50" height="50" class="img-circle">'+
-								 '</div>'+				
-	  							 '<div class="col-sm-5" ><textarea class="form-control" rows="1" placeholder="回應..." id="post_sub_content_'+comment.id.toString()+'"></textarea></div>'+		
-	  							 '<div class="col-sm-1"><button class="btn btn-default" id="post_sub_button_'+comment.id.toString()+'" onclick="postSubComment('+comment.id.toString()+')">回應</button></div>');	  	
-	$row_post_sub_comment.hide();
-	
-	  
-	$container.append($row_1);
-	$container.append($row_reply_but);	
+	}			
+	$container.append($row_1);		
+	//sub comment post	
+	if(current_user!=-1)
+	{
+		var $row_post_sub_comment =$("<div>", {class: "row", id: "post_sub_comment_"+comment.id.toString() }); 
+			$row_post_sub_comment.append('<div class="col-sm-1 col-sm-offset-1">'+
+										 '<img src="'+comment.user_avatar_url+'" alt="missing" width="50" height="50" class="img-circle">'+
+										 '</div>'+				
+	  									 '<div class="col-sm-5" ><textarea class="form-control" rows="1" placeholder="回應..." id="post_sub_content_'+comment.id.toString()+'"></textarea></div>'+		
+	  							 		 '<div class="col-sm-1"><button class="btn btn-default" id="post_sub_button_'+comment.id.toString()+'" onclick="postSubComment('+comment.id.toString()+')">送出</button></div>');	  	
+	}
+	if(sub_comments.length==0 && current_user!=-1)
+	{
+		var $row_reply_but = $("<div>", {class: "row"}); 
+		$row_reply_but.append('<div class="col-sm-7"><span onclick="$(\'#post_sub_comment_'+comment.id.toString()+'\').show();" style="cursor: pointer" class="pull-right">回應</span></div>')	  
+		$container.append($row_reply_but);			
+		$row_post_sub_comment.hide();	
+	}
+	else
+		$.each( sub_comments, function( i, l ){
+			var $row_sub =$("<div>", {class: "row", id: 'sub_comment_'+l.id.toString()}); 			
+			$row_sub.append('<div class="col-sm-1 col-sm-offset-1">'+
+				     	  '<img src="'+l.user_avatar_url+'" alt="missing" width="50" height="50" class="img-circle">'+
+				     	  '</div>'+
+						  '<div class="col-sm-4">'+l.user_last_name+' '+moment(l.created_at, "YYYY-MM-DD HH:mm:ss" ).fromNow()+'<br>'+l.content+
+						  '</div>');		
+			if(l.user_id == current_user)			  
+			{			  		  
+				var $sub_op_container =$("<div>", {class: 'col-sm-1'}); 	
+				var $delete_sub_but = $("<span>", { onclick: 'delSubComment('+l.id.toString()+');', class: "glyphicon glyphicon-remove pull-right", style: "cursor: pointer", title: "刪除"}); 	  
+				$delete_sub_but.tooltip({placement: 'top'});	
+				$sub_op_container.append($delete_sub_but);	
+				$row_sub.append($sub_op_container);	
+			} 
+			$container.append($row_sub);			  	
+		});	
+
 	$container.append($row_post_sub_comment);
 	$("#all_comments").append($container);			  
 }
-
 function delComment(id)
 {
 	var request = $.ajax({
@@ -185,9 +155,8 @@ function postSubComment(id)
 	{
 		var $btn = $("#post_sub_button_"+id.toString()).button('傳送中...')
 		
-		
 		var request = $.ajax({
-		url: "/comments/post_sub",
+		url: "/comments/postSub",
 		type: "POST",
 		data: { id: id , content: $( "#post_sub_content_"+id.toString() ).val() },
 		dataType: "json"
@@ -195,7 +164,7 @@ function postSubComment(id)
 		request.done(function( message ) {
 		   	$btn.button('reset')		
 			$( "#post_sub_content_"+id.toString() ).val('')	   		
-			addAlert('success', message.message)
+			//addAlert('success', message.message)
 			showComment();			
 		});
 		request.fail(function( jqXHR, textStatus ) {
@@ -203,36 +172,33 @@ function postSubComment(id)
 		});	
 	}	
 }
-
-
-</script>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-function addComment(content, user_id, user_last_name, user_avatar_url, created_at)
+function delSubComment(id)
 {
-	
-	
-	<div class="row">
-	  <div class="col-sm-1"><%= image_tag current_user.avatar.url, class: 'img-circle', size: '50x50' %></div>
-	  <div class="col-sm-5">Lin 2014/5/1 14:00pm <br> 請問可以擺放多久</div>
-      <div class="col-sm-1">      	
-		<span style="cursor: pointer" data-toggle="tooltip" data-placement="top" title="刪除" class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>      	
-      	<span style="cursor: pointer" data-toggle="tooltip" data-placement="top" title="編輯" class="glyphicon glyphicon-edit pull-right" aria-hidden="true"></span>
-	  </div> 
-	</div>
-	<div class="row">
-	  <div class="col-sm-7"><span class="pull-right">回應</span></div>	  
-	</div>	
-		
-	var $question_eg_question_outter =$("<div>", {class: "row question_eg_question_outter"}); 
-			$question_eg_question_outter.append('<div class="col-sm-1"></div>');			
-
+	var request = $.ajax({
+	url: "/comments/deleteSub",
+	type: "POST",
+	data: { id: id },
+	dataType: "json"
+	});
+	request.done(function( message ) {
+		if(message.success)
+			$('#sub_comment_'+id.toString()).remove();				
+	});
+	request.fail(function( jqXHR, textStatus ) {
+	});	
 }
+</script>
+
+<style>
+div {
+  -ms-word-break: break-all;
+  word-break: break-all;
+
+  /* Non standard for webkit */
+  word-break: break-word;
+
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
+}
+</style>	

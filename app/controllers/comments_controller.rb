@@ -1,7 +1,8 @@
 class CommentsController < ApplicationController
-  before_action :set_comment, only: [:edit, :delete, :post_sub]
+  before_action :set_comment, only: [:edit, :delete, :postSub]
+  before_action :set_sub_comment, only: [:deleteSub]  
   before_action :set_product, only: [:post, :show]
-
+  
 
   def post
     comment = Comment.new()
@@ -45,7 +46,7 @@ class CommentsController < ApplicationController
     end       
   end
   
-  def post_sub
+  def postSub
     sub_comment = SubComment.new()
     sub_comment.content = params[:content]
     sub_comment.user = current_user
@@ -54,10 +55,20 @@ class CommentsController < ApplicationController
     render json: {success: true, message: '張貼成功'}     
   end
 
+  def deleteSub
+    if @sub_comment.user == current_user
+      @sub_comment.destroy
+      render json: {success: true, message: '刪除成功'} 
+    end       
+  end
 
   private
     def set_comment
       @comment = Comment.find(params[:id])
+    end
+
+    def set_sub_comment
+      @sub_comment = SubComment.find(params[:id])
     end
     
     def set_product
