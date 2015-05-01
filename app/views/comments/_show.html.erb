@@ -87,7 +87,7 @@ function postComment()
 {
 	if($( "#post_content" ).val()!= '')
 	{
-		var $btn = $('#post_button').button('loading')
+		var $btn = $('#post_button').button('傳送中...')
 		var request = $.ajax({
 		url: "/comments/post",
 		type: "POST",
@@ -97,7 +97,8 @@ function postComment()
 		request.done(function( message ) {
 		   	$btn.button('reset')		
 			$( "#post_content" ).val('')	   		
-			addAlert(message.alert_class, message.message)
+			addAlert('success', message.message)
+			showComment();			
 		});
 		request.fail(function( jqXHR, textStatus ) {
 			$btn.button('reset')	
@@ -113,10 +114,10 @@ function showComment()
 	dataType: "json"
 	});
 	request.done(function( message ) {
+		$("#all_comments").empty();
 		$.each(  message , function( i, l ){
 		  addComment(l.comment, l.sub_comments)
 		});		
-
 	});
 	request.fail(function( jqXHR, textStatus ) {
 		addAlert('error', '讀取失敗')
@@ -131,30 +132,89 @@ function addComment(comment, sub_comments)
 		     	  '<img src="'+comment.user_avatar_url+'" alt="missing" width="50" height="50" class="img-circle">'+
 		     	  '</div>'+
 				  '<div class="col-sm-5">'+comment.user_last_name+' '+moment(comment.created_at, "YYYY-MM-DD HH:mm:ss" ).fromNow()+'<br>'+comment.content+
-				  '</div>');				  
-	var $op_container =$("<div>", {class: 'col-sm-1'}); 	
-	var $delete_but = $("<span>", { onclick: 'delComment('+comment.id.toString()+');', class: "glyphicon glyphicon-remove pull-right", style: "cursor: pointer", title: "刪除"}); 	  
-	var $edit_but = $("<span>", { onclick: 'editComment('+comment.id.toString()+');', class: "glyphicon glyphicon-edit pull-right", style: "cursor: pointer", title: "編輯"}); 	  
-	$delete_but.tooltip({placement: 'top'}); $edit_but.tooltip({placement: 'top'})	
-	$op_container.append($delete_but); $op_container.append($edit_but) 	
+				  '</div>');		
+	if(comment.user_id == <%=current_user.id %>)			  
+	{			  		  
+		var $op_container =$("<div>", {class: 'col-sm-1'}); 	
+		var $delete_but = $("<span>", { onclick: 'delComment('+comment.id.toString()+');', class: "glyphicon glyphicon-remove pull-right", style: "cursor: pointer", title: "刪除"}); 	  
+		//var $edit_but = $("<span>", { onclick: 'editComment('+comment.id.toString()+');', class: "glyphicon glyphicon-edit pull-right", style: "cursor: pointer", title: "編輯"}); 	  
+		$delete_but.tooltip({placement: 'top'});//$edit_but.tooltip({placement: 'top'});	
+		$op_container.append($delete_but); //$op_container.append($edit_but) 	
+		$row_1.append($op_container);	
+	}				
+	//sub comment post
+	var $row_reply_but = $("<div>", {class: "row"}); 
+	$row_reply_but.append('<div class="col-sm-7"><span onclick="$(\'#post_sub_comment_'+comment.id.toString()+'\').show();" style="cursor: pointer" class="pull-right">回應</span></div>')	  
+	var $row_post_sub_comment =$("<div>", {class: "row", id: "post_sub_comment_"+comment.id.toString() }); 
+	$row_post_sub_comment.append('<div class="col-sm-1 col-sm-offset-1">'+
+								 '<img src="'+comment.user_avatar_url+'" alt="missing" width="50" height="50" class="img-circle">'+
+								 '</div>'+				
+	  							 '<div class="col-sm-5" ><textarea class="form-control" rows="1" placeholder="回應..." id="post_sub_content_'+comment.id.toString()+'"></textarea></div>'+		
+	  							 '<div class="col-sm-1"><button class="btn btn-default" id="post_sub_button_'+comment.id.toString()+'" onclick="postSubComment('+comment.id.toString()+')">回應</button></div>');	  	
+	$row_post_sub_comment.hide();
 	
-	$row_1.append($op_container);					  
+	  
 	$container.append($row_1);
+	$container.append($row_reply_but);	
+	$container.append($row_post_sub_comment);
 	$("#all_comments").append($container);			  
 }
 
 function delComment(id)
 {
-	
+	var request = $.ajax({
+	url: "/comments/delete",
+	type: "POST",
+	data: { id: id },
+	dataType: "json"
+	});
+	request.done(function( message ) {
+		if(message.success)
+			//addAlert('success', message.message);
+			showComment();			
+	});
+	request.fail(function( jqXHR, textStatus ) {
+	});	
 }
 function editComment(id)
-{
-	
-}
+{}
 
+function postSubComment(id)
+{
+	if($( "#post_sub_content_"+id.toString() ).val()!= '')
+	{
+		var $btn = $("#post_sub_button_"+id.toString()).button('傳送中...')
+		
+		
+		var request = $.ajax({
+		url: "/comments/post_sub",
+		type: "POST",
+		data: { id: id , content: $( "#post_sub_content_"+id.toString() ).val() },
+		dataType: "json"
+		});
+		request.done(function( message ) {
+		   	$btn.button('reset')		
+			$( "#post_sub_content_"+id.toString() ).val('')	   		
+			addAlert('success', message.message)
+			showComment();			
+		});
+		request.fail(function( jqXHR, textStatus ) {
+			$btn.button('reset')	
+		});	
+	}	
+}
 
 
 </script>
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 function addComment(content, user_id, user_last_name, user_avatar_url, created_at)
 {

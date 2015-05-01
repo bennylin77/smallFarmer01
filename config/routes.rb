@@ -7,7 +7,8 @@ Rails.application.routes.draw do
   post 'comments/delete'
   post 'comments/reply'
   get  'comments/show'
-
+  post 'comments/post_sub'
+  
   post 'users/mobileSMSConfirmationSend'
   get  'main/index'  
   
