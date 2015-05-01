@@ -78,6 +78,10 @@
 
 
 <script>
+$(function () {
+	show();
+})
+
 
 function postComment()
 {
@@ -100,10 +104,8 @@ function postComment()
 		});	
 	}
 }
-
 function show()
 {
-
 	var request = $.ajax({
 	url: "/comments/show",
 	type: "GET",
@@ -129,12 +131,21 @@ function addComment(comment, sub_comments)
 		     	  '<img src="'+comment.user_avatar_url+'" alt="missing" width="50" height="50" class="img-circle">'+
 		     	  '</div>'+
 				  '<div class="col-sm-5">'+comment.user_last_name+' '+moment(comment.created_at, "YYYY-MM-DD HH:mm:ss" ).fromNow()+'<br>'+comment.content+
-				  '</div>');	
+				  '</div>');				  
+	var $op_container =$("<div>", {class: 'col-sm-1'}); 	
+	var $delete_but = $("<span>", {class: "glyphicon glyphicon-remove pull-right", style: "cursor: pointer", title: "刪除"}); 	  
+	var $edit_but = $("<span>", {class: "glyphicon glyphicon-edit pull-right", style: "cursor: pointer", title: "編輯"}); 	  
+	$delete_but.tooltip({placement: 'top'})
+	$edit_but.tooltip({placement: 'top'})	
+	$op_container.append($delete_but) 
+	$op_container.append($edit_but) 	
+	$row_1.append($op_container);					  
 	$container.append($row_1);
 	$("#all_comments").append($container);			  
-
 }
-show();
+
+
+
 
 
 </script>
@@ -146,9 +157,9 @@ function addComment(content, user_id, user_last_name, user_avatar_url, created_a
 	<div class="row">
 	  <div class="col-sm-1"><%= image_tag current_user.avatar.url, class: 'img-circle', size: '50x50' %></div>
 	  <div class="col-sm-5">Lin 2014/5/1 14:00pm <br> 請問可以擺放多久</div>
-      <div class="col-sm-1">
-		<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>      	
-      	<span class="glyphicon glyphicon-edit pull-right" aria-hidden="true"></span>
+      <div class="col-sm-1">      	
+		<span style="cursor: pointer" data-toggle="tooltip" data-placement="top" title="刪除" class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>      	
+      	<span style="cursor: pointer" data-toggle="tooltip" data-placement="top" title="編輯" class="glyphicon glyphicon-edit pull-right" aria-hidden="true"></span>
 	  </div> 
 	</div>
 	<div class="row">
