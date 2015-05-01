@@ -79,7 +79,7 @@
 
 <script>
 $(function () {
-	show();
+	showComment();
 })
 
 
@@ -104,7 +104,7 @@ function postComment()
 		});	
 	}
 }
-function show()
+function showComment()
 {
 	var request = $.ajax({
 	url: "/comments/show",
@@ -133,18 +133,24 @@ function addComment(comment, sub_comments)
 				  '<div class="col-sm-5">'+comment.user_last_name+' '+moment(comment.created_at, "YYYY-MM-DD HH:mm:ss" ).fromNow()+'<br>'+comment.content+
 				  '</div>');				  
 	var $op_container =$("<div>", {class: 'col-sm-1'}); 	
-	var $delete_but = $("<span>", {class: "glyphicon glyphicon-remove pull-right", style: "cursor: pointer", title: "刪除"}); 	  
-	var $edit_but = $("<span>", {class: "glyphicon glyphicon-edit pull-right", style: "cursor: pointer", title: "編輯"}); 	  
-	$delete_but.tooltip({placement: 'top'})
-	$edit_but.tooltip({placement: 'top'})	
-	$op_container.append($delete_but) 
-	$op_container.append($edit_but) 	
+	var $delete_but = $("<span>", { onclick: 'delComment('+comment.id.toString()+');', class: "glyphicon glyphicon-remove pull-right", style: "cursor: pointer", title: "刪除"}); 	  
+	var $edit_but = $("<span>", { onclick: 'editComment('+comment.id.toString()+');', class: "glyphicon glyphicon-edit pull-right", style: "cursor: pointer", title: "編輯"}); 	  
+	$delete_but.tooltip({placement: 'top'}); $edit_but.tooltip({placement: 'top'})	
+	$op_container.append($delete_but); $op_container.append($edit_but) 	
+	
 	$row_1.append($op_container);					  
 	$container.append($row_1);
 	$("#all_comments").append($container);			  
 }
 
-
+function delComment(id)
+{
+	
+}
+function editComment(id)
+{
+	
+}
 
 
 
