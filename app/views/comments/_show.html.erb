@@ -26,13 +26,14 @@
 $(function () {
 	showComment();
 })
-
+//init
 <%if user_signed_in?%>  
-var	current_user = <%=current_user.id %>;
+var	current_user = {id: <%=current_user.id %>, avatar_url: '<%=current_user.avatar.url %>' };
 <%else%>
-var	current_user = -1;
+var	current_user = {id: -1 };
 <%end%>
 var default_avatar = '<%=asset_path 'default_avatar.png' %>'
+var product_id = <%=product.id %>
 
 function postComment()
 {
@@ -42,7 +43,7 @@ function postComment()
 		var request = $.ajax({
 		url: "/comments/post",
 		type: "POST",
-		data: { id: <%=product.id %>, content: $( "#post_content" ).val() },
+		data: { id: product_id, content: $( "#post_content" ).val() },
 		dataType: "json"
 		});
 		request.done(function( message ) {
@@ -62,7 +63,7 @@ function showComment()
 	var request = $.ajax({
 	url: "/comments/show",
 	type: "GET",
-	data: { id: <%=product.id %>},
+	data: { id: product_id},
 	dataType: "json"
 	});
 	request.done(function( message ) {
@@ -85,7 +86,7 @@ function addComment(comment, sub_comments)
 		     	  '</div>'+
 				  '<div class="col-sm-5">'+comment.user_last_name+' '+moment(comment.created_at, "YYYY-MM-DD HH:mm:ss" ).fromNow()+'<br>'+comment.content+
 				  '</div>');		
-	if(comment.user_id == current_user)			  
+	if(comment.user_id == current_user.id)			  
 	{			  		  
 		var $op_container =$("<div>", {class: 'col-sm-1'}); 	
 		var $delete_but = $("<span>", { onclick: 'delComment('+comment.id.toString()+');', class: "glyphicon glyphicon-remove pull-right", style: "cursor: pointer", title: "刪除"}); 	  
@@ -96,16 +97,16 @@ function addComment(comment, sub_comments)
 	}			
 	$container.append($row_1);		
 	//sub comment post	
-	if(current_user!=-1)
+	if(current_user.id!=-1)
 	{
 		var $row_post_sub_comment =$("<div>", {class: "row", id: "post_sub_comment_"+comment.id.toString() }); 
 			$row_post_sub_comment.append('<div class="col-sm-1 col-sm-offset-1">'+
-										 '<img src="'+comment.user_avatar_url+'" alt="missing" width="50" height="50" class="img-circle">'+
+										 '<img src="'+current_user.avatar_url+'" onerror="this.src=\''+default_avatar+'\'" alt="missing" width="50" height="50" class="img-circle">'+
 										 '</div>'+				
 	  									 '<div class="col-sm-5" ><textarea class="form-control" rows="1" placeholder="回應..." id="post_sub_content_'+comment.id.toString()+'"></textarea></div>'+		
 	  							 		 '<div class="col-sm-1"><button class="btn btn-default" id="post_sub_button_'+comment.id.toString()+'" onclick="postSubComment('+comment.id.toString()+')">送出</button></div>');	  	
 	}
-	if(sub_comments.length==0 && current_user!=-1)
+	if(sub_comments.length==0 && current_user.id!=-1)
 	{
 		var $row_reply_but = $("<div>", {class: "row"}); 
 		$row_reply_but.append('<div class="col-sm-7"><span onclick="$(\'#post_sub_comment_'+comment.id.toString()+'\').show();" style="cursor: pointer" class="pull-right">回應</span></div>')	  
@@ -120,7 +121,7 @@ function addComment(comment, sub_comments)
 				     	  '</div>'+
 						  '<div class="col-sm-4">'+l.user_last_name+' '+moment(l.created_at, "YYYY-MM-DD HH:mm:ss" ).fromNow()+'<br>'+l.content+
 						  '</div>');		
-			if(l.user_id == current_user)			  
+			if(l.user_id == current_user.id)			  
 			{			  		  
 				var $sub_op_container =$("<div>", {class: 'col-sm-1'}); 	
 				var $delete_sub_but = $("<span>", { onclick: 'delSubComment('+l.id.toString()+');', class: "glyphicon glyphicon-remove pull-right", style: "cursor: pointer", title: "刪除"}); 	  

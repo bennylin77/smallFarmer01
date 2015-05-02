@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default navbar-static-top">
+<nav class="navbar navbar-default navbar-fixed-top menu">
 	<div class="container-fluid">
     	<div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -12,12 +12,12 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
 			<%if user_signed_in?%>          	
-	            <li><a href="#">Coupon</a></li>
-	            <li><a href="#">Notification</a></li>
-	            <li><a href="#">Cart</a></li>
+	            <li><a href="#"><span class="glyphicon glyphicon-leaf" aria-hidden="true"></span></a></li>
+	            <li><a href="#"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a></li>
+	            <li><a href="#"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></li>
 				<li>
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">					
-					<%= image_tag current_user.avatar.url, class: 'img-circle', size: '50x50' %>
+					<a href="#" class="dropdown-toggle profile-image " data-toggle="dropdown" aria-expanded="false">					
+					<%= image_tag current_user.avatar.url, class: 'img-circle' %>
 					<span class="sr-only">Toggle Dropdown</span>
 					</a>
 					<ul class="dropdown-menu" role="menu">
@@ -33,7 +33,8 @@
 			<%end%>					       
           </ul>
           <form class="navbar-form navbar-left">
-            <input type="text" class="form-control" placeholder="搜尋水果、農場...">
+            <input type="text" class="form-control rounded" placeholder="搜尋水果、農場&hellip;">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
           </form>
         </div>
 	</div>
