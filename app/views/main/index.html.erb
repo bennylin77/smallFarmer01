@@ -1,40 +1,54 @@
-<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+<div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="3000" data-pause="hover">
   <!-- Indicators -->
   <ol class="carousel-indicators">
     <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-    <li data-target="#carousel-example-generic" data-slide-to="2"></li>    
+    <!--<li data-target="#carousel-example-generic" data-slide-to="1"></li>-->
+    <li data-target="#carousel-example-generic" data-slide-to="1"></li>    
+    <li data-target="#carousel-example-generic" data-slide-to="2"></li>      
   </ol>
 
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox">
     <div class="item active">
       <div class="main_carousel_img">	
-      <%=image_tag 'fruits3.jpg', class: 'img-responsive' %>
+      <%=image_tag 'fruits3.jpg', class: '' %>
       </div>
 	  <div class="carousel-caption">
 	    <h1>歡迎光臨</h1>
-	    <p>農民自銷，產地直送</p>
+	    <h3>農民自銷，產地直送</h3><br>
+	    <a href="#">邀請新朋友，獲得回饋金！</a>
 	  </div>
-    </div>
+    </div><!--
     <div class="item">
       <div class="main_carousel_img">	
-      <%=image_tag 'fruits2.jpg', class: 'img-responsive' %>
+      <%=image_tag 'fruits2.jpg', class: '' %>
       </div>     
 	  <div class="carousel-caption">
 	    <h1>歡迎光臨</h1>
-	    <p>農民自銷，產地直送</p>
+	    <h3>農民自銷，產地直送</h3><br>
+	    <a href="#">邀請新朋友，獲得回饋金！</a>
 	  </div>
-    </div>
+    </div>-->
     <div class="item">
       <div class="main_carousel_img">	
-      <%=image_tag 'fruits1.jpg', class: 'img-responsive' %>
+      <%=image_tag 'fruits1.jpg', class: '' %>
       </div>     
 	  <div class="carousel-caption">
 	    <h1>歡迎光臨</h1>
-	    <p>農民自銷，產地直送</p>
+	    <h3>農民自銷，產地直送</h3><br>
+	    <a href="#">邀請新朋友，獲得回饋金！</a>
 	  </div>
-    </div>    
+    </div>   
+    <div class="item">
+      <div class="main_carousel_img">	
+      <%=image_tag 'fruits4.jpg', class: '' %>
+      </div>     
+	  <div class="carousel-caption">
+	    <h1>歡迎光臨</h1>
+	    <h3>農民自銷，產地直送</h3><br>
+	    <a href="#">邀請新朋友，獲得回饋金！</a>
+	  </div>
+    </div>      
   </div>
 
   <!-- Controls -->
