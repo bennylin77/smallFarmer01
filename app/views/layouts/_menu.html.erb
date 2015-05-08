@@ -12,11 +12,23 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
 			<%if user_signed_in?%>          	
-	            <li><a href="#" class="menu_icon"><span class="glyphicon glyphicon-leaf" aria-hidden="true"></span> 購物金 240</a></li>
-	            <li><a href="#" class="menu_icon"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a></li>
-	            <li style="padding-right: 5px;"><a href="#" class="menu_icon"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span><span class="badge badge-danger">4</span></a></li>
+	            <li><a href="#" class="menu_right"><span class=" glyphicon glyphicon-leaf menu_right_icon" aria-hidden="true" style="width: 150px"><span style="font-size: 16px; vertical-align:4px;"> 購物金 350</span></span></a></li>
+	           	<li>        
+		            <a class="dropdown-toggle menu_right" href="#" data-toggle="dropdown" aria-expanded="false">
+		            	<span class="glyphicon glyphicon-shopping-cart menu_right_icon" ></span>
+		            	<span class="sr-only">Toggle Dropdown</span>
+		            </a>
+		            <div class="dropdown-menu" role="menu">
+		              <form class="form" id="formLogin"> 
+		                <input name="username" id="username" placeholder="Username" type="text"> 
+		                <input name="password" id="password" placeholder="Password" type="password"><br>
+		                <button type="button" id="btnLogin" class="btn">Login</button>
+		              </form>
+		            </div>	                 
+	          	</li>
+	            <li style="padding-right: 6px;"><a href="#" class="menu_right"><span class="glyphicon glyphicon-envelope menu_right_icon" aria-hidden="true"></span><span class="badge badge-danger">4</span></a></li>
 				<li>
-					<a href="#" class="dropdown-toggle profile-image " data-toggle="dropdown" aria-expanded="false">					
+					<a href="#" class="dropdown-toggle menu_right" data-toggle="dropdown" aria-expanded="false">					
 					<%= image_tag current_user.avatar.url, class: 'img-circle' %>
 					<span class="sr-only">Toggle Dropdown</span>
 					</a>
