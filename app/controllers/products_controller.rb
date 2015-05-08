@@ -17,7 +17,8 @@ class ProductsController < ApplicationController
     product = Product.new
     product.company = current_user.companies.first
     product.save!
-    product.product_boxings.create    
+    product.product_boxings.create 
+    product.product_boxings.first.product_pricings.create   
     redirect_to edit_product_path(product)
   end
 
@@ -65,6 +66,6 @@ class ProductsController < ApplicationController
     end
 
     def product_params
-      params.require(:product).permit(:name, :description, :inventory, product_boxings_attributes:[:id, :quantity, :unit, :price] )
+      params.require(:product).permit(:name, :description, :inventory, product_boxings_attributes:[:id, :quantity, :unit, product_pricings_attributes:[:id, :quantity, :price]] )
     end
 end

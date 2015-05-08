@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150426074726) do
+ActiveRecord::Schema.define(version: 20150508104353) do
 
   create_table "addresses", force: true do |t|
     t.integer  "user_id"
@@ -29,6 +29,17 @@ ActiveRecord::Schema.define(version: 20150426074726) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "carts", force: true do |t|
+    t.integer  "quantity"
+    t.integer  "user_id"
+    t.integer  "product_boxing_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "carts", ["product_boxing_id"], name: "index_carts_on_product_boxing_id", using: :btree
+  add_index "carts", ["user_id"], name: "index_carts_on_user_id", using: :btree
 
   create_table "comments", force: true do |t|
     t.integer  "user_id"
@@ -88,7 +99,6 @@ ActiveRecord::Schema.define(version: 20150426074726) do
   create_table "product_boxings", force: true do |t|
     t.integer  "quantity"
     t.string   "unit"
-    t.integer  "price"
     t.integer  "product_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -107,6 +117,16 @@ ActiveRecord::Schema.define(version: 20150426074726) do
   end
 
   add_index "product_images", ["product_id"], name: "index_product_images_on_product_id", using: :btree
+
+  create_table "product_pricings", force: true do |t|
+    t.integer  "quantity"
+    t.float    "price",             limit: 24
+    t.integer  "product_boxing_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "product_pricings", ["product_boxing_id"], name: "index_product_pricings_on_product_boxing_id", using: :btree
 
   create_table "products", force: true do |t|
     t.string   "name"

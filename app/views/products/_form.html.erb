@@ -18,11 +18,19 @@
 		<label class="col-sm-2 control-label"></label>
 		<div class="col-sm-2">
 			數量<%= g.text_field :quantity, class: "form-control" %>		
-			價錢<%= g.text_field :price, class: "form-control" %>			
-			單位<%= g.text_field :unit, class: "form-control" %>			
-				
+			單位<%= g.text_field :unit, class: "form-control" %>	
 		</div>					
-	</div>		
+	</div>					
+	<%= g.fields_for :product_pricings do |h| %>	
+	<div class="form-group">
+		<label class="col-sm-2 control-label"></label>
+		<div class="col-sm-2">
+			箱數<%= h.text_field :quantity, class: "form-control" %>		
+			價錢<%= h.text_field :price, class: "form-control" %>	
+		</div>					
+	</div>				
+	<%end%>	 
+		
 <%end%>		
 
 
