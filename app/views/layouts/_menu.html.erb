@@ -19,11 +19,11 @@
 		            	<span class="sr-only">Toggle Dropdown</span>
 		            </a>
 		            <div class="dropdown-menu" role="menu">
-		              <form class="form" id="formLogin"> 
-		                <input name="username" id="username" placeholder="Username" type="text"> 
-		                <input name="password" id="password" placeholder="Password" type="password"><br>
-		                <button type="button" id="btnLogin" class="btn">Login</button>
-		              </form>
+		            	<ul style="margin: 0; padding: 0; list-style: none">
+		            		<li><%= image_tag current_user.avatar.url, size: "40x40" %><div>阿茂伯特級柳丁<br>數量: 2<br>價錢: 300</div></li>
+		            		<li><%= image_tag current_user.avatar.url, size: "40x40" %></li>	
+		            	</ul>
+		            	<a>結帳</a>
 		            </div>	                 
 	          	</li>
 	            <li style="padding-right: 6px;"><a href="#" class="menu_right"><span class="glyphicon glyphicon-envelope menu_right_icon" aria-hidden="true"></span><span class="badge badge-danger">4</span></a></li>
