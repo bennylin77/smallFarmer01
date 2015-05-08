@@ -29,13 +29,55 @@
   <strong>Company:</strong>
   <%= @product.company %>
 </p>
-<%= '加入購物車' %>
-<%= '直接購買'%>
+
+<p>
+每箱<%= @product.product_boxings.first.quantity %><%= @product.product_boxings.first.unit %>
+每箱<%= @product.product_boxings.first.product_pricings.where(quantity: 1).first.price.to_i %>元
+</p>
+
+
+<div class="container" >
+<%= form_tag  '/carts/checkout', method: 'post', class: "form-horizontal", role: "form" do %>
+    <%= hidden_field_tag  :id,  @product.product_boxings.first.id  %>	
+	<div class="form-group">
+		<div class="col-sm-2">	
+			<%= select_tag  :quantity, options_for_select( (1..50).step(1)), class: "form-control" %>	
+		</div>
+		<div class="col-sm-1">
+			<%= submit_tag '直接結帳',  class: "btn btn-primary"  %>
+		</div>		   
+<% end %>
+		<div class="col-sm-1">
+			<button type="button" class="add_to_cart btn btn-default" autocomplete="off">加入購物車</button>			
+		</div>				
+	</div>	 
+</div>
+
+
+
 
 
 <%= link_to 'Edit', edit_product_path(@product) %> |
 <%= link_to 'Back', products_path %>
 
+<script>
+$('.add_to_cart').click(function() {
+	var $btn = $(this).button('loading')	
+	var request = $.ajax({
+		url: "/carts/addToCart",
+		type: "POST",
+		data: { id: <%=@product.product_boxings.first.id%>, quantity: $('#quantity').val() },
+		dataType: "json"
+	});
+	request.done(function( message ) {
+		addAlert(message.alert_class, message.message)
+	    $btn.button('reset')		
+	});
+	request.fail(function( jqXHR, textStatus ) {
+	});	
+
+});
+</script>
 
 <%= render partial: "comments/show", locals: { product: @product} %>
 

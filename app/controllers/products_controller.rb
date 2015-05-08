@@ -36,7 +36,7 @@ class ProductsController < ApplicationController
 
   def destroy
     @product.destroy
-    respond_with(@product)
+    redirect_to products_url
   end
 
   def productImagesUpload

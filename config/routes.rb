@@ -9,6 +9,11 @@ Rails.application.routes.draw do
   post 'comments/postSub'
   post 'comments/deleteSub'
   
+  get  'carts/checkout'
+  post 'carts/checkout'
+  post 'carts/addToCart'
+  get  'carts/showCart'  
+  
   post 'users/mobileSMSConfirmationSend'
   get  'main/index'  
   
