@@ -25,7 +25,7 @@ class CartsController < ApplicationController
     current_user.carts.each do |c|
       carts << 
       {
-        title: c.product_boxing.product.title,
+        title: c.product_boxing.product.name,
         quantity: c.quantity, 
         price: c.quantity*c.product_boxing.product_pricings.first.price
       }     

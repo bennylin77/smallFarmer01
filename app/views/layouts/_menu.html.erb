@@ -19,7 +19,7 @@
 		            	<span class="sr-only">Toggle Dropdown</span>
 		            </a>
 		            <div class="dropdown-menu" role="menu">
-		            	<ul style="margin: 0; padding: 0; list-style: none">
+		            	<ul style="margin: 0; padding: 0; list-style: none" class="cart_lists">
 		            		<li><%= image_tag current_user.avatar.url, size: "40x40" %><div>阿茂伯特級柳丁<br>數量: 2<br>價錢: 300</div></li>
 		            		<li><%= image_tag current_user.avatar.url, size: "40x40" %></li>	
 		            	</ul>
@@ -54,9 +54,19 @@
 
 <script>
 function showCart(){
-	
-	
-	
-	
+	var request = $.ajax({
+		url: "/carts/showCart",
+		type: "GET",
+		data: {},
+		dataType: "json"
+	});
+	request.done(function( message ) {
+		$(".cart_lists").empty();
+			$.each(  message , function( i, l ){		
+				$(".cart_lists").append('<li>'+l.title+' 數量:'+l.quantity+' 價錢'+l.price+'</li>')
+	 	});
+	});
+	request.fail(function( jqXHR, textStatus ) {
+	});		
 }
 </script>
