@@ -63,7 +63,7 @@ function showCart(){
 	request.done(function( message ) {
 		$(".cart_lists").empty();
 			$.each(  message , function( i, l ){		
-				$(".cart_lists").append('<li>'+l.title+' 數量:'+l.quantity+' 價錢'+l.price+'</li>')
+				$(".cart_lists").append('<li>'+l.name+' 數量:'+l.quantity+' 價錢'+l.price+'</li>')
 	 	});
 	});
 	request.fail(function( jqXHR, textStatus ) {

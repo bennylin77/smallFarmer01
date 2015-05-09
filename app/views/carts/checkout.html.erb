@@ -1,0 +1,18 @@
+<div class="container"> 
+	<%@carts.each do |c| %>
+	<div class="row">
+		<div class="col-sm-1">
+        <td><%= link_to '刪除', c, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+		</div>			
+		<div class="col-sm-1">
+			<%= c.product_boxing.product.name%>
+		</div>	
+		<div class="col-sm-1">
+			<%= c.quantity%>			
+		</div>		
+		<div class="col-sm-1">
+			<%= c.product_boxing.product_pricings.first.price*c.quantity%>			
+		</div>					
+	</div>	
+	<%end%>
+</div>

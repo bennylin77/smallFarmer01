@@ -1,18 +1,19 @@
 Rails.application.routes.draw do
   
 
-  get  'comments/post'  
-  post 'comments/post'
-  post 'comments/delete'
-  post 'comments/reply'
-  get  'comments/show'
-  post 'comments/postSub'
-  post 'comments/deleteSub'
+  get    'comments/post'  
+  post   'comments/post'
+  post   'comments/delete'
+  post   'comments/reply'
+  get    'comments/show'
+  post   'comments/postSub'
+  post   'comments/deleteSub'
   
-  get  'carts/checkout'
-  post 'carts/checkout'
-  post 'carts/addToCart'
-  get  'carts/showCart'  
+  get    'carts/checkout'
+  post   'carts/checkout'
+  post   'carts/addToCart'
+  get    'carts/showCart'  
+  
   
   post 'users/mobileSMSConfirmationSend'
   get  'main/index'  
@@ -32,6 +33,7 @@ Rails.application.routes.draw do
   resources :products 
   resources :companies
   resources :users
-   
+  resources :carts, only: [:destroy] 
+    
   root to: "main#index" 
 end
