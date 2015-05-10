@@ -47,8 +47,19 @@ class UsersController < ApplicationController
         address.phone_no = @phone_no
         address.phone_no_confirmed_at = Time.now
         address.save!
-        flash[:success] = '您已成功驗證, 並獲得30元回饋金'
-        redirect_to root_url
+        # important !!!!!!!!!!!!!!!!
+        if current_user.coupons.where(kind: GLOBAL_VAR['COUPON_SIGN_UP']).first.blank?       
+          coupon = Coupon.new
+          coupon.user = current_user
+          coupon.kind = GLOBAL_VAR['COUPON_SIGN_UP']
+          coupon.amount = 30
+          coupon.original_amount = 30
+          coupon.save!
+          flash[:success] = '您已成功驗證, 並獲得30元回饋金' 
+        else
+          flash[:alert] = '您已驗證過, 謝謝！'                          
+        end       
+        redirect_to root_url                  
       else
         flash[:alert] = '驗證錯誤, 請重新驗證, 謝謝！'          
       end

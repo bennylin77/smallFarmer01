@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150508104353) do
+ActiveRecord::Schema.define(version: 20150509055232) do
 
   create_table "addresses", force: true do |t|
     t.integer  "user_id"
@@ -86,6 +86,19 @@ ActiveRecord::Schema.define(version: 20150508104353) do
 
   add_index "company_images", ["company_id"], name: "index_company_images_on_company_id", using: :btree
 
+  create_table "coupons", force: true do |t|
+    t.float    "amount",          limit: 24
+    t.float    "original_amount", limit: 24
+    t.integer  "kind"
+    t.integer  "user_id"
+    t.integer  "order_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "coupons", ["order_id"], name: "index_coupons_on_order_id", using: :btree
+  add_index "coupons", ["user_id"], name: "index_coupons_on_user_id", using: :btree
+
   create_table "identities", force: true do |t|
     t.integer  "user_id"
     t.string   "provider"
@@ -96,9 +109,20 @@ ActiveRecord::Schema.define(version: 20150508104353) do
 
   add_index "identities", ["user_id"], name: "index_identities_on_user_id", using: :btree
 
+  create_table "order_coupon_lists", force: true do |t|
+    t.float    "amount",     limit: 24
+    t.integer  "order_id"
+    t.integer  "coupon_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "order_coupon_lists", ["coupon_id"], name: "index_order_coupon_lists_on_coupon_id", using: :btree
+  add_index "order_coupon_lists", ["order_id"], name: "index_order_coupon_lists_on_order_id", using: :btree
+
   create_table "product_boxings", force: true do |t|
     t.integer  "quantity"
-    t.string   "unit"
+    t.integer  "unit"
     t.integer  "product_id"
     t.datetime "created_at"
     t.datetime "updated_at"

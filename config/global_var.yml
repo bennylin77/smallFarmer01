@@ -1,0 +1,14 @@
+defaults: &defaults
+  COUPON_SIGN_UP: 0
+  COUPON_CHECK_OUT: 1
+
+    
+    
+development:
+  <<: *defaults
+
+production:
+  <<: *defaults
+
+test:
+  <<: *defaults

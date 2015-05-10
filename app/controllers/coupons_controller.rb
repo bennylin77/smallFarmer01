@@ -1,0 +1,5 @@
+class CouponsController < ApplicationController
+  
+  
+  
+end
