@@ -41,16 +41,20 @@ class ProductsController < ApplicationController
   end
 
   def productImagesUpload
-    p_i = ProductImage.create(image: params[:product_image].first )
-    p_i.product = @product
-    p_i.save!  
-    render json: { initialPreview: [
-                      "<img src='"+p_i.image.url+"' class='file-preview-image'>",
-                   ],
-                   initialPreviewConfig: [{
-                      url: "/products/"+@product.id.to_s+"/productImagesDelete", key: p_i.id
-                   }]
-                 }              
+    if @product.product_images.size < 5
+      p_i = ProductImage.create(image: params[:product_image].first )
+      p_i.product = @product
+      p_i.save!  
+      render json: { initialPreview: [
+                        "<img src='"+p_i.image.url+"' class='file-preview-image'>",
+                     ],
+                     initialPreviewConfig: [{
+                        url: "/products/"+@product.id.to_s+"/productImagesDelete", key: p_i.id
+                     }]
+                   }
+    else
+      render json: { error: '上傳超過5張圖片' }
+    end                                 
   end
 
   def productImagesDelete 
@@ -65,6 +69,8 @@ class ProductsController < ApplicationController
     if @product.available_c
       @product.available_c = false
       @product.save!    
+      flash[:alert] ='水果已下架'        
+      redirect_to products_url      
     else  
       if @product.update(available_c: true)
         flash[:success] ='成功上架水果'        
