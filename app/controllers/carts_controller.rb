@@ -1,40 +1,40 @@
 class CartsController < ApplicationController
-  before_action :set_cart, only: [:destroy]
+  before_action :set_cart, only: [:destroy, :updateCart]
 
-  def checkout 
-    if request.post?
-      cart = current_user.carts.where(product_boxing_id: params[:id]).first
-      unless cart.blank?
-        cart.quantity = cart.quantity + params[:quantity].to_i
-      else
-        cart = Cart.new  
-        cart.product_boxing = ProductBoxing.find(params[:id])
-        cart.user = current_user
-        cart.quantity = params[:quantity]     
-      end  
-      cart.save           
-    end
+  def checkout   
     @carts = current_user.carts
   end
   
-  def addToCart 
-    cart = current_user.carts.where(product_boxing_id: params[:id]).first
+  def addCart
+    cart = current_user.carts.where(product_boxing_id: params[:id]).first        
     unless cart.blank?
-      cart.quantity = cart.quantity + params[:quantity].to_i
+      if cart.quantity + params[:quantity].to_i > 50
+        render json: {alert_class: 'error', message: '購買數量超過50'}          
+      else
+        cart.quantity = cart.quantity + params[:quantity].to_i   
+        cart.save!  
+        render json: {alert_class: 'success', message: '成功更新購物車'}                    
+      end  
     else
       cart = Cart.new  
       cart.product_boxing = ProductBoxing.find(params[:id])
       cart.user = current_user
-      cart.quantity = params[:quantity]     
-    end  
-    if cart.save     
-      render json: {alert_class: 'success', message: '成功加入購物車'}        
-    else
-      render json: {alert_class: 'error', message: '加入購物車失敗'}    
+      cart.quantity = params[:quantity]    
+      cart.save!  
+      render json: {alert_class: 'success', message: '成功更新購物車'}                
     end                       
   end
   
-  def showCart
+  def updateCart
+    @cart.quantity = params[:quantity].to_i
+    if @cart.save     
+      render json: {alert_class: 'success', message: '成功更新購物車'}        
+    else
+      render json: {alert_class: 'error', message: '更新購物車失敗'}    
+    end      
+  end
+  
+  def showCarts
     carts = Array.new
     price = 0
     current_user.carts.each do |c|

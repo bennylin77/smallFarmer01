@@ -1,11 +1,19 @@
 module MainHelper
   
-  def coupon
-    coupon = 0
+  def coupons
+    coupons = 0
     current_user.coupons.each do |c|
       coupon = coupon + c.amount        
     end 
-    coupon.to_i
+    coupons.to_i
+  end
+  
+  def carts
+    quantity = 0
+    current_user.carts.each do |c| 
+      quantity = quantity + c.quantity
+    end 
+    quantity ==0 ? "":quantity   
   end
   
 end

@@ -10,15 +10,13 @@ Rails.application.routes.draw do
   post   'comments/deleteSub'
   
   get    'carts/checkout'
-  post   'carts/checkout'
-  post   'carts/addToCart'
-  get    'carts/showCart'  
-  
+  post   'carts/addCart'
+  post   'carts/updateCart'  
+  get    'carts/showCarts'  
   
   post   'users/mobileSMSConfirmationSend'
   get    'main/index'  
-  
-  
+    
   devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks',
                                        registrations: "registrations" }
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup

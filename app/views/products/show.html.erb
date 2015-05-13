@@ -29,35 +29,26 @@
   <strong>Company:</strong>
   <%= @product.company %>
 </p>
-
-
-	<%@product.product_boxings.first.product_pricings.each do |p| %>
-		<%if p.quantity == 1%>
-			每箱 <%= p.price.to_i  %>元
-		<%else%>
-			<%= p.quantity %>箱以上 <%= p.price.to_i%>元		
-		<%end%>
-		<br>
+<%@product.product_boxings.first.product_pricings.each do |p| %>
+	<%if p.quantity == 1%>
+		每箱 <%= p.price.to_i  %>元
+	<%else%>
+		<%= p.quantity %>箱以上 <%= p.price.to_i%>元		
 	<%end%>
-	
+	<br>
+<%end%>
 </p>
 <p>
 
 <span class="total_price"></span>元
 
 <div class="container" >
-<%= form_tag  '/carts/checkout', method: 'post', class: "form-horizontal", role: "form" do %>
-    <%= hidden_field_tag  :id,  @product.product_boxings.first.id  %>	
 	<div class="form-group">
 		<div class="col-sm-2">	
 			<%= select_tag  :quantity, options_for_select( (1..50).step(1).to_a), class: "form-control" %>				
-		</div>
+		</div>	   
 		<div class="col-sm-1">
-			<%= submit_tag '直接結帳',  class: "btn btn-primary"  %>
-		</div>		   
-<% end %>
-		<div class="col-sm-1">
-			<button type="button" class="add_to_cart btn btn-default" autocomplete="off">加入購物車</button>			
+			<button type="button" class="add_to_cart btn btn-primary" autocomplete="off">加入購物車</button>			
 		</div>				
 	</div>	 
 </div>
@@ -69,15 +60,17 @@
 $('.add_to_cart').click(function() {
 	var $btn = $(this).button('loading')	
 	var request = $.ajax({
-		url: "/carts/addToCart",
+		url: "/carts/addCart",
 		type: "POST",
 		data: { id: <%=@product.product_boxings.first.id%>, quantity: $('#quantity').val() },
 		dataType: "json"
 	});
 	request.done(function( message ) {
-		addAlert(message.alert_class, message.message)
+		if(message.alert_class != 'success')
+			addAlert(message.alert_class, message.message)
 	    $btn.button('reset')		
-	    showCart();
+	    showCarts();
+ 		//$('.cart-dropdown-menu').dropdown('toggle');	    
 	});
 	request.fail(function( jqXHR, textStatus ) {
 	});	
@@ -101,7 +94,6 @@ function countTotalPrice(q){
 }
 $('#quantity').change(function(){
    countTotalPrice($('#quantity').val())
-
 });	
 </script>
 <%= render partial: "comments/show", locals: { product: @product} %>

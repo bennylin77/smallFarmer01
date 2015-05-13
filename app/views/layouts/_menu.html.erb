@@ -12,18 +12,17 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
 			<%if user_signed_in?%>          	
-	            <li><a href="#" class="menu_right"><span class=" glyphicon glyphicon-leaf menu_right_icon" aria-hidden="true" style="width: 150px"><span style="font-size: 16px; vertical-align:4px;"> 購物金 <%=coupon %></span></span></a></li>
+	            <li><a href="#" class="menu_right"><span class=" glyphicon glyphicon-leaf menu_right_icon" aria-hidden="true" style="width: 150px"><span style="font-size: 16px; vertical-align:4px;"> 購物金 <%=coupons %></span></span></a></li>
 	           	<li>        
-		            <a class="dropdown-toggle menu_right" onclick="showCart();" href="#" data-toggle="dropdown" aria-expanded="false">
+		            <a class="dropdown-toggle menu_right" onclick="showCarts();" href="#" data-toggle="dropdown" aria-expanded="false">
 		            	<span class="glyphicon glyphicon-shopping-cart menu_right_icon" ></span>
+						<span class="badge badge-danger carts_badge"><%=carts%></span>		            	
 		            	<span class="sr-only">Toggle Dropdown</span>
 		            </a>
-		            <div class="dropdown-menu" role="menu">
-		            	<ul style="margin: 0; padding: 0; list-style: none" class="cart_lists">
-		            		<li><%= image_tag current_user.avatar.url, size: "40x40" %><div>阿茂伯特級柳丁<br>數量: 2<br>價錢: 300</div></li>
-		            		<li><%= image_tag current_user.avatar.url, size: "40x40" %></li>	
+		            <div class="dropdown-menu cart-dropdown-menu" role="menu">
+		            	<ul style="margin: 0; padding: 0; list-style: none; color: #000000" class="cart_lists">
 		            	</ul>
-		            	<a>結帳</a>
+		            	<%= link_to '結帳', controller: 'carts', action: 'checkout'%>
 		            </div>	                 
 	          	</li>
 	            <li><a href="#" class="menu_right"><span class="glyphicon glyphicon-envelope menu_right_icon" aria-hidden="true"></span><span class="badge badge-danger">4</span></a></li>
@@ -53,18 +52,24 @@
 </nav>
 
 <script>
-function showCart(){
+function showCarts(){
 	var request = $.ajax({
-		url: "/carts/showCart",
+		url: "/carts/showCarts",
 		type: "GET",
 		data: {},
 		dataType: "json"
 	});
 	request.done(function( message ) {
 		$(".cart_lists").empty();
-			$.each(  message , function( i, l ){		
-				$(".cart_lists").append('<li>'+l.name+' 數量:'+l.quantity+' 價錢'+l.price+'</li>')
+		var q = 0
+		$.each(  message , function( i, l ){						
+			$(".cart_lists").append('<li>'+l.name+' 數量:'+l.quantity+' 價錢'+l.price+'</li>')
+			q = q + l.quantity	
 	 	});
+	 	if(q!=0)
+	 		$('.carts_badge').html(q);
+	 	else
+	 		$('.carts_badge').html('');	
 	});
 	request.fail(function( jqXHR, textStatus ) {
 	});		

@@ -1,8 +1,10 @@
 <div class="container"> 
 	<%@carts.each do |c| %>
-	<div class="row">
+	<div class="row cart_<%=c.id%>">
 		<div class="col-sm-1">
-        <td><%= link_to '刪除', c, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>
+        	<span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="destroyCart(<%=c.id %>)" style="cursor: pointer"></span>        	
+        </td>
 		</div>			
 		<div class="col-sm-1">
 			<%= c.product_boxing.product.name%>
@@ -10,7 +12,7 @@
 		<div class="col-sm-1">
 			<span class="total_price_<%=c.id%>"></span>
 		</div>		
-		<div class="col-sm-1">				
+		<div class="col-sm-2">			
 		<%= select_tag  'quantity_'+c.id.to_s, options_for_select( (1..50).step(1).to_a, c.quantity.to_s), class: "form-control" %>	
 		</div>				
 	</div>	
@@ -19,23 +21,52 @@
 <span class="total_price"></span>
 
 <script>
+
 <%@carts.each do |c| %>
 	var pricing_<%=c.id %> =  []
 	<%c.product_boxing.product_pricings.order('quantity desc').each do |p| %>
 		pricing_<%=c.id %>.push({ price: <%= p.price.to_i %>, quantity: <%= p.quantity %>  })
 	<%end%>
-	countTotalPrice($('#quantity_<%=c.id %>').val(), pricing_<%=c.id %>, <%=c.id %>)
-	$('#quantity_<%=c.id %>').change(function(){
-	    countTotalPrice($('#quantity_<%=c.id %>').val(), pricing_<%=c.id %>, <%=c.id %>)
+	updateQuantity($('#quantity_<%=c.id %>').val(), pricing_<%=c.id %>, <%=c.id %>)
+	$('#quantity_<%=c.id %>').change(function(){		
+	    updateQuantity($('#quantity_<%=c.id %>').val(), pricing_<%=c.id %>, <%=c.id %>)
 	});	
 <%end%>
-function countTotalPrice(q, pricing, id){	
+
+function updateQuantity(quantity, pricing, id){	
+	var request = $.ajax({
+		url: "/carts/updateCart",
+		type: "POST",
+		data: { id: id, quantity: quantity},
+		dataType: "json"
+	});
+	request.done(function( message ) {
+	    showCarts();
+	});
+	request.fail(function( jqXHR, textStatus ) {
+	});		
 	$.each(pricing, function( index, value ) {
-		if(q >= value.quantity)	
+		if(quantity >= value.quantity)	
 		{
-			$('.total_price_'+id).html(q*value.price)
+			$('.total_price_'+id).html(quantity*value.price)
 			 return false;
 		}	
 	});		
 }
+
+function destroyCart(id){
+	var request = $.ajax({
+		url: "/carts/"+id.toString(),
+		type: "DELETE",
+		data: {},
+		dataType: "json"
+	});
+	request.done(function( message ) {
+	    showCarts();
+	    $(".cart_"+id.toString()).remove();
+	});
+	request.fail(function( jqXHR, textStatus ) {
+	});		
+}
+
 </script>
