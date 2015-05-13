@@ -6,13 +6,36 @@
 		</div>			
 		<div class="col-sm-1">
 			<%= c.product_boxing.product.name%>
-		</div>	
+		</div>
 		<div class="col-sm-1">
-			<%= c.quantity%>			
+			<span class="total_price_<%=c.id%>"></span>
 		</div>		
-		<div class="col-sm-1">
-			<%= c.product_boxing.product_pricings.first.price*c.quantity%>			
-		</div>					
+		<div class="col-sm-1">				
+		<%= select_tag  'quantity_'+c.id.to_s, options_for_select( (1..50).step(1).to_a, c.quantity.to_s), class: "form-control" %>	
+		</div>				
 	</div>	
 	<%end%>
 </div>
+<span class="total_price"></span>
+
+<script>
+<%@carts.each do |c| %>
+	var pricing_<%=c.id %> =  []
+	<%c.product_boxing.product_pricings.order('quantity desc').each do |p| %>
+		pricing_<%=c.id %>.push({ price: <%= p.price.to_i %>, quantity: <%= p.quantity %>  })
+	<%end%>
+	countTotalPrice($('#quantity_<%=c.id %>').val(), pricing_<%=c.id %>, <%=c.id %>)
+	$('#quantity_<%=c.id %>').change(function(){
+	    countTotalPrice($('#quantity_<%=c.id %>').val(), pricing_<%=c.id %>, <%=c.id %>)
+	});	
+<%end%>
+function countTotalPrice(q, pricing, id){	
+	$.each(pricing, function( index, value ) {
+		if(q >= value.quantity)	
+		{
+			$('.total_price_'+id).html(q*value.price)
+			 return false;
+		}	
+	});		
+}
+</script>

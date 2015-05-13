@@ -1,6 +1,4 @@
 <%= form_for(@product, html: {class: "form-horizontal", role: "form"}) do |f| %>
-
-
 	<div class="form-group">
 		<label class="col-sm-offset-1 col-sm-2 control-label">水果名稱</label>
 		<div class="col-sm-6">
@@ -18,12 +16,10 @@
 		<div class="col-sm-2">
 			<%= f.number_field :inventory, placeholder: '水果庫存量', class: "form-control" %>
 		</div>
-		<div class="col-sm-1">
-			<%= f.select :unit, options_for_select(unitOptions, @product.unit), {prompt: '學年'}, class: "form-control" %>		
+		<div class="col-sm-2">
+			<%= f.select :unit, options_for_select(unitOptions, @product.unit), {prompt: '請選擇單位'}, class: "form-control" %>		
 		</div>			
 	</div>
-
-
 <%= f.fields_for :product_boxings do |g| %>		 
 	<div class="form-group">
 		<label class="col-sm-offset-1 col-sm-2 control-label">每箱</label>

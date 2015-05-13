@@ -36,14 +36,20 @@ class CartsController < ApplicationController
   
   def showCart
     carts = Array.new
+    price = 0
     current_user.carts.each do |c|
+      c.product_boxing.product_pricings.order('quantity desc').each do |p|
+        if c.quantity >= p.quantity 
+          price = c.quantity*p.price
+          break  
+        end  
+      end
       carts << 
       {
         name: c.product_boxing.product.name,
         quantity: c.quantity, 
-        price: c.quantity*c.product_boxing.product_pricings.first.price
-      }     
-      
+        price: price.to_i
+      }       
     end
     render json: carts.to_json    
   end
@@ -51,7 +57,7 @@ class CartsController < ApplicationController
   
   def destroy
     @cart.destroy
-    redirect_to controller: :carts, action: :checkout
+    render json: {alert_class: 'success', message: '成功刪除'} 
   end
   
   private
