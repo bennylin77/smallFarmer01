@@ -23,6 +23,13 @@
         <td><%= product.delete_c %></td>
         <td><%= product.available_c %></td>
         <td><%= product.company %></td>
+        <td>
+        	<%if product.available_c%>
+        		<%= link_to '下架', controller: 'products', action: 'available', id: product %>
+        	<%else%>
+        		<%= link_to '上架', controller: 'products', action: 'available', id: product  %>
+        	<%end%>
+        </td>        
         <td><%= link_to 'Show', product %></td>
         <td><%= link_to 'Edit', edit_product_path(product) %></td>
         <td><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %></td>

@@ -122,7 +122,6 @@ ActiveRecord::Schema.define(version: 20150509055232) do
 
   create_table "product_boxings", force: true do |t|
     t.integer  "quantity"
-    t.integer  "unit"
     t.integer  "product_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -156,6 +155,7 @@ ActiveRecord::Schema.define(version: 20150509055232) do
     t.string   "name"
     t.text     "description"
     t.integer  "inventory"
+    t.integer  "unit"
     t.boolean  "delete_c"
     t.boolean  "available_c"
     t.integer  "company_id"

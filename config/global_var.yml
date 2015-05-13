@@ -1,8 +1,9 @@
 defaults: &defaults
   COUPON_SIGN_UP: 0
   COUPON_CHECK_OUT: 1
-
-    
+  
+  UNIT_CATTY: 0
+  UNIT_KG: 1
     
 development:
   <<: *defaults

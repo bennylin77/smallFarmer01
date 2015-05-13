@@ -3,7 +3,7 @@ class ProductsController < ApplicationController
   before_filter :authenticate_user!, except: [:show] 
   
   before_action only: [:edit, :update, :destroy, :productImagesUpload, :productImagesDelete] { |c| c.ProductCheckUser(params[:id])}    
-  before_action :set_product, only: [:show, :edit, :update, :destroy, :productImagesUpload, :productImagesDelete]
+  before_action :set_product, only: [:show, :edit, :update, :destroy, :productImagesUpload, :productImagesDelete, :available]
 
   def index
     @products = current_user.companies.first.products
@@ -18,7 +18,8 @@ class ProductsController < ApplicationController
     product.company = current_user.companies.first
     product.save!
     product.product_boxings.create 
-    product.product_boxings.first.product_pricings.create   
+    product.product_boxings.first.product_pricings.create(quantity: 1)   
+    product.product_boxings.first.product_pricings.create()       
     redirect_to edit_product_path(product)
   end
 
@@ -30,7 +31,7 @@ class ProductsController < ApplicationController
       flash[:notice] ='成功更改水果資料'
       redirect_to products_url
     else
-      redirect_to edit_product_path
+      render 'edit'
     end   
   end
 
@@ -60,12 +61,25 @@ class ProductsController < ApplicationController
     end    
   end 
 
+  def available
+    if @product.available_c
+      @product.available_c = false
+      @product.save!    
+    else  
+      if @product.update(available_c: true)
+        flash[:success] ='成功上架水果'        
+        redirect_to products_url
+      else
+        render 'edit'
+      end        
+    end 
+  end
   private
     def set_product
       @product = Product.find(params[:id])
     end
 
     def product_params
-      params.require(:product).permit(:name, :description, :inventory, product_boxings_attributes:[:id, :quantity, :unit, product_pricings_attributes:[:id, :quantity, :price]] )
+      params.require(:product).permit(:name, :description, :inventory, :unit, product_boxings_attributes:[:id, :quantity, product_pricings_attributes:[:id, :quantity, :price]] )
     end
 end

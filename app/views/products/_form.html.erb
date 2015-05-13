@@ -1,41 +1,76 @@
 <%= form_for(@product, html: {class: "form-horizontal", role: "form"}) do |f| %>
 
-  <div class="field">
-    名稱
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-	水果介紹
-    <%= f.text_area :description %>
-  </div>
-  <div class="field">
-    水果庫存量
-    <%= f.number_field :inventory %>
-  </div>
-  
+
+	<div class="form-group">
+		<label class="col-sm-offset-1 col-sm-2 control-label">水果名稱</label>
+		<div class="col-sm-6">
+			<%= f.text_field :name, placeholder: '水果名稱', class: "form-control" %>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-offset-1 col-sm-2 control-label">水果介紹</label>
+		<div class="col-sm-6">
+			<%= f.text_area :description, placeholder: '水果介紹', class: "form-control" %>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-offset-1 col-sm-2 control-label">水果庫存量</label>
+		<div class="col-sm-2">
+			<%= f.number_field :inventory, placeholder: '水果庫存量', class: "form-control" %>
+		</div>
+		<div class="col-sm-1">
+			<%= f.select :unit, options_for_select(unitOptions, @product.unit), {prompt: '學年'}, class: "form-control" %>		
+		</div>			
+	</div>
+
+
 <%= f.fields_for :product_boxings do |g| %>		 
 	<div class="form-group">
-		<label class="col-sm-2 control-label"></label>
+		<label class="col-sm-offset-1 col-sm-2 control-label">一箱</label>
 		<div class="col-sm-2">
-			數量<%= g.text_field :quantity, class: "form-control" %>		
-			單位<%= g.text_field :unit, class: "form-control" %>	
-		</div>					
+			<%= g.number_field :quantity, placeholder: '數量', class: "form-control" %>				
+		</div>
+		<div class="col-sm-2">		
+			<label class="boxing_unit control-label"><%unless @product.unit.blank?%><%= Hash[unitOptions].rassoc(@product.unit).first%><%else%>--<%end%></label>				
+		</div>	
 	</div>					
 	<%= g.fields_for :product_pricings do |h| %>	
+	<%if h.object.quantity%>
+	<div class="form-group">
+		<label class="col-sm-offset-1 col-sm-2 control-label">售價</label>
+		<div class="col-sm-2">
+		<%= h.number_field :price, class: "form-control" %>元	
+		</div>			
+				
+	</div>	
+	<%else%>
 	<div class="form-group">
 		<label class="col-sm-2 control-label"></label>
 		<div class="col-sm-2">
-			箱數<%= h.text_field :quantity, class: "form-control" %>		
-			價錢<%= h.text_field :price, class: "form-control" %>	
+			<%= h.number_field :quantity, class: "form-control" %>箱以上	
+			<%= h.number_field :price, class: "form-control" %>元	
 		</div>					
-	</div>				
+	</div>			
+	<%end%>	
 	<%end%>	 
 		
 <%end%>		
-
-
 <input id="product_image" name="product_image[]" type="file" multiple class="file-loading">
+
+
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
 <script>
+<% @product.errors.messages.each do |index, value| %>
+	<%unless value.blank? %>
+		addAlert('error', '<%=value.first%>')
+	<%end%>	
+<% end %>
+
 var $input = $("#product_image");
     $input.fileinput({
 		showCaption: false,    
@@ -62,16 +97,10 @@ var $input = $("#product_image");
 			<%end%>		    
 		]		        
     });
-</script>
 
+$('#product_unit').change(function(){
+    $('.boxing_unit').html($('#product_unit option:selected').html())
 
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+});	
 
-<script>
-<% @product.errors.full_messages.each do |message| %>
-	addAlert('error', '<%=message%>')
-<% end %>
 </script>
