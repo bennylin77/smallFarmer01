@@ -6,11 +6,17 @@
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="col-sm-offset-1 col-sm-2 control-label">水果介紹</label>
+		<label class="col-sm-offset-1 col-sm-2 control-label">農夫的話(水果介紹)</label>
 		<div class="col-sm-6">
-			<%= f.text_area :description, placeholder: '水果介紹', class: "form-control" %>
+			<%= f.text_area :description, placeholder: '農夫的話(水果介紹)', class: "form-control" %>
 		</div>
 	</div>
+	<div class="form-group">
+		<label class="col-sm-offset-1 col-sm-2 control-label">保存方式</label>
+		<div class="col-sm-6">
+			<%= f.text_area :preservation, placeholder: '保存方式', class: "form-control" %>
+		</div>
+	</div>	
 	<div class="form-group">
 		<label class="col-sm-offset-1 col-sm-2 control-label">水果庫存量</label>
 		<div class="col-sm-2">
@@ -39,7 +45,10 @@
 			</div>	
 			<div class="col-sm-1">		
 				<label class="control-label">箱</label>				
-			</div>							
+			</div>	
+			<div class="col-sm-1">		
+				<label class="control-label">每箱賣</label>				
+			</div>									
 			<div class="col-sm-2">
 			<%= h.number_field :price, class: "form-control" %>	
 			</div>			
@@ -54,8 +63,11 @@
 				<%= h.number_field :quantity, class: "form-control" %>
 			</div>	
 			<div class="col-sm-1">		
-				<label class="control-label">箱以上</label>				
+				<label class="control-label">箱以上(含)</label>				
 			</div>	
+			<div class="col-sm-1">		
+				<label class="control-label">每箱賣</label>				
+			</div>				
 			<div class="col-sm-2">
 				<%= h.number_field :price, class: "form-control" %>
 			</div>		

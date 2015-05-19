@@ -9,7 +9,6 @@ class CreateCompanies < ActiveRecord::Migration
       t.boolean :activate_c, default: true, null: false        
 
       t.string   :phone_no
-
       t.string   :postal
       t.string   :county
       t.string   :district                        

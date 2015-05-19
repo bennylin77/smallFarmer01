@@ -1,4 +1,15 @@
-<p id="notice"><%= notice %></p>
+
+
+<p>
+  <strong>農夫大頭:</strong>
+ <%= image_tag @product.company.user.avatar.url, class: 'img-circle' %>
+</p>
+
+<p>
+  <strong>農場描述:</strong>
+  <%= @product.company.description %>
+</p>
+
 
 <p>
   <strong>Name:</strong>
@@ -10,37 +21,30 @@
   <%= @product.description %>
 </p>
 
-<p>
-  <strong>Inventory:</strong>
-  <%= @product.inventory %>
-</p>
-
-<p>
-  <strong>Delete c:</strong>
-  <%= @product.delete_c %>
-</p>
-
-<p>
-  <strong>Available c:</strong>
-  <%= @product.available_c %>
-</p>
-
-<p>
-  <strong>Company:</strong>
-  <%= @product.company %>
-</p>
+基本規格
+<ul>
+<li>產地 <%= @product.company.county%><%= @product.company.district%></li>
+<li>保存方式 <%= @product.preservation%></li>
+</ul>
 <%@product.product_boxings.first.product_pricings.each do |p| %>
-	<%if p.quantity == 1%>
-		每箱 <%= p.price.to_i  %>元
+	<%if p.quantity == 1%>	
+		<%= @product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(@product.unit).first %>/箱   <%= p.price.to_i  %>元
 	<%else%>
-		<%= p.quantity %>箱以上 <%= p.price.to_i%>元		
+		<%= p.quantity %>箱以上 每箱<%= p.price.to_i%>元		
 	<%end%>
 	<br>
 <%end%>
+＊企業團體優惠，請聯絡客服人員
 </p>
+
+
 <p>
 
-<span class="total_price"></span>元
+<span class="total_price"></span>元<br>
+您選擇<span class="total_box"></span>箱，共<span class="total_price"></span>元，您所獲得的回饋金為<span class="total_coupon"></span>元，金流去向如下
+
+
+
 
 <div class="container" >
 	<div class="form-group">
@@ -87,7 +91,7 @@ function countTotalPrice(q){
 	$.each(pricing, function( index, value ) {
 		if(q >= value.quantity)	
 		{
-			$('.total_price').html(q*value.price)
+			$('.total_price').html(q*value.price); $('.total_box').html(q); $('.total_coupon').html(q*value.price*0.04)			
 			 return false;
 		}	
 	});		

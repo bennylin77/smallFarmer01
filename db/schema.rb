@@ -159,6 +159,9 @@ ActiveRecord::Schema.define(version: 20150509055232) do
     t.boolean  "delete_c"
     t.boolean  "available_c"
     t.integer  "company_id"
+    t.text     "preservation"
+    t.integer  "sweet_degree"
+    t.boolean  "GMP_c"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

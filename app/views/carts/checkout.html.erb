@@ -7,28 +7,55 @@
         </td>
 		</div>			
 		<div class="col-sm-1">
-			<%= c.product_boxing.product.name%>
+			<%=link_to c.product_boxing.product.name,  product_path(c)%>
 		</div>
+		<div class="col-sm-2">
+			<% product = c.product_boxing.product%>
+			<% product.product_boxings.first.product_pricings.each do |pp| %>
+				<%if pp.quantity == 1%>	
+					<%= product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %>/箱   <%= pp.price.to_i  %>元
+				<%else%>
+					<%= pp.quantity %>箱以上 每箱<%= pp.price.to_i%>元		
+				<%end%>
+				<br>
+			<%end%>
+		</div>		
 		<div class="col-sm-1">
-			<span class="total_price_<%=c.id%>"></span>
+			<span class="total_price_<%=c.id%>"></span>元
 		</div>		
 		<div class="col-sm-2">			
-		<%= select_tag  'quantity_'+c.id.to_s, options_for_select( (1..50).step(1).to_a, c.quantity.to_s), class: "form-control" %>	
+		<%= select_tag  'quantity_'+c.id.to_s, options_for_select( (1..50).step(1).to_a, c.quantity.to_s), class: "form-control" %>
+		</div>		
+		<div class="col-sm-1">			
+		箱
 		</div>				
 	</div>	
 	<%end%>
 </div>
-<span class="total_price"></span>
+共<span class="total_price"></span>元
+
+
+
+
+
+
+
+
+
+
+
+
 
 <script>
-
+var total_price = 0
 <%@carts.each do |c| %>
 	var pricing_<%=c.id %> =  []
 	<%c.product_boxing.product_pricings.order('quantity desc').each do |p| %>
 		pricing_<%=c.id %>.push({ price: <%= p.price.to_i %>, quantity: <%= p.quantity %>  })
 	<%end%>
-	updateQuantity($('#quantity_<%=c.id %>').val(), pricing_<%=c.id %>, <%=c.id %>)
-	$('#quantity_<%=c.id %>').change(function(){		
+	$('.total_price_<%=c.id %>').data( "price", 0 );		
+	updateQuantity($('#quantity_<%=c.id %>').val(), pricing_<%=c.id %>, <%=c.id %>)		
+	$('#quantity_<%=c.id %>').change(function(){			
 	    updateQuantity($('#quantity_<%=c.id %>').val(), pricing_<%=c.id %>, <%=c.id %>)
 	});	
 <%end%>
@@ -48,12 +75,14 @@ function updateQuantity(quantity, pricing, id){
 	$.each(pricing, function( index, value ) {
 		if(quantity >= value.quantity)	
 		{
-			$('.total_price_'+id).html(quantity*value.price)
-			 return false;
+			$('.total_price_'+id).html(quantity*value.price);
+			total_price =  total_price - $('.total_price_'+id ).data( "price") + quantity*value.price
+			$('.total_price').html(total_price)
+			$('.total_price_'+id ).data( "price", quantity*value.price );
+			return false;
 		}	
 	});		
 }
-
 function destroyCart(id){
 	var request = $.ajax({
 		url: "/carts/"+id.toString(),
@@ -68,5 +97,4 @@ function destroyCart(id){
 	request.fail(function( jqXHR, textStatus ) {
 	});		
 }
-
 </script>
