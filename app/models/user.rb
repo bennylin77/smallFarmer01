@@ -4,9 +4,11 @@ class User < ActiveRecord::Base
 
   after_create :setUserAddress
 
-  has_many :companies
-  has_many :addresses
+  has_many :companies, dependent: :destroy  
+  has_many :addresses, dependent: :destroy  
   has_many :coupons
+  has_many :orders  
+  
   has_many :carts, dependent: :destroy  
   accepts_nested_attributes_for :addresses         
   has_attached_file :avatar, 
