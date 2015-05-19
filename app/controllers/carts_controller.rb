@@ -3,6 +3,7 @@ class CartsController < ApplicationController
 
   def checkout   
     @carts = current_user.carts
+    @order = Order.new
   end
   
   def addCart
