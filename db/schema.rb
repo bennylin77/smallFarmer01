@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150509055232) do
+ActiveRecord::Schema.define(version: 20150519160127) do
 
   create_table "addresses", force: true do |t|
     t.integer  "user_id"
@@ -119,6 +119,30 @@ ActiveRecord::Schema.define(version: 20150509055232) do
 
   add_index "order_coupon_lists", ["coupon_id"], name: "index_order_coupon_lists_on_coupon_id", using: :btree
   add_index "order_coupon_lists", ["order_id"], name: "index_order_coupon_lists_on_order_id", using: :btree
+
+  create_table "orders", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "product_boxing_id"
+    t.integer  "invoice_id"
+    t.string   "receiver_last_name"
+    t.string   "receiver_first_name"
+    t.string   "receiver_phone_no"
+    t.string   "receiver_postal"
+    t.string   "receiver_county"
+    t.string   "receiver_district"
+    t.string   "receiver_address"
+    t.string   "receiver_country"
+    t.boolean  "agree_c"
+    t.boolean  "cancel_c"
+    t.integer  "review_score"
+    t.string   "review_feedback"
+    t.datetime "review_at"
+    t.float    "price",               limit: 24
+    t.integer  "quantity"
+    t.integer  "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "product_boxings", force: true do |t|
     t.integer  "quantity"

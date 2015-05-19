@@ -74,7 +74,7 @@ class User < ActiveRecord::Base
            
 private
   def setUserAddress
-    addresses.create()
+    addresses.create(last_name: self.last_name, first_name: self.first_name)
     companies.create(activate_c: false)
   end         
 end

@@ -83,7 +83,13 @@ var total_price = 0
 $('#coupons_using').change(function(){		
 	if( $.isNumeric( $(this).val()) )
 	{
-		( $(this).val() >= 0 && $(this).val() <= <%=coupons %> )? $('.sum').html(total_price-$('#coupons_using').val()) : addAlert('error', '填入回饋金超出持有範圍')
+		if( $(this).val() >= 0 && $(this).val() <= <%=coupons %> )
+			$('.sum').html(total_price-$('#coupons_using').val())
+		else
+		{
+			addAlert('error', '填入回饋金超出持有範圍')
+			$(this).val(0)	
+		}
 	}
 	else
 	{
