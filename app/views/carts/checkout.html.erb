@@ -19,23 +19,40 @@
 				<%end%>
 				<br>
 			<%end%>
-		</div>		
-		<div class="col-sm-1">
-			<span class="total_price_<%=c.id%>"></span>元
-		</div>		
+		</div>
 		<div class="col-sm-2">			
 		<%= select_tag  'quantity_'+c.id.to_s, options_for_select( (1..50).step(1).to_a, c.quantity.to_s), class: "form-control" %>
 		</div>		
 		<div class="col-sm-1">			
 		箱
 		</div>				
+		<div class="col-sm-1">
+			<span class="total_price_<%=c.id%>"></span>元
+		</div>					
 	</div>	
 	<%end%>
+	<div class="row">
+		<div class="col-sm-offset-4 col-sm-2">小計</div>				
+		<div class="col-sm-2">		
+		<span class="total_price"></span>	
+		</div>	
+		<div class="col-sm-2">元	</div>			
+	</div>	
+	<div class="row">
+		<div class="col-sm-offset-4 col-sm-2">使用回饋金</div>		
+		<div class="col-sm-2">		
+		<%= text_field_tag :coupons_using, 0, class: "form-control" %>
+		</div>	
+		<div class="col-sm-2">元(餘額: <%=coupons %>元)</div>		
+	</div>		
+	<div class="row">
+		<div class="col-sm-offset-4 col-sm-2">總計</div>				
+		<div class="col-sm-2">		
+		<span class="sum"></span>	
+		</div>	
+		<div class="col-sm-2">元	</div>
+	</div>		
 </div>
-共<span class="total_price"></span>元
-
-
-
 
 
 
@@ -59,7 +76,17 @@ var total_price = 0
 	    updateQuantity($('#quantity_<%=c.id %>').val(), pricing_<%=c.id %>, <%=c.id %>)
 	});	
 <%end%>
-
+$('#coupons_using').change(function(){		
+	if( $.isNumeric( $(this).val()) )
+	{
+		( $(this).val() >= 0 && $(this).val() <= <%=coupons %> )? $('.sum').html(total_price-$('#coupons_using').val()) : addAlert('error', '填入回饋金超出持有範圍')
+	}
+	else
+	{
+		addAlert('error', '回饋金應填入數字')	
+		$(this).val(0)
+	}	
+});	
 function updateQuantity(quantity, pricing, id){	
 	var request = $.ajax({
 		url: "/carts/updateCart",
@@ -78,6 +105,7 @@ function updateQuantity(quantity, pricing, id){
 			$('.total_price_'+id).html(quantity*value.price);
 			total_price =  total_price - $('.total_price_'+id ).data( "price") + quantity*value.price
 			$('.total_price').html(total_price)
+			$('.sum').html(total_price-$('#coupons_using').val())
 			$('.total_price_'+id ).data( "price", quantity*value.price );
 			return false;
 		}	
@@ -92,6 +120,9 @@ function destroyCart(id){
 	});
 	request.done(function( message ) {
 	    showCarts();
+		total_price =  total_price - $('.total_price_'+id.toString() ).data( "price")
+		$('.total_price').html(total_price)	   
+		$('.sum').html(total_price-$('#coupons_using').val())		 
 	    $(".cart_"+id.toString()).remove();
 	});
 	request.fail(function( jqXHR, textStatus ) {
