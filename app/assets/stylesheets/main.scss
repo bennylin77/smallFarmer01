@@ -48,6 +48,13 @@ input.rounded:focus {
 .navbar-brand{
   color: #f1f1f1 !important;
 }
+.mobile_menu_label{
+  display: block;
+  position: absolute; 
+  font-size: 20px; 
+  top: 16px;
+  left: 47px;  
+}
 .badge {
   display: block;
   position: absolute;
@@ -96,7 +103,15 @@ input.rounded:focus {
   color: #fff;
   background-color: #428bca;
 }
-
+/*======================================= main =======================================*/
+.main_backend {
+  padding: 90px 20px;
+}
+@media (min-width: 768px) {
+  .main_backend {
+    padding: 90px 40px;    
+  }
+}
 
 /*======================================= Carousel =======================================*/
 .carousel .item 
