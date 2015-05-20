@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-
+  layout "companies", only: [:index, :edit]  
   before_filter :authenticate_user!, except: [:show] 
   
   before_action only: [:edit, :update, :destroy, :productImagesUpload, :productImagesDelete] { |c| c.ProductCheckUser(params[:id])}    

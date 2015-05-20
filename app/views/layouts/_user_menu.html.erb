@@ -2,9 +2,9 @@
 	<div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-			<li <%= active( controller: 'orders', action: 'userIndex' )%> ><%= link_to "訂單資訊"%></li>
-			<li <%= active( controller: 'orders', action: 'userIndex' )%>><%= link_to "回饋金資訊"%></li>
-			<li <%= active( controller: 'users', action: 'edit', id: current_user)%>><%= link_to "更改個人資料", edit_user_path(current_user) %></li>			
+			<li <%= active( controller: 'orders', action: 'userIndex' )%> ><%= link_to "我的訂單"%></li>
+			<li <%= active( controller: 'orders', action: 'userIndex' )%>><%= link_to "我的回饋金"%></li>
+			<li <%= active( controller: 'users', action: 'edit', id: current_user)%>><%= link_to "我的個人資訊", edit_user_path(current_user) %></li>			
 			<li <%= active( controller: 'registrations', action: 'edit')%>><%= link_to "更改密碼", edit_user_registration_path %></li>
           </ul>
         </div>
