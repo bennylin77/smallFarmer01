@@ -1,4 +1,15 @@
-
-<br>
-<%= link_to "更改個人資料", edit_user_path(current_user) %>
-<%= link_to "更改密碼", edit_user_registration_path %>
+<div class="container-fluid">
+	<div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+			<li <%= active( controller: 'orders', action: 'userIndex' )%> ><%= link_to "訂單資訊"%></li>
+			<li <%= active( controller: 'orders', action: 'userIndex' )%>><%= link_to "回饋金資訊"%></li>
+			<li <%= active( controller: 'users', action: 'edit', id: current_user)%>><%= link_to "更改個人資料", edit_user_path(current_user) %></li>			
+			<li <%= active( controller: 'registrations', action: 'edit')%>><%= link_to "更改密碼", edit_user_registration_path %></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
+			<%= yield %>
+    	</div>
+	</div>
+</div>

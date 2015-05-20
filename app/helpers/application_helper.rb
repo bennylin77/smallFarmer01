@@ -14,4 +14,10 @@ module ApplicationHelper
     end 
     quantity == 0 ? "" : quantity   
   end  
+  
+  def active(hash={})     
+    if current_page?(hash)
+      "class='active'".html_safe     
+    end
+  end  
 end

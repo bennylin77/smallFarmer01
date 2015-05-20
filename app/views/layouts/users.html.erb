@@ -3,7 +3,7 @@
 <%=render "layouts/header" %>
 <body>
 <%=render "layouts/menu" %>
-<%= yield %>
+<%=render "layouts/user_menu" %>
   <script>  	
 	<% flash.each do |type, message| %>
 		addAlert('<%=type%>', '<%=message%>')

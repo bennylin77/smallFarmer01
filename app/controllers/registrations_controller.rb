@@ -1,4 +1,6 @@
 class RegistrationsController < Devise::RegistrationsController
+  layout "users", only: [:edit]  
+  
   def create
     if verify_recaptcha
       super

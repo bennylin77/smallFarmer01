@@ -1,41 +1,30 @@
-<%= form_for(@user, html: {class: "form-horizontal", role: "form"}) do |f| %>
-
-
-
+<%= form_for @user, html: {class: "form-horizontal", role: "form"}  do |f| %>
  	<div class="form-group">
 		<label class="col-sm-2 control-label"></label>
 		<div class="col-sm-3">
 			<%= f.file_field :avatar, class: "form-control",  accept: "image/*" %>			
 		</div>
 	</div>	
-	
-<script>	
-$("#user_avatar").fileinput({showCaption: false,
-							 showRemove: false,
-							 allowedFileTypes: ["image"],
-							 previewFileType: "image",
-							 browseClass: "btn btn-success",
-							 browseLabel: " 選取圖片",
-							 browseIcon: '<i class="glyphicon glyphicon-picture"></i>',
-							 removeClass: "btn btn-danger",
-							 removeLabel: "刪除",
-							 removeIcon: '<i class="glyphicon glyphicon-trash"></i>',
-							 uploadClass: "btn btn-info",
-							 uploadLabel: "上傳",
-							 uploadIcon: '<i class="glyphicon glyphicon-upload"></i>',
-						     initialPreview: [
-						        '<%= image_tag current_user.avatar.url,class: 'file-preview-image' %>'
-						     ],
-						     overwriteInitial: true							 
-						    });	
-</script>
-
-
-
-
-
-
-
+	<script>	
+	$("#user_avatar").fileinput({showCaption: false,
+								 showRemove: false,
+								 allowedFileTypes: ["image"],
+								 previewFileType: "image",
+								 browseClass: "btn btn-success",
+								 browseLabel: " 選取圖片",
+								 browseIcon: '<i class="glyphicon glyphicon-picture"></i>',
+								 removeClass: "btn btn-danger",
+								 removeLabel: "刪除",
+								 removeIcon: '<i class="glyphicon glyphicon-trash"></i>',
+								 uploadClass: "btn btn-info",
+								 uploadLabel: "上傳",
+								 uploadIcon: '<i class="glyphicon glyphicon-upload"></i>',
+							     initialPreview: [
+							        '<%= image_tag current_user.avatar.url,class: 'file-preview-image' %>'
+							     ],
+							     overwriteInitial: true							 
+							    });	
+	</script>
  	<div class="form-group">
 		<label class="col-sm-2 control-label">Email</label>
 		<div class="col-sm-6"><%= @user.email %></div>

@@ -1,2 +1,17 @@
 <%= link_to "農場資料", edit_company_path(current_user.companies.first) %>					
 <%= link_to "上/下架水果", products_url %>
+
+<div class="container-fluid">
+	<div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+			<li <%= active( controller: 'orders', action: 'userIndex' )%> ><%= link_to "訂單管理"%></li>
+			<li <%= active( controller: 'orders', action: 'userIndex' )%>><%= link_to "農場資料"%></li>
+			<li <%= active( controller: 'users', action: 'edit', id: current_user)%>><%= link_to "上/下架水果", products_url %></li>			
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
+			<%= yield %>
+    	</div>
+	</div>
+</div>
