@@ -4,6 +4,9 @@ defaults: &defaults
   
   UNIT_CATTY: 0
   UNIT_KG: 1
+  
+  PAYMENT_METHOD_CREDIT: 0
+  PAYMENT_METHOD_COD: 1 
     
 development:
   <<: *defaults

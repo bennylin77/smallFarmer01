@@ -1,4 +1,5 @@
-<div class="container"> 
+<div class="container">
+<%= form_for current_user, url: { controller: 'carts', action: "confirmCheckout"}, method: :post , html: {class: "form-horizontal", role: "form", id: "first-form"} do |u| %>		 
 	<%@carts.each do |c| %>
 	<div class="row cart_<%=c.id%>">
 		<div class="col-sm-1">
@@ -31,6 +32,7 @@
 		</div>					
 	</div>	
 	<%end%>
+<hr>	
 	<div class="row">
 		<div class="col-sm-offset-4 col-sm-2">小計</div>				
 		<div class="col-sm-2">		
@@ -52,10 +54,111 @@
 		</div>	
 		<div class="col-sm-2">元	</div>
 	</div>	
-	
-	
-	
-		
+<hr>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">付款方式</label>
+		<div class="form-inline col-sm-6">
+		</div>
+	</div>	
+	<div class="form-group">
+		<label class="col-sm-2 control-label">	
+			 <label class="radio-inline">
+			 <%= radio_button_tag 'payment_methods', GLOBAL_VAR['PAYMENT_METHOD_CREDIT'] %>線上刷卡
+			 </label>
+		</label>
+		<div class="form-inline col-sm-6">
+	  		<%=image_tag 'allPay.png', class: 'img-responsive', size: '80x80'%>	
+		</div>
+	</div>	
+	<div class="form-group">
+		<label class="col-sm-2 control-label">	
+			 <label class="radio-inline">
+			 <%= radio_button_tag 'payment_methods', GLOBAL_VAR['PAYMENT_METHOD_COD'] %>貨到付款
+			 </label>
+		</label>
+		<div class="form-inline col-sm-6">
+			<%=image_tag 'cat.png', class: 'img-responsive', size: '80x80'%> 		
+		</div>
+	</div>	
+<hr>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">訂購人資訊</label>
+		<div class="form-inline col-sm-6">
+		</div>
+	</div>	
+	<%= u.fields_for :addresses do |a| %>
+	 	<div class="form-group">
+			<label class="col-sm-2 control-label">姓名</label>
+			<div class="form-inline col-sm-8">
+				<%= a.text_field :last_name, class: "form-control", placeholder: '姓' %>
+				<%= a.text_field :first_name, class: "form-control", placeholder: '名' %>			
+			</div>
+		</div>
+		<div class="form-group">
+		<label class="col-sm-2 control-label">行動電話</label>
+		<div class="col-sm-3">
+			<%= hidden_field_tag :phone_no_full%>				
+			<%if current_user.addresses.first.phone_no_confirmed_at.blank?%>
+				<%= a.text_field :phone_no, class: "form-control" %>
+				<span id="valid-msg" class="hide">✓</span>
+				<span id="error-msg" class="hide">格式錯誤</span>			
+			<%else%>
+				<%= a.text_field :phone_no, class: "form-control", readonly: true %>			
+			<%end%>	
+		</div>		
+		</div>		
+		<div class="form-group">
+			<label class="col-sm-2 control-label">聯絡地址</label>
+			<div class="form-inline col-sm-6">
+				<span id="twzipcode"></span>
+				<%= a.text_field :address, class: "form-control" %>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">聯絡信箱</label>
+			<div class="form-inline col-sm-6">
+				<%= current_user.email %>
+			</div>
+		</div>		  
+	<%end%>
+<hr>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">收件人資訊</label>
+		<div class="form-inline col-sm-6">
+		</div>
+	</div>		
+	<%= u.fields_for :orders do |o| %>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">姓名</label>
+			<div class="form-inline col-sm-8">
+				<%= o.text_field :receiver_last_name, class: "form-control", placeholder: '姓' %>
+				<%= o.text_field :receiver_first_name, class: "form-control", placeholder: '名' %>			
+			</div>
+		</div>
+		<div class="form-group">
+		<label class="col-sm-2 control-label">聯絡電話</label>
+		<div class="col-sm-3">
+			<%= hidden_field_tag :receiver_phone_no_full%>				
+			<%= o.text_field :receiver_phone_no, class: "form-control" %>
+			<span id="receiver_valid-msg" class="hide">✓</span>
+			<span id="receiver_error-msg" class="hide">格式錯誤</span>			
+		</div>		
+		</div>		
+		<div class="form-group">
+			<label class="col-sm-2 control-label">聯絡地址</label>
+			<div class="form-inline col-sm-6">
+				<span id="twzipcode_receiver"></span>
+				<%= o.text_field :receiver_address, class: "form-control" %>
+			</div>
+		</div>	
+	<%end%>		
+	<div class="form-group">
+		<div class="col-sm-offset-1 col-sm-6">    
+		<%= u.submit '送出',  class: "btn btn-default"  %>
+		</div>
+	</div>
+
+<%end%>		
 </div>
 
 
@@ -138,4 +241,90 @@ function destroyCart(id){
 	request.fail(function( jqXHR, textStatus ) {
 	});		
 }
+
+$('#twzipcode').twzipcode({
+	zipcodeName: 'user[addresses_attributes][0][postal]',
+    countyName: 'user[addresses_attributes][0][county]',
+    districtName: 'user[addresses_attributes][0][district]',
+    zipcodeIntoDistrict: true,
+    css: ['form-control', 'form-control'], 
+    <%unless current_user.addresses.first.county.blank?%>
+	countySel: '<%=current_user.addresses.first.county%>',
+	districtSel: '<%=current_user.addresses.first.district%>'
+	<%end%>    
+});
+$('#twzipcode_receiver').twzipcode({
+	zipcodeName: 'user[orders_attributes][0][receiver_postal]',
+    countyName: 'user[orders_attributes][0][receiver_county]',
+    districtName: 'user[orders_attributes][0][receiver_district]',
+    zipcodeIntoDistrict: true,
+    css: ['form-control', 'form-control'], 
+    <%unless current_user.orders.first.receiver_county.blank?%>
+	countySel: '<%=current_user.orders.first.receiver_county%>',
+	districtSel: '<%=current_user.orders.first.receiver_district%>'
+	<%end%>    
+});
+
+var telInput = $("#user_addresses_attributes_0_phone_no");
+errorMsg = $("#error-msg"),
+validMsg = $("#valid-msg");
+// initialise plugin
+telInput.intlTelInput({
+	autoPlaceholder: true,    
+    defaultCountry: "auto",
+    numberType: "MOBILE", 
+    utilsScript: "<%=asset_path 'utils.js'%>"
+});
+// on blur: validate
+telInput.blur(function() {
+  if ($.trim(telInput.val())) {
+    if (telInput.intlTelInput("isValidNumber") && intlTelInputUtils.numberType.MOBILE == telInput.intlTelInput("getNumberType") ) {
+      validMsg.removeClass("hide");
+    } else {
+      telInput.addClass("error");
+      errorMsg.removeClass("hide");
+      validMsg.addClass("hide");
+    }
+  }
+});
+// on keydown: reset
+telInput.keydown(function() {
+  telInput.removeClass("error");
+  errorMsg.addClass("hide");
+  validMsg.addClass("hide");
+});
+$("form").submit(function() {
+  $("#phone_no_full").val($("#user_addresses_attributes_0_phone_no").intlTelInput("getNumber"));
+});
+
+var receiver_telInput = $("#user_orders_attributes_0_receiver_phone_no");
+receiver_errorMsg = $("#receiver_error-msg"),
+receiver_validMsg = $("#receiver_valid-msg");
+// initialise plugin
+receiver_telInput.intlTelInput({
+	autoPlaceholder: true,    
+    defaultCountry: "auto",
+    utilsScript: "<%=asset_path 'utils.js'%>"
+});
+// on blur: validate
+receiver_telInput.blur(function() {
+  if ($.trim(receiver_telInput.val())) {
+    if (receiver_telInput.intlTelInput("isValidNumber") ) {
+      receiver_validMsg.removeClass("hide");
+    } else {
+      receiver_telInput.addClass("error");
+      receiver_errorMsg.removeClass("hide");
+      receiver_validMsg.addClass("hide");
+    }
+  }
+});
+// on keydown: reset
+receiver_telInput.keydown(function() {
+  receiver_telInput.removeClass("error");
+  receiver_errorMsg.addClass("hide");
+  receiver_validMsg.addClass("hide");
+});
+$("form").submit(function() {
+  $("#receiver_phone_no_full").val($("#user_orders_attributes_0_receiver_phone_no").intlTelInput("getNumber"));
+});
 </script>

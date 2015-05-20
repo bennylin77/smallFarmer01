@@ -3,8 +3,13 @@ class CartsController < ApplicationController
 
   def checkout   
     @carts = current_user.carts
-    @order = Order.new
+    current_user.orders.build()
   end
+  
+  def confirmCheckout   
+
+  end  
+  
   
   def addCart
     cart = current_user.carts.where(product_boxing_id: params[:id]).first        

@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   post   'comments/postSub'
   post   'comments/deleteSub'
   
+  post   'carts/confirmCheckout'  
   get    'carts/checkout'
   post   'carts/addCart'
   post   'carts/updateCart'  
