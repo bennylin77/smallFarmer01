@@ -15,15 +15,25 @@ class OrdersController < ApplicationController
   def confirmCheckout   
     @user = current_user 
     @user.assign_attributes(user_params)  
+    @user.valid?
+
     @user.carts.each do |c|
       logger.info params['quantity_'+c.id.to_s]  
     end
-    logger.info params[:coupons_using]
-    logger.info params[:payment_method]  
-    logger.info params[:agree]  
-    unless @user.valid?
+    if params[:payment_method].blank?  
+      @user.errors.add(:payment_method, "請選擇付款方式")
+    end    
+    unless params[:agree]  
+      @user.errors.add(:agree, "請勾選 小農1號 電子商務約定條款")
+    end
+  
+    
+    if @user.errors.any?
+      @coupon_using = params[:coupons_using]
+      @payment_method = params[:payment_method]
+      @agree = params[:agree]
       render 'checkout'
-    end 
+    end
   end  
   
   private   

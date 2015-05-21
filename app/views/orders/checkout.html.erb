@@ -43,7 +43,7 @@
 	<div class="row">
 		<div class="col-sm-offset-4 col-sm-2">使用回饋金</div>		
 		<div class="col-sm-2">		
-		<%= text_field_tag :coupons_using, 0, class: "form-control" %>
+		<%= text_field_tag :coupons_using, @coupon_using || 0, class: "form-control" %>
 		</div>	
 		<div class="col-sm-2">元(餘額: <%=coupons %>元)</div>		
 	</div>		
@@ -63,7 +63,7 @@
 	<div class="form-group">
 		<label class="col-sm-2 control-label">	
 			 <label class="radio-inline">
-			 <%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_CREDIT'] %>線上刷卡
+			 <%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_CREDIT'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_CREDIT'].to_s %>線上刷卡
 			 </label>
 		</label>
 		<div class="form-inline col-sm-6">
@@ -73,7 +73,7 @@
 	<div class="form-group">
 		<label class="col-sm-2 control-label">	
 			 <label class="radio-inline">
-			 <%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_COD'] %>貨到付款
+			 <%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_COD'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_COD'].to_s %>貨到付款
 			 </label>
 		</label>
 		<div class="form-inline col-sm-6">
@@ -155,8 +155,8 @@
 			<label class="col-sm-2 control-label"></label>
 			<div class="form-inline col-sm-6">
 				<label class="checkbox-inline">
-			 	<%= check_box_tag 'agree', true%>
-				我已詳閱並同意 小農1號 電子商務約定條款			 	
+			 	<%= check_box_tag 'agree', true, @agree == 'true'%>
+				我已詳閱並同意 小農1號 電子商務約定條款		 	
 			 	</label>
 
 			</div>
