@@ -1,9 +1,11 @@
 class OrdersController < ApplicationController
   
   def userIndex    
+    render layout: 'users'    
   end
   
   def companyIndex    
+    render layout: 'companies'      
   end
   
   def checkout   

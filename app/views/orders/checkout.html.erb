@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container main_frontend">
 <%= form_for @user, url: { controller: 'orders', action: "confirmCheckout"}, method: :post , html: {class: "form-horizontal", role: "form", id: "first-form"} do |u| %>		 
 	<%@carts.each do |c| %>
 	<div class="row cart_<%=c.id%>">

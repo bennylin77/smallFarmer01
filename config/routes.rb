@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   post   'comments/postSub'
   post   'comments/deleteSub'
   
+  get    'coupons/index'
+  
   post   'orders/confirmCheckout'  
   get    'orders/checkout'
   get    'orders/userIndex'
