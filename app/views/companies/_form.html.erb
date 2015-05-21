@@ -152,6 +152,8 @@ $("form").submit(function() {
 });
 //================== error ==================//	
 <% @company.errors.full_messages.each do |message| %>
-	addAlert('error', '<%=message%>')
+	<%unless value.blank? %>
+		addAlert('error', '<%=value.first%>')
+	<%end%>	
 <% end %>
 </script>

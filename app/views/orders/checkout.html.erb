@@ -1,6 +1,6 @@
 <div class="container main_frontend">
-<%= form_for @user, url: { controller: 'orders', action: "confirmCheckout"}, method: :post , html: {class: "form-horizontal", role: "form", id: "first-form"} do |u| %>		 
-	<%@carts.each do |c| %>
+<%= form_for current_user, url: { controller: 'orders', action: "confirmCheckout"}, method: :post , html: {class: "form-horizontal", role: "form", id: "first-form"} do |u| %>		 
+	<%current_user.carts.each do |c| %>
 	<div class="row cart_<%=c.id%>">
 		<div class="col-sm-1">
         <td>
@@ -63,7 +63,7 @@
 	<div class="form-group">
 		<label class="col-sm-2 control-label">	
 			 <label class="radio-inline">
-			 <%= radio_button_tag 'payment_methods', GLOBAL_VAR['PAYMENT_METHOD_CREDIT'] %>線上刷卡
+			 <%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_CREDIT'] %>線上刷卡
 			 </label>
 		</label>
 		<div class="form-inline col-sm-6">
@@ -73,7 +73,7 @@
 	<div class="form-group">
 		<label class="col-sm-2 control-label">	
 			 <label class="radio-inline">
-			 <%= radio_button_tag 'payment_methods', GLOBAL_VAR['PAYMENT_METHOD_COD'] %>貨到付款
+			 <%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_COD'] %>貨到付款
 			 </label>
 		</label>
 		<div class="form-inline col-sm-6">
@@ -98,7 +98,7 @@
 		<label class="col-sm-2 control-label">行動電話</label>
 		<div class="col-sm-3">
 			<%= hidden_field_tag :phone_no_full%>				
-			<%if @user.addresses.first.phone_no_confirmed_at.blank?%>
+			<%if current_user.addresses.first.phone_no_confirmed_at.blank?%>
 				<%= a.text_field :phone_no, class: "form-control" %>
 				<span id="valid-msg" class="hide">✓</span>
 				<span id="error-msg" class="hide">格式錯誤</span>			
@@ -117,7 +117,7 @@
 		<div class="form-group">
 			<label class="col-sm-2 control-label">聯絡信箱</label>
 			<div class="form-inline col-sm-6">
-				<%= @user.email %>
+				<%= current_user.email %>
 			</div>
 		</div>		  
 	<%end%>
@@ -181,8 +181,14 @@
 
 
 <script>
+<% current_user.errors.messages.each do |index, value| %>
+	<%unless value.blank? %>
+		toastr["error"]('<%=value.first%>')	
+	<%end%>	
+<% end %>
+
 var total_price = 0
-<%@carts.each do |c| %>
+<%current_user.carts.each do |c| %>
 	var pricing_<%=c.id %> =  []
 	<%c.product_boxing.product_pricings.order('quantity desc').each do |p| %>
 		pricing_<%=c.id %>.push({ price: <%= p.price.to_i %>, quantity: <%= p.quantity %>  })
@@ -200,13 +206,13 @@ $('#coupons_using').change(function(){
 			$('.sum').html(total_price-$('#coupons_using').val())
 		else
 		{
-			addAlert('error', '填入回饋金超出持有範圍')
+			toastr["error"]('填入回饋金超出持有範圍')
 			$(this).val(0)	
 		}
 	}
 	else
 	{
-		addAlert('error', '回饋金應填入數字')	
+		toastr["error"]('回饋金應填入數字')
 		$(this).val(0)
 	}	
 });	
@@ -258,9 +264,9 @@ $('#twzipcode').twzipcode({
     districtName: 'user[addresses_attributes][0][district]',
     zipcodeIntoDistrict: true,
     css: ['form-control', 'form-control'], 
-    <%unless @user.addresses.first.county.blank?%>
-	countySel: '<%=@user.addresses.first.county%>',
-	districtSel: '<%=@user.addresses.first.district%>'
+    <%unless current_user.addresses.first.county.blank?%>
+	countySel: '<%=current_user.addresses.first.county%>',
+	districtSel: '<%=current_user.addresses.first.district%>'
 	<%end%>    
 });
 $('#twzipcode_receiver').twzipcode({
@@ -269,9 +275,9 @@ $('#twzipcode_receiver').twzipcode({
     districtName: 'user[orders_attributes][0][receiver_district]',
     zipcodeIntoDistrict: true,
     css: ['form-control', 'form-control'], 
-    <%unless @user.orders.first.receiver_county.blank?%>
-	countySel: '<%=@user.orders.first.receiver_county%>',
-	districtSel: '<%=@user.orders.first.receiver_district%>'
+    <%unless current_user.orders.first.receiver_county.blank?%>
+	countySel: '<%=current_user.orders.first.receiver_county%>',
+	districtSel: '<%=current_user.orders.first.receiver_district%>'
 	<%end%>    
 });
 

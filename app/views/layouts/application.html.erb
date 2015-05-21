@@ -4,10 +4,10 @@
 <body>
 <%=render "layouts/menu" %>
 <%= yield %>
-  <script>  	
+<script>  	
 	<% flash.each do |type, message| %>
-		addAlert('<%=type%>', '<%=message%>')
+		toastr["<%=type%>"]('<%=message%>')	
 	<% end %>
-  </script>	 
+</script>	 
 </body>
 </html>

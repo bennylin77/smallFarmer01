@@ -50,7 +50,6 @@ class CartsController < ApplicationController
     render json: carts.to_json    
   end
   
-  
   def destroy
     @cart.destroy
     render json: {alert_class: 'success', message: '成功刪除'} 

@@ -73,7 +73,7 @@ function showComment()
 		});		
 	});
 	request.fail(function( jqXHR, textStatus ) {
-		addAlert('error', '讀取失敗')
+		toastr["error"]('留言讀取失敗')			
 	});		
 	
 }

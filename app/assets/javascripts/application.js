@@ -15,9 +15,10 @@
 //= require jquery.turbolinks
 //= require bootstrap-sprockets
 //= require jquery.twzipcode.min.js
-//= require alert.js
 //= require intlTelInput.min.js
 //= require fileinput.min.js
 //= require fileinput_locale_zh.js
 //= require moment-with-locales.min.js
+//= require toastr.min.js
+//= require toastr_options.js
 //= require_tree .

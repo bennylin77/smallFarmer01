@@ -9,23 +9,21 @@ class OrdersController < ApplicationController
   end
   
   def checkout   
-    @carts = current_user.carts
-    @user = current_user
-    @user.orders.build()
+    current_user.orders.build()
   end
   
   def confirmCheckout   
-    @carts = current_user.carts
-    @user = current_user   
-    params['quantity_'+2.to_s]
-    params[:coupon_using]
-=begin    
-    if @user.update(user_params)
-      
-    else
+    @user = current_user 
+    @user.assign_attributes(user_params)  
+    @user.carts.each do |c|
+      logger.info params['quantity_'+c.id.to_s]  
+    end
+    logger.info params[:coupons_using]
+    logger.info params[:payment_method]  
+    logger.info params[:agree]  
+    unless @user.valid?
       render 'checkout'
     end 
-=end    
   end  
   
   private   
