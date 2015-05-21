@@ -17,11 +17,15 @@ class OrdersController < ApplicationController
   def confirmCheckout   
     @carts = current_user.carts
     @user = current_user   
+    params['quantity_'+2.to_s]
+    params[:coupon_using]
+=begin    
     if @user.update(user_params)
       
     else
       render 'checkout'
     end 
+=end    
   end  
   
   private   
