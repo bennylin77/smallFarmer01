@@ -8,10 +8,10 @@ class User < ActiveRecord::Base
   has_many :addresses, dependent: :destroy  
   has_many :carts, dependent: :destroy  
   has_many :coupons
-  has_many :orders   
+  has_many :invoices   
   
   accepts_nested_attributes_for :addresses  
-  accepts_nested_attributes_for :orders         
+  accepts_nested_attributes_for :invoices         
   has_attached_file :avatar, 
                     styles: { original: "100x100" },
                     default_url: "default_avatar.png"  

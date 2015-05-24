@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150519160127) do
+ActiveRecord::Schema.define(version: 20150524160052) do
 
   create_table "addresses", force: true do |t|
     t.integer  "user_id"
@@ -110,19 +110,28 @@ ActiveRecord::Schema.define(version: 20150519160127) do
 
   add_index "identities", ["user_id"], name: "index_identities_on_user_id", using: :btree
 
-  create_table "order_coupon_lists", force: true do |t|
+  create_table "invoice_coupon_lists", force: true do |t|
     t.float    "amount",     limit: 24
-    t.integer  "order_id"
+    t.integer  "invoice_id"
     t.integer  "coupon_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "order_coupon_lists", ["coupon_id"], name: "index_order_coupon_lists_on_coupon_id", using: :btree
-  add_index "order_coupon_lists", ["order_id"], name: "index_order_coupon_lists_on_order_id", using: :btree
+  add_index "invoice_coupon_lists", ["coupon_id"], name: "index_invoice_coupon_lists_on_coupon_id", using: :btree
+  add_index "invoice_coupon_lists", ["invoice_id"], name: "index_invoice_coupon_lists_on_invoice_id", using: :btree
+
+  create_table "invoices", force: true do |t|
+    t.integer  "payment_method"
+    t.float    "amount",         limit: 24
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "invoices", ["user_id"], name: "index_invoices_on_user_id", using: :btree
 
   create_table "orders", force: true do |t|
-    t.integer  "user_id"
     t.integer  "product_boxing_id"
     t.integer  "invoice_id"
     t.string   "receiver_last_name"

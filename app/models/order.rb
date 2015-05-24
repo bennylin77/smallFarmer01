@@ -1,6 +1,5 @@
 class Order < ActiveRecord::Base
   
-  belongs_to :user
   belongs_to :product_boxing
   
   validates :receiver_last_name, presence: { presence: true, message: '請填寫 收件人資訊-姓' } 

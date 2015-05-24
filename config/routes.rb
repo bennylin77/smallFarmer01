@@ -10,13 +10,14 @@ Rails.application.routes.draw do
   post   'comments/deleteSub'
   
   get    'coupons/index'
+
+  get    'invoices/index'
+  post   'invoices/createCredit'
+  post   'invoices/createCOD'
   
   post   'orders/confirmCheckout'  
   post   'orders/checkout'
-  post   'orders/createCredit'
-  post   'orders/createCOD'
-  get    'orders/userIndex'
-  get    'orders/companyIndex'
+  get    'orders/index'
   get    'orders/finished'  
   
   post   'carts/addCart'
