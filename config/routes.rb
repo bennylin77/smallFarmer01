@@ -12,9 +12,12 @@ Rails.application.routes.draw do
   get    'coupons/index'
   
   post   'orders/confirmCheckout'  
-  get    'orders/checkout'
+  post   'orders/checkout'
+  post   'orders/createCredit'
+  post   'orders/createCOD'
   get    'orders/userIndex'
   get    'orders/companyIndex'
+  get    'orders/finished'  
   
   post   'carts/addCart'
   post   'carts/updateCart'  

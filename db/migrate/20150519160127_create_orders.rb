@@ -14,8 +14,9 @@ class CreateOrders < ActiveRecord::Migration
       t.string   :receiver_address 
       t.string   :receiver_country
 
-      t.boolean   :agree_c
-      t.boolean   :cancel_c      
+      t.boolean   :confirm_c, default: false, null: false  
+      t.boolean   :agree_c, default: false, null: false  
+      t.boolean   :cancel_c, default: false, null: false        
       
       t.integer   :review_score
       t.string    :review_feedback      

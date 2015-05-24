@@ -90,6 +90,7 @@ ActiveRecord::Schema.define(version: 20150519160127) do
     t.float    "amount",          limit: 24
     t.float    "original_amount", limit: 24
     t.integer  "kind"
+    t.boolean  "available_c",                default: true, null: false
     t.integer  "user_id"
     t.integer  "order_id"
     t.datetime "created_at"
@@ -132,8 +133,9 @@ ActiveRecord::Schema.define(version: 20150519160127) do
     t.string   "receiver_district"
     t.string   "receiver_address"
     t.string   "receiver_country"
-    t.boolean  "agree_c"
-    t.boolean  "cancel_c"
+    t.boolean  "confirm_c",                      default: false, null: false
+    t.boolean  "agree_c",                        default: false, null: false
+    t.boolean  "cancel_c",                       default: false, null: false
     t.integer  "review_score"
     t.string   "review_feedback"
     t.datetime "review_at"
@@ -180,8 +182,8 @@ ActiveRecord::Schema.define(version: 20150519160127) do
     t.text     "description"
     t.integer  "inventory"
     t.integer  "unit"
-    t.boolean  "delete_c"
-    t.boolean  "available_c"
+    t.boolean  "delete_c",     default: false, null: false
+    t.boolean  "available_c",  default: false, null: false
     t.integer  "company_id"
     t.text     "preservation"
     t.integer  "sweet_degree"

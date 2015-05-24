@@ -137,6 +137,6 @@ $("form").submit(function() {
 });
 //================== error ==================//	
 <% @user.errors.full_messages.each do |message| %>
-	addAlert('error', '<%=message%>')
+	toastr["error"]('<%=message%>')
 <% end %>
 </script>

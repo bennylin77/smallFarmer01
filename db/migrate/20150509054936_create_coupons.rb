@@ -4,6 +4,8 @@ class CreateCoupons < ActiveRecord::Migration
       t.float :amount
       t.float :original_amount
       t.integer :kind
+      t.boolean :available_c, default: true, null: false
+      
       
       t.belongs_to :user, index: true
       t.belongs_to :order, index: true

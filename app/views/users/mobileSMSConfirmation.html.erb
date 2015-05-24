@@ -71,7 +71,7 @@ $('#getConfirmationToken').click(function() {
 			dataType: "json"
 		});
 		request.done(function( message ) {
-			addAlert(message.alert_class, message.message)
+			toastr[message.alert_class](message.message)
 	    	$btn.button('reset')		
 		});
 		request.fail(function( jqXHR, textStatus ) {
@@ -79,7 +79,7 @@ $('#getConfirmationToken').click(function() {
 	}
 	else
 	{
-		addAlert('error', '您輸入的手機格式錯誤')		
+		toastr['error']('您輸入的手機格式錯誤')		
 	}
 	
 });

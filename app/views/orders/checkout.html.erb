@@ -1,6 +1,7 @@
 <div class="container main_frontend">
 <%= form_for current_user, url: { controller: 'orders', action: "confirmCheckout"}, method: :post , html: {class: "form-horizontal", role: "form", id: "first-form"} do |u| %>		 
 	<%current_user.carts.each do |c| %>
+	<% product = c.product_boxing.product%>
 	<div class="row cart_<%=c.id%>">
 		<div class="col-sm-1">
         <td>
@@ -8,7 +9,7 @@
         </td>
 		</div>			
 		<div class="col-sm-1">
-			<%=link_to c.product_boxing.product.name,  product_path(c)%>
+			<%=link_to c.product_boxing.product.name,  product_path(product)%>
 		</div>
 		<div class="col-sm-2">
 			<% product = c.product_boxing.product%>
@@ -95,7 +96,10 @@
 			</div>
 		</div>
 		<div class="form-group">
-		<label class="col-sm-2 control-label">行動電話</label>
+		<label class="col-sm-2 control-label">
+			行動電話
+		<span class="glyphicon glyphicon-phone" aria-hidden="true"></span>			
+		</label>
 		<div class="col-sm-3">
 			<%= hidden_field_tag :phone_no_full%>				
 			<%if current_user.addresses.first.phone_no_confirmed_at.blank?%>
@@ -105,6 +109,7 @@
 			<%else%>
 				<%= a.text_field :phone_no, class: "form-control", readonly: true %>			
 			<%end%>	
+			例: 0912 345 678
 		</div>		
 		</div>		
 		<div class="form-group">
@@ -125,68 +130,86 @@
 	<div class="form-group">
 		<label class="col-sm-2 control-label">收件人資訊</label>
 		<div class="form-inline col-sm-6">
+			<label class="checkbox-inline">
+			 	<%= check_box_tag 'same_as_user', true, @same_as_user == 'true'%>
+			 	同訂購人資訊
+			</label>
 		</div>
 	</div>		
-	<%= u.fields_for :orders do |o| %>
-		<div class="form-group">
-			<label class="col-sm-2 control-label">姓名</label>
-			<div class="form-inline col-sm-8">
-				<%= o.text_field :receiver_last_name, class: "form-control", placeholder: '姓' %>
-				<%= o.text_field :receiver_first_name, class: "form-control", placeholder: '名' %>			
-			</div>
-		</div>
-		<div class="form-group">
-		<label class="col-sm-2 control-label">聯絡電話</label>
-		<div class="col-sm-3">
-			<%= hidden_field_tag :receiver_phone_no_full%>				
-			<%= o.text_field :receiver_phone_no, class: "form-control" %>
-			<span id="receiver_valid-msg" class="hide">✓</span>
-			<span id="receiver_error-msg" class="hide">格式錯誤</span>			
-		</div>		
-		</div>		
-		<div class="form-group">
-			<label class="col-sm-2 control-label">聯絡地址</label>
-			<div class="form-inline col-sm-6">
-				<span id="twzipcode_receiver"></span>
-				<%= o.text_field :receiver_address, class: "form-control" %>
-			</div>
-		</div>	
-		<div class="form-group">
-			<label class="col-sm-2 control-label"></label>
+  	<% current_user.orders.each do |o_new| %>
+	    <% if o_new.new_record? %>
+	    	<%= u.fields_for :orders, o_new do |o| %>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">姓名</label>
+					<div class="form-inline col-sm-8">
+						<%= o.text_field :receiver_last_name, class: "form-control", placeholder: '姓' %>
+						<%= o.text_field :receiver_first_name, class: "form-control", placeholder: '名' %>			
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">聯絡電話
+						<span class="glyphicon glyphicon-phone" aria-hidden="true"></span> or
+						<span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span>				
+					</label>
+					<div class="col-sm-3">
+						<%= hidden_field_tag :receiver_phone_no_full%>				
+						<%= o.text_field :receiver_phone_no, class: "form-control" %>
+						<span id="receiver_valid-msg" class="hide">✓</span>
+						<span id="receiver_error-msg" class="hide">格式錯誤</span>
+						例: 0912 345 678 or 02 2222 8888			
+					</div>		
+				</div>		
+				<div class="form-group">
+						<label class="col-sm-2 control-label">聯絡地址</label>
+						<div class="form-inline col-sm-6">
+							<span id="twzipcode_receiver"></span>
+							<%= o.text_field :receiver_address, class: "form-control" %>
+						</div>
+				</div>	
+			<%end%>	
+		<% end %>   	
+	<% end %>
+	<div class="form-group">
+		<label class="col-sm-2 control-label"></label>
 			<div class="form-inline col-sm-6">
 				<label class="checkbox-inline">
 			 	<%= check_box_tag 'agree', true, @agree == 'true'%>
 				我已詳閱並同意 小農1號 電子商務約定條款		 	
 			 	</label>
-
 			</div>
-		</div>		
-	<%end%>		
+	</div>			
 	<div class="form-group">
 		<div class="col-sm-offset-1 col-sm-6">    
 		<%= u.submit '送出',  class: "btn btn-default"  %>
 		</div>
 	</div>
-
 <%end%>		
 </div>
 
-
-
-
-
-
-
-
-
-
 <script>
+
+//====================== error ======================//
 <% current_user.errors.messages.each do |index, value| %>
 	<%unless value.blank? %>
 		toastr["error"]('<%=value.first%>')	
 	<%end%>	
 <% end %>
 
+//====================== same_as_user ======================//
+$('#same_as_user').change(function() {
+   if ( this.checked )
+   {
+   		$('#user_orders_attributes_0_receiver_last_name').val($('#user_addresses_attributes_0_last_name').val())	
+   		$('#user_orders_attributes_0_receiver_first_name').val($('#user_addresses_attributes_0_first_name').val())	  		
+   		$('#user_orders_attributes_0_receiver_phone_no').val($('#user_addresses_attributes_0_phone_no').val())	 	
+    	$('#user_orders_attributes_0_receiver_address').val($('#user_addresses_attributes_0_address').val())			   
+    	$("[name='user[orders_attributes][0][receiver_county]']").val($("[name='user[addresses_attributes][0][county]']").val()).change();	
+    	$("input[name='user[orders_attributes][0][postal]']").val($("[name='user[addresses_attributes][0][postal]']").val())	 
+    	$("[name='user[orders_attributes][0][receiver_district]']").val($("[name='user[addresses_attributes][0][district]']").val())	
+   }
+});
+
+//====================== price ======================//
 var total_price = 0
 <%current_user.carts.each do |c| %>
 	var pricing_<%=c.id %> =  []
@@ -194,7 +217,7 @@ var total_price = 0
 		pricing_<%=c.id %>.push({ price: <%= p.price.to_i %>, quantity: <%= p.quantity %>  })
 	<%end%>
 	$('.total_price_<%=c.id %>').data( "price", 0 );		
-	updateQuantity($('#quantity_<%=c.id %>').val(), pricing_<%=c.id %>, <%=c.id %>)		
+	updatePrice($('#quantity_<%=c.id %>').val(), pricing_<%=c.id %>, <%=c.id %>)		
 	$('#quantity_<%=c.id %>').change(function(){			
 	    updateQuantity($('#quantity_<%=c.id %>').val(), pricing_<%=c.id %>, <%=c.id %>)
 	});	
@@ -202,12 +225,10 @@ var total_price = 0
 $('#coupons_using').change(function(){		
 	if( $.isNumeric( $(this).val()) )
 	{
-		if( $(this).val() >= 0 && $(this).val() <= <%=coupons %> )
-			$('.sum').html(total_price-$('#coupons_using').val())
-		else
+		if( $(this).val() < 0 || $(this).val() > <%=coupons %> )
 		{
 			toastr["error"]('填入回饋金超出持有範圍')
-			$(this).val(0)	
+			$(this).val(0)
 		}
 	}
 	else
@@ -215,6 +236,7 @@ $('#coupons_using').change(function(){
 		toastr["error"]('回饋金應填入數字')
 		$(this).val(0)
 	}	
+	$('.sum').html(total_price-$('#coupons_using').val())	
 });	
 function updateQuantity(quantity, pricing, id){	
 	var request = $.ajax({
@@ -227,7 +249,10 @@ function updateQuantity(quantity, pricing, id){
 	    showCarts();
 	});
 	request.fail(function( jqXHR, textStatus ) {
-	});		
+	});				
+	updatePrice(quantity, pricing, id)
+}
+function updatePrice(quantity, pricing, id){
 	$.each(pricing, function( index, value ) {
 		if(quantity >= value.quantity)	
 		{
@@ -238,7 +263,7 @@ function updateQuantity(quantity, pricing, id){
 			$('.total_price_'+id ).data( "price", quantity*value.price );
 			return false;
 		}	
-	});		
+	});	
 }
 function destroyCart(id){
 	var request = $.ajax({
@@ -258,6 +283,7 @@ function destroyCart(id){
 	});		
 }
 
+//====================== tw zip ======================//
 $('#twzipcode').twzipcode({
 	zipcodeName: 'user[addresses_attributes][0][postal]',
     countyName: 'user[addresses_attributes][0][county]',
@@ -281,12 +307,13 @@ $('#twzipcode_receiver').twzipcode({
 	<%end%>    
 });
 
+//====================== phone ======================//
 var telInput = $("#user_addresses_attributes_0_phone_no");
 errorMsg = $("#error-msg"),
 validMsg = $("#valid-msg");
 // initialise plugin
 telInput.intlTelInput({
-	autoPlaceholder: true,    
+	autoPlaceholder: false,    
     defaultCountry: "auto",
     numberType: "MOBILE", 
     utilsScript: "<%=asset_path 'utils.js'%>"
@@ -318,7 +345,7 @@ receiver_errorMsg = $("#receiver_error-msg"),
 receiver_validMsg = $("#receiver_valid-msg");
 // initialise plugin
 receiver_telInput.intlTelInput({
-	autoPlaceholder: true,    
+	autoPlaceholder: false,    
     defaultCountry: "auto",
     utilsScript: "<%=asset_path 'utils.js'%>"
 });

@@ -22,7 +22,9 @@
 		            <div class="dropdown-menu cart-dropdown-menu" role="menu">
 		            	<ul style="margin: 0; padding: 0; list-style: none; color: #000000" class="cart_lists">
 		            	</ul>
-		            	<%= link_to '結帳', controller: 'orders', action: 'checkout'%>
+						<%= form_tag('/orders/checkout') do -%>
+						  <div><%= submit_tag '結帳', class: 'btn btn-default' %></div>
+						<% end -%>		            	
 		            </div>	                 
 	          	</li>
 	            <li><a href="#" class="menu_right">

@@ -1,3 +1,4 @@
+<div class="container main_frontend">
 
 
 <p>
@@ -46,7 +47,7 @@
 
 
 
-<div class="container" >
+
 	<div class="form-group">
 		<div class="col-sm-2">	
 			<%= select_tag  :quantity, options_for_select( (1..50).step(1).to_a), class: "form-control" %>				
@@ -91,7 +92,7 @@ function countTotalPrice(q){
 	$.each(pricing, function( index, value ) {
 		if(q >= value.quantity)	
 		{
-			$('.total_price').html(q*value.price); $('.total_box').html(q); $('.total_coupon').html(q*value.price*0.04)			
+			$('.total_price').html(q*value.price); $('.total_box').html(q); $('.total_coupon').html(Math.ceil(q*value.price*0.04))			
 			 return false;
 		}	
 	});		

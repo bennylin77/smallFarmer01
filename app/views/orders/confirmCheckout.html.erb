@@ -1,0 +1,188 @@
+<div class="container main_frontend">
+	<div class="row">
+	<h1>請確認您的訂單資訊</h1>	
+	<%current_user.carts.each do |c| %>
+	<div class="row">
+		<div class="col-sm-2">
+			<%=link_to c.product_boxing.product.name,  product_path(c)%>
+		</div>
+		<div class="col-sm-2">
+			<%= c.quantity%>箱			
+		</div>	
+		<div class="col-sm-1">
+			<span class="total_price_<%=c.id%>"></span>
+		</div>		
+		<div class="col-sm-2">元	</div>			
+	</div>		
+	<%end%>
+	<div class="row">
+		<div class="col-sm-offset-1 col-sm-2">使用回饋金</div>		
+		<div class="col-sm-2">		
+		<%= @coupon_using || 0 %>
+		</div>	
+		<div class="col-sm-2">元	</div>		
+	</div>	
+	<div class="row">
+		<div class="col-sm-offset-1 col-sm-2">總計</div>				
+		<div class="col-sm-2">		
+		<span class="sum"></span>	
+		</div>	
+		<div class="col-sm-2">元	</div>
+	</div>	
+	<hr>
+	<div class="row">
+		<div class="col-sm-2 control-label">付款方式</div>
+	</div>	
+	<%if @payment_method == GLOBAL_VAR['PAYMENT_METHOD_CREDIT'].to_s%>
+	<div class="row">
+		<div class="col-sm-1 control-label">	
+			 線上刷卡
+		</div>
+		<div class="form-inline col-sm-6">
+	  		<%=image_tag 'allPay.png', class: 'img-responsive', size: '80x80'%>	
+		</div>
+	</div>	
+	<%elsif @payment_method == GLOBAL_VAR['PAYMENT_METHOD_COD'].to_s%>	
+	<div class="row">
+		<div class="col-sm-2 control-label">	
+			 <label class="radio-inline">
+			 貨到付款
+			 </label>
+		</div>
+		<div class="form-inline col-sm-6">
+			<%=image_tag 'cat.png', class: 'img-responsive', size: '80x80'%> 		
+		</div>
+	</div>	
+	<%end%>	
+	<hr>
+	<div class="row">
+		<label class="col-sm-2 control-label">訂購人資訊</label>
+		<div class="form-inline col-sm-6">
+		</div>
+	</div>	
+	<div class="row">
+			<label class="col-sm-2 control-label">姓名</label>
+			<div class="form-inline col-sm-8">
+				<%= current_user.addresses.first.last_name%>
+				<%= current_user.addresses.first.first_name%>			
+			</div>
+		</div>
+	<div class="row">
+		<label class="col-sm-2 control-label">行動電話</label>
+		<div class="col-sm-3">
+				<%= current_user.addresses.first.phone_no%>
+		</div>		
+	</div>		
+	<div class="row">
+			<label class="col-sm-2 control-label">聯絡地址</label>
+			<div class="form-inline col-sm-6">
+				<%= current_user.addresses.first.postal%><%= current_user.addresses.first.county%>
+				<%= current_user.addresses.first.district%><%= current_user.addresses.first.address%>
+			</div>
+	</div>
+	<div class="row">
+			<label class="col-sm-2 control-label">聯絡信箱</label>
+			<div class="form-inline col-sm-6">
+				<%= current_user.email %>
+			</div>
+	</div>		  
+<hr>
+	<div class="row">
+		<label class="col-sm-2 control-label">收件人資訊</label>
+		<div class="form-inline col-sm-6">
+		</div>
+	</div>		
+	<% current_user.orders.each do |o| %>
+		<% if o.new_record? %>
+		<div class="row">
+			<label class="col-sm-2 control-label">姓名</label>
+			<div class="form-inline col-sm-8">
+				<%= o.receiver_last_name%>
+				<%= o.receiver_first_name%>			
+			</div>
+		</div>
+		<div class="row">
+		<label class="col-sm-2 control-label">聯絡電話</label>
+		<div class="col-sm-3">		
+			<%= o.receiver_phone_no%>		
+		</div>		
+		</div>		
+		<div class="row">
+			<label class="col-sm-2 control-label">聯絡地址</label>
+			<div class="form-inline col-sm-6">
+				<%= o.receiver_postal%><%= o.receiver_county%>
+				<%= o.receiver_district%><%= o.receiver_address%>
+			</div>
+		</div>
+		<%end%>	
+	<%end%>
+	</div>	
+	
+<%= form_for current_user, url: { controller: 'orders', action: "checkout"}, method: :post do |u| %>		 
+		<%= text_field_tag :coupons_using, @coupon_using || 0, style: 'display: none' %>
+		<%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_CREDIT'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_CREDIT'].to_s, style: 'display: none' %>
+	    <%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_COD'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_COD'].to_s, style: 'display: none' %>
+	<%= u.fields_for :addresses do |a| %>
+		<%= a.text_field :last_name, style: 'display: none' %>
+		<%= a.text_field :first_name, style: 'display: none' %>			
+		<%= a.text_field :phone_no, style: 'display: none' %>
+		<%= a.text_field :postal, style: 'display: none' %>		
+		<%= a.text_field :county, style: 'display: none' %>		
+		<%= a.text_field :district, style: 'display: none' %>		
+		<%= a.text_field :address, style: 'display: none' %>		  
+	<%end%>
+	<%= u.fields_for :orders do |o| %>
+		<% if o.object.new_record? %>
+			<%= o.text_field :receiver_last_name, style: 'display: none'%>
+			<%= o.text_field :receiver_first_name, style: 'display: none'%>				
+			<%= o.text_field :receiver_phone_no, style: 'display: none'%>
+			<%= o.text_field :receiver_postal, style: 'display: none'%>		
+			<%= o.text_field :receiver_county, style: 'display: none'%>		
+			<%= o.text_field :receiver_district, style: 'display: none'%>				
+			<%= o.text_field :receiver_address, style: 'display: none'%>
+		<%end%>	
+	<%end%>	
+	<%= check_box_tag 'agree', true, @agree == 'true', style: 'display: none'%>   
+	<%= u.submit '修改',  class: "btn btn-default"%>
+	
+	
+	
+	<%if @payment_method == GLOBAL_VAR['PAYMENT_METHOD_CREDIT'].to_s%>
+	<%= u.submit '確認交易並進行線上付款', formaction: "demo_admin.asp", class: "btn btn-primary"%>	
+	<%elsif @payment_method == GLOBAL_VAR['PAYMENT_METHOD_COD'].to_s%>
+	<%= u.submit '確認交易', formaction: "createCOD", class: "btn btn-primary"%>		
+	<%end%>	
+<%end-%>	
+
+
+</div>	
+
+
+
+
+
+
+<script>
+var total_price = 0
+<%current_user.carts.each do |c| %>
+	var pricing_<%=c.id %> =  []
+	<%c.product_boxing.product_pricings.order('quantity desc').each do |p| %>
+		pricing_<%=c.id %>.push({ price: <%= p.price.to_i %>, quantity: <%= p.quantity %>  })
+	<%end%>
+	$('.total_price_<%=c.id %>').data( "price", 0 );		
+	updatePrice(<%= c.quantity %>, pricing_<%=c.id %>, <%=c.id %>)		
+<%end%>
+function updatePrice(quantity, pricing, id){
+	$.each(pricing, function( index, value ) {
+		if(quantity >= value.quantity)	
+		{
+			$('.total_price_'+id).html(quantity*value.price);
+			total_price =  total_price - $('.total_price_'+id ).data( "price") + quantity*value.price
+			$('.total_price').html(total_price)
+			$('.sum').html(total_price-<%= @coupon_using %>)
+			$('.total_price_'+id ).data( "price", quantity*value.price );
+			return false;
+		}	
+	});	
+}
+</script>
