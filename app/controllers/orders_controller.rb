@@ -41,10 +41,33 @@ class OrdersController < ApplicationController
   end  
   
   def createCOD
-    #current_user.update_attributes(user_params)  
-    order = current_user.orders.where(confirm_c: false).first 
+    params[:user][:addresses_attributes]['0'][:phone_no] = params[:phone_no_full]
+    current_user.update_attributes(user_params_without_order)  
+    current_user.carts.each do |c|
+      order = Oredr.new
+      order.receiver_last_name = params[:user][:orders_attributes]['0'][:receiver_last_name]
+      order.receiver_first_name = params[:user][:orders_attributes]['0'][:receiver_first_name]
+      order.receiver_phone_no = params[:user][:orders_attributes]['0'][:receiver_phone_no_full]
+      order.receiver_receiver_postal = params[:user][:orders_attributes]['0'][:receiver_receiver_postal]
+      order.receiver_receiver_county = params[:user][:orders_attributes]['0'][:receiver_receiver_county]
+      order.receiver_receiver_district = params[:user][:orders_attributes]['0'][:receiver_receiver_district]
+      order.receiver_receiver_address = params[:user][:orders_attributes]['0'][:receiver_receiver_address]
+      order.user = current_user
+      order.product_boxing = c.product_boxing
+      order.quantity = c.quantity
+      c.product_boxing.product_pricings.order('quantity desc').each do |p|
+        if c.quantity >= p.quantity 
+          order.price = order.quantity*p.price
+          break  
+        end  
+      end      
+      
+      
+    end
     
-    handleCoupons(order: order, coupons_using: params[:coupons_using].to_i )
+    
+    
+    handleCoupons(orders: orders, coupons_using: params[:coupons_using].to_i )
 
     # coupon_using = params[:coupons_using]
     
@@ -67,7 +90,7 @@ class OrdersController < ApplicationController
         available_amount = available_amount + a_c.amount     
       end
       unless available_amount < hash[:coupons_using] or hash[:coupons_using] < 0 or !hash[:coupons_using].is_a? Numeric     
-        # check expiration coupon
+        # check expiration coupons
         if coupons_using_left > 0           
           expiration_coupons = available_coupons.where('kind <> ? ', GLOBAL_VAR['COUPON_CHECK_OUT'])
           expiration_coupons.order('id').each do |e_c|
@@ -86,7 +109,7 @@ class OrdersController < ApplicationController
             end        
           end
         end
-        # check normal coupon 
+        # check normal coupons 
         if coupons_using_left > 0       
           normal_coupons = available_coupons.where('kind = ? ', GLOBAL_VAR['COUPON_CHECK_OUT'])
           normal_coupons.order('id').each do |n_c|                                
@@ -105,7 +128,13 @@ class OrdersController < ApplicationController
         #  logger.info ee.id
         #  logger.info ee.amount  
         #end  
-        
+        # let's use coupons
+        candidate_coupons.each do |ee|
+          if ee
+            o_c_l = OrderCouponList.new()
+          end
+        end        
+                 
         
       else
         flash[:error] = '回饋金錯誤' 
@@ -121,4 +150,9 @@ class OrdersController < ApplicationController
                                                                           :receiver_county, :receiver_district, :receiver_address, :receiver_country]]# extend with your own params
       params.require(:user).permit(accessible)
     end  
+    
+    def user_params_without_order 
+      accessible = [ :first_name, :last_name, :avatar, addresses_attributes:[:id, :first_name, :last_name, :phone_no, :postal, :county, :district, :address, :country]]
+      params.require(:user).permit(accessible)    
+    end
 end
