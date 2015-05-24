@@ -4,11 +4,15 @@ class InvoicesController < ApplicationController
   end  
   
   
-  def createCOD
+  def createCOD  
     candidate_coupons = candidateCoupons(coupons_using: params[:coupons_using].to_i )
-    coupons_using_left = hash[:coupons_using]      
+    #coupons_using_left = hash[:coupons_using]      
     params[:user][:addresses_attributes]['0'][:phone_no] = params[:phone_no_full]
+    params[:user][:invoices_attributes]['0'][:receiver_phone_no] = params[:receiver_phone_no_full]        
     current_user.update_attributes(user_params)  
+    invoice =  current_user.invoices.where(confirm_at: false).first
+    
+=begin    
     current_user.carts.each do |c|
       order = Oredr.new
       order.receiver_last_name = params[:user][:orders_attributes]['0'][:receiver_last_name]
@@ -67,8 +71,8 @@ class InvoicesController < ApplicationController
     
 
     # coupon_using = params[:coupons_using]
-    
-    redirect_to  controller: 'orders' , action: 'finished' 
+=end    
+    redirect_to  controller: 'invoices' , action: 'finished'     
   end  
   
   def createCredit
@@ -134,7 +138,9 @@ class InvoicesController < ApplicationController
     end 
     
     def user_params
-      accessible = [ :first_name, :last_name, :avatar, addresses_attributes:[:id, :first_name, :last_name, :phone_no, :postal, :county, :district, :address, :country]]
+      accessible = [:first_name, :last_name, addresses_attributes:[:id, :first_name, :last_name, :phone_no, :postal, :county, :district, :address, :country],
+                                             invoices_attributes:[:id, :receiver_last_name, :receiver_first_name, :receiver_phone_no, :receiver_postal, 
+                                                                  :receiver_county, :receiver_district, :receiver_address, :receiver_country]]
       params.require(:user).permit(accessible)    
     end      
 end

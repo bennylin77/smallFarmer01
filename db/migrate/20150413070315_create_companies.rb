@@ -5,7 +5,7 @@ class CreateCompanies < ActiveRecord::Migration
       t.string :name
       t.text :description
       t.belongs_to :user, index: true
-      t.boolean :delete_c, default: false, null: false    
+      t.boolean :deleted_c, default: false, null: false    
       t.boolean :activate_c, default: true, null: false        
 
       t.string   :phone_no

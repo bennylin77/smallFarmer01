@@ -8,7 +8,7 @@ class OrdersController < ApplicationController
     unless params[:user].blank?
       current_user.assign_attributes(user_params)   
     else
-      current_user.orders.build()
+      current_user.invoices.build()
     end                              
     @coupon_using = params[:coupons_using]
     @payment_method = params[:payment_method]
@@ -17,7 +17,7 @@ class OrdersController < ApplicationController
   
   def confirmCheckout   
     params[:user][:addresses_attributes]['0'][:phone_no] = params[:phone_no_full]
-    params[:user][:orders_attributes]['0'][:receiver_phone_no] = params[:receiver_phone_no_full]    
+    params[:user][:invoices_attributes]['0'][:receiver_phone_no] = params[:receiver_phone_no_full]    
     current_user.assign_attributes(user_params)  
     @coupon_using = params[:coupons_using]
     @payment_method = params[:payment_method]
@@ -38,11 +38,9 @@ class OrdersController < ApplicationController
   
   private   
     def user_params
-      #params[:user][:addresses_attributes]['0'][:phone_no] = params[:phone_no_full]
-      #params[:user][:orders_attributes]['0'][:receiver_phone_no] = params[:receiver_phone_no_full]
-      accessible = [ :first_name, :last_name, :avatar, addresses_attributes:[:id, :first_name, :last_name, :phone_no, :postal, :county, :district, :address, :country],
-                                                       orders_attributes:[:id, :receiver_last_name, :receiver_first_name, :receiver_phone_no, :receiver_postal, 
-                                                                          :receiver_county, :receiver_district, :receiver_address, :receiver_country]]# extend with your own params
+      accessible = [ :first_name, :last_name, addresses_attributes:[:id, :first_name, :last_name, :phone_no, :postal, :county, :district, :address, :country],
+                                              invoices_attributes:[:id, :receiver_last_name, :receiver_first_name, :receiver_phone_no, :receiver_postal, 
+                                                                   :receiver_county, :receiver_district, :receiver_address, :receiver_country]]# extend with your own params
       params.require(:user).permit(accessible)
     end  
 end

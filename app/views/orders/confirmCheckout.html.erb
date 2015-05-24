@@ -92,26 +92,26 @@
 		<div class="form-inline col-sm-6">
 		</div>
 	</div>		
-	<% current_user.orders.each do |o| %>
-		<% if o.new_record? %>
+	<% current_user.invoices.each do |i| %>
+		<% if i.new_record? %>
 		<div class="row">
 			<label class="col-sm-2 control-label">姓名</label>
 			<div class="form-inline col-sm-8">
-				<%= o.receiver_last_name%>
-				<%= o.receiver_first_name%>			
+				<%= i.receiver_last_name%>
+				<%= i.receiver_first_name%>			
 			</div>
 		</div>
 		<div class="row">
 		<label class="col-sm-2 control-label">聯絡電話</label>
 		<div class="col-sm-3">		
-			<%= o.receiver_phone_no%>		
+			<%= i.receiver_phone_no%>		
 		</div>		
 		</div>		
 		<div class="row">
 			<label class="col-sm-2 control-label">聯絡地址</label>
 			<div class="form-inline col-sm-6">
-				<%= o.receiver_postal%><%= o.receiver_county%>
-				<%= o.receiver_district%><%= o.receiver_address%>
+				<%= i.receiver_postal%><%= i.receiver_county%>
+				<%= i.receiver_district%><%= i.receiver_address%>
 			</div>
 		</div>
 		<%end%>	
@@ -131,15 +131,15 @@
 		<%= a.text_field :district, style: 'display: none' %>		
 		<%= a.text_field :address, style: 'display: none' %>		  
 	<%end%>
-	<%= u.fields_for :orders do |o| %>
-		<% if o.object.new_record? %>
-			<%= o.text_field :receiver_last_name, style: 'display: none'%>
-			<%= o.text_field :receiver_first_name, style: 'display: none'%>				
-			<%= o.text_field :receiver_phone_no, style: 'display: none'%>
-			<%= o.text_field :receiver_postal, style: 'display: none'%>		
-			<%= o.text_field :receiver_county, style: 'display: none'%>		
-			<%= o.text_field :receiver_district, style: 'display: none'%>				
-			<%= o.text_field :receiver_address, style: 'display: none'%>
+	<%= u.fields_for :invoices do |i| %>
+		<% if i.object.new_record? %>
+			<%= i.text_field :receiver_last_name, style: 'display: none'%>
+			<%= i.text_field :receiver_first_name, style: 'display: none'%>				
+			<%= i.text_field :receiver_phone_no, style: 'display: none'%>
+			<%= i.text_field :receiver_postal, style: 'display: none'%>		
+			<%= i.text_field :receiver_county, style: 'display: none'%>		
+			<%= i.text_field :receiver_district, style: 'display: none'%>				
+			<%= i.text_field :receiver_address, style: 'display: none'%>
 		<%end%>	
 	<%end%>	
 	<%= check_box_tag 'agree', true, @agree == 'true', style: 'display: none'%>   
@@ -150,7 +150,7 @@
 	<%if @payment_method == GLOBAL_VAR['PAYMENT_METHOD_CREDIT'].to_s%>
 	<%= u.submit '確認交易並進行線上付款', formaction: "demo_admin.asp", class: "btn btn-primary"%>	
 	<%elsif @payment_method == GLOBAL_VAR['PAYMENT_METHOD_COD'].to_s%>
-	<%= u.submit '確認交易', formaction: "createCOD", class: "btn btn-primary"%>		
+	<%= u.submit '確認交易', formaction: "/invoices/createCOD", class: "btn btn-primary"%>		
 	<%end%>	
 <%end-%>	
 

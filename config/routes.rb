@@ -14,11 +14,12 @@ Rails.application.routes.draw do
   get    'invoices/index'
   post   'invoices/createCredit'
   post   'invoices/createCOD'
+  get    'invoices/finished'    
   
   post   'orders/confirmCheckout'  
   post   'orders/checkout'
   get    'orders/index'
-  get    'orders/finished'  
+
   
   post   'carts/addCart'
   post   'carts/updateCart'  

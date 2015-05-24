@@ -122,9 +122,17 @@ ActiveRecord::Schema.define(version: 20150524160052) do
   add_index "invoice_coupon_lists", ["invoice_id"], name: "index_invoice_coupon_lists_on_invoice_id", using: :btree
 
   create_table "invoices", force: true do |t|
-    t.integer  "payment_method"
-    t.float    "amount",         limit: 24
     t.integer  "user_id"
+    t.integer  "payment_method"
+    t.float    "amount",              limit: 24
+    t.string   "receiver_last_name"
+    t.string   "receiver_first_name"
+    t.string   "receiver_phone_no"
+    t.string   "receiver_postal"
+    t.string   "receiver_county"
+    t.string   "receiver_district"
+    t.string   "receiver_address"
+    t.string   "receiver_country"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -142,7 +150,6 @@ ActiveRecord::Schema.define(version: 20150524160052) do
     t.string   "receiver_district"
     t.string   "receiver_address"
     t.string   "receiver_country"
-    t.boolean  "confirm_c",                      default: false, null: false
     t.boolean  "agree_c",                        default: false, null: false
     t.boolean  "cancel_c",                       default: false, null: false
     t.integer  "review_score"

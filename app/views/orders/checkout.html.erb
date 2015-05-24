@@ -136,14 +136,14 @@
 			</label>
 		</div>
 	</div>		
-  	<% current_user.orders.each do |o_new| %>
-	    <% if o_new.new_record? %>
-	    	<%= u.fields_for :orders, o_new do |o| %>
+  	<% current_user.invoices.each do |i_new| %>
+	    <% if i_new.new_record? %>
+	    	<%= u.fields_for :invoices, i_new do |i| %>
 				<div class="form-group">
 					<label class="col-sm-2 control-label">姓名</label>
 					<div class="form-inline col-sm-8">
-						<%= o.text_field :receiver_last_name, class: "form-control", placeholder: '姓' %>
-						<%= o.text_field :receiver_first_name, class: "form-control", placeholder: '名' %>			
+						<%= i.text_field :receiver_last_name, class: "form-control", placeholder: '姓' %>
+						<%= i.text_field :receiver_first_name, class: "form-control", placeholder: '名' %>			
 					</div>
 				</div>
 				<div class="form-group">
@@ -153,7 +153,7 @@
 					</label>
 					<div class="col-sm-3">
 						<%= hidden_field_tag :receiver_phone_no_full%>				
-						<%= o.text_field :receiver_phone_no, class: "form-control" %>
+						<%= i.text_field :receiver_phone_no, class: "form-control" %>
 						<span id="receiver_valid-msg" class="hide">✓</span>
 						<span id="receiver_error-msg" class="hide">格式錯誤</span>
 						例: 0912 345 678 or 02 2222 8888			
@@ -163,7 +163,7 @@
 						<label class="col-sm-2 control-label">聯絡地址</label>
 						<div class="form-inline col-sm-6">
 							<span id="twzipcode_receiver"></span>
-							<%= o.text_field :receiver_address, class: "form-control" %>
+							<%= i.text_field :receiver_address, class: "form-control" %>
 						</div>
 				</div>	
 			<%end%>	
@@ -199,13 +199,13 @@
 $('#same_as_user').change(function() {
    if ( this.checked )
    {
-   		$('#user_orders_attributes_0_receiver_last_name').val($('#user_addresses_attributes_0_last_name').val())	
-   		$('#user_orders_attributes_0_receiver_first_name').val($('#user_addresses_attributes_0_first_name').val())	  		
-   		$('#user_orders_attributes_0_receiver_phone_no').val($('#user_addresses_attributes_0_phone_no').val())	 	
-    	$('#user_orders_attributes_0_receiver_address').val($('#user_addresses_attributes_0_address').val())			   
-    	$("[name='user[orders_attributes][0][receiver_county]']").val($("[name='user[addresses_attributes][0][county]']").val()).change();	
-    	$("input[name='user[orders_attributes][0][postal]']").val($("[name='user[addresses_attributes][0][postal]']").val())	 
-    	$("[name='user[orders_attributes][0][receiver_district]']").val($("[name='user[addresses_attributes][0][district]']").val())	
+   		$('#user_invoices_attributes_0_receiver_last_name').val($('#user_addresses_attributes_0_last_name').val())	
+   		$('#user_invoices_attributes_0_receiver_first_name').val($('#user_addresses_attributes_0_first_name').val())	  		
+   		$('#user_invoices_attributes_0_receiver_phone_no').val($('#user_addresses_attributes_0_phone_no').val())	 	
+    	$('#user_invoices_attributes_0_receiver_address').val($('#user_addresses_attributes_0_address').val())			   
+    	$("[name='user[invoices_attributes][0][receiver_county]']").val($("[name='user[addresses_attributes][0][county]']").val()).change();	
+    	$("input[name='user[invoices_attributes][0][postal]']").val($("[name='user[addresses_attributes][0][postal]']").val())	 
+    	$("[name='user[invoices_attributes][0][receiver_district]']").val($("[name='user[addresses_attributes][0][district]']").val())	
    }
 });
 
@@ -296,14 +296,14 @@ $('#twzipcode').twzipcode({
 	<%end%>    
 });
 $('#twzipcode_receiver').twzipcode({
-	zipcodeName: 'user[orders_attributes][0][receiver_postal]',
-    countyName: 'user[orders_attributes][0][receiver_county]',
-    districtName: 'user[orders_attributes][0][receiver_district]',
+	zipcodeName: 'user[invoices_attributes][0][receiver_postal]',
+    countyName: 'user[invoices_attributes][0][receiver_county]',
+    districtName: 'user[invoices_attributes][0][receiver_district]',
     zipcodeIntoDistrict: true,
     css: ['form-control', 'form-control'], 
-    <%unless current_user.orders.first.receiver_county.blank?%>
-	countySel: '<%=current_user.orders.first.receiver_county%>',
-	districtSel: '<%=current_user.orders.first.receiver_district%>'
+    <%unless current_user.invoices.first.receiver_county.blank?%>
+	countySel: '<%=current_user.invoices.first.receiver_county%>',
+	districtSel: '<%=current_user.invoices.first.receiver_district%>'
 	<%end%>    
 });
 
@@ -340,7 +340,7 @@ $("form").submit(function() {
   $("#phone_no_full").val($("#user_addresses_attributes_0_phone_no").intlTelInput("getNumber"));
 });
 
-var receiver_telInput = $("#user_orders_attributes_0_receiver_phone_no");
+var receiver_telInput = $("#user_invoices_attributes_0_receiver_phone_no");
 receiver_errorMsg = $("#receiver_error-msg"),
 receiver_validMsg = $("#receiver_valid-msg");
 // initialise plugin
@@ -368,6 +368,6 @@ receiver_telInput.keydown(function() {
   receiver_validMsg.addClass("hide");
 });
 $("form").submit(function() {
-  $("#receiver_phone_no_full").val($("#user_orders_attributes_0_receiver_phone_no").intlTelInput("getNumber"));
+  $("#receiver_phone_no_full").val($("#user_invoices_attributes_0_receiver_phone_no").intlTelInput("getNumber"));
 });
 </script>
