@@ -5,24 +5,11 @@ class InvoicesController < ApplicationController
   
   
   def createCOD  
-    candidate_coupons = candidateCoupons(coupons_using: params[:coupons_using].to_i )
-    #coupons_using_left = hash[:coupons_using]      
-    params[:user][:addresses_attributes]['0'][:phone_no] = params[:phone_no_full]
-    params[:user][:invoices_attributes]['0'][:receiver_phone_no] = params[:receiver_phone_no_full]        
     current_user.update_attributes(user_params)  
-    invoice =  current_user.invoices.where(confirm_at: false).first
-    
-=begin    
+    invoice =  current_user.invoices.where(confirmed_c: false).first    
     current_user.carts.each do |c|
-      order = Oredr.new
-      order.receiver_last_name = params[:user][:orders_attributes]['0'][:receiver_last_name]
-      order.receiver_first_name = params[:user][:orders_attributes]['0'][:receiver_first_name]
-      order.receiver_phone_no = params[:user][:orders_attributes]['0'][:receiver_phone_no_full]
-      order.receiver_receiver_postal = params[:user][:orders_attributes]['0'][:receiver_receiver_postal]
-      order.receiver_receiver_county = params[:user][:orders_attributes]['0'][:receiver_receiver_county]
-      order.receiver_receiver_district = params[:user][:orders_attributes]['0'][:receiver_receiver_district]
-      order.receiver_receiver_address = params[:user][:orders_attributes]['0'][:receiver_receiver_address]
-      order.user = current_user
+      order = Order.new
+      order.invoice = invoice 
       order.product_boxing = c.product_boxing
       order.quantity = c.quantity
       c.product_boxing.product_pricings.order('quantity desc').each do |p|
@@ -30,48 +17,36 @@ class InvoicesController < ApplicationController
           order.price = order.quantity*p.price
           break  
         end  
-      end  
+      end        
       order.save!
-      #use coupon
-      remaining_order_price = order.price
-      remaining_candidate_coupons = Array.new
-      candidate_coupons.each do |c_c|    
-        if remaining_order_price == 0
-          remaining_candidate_coupons << c_c           
-          break        
-        elsif c_c.amount <= remaining_order_price
-          order_coupon_list = OrderCouponList.new()
-          order_coupon_list.coupon = c_c
-          order_coupon_list.order = order
-          order_coupon_list.amount = c_c.amount
-          order_coupon_list.save!
-          remaining_order_price = remaining_order_price - c_c.amount          
-          c_c.amount = 0
-          c_c.save!          
-        elsif c_c.amount > remaining_order_price
-          order_coupon_list = OrderCouponList.new()
-          order_coupon_list.coupon = c_c
-          order_coupon_list.order = order
-          order_coupon_list.amount = remaining_order_price
-          order_coupon_list.save! 
-          c_c.amount = c_c.amount - remaining_order_price                  
-          remaining_order_price = 0
-          c_c.save!          
-          remaining_candidate_coupons << c_c                    
-        end    
-
-      
-      
-      end
-      
-      
+      invoice.amount = invoice.amount + order.price
     end
-    
-    
-    
+    invoice.save! 
 
-    # coupon_using = params[:coupons_using]
-=end    
+    candidate_coupons = candidateCoupons(coupons_using: params[:coupons_using].to_i )
+    logger.info candidate_coupons
+    if candidate_coupons
+      coupons_using_left = params[:coupons_using].to_i
+      candidate_coupons.each do |c_c|
+        if coupons_using_left != 0  or c_c.coupon.user == current_user    
+          i_c_l = InvoiceCouponList.new
+          i_c_l.invoice = invoice
+          i_c_l.coupon = c_c[:coupon]
+          i_c_l.amount = c_c[:amount]
+          i_c_l.save!
+          c_c[:coupon].amount = c_c[:coupon].amount - c_c[:amount]   
+          c_c[:coupon].amount == 0 ? c_c[:coupon].available_c = false : c_c[:coupon].available_c = true 
+          c_c[:coupon].save! 
+          coupons_using_left = coupons_using_left - c_c[:amount]
+        end
+      end
+    end
+    current_user.carts.destroy_all
+    invoice.payment_method = GLOBAL_VAR['PAYMENT_METHOD_COD']    
+    invoice.confirmed_c = true
+    invoice.save!   
+    
+ 
     redirect_to  controller: 'invoices' , action: 'finished'     
   end  
   
@@ -97,10 +72,10 @@ class InvoicesController < ApplicationController
           expiration_coupons.order('id').each do |e_c|
             unless ((Time.now - e_c.created_at).to_i / 1.day) > 30                               
               if coupons_using_left - e_c.amount > 0
-                candidate_coupons.push(e_c)
+                candidate_coupons.push({amount: e_c.amount, coupon: e_c})
                 coupons_using_left = coupons_using_left- e_c.amount               
               elsif 
-                candidate_coupons.push(e_c)
+                candidate_coupons.push({amount: coupons_using_left, coupon: e_c})
                 coupons_using_left = coupons_using_left- e_c.amount                             
                 break                                                            
               end
@@ -115,25 +90,16 @@ class InvoicesController < ApplicationController
           normal_coupons = available_coupons.where('kind = ? ', GLOBAL_VAR['COUPON_CHECK_OUT'])
           normal_coupons.order('id').each do |n_c|                                
             if coupons_using_left - n_c.amount > 0           
-              candidate_coupons.push(n_c)
+              candidate_coupons.push({amount: n_c.amount, coupon: n_c})
               coupons_using_left = coupons_using_left - n_c.amount
             elsif coupons_using_left - n_c.amount <= 0
-              candidate_coupons.push(n_c)
+              candidate_coupons.push({amount: coupons_using_left, coupon: n_c})
               coupons_using_left = coupons_using_left - n_c.amount            
               break                                                            
             end     
           end
         end  
-        #logger.info coupons_using_left        
-        #candidate_coupons.each do |ee|
-        #  logger.info ee.id
-        #  logger.info ee.amount  
-        #end  
-        # let's use coupons
         candidate_coupons
-      else
-        flash[:error] = '回饋金錯誤' 
-        redirect  root_url
       end    
     end 
     

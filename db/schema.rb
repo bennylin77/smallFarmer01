@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 20150524160052) do
     t.string   "name"
     t.text     "description"
     t.integer  "user_id"
-    t.boolean  "delete_c",           default: false, null: false
+    t.boolean  "deleted_c",          default: false, null: false
     t.boolean  "activate_c",         default: true,  null: false
     t.string   "phone_no"
     t.string   "postal"
@@ -123,8 +123,11 @@ ActiveRecord::Schema.define(version: 20150524160052) do
 
   create_table "invoices", force: true do |t|
     t.integer  "user_id"
+    t.boolean  "confirmed_c",                    default: false, null: false
+    t.boolean  "paid_c",                         default: false, null: false
+    t.boolean  "canceled_c",                     default: false, null: false
     t.integer  "payment_method"
-    t.float    "amount",              limit: 24
+    t.float    "amount",              limit: 24, default: 0.0,   null: false
     t.string   "receiver_last_name"
     t.string   "receiver_first_name"
     t.string   "receiver_phone_no"
@@ -142,25 +145,19 @@ ActiveRecord::Schema.define(version: 20150524160052) do
   create_table "orders", force: true do |t|
     t.integer  "product_boxing_id"
     t.integer  "invoice_id"
-    t.string   "receiver_last_name"
-    t.string   "receiver_first_name"
-    t.string   "receiver_phone_no"
-    t.string   "receiver_postal"
-    t.string   "receiver_county"
-    t.string   "receiver_district"
-    t.string   "receiver_address"
-    t.string   "receiver_country"
-    t.boolean  "agree_c",                        default: false, null: false
-    t.boolean  "cancel_c",                       default: false, null: false
+    t.boolean  "agreed_c",                     default: false, null: false
     t.integer  "review_score"
     t.string   "review_feedback"
     t.datetime "review_at"
-    t.float    "price",               limit: 24
+    t.float    "price",             limit: 24
     t.integer  "quantity"
     t.integer  "status"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "orders", ["invoice_id"], name: "index_orders_on_invoice_id", using: :btree
+  add_index "orders", ["product_boxing_id"], name: "index_orders_on_product_boxing_id", using: :btree
 
   create_table "product_boxings", force: true do |t|
     t.integer  "quantity"
@@ -198,7 +195,7 @@ ActiveRecord::Schema.define(version: 20150524160052) do
     t.text     "description"
     t.integer  "inventory"
     t.integer  "unit"
-    t.boolean  "delete_c",     default: false, null: false
+    t.boolean  "deleted_c",    default: false, null: false
     t.boolean  "available_c",  default: false, null: false
     t.integer  "company_id"
     t.text     "preservation"
@@ -238,7 +235,7 @@ ActiveRecord::Schema.define(version: 20150524160052) do
     t.string   "unconfirmed_email"
     t.string   "first_name"
     t.string   "last_name"
-    t.boolean  "delete_c",               default: false, null: false
+    t.boolean  "deleted_c",              default: false, null: false
     t.string   "avatar_file_name"
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"

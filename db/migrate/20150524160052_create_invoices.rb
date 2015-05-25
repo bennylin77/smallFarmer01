@@ -8,7 +8,7 @@ class CreateInvoices < ActiveRecord::Migration
       t.boolean   :canceled_c, default: false, null: false        
                    
       t.integer   :payment_method
-      t.float     :amount
+      t.float     :amount, default: 0, null: false 
 
       t.string    :receiver_last_name
       t.string    :receiver_first_name
