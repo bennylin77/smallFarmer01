@@ -1,6 +1,7 @@
 class Invoice < ActiveRecord::Base
   belongs_to :user
   has_many :orders  
+  has_many :invoice_coupon_lists
   
   accepts_nested_attributes_for :orders 
   

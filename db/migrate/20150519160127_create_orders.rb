@@ -13,6 +13,7 @@ class CreateOrders < ActiveRecord::Migration
       t.float     :price
       t.integer   :quantity     
       t.integer   :status 
+      t.string    :tracing_code  
             
       t.timestamps
     end

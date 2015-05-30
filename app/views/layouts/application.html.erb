@@ -5,9 +5,16 @@
 <%=render "layouts/menu" %>
 <%= yield %>
 <script>  	
-	<% flash.each do |type, message| %>
-		toastr["<%=type%>"]('<%=message%>')	
-	<% end %>
+<% flash.each do |type, message| %>	
+	<%case type%>
+	<%when 'notice'%>
+		toastr['success']('<%=message.html_safe%>')				
+	<%when 'alert'%>
+		toastr['warning']('<%=message.html_safe%>')					
+	<%else%>
+		toastr['<%=type%>']('<%=message.html_safe%>')			
+	<%end%> 
+<% end %>
 </script>	 
 </body>
 </html>
