@@ -6,7 +6,9 @@
     <th>消費金額</th>
 	<th>回饋金使用</th>
 	<th>付款金額</th>	
-	<th><span class=" glyphicon glyphicon-leaf menu_right_icon" aria-hidden="true"></span> 獲得回饋金<br> <abbr title="來源"><small>消費金額x4%</small></abbr></th>	       
+	<th><span class=" glyphicon glyphicon-leaf menu_right_icon" aria-hidden="true"></span> 獲得回饋金<br> 
+		<abbr title="獲得回饋金為'每一項'消費水果金額x4%, 並採取無條件進入"><small>付款金額x4%</small></abbr>
+	</th>	       
     <th>收件人</th>
 	<th>項目明細</th>         
   </tr>
@@ -23,7 +25,13 @@
     	<%=discount.to_i%>元
     </td>
     <td><mark><%= (i.amount-discount).to_i %>元</mark></td>      
-    <td></td>         
+    <td>
+    	<%coupon_get = 0%>
+    	<%i.orders.each do |o|%> 
+    		<%coupon_get = coupon_get + (o.price*0.04).ceil %>
+    	<%end%>
+    	<%= coupon_get.to_i%>元
+    </td>         
 	<td><%=i.receiver_last_name %> <%=i.receiver_first_name %>
 		<br>
 		<%=i.receiver_postal %><%=i.receiver_county %><%=i.receiver_district %><%=i.receiver_address %>
