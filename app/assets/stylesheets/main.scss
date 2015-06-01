@@ -3,7 +3,7 @@ body{
 }
 /*======================================= top navigation =======================================*/
 .menu{
-  //background: rgba(48, 73, 13, 0.2);
+  background: #f3f3f2;
   border: none;
   color: #f1f1f1 !important;  
 }
@@ -31,8 +31,8 @@ input.rounded:focus {
   background: none !important;
 }
 .navbar-nav>li>a.menu_right img{
-  height:35px;
-  width: 35px;
+  height:38px;
+  width: 38px;
   vertical-align: middle;
 }
 .navbar-nav>li>a.menu_right>.menu_right_icon{
@@ -46,7 +46,8 @@ input.rounded:focus {
   background: rgba( 255, 255, 255, 0.75);   
 }
 .navbar-brand{
-  color: #f1f1f1 !important;
+  color: #e29874 !important;
+  font-size: 26px;
 }
 .mobile_menu_label{
   display: block;
@@ -54,6 +55,16 @@ input.rounded:focus {
   font-size: 20px; 
   top: 16px;
   left: 47px;  
+}
+.menu_coupons {
+  display: block;
+  text-align: center;
+  top: 18px;
+  position: absolute;
+  line-height: 20px;
+  font-size: 18px;
+  width: 40px;
+  color: #b5841b;
 }
 .badge {
   display: block;

@@ -6,6 +6,7 @@ class CompaniesController < ApplicationController
 
 
   def show
+    render layout: 'application'     
   end
 
   def edit
