@@ -1,16 +1,17 @@
 <div class="table-responsive">
 <table class="table table-bordered table-hover">
   <tr>
-    <th>日期</th>
-    <th>訂單編號</th>
-    <th>消費金額</th>
+    <th>購買日期</th>
+    <th>購買編號</th>
+    <th>購買金額</th>
 	<th>回饋金使用</th>
 	<th>付款金額</th>	
 	<th><span class=" glyphicon glyphicon-leaf menu_right_icon" aria-hidden="true"></span> 獲得回饋金<br> 
-		<abbr title="獲得回饋金為'每一項'消費水果金額x4%, 並採取無條件進入"><small>付款金額x4%</small></abbr>
+		<abbr title="獲得回饋金為'付款金額'x4%, 並採取無條件進入"><small>付款金額x4%</small></abbr>
 	</th>	       
-    <th>收件人</th>
-	<th>項目明細</th>         
+    <th>收件人</th>    
+	<th>項目明細</th> 
+	<td></td>		        
   </tr>
   <%current_user.invoices.each do |i| %>
   <tr>
@@ -30,38 +31,41 @@
     	<%i.orders.each do |o|%> 
     		<%coupon_get = coupon_get + (o.price*0.04).ceil %>
     	<%end%>
-    	<%= coupon_get.to_i%>元
+    	<%= ((i.amount-discount)*0.04).ceil%>元
     </td>         
 	<td><%=i.receiver_last_name %> <%=i.receiver_first_name %>
 		<br>
 		<%=i.receiver_postal %><%=i.receiver_county %><%=i.receiver_district %><%=i.receiver_address %>
 		<br>
 		<%=i.receiver_phone_no %>
-	</td>
+	</td>	
     <td>
       <table class="table table-striped">     
-		<tr>				
+		<tr>	
+		    <td>訂單編號</td>						
 		    <td>農夫</td>			
 		    <td>水果名稱</td>
 			<td>數量(單位/箱)</td>   
 			<td>金額</td> 						 		    
 			<td>物流追蹤碼</td>
-		    <td>狀態</td>			
-			<td></td>			           
+		    <td>狀態</td>					           
 	  	</tr>      		      	
     	<%i.orders.each do |o|%>      	
-        <tr>	
+        <tr>
+          <td><%= o.id %></td>        	        		
           <td><%= image_tag o.product_boxing.product.company.user.avatar.url, class: 'img-circle', size: '20x20' %></td>        	
           <td><%= o.product_boxing.product.name%></td>
-          <td><%= o.quantity%>箱 (<%= o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %>/箱)</td>
-          <td><%=o.price.to_i %>元</td>     
-          <td>--</td>     
-          <td></td>	                              
-          <td><%=link_to '取消訂單'%></td>
+          <td><%= o.quantity%>箱 (<%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %>/箱)</td>
+          <td><%= o.price.to_i %>元</td>     
+          <td><%= showBlank o.tracing_code%></td>     
+          <td><%= Hash[orderStatusOptions].rassoc(o.status).first%></td>	                              
         </tr>
     	<%end%>	        
       </table>    	
-    </td> 	     
+    </td> 	
+    <td>
+    	<%=link_to '取消購買', '#' ,class: 'btn btn-danger' %>
+    </td>	         
   </tr>
   <%end%>  
 </table>

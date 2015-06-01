@@ -15,9 +15,9 @@
 			<% product = c.product_boxing.product%>
 			<% product.product_boxings.first.product_pricings.each do |pp| %>
 				<%if pp.quantity == 1%>	
-					<%= product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %>/箱   <%= pp.price.to_i  %>元
+					<%= product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %>/箱   <%= pp.price.to_i+GLOBAL_VAR['SHIPPING_RATES']  %>元
 				<%else%>
-					<%= pp.quantity %>箱以上 每箱<%= pp.price.to_i%>元		
+					<%= pp.quantity %>箱以上 每箱<%= pp.price.to_i + GLOBAL_VAR['SHIPPING_RATES']%>元		
 				<%end%>
 				<br>
 			<%end%>
@@ -211,6 +211,7 @@ $('#same_as_user').change(function() {
 
 //====================== price ======================//
 var total_price = 0
+var shipping_rates = <%=GLOBAL_VAR['SHIPPING_RATES']%>
 <%current_user.carts.each do |c| %>
 	var pricing_<%=c.id %> =  []
 	<%c.product_boxing.product_pricings.order('quantity desc').each do |p| %>
@@ -256,11 +257,11 @@ function updatePrice(quantity, pricing, id){
 	$.each(pricing, function( index, value ) {
 		if(quantity >= value.quantity)	
 		{
-			$('.total_price_'+id).html(quantity*value.price);
-			total_price =  total_price - $('.total_price_'+id ).data( "price") + quantity*value.price
-			$('.total_price').html(total_price)
+			$('.total_price_'+id).html(quantity*(value.price+shipping_rates));
+			total_price =  total_price - $('.total_price_'+id ).data( "price") + quantity*(value.price+shipping_rates)
+			$('.total_price').html(total_price )
 			$('.sum').html(total_price-$('#coupons_using').val())
-			$('.total_price_'+id ).data( "price", quantity*value.price );
+			$('.total_price_'+id ).data( "price", quantity*(value.price+shipping_rates) );
 			return false;
 		}	
 	});	

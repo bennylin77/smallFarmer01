@@ -152,6 +152,8 @@ ActiveRecord::Schema.define(version: 20150524160052) do
     t.float    "price",             limit: 24
     t.integer  "quantity"
     t.integer  "status"
+    t.string   "tracing_code"
+    t.float    "shipping_rates",    limit: 24
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -160,7 +162,7 @@ ActiveRecord::Schema.define(version: 20150524160052) do
   add_index "orders", ["product_boxing_id"], name: "index_orders_on_product_boxing_id", using: :btree
 
   create_table "product_boxings", force: true do |t|
-    t.integer  "quantity"
+    t.float    "quantity",   limit: 24
     t.integer  "product_id"
     t.datetime "created_at"
     t.datetime "updated_at"

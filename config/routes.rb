@@ -20,7 +20,6 @@ Rails.application.routes.draw do
   post   'orders/checkout'
   get    'orders/index'
 
-  
   post   'carts/addCart'
   post   'carts/updateCart'  
   get    'carts/showCarts'  
@@ -36,7 +35,9 @@ Rails.application.routes.draw do
   match '/products/:id/productImagesUpload' => 'products#productImagesUpload', via: [:post], :as => :productImagesUpload
   match '/products/:id/productImagesDelete' => 'products#productImagesDelete', via: [:delete], :as => :productImagesDelete
   match '/products/:id/available' => 'products#available', via: [:get], as: :available
- 
+  match '/orders/:id/confirm' => 'orders#confirm', via: [:get], as: :confirm
+  match '/orders/:id/cancel' => 'orders#cancel', via: [:get], as: :cancel
+
  
   devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks',
                                        registrations: "registrations" }

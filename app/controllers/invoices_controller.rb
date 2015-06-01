@@ -1,8 +1,8 @@
 class InvoicesController < ApplicationController
+  
   def index    
     render layout: 'users'    
   end  
-  
   
   def createCOD  
     current_user.update_attributes(user_params)  
@@ -17,14 +17,15 @@ class InvoicesController < ApplicationController
           order.price = order.quantity*p.price
           break  
         end  
-      end        
+      end
+      order.shipping_rates = order.quantity*GLOBAL_VAR['SHIPPING_RATES'] 
+      order.status = GLOBAL_VAR['ORDER_STATUS_UNCONFIRMED']       
       order.save!
-      invoice.amount = invoice.amount + order.price
+      invoice.amount = invoice.amount + order.price + order.shipping_rates
     end
     invoice.save! 
-
+    #Coupons
     candidate_coupons = candidateCoupons(coupons_using: params[:coupons_using].to_i )
-    logger.info candidate_coupons
     if candidate_coupons
       coupons_using_left = params[:coupons_using].to_i
       candidate_coupons.each do |c_c|
@@ -70,7 +71,7 @@ class InvoicesController < ApplicationController
         if coupons_using_left > 0           
           expiration_coupons = available_coupons.where('kind <> ? ', GLOBAL_VAR['COUPON_CHECK_OUT'])
           expiration_coupons.order('id').each do |e_c|
-            unless ((Time.now - e_c.created_at).to_i / 1.day) > 30                               
+            unless ((Time.now - e_c.created_at).to_i / 1.day) > GLOBAL_VAR['COUPON_DURATION_OF_VALIDITY']                              
               if coupons_using_left - e_c.amount > 0
                 candidate_coupons.push({amount: e_c.amount, coupon: e_c})
                 coupons_using_left = coupons_using_left- e_c.amount               

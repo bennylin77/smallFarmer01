@@ -4,8 +4,8 @@ class CreateOrders < ActiveRecord::Migration
       t.belongs_to :product_boxing, index: true      
       t.belongs_to :invoice, index: true     
 
-      t.boolean   :agreed_c, default: false, null: false  
-      
+      t.boolean   :confirmed_c, default: false, null: false 
+          
       t.integer   :review_score
       t.string    :review_feedback      
       t.datetime  :review_at
@@ -14,6 +14,7 @@ class CreateOrders < ActiveRecord::Migration
       t.integer   :quantity     
       t.integer   :status 
       t.string    :tracing_code  
+      t.float     :shipping_rates      
             
       t.timestamps
     end

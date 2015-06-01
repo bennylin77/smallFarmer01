@@ -29,9 +29,9 @@
 </ul>
 <%@product.product_boxings.first.product_pricings.each do |p| %>
 	<%if p.quantity == 1%>	
-		<%= @product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(@product.unit).first %>/箱   <%= p.price.to_i  %>元
+		<%= p.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %>元(含運) <%= "%g" % @product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(@product.unit).first %>/箱
 	<%else%>
-		<%= p.quantity %>箱以上 每箱<%= p.price.to_i%>元		
+		<%= p.quantity %>箱以上 每箱<%= p.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %>元		
 	<%end%>
 	<br>
 <%end%>
@@ -42,7 +42,19 @@
 <p>
 
 <span class="total_price"></span>元<br>
-您選擇<span class="total_box"></span>箱，共<span class="total_price"></span>元，您所獲得的回饋金為<span class="total_coupon"></span>元，金流去向如下
+您選擇<span class="total_quantity"></span>箱，共<span class="total_price"></span>元，金流估計如下<br>
+<br>
+農夫所得<span class="total_farmer_get"></span>元
+<br>
+物流費用<span class="total_shipping_rates"></span>元
+<br>
+金流費用<span class="total_cash_flow"></span>元
+<br>
+行政費用<span class="total_administration"></span>元
+<br>
+回饋金<span class="total_coupon"></span>元
+<br>
+<abbr title=""><small>(最後數據會依實際付款金額不同而改變)</small></abbr>
 
 
 
@@ -92,8 +104,21 @@ function countTotalPrice(q){
 	$.each(pricing, function( index, value ) {
 		if(q >= value.quantity)	
 		{
-			$('.total_price').html(q*value.price); $('.total_box').html(q); $('.total_coupon').html(Math.ceil(q*value.price*0.04))			
-			 return false;
+			
+			total_price = q*value.price+q*<%=GLOBAL_VAR['SHIPPING_RATES']%>
+			total_shipping_rates = q*<%=GLOBAL_VAR['SHIPPING_RATES']%>
+			total_cash_flow = (q*value.price+q*<%=GLOBAL_VAR['SHIPPING_RATES']%>)*0.028
+			total_coupon = (q*value.price+q*<%=GLOBAL_VAR['SHIPPING_RATES']%>)*0.04
+			total_farmer_get = q*value.price -(q*value.price+<%=GLOBAL_VAR['SHIPPING_RATES']%>)*0.098
+			
+			$('.total_price').html( total_price ); $('.total_quantity').html(q); 
+			$('.total_farmer_get').html( Math.ceil( total_farmer_get ) );	
+			$('.total_shipping_rates').html( Math.ceil( total_shipping_rates ) ); 							
+			$('.total_cash_flow').html( Math.ceil( total_cash_flow ) );	
+			$('.total_administration').html(total_price - Math.ceil( total_farmer_get ) - Math.ceil( total_shipping_rates ) - Math.ceil( total_cash_flow ) -  Math.ceil( total_coupon ));			
+			$('.total_coupon').html( Math.ceil( total_coupon ) );
+				
+			return false;
 		}	
 	});		
 }

@@ -4,8 +4,9 @@ class CreateInvoices < ActiveRecord::Migration
       t.belongs_to :user, index: true
 
       t.boolean   :confirmed_c, default: false, null: false 
-      t.boolean   :paid_c, default: false, null: false              
-      t.boolean   :canceled_c, default: false, null: false        
+      t.boolean   :paid_c, default: false, null: false
+      t.boolean   :canceled_c, default: false, null: false
+                    
                    
       t.integer   :payment_method
       t.float     :amount, default: 0, null: false 

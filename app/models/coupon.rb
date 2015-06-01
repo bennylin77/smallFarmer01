@@ -1,7 +1,7 @@
 class Coupon < ActiveRecord::Base
   belongs_to :user
-  belongs_to :order
+  belongs_to :invoice
   
-  has_many   :order_coupon_list, dependent: :destroy   
+  has_many  :invoice_coupon_lists
   
 end

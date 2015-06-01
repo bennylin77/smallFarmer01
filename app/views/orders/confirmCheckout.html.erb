@@ -164,6 +164,7 @@
 
 <script>
 var total_price = 0
+var shipping_rates = <%=GLOBAL_VAR['SHIPPING_RATES']%>
 <%current_user.carts.each do |c| %>
 	var pricing_<%=c.id %> =  []
 	<%c.product_boxing.product_pricings.order('quantity desc').each do |p| %>
@@ -176,11 +177,11 @@ function updatePrice(quantity, pricing, id){
 	$.each(pricing, function( index, value ) {
 		if(quantity >= value.quantity)	
 		{
-			$('.total_price_'+id).html(quantity*value.price);
-			total_price =  total_price - $('.total_price_'+id ).data( "price") + quantity*value.price
+			$('.total_price_'+id).html(quantity*(value.price+shipping_rates));
+			total_price =  total_price - $('.total_price_'+id ).data( "price") + quantity*(value.price+shipping_rates)
 			$('.total_price').html(total_price)
 			$('.sum').html(total_price-<%= @coupon_using %>)
-			$('.total_price_'+id ).data( "price", quantity*value.price );
+			$('.total_price_'+id ).data( "price", quantity*(value.price+shipping_rates) );
 			return false;
 		}	
 	});	

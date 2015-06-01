@@ -1,4 +1,7 @@
 class OrdersController < ApplicationController
+
+  before_action :set_order, only: [:confirm, :cancel]
+
   
   def index    
     render layout: 'companies'      
@@ -36,7 +39,25 @@ class OrdersController < ApplicationController
     end
   end  
   
+  def cancel
+    @order.canceled_c = true
+    @order.save!
+    
+    @order.invoice.amount = @order.invoice.amount - @order.price - @order.shipping_rates
+    
+    redirect_to controller: 'invoices', action: 'index'
+  end
+  
+  def confirm
+    
+  end
+  
+  
   private   
+    def set_order
+      @order = Order.find(params[:id])
+    end
+     
     def user_params
       accessible = [ :first_name, :last_name, addresses_attributes:[:id, :first_name, :last_name, :phone_no, :postal, :county, :district, :address, :country],
                                               invoices_attributes:[:id, :receiver_last_name, :receiver_first_name, :receiver_phone_no, :receiver_postal, 
