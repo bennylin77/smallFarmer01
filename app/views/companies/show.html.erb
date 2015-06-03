@@ -1,26 +1,18 @@
 <div class="container-fluid main_frontend">
-	<ol class="breadcrumb">
+	<ol class="breadcrumb col-sm-offset-1 ">
 	  <li><a href="#">首頁</a></li>
 	  <li><a href="#">農場</a></li>
 	  <li class="active"><%= @company.name %></li>
-	</ol>
+	</ol>	
 	<div class="row">
-		<div class="col-sm-4">			
-
-		</div>		
-		<div class="col-sm-4">
-	  <%= @company.description %>
-		</div>	
-	</div>
-	
-	<div class="row">
-		<div class="col-sm-offset-1 col-sm-4">
+		<div class="col-sm-offset-1 col-sm-5 vbottom">
+			 <div><%= @company.description %></div>
 		</div>
-		<div class="col-sm-2">
+		<div class="col-sm-1 vbottom">
 			<%= image_tag @company.user.avatar.url, class: 'img-circle', size: '150x145' %>
 		</div>				
-		<div class="col-sm-4">
-			<div id="carousel-example-generic" class="farm_carousel carousel slide" data-ride="carousel" data-interval="5000" data-pause="hover" style="width: 65%; margin: 10px auto; ">
+		<div class="col-sm-4 vbottom">
+			<div id="carousel-example-generic" class="farm_carousel carousel slide" data-ride="carousel" data-interval="5000" data-pause="hover" style="margin: 10px auto; ">
 			  <ol class="farm_carousel-indicators carousel-indicators">
 				<%@company.company_images.each_with_index do |c, i|%> 
 					<%if i==0%>
@@ -56,7 +48,7 @@
 			    <span class="sr-only">Next</span>
 			  </a>
 			</div>	
-			<div style="margin-top: 40px;">
+			<div style="margin-top: 20px;">
 			<span class="farm_words_quote">“</span>
 			<span class="farm_words_content">
             在現今食安問題連環爆，造成人心煌煌的時代，我想要建立消費者一個正確觀念，安全優質農產品必須付出合理的價格才能得到。			
