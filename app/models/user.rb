@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :addresses  
   accepts_nested_attributes_for :invoices         
   has_attached_file :avatar, 
-                    styles: { original: "100x100" },
+                    styles: { original: "100x100>" },
                     default_url: "default_avatar.png"  
   validates_attachment :avatar, 
                        content_type: { content_type: /\Aimage\/.*\Z/, message: "圖片格式錯誤" }, 

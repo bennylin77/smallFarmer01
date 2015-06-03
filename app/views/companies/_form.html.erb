@@ -1,15 +1,18 @@
 <%= form_for(@company, html: {class: "form-horizontal", role: "form"}) do |f| %>
-  
-  <div class="field">
-    農場名稱<br>
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    農場介紹<br>
-    <%= f.text_area :description %>
-  </div>  
 	<div class="form-group">
-		<label class="col-sm-2 control-label">聯絡電話</label>
+		<label class="col-sm-offset-1 col-sm-2 control-label">農場名稱</label>
+		<div class="col-sm-6">
+			<%= f.text_field :name, placeholder: '農場名稱', class: "form-control" %>
+		</div>	
+	</div>
+	<div class="form-group">
+		<label class="col-sm-offset-1 col-sm-2 control-label">農場介紹</label>
+		<div class="col-sm-6">
+			<%= f.text_area :description, placeholder: '農場介紹', class: "form-control", rows: '5' %>
+		</div>
+	</div>	
+	<div class="form-group">
+		<label class="col-sm-offset-1 col-sm-2 control-label">聯絡電話</label>
 		<div class="col-sm-2">
 			<%= hidden_field_tag :phone_no_full%>				
 			<%= f.text_field :phone_no, class: "form-control" %>
@@ -18,82 +21,78 @@
 		</div>					
 	</div>						
 	<div class="form-group">
-		<label class="col-sm-2 control-label">聯絡地址</label>
+		<label class="col-sm-offset-1 col-sm-2 control-label">聯絡地址</label>
 		<div class="form-inline col-sm-6">
 			<span id="twzipcode"></span>
 			<%= f.text_field :address, class: "form-control" %>
 		</div>
 	</div>	  
-
-  <div class="field">
-    農場封面<br>
-    <%= f.file_field :cover, class: "form-control",  accept: "image/*" %>
-  </div>
-<script>	
-$("#company_cover").fileinput({showCaption: false,
-							 showRemove: false,
-							 allowedFileTypes: ["image"],
-							 previewFileType: "image",
-							 browseClass: "btn btn-success",
-							 browseLabel: " 選取圖片",
-							 browseIcon: '<i class="glyphicon glyphicon-picture"></i>',
-							 removeClass: "btn btn-danger",
-							 removeLabel: "刪除",
-							 removeIcon: '<i class="glyphicon glyphicon-trash"></i>',
-							 uploadClass: "btn btn-default",
-							 uploadLabel: "上傳",
-							 uploadIcon: '<i class="glyphicon glyphicon-upload"></i>',
-						     initialPreview: [
-						        '<%= image_tag @company.cover.url,class: 'file-preview-image' %>'
-						     ],
-						     overwriteInitial: true							 
-						    });	
-</script>  
-  
-  
-<input id="test_1" name="test[]" type="file" multiple class="file-loading">
-<script>
-var $input = $("#test_1");
-    $input.fileinput({
-		showCaption: false,    
-		showRemove: false,	
-		allowedFileTypes: ["image"],
-		previewFileType: "image",
-	    browseClass: "btn btn-success",
-		browseLabel: " 選取圖片",
-		browseIcon: '<i class="glyphicon glyphicon-picture"></i>',						 				
-        uploadUrl: "/companies/<%=@company.id %>/companyImagesUpload", // server upload action
-        uploadAsync: true,
-        maxFileCount: 5,
-		initialPreview: [
-			<% @company.company_images.each do |c_i|%>
-			'<%= image_tag c_i.image.url, class: 'file-preview-image' %>',
-			<%end%>
-		],
-		initialPreviewConfig: [
-			<% @company.company_images.each do |c_i|%>		
-		    {
-		        url: "/companies/<%=@company.id %>/companyImagesDelete", // server delete action 
-		        key: <%=c_i.id %>
-		    },
-			<%end%>		    
-		]		        
-    });
-</script>
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+	<div class="form-group">
+		<label class="col-sm-offset-1 col-sm-2 control-label">農場封面</label>		
+		<div class="col-sm-6">
+    	<%= f.file_field :cover, class: "form-control",  accept: "image/*" %>
+  		</div>
+  	</div> 
+	<script>	
+	$("#company_cover").fileinput({showCaption: false,
+								 showRemove: false,
+								 allowedFileTypes: ["image"],
+								 previewFileType: "image",
+								 browseClass: "btn btn-success",
+								 browseLabel: " 選取圖片",
+								 browseIcon: '<i class="glyphicon glyphicon-picture"></i>',
+								 removeClass: "btn btn-danger",
+								 removeLabel: "刪除",
+								 removeIcon: '<i class="glyphicon glyphicon-trash"></i>',
+								 uploadClass: "btn btn-default",
+								 uploadLabel: "上傳",
+								 uploadIcon: '<i class="glyphicon glyphicon-upload"></i>',
+							     initialPreview: [
+							        '<%= image_tag @company.cover.url,class: 'file-preview-image' %>'
+							     ],
+							     overwriteInitial: true							 
+							    });	
+	</script>  
+	<div class="form-group">
+		<label class="col-sm-offset-1 col-sm-2 control-label">農場照片</label>		
+		<div class="col-sm-9">
+		<input id="test_1" name="test[]" type="file" multiple class="file-loading form-control">
+  		</div>
+  	</div>     
+	<script>
+	var $input = $("#test_1");
+	    $input.fileinput({
+			showCaption: false,    
+			showRemove: false,	
+			allowedFileTypes: ["image"],
+			previewFileType: "image",
+		    browseClass: "btn btn-success",
+			browseLabel: " 選取圖片",
+			browseIcon: '<i class="glyphicon glyphicon-picture"></i>',						 				
+	        uploadUrl: "/companies/<%=@company.id %>/companyImagesUpload", // server upload action
+	        uploadAsync: true,
+	        maxFileCount: 5,
+			initialPreview: [
+				<% @company.company_images.each do |c_i|%>
+				'<%= image_tag c_i.image.url, class: 'file-preview-image' %>',
+				<%end%>
+			],
+			initialPreviewConfig: [
+				<% @company.company_images.each do |c_i|%>		
+			    {
+			        url: "/companies/<%=@company.id %>/companyImagesDelete", // server delete action 
+			        key: <%=c_i.id %>
+			    },
+				<%end%>		    
+			]		        
+	    });
+	</script>
+	<div class="form-group">
+		<div class="col-sm-offset-3 col-sm-10">
+			<%= f.submit '儲存',  class: "btn btn-primary"  %>
+			<%= link_to '預覽',  @company, class: "btn btn-default"  %>			
+		</div>
+	</div>	
 <% end %>
 
 

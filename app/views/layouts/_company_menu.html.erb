@@ -2,7 +2,7 @@
 	<div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-			<li <%= active( controller: 'orders', action: 'index' )%> ><%= link_to "訂單管理", controller: 'orders', action: 'index'%></li>
+			<li <%= active( controller: 'orders', action: 'index' )%> ><%= link_to "訂單管理", controller: 'orders', action: 'index', shipped_c: 'false'%></li>
 			<li <%= active( controller: '/companies', action: 'edit', id: current_user.companies.first.id)%>><%= link_to "農場資料", edit_company_path(current_user.companies.first) %></li>
 			<li <%= active( controller: '/products')%>><%= link_to "上/下架水果", products_url %></li>			
           </ul>

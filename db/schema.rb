@@ -145,7 +145,8 @@ ActiveRecord::Schema.define(version: 20150524160052) do
   create_table "orders", force: true do |t|
     t.integer  "product_boxing_id"
     t.integer  "invoice_id"
-    t.boolean  "agreed_c",                     default: false, null: false
+    t.boolean  "confirmed_c",                  default: false, null: false
+    t.boolean  "shipped_c",                    default: false, null: false
     t.integer  "review_score"
     t.string   "review_feedback"
     t.datetime "review_at"

@@ -5,7 +5,8 @@ class CreateOrders < ActiveRecord::Migration
       t.belongs_to :invoice, index: true     
 
       t.boolean   :confirmed_c, default: false, null: false 
-          
+      t.boolean   :shipped_c, default: false, null: false 
+
       t.integer   :review_score
       t.string    :review_feedback      
       t.datetime  :review_at

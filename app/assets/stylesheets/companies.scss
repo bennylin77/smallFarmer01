@@ -1,0 +1,34 @@
+.farm_cover{
+  width: 100%;
+  height: 450px;
+}
+.farm_fruits{
+  text-align: center;
+}
+.farm_fruits img{
+  border: solid 1px #526031;
+  padding: 3px;
+  background-clip: content-box; /* support: IE9+ */
+  background-color: transparent;
+}
+.farm_fruits_name{
+  margin-top: 60px;
+  font-size: 18.5px;
+}
+.farm_fruits_price{
+  margin-top: 20px;  
+  font-size: 17px;  
+}
+.farm_fruits_reviews{
+  margin-top: 10px;    
+}
+.farm_fruits_excellent{
+  color: #de562c;
+  font-size: 29px;
+  
+  
+}
+.farm_fruits_excellent_text{
+  
+}
+

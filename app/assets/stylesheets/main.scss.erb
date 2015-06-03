@@ -1,0 +1,238 @@
+body{
+  font-family: Heiti TC, Microsoft JhengHei, sans-serif; 
+  background-color: #f3f3f2;   
+  background-image: url(<%= asset_path 'paper_texture.png'%>)  
+  
+}
+/*======================================= top navigation =======================================*/
+.menu{
+  background: #f3f3f2;
+  border: none;
+  color: #f1f1f1 !important;  
+}
+input.rounded {
+    border: 1px solid #ccc;
+    -moz-border-radius: 17px;
+    -webkit-border-radius: 17px;
+    border-radius: 17px; 
+    padding: 4px 7px;
+    outline: 0;
+    -webkit-appearance: none;
+    background: rgba( 255, 255, 255, 1); 
+    border: none;     
+}
+input.rounded:focus {
+    border: none; 
+}
+.navbar-nav>li{
+  padding-right: 10px;
+}
+.navbar-nav>li>a.menu_right {
+    padding: 7px 7px;
+}
+.navbar-nav>li>a.menu_right:focus, .navbar-nav>li>a.menu_right:active{
+  background: none !important;
+}
+.navbar-nav>li>a.menu_right img{
+  height:38px;
+  width: 38px;
+  vertical-align: middle;
+}
+.navbar-nav>li>a.menu_right>.menu_right_icon{
+  height:35px;
+  width: 35px;
+  font-size: 20px;  
+  text-align: center;
+  vertical-align: middle;  
+  line-height: 36px;
+  border-radius: 100px;  
+  background: rgba( 255, 255, 255, 0.75);   
+}
+.navbar-brand{
+  color: #e29874 !important;
+  font-size: 26px;
+}
+.mobile_menu_label{
+  display: block;
+  position: absolute; 
+  font-size: 20px; 
+  top: 16px;
+  left: 47px;  
+}
+.menu_coupons {
+  display: block;
+  text-align: center;
+  top: 18px;
+  position: absolute;
+  line-height: 20px;
+  font-size: 18px;
+  width: 40px;
+  color: #b5841b;
+}
+.badge {
+  display: block;
+  position: absolute;
+  top: 2px;
+  right: 1px;
+  line-height: 20px;
+  height: 20px;
+  padding: 0 7px;
+}
+.badge-danger {
+  background-color: #d43f3a;
+}
+
+/*======================================= Sidebar navigation =======================================*/
+/* Hide for mobile, show later */
+.sidebar {
+  /*display: none;*/
+}
+@media (min-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto; 
+    background-color: #f5f5f5;
+    border-right: 1px solid #eee;
+  }
+}
+.nav-sidebar {
+  margin-right: -21px; /* 20px padding + 1px border */
+  margin-bottom: 20px;
+  margin-left: -20px;
+}
+.nav-sidebar > li > a {
+  padding-right: 20px;
+  padding-left: 20px;
+}
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus {
+  color: #fff;
+  background-color: #428bca;
+}
+/*======================================= main =======================================*/
+.main_frontend {
+  padding: 90px 0px;
+}
+.main_backend {
+  padding: 90px 20px;
+}
+@media (min-width: 768px) {
+  .main_backend {
+    padding: 90px 40px;    
+  }
+}
+
+/*======================================= Carousel =======================================*/
+.carousel .item 
+{
+     height: 650px;
+}
+.main_carousel_img img
+{
+    width: 100%;
+    height: 650px;
+}
+.carousel-caption 
+{
+    top: 250px !important;
+}
+.carousel-caption h1
+{
+    font-size: 75px;
+}
+.carousel-caption a 
+{
+  background: rgba( 255, 255, 255, 0.6); 
+  color: #256642;
+  font-size: 20px;
+  padding: 8px 25px;
+  border-radius: 15px;  
+}
+
+.carousel-caption a:hover
+{
+  text-decoration: none;
+  background: rgba( 255, 255, 255, 0.6); 
+}
+
+.carousel-indicators li {
+  border: none;
+  width: 18px;
+  height: 18px;  
+  background-color: rgba( 100, 100, 100, 0.6);
+}
+
+.carousel-indicators .active {
+  background-color: rgba( 255, 255, 255, 0.6);
+  width: 18px;
+  height: 18px;    
+}
+
+@media (max-width: 992px) {
+
+ .carousel .item {
+     height: 640px;
+ }
+  .main_carousel_img img {
+    width: 100%;
+    height: 700px;
+ }
+  .carousel-caption {
+    top: 190px !important;
+  } 
+  .carousel-caption h1
+  {
+      font-size: 50px;
+  }  
+ }
+
+@media (max-width: 768px) {
+
+   .carousel .item {
+      width: 100%;     
+     height: 470px;
+    }
+   .main_carousel_img img {
+     width: 100%;     
+     height: 470px;
+ } 
+  .carousel-caption {
+    top: 150px !important;
+  } 
+  .carousel-caption h1
+  {
+      font-size: 40px;
+  }  
+  .carousel-caption a 
+  {
+    font-size: 14px;
+    padding: 3px 5px;
+    border-radius: 10px;  
+  }  
+  
+}
+
+.carousel-control {
+  &.left, &.right {
+    background: none;
+    @include reset-filter();
+  }
+}
+.carousel .carousel-control { visibility: hidden; }
+.carousel:hover .carousel-control { visibility: visible; }
+/*======================================= Breadcrumb =======================================*/
+
+.breadcrumb {background: rgba(255, 255, 255, 0); border: 5px solid rgba(245, 245, 245, 0); border-radius: 0px; display: block;}
+.breadcrumb li {font-size: 18px;}
+.breadcrumb a {color: #605856;}
+.breadcrumb a:hover {color: #536132;}
+.breadcrumb>.active {color: #536132;}
+.breadcrumb>li+li:before {color: #605856; content: "\003E\00a0";}

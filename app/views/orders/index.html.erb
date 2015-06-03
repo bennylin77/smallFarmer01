@@ -1,8 +1,20 @@
+<div class="row">
+<ul class="nav nav-tabs pull-right">
+  <li role="presentation" class="active">
+	<%= link_to "尚未出貨", controller: 'orders', action: 'index', shipped_c: false%>  	
+  </li>
+  <li role="presentation">
+	<%= link_to "已出貨", controller: 'orders', action: 'index', shipped_c: true%>  	  	
+  </li>
+</ul>
+</div>
+
+<div class="row">
 <div class="table-responsive">
 <table class="table table-bordered table-hover">
   <tr>
+    <th>訂單編號</th>  	
     <th>訂單日期</th>
-    <th>訂單編號</th>
 	<th>水果名稱</th>
 	<th>數量(單位/箱)</th>  
 	<th>金額</th>						 		    
@@ -11,10 +23,10 @@
     <th>收件人</th>    
 	<th></th>         
   </tr>
-  <% Order.joins(product_boxing: {product: :company}).where(companies: {id: current_user.companies.first}).all.order('id desc').each do |o| %>
+  <% @orders.each do |o| %>
   <tr>
+    <td><%= o.id %></td>  	
     <td><%= o.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
-    <td><%= o.id %></td>
     <td><%= o.product_boxing.product.name%></td>    
     <td><%= o.quantity%>箱 (<%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %>/箱)</td> 
     <td><%= o.price.to_i %>元</td>    
@@ -29,8 +41,10 @@
 		<br>
 		<%= o.invoice.receiver_phone_no %>
 	</td>   	                              
-    <td><%=link_to '確認出貨', '#' , class: 'btn btn-primary'%></td>		     
+    <td><%=link_to '通知出貨', '#' , class: 'btn btn-primary'%></td>		     
   </tr>
   <%end%>  
 </table>
 </div>
+</div>
+

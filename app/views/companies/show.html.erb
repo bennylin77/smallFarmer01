@@ -1,23 +1,102 @@
-<div class="container main_frontend">
+<div class="container-fluid main_frontend">
+	<ol class="breadcrumb">
+	  <li><a href="#">首頁</a></li>
+	  <li><a href="#">農場</a></li>
+	  <li class="active"><%= @company.name %></li>
+	</ol>
 
-<p>
-  <strong>Cover:</strong>
-  <%= @company.cover %>
-</p>
-
-<p>
-  <strong>Name:</strong>
-  <%= @company.name %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @company.description %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @company.user %>
-</p>
-
+	<div class="row">
+		<div class="col-sm-4">
+	  <%= @company.description %>
+		</div>		
+		<div class="col-sm-4">
+	  <%= @company.description %>
+		</div>	
+	</div>
+	<div class="row">
+		<div class="col-sm-4">
+		</div>
+		<div class="col-sm-4">
+			<%= image_tag @company.user.avatar.url, class: 'img-circle', size: '90x87' %>
+		</div>				
+		<div class="col-sm-4">
+			<%= image_tag @company.user.avatar.url, class: 'img-circle', size: '90x87' %>
+		</div>
+	</div>
+	<div class="row">
+		<%= image_tag @company.cover.url, class: 'farm_cover' %>
+	</div>
+	<div class="row" style="margin-top: 100px;">
+		<div class="col-sm-offset-2 col-sm-2 farm_fruits">
+			<%= image_tag 'fruits1.jpg', class: 'img-circle', size: '150x150' %>			
+		    <div class="farm_fruits_name">
+		    	超好吃玉女蕃茄
+		    </div>	  
+		    <div class="farm_fruits_price">
+		    	1箱(10斤) 400元(含運)
+		    </div>	
+		    <div class="farm_fruits_reviews">
+		    	<span class="farm_fruits_excellent">3764 </span><span class="farm_fruits_excellent_text">人說非吃不可</span>
+		    </div>			 				
+		</div>		
+		<div class="col-sm-2 farm_fruits">
+			<%= image_tag 'fruits2.jpg', class: 'img-circle', size: '150x150' %>			
+		    <div class="farm_fruits_name">
+		    	超好吃玉女蕃茄
+		    </div>	  
+		    <div class="farm_fruits_price">
+		    	1箱(10斤) 400元(含運)
+		    </div>	
+		    <div class="farm_fruits_reviews">
+		    	<span class="farm_fruits_excellent">3764 </span><span class="farm_fruits_excellent_text">人說非吃不可</span>
+		    </div>			
+		</div>
+		<div class="col-sm-2 farm_fruits">
+			<%= image_tag 'fruits3.jpg', class: 'img-circle', size: '150x150' %>			
+		    <div class="farm_fruits_name">
+		    	超好吃玉女蕃茄
+		    </div>	  
+		    <div class="farm_fruits_price">
+		    	1箱(10斤) 400元(含運)
+		    </div>	
+		    <div class="farm_fruits_reviews">
+		    	<span class="farm_fruits_excellent">3764 </span><span class="farm_fruits_excellent_text">人說非吃不可</span>
+		    </div>				
+		</div>				
+		<div class="col-sm-2 farm_fruits">
+			<%= image_tag 'fruits4.jpg', class: 'img-circle', size: '150x150' %>			
+		    <div class="farm_fruits_name">
+		    	超好吃玉女蕃茄
+		    </div>	  
+		    <div class="farm_fruits_price">
+		    	1箱(10斤) 400元(含運)
+		    </div>	
+		    <div class="farm_fruits_reviews">
+		    	<span class="farm_fruits_excellent">12374 </span><span class="farm_fruits_excellent_text">人說非吃不可</span>
+		    </div>				
+		</div>		
+	</div>	
+	
+	<%@company.products.each_slice(2) do |a|%> 
+	<% a.each do |aa|%>
+	<%=aa.id%>
+	<%end%>	
+	<%end%>
+	
+	
 </div>
+
+
+<span class="Count">100</span>
+<script>
+	$('.Count').each(function () {
+	  var $this = $(this);
+	  jQuery({ Counter: 0 }).animate({ Counter: $this.text() }, {
+	    duration: 1000,
+	    easing: 'swing',
+	    step: function () {
+	      $this.text(Math.ceil(this.Counter));
+	    }
+	  });
+	});
+</script>
