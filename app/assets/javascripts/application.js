@@ -14,6 +14,14 @@
 //= require jquery_ujs
 //= require jquery.turbolinks
 //= require bootstrap-sprockets
+
+//= require EasePack.min.js
+//= require TweenMax.min.js
+//= require modernizr.custom.min.js
+//= require ScrollMagic.js
+//= require animation.gsap.js
+//= require debug.addIndicators.js
+
 //= require jquery.twzipcode.min.js
 //= require intlTelInput.min.js
 //= require fileinput.min.js
@@ -21,4 +29,5 @@
 //= require moment-with-locales.min.js
 //= require toastr.min.js
 //= require toastr_options.js
+//
 //= require_tree .

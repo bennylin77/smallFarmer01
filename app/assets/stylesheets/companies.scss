@@ -1,29 +1,61 @@
+.farm_triangle {
+  width: 0;
+  height: 0;
+  border-bottom: 150px solid rgba(199, 210, 154, 0.3);
+  border-left: 225px solid transparent;
+  border-right: 225px solid transparent;
+}
+
+.farm_triangle_text {
+  padding-top: 100px;
+  font-size: 26px;
+  width: 200px;
+  margin-left: -100px;
+  text-align: center;
+}
+
 
 .farm_description{
-  font-size: 18px;
+  width: 450px;
+  font-size: 16px;
   background: rgba(199, 210, 154, 0.3);
   padding: 35px 55px;
 }
 
+
+.farm_words{
+  margin: 0px auto;
+  width: 400px;
+  color: #241915;  
+}
 .farm_words_quote{
-  font-size: 25px;
+  font-size: 45px;
+  vertical-align: -20px; 
+  line-height: 15px;
 }
 .farm_words_content{
   font-size: 18px; 
-  line-height: 35px; 
+  line-height: 32px; 
 }
 .farm_words_name{
+  width: 400px;  
+  text-align: right;
   font-size: 18px;   
   margin-bottom: 20px;
 }
 
-.farm_cover{
-  width: 100%;
-  height: 600px;
-  margin-top: 30px;  
+.farm_cover_parallax_parent {
+  height: 400px;
+  overflow: hidden;
 }
+.farm_cover_parallax_parent > * {
+  height:  250%;
+  position: relative;
+  top: 0%;
+}
+
 .farm_fruits{
-  margin-top: 118px;  
+  margin-top: 60px;  
   text-align: center;
 }
 .farm_fruits img{
@@ -51,8 +83,9 @@
 }
 /*======================================= Carousel =======================================*/
 .farm_carousel
-{
-  width: 65% !important;  
+{ 
+  margin-bottom: 30px !important;  
+  width: 340px !important;  
 }
 .farm_item{
   height: 250px;   
@@ -74,6 +107,16 @@
   width: 10px;
   height: 10px;    
 }
+.farm_carousel-control {
+  &.left, &.right {
+    background: none;
+    @include reset-filter();
+  }
+}
+.farm_carousel .farm_carousel-control { visibility: hidden; }
+.farm_carousel:hover .farm_carousel-control { visibility: visible; }
+
+
 
 @media (max-width: 992px) {
  .farm_carousel{
@@ -111,13 +154,3 @@
     height: 200px;
   }  
 }
-
-
-.farm_carousel-control {
-  &.left, &.right {
-    background: none;
-    @include reset-filter();
-  }
-}
-.farm_carousel .farm_carousel-control { visibility: hidden; }
-.farm_carousel:hover .farm_carousel-control { visibility: visible; }

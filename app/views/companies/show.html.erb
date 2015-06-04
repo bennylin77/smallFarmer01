@@ -5,12 +5,14 @@
 	  <li class="active"><%= @company.name %></li>
 	</ol>	
 	<div class="row">
-		<div class="col-sm-offset-2 col-sm-4 vbottom">
-			<div></div>
+		<div class="col-sm-offset-1 col-sm-4 vbottom">		
+			<div class="farm_triangle">
+				<div class="farm_triangle_text"><%=@company.name %></div>
+			</div>		
 			<%= simple_format(@company.description, {class: 'farm_description'}, wrapper_tag: "div")%>			
 		</div>
-		<div class="col-sm-1 vbottom">
-			<%= image_tag @company.user.avatar.url, class: 'img-circle', size: '150x145' %>
+		<div class="col-sm-2 vbottom text-center">
+			<%= image_tag @company.user.avatar.url, class: 'img-circle', style: 'height: 145px; width: 150px;' %>
 		</div>				
 		<div class="col-sm-4 vbottom">
 			<div id="carousel-example-generic" class="farm_carousel carousel slide" data-ride="carousel" data-interval="5000" data-pause="hover" style="margin: 10px auto; ">
@@ -49,19 +51,26 @@
 			    <span class="sr-only">Next</span>
 			  </a>
 			</div>	
-			<div style="margin-top: 20px;">
+			<div  class="farm_words" >
 			<span class="farm_words_quote">“</span>
 			<span class="farm_words_content">
             在現今食安問題連環爆，造成人心煌煌的時代，我想要建立消費者一個正確觀念，安全優質農產品必須付出合理的價格才能得到。			
 			</span>
 			<span class="farm_words_quote">”</span>
 			</div>
-			<div class="text-right farm_words_name">-- <%=@company.user.last_name+' '+@company.user.first_name  %></div>
+			<div class="farm_words_name">-- <%=@company.user.last_name+' '+@company.user.first_name  %></div>
 		</div>
 	</div>
+<!--	
 	<div class="row">
 		<%= image_tag @company.cover.url, class: 'farm_cover' %>
 	</div>
+-->	
+	<div class="row" style="margin-top: 30px;">
+		<div id="parallax1" class="farm_cover_parallax_parent">
+			<div style="background-image: url('<%=@company.cover.url%>');"></div>
+		</div>	
+	</div>	
 	<div class="row">
 		<div class="col-sm-offset-2 col-sm-2 farm_fruits">
 			<%= image_tag 'fruits1.jpg', class: 'img-circle', size: '150x150' %>			
@@ -119,8 +128,28 @@
 	<%=aa.id%>
 	<%end%>	
 	<%end%>
+-->	
 <span class="Count">100</span>
+
+
 <script>
+$(document).ready(function($) {
+	// function to be used to retrieve variable
+	function getWindowHeight() {
+		return windowHeight;
+	}	
+	// update window height on resize
+	$(window).on("resize", function () {
+			windowHeight = $(window).innerHeight();
+	});		
+	// init controller
+	var controller = new ScrollMagic.Controller({globalSceneOptions: {triggerHook: "onEnter", duration: "200%"}});
+	// build scenes
+	new ScrollMagic.Scene({triggerElement: "#parallax1"})
+		.setTween("#parallax1 > div", {y: "-50%", ease: Linear.easeNone})
+		.addTo(controller);																																																									
+});	
+
 	$('.Count').each(function () {
 	  var $this = $(this);
 	  jQuery({ Counter: 0 }).animate({ Counter: $this.text() }, {
@@ -132,4 +161,3 @@
 	  });
 	});
 </script>
--->
