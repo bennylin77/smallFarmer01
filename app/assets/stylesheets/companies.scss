@@ -86,15 +86,13 @@
 { 
   margin-bottom: 30px !important;  
   width: 340px !important;  
-}
-.farm_item{
-  height: 250px;   
+ 
 }
 .farm_carousel_img img
-{
-  width: 100%;
-  height: 250px;
-  border-radius: 20px;    
+{  
+  width: 340px; 
+  height: 250px;   
+  border-radius: 20px;   
 }
 .farm_carousel-indicators li {
   border: none;
@@ -110,21 +108,22 @@
 .farm_carousel-control {
   &.left, &.right {
     background: none;
+    position:absolute; 
     @include reset-filter();
   }
+  &.left{
+    margin-left: -45px; color: black;
+  }  
+  &.right{
+    margin-right: -45px; color: black;
+  }     
 }
-.farm_carousel .farm_carousel-control { visibility: hidden; }
-.farm_carousel:hover .farm_carousel-control { visibility: visible; }
-
 
 
 @media (max-width: 992px) {
  .farm_carousel{
    width: 100% !important; 
  }
- .farm_item{
-    height: 220px;   
- } 
   .farm_carousel_img img {
     width: 100%;
     height: 220px;
@@ -133,10 +132,7 @@
 @media (max-width: 768px) {
   .farm_carousel{
     width: 65% !important;    
-  }
-  .farm_item{
-    height: 200px;
-  }     
+  }  
   .farm_carousel_img img {
     width: 100%;     
     height: 200px;
