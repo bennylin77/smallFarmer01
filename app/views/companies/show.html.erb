@@ -2,7 +2,7 @@
 	<ol class="breadcrumb">
 	  <li><a href="#">首頁</a></li>
 	  <li><a href="#">農場</a></li>
-	  <li class="active"><%= image_tag Hash[countyImageOptions].rassoc(@company.county).first %> <%= @company.county %><%= @company.name %></li>
+	  <li class="active"><%= image_tag Hash[countyImageOptions].rassoc(@company.county).first, height: '70' %> <%= @company.county %><%= @company.district %> <%= @company.name %></li>
 	</ol>	
 	<div class="row">
 		<div class="col-sm-offset-1 col-sm-4 vbottom">		
