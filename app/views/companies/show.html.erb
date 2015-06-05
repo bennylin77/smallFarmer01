@@ -72,7 +72,7 @@
 		</div>	
 	</div>	
 	<div class="row">
-		<div class="col-sm-offset-2 col-sm-2 farm_fruits">
+		<div class="col-lg-offset-2 col-lg-2 col-md-offset-2 col-md-2  farm_fruits">
 			<%= image_tag 'fruits1.jpg', class: 'img-circle', size: '150x150' %>			
 		    <div class="farm_fruits_name">
 		    	超好吃玉女蕃茄
@@ -84,7 +84,7 @@
 		    	<span class="farm_fruits_excellent">3764 </span><span class="farm_fruits_excellent_text">人說非吃不可</span>
 		    </div>			 				
 		</div>		
-		<div class="col-sm-2 farm_fruits">
+		<div class="col-lg-2 col-md-2 farm_fruits">
 			<%= image_tag 'fruits2.jpg', class: 'img-circle', size: '150x150' %>			
 		    <div class="farm_fruits_name">
 		    	超好吃玉女蕃茄
@@ -96,7 +96,7 @@
 		    	<span class="farm_fruits_excellent">364 </span><span class="farm_fruits_excellent_text">人說非吃不可</span>
 		    </div>			
 		</div>
-		<div class="col-sm-2 farm_fruits">
+		<div class="col-lg-2 col-md-2 farm_fruits">
 			<%= image_tag 'fruits3.jpg', class: 'img-circle', size: '150x150' %>			
 		    <div class="farm_fruits_name">
 		    	超好吃玉女蕃茄
@@ -108,7 +108,7 @@
 		    	<span class="farm_fruits_excellent">3764 </span><span class="farm_fruits_excellent_text">人說非吃不可</span>
 		    </div>				
 		</div>				
-		<div class="col-sm-2 farm_fruits">
+		<div class="col-lg-2 col-md-2 farm_fruits">
 			<%= image_tag 'fruits4.jpg', class: 'img-circle', size: '150x150' %>			
 		    <div class="farm_fruits_name">
 		    	超好吃玉女蕃茄
@@ -158,10 +158,7 @@ $(document).ready(function($) {
                     move ("#parallax1 > div", e.progress);
                 })
                 .addTo(controller);		
-		
-		
-		
-		
+
 	new ScrollMagic.Scene({triggerElement: ".farm_fruits_reviews"})
 		.addTo(controller)
 		.on('start', function(e){
