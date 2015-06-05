@@ -93,7 +93,7 @@
 		    	1箱(10斤) 400元(含運)
 		    </div>	
 		    <div class="farm_fruits_reviews">
-		    	<span class="farm_fruits_excellent">3764 </span><span class="farm_fruits_excellent_text">人說非吃不可</span>
+		    	<span class="farm_fruits_excellent">364 </span><span class="farm_fruits_excellent_text">人說非吃不可</span>
 		    </div>			
 		</div>
 		<div class="col-sm-2 farm_fruits">
@@ -129,9 +129,6 @@
 	<%end%>	
 	<%end%>
 -->	
-<span class="Count">100</span>
-
-
 <script>
 $(document).ready(function($) {
 	// function to be used to retrieve variable
@@ -145,19 +142,40 @@ $(document).ready(function($) {
 	// init controller
 	var controller = new ScrollMagic.Controller({globalSceneOptions: {triggerHook: "onEnter", duration: "200%"}});
 	// build scenes
+	/*
 	new ScrollMagic.Scene({triggerElement: "#parallax1"})
 		.setTween("#parallax1 > div", {y: "-50%", ease: Linear.easeNone})
-		.addTo(controller);																																																									
+		.addTo(controller);		
+	*/	
+
+	function move (what, progress) {
+	    var to = progress * 50;
+	    TweenMax.to(what, 0.3, {y: '-'+to + "%", overwrite: 5, force3D: true});
+	}
+	// build scenes
+	new ScrollMagic.Scene({triggerElement: "#parallax1"})
+                .on("progress", function (e) {
+                    move ("#parallax1 > div", e.progress);
+                })
+                .addTo(controller);		
+		
+		
+		
+		
+	new ScrollMagic.Scene({triggerElement: ".farm_fruits_reviews"})
+		.addTo(controller)
+		.on('start', function(e){
+			$('.farm_fruits_excellent').each(function () {
+			  var $this = $(this);
+			  jQuery({ Counter: 0 }).animate({ Counter: $this.text() }, {
+			    duration: 1200,
+			    easing: 'swing',
+			    step: function () {
+			      $this.text(Math.ceil(this.Counter));
+			    }
+			  });
+			});					
+		});																																																										
 });	
 
-	$('.Count').each(function () {
-	  var $this = $(this);
-	  jQuery({ Counter: 0 }).animate({ Counter: $this.text() }, {
-	    duration: 1000,
-	    easing: 'swing',
-	    step: function () {
-	      $this.text(Math.ceil(this.Counter));
-	    }
-	  });
-	});
 </script>
