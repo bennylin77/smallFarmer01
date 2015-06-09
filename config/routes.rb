@@ -12,8 +12,9 @@ Rails.application.routes.draw do
   get    'coupons/index'
 
   get    'invoices/index'
-  post   'invoices/createCredit'
-  post   'invoices/createCOD'
+  post   'invoices/create'
+  get    'invoices/allpayCredit'
+  post   'invoices/allpayCreditNotify'
   get    'invoices/finished'    
   
   post   'orders/confirmCheckout'  

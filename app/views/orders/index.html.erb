@@ -1,9 +1,9 @@
 <div class="row">
 <ul class="nav nav-tabs pull-right">
-  <li role="presentation" class="active">
+  <li role="presentation" <%= active( controller: 'orders', action: 'index', shipped_c: false)%>>
 	<%= link_to "尚未出貨", controller: 'orders', action: 'index', shipped_c: false%>  	
   </li>
-  <li role="presentation">
+  <li role="presentation" <%= active( controller: 'orders', action: 'index', shipped_c: true)%>>
 	<%= link_to "已出貨", controller: 'orders', action: 'index', shipped_c: true%>  	  	
   </li>
 </ul>
@@ -17,7 +17,8 @@
     <th>訂單日期</th>
 	<th>水果名稱</th>
 	<th>數量(單位/箱)</th>  
-	<th>金額</th>						 		    
+	<th>金額</th>	
+	<th>付款方式</th>							 		    
 	<th>物流追蹤碼</th>
 	<th>狀態</th>			       
     <th>收件人</th>    
@@ -30,6 +31,16 @@
     <td><%= o.product_boxing.product.name%></td>    
     <td><%= o.quantity%>箱 (<%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %>/箱)</td> 
     <td><%= o.price.to_i %>元</td>    
+    <td>
+	<%if o.invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>	
+	<p>線上刷卡</p>
+	<%=image_tag 'allPay.png', class: 'img-responsive', size: '60x60'%>	
+	</div>	
+	<%elsif o.invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD']%>	
+	<p>貨到付款</p>
+	<%=image_tag 'cat.png', class: 'img-responsive', size: '60x60'%> 			
+	<%end%>    	
+    </td>	
     <td><%= showBlank o.tracing_code%></td>    
 	<td>
 		<%= Hash[orderStatusOptions].rassoc(o.status).first%>
@@ -41,7 +52,7 @@
 		<br>
 		<%= o.invoice.receiver_phone_no %>
 	</td>   	                              
-    <td><%=link_to '通知出貨', '#' , class: 'btn btn-primary'%></td>		     
+    <td><%=link_to '通知物流', '#' , class: 'btn btn-primary'%></td>		     
   </tr>
   <%end%>  
 </table>

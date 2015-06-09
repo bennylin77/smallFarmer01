@@ -1,11 +1,12 @@
 <div class="table-responsive">
-<table class="table table-bordered table-hover">
+<table class="table table-bordered">
   <tr>
     <th>購買日期</th>
     <th>購買編號</th>
     <th>購買金額</th>
 	<th>回饋金使用</th>
 	<th>付款金額</th>	
+	<th>付款狀態</th>				
 	<th><span class=" glyphicon glyphicon-leaf menu_right_icon" aria-hidden="true"></span> 獲得回饋金<br> 
 		<abbr title="獲得回饋金為'付款金額'x4%, 並採取無條件進入"><small>付款金額x4%</small></abbr>
 	</th>	       
@@ -25,7 +26,10 @@
     	<%end%>
     	<%=discount.to_i%>元
     </td>
-    <td><mark><%= (i.amount-discount).to_i %>元</mark></td>      
+    <td><mark><%= (i.amount-discount).to_i %>元</mark></td>  
+    <td>
+    	<mark><%= (i.amount-discount).to_i %>元</mark>
+    </td>         
     <td>
     	<%coupon_get = 0%>
     	<%i.orders.each do |o|%> 
@@ -43,7 +47,6 @@
       <table class="table table-striped">     
 		<tr>	
 		    <td>訂單編號</td>						
-		    <td>農夫</td>			
 		    <td>水果名稱</td>
 			<td>數量(單位/箱)</td>   
 			<td>金額</td> 						 		    
@@ -53,7 +56,6 @@
     	<%i.orders.each do |o|%>      	
         <tr>
           <td><%= o.id %></td>        	        		
-          <td><%= image_tag o.product_boxing.product.company.user.avatar.url, class: 'img-circle', size: '20x20' %></td>        	
           <td><%= o.product_boxing.product.name%></td>
           <td><%= o.quantity%>箱 (<%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %>/箱)</td>
           <td><%= o.price.to_i %>元</td>     
@@ -64,7 +66,8 @@
       </table>    	
     </td> 	
     <td>
-    	<%=link_to '取消購買', '#' ,class: 'btn btn-danger' %>
+    	<div><%=link_to '線上付款', '#' ,class: 'btn btn-primary' %></div>   	
+    	<div style="margin-top: 10px;"><%=link_to '取消購買', '#' ,class: 'btn btn-danger' %></div>
     </td>	         
   </tr>
   <%end%>  

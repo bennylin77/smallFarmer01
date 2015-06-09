@@ -1,12 +1,15 @@
 class InvoicesController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: [:allpayCreditNotify]
+  before_action :set_invoice, only: [:allpayCredit, :finished]
   
   def index    
     render layout: 'users'    
   end  
   
-  def createCOD  
+  def create  
     current_user.update_attributes(user_params)  
-    invoice =  current_user.invoices.where(confirmed_c: false).first    
+    invoice =  current_user.invoices.where(confirmed_c: false).first 
+    #Orders       
     current_user.carts.each do |c|
       order = Order.new
       order.invoice = invoice 
@@ -43,20 +46,78 @@ class InvoicesController < ApplicationController
       end
     end
     current_user.carts.destroy_all
-    invoice.payment_method = GLOBAL_VAR['PAYMENT_METHOD_COD']    
+    invoice.payment_method = params[:payment_method]  
     invoice.confirmed_c = true
-    invoice.save!   
-    
- 
-    redirect_to  controller: 'invoices' , action: 'finished'     
+    invoice.save!  
+    if invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD']
+      redirect_to  controller: 'invoices' , action: 'finished', id: invoice.id 
+    elsif invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']
+      redirect_to  controller: 'invoices', action: 'allpayCredit', id: invoice.id       
+    end            
   end  
   
-  def createCredit
+  def allpayCredit   
+    discount = 0 
+    @invoice.invoice_coupon_lists.each do |i_c_l|
+        discount = discount + i_c_l.amount
+    end    
+    item_name = []
+    @invoice.orders.each do |o|                            
+      item_name << o.product_boxing.product.name+'x'+o.quantity.to_s+'箱'    
+    end   
+    item_name = item_name.join("#")    
+    merchant_trade_no = @invoice.id.to_s+'AT'+Time.now.strftime("%Y%m%d%H%M%S").to_s
+    @allpay_var = { MerchantID: Rails.configuration.allpay_merchant_id,
+                    MerchantTradeNo: merchant_trade_no,
+                    MerchantTradeDate: @invoice.created_at.strftime("%Y/%m/%d %H:%M:%S"), 
+                    PaymentType: "aio",
+                    TradeDesc: "歐付寶付款",
+                    TotalAmount: @invoice.amount.to_i - discount.to_i,
+                    ItemName: item_name,       
+                    ReturnURL: Rails.configuration.allpay_return_url,
+                    ChoosePayment: "Credit",
+                    ClientBackURL: Rails.configuration.smallfarmer01_host+'/invoices/finished?id='+@invoice.id.to_s}    
+    #CheckMacValue
+    result = @allpay_var.to_a.sort.map do |key, value|
+      "#{key}=#{value}"
+    end
+    result = result.join("&")
+    url_encode_downcase = CGI::escape("HashKey=" + Rails.configuration.allpay_hash_key + "&" + result + "&HashIV=" + Rails.configuration.allpay_hash_iv).downcase   
+    @check_mac_value = Digest::MD5.hexdigest(url_encode_downcase).upcase     
+    @invoice.allpay_merchant_trade_no = merchant_trade_no
+    @invoice.save!
+  end
+  
+  def finished
     
-  end 
+  end
+  
+  def allpayCreditNotify
+    if macValueOk? # we still need to check domain   
+      if params[:RtnCode] == '1' # trade success or not
+        logger.info 222222222
+        invoice = Invoice.where(allpay_merchant_trade_no: params[:MerchantTradeNo]).first
+        discount = 0 
+        invoice.invoice_coupon_lists.each do |i_c_l|
+            discount = discount + i_c_l.amount
+        end           
+        if params[:TradeAmt].to_i == (invoice.amount - discount).to_i # amount right or not 
+          logger.info 333333333
+          
+          invoice.paid_at = params[:PaymentDate]
+          invoice.payment_charge_fee = params[:PaymentTypeChargeFee]      
+          invoice.allpay_trade_no = params[:TradeNo] 
+          invoice.paid_c = true
+          invoice.save!   
+        end
+      end
+      render text: "1|OK"      
+    else  
+      render text: "0|ErrorMessage"
+    end   
+  end
   
   private   
-  
     def candidateCoupons( hash={} )
       candidate_coupons = Array.new
       coupons_using_left = hash[:coupons_using]              
@@ -103,6 +164,26 @@ class InvoicesController < ApplicationController
         candidate_coupons
       end    
     end 
+
+    def macValueOk?
+      params_copy = params.dup
+      params_to_go = params_copy.except(:CheckMacValue, :action, :controller)
+      raw_data = params_to_go.sort.map do |x, y|
+        "#{x}=#{y}"
+      end.join('&')
+      url_encode_downcase = CGI::escape("HashKey=" + Rails.configuration.allpay_hash_key + "&" + raw_data + "&HashIV=" + Rails.configuration.allpay_hash_iv).downcase   
+      my_mac = Digest::MD5.hexdigest(url_encode_downcase)   
+      params_no_mac = params[:CheckMacValue]
+      if my_mac == params_no_mac.to_s.downcase
+        return true
+      else
+        return false
+      end
+    end
+
+    def set_invoice
+      @invoice = Invoice.find(params[:id])
+    end
     
     def user_params
       accessible = [:first_name, :last_name, addresses_attributes:[:id, :first_name, :last_name, :phone_no, :postal, :county, :district, :address, :country],

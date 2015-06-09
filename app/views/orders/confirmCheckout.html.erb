@@ -4,7 +4,7 @@
 	<%current_user.carts.each do |c| %>
 	<div class="row">
 		<div class="col-sm-2">
-			<%=link_to c.product_boxing.product.name,  product_path(c)%>
+			<%=link_to c.product_boxing.product.name,  c.product_boxing.product%>
 		</div>
 		<div class="col-sm-2">
 			<%= c.quantity%>箱			
@@ -33,7 +33,7 @@
 	<div class="row">
 		<div class="col-sm-2 control-label">付款方式</div>
 	</div>	
-	<%if @payment_method == GLOBAL_VAR['PAYMENT_METHOD_CREDIT'].to_s%>
+	<%if @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT'].to_s%>
 	<div class="row">
 		<div class="col-sm-1 control-label">	
 			 線上刷卡
@@ -42,7 +42,7 @@
 	  		<%=image_tag 'allPay.png', class: 'img-responsive', size: '80x80'%>	
 		</div>
 	</div>	
-	<%elsif @payment_method == GLOBAL_VAR['PAYMENT_METHOD_COD'].to_s%>	
+	<%elsif @payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD'].to_s%>	
 	<div class="row">
 		<div class="col-sm-2 control-label">	
 			 <label class="radio-inline">
@@ -120,8 +120,8 @@
 	
 <%= form_for current_user, url: { controller: 'orders', action: "checkout"}, method: :post do |u| %>		 
 		<%= text_field_tag :coupons_using, @coupon_using || 0, style: 'display: none' %>
-		<%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_CREDIT'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_CREDIT'].to_s, style: 'display: none' %>
-	    <%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_COD'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_COD'].to_s, style: 'display: none' %>
+		<%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT'].to_s, style: 'display: none' %>
+	    <%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD'].to_s, style: 'display: none' %>
 	<%= u.fields_for :addresses do |a| %>
 		<%= a.text_field :last_name, style: 'display: none' %>
 		<%= a.text_field :first_name, style: 'display: none' %>			
@@ -144,14 +144,7 @@
 	<%end%>	
 	<%= check_box_tag 'agree', true, @agree == 'true', style: 'display: none'%>   
 	<%= u.submit '修改',  class: "btn btn-default"%>
-	
-	
-	
-	<%if @payment_method == GLOBAL_VAR['PAYMENT_METHOD_CREDIT'].to_s%>
-	<%= u.submit '確認交易並進行線上付款', formaction: "demo_admin.asp", class: "btn btn-primary"%>	
-	<%elsif @payment_method == GLOBAL_VAR['PAYMENT_METHOD_COD'].to_s%>
-	<%= u.submit '確認交易', formaction: "/invoices/createCOD", class: "btn btn-primary"%>		
-	<%end%>	
+	<%= u.submit '確認交易', formaction: "/invoices/create", class: "btn btn-primary"%>		
 <%end-%>	
 
 

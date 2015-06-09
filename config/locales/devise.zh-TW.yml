@@ -23,7 +23,7 @@ zh-TW:
       unlock_instructions:
         subject: "Unlock instructions"
     omniauth_callbacks:
-      failure: "從 %{kind} 或的授權失敗, 因為 \"%{reason}\"."
+      failure: "從 %{kind} 獲得授權失敗, 因為 \"%{reason}\"."
       success: "成功獲得 %{kind} 授權"
     passwords:
       no_token: "You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided."

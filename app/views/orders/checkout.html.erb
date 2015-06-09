@@ -64,7 +64,7 @@
 	<div class="form-group">
 		<label class="col-sm-2 control-label">	
 			 <label class="radio-inline">
-			 <%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_CREDIT'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_CREDIT'].to_s %>線上刷卡
+			 <%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT'].to_s %>線上刷卡
 			 </label>
 		</label>
 		<div class="form-inline col-sm-6">
@@ -74,7 +74,7 @@
 	<div class="form-group">
 		<label class="col-sm-2 control-label">	
 			 <label class="radio-inline">
-			 <%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_COD'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_COD'].to_s %>貨到付款
+			 <%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD'].to_s %>貨到付款
 			 </label>
 		</label>
 		<div class="form-inline col-sm-6">

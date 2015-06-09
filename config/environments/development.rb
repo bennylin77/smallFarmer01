@@ -34,9 +34,18 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
-  
+
+  config.allpay_host = 'http://payment-stage.allpay.com.tw/Cashier/AioCheckOut'
+  config.allpay_merchant_id = '2000132'
+  config.allpay_hash_key    = '5294y06JbISpM5x9'
+  config.allpay_hash_iv     = 'v77hoKGq4kWxNNIS'
+  config.allpay_return_url = 'http://register.ac-experts.com.tw/invoices/allpayCreditNotify'  
+     
+  config.smallfarmer01_host = 'http://register.ac-experts.com.tw'
+      
+
   # General Settings
-  config.app_domain = 'register.ac-experts.com.tw:10101'
+  config.app_domain = 'register.ac-experts.com.tw'
 
   # Email
   config.action_mailer.delivery_method = :smtp
@@ -49,7 +58,6 @@ Rails.application.configure do
     user_name: 'bennylin77',
     password: '4300377@nctu',
     authentication: :plain,
-    domain: 'http://register.ac-experts.com.tw:10101'
   }
   
 end

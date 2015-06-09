@@ -123,11 +123,15 @@ ActiveRecord::Schema.define(version: 20150524160052) do
 
   create_table "invoices", force: true do |t|
     t.integer  "user_id"
-    t.boolean  "confirmed_c",                    default: false, null: false
-    t.boolean  "paid_c",                         default: false, null: false
-    t.boolean  "canceled_c",                     default: false, null: false
+    t.boolean  "confirmed_c",                         default: false, null: false
+    t.boolean  "paid_c",                              default: false, null: false
+    t.boolean  "canceled_c",                          default: false, null: false
     t.integer  "payment_method"
-    t.float    "amount",              limit: 24, default: 0.0,   null: false
+    t.datetime "paid_at"
+    t.float    "payment_charge_fee",       limit: 24, default: 0.0,   null: false
+    t.string   "allpay_trade_no"
+    t.string   "allpay_merchant_trade_no"
+    t.float    "amount",                   limit: 24, default: 0.0,   null: false
     t.string   "receiver_last_name"
     t.string   "receiver_first_name"
     t.string   "receiver_phone_no"

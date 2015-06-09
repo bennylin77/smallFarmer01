@@ -1,0 +1,22 @@
+<div class="container main_frontend">
+<form action='http://payment-stage.allpay.com.tw/Cashier/AioCheckOut' method='post' name="allpay_form">
+  <input type="hidden" name="MerchantID" value="<%= @allpay_var[:MerchantID] %>">
+  <input type="hidden" name="MerchantTradeNo" value="<%= @allpay_var[:MerchantTradeNo] %>"> 
+  <input type="hidden" name="MerchantTradeDate" value="<%= @allpay_var[:MerchantTradeDate] %>">   
+  <input type="hidden" name="PaymentType" value="<%= @allpay_var[:PaymentType] %>"> 
+  <input type="hidden" name="TotalAmount" value="<%= @allpay_var[:TotalAmount] %>"> 
+  <input type="hidden" name="TradeDesc" value="<%= @allpay_var[:TradeDesc] %>"> 
+  <input type="hidden" name="ItemName" value="<%= @allpay_var[:ItemName] %>">   
+  <input type="hidden" name="ReturnURL" value="<%= @allpay_var[:ReturnURL] %>"> 
+  <input type="hidden" name="ChoosePayment" value="<%= @allpay_var[:ChoosePayment] %>"> 
+  <input type="hidden" name="CheckMacValue" value="<%= @check_mac_value %>"> 
+  <input type="hidden" name="ClientBackURL" value="<%= @allpay_var[:ClientBackURL] %>">  
+  <button type="submit" class="btn btn-default">進行信用卡線上付款</button>  
+</form> 
+</div>
+<script>
+window.onload = function(){
+  document.forms['allpay_form'].submit()
+}
+</script>
+

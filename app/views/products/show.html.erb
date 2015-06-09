@@ -1,6 +1,19 @@
 <div class="container main_frontend">
-
-
+	<ol class="breadcrumb">
+	  <li><a href="#">首頁</a></li>
+	  <li><a href="#">合作農場</a></li>
+	  <li>
+	  	<a href="/companies/<%=@product.company.id %>">
+	  		<%unless @product.company.county.blank?%>
+	  		<%= image_tag Hash[countyImageOptions].rassoc(@product.company.county).first, height: '70' %> 
+	  		<%else%>
+	  		<%= image_tag Hash[countyImageOptions].rassoc('aaa').first, height: '70' %> 	  		
+	  		<%end%>
+	  		<%= @product.company.name %>
+	  	</a>
+	  </li>
+	  <li class="active"><%= @product.name %></li>	
+	</ol>
 <p>
   <strong>農夫大頭:</strong>
  <%= image_tag @product.company.user.avatar.url, class: 'img-circle' %>
