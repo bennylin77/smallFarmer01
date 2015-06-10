@@ -14,7 +14,7 @@
 	<th>項目明細</th> 
 	<td></td>		        
   </tr>
-  <%current_user.invoices.each do |i| %>
+  <%@invoices.each do |i| %>
   <tr>
     <td><%= i.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
     <td><%= i.id %></td>
@@ -27,16 +27,27 @@
     	<%=discount.to_i%>元
     </td>
     <td><mark><%= (i.amount-discount).to_i %>元</mark></td>  
-    <td>
-    	<mark><%= (i.amount-discount).to_i %>元</mark>
-    </td>         
-    <td>
-    	<%coupon_get = 0%>
-    	<%i.orders.each do |o|%> 
-    		<%coupon_get = coupon_get + (o.price*0.04).ceil %>
+    <td>  	
+    	<%if i.paid_c%>
+			<%if i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>
+			<%=image_tag 'allPay.png', class: 'img-responsive', size: '50x30'%>    			
+    		付款編號<br>
+    		<%= i.allpay_merchant_trade_no %><br>   	
+    		<%elsif o.invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD']%>		
+    		<%end%>	
+    		付款日期<br>  
+    		<%= i.paid_at.strftime("%Y-%m-%d %H:%M:%S") %>    		    		   		
+    	<%else%>
+			<%if i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>
+			<%=image_tag 'allPay.png', class: 'img-responsive', size: '50x30'%>    	
+			<p>線上刷卡, 尚未付款</p>    	
+	    	<%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD']%>		
+			<%=image_tag 'cat.png', class: 'img-responsive', size: '60x60'%> 
+			<p>貨到付款, 尚未付款</p>			    	
+	    	<%end%>	
     	<%end%>
-    	<%= ((i.amount-discount)*0.04).ceil%>元
     </td>         
+    <td><%= ((i.amount-discount)*0.04).round%>元</td>         
 	<td><%=i.receiver_last_name %> <%=i.receiver_first_name %>
 		<br>
 		<%=i.receiver_postal %><%=i.receiver_county %><%=i.receiver_district %><%=i.receiver_address %>
@@ -66,10 +77,15 @@
       </table>    	
     </td> 	
     <td>
-    	<div><%=link_to '線上付款', '#' ,class: 'btn btn-primary' %></div>   	
-    	<div style="margin-top: 10px;"><%=link_to '取消購買', '#' ,class: 'btn btn-danger' %></div>
+    	<%if !i.paid_c%>
+			<%if i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>    	
+    		<div style="margin-bottom: 10px;"><%=link_to '線上付款', {controller: 'invoices', action: 'allpayCredit', id: i.id } ,class: 'btn btn-primary' %></div>  
+    		<%end%>
+    	<%end%>	   	 	
+    	<div><%=link_to '取消購買', '#' ,class: 'btn btn-danger' %></div>
     </td>	         
   </tr>
   <%end%>  
 </table>
 </div>
+<%= will_paginate @invoices, renderer: BootstrapPagination::Rails %>

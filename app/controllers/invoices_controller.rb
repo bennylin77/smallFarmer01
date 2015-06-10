@@ -3,6 +3,7 @@ class InvoicesController < ApplicationController
   before_action :set_invoice, only: [:allpayCredit, :finished]
   
   def index    
+    @invoices = current_user.invoices.paginate(page: params[:page], per_page: 5).order('id DESC')    
     render layout: 'users'    
   end  
   

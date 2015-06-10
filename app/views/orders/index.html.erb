@@ -34,7 +34,7 @@
     <td>
 	<%if o.invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>	
 	<p>線上刷卡</p>
-	<%=image_tag 'allPay.png', class: 'img-responsive', size: '60x60'%>	
+	<%=image_tag 'allPay.png', class: 'img-responsive', size: '50x30'%>	
 	</div>	
 	<%elsif o.invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD']%>	
 	<p>貨到付款</p>
@@ -58,4 +58,6 @@
 </table>
 </div>
 </div>
+<%= will_paginate @orders, renderer: BootstrapPagination::Rails %>
+
 

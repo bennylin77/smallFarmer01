@@ -120,16 +120,17 @@ function countTotalPrice(q){
 			
 			total_price = q*value.price+q*<%=GLOBAL_VAR['SHIPPING_RATES']%>
 			total_shipping_rates = q*<%=GLOBAL_VAR['SHIPPING_RATES']%>
-			total_cash_flow = (q*value.price+q*<%=GLOBAL_VAR['SHIPPING_RATES']%>)*0.028
-			total_coupon = (q*value.price+q*<%=GLOBAL_VAR['SHIPPING_RATES']%>)*0.04
-			total_farmer_get = q*value.price -(q*value.price+<%=GLOBAL_VAR['SHIPPING_RATES']%>)*0.098
+			total_cash_flow = Math.round((q*value.price+q*<%=GLOBAL_VAR['SHIPPING_RATES']%>)*0.028 )
+			total_coupon = Math.round((q*value.price+q*<%=GLOBAL_VAR['SHIPPING_RATES']%>)*0.04 )
+			total_administration = Math.round((q*value.price+q*<%=GLOBAL_VAR['SHIPPING_RATES']%>)*0.03 )
+			total_farmer_get = q*value.price - total_administration - total_coupon - total_cash_flow 
 			
 			$('.total_price').html( total_price ); $('.total_quantity').html(q); 
-			$('.total_farmer_get').html( Math.ceil( total_farmer_get ) );	
-			$('.total_shipping_rates').html( Math.ceil( total_shipping_rates ) ); 							
-			$('.total_cash_flow').html( Math.ceil( total_cash_flow ) );	
-			$('.total_administration').html(total_price - Math.ceil( total_farmer_get ) - Math.ceil( total_shipping_rates ) - Math.ceil( total_cash_flow ) -  Math.ceil( total_coupon ));			
-			$('.total_coupon').html( Math.ceil( total_coupon ) );
+			$('.total_farmer_get').html( total_farmer_get );	
+			$('.total_shipping_rates').html( total_shipping_rates ); 							
+			$('.total_cash_flow').html( total_cash_flow  );	
+			$('.total_administration').html( total_administration  );			
+			$('.total_coupon').html( total_coupon );
 				
 			return false;
 		}	

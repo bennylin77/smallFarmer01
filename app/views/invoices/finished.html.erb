@@ -1,0 +1,25 @@
+<div class="container-fluid main_frontend">	
+	<div class="row">
+		<div class="col-sm-offset-1 col-sm-4">	
+			
+		<p><%=@invoice.created_at.strftime("%Y-%m-%d %H:%M:%S") %>已成功, 完成訂購</p>
+		<p>購買編號: <%=@invoice.id %></p>	
+		<p>付款方式</p>    	
+		<%if @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>	
+				 線上刷卡
+		  		<%=image_tag 'allPay.png', class: 'img-responsive', size: '80x80'%>	
+		<%elsif @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD']%>	
+				 貨到付款
+				<%=image_tag 'cat.png', class: 'img-responsive', size: '80x80'%> 		
+		<%end%>	
+		<%= link_to '查看訂單狀態', controller: 'invoices', action: 'index' %>	
+    	<% discount = 0 %>
+    	<% @invoice.invoice_coupon_lists.each do |i_c_l|%>
+    		<%discount = discount + i_c_l.amount%>
+    	<%end%>	 		 
+		<p>本次付款金額<%= (@invoice.amount-discount).to_i %>元, 您可獲得回饋金<%= ((@invoice.amount-discount)*0.04).round%>元 %></p>	
+		
+		
+		</div>
+	</div>
+</div			
