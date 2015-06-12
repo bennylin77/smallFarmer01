@@ -9,7 +9,7 @@ class InvoicesController < ApplicationController
   
   def create  
     current_user.update_attributes(user_params)  
-    invoice =  current_user.invoices.where(confirmed_c: false).first 
+    invoice =  current_user.invoices.where(confirmed_c: false).last 
     #Orders       
     current_user.carts.each do |c|
       order = Order.new

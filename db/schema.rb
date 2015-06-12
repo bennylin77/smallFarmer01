@@ -150,19 +150,19 @@ ActiveRecord::Schema.define(version: 20150524160052) do
   create_table "orders", force: true do |t|
     t.integer  "product_boxing_id"
     t.integer  "invoice_id"
-    t.float    "price",               limit: 24
+    t.float    "price",                 limit: 24
     t.integer  "quantity"
-    t.float    "shipping_rates",      limit: 24
+    t.float    "shipping_rates",        limit: 24
     t.integer  "review_score"
     t.string   "review_feedback"
     t.datetime "review_at"
     t.integer  "status"
     t.string   "tracing_code"
-    t.boolean  "canceled_c",                     default: false, null: false
+    t.boolean  "canceled_c",                       default: false, null: false
     t.datetime "canceled_at"
-    t.boolean  "confirmed_c",                    default: false, null: false
-    t.datetime "confirmed_at"
-    t.boolean  "called_logistics_c",             default: false, null: false
+    t.boolean  "called_smallfarmer_c",             default: false, null: false
+    t.datetime "called_smallfarmer_at"
+    t.boolean  "called_logistics_c",               default: false, null: false
     t.datetime "called_logistics_at"
     t.datetime "created_at"
     t.datetime "updated_at"

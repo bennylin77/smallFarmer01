@@ -71,7 +71,7 @@
           <td><%= o.quantity%>箱 (<%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %>/箱)</td>
           <td><%= o.price.to_i %>元</td>     
           <td><%= showBlank o.tracing_code%></td>     
-          <td><%= Hash[orderStatusOptions].rassoc(o.status).first%></td>	                              
+          <td><%= Hash[orderCustomerStatusOptions].rassoc(o.status).first%></td>	                              
         </tr>
     	<%end%>	        
       </table>    	

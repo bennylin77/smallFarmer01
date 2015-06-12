@@ -17,8 +17,8 @@ class CreateOrders < ActiveRecord::Migration
       
       t.boolean   :canceled_c, default: false, null: false
       t.datetime  :canceled_at              
-      t.boolean   :confirmed_c, default: false, null: false
-      t.datetime  :confirmed_at      
+      t.boolean   :called_smallfarmer_c, default: false, null: false
+      t.datetime  :called_smallfarmer_at      
       t.boolean   :called_logistics_c, default: false, null: false  
       t.datetime  :called_logistics_at          
       #t.boolean   :delivered_c, default: false, null: false  

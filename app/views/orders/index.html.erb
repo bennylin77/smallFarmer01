@@ -1,10 +1,10 @@
 <div class="row">
 <ul class="nav nav-tabs pull-right">
   <li role="presentation" <%= active( controller: 'orders', action: 'index', shipped_c: false)%>>
-	<%= link_to "尚未出貨", controller: 'orders', action: 'index', shipped_c: false%>  	
+	<%= link_to "尚未通知", controller: 'orders', action: 'index', shipped_c: false%>  	
   </li>
   <li role="presentation" <%= active( controller: 'orders', action: 'index', shipped_c: true)%>>
-	<%= link_to "已出貨", controller: 'orders', action: 'index', shipped_c: true%>  	  	
+	<%= link_to "已通知", controller: 'orders', action: 'index', shipped_c: true%>  	  	
   </li>
 </ul>
 </div>
@@ -43,7 +43,7 @@
     </td>	
     <td><%= showBlank o.tracing_code%></td>    
 	<td>
-		<%= Hash[orderStatusOptions].rassoc(o.status).first%>
+		<%= Hash[orderCompanyStatusOptions].rassoc(o.status).first%>
 	</td>    
 	<td>
 		<%= o.invoice.receiver_last_name %> <%= o.invoice.receiver_first_name %>
