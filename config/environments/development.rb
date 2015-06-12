@@ -39,13 +39,13 @@ Rails.application.configure do
   config.allpay_merchant_id = '2000132'
   config.allpay_hash_key    = '5294y06JbISpM5x9'
   config.allpay_hash_iv     = 'v77hoKGq4kWxNNIS'
-  config.allpay_return_url = 'http://register.ac-experts.com.tw/invoices/allpayCreditNotify'  
+  config.allpay_return_url = 'http://smallfarmer01.com/invoices/allpayCreditNotify'  
      
-  config.smallfarmer01_host = 'http://register.ac-experts.com.tw'
+  config.smallfarmer01_host = 'http://smallfarmer01.com'
       
 
   # General Settings
-  config.app_domain = 'register.ac-experts.com.tw'
+  config.app_domain = 'smallfarmer01.com'
 
   # Email
   config.action_mailer.delivery_method = :smtp
