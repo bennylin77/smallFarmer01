@@ -1,36 +1,50 @@
-<table>
+<%= link_to new_product_path, class: 'btn btn-success' do %>
+<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 新增水果
+<% end %> 
+<br><br>
+<div class="table-responsive">
+<table class="table table-bordered">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Inventory</th>
-      <th>Company</th>
-      <th colspan="3"></th>
+      <th>建立日期</th>    	
+      <th>水果名稱</th>
+      <th>價錢</th>
+      <th>總庫存量(箱)</th>  
+      <th>每日處理量(箱)</th>        
+      <th>已出貨(箱)</th>          
+      <th></th>
     </tr>
   </thead>
 
   <tbody>
     <% @products.each do |product| %>
       <tr>
+        <td><%= product.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>      	
         <td><%= product.name %></td>
-        <td><%= product.description %></td>
-        <td><%= product.inventory %></td>
-        <td><%= product.company %></td>
+        <td>
+		<%product.product_boxings.first.product_pricings.each do |p| %>
+			<%if p.quantity == 1%>	
+				<%= p.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %>元(含運) <%= "%g" % product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %>/箱
+			<%elsif p.quantity%>
+				<%= p.quantity %>箱以上 每箱<%= p.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %>元	(含運)	
+			<%end%>
+			<br>
+		<%end%>        	    	
+        </td>
+        <td><%= product.inventory %>箱</td>
+        <td><%= 100 %>箱</td>
+        <td><%= 2121 %>箱</td>        
         <td>
         	<%if product.available_c%>
-        		<%= link_to '下架', controller: 'products', action: 'available', id: product %>
+        		<%= link_to '下架', {controller: 'products', action: 'available', id: product}, class: 'btn btn-primary' %>
         	<%else%>
-        		<%= link_to '上架', controller: 'products', action: 'available', id: product  %>
-        	<%end%>
-        </td>        
-        <td><%= link_to 'Show', product %></td>
-        <td><%= link_to 'Edit', edit_product_path(product) %></td>
-        <td><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        		<%= link_to '上架', {controller: 'products', action: 'available', id: product}, class: 'btn btn-primary'  %>
+        	<%end%><br>   
+        <%= link_to '編輯', edit_product_path(product), class: 'btn btn-default' %><br>
+        <%= link_to '刪除', product, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+        </td>          
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Product', new_product_path %>
+</div>

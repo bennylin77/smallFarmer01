@@ -1,4 +1,4 @@
-<%= form_for(@product, html: {class: "form-horizontal", role: "form"}) do |f| %>
+<%= form_for(@product, html: {class: "form-horizontal", role: "form", multipart: true}) do |f| %>
 	<div class="form-group">
 		<label class="col-sm-offset-1 col-sm-2 control-label">水果名稱</label>
 		<div class="col-sm-6">
@@ -16,16 +16,25 @@
 		<div class="col-sm-6">
 			<%= f.text_area :preservation, placeholder: '保存方式', class: "form-control" %>
 		</div>
-	</div>	
-	<div class="form-group">
-		<label class="col-sm-offset-1 col-sm-2 control-label">水果庫存量</label>
+	</div>		
+	<div class="form-group text-danger">
+		<label class="col-sm-offset-1 col-sm-2 control-label">水果總庫存量</label>
 		<div class="col-sm-2">
-			<%= f.number_field :inventory, placeholder: '水果庫存量', class: "form-control" %>
+			<%= f.number_field :inventory, placeholder: '水果總庫存量', class: "form-control" %>
 		</div>
 		<div class="col-sm-2">
 			<%= f.select :unit, options_for_select(unitOptions, @product.unit), {prompt: '請選擇單位'}, class: "form-control" %>		
 		</div>			
 	</div>
+	<div class="form-group text-danger">
+		<label class="col-sm-offset-1 col-sm-2 control-label">水果日處理量</label>
+		<div class="col-sm-2">
+			<%= f.number_field :daily_capacity, placeholder: '水果日處理量', class: "form-control" %>
+		</div>
+		<div class="col-sm-2">
+			箱
+		</div>			
+	</div>		
 <%= f.fields_for :product_boxings do |g| %>		 
 	<div class="form-group">
 		<label class="col-sm-offset-1 col-sm-2 control-label">每箱</label>
@@ -41,7 +50,9 @@
 		<div class="form-group">
 			<label class="col-sm-offset-1 col-sm-2 control-label"></label>
 			<div class="col-sm-2">		
-				<label class="control-label">1</label>				
+				<label class="control-label">
+				1<%= h.hidden_field :quantity, class: "form-control" %>					
+				</label>				
 			</div>	
 			<div class="col-sm-1">		
 				<label class="control-label">箱</label>				
@@ -76,8 +87,7 @@
 			</div>					
 		</div>			
 		<%end%>	
-	<%end%>	 
-		
+	<%end%>	 	
 <%end%>		
 <div class="form-group">
 	<div class="col-sm-offset-3 col-sm-6">
@@ -87,6 +97,7 @@
 <div class="form-group">
 	<div class="col-sm-offset-3 col-sm-10">
 		<%= f.submit '儲存',  class: "btn btn-primary"  %>
+        <%= link_to '預覽', @product, class: "btn btn-default"  %><br>		
 	</div>
 </div>
 <% end %>
@@ -94,7 +105,7 @@
 <script>
 <% @product.errors.messages.each do |index, value| %>
 	<%unless value.blank? %>
-		addAlert('error', '<%=value.first%>')
+		toastr['error']('<%=value.first%>')		
 	<%end%>	
 <% end %>
 
@@ -105,10 +116,14 @@ var $input = $("#product_image");
 		allowedFileTypes: ["image"],
 		previewFileType: "image",
 	    browseClass: "btn btn-success",
-		browseLabel: " 選取水果圖片",
 		browseIcon: '<i class="glyphicon glyphicon-picture"></i>',						 				
+        <%unless @product.new_record?%>
+		browseLabel: "選取水果圖片",        
         uploadUrl: "/products/<%=@product.id %>/productImagesUpload", // server upload action
         uploadAsync: true,
+        <%else%>
+		browseLabel: "選取水果圖片 (按ctrl可選多張)",                
+        <%end%>
         maxFileCount: 5,
 		initialPreview: [
 			<% @product.product_images.each do |p_i|%>
@@ -129,5 +144,4 @@ $('#product_unit').change(function(){
     $('.boxing_unit').html($('#product_unit option:selected').html())
 
 });	
-
 </script>

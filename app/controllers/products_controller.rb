@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  layout "companies", only: [:index, :edit]  
+  layout "companies", only: [:index, :edit, :new, :create, :update]  
   before_filter :authenticate_user!, except: [:show] 
   
   before_action only: [:edit, :update, :destroy, :productImagesUpload, :productImagesDelete] { |c| c.ProductCheckUser(params[:id])}    
@@ -14,13 +14,27 @@ class ProductsController < ApplicationController
   end
 
   def new
-    product = Product.new
-    product.company = current_user.companies.first
-    product.save!
-    product.product_boxings.create 
-    product.product_boxings.first.product_pricings.create(quantity: 1)   
-    product.product_boxings.first.product_pricings.create()       
-    redirect_to edit_product_path(product)
+    @product = Product.new
+    p_b= @product.product_boxings.build() 
+    p_b.product_pricings.build(quantity: 1)   
+    p_b.product_pricings.build()       
+    #redirect_to edit_product_path(product)
+  end
+
+  def create
+    @product = Product.new(product_params)
+    @product.company = current_user.companies.first
+    if @product.save
+      params[:product_image].each do |p|
+        p_i = ProductImage.create(image: p )
+        p_i.product = @product
+        p_i.save!      
+      end    
+      flash[:notice]='成功新增水果'
+      redirect_to products_url
+    else
+      render :new
+    end
   end
 
   def edit
@@ -86,6 +100,6 @@ class ProductsController < ApplicationController
     end
 
     def product_params
-      params.require(:product).permit(:name, :description, :inventory, :unit, :preservation, product_boxings_attributes:[:id, :quantity, product_pricings_attributes:[:id, :quantity, :price]] )
+      params.require(:product).permit(:name, :description, :inventory, :unit, :preservation, :daily_capacity, product_boxings_attributes:[:id, :quantity, product_pricings_attributes:[:id, :quantity, :price]] )
     end
 end

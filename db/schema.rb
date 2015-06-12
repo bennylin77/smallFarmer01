@@ -164,6 +164,7 @@ ActiveRecord::Schema.define(version: 20150524160052) do
     t.datetime "called_smallfarmer_at"
     t.boolean  "called_logistics_c",               default: false, null: false
     t.datetime "called_logistics_at"
+    t.boolean  "seven_days_c",                     default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -206,13 +207,16 @@ ActiveRecord::Schema.define(version: 20150524160052) do
     t.string   "name"
     t.text     "description"
     t.integer  "inventory"
+    t.integer  "daily_capacity"
     t.integer  "unit"
-    t.boolean  "deleted_c",    default: false, null: false
-    t.boolean  "available_c",  default: false, null: false
+    t.boolean  "deleted_c",      default: false, null: false
+    t.boolean  "available_c",    default: false, null: false
     t.integer  "company_id"
     t.text     "preservation"
     t.integer  "sweet_degree"
-    t.boolean  "GMP_c"
+    t.boolean  "TAP_c",          default: false, null: false
+    t.boolean  "OTAP_c",         default: false, null: false
+    t.boolean  "UTAP_c",         default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
