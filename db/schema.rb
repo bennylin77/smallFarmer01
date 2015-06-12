@@ -124,13 +124,14 @@ ActiveRecord::Schema.define(version: 20150524160052) do
   create_table "invoices", force: true do |t|
     t.integer  "user_id"
     t.boolean  "confirmed_c",                         default: false, null: false
-    t.boolean  "paid_c",                              default: false, null: false
     t.boolean  "canceled_c",                          default: false, null: false
-    t.integer  "payment_method"
+    t.datetime "canceled_at"
+    t.boolean  "paid_c",                              default: false, null: false
     t.datetime "paid_at"
     t.float    "payment_charge_fee",       limit: 24, default: 0.0,   null: false
     t.string   "allpay_trade_no"
     t.string   "allpay_merchant_trade_no"
+    t.integer  "payment_method"
     t.float    "amount",                   limit: 24, default: 0.0,   null: false
     t.string   "receiver_last_name"
     t.string   "receiver_first_name"
@@ -149,16 +150,20 @@ ActiveRecord::Schema.define(version: 20150524160052) do
   create_table "orders", force: true do |t|
     t.integer  "product_boxing_id"
     t.integer  "invoice_id"
-    t.boolean  "confirmed_c",                  default: false, null: false
-    t.boolean  "shipped_c",                    default: false, null: false
+    t.float    "price",               limit: 24
+    t.integer  "quantity"
+    t.float    "shipping_rates",      limit: 24
     t.integer  "review_score"
     t.string   "review_feedback"
     t.datetime "review_at"
-    t.float    "price",             limit: 24
-    t.integer  "quantity"
     t.integer  "status"
     t.string   "tracing_code"
-    t.float    "shipping_rates",    limit: 24
+    t.boolean  "canceled_c",                     default: false, null: false
+    t.datetime "canceled_at"
+    t.boolean  "confirmed_c",                    default: false, null: false
+    t.datetime "confirmed_at"
+    t.boolean  "called_logistics_c",             default: false, null: false
+    t.datetime "called_logistics_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

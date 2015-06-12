@@ -48,9 +48,10 @@ class InvoicesController < ApplicationController
     end
     current_user.carts.destroy_all
     invoice.payment_method = params[:payment_method]  
-    invoice.confirmed_c = true
-    invoice.save!  
+    invoice.save!      
     if invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD']
+      invoice.confirmed_c = true
+      invoice.save!        
       redirect_to  controller: 'invoices' , action: 'finished', id: invoice.id 
     elsif invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']
       redirect_to  controller: 'invoices', action: 'allpayCredit', id: invoice.id       
@@ -96,19 +97,17 @@ class InvoicesController < ApplicationController
   def allpayCreditNotify
     if macValueOk? # we still need to check domain   
       if params[:RtnCode] == '1' # trade success or not
-        logger.info 222222222
         invoice = Invoice.where(allpay_merchant_trade_no: params[:MerchantTradeNo]).first
         discount = 0 
         invoice.invoice_coupon_lists.each do |i_c_l|
             discount = discount + i_c_l.amount
         end           
-        if params[:TradeAmt].to_i == (invoice.amount - discount).to_i # amount right or not 
-          logger.info 333333333
-          
+        if params[:TradeAmt].to_i == (invoice.amount - discount).to_i # amount right or not           
           invoice.paid_at = params[:PaymentDate]
           invoice.payment_charge_fee = params[:PaymentTypeChargeFee]      
           invoice.allpay_trade_no = params[:TradeNo] 
           invoice.paid_c = true
+          invoice.confirmed_c = true          
           invoice.save!   
         end
       end

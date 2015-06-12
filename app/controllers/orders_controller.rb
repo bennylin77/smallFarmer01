@@ -5,7 +5,7 @@ class OrdersController < ApplicationController
   
   def index    
     params[:shipped_c] = params[:shipped_c] == 'true' ? true : false    
-    @orders = Order.joins(product_boxing: {product: :company}).where('companies.id = ? and shipped_c = ?', current_user.companies.first, params[:shipped_c] ).all.paginate(page: params[:page], per_page: 3).order('id DESC')    
+    @orders = Order.joins(product_boxing: {product: :company}, invoice: {} ).where('companies.id = ? and called_smallfarmer_c = ? and invoices.confirmed_c = 1', current_user.companies.first, params[:shipped_c] ).all.paginate(page: params[:page], per_page: 30).order('id DESC')    
     render layout: 'companies'      
   end
   
