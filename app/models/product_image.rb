@@ -1,7 +1,6 @@
 class ProductImage < ActiveRecord::Base
   belongs_to :product
-  
-  
+ 
   has_attached_file :image, 
                     styles: { medium: "800x800>" },
                     default_url: "/images/:style/missing.png"  

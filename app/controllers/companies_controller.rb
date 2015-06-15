@@ -22,7 +22,7 @@ class CompaniesController < ApplicationController
   end
 
   def companyImagesUpload
-    c_i = CompanyImage.create(image: params[:test].first )
+    c_i = CompanyImage.create(image: params[:company_image].first )
     c_i.company = @company
     c_i.save!  
     render json: { initialPreview: [
@@ -53,6 +53,6 @@ class CompaniesController < ApplicationController
 
     def company_params
       params[:company][:phone_no] = params[:phone_no_full]      
-      params.require(:company).permit(:cover, :name, :description, :user_id, :phone_no, :postal, :county, :district, :address)
+      params.require(:company).permit(:cover, :name, :description, :words, :user_id, :phone_no, :postal, :county, :district, :address)
     end
 end

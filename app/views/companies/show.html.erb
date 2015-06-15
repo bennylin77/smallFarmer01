@@ -2,8 +2,16 @@
 	<ol class="breadcrumb">
 	  <li><a href="#">首頁</a></li>
 	  <li><a href="#">合作農場</a></li>
-	  <!--<li><%= image_tag Hash[countyImageOptions].rassoc(@company.county).first, height: '70' %> <%= @company.county %><%= @company.district %></li>-->
-	  <li class="active"><a href="#"><%= image_tag Hash[countyImageOptions].rassoc(@company.county).first, height: '70' %><!-- <%= @company.district %>--> <%= @company.name %></a></li>	
+	  <li class="active">
+	  	<a href="#">
+	  	<%unless @company.county.blank?%>
+	  		<%= image_tag Hash[countyImageOptions].rassoc(@company.county).first, height: '70' %> 
+	  	<%else%>
+	  		<%= image_tag Hash[countyImageOptions].rassoc('南海諸島').first, height: '70' %> 	  		
+	  	<%end%> 	
+	  	<%= @company.name %>	  	
+	  	</a>
+	  </li>		
 	</ol>	
 	<div class="row">
 		<div class="col-sm-offset-1 col-sm-4 vbottom">		
@@ -26,19 +34,15 @@
 				    <%end%>
 				<%end%>  		 	     
 			  </ol>
-			  <div class="carousel-inner" role="listbox">
+			  <div class="farm_carousel-inner carousel-inner" role="listbox">
 				<%@company.company_images.each_with_index do |c, i|%>
 					<%if i==0%>
 					    <div class="farm_item item active">
-					      <div class="farm_carousel_img">	
 					      <%=image_tag c.image.url(:medium), class: '' %>
-					      </div>
 					    </div>
 				    <%else%>
 					    <div class="farm_item item">
-					      <div class="farm_carousel_img">	
 					      <%=image_tag c.image.url(:medium), class: '' %>
-					      </div>
 					    </div>	    
 				    <%end%>
 				<%end%>  	   
@@ -54,74 +58,42 @@
 			</div>	
 			<div  class="farm_words" >
 			<span class="farm_words_quote">“</span>
-			<span class="farm_words_content">
-            在現今食安問題連環爆，造成人心煌煌的時代，我想要建立消費者一個正確觀念，安全優質農產品必須付出合理的價格才能得到。			
-			</span>
+			<%= simple_format(@company.words, {class: 'farm_words_content'}, wrapper_tag: "span")%>				
 			<span class="farm_words_quote">”</span>
 			</div>
 			<div class="farm_words_name">-- <%=@company.user.last_name+' '+@company.user.first_name  %></div>
 		</div>
 	</div>
-<!--	
-	<div class="row">
-		<%= image_tag @company.cover.url, class: 'farm_cover' %>
-	</div>
--->	
 	<div class="row" style="margin-top: 30px;">
 		<div id="parallax1" class="farm_cover_parallax_parent">
 			<div style="background-image: url('<%=@company.cover.url%>');"></div>
 		</div>	
 	</div>	
+	<%@company.products.where(available_c: true).each_slice(4) do |p|%> 
 	<div class="row">
-		<div class="col-lg-offset-2 col-lg-2 col-md-offset-2 col-md-2  farm_fruits">
-			<%= image_tag 'fruits1.jpg', class: 'img-circle', size: '150x150' %>			
-		    <div class="farm_fruits_name">
-		    	超好吃玉女蕃茄
-		    </div>	  
-		    <div class="farm_fruits_price">
-		    	1箱(10斤) 400元(含運)
-		    </div>	
-		    <div class="farm_fruits_reviews">
-		    	<span class="farm_fruits_excellent">3764 </span><span class="farm_fruits_excellent_text">人說非吃不可</span>
-		    </div>			 				
-		</div>		
-		<div class="col-lg-2 col-md-2 farm_fruits">
-			<%= image_tag 'fruits2.jpg', class: 'img-circle', size: '150x150' %>			
-		    <div class="farm_fruits_name">
-		    	超好吃玉女蕃茄
-		    </div>	  
-		    <div class="farm_fruits_price">
-		    	1箱(10斤) 400元(含運)
-		    </div>	
-		    <div class="farm_fruits_reviews">
-		    	<span class="farm_fruits_excellent">364 </span><span class="farm_fruits_excellent_text">人說非吃不可</span>
-		    </div>			
-		</div>
-		<div class="col-lg-2 col-md-2 farm_fruits">
-			<%= image_tag 'fruits3.jpg', class: 'img-circle', size: '150x150' %>			
-		    <div class="farm_fruits_name">
-		    	超好吃玉女蕃茄
-		    </div>	  
-		    <div class="farm_fruits_price">
-		    	1箱(10斤) 400元(含運)
-		    </div>	
-		    <div class="farm_fruits_reviews">
-		    	<span class="farm_fruits_excellent">3764 </span><span class="farm_fruits_excellent_text">人說非吃不可</span>
-		    </div>				
-		</div>				
-		<div class="col-lg-2 col-md-2 farm_fruits">
-			<%= image_tag 'fruits4.jpg', class: 'img-circle', size: '150x150' %>			
-		    <div class="farm_fruits_name">
-		    	超好吃玉女蕃茄
-		    </div>	  
-		    <div class="farm_fruits_price">
-		    	1箱(10斤) 400元(含運)
-		    </div>	
-		    <div class="farm_fruits_reviews">
-		    	<span class="farm_fruits_excellent">12374 </span><span class="farm_fruits_excellent_text">人說非吃不可</span>
-		    </div>				
-		</div>		
-	</div>
+		<% p.each_with_index do |pp, index|%>
+			<%if index == 0 %>
+				<div class="col-lg-offset-2 col-lg-2 col-md-offset-2 col-md-2  farm_fruits">
+			<%else%>
+				<div class="col-lg-2 col-md-2 farm_fruits">			
+			<%end%>				
+			<%= link_to pp do%>
+					<%= image_tag pp.product_images.first.image.url, class: 'img-circle', size: '150x150' %>			
+					<div class="farm_fruits_name">
+					<%= pp.name%>
+					</div>	  
+					<div class="farm_fruits_price">
+					<%= pp.product_boxings.first.product_pricings.first.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %>元(含運) <%= "%g" % pp.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(pp.unit).first %>/箱
+				    </div>
+				    <div class="farm_fruits_reviews">
+						<span class="farm_fruits_excellent">3764 </span><span class="farm_fruits_excellent_text">人說非吃不可</span>
+				    </div>	
+			<%end%>		 				
+				</div>	
+		<%end%>	
+	</div>		
+	<%end%>	
+	
 </div>
 <!--
 	<%@company.products.each_slice(2) do |a|%> 
@@ -166,7 +138,7 @@ $(document).ready(function($) {
 			$('.farm_fruits_excellent').each(function () {
 			  var $this = $(this);
 			  jQuery({ Counter: 0 }).animate({ Counter: $this.text() }, {
-			    duration: 1200,
+			    duration: 1000,
 			    easing: 'swing',
 			    step: function () {
 			      $this.text(Math.ceil(this.Counter));

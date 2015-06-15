@@ -1,4 +1,4 @@
-<div class="container main_frontend">
+<div class="container-fluid main_frontend">
 	<ol class="breadcrumb">
 	  <li><a href="#">首頁</a></li>
 	  <li><a href="#">合作農場</a></li>
@@ -7,28 +7,107 @@
 	  		<%unless @product.company.county.blank?%>
 	  		<%= image_tag Hash[countyImageOptions].rassoc(@product.company.county).first, height: '70' %> 
 	  		<%else%>
-	  		<%= image_tag Hash[countyImageOptions].rassoc('aaa').first, height: '70' %> 	  		
+	  		<%= image_tag Hash[countyImageOptions].rassoc('南海諸島').first, height: '70' %> 	  		
 	  		<%end%>
 	  		<%= @product.company.name %>
 	  	</a>
 	  </li>
 	  <li class="active"><%= @product.name %></li>	
 	</ol>
-<p>
-  <strong>農夫大頭:</strong>
- <%= image_tag @product.company.user.avatar.url, class: 'img-circle' %>
-</p>
+	<div class="row">
+		<div class="col-sm-offset-2 col-sm-1 vmiddle">		
+			<%= image_tag @product.company.user.avatar.url, class: 'img-circle', style: 'height: 90px; width: 90px;' %>
+		</div>
+		<div class="col-sm-7 vmiddle">			
+			<%= simple_format(truncate( @product.company.description, length: 150, omission: '... more'), {class: 'product_farm_description'}, wrapper_tag: "div")%>			
+		</div>				
+	</div>	
+	<div class="row" style="margin-top: 30px;">
+		<div class="col-sm-offset-1 col-sm-6">		
+			<div id="carousel-example-generic" class="product_carousel carousel slide" data-ride="carousel" data-interval="5000" data-pause="hover" style="margin: 10px auto; ">
+			  <ol class="product_carousel-indicators carousel-indicators">
+				<% @product.product_images.each_with_index do |p, i|%> 
+					<%if i==0%>
+			    	<li data-target="#carousel-example-generic" data-slide-to="<%=i%>" class="active"></li>
+				    <%else%>
+			    	<li data-target="#carousel-example-generic" data-slide-to="<%=i%>"></li>    
+				    <%end%>
+				<%end%>  		 	     
+			  </ol>
+			  <div class="product_carousel-inner carousel-inner" role="listbox">
+				<% @product.product_images.each_with_index do |p, i|%>
+					<%if i==0%>
+					    <div class="product_item item active">
+					      <div class="product_carousel_img">	
+					      <%=image_tag p.image.url(:medium), class: '' %>
+					      </div>
+					    </div>
+				    <%else%>
+					    <div class="product_item item">
+					      <div class="product_carousel_img">	
+					      <%=image_tag p.image.url(:medium), class: '' %>
+					      </div>
+					    </div>	    
+				    <%end%>
+				<%end%>  	   
+			  </div>
+			  <a class="left product_carousel-control carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+			    <span class="glyphicon glyphicon-menu-left icon-prev" aria-hidden="true"></span>
+			    <span class="sr-only">Previous</span>
+			  </a>
+			  <a class="right product_carousel-control carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+			    <span class="glyphicon glyphicon-menu-right icon-next" aria-hidden="true"></span>
+			    <span class="sr-only">Next</span>
+			  </a>
+			</div>					
+		</div>
+		<div class="col-sm-4">
+			<div class="row">
+		      <div class="col-sm-3">
+		        <div><%= @product.name %></div>
+		        <div>3764人說好吃</div>	
+		      </div>				
+		      <div class="col-sm-6">
+		        <div><%= @product.name %></div>
+		        <div>3764人說好吃</div>	
+		      </div>
+		      <div class="col-sm-3">
+		        18度
+		      </div>		      
+		    </div>				
+			<div class="row">
+		      <div class="col-sm-offset-6 col-sm-6">
+		        TAP
+		      </div>
+		    </div>		
+			<div class="row">
+				<%@product.product_boxings.first.product_pricings.each do |p| %>
+					<%if p.quantity == 1%>	
+						<%= p.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %>元(含運) <%= "%g" % @product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(@product.unit).first %>/箱 <br>
+						
+					<div class="form-group form-inline">
+						<label for="exampleInputName2">數量</label>
+						<div class="col-sm-2">	
+						<%= select_tag  :quantity, options_for_select( (1..50).step(1).to_a), class: "form-control" %>				
+						</div>	   
+						<div class="col-sm-2">
+						</div>				
+					</div>						
+					<%else%>
+						<%= p.quantity %>箱以上 每箱<%= p.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %>元(含運)		
+					<%end%>
+					<br>
+				<%end%>
+				<div>＊企業團體購買，請聯絡客服人員</div>			
+				<button type="button" class="add_to_cart btn btn-primary" autocomplete="off">加入購物車</button>			
 
-<p>
-  <strong>農場描述:</strong>
-  <%= @product.company.description %>
-</p>
+		      </div>
+		    </div>			    	
+		</div>				
+	</div>	
 
 
-<p>
-  <strong>Name:</strong>
-  <%= @product.name %>
-</p>
+
 
 <p>
   <strong>Description:</strong>
@@ -68,19 +147,7 @@
 您的回饋金<span class="total_coupon"></span>元
 <br>
 <abbr title=""><small>(最後數據會依實際付款金額不同而改變)</small></abbr>
-
-
-
-
-
-	<div class="form-group">
-		<div class="col-sm-2">	
-			<%= select_tag  :quantity, options_for_select( (1..50).step(1).to_a), class: "form-control" %>				
-		</div>	   
-		<div class="col-sm-1">
-			<button type="button" class="add_to_cart btn btn-primary" autocomplete="off">加入購物車</button>			
-		</div>				
-	</div>	 
+ 
 </div>
 
 <%= link_to 'Edit', edit_product_path(@product) %> |

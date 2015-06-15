@@ -4,6 +4,7 @@ class CreateCompanies < ActiveRecord::Migration
       t.attachment :cover
       t.string :name
       t.text :description
+      t.text :words
       t.belongs_to :user, index: true
       t.boolean :deleted_c, default: false, null: false    
       t.boolean :activate_c, default: true, null: false        

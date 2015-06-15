@@ -56,6 +56,13 @@
   margin-top: 60px;  
   text-align: center;
 }
+.farm_fruits a{
+  color: #241915; 
+}
+.farm_fruits a:hover,.farm_fruits a:focus{
+  text-decoration: none; 
+  opacity: 0.8;
+}
 .farm_fruits img{
   border: solid 1px #526031;
   padding: 3px;
@@ -84,13 +91,15 @@
 { 
   margin-bottom: 30px !important;  
   width: 340px !important;  
- 
+  border-radius: 20px !important;  
 }
-.farm_carousel_img img
+.farm_carousel-inner{
+  border-radius: 20px !important;    
+}
+.farm_item img
 {  
-  width: 340px; 
-  height: 250px;   
-  border-radius: 20px;   
+  width: 340px !important; 
+  height: 250px !important;    
 }
 .farm_carousel-indicators li {
   border: none;
@@ -116,13 +125,11 @@
     margin-right: -45px; color: black;
   }     
 }
-
-
 @media (max-width: 992px) {
  .farm_carousel{
    width: 100% !important; 
  }
-  .farm_carousel_img img {
+  .farm_item img {
     width: 100%;
     height: 220px;
  } 
@@ -131,7 +138,7 @@
   .farm_carousel{
     width: 65% !important;    
   }  
-  .farm_carousel_img img {
+  .farm_item img {
     width: 100%;     
     height: 200px;
   }  
@@ -139,11 +146,8 @@
 @media (max-width: 480px) {
   .farm_carousel{
     width: 100% !important;    
-  }
-  .farm_item{
-    height: 200px;
   }     
-  .farm_carousel_img img {
+  .farm_item img {
     width: 100%;     
     height: 200px;
   }  

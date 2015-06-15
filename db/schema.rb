@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(version: 20150524160052) do
     t.datetime "cover_updated_at"
     t.string   "name"
     t.text     "description"
+    t.text     "words"
     t.integer  "user_id"
     t.boolean  "deleted_c",          default: false, null: false
     t.boolean  "activate_c",         default: true,  null: false

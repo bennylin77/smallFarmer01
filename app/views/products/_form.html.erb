@@ -89,11 +89,14 @@
 		<%end%>	
 	<%end%>	 	
 <%end%>		
-<div class="form-group">
-	<div class="col-sm-offset-3 col-sm-6">
-	<input id="product_image" name="product_image[]" type="file" multiple class="file-loading">
-	</div>	
-</div>	
+	<div class="form-group">
+		<label class="col-sm-offset-1 col-sm-2 control-label">水果照片</label>		
+		<div class="col-sm-6">
+		<input id="product_image" name="product_image[]" type="file" multiple class="file-loading">
+  		</div>
+  	</div> 
+
+
 <div class="form-group">
 	<div class="col-sm-offset-3 col-sm-10">
 		<%= f.submit '儲存',  class: "btn btn-primary"  %>
@@ -118,11 +121,11 @@ var $input = $("#product_image");
 	    browseClass: "btn btn-success",
 		browseIcon: '<i class="glyphicon glyphicon-picture"></i>',						 				
         <%unless @product.new_record?%>
-		browseLabel: "選取水果圖片",        
+		browseLabel: "選取照片",        
         uploadUrl: "/products/<%=@product.id %>/productImagesUpload", // server upload action
         uploadAsync: true,
         <%else%>
-		browseLabel: "選取水果圖片 (按ctrl可選多張)",                
+		browseLabel: "選取照片 (按ctrl可選多張)",                
         <%end%>
         maxFileCount: 5,
 		initialPreview: [

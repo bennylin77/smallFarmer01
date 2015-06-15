@@ -23,8 +23,7 @@ module ApplicationHelper
   end  
   
   def countyImageOptions
-    [['county/Taiwan.png', 'aaa'],
-     ['county/Kinmen.png', '金門縣'],
+    [['county/Kinmen.png', '金門縣'],
      ['county/Lienchiang.png', '連江縣'],
      ['county/Keelung_City.png', '基隆市'],
      ['county/Taipei.png', '台北市'],

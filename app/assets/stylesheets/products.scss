@@ -1,3 +1,69 @@
-// Place all the styles related to the products controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.product_farm_description
+{
+  font-size: 16.5px;
+}
+/*======================================= Carousel =======================================*/
+.product_carousel
+{ 
+  margin-bottom: 30px !important;  
+  width: 650px !important;  
+}
+.product_carousel-inner{
+  border-radius: 10px !important;    
+}
+.product_item img
+{  
+  width: 650px !important; 
+  height: 420px !important;    
+}
+.product_carousel-indicators li {
+  border: none;
+  width: 10px;
+  height: 10px;  
+  background-color: rgba( 100, 100, 100, 0.6);
+}
+.product_carousel-indicators .active {
+  background-color: rgba( 255, 255, 255, 0.6);
+  width: 10px;
+  height: 10px;    
+}
+.product_carousel-control {
+  &.left, &.right {
+    background: none;
+    position:absolute; 
+    @include reset-filter();
+  }
+  &.left{
+    margin-left: -70px; color: black;
+  }  
+  &.right{
+    margin-right: -70px; color: black;
+  }     
+}
+@media (max-width: 992px) {
+ .product_carousel{
+   width: 100% !important; 
+ }
+  .product_item img {
+    width: 100%;
+    height: 220px;
+ } 
+}
+@media (max-width: 768px) {
+  .product_carousel{
+    width: 100% !important;    
+  }  
+  .product_item img {
+    width: 100%;     
+    height: 200px;
+  }  
+}
+@media (max-width: 480px) {
+  .product_carousel{
+    width: 100% !important;    
+  }     
+  .product_item img {
+    width: 100%;     
+    height: 200px;
+  }  
+} 

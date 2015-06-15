@@ -43,7 +43,7 @@ class ProductsController < ApplicationController
   def update
     if @product.update(product_params)
       flash[:notice] ='成功更改水果資料'
-      redirect_to products_url
+      render 'edit'
     else
       render 'edit'
     end   
