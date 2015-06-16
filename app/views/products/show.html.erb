@@ -63,48 +63,61 @@
 		</div>
 		<div class="col-sm-4">
 			<div class="row">
-		      <div class="col-sm-3">
-		        <div><%= @product.name %></div>
-		        <div>3764人說好吃</div>	
+		      <div class="col-sm-1 vbottom">
 		      </div>				
-		      <div class="col-sm-6">
-		        <div><%= @product.name %></div>
-		        <div>3764人說好吃</div>	
+		      <div class="col-sm-7 vbottom">
+		        <div class="product_name"><%= @product.name %></div>
+		        <div class="product_excellent"><span class="product_excellent_no">3764 </span><span class="product_excellent_text">人說非吃不可</span></div>	
 		      </div>
-		      <div class="col-sm-3">
+		      <div class="col-sm-2 vbottom">
 		        18度
 		      </div>		      
 		    </div>				
 			<div class="row">
-		      <div class="col-sm-offset-6 col-sm-6">
-		        TAP
+		      <div class="col-sm-offset-6 col-sm-6" style="margin-top: 20px;">
+					<%=image_tag 'gap.png', class: '', style: 'height: 55px; width: 55px;'  %>		      
+					<%=image_tag 'tap.png', class: '', style: 'height: 50px; width: 50px;'  %>		      		      
 		      </div>
 		    </div>		
-			<div class="row">
-				<%@product.product_boxings.first.product_pricings.each do |p| %>
-					<%if p.quantity == 1%>	
-						<%= p.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %>元(含運) <%= "%g" % @product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(@product.unit).first %>/箱 <br>
-						
-					<div class="form-group form-inline">
-						<label for="exampleInputName2">數量</label>
-						<div class="col-sm-2">	
-						<%= select_tag  :quantity, options_for_select( (1..50).step(1).to_a), class: "form-control" %>				
-						</div>	   
-						<div class="col-sm-2">
-						</div>				
-					</div>						
+			<div class="row product_price" style="margin-top: 40px;">
+			<%@product.product_boxings.first.product_pricings.each do |p| %>
+				<%if p.quantity == 1%>	
+					<div class="col-sm-offset-2 col-sm-3">							
+	 					<%= "%g" % @product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(@product.unit).first %>/箱 				
+					</div>	   
+					<div class="col-sm-3 text-right">						
+						<%= p.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %><br>				
+					</div>	
+					<div class="col-sm-3">元<span style="font-size: 85%">(含運)<span></div>											
+			</div>
+			<div class="row product_price" style="margin-top: 10px;">
+					<div class="col-sm-offset-2 col-sm-3">數量</div>
+					<div class="col-sm-3">	
+					<%= select_tag  :quantity, options_for_select( (1..50).step(1).to_a), class: "form-control" %>				
+					</div>	  
+					<div class="col-sm-2">箱</div>					 				
+			</div>						
 					<%else%>
+			<div class="row product_promote" style="margin-top: 18px;">	
+					<div class="col-sm-offset-4 col-sm-6 text-right">								
 						<%= p.quantity %>箱以上 每箱<%= p.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %>元(含運)		
+					</div>
+			</div>						
 					<%end%>
-					<br>
 				<%end%>
-				<div>＊企業團體購買，請聯絡客服人員</div>			
-				<button type="button" class="add_to_cart btn btn-primary" autocomplete="off">加入購物車</button>			
-
-		      </div>
-		    </div>			    	
-		</div>				
-	</div>	
+			<div class="row product_promote" style="margin-top: 2px;">	
+					<div class="col-sm-offset-4 col-sm-6 text-right">				
+						＊企業團體購買，請聯絡客服人員
+					</div>
+			</div>		
+			<div class="row product_promote" style="margin-top: 20px;">	
+					<div class="col-sm-offset-4 col-sm-6 text-right">							
+						<button type="button" class="add_to_cart btn btn-primary" autocomplete="off">加入購物車</button>			
+					</div>
+			</div>	
+		</div>
+	</div>			    	
+</div>				
 
 
 
@@ -155,7 +168,7 @@
 
 <script>
 $('.add_to_cart').click(function() {
-	var $btn = $(this).button('loading')	
+	//var $btn = $(this).button('加入中...')	
 	var request = $.ajax({
 		url: "/carts/addCart",
 		type: "POST",
@@ -165,7 +178,7 @@ $('.add_to_cart').click(function() {
 	request.done(function( message ) {
 		if(message.alert_class != 'success')
 			addAlert(message.alert_class, message.message)
-	    $btn.button('reset')		
+	    //$btn.button('reset')		
 	    showCarts();
  		//$('.cart-dropdown-menu').dropdown('toggle');	    
 	});

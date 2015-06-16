@@ -2,6 +2,35 @@
 {
   font-size: 16.5px;
 }
+.product_name
+{  
+  font-size: 32px;  
+}
+.product_excellent_no
+{
+  color: #de562c;
+  font-size: 40px;  
+}
+.product_excellent_text
+{
+  font-size: 25px;    
+}
+.product_price{
+  font-size: 21px;    
+}
+.product_promote{
+  font-size: 16px;      
+}
+.add_to_cart{
+  background: #35a142;
+  border: none;
+  border-radius: 0;
+  font-size: 20px;
+  padding: 10px 20px;
+}
+.add_to_cart:hover{
+  background: #6fc57b;
+}
 /*======================================= Carousel =======================================*/
 .product_carousel
 { 
