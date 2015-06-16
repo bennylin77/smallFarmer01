@@ -63,14 +63,14 @@
 		</div>
 		<div class="col-sm-4">
 			<div class="row">
-		      <div class="col-sm-1 vbottom">
+		      <div class="col-sm-1 vmiddle">
 		      </div>				
-		      <div class="col-sm-7 vbottom">
+		      <div class="col-sm-6 vmiddle">
 		        <div class="product_name"><%= @product.name %></div>
 		        <div class="product_excellent"><span class="product_excellent_no">3764 </span><span class="product_excellent_text">人說非吃不可</span></div>	
 		      </div>
-		      <div class="col-sm-2 vbottom">
-		        18度
+		      <div class="col-sm-2 vmiddle">
+			  		<%=image_tag 'sweet_degree/18.png', class: '', style: 'height: 70px; width: 110px;'  %>		      
 		      </div>		      
 		    </div>				
 			<div class="row">
@@ -110,7 +110,7 @@
 			</div>						
 					<%end%>
 				<%end%>
-			<div class="row product_promote" style="margin-top: 2px;">	
+			<div class="row" style="margin-top: 2px;">	
 					<div class="col-sm-offset-4 col-sm-6 text-right">				
 						＊企業團體購買，請聯絡客服人員
 					</div>
@@ -121,55 +121,59 @@
 					</div>
 			</div>	
 		</div>
-	</div>			    	
+	</div>		
+	<div class="row" style="margin-top: 50px;">
+		<div class="col-sm-offset-2 col-sm-6">
+			<div class="row" style="">		
+				<div class="col-sm-offset-2 col-sm-6">
+					關於<%= @product.name %>
+				</div>					
+			</div>
+			<div class="row" style="">		
+				<div class="col-sm-6">
+					<div></div>
+					<table class="table">
+					<tr><td>產地</td><td><%=@product.company.county %><%=@product.company.district%></td></tr>
+					<tr><td>內容量</td><td>每箱 <%= "%g" % @product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(@product.unit).first %> </td></tr>
+					<tr><td>保存方式</td><td>--</td></tr>		
+					</table>	
+				</div>	
+				<div class="col-sm-6">
+					<%=image_tag @product.product_images.last.image.url, class:'', style: 'height: 250px; width: 100%;'%>
+				</div>								
+			</div>		
+			<div class="row" style="">		
+				<div class="col-sm-12">
+					<%= @product.description%>
+				</div>								
+			</div>					
+		</div>
+		<div class="col-sm-4">
+			您選擇<span class="total_quantity"></span>箱，共<span class="total_price"></span>元，金流估計如下<br>
+			<br>
+			農夫獲得<span class="total_farmer_get"></span>元
+			<br>
+			物流費用<span class="total_shipping_rates"></span>元
+			<br>
+			金流費用<span class="total_cash_flow"></span>元
+			<br>
+			行政費用<span class="total_administration"></span>元
+			<br>
+			您的回饋金<span class="total_coupon"></span>元
+			<br>
+			<abbr title=""><small>(最後數據會依實際付款金額不同而改變)</small></abbr>
+		</div>		
+	</div>				
+	<div class="row" style="margin-top: 50px;">
+		<div class="col-sm-offset-2 col-sm-5">					
+		</div>
+		<div class="col-sm-5">
+			<%= render partial: "comments/show", locals: { product: @product} %>			
+		</div>		
+	</div>		    	
 </div>				
 
 
-
-
-<p>
-  <strong>Description:</strong>
-  <%= @product.description %>
-</p>
-
-基本規格
-<ul>
-<li>產地 <%= @product.company.county%><%= @product.company.district%></li>
-<li>保存方式 <%= @product.preservation%></li>
-</ul>
-<%@product.product_boxings.first.product_pricings.each do |p| %>
-	<%if p.quantity == 1%>	
-		<%= p.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %>元(含運) <%= "%g" % @product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(@product.unit).first %>/箱
-	<%else%>
-		<%= p.quantity %>箱以上 每箱<%= p.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %>元(含運)		
-	<%end%>
-	<br>
-<%end%>
-＊企業團體優惠，請聯絡客服人員
-</p>
-
-
-<p>
-
-<span class="total_price"></span>元<br>
-您選擇<span class="total_quantity"></span>箱，共<span class="total_price"></span>元，金流估計如下<br>
-<br>
-農夫獲得<span class="total_farmer_get"></span>元
-<br>
-物流費用<span class="total_shipping_rates"></span>元
-<br>
-金流費用<span class="total_cash_flow"></span>元
-<br>
-行政費用<span class="total_administration"></span>元
-<br>
-您的回饋金<span class="total_coupon"></span>元
-<br>
-<abbr title=""><small>(最後數據會依實際付款金額不同而改變)</small></abbr>
- 
-</div>
-
-<%= link_to 'Edit', edit_product_path(@product) %> |
-<%= link_to 'Back', products_path %>
 
 <script>
 $('.add_to_cart').click(function() {
@@ -225,4 +229,3 @@ $('#quantity').change(function(){
    countTotalPrice($('#quantity').val())
 });	
 </script>
-<%= render partial: "comments/show", locals: { product: @product} %>

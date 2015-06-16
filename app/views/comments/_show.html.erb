@@ -1,7 +1,7 @@
-<div class="container" id="all_comments">	
+<div id="all_comments">	
 </div>	
 <%if user_signed_in?%> 
-<div class="container">
+<div>
 	<div class="row">
 	  <div class="col-sm-1"><%= image_tag current_user.avatar.url, class: 'img-circle', size: '50x50' %></div>
 	  <div class="col-sm-6"><textarea class="form-control" rows="2" placeholder='想對農夫說什麼...' id="post_content"></textarea></div>
@@ -9,12 +9,12 @@
 	</div>	
 </div>	
 <%else%>
-<div class="container">
+<div>
 	<div class="row">
 		<%= form_tag  '/comments/post', method: 'get' do %>
 		    <%= hidden_field_tag  :id,  product.id  %>	
 	  		<div class="col-sm-1"><%= image_tag 'default_avatar.png', class: 'img-circle', size: '50x50' %></div>		    
-	  		<div class="col-sm-6"><textarea name="content" class="form-control" rows="2" placeholder='想對農夫說什麼...' id="post_content"></textarea></div>
+	  		<div class="col-sm-6"><textarea name="content" class="form-control" rows="2" placeholder='留言...' id="post_content"></textarea></div>
 			<div class="col-sm-2"><%= submit_tag '送出',  class: "btn btn-default"  %></div>
 		<% end %>
 	</div>	
