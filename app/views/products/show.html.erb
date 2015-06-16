@@ -74,12 +74,17 @@
 		      </div>		      
 		    </div>				
 			<div class="row">
-		      <div class="col-sm-offset-6 col-sm-6" style="margin-top: 20px;">
+		      <div class="col-sm-offset-5 col-sm-5 text-right" style="margin-top: 10px;">
 					<%=image_tag 'gap.png', class: '', style: 'height: 55px; width: 55px;'  %>		      
 					<%=image_tag 'tap.png', class: '', style: 'height: 50px; width: 50px;'  %>		      		      
 		      </div>
 		    </div>		
-			<div class="row product_price" style="margin-top: 40px;">
+			<div class="row">
+		      <div class="col-sm-offset-5 col-sm-5 text-right" style="margin-top: 15px;">
+				<div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button_count"></div>		      
+		      </div>
+		    </div>			    
+			<div class="row product_price" style="margin-top: 20px;">
 			<%@product.product_boxings.first.product_pricings.each do |p| %>
 				<%if p.quantity == 1%>	
 					<div class="col-sm-offset-2 col-sm-3">							
@@ -177,7 +182,7 @@ $('.add_to_cart').click(function() {
 	});
 	request.done(function( message ) {
 		if(message.alert_class != 'success')
-			addAlert(message.alert_class, message.message)
+			toastr[message.alert_class](message.message)
 	    //$btn.button('reset')		
 	    showCarts();
  		//$('.cart-dropdown-menu').dropdown('toggle');	    
