@@ -252,17 +252,19 @@ function countTotalPrice(q){
 			$('.total_cash_flow').html( total_cash_flow  );	
 			$('.total_administration').html( total_administration  );			
 			$('.total_coupon').html( total_coupon );
-				
-			$('.farmer_get_layer').css({"height": cash_flow_layer*(total_farmer_get/total_price)})
-			$('.farmer_get_inner').css({"height": cash_flow_layer*(total_farmer_get/total_price)})
-			$('.shipping_rates_layer').css({"height": cash_flow_layer*(total_shipping_rates/total_price)})
-			$('.shipping_rates_inner').css({"height": cash_flow_layer*(total_shipping_rates/total_price)})
-			$('.cash_flow_layer').css({"height": cash_flow_layer*(total_cash_flow/total_price)})
-			$('.cash_flow_inner').css({"height": cash_flow_layer*(total_cash_flow/total_price)})
-			$('.administration_layer').css({"height": cash_flow_layer*(total_administration/total_price)})
-			$('.administration_inner').css({"height": cash_flow_layer*(total_administration/total_price)})										
-			$('.coupon_layer').css({"height": cash_flow_layer*(total_coupon/total_price)})
-			$('.coupon_inner').css({"height": cash_flow_layer*(total_coupon/total_price)})
+
+			$('.farmer_get_layer').css({"height": cash_flow_layer*(total_farmer_get/total_price)*0.6})
+			$('.farmer_get_inner').css({"height": cash_flow_layer*(total_farmer_get/total_price)*0.6})
+			$('.farmer_get_layer').animate({"height": cash_flow_layer*(total_farmer_get/total_price)}, 1000)
+			$('.farmer_get_inner').animate({"height": cash_flow_layer*(total_farmer_get/total_price)}, 1000)
+			$('.shipping_rates_layer').animate({"height": cash_flow_layer*(total_shipping_rates/total_price)})
+			$('.shipping_rates_inner').animate({"height": cash_flow_layer*(total_shipping_rates/total_price)})
+			$('.cash_flow_layer').animate({"height": cash_flow_layer*(total_cash_flow/total_price)})
+			$('.cash_flow_inner').animate({"height": cash_flow_layer*(total_cash_flow/total_price)})
+			$('.administration_layer').animate({"height": cash_flow_layer*(total_administration/total_price)})
+			$('.administration_inner').animate({"height": cash_flow_layer*(total_administration/total_price)})										
+			$('.coupon_layer').animate({"height": cash_flow_layer*(total_coupon/total_price)})
+			$('.coupon_inner').animate({"height": cash_flow_layer*(total_coupon/total_price)})
 							
 			return false;
 		}	
