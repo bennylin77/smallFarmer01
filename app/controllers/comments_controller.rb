@@ -27,7 +27,7 @@ class CommentsController < ApplicationController
 
   def show       
     comments = Array.new
-    @product.comments.each do |c|
+    @product.comments.order('id desc').each do |c|
       comment = { id: c.id, content: c.content, user_id: c.user.id, created_at: c.created_at.strftime("%Y-%m-%d %H:%M:%S"),
                   user_last_name: c.user.last_name, user_avatar_url: c.user.avatar.url, email: c.user.email.gsub(/@.*$/, '')}
       sub_comments = Array.new            

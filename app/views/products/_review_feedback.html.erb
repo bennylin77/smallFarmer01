@@ -1,0 +1,16 @@
+Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and delivered_c = 1 ', @product.id).all.order('id DESC')   
+
+<div class="row" style="">		
+	<div class="col-sm-1">
+	<%=image_tag 'default_avatar.png', style: 'height: 30px; width: 30px;' %> 		
+	</div>		
+	<div class="col-sm-10">	
+	bennylin77 22小時前 所留下的購物評價 					
+	</div>
+</div>	
+<div class="row" style="">		
+	<div class="col-sm-offset-1 col-sm-11">
+		寄件迅速，香蕉很甜唷						
+	</div>
+</div>	
+
