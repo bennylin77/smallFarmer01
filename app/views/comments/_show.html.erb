@@ -2,7 +2,7 @@
 </div>	
 <%if user_signed_in?%> 
 <div>
-	<div class="row">
+	<div class="row comment_post">
 	  <div class="col-sm-1"><%= image_tag current_user.avatar.url, class: 'img-circle', size: '50x50' %></div>
 	  <div class="col-sm-9"><textarea class="form-control comment_textarea" rows="2" placeholder='想說什麼...' id="post_content"></textarea><br>
 	  <button class="btn btn-default pull-right comment_button" id="post_button" onclick="postComment()" data-loading-text="傳送中...">送出</button>
@@ -11,7 +11,7 @@
 </div>	
 <%else%>
 <div>
-	<div class="row">
+	<div class="row comment_post">
 		<%= form_tag  '/comments/post', method: 'get' do %>
 		    <%= hidden_field_tag  :id,  product.id  %>	
 	  		<div class="col-sm-1"><%= image_tag 'default_avatar.png', class: 'img-circle', size: '50x50' %></div>		    
@@ -90,7 +90,7 @@ function addComment(comment, sub_comments)
 				  //'<div class="col-sm-9 ">'+comment.user_last_name+' '+moment(comment.created_at, "YYYY-MM-DD HH:mm:ss" ).fromNow()+'<div class="comment_msg">'+comment.content+'</div>'+
 				  //'</div>');		
 	var $op_container =$("<div>", {class: 'col-sm-9'}); 	
-	$op_container.append(comment.user_last_name+' '+moment(comment.created_at, "YYYY-MM-DD HH:mm:ss" ).fromNow());		  
+	$op_container.append(comment.email+' '+moment(comment.created_at, "YYYY-MM-DD HH:mm:ss" ).fromNow());		  
 	if(comment.user_id == current_user.id)			  
 	{			  		  
 		var $delete_but = $("<span>", { onclick: 'delComment('+comment.id.toString()+');', class: "pull-right", style: "cursor: pointer", title: "刪除"}); 	  
@@ -106,7 +106,7 @@ function addComment(comment, sub_comments)
 	//sub comment post	
 	if(current_user.id!=-1)
 	{
-		var $row_post_sub_comment =$("<div>", {class: "row", id: "post_sub_comment_"+comment.id.toString() }); 
+		var $row_post_sub_comment =$("<div>", {class: "row comment_post", id: "post_sub_comment_"+comment.id.toString() }); 
 			$row_post_sub_comment.append('<div class="col-sm-1 col-sm-offset-1">'+
 										 '<img src="'+current_user.avatar_url+'" onerror="this.src=\''+default_avatar+'\'" alt="missing" width="50" height="50" class="img-circle">'+
 										 '</div>'+				
@@ -129,7 +129,7 @@ function addComment(comment, sub_comments)
 						  //'<div class="col-sm-7">'+l.user_last_name+' '+moment(l.created_at, "YYYY-MM-DD HH:mm:ss" ).fromNow()+'<div class="comment_msg">'+l.content+'</div>'+
 						  //'</div>');
 			var $sub_op_container =$("<div>", {class: 'col-sm-8'}); 
-			$sub_op_container.append(l.user_last_name+' '+moment(l.created_at, "YYYY-MM-DD HH:mm:ss" ).fromNow());		  									  		
+			$sub_op_container.append(l.email+' '+moment(l.created_at, "YYYY-MM-DD HH:mm:ss" ).fromNow());		  									  		
 			if(l.user_id == current_user.id)			  
 			{			  		  
 				var $delete_sub_but = $("<span>", { onclick: 'delSubComment('+l.id.toString()+');', class: "pull-right", style: "cursor: pointer", title: "刪除"}); 	  
