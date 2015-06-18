@@ -152,3 +152,44 @@
   width: 100px;
   float: left;   
 }
+/*======================================= reviews =======================================*/
+
+.review_title{
+  display: inline-block;
+  font-size: 18px;
+  width: 80px;
+  text-align: right;
+}
+.review_block_bar{
+  display: inline-block; 
+  width: 300px; 
+}
+
+.review_block1_bar{
+  display: inline-block; 
+  background: #de562c;
+  height: 18px;  
+}
+.review_block2_bar{
+  display: inline-block; 
+  background: #e79568;
+  height: 18px;    
+}
+.review_block3_bar{
+  display: inline-block; 
+  background: #eed3af;
+  height: 18px;    
+}
+.review_block_number{
+  display: inline-block;  
+  font-size: 18px;   
+}
+.review_block1_number{
+  color: #de562c;
+}
+.review_block2_number{
+  color: #e79568;
+}
+.review_block3_number{
+  color: #eed3af;
+} 
