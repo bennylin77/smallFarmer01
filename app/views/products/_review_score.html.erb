@@ -26,8 +26,17 @@
 	</div>	
 </div>
 <script>
-	$('.review_block1_bar').animate({"width": 100}, 1000)
-	$('.review_block2_bar').animate({"width": 20}, 1000)
-	$('.review_block3_bar').animate({"width": 100}, 1000)
+	var controller = new ScrollMagic.Controller();
+	new ScrollMagic.Scene({triggerElement: ".product_section_title"})
+		.addTo(controller)
+		.on('start', function(e){
+			$('.review_block1_bar').animate({"width": 100}, 1000)
+			$('.review_block2_bar').animate({"width": 20}, 1000)
+			$('.review_block3_bar').animate({"width": 100}, 1000)				
+		}).on('leave', function(e){
+			$('.review_block1_bar').animate({"width": 0}, 0)
+			$('.review_block2_bar').animate({"width": 0}, 0)
+			$('.review_block3_bar').animate({"width": 0}, 0)				
+		})
 </script>
 	

@@ -1,3 +1,4 @@
+<%if user_signed_in?%> 
 <div>
 	<div class="row comment_post">
 	  <div class="col-sm-1"><%= image_tag current_user.avatar.url, class: 'img-circle', size: '50x50' %></div>
@@ -5,10 +6,7 @@
 	  <button class="btn btn-default pull-right comment_button" id="post_button" onclick="postComment()" data-loading-text="傳送中...">送出</button>
 	  </div>
 	</div>	
-</div>	
-<div id="all_comments" style="overflow-y: scroll; overflow-x: hidden; height: 600px;">	
-</div>	
-<%if user_signed_in?%> 
+</div>
 <%else%>
 <div>
 	<div class="row comment_post">
@@ -23,6 +21,10 @@
 	</div>	
 </div>	
 <%end%>
+
+<div id="all_comments" style="overflow-y: scroll; overflow-x: hidden; height: 600px;">	
+</div>	
+
 <br><br><br><br>
 
 <script>
