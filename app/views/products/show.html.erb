@@ -15,11 +15,9 @@
 	  <li class="active"><%= @product.name %></li>	
 	</ol>
 	<div class="row">
-		<div class="col-sm-offset-2 col-sm-1 vmiddle">		
-			<%= image_tag @product.company.user.avatar.url, class: 'img-circle', style: 'height: 90px; width: 90px;' %>
-		</div>
-		<div class="col-sm-7 vmiddle">			
-			<%= simple_format(truncate( @product.company.description, length: 150, omission: '... more'), {class: 'product_farm_description'}, wrapper_tag: "div")%>			
+		<div class="col-sm-offset-2 col-sm-8 product_farm_description">		
+			<%= image_tag @product.company.user.avatar.url, class: 'img-circle product_farm_description_avatar', style: '' %>		
+			<%= simple_format(truncate( @product.company.description, length: 150, omission: '... more'), {class: 'product_farm_description_text'}, wrapper_tag: "div")%>			
 		</div>				
 	</div>	
 	<div class="row" style="margin-top: 30px;">

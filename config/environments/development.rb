@@ -35,7 +35,7 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
-  config.allpay_host = 'http://payment-stage.allpay.com.tw/Cashier/AioCheckOut'
+  config.allpay_check_out_url = 'http://payment-stage.allpay.com.tw/Cashier/AioCheckOut'
   config.allpay_merchant_id = '2000132'
   config.allpay_hash_key    = '5294y06JbISpM5x9'
   config.allpay_hash_iv     = 'v77hoKGq4kWxNNIS'
@@ -43,6 +43,11 @@ Rails.application.configure do
      
   config.smallfarmer01_host = 'http://smallfarmer01.com'
       
+  config.mitake_sm_send_get_url = 'http://smexpress.mitake.com.tw:9600/SmSendGet.asp'
+  config.mitake_username = '24967500'
+  config.mitake_password = 'dsf2rrgjn36kriithjb23wer'
+
+
 
   # General Settings
   config.app_domain = 'smallfarmer01.com'

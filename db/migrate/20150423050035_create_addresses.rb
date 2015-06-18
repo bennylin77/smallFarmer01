@@ -7,6 +7,7 @@ class CreateAddresses < ActiveRecord::Migration
       t.string   :last_name 
       
       t.string   :phone_no
+      t.string   :phone_no_for_confirmation    
       t.string   :phone_no_confirmation_token
       t.datetime :phone_no_confirmed_at
       t.integer  :phone_no_confirmation_frequency, default: 0, null: false      

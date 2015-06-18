@@ -79,7 +79,14 @@ class UsersController < ApplicationController
         address.phone_no_confirmation_token = token
         address.phone_no_confirmation_frequency = address.phone_no_confirmation_frequency + 1
         address.save!
-        System.sendConfirmation(current_user).deliver   
+        #System.sendConfirmation(current_user).deliver   
+        data = { username: Rails.configuration.mitake_username, 
+                 password: Rails.configuration.mitake_password,
+                 dstaddr: params[:phone_no]  } 
+        #result = RestClient.get( Rails.configuration.mitake_sm_send_get_url, data)    
+
+        
+        
         render json: {alert_class: 'success', message: '已送出您的驗證碼, 您將在數分鐘內收到'}          
       else
         render json: {alert_class: 'alert', message: '您的驗證已嘗試超過五次，請直接聯絡客服人員，謝謝！'}       

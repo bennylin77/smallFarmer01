@@ -1,6 +1,18 @@
-.product_farm_description
+.product_farm_description{
+  background-color: rgba( 230, 218, 207, 0.5);  
+  border-radius: 40px;
+}
+.product_farm_description_avatar{
+  display: inline-block;
+  height: 90px; width: 90px;
+}
+.product_farm_description_text
 {
+  padding: 10px 10px;   
+  display: inline-block; 
+  width: 1000px; 
   font-size: 16.5px;
+  vertical-align: middle;
 }
 .product_name
 {  
