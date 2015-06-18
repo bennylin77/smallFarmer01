@@ -45,10 +45,9 @@ class UsersController < ApplicationController
 
   def mobileSMSConfirmation 
     if request.patch? && params[:token] 
-      @phone_no = params[:phone_no_full]  
       address = current_user.addresses.first
       if params[:token] == address.phone_no_confirmation_token
-        address.phone_no = @phone_no
+        address.phone_no = address.phone_no_for_confirmation
         address.phone_no_confirmed_at = Time.now
         address.save!
         # important !!!!!!!!!!!!!!!!
@@ -76,15 +75,19 @@ class UsersController < ApplicationController
     unless params[:phone_no].blank?
       unless address.phone_no_confirmation_frequency == 5
         token = Random.rand(10000...99999)
+        address.phone_no_for_confirmation = params[:phone_no]
         address.phone_no_confirmation_token = token
         address.phone_no_confirmation_frequency = address.phone_no_confirmation_frequency + 1
         address.save!
-        #System.sendConfirmation(current_user).deliver   
+        System.sendConfirmation(current_user).deliver   
         data = { username: Rails.configuration.mitake_username, 
                  password: Rails.configuration.mitake_password,
-                 dstaddr: params[:phone_no]  } 
+                 dstaddr: params[:phone_no].gsub(/^\+886/, '0'),
+                 encoding: 'UTF8',
+                 smbody: '小農1號行動電話驗證, 您的簡訊驗證碼為: '+token.to_s
+                 } 
         #result = RestClient.get( Rails.configuration.mitake_sm_send_get_url, data)    
-
+        logger.info result
         
         
         render json: {alert_class: 'success', message: '已送出您的驗證碼, 您將在數分鐘內收到'}          

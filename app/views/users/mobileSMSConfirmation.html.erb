@@ -1,9 +1,11 @@
 <%= form_tag  mobileSMSConfirmation_path(current_user), method: :patch, class: "form-horizontal", role: "form" do %>
 	<div class="form-group">
-		<label class="col-sm-offset-1 col-sm-2 control-label">輸入您的手機號碼</label>
+		<label class="col-sm-offset-1 col-sm-2 control-label">輸入您的行動電話</label>
 		<div class="col-sm-5">
 			<%= hidden_field_tag :phone_no_full%>				
-			<%= phone_field_tag  :phone_no, @phone_no, placeholder: '手機號碼', class: "form-control " %>
+			<%= phone_field_tag  :phone_no, @phone_no, class: "form-control " %>
+			<span id="valid-msg" class="hide">✓</span>
+			<span id="error-msg" class="hide">格式錯誤</span>			
 		</div>
 	</div>	  
  	<div class="form-group">
@@ -47,7 +49,7 @@ telInput.intlTelInput({
 	//allowExtensions: true,
     //autoFormat: false,
     //autoHideDialCode: false,
-	autoPlaceholder: "false",    
+	autoPlaceholder: true,    
     defaultCountry: "auto",
     //ipinfoToken: "yolo",
     //nationalMode: false,

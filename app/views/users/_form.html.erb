@@ -53,7 +53,7 @@
 		</div>		
 		<div class="col-sm-3">
 		<%if @user.addresses.first.phone_no_confirmed_at.blank?%>			
-			<%=link_to '簡訊驗證立刻獲得回饋金', '/users/'+@user.id.to_s+'/mobileSMSConfirmation?phone_no='+@user.addresses.first.phone_no.to_s, class:"btn btn-success", id: "confirmation_btn"%>		
+			<a id="confirmation_btn" class="btn btn-success" href="<%= '/users/'+@user.id.to_s+'/mobileSMSConfirmation?phone_no='+@user.addresses.first.phone_no.gsub(/^\+/, '%2B')%>">簡訊驗證立刻獲得回饋金</a>		
 		<%else%>
 			已驗證
 		<%end%>			
@@ -118,7 +118,7 @@ telInput.intlTelInput({
 // on blur: validate
 telInput.blur(function() {
   if ($.trim(telInput.val())) {
-  	$('#confirmation_btn').attr('href', '/users/<%=@user.id.to_s%>/mobileSMSConfirmation?phone_no='+telInput.val() );
+  	$('#confirmation_btn').attr('href', '/users/<%=@user.id.to_s%>/mobileSMSConfirmation?phone_no='+escape(telInput.val()) );
     if (telInput.intlTelInput("isValidNumber") && intlTelInputUtils.numberType.MOBILE == telInput.intlTelInput("getNumberType") ) {
       validMsg.removeClass("hide");
     } else {

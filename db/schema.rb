@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 20150524160052) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "phone_no"
+    t.string   "phone_no_for_confirmation"
     t.string   "phone_no_confirmation_token"
     t.datetime "phone_no_confirmed_at"
     t.integer  "phone_no_confirmation_frequency", default: 0, null: false
@@ -165,6 +166,8 @@ ActiveRecord::Schema.define(version: 20150524160052) do
     t.datetime "called_smallfarmer_at"
     t.boolean  "called_logistics_c",               default: false, null: false
     t.datetime "called_logistics_at"
+    t.boolean  "delivered_c",                      default: false, null: false
+    t.datetime "delivered_at"
     t.boolean  "seven_days_c",                     default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
