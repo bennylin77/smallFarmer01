@@ -162,53 +162,66 @@
 }
 .review_block_bar{
   display: inline-block; 
-  width: 300px; 
+  width: 300px;  
 }
 
-.review_block1_bar{
+.review_block_bar_inner{
   display: inline-block; 
-  background: #de562c;
-  height: 18px;  
+  height: 18px;   
 }
-.review_block2_bar{
-  display: inline-block; 
-  background: #e79568;
-  height: 18px;    
-}
-.review_block3_bar{
-  display: inline-block; 
-  background: #eed3af;
-  height: 18px;    
-}
+
 .review_block_number{
   display: inline-block;  
   font-size: 18px;   
 }
-.review_block1_number{
+.review_excellent_bg{
+  background: #de562c; 
+}
+.review_good_bg{
+  background: #e79568; 
+}
+.review_soso_bg{
+  background: #eed3af; 
+}
+.review_excellent{
   color: #de562c;
 }
-.review_block2_number{
+.review_good{
   color: #e79568;
 }
-.review_block3_number{
+.review_soso{
   color: #eed3af;
 } 
 /*======================================= reviews feedback=======================================*/
 .review_feedback_avatar{
-  
+  display: inline-block;
+  height: 40px;
+  width: 40px;  
+  vertical-align: middle;
 }
 .review_feedback_name{
-  
+  display: inline-block;  
+  font-size: 25px;
+  vertical-align: middle;  
 }
 .review_feedback_date{
-  
+  display: inline-block;  
+  vertical-align: middle;  
 }
 .review_feedback_option{
-  
+  display: inline-block;  
+  height: 30px;
+  width: 30px;
+  border-radius: 20px;
+  vertical-align: middle;  
 }
 .review_feedback_option_text{
+  display: inline-block;    
+  vertical-align: middle;
   
 }
 .review_feedback_content{
-  background: #fdfcfd;
+  background: rgba(255, 255, 255, 0.8); 
+  font-size: 18px;  
+  padding: 10px 10px;
 }
