@@ -94,12 +94,12 @@ input.rounded:focus {
   background-color: #d43f3a;
 }
 .dropdown-menu{
+  margin-top: 10px !important;
   color: #605856;  
-  padding: 10px 20px;
-  padding-top: 30px;
+  padding: 20px 20px;
   background: #f3f3f2;    
   box-shadow: none;  
-  border-radius: 20px;
+  border-radius: 10px !important;
 }
 .dropdown-menu:before {
   position: absolute;
@@ -115,12 +115,12 @@ input.rounded:focus {
 
 .dropdown-menu:after {
   position: absolute;
-  top: -6px;
+  top: -9px;
   right: 30px;
   display: inline-block;
-  border-right: 6px solid transparent;
-  border-bottom: 6px solid #f3f3f2;
-  border-left: 6px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #f3f3f2;
+  border-left: 10px solid transparent;
   content: '';
 }
 /*======================================= checkout =======================================*/
@@ -152,12 +152,17 @@ input.rounded:focus {
    
 }
 .checkout_btn{
+  color: #ffffff;
   border: none;
-  background: #e8e7e8;
+  background: #64bb71;
   border-radius: 0px;
   padding: 5px 20px;
+  box-shadow: 3px 3px rgb(209, 209, 200);  
+  
 }
 .checkout_btn:hover{
+  color: #ffffff;  
+  background: #64bb71;  
   opacity: 0.8;
 }
 
