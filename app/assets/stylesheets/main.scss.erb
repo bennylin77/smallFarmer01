@@ -96,34 +96,61 @@ input.rounded:focus {
 .dropdown-menu{
   margin-top: 10px !important;
   color: #605856;  
-  padding: 20px 20px;
   background: #f3f3f2;    
   box-shadow: none;  
   border-radius: 10px !important;
 }
 .dropdown-menu:before {
   position: absolute;
-  top: -7px;
-  right: 30px;
+  top: -17px;
+  right: 20px;
   display: inline-block;
-  border-right: 7px solid transparent;
-  border-bottom: 7px solid #ccc;
-  border-left: 7px solid transparent;
+  border-right: 17px solid transparent;
+  border-bottom: 17px solid #ccc;
+  border-left: 17px solid transparent;
   border-bottom-color: rgba(0, 0, 0, 0.2);
   content: '';
 }
 
 .dropdown-menu:after {
   position: absolute;
-  top: -9px;
-  right: 30px;
+  top: -18px;
+  right: 15px;
   display: inline-block;
-  border-right: 10px solid transparent;
-  border-bottom: 10px solid #f3f3f2;
-  border-left: 10px solid transparent;
+  border-right: 18px solid transparent;
+  border-bottom: 18px solid #f3f3f2;
+  border-left: 18px solid transparent;
   content: '';
 }
+@media (max-width: 960px) {
+  .dropdown-menu:before{
+    border: none;
+  }  
+  .dropdown-menu:after{
+    border: none;
+  }
+}
+/*======================================= manage =======================================*/
+.manage_lists{
+  text-align: center;
+  padding: 13px 0px;
+  min-width: 110px;   
+}
+.manage_lists li{
+}
+.manage_lists li a{
+  font-size: 15px;
+  color: #605856;  
+  padding: 3px 0px !important;  
+}
+@media (max-width: 960px) {
+
+}
 /*======================================= checkout =======================================*/
+.cart-dropdown-menu {
+  padding: 20px 20px;  
+  width: 250px !important;
+}
 .cart_lists li{
   border-bottom: 1px solid #536132;   
   padding-bottom: 10px;  
@@ -134,9 +161,6 @@ input.rounded:focus {
 }
 .cart_lists li a:hover{
   opacity: 0.8;
-}
-.cart-dropdown-menu {
-  width: 250px !important;
 }
 .cart_image{
   height: 70px; 
