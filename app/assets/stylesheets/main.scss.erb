@@ -22,6 +22,9 @@ body{
   box-shadow: 0px 15px 0px -14px #536132;  
   color: #f1f1f1 !important;  
 }
+.navbar .navbar-collapse {
+    
+}
 input.rounded {
     border: 1px solid #ccc;
     -moz-border-radius: 17px;
@@ -65,6 +68,7 @@ input.rounded:focus {
   font-size: 26px;
 }
 .mobile_menu_label{
+  visibility: hidden;  
   display: block;
   position: absolute; 
   font-size: 20px; 
@@ -131,6 +135,9 @@ input.rounded:focus {
   }  
   .dropdown-menu:after{
     border: none;
+  }
+  .mobile_menu_label{
+    visibility: visible;    
   }
 }
 /*======================================= manage =======================================*/
