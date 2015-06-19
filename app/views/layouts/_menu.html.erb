@@ -28,7 +28,7 @@
 	            	<span class="menu_coupons"><%=coupons %></span>	            	
 	            	</a>
 	            </li>
-	           	<li><a class="dropdown-toggle menu_right" onclick="showCarts();" href="#" data-toggle="dropdown" aria-expanded="false">
+	           	<li><a class="dropdown-toggle menu_right" onmouseover="showCarts();" href="#" data-toggle="dropdown" aria-expanded="false" >
 						<%= image_tag 'cart_icon.png', class: '', style: '' %>	            	
 		            	<span class='visible-xs mobile_menu_label'>購物車</span>
 						<span class="badge badge-danger carts_badge"><%=carts%></span>		            	
@@ -37,8 +37,11 @@
 		            <div class="dropdown-menu cart-dropdown-menu" role="menu">
 		            	<ul style="margin: 0; padding: 0; list-style: none; color: #000000" class="cart_lists">
 		            	</ul>
+		            	<div style="padding-top: 5px; padding-bottom: 5px; text-align: right;">
+		            	總計: 1000元
+		            	</div>
 						<%= form_tag('/orders/checkout') do -%>
-						  <div><%= submit_tag '結帳', class: 'btn btn-default' %></div>
+						<button class="btn btn-default checkout_btn center-block" type="submit"><span class="glyphicon glyphicon-usd" aria-hidden="true"></span>結帳</button>
 						<% end -%>		            	
 		            </div>	                 
 	          	</li>
@@ -48,7 +51,7 @@
 	            	<span class="badge badge-danger">3</span>
 	            	</a>
 	            </li>
-				<li><a href="#" class="dropdown-toggle menu_right" data-toggle="dropdown" aria-expanded="false">					
+				<li><a href="#" class="dropdown-toggle menu_right" data-toggle="dropdown" aria-expanded="false" data-hover="dropdown" data-delay="0" data-close-others="true">					
 					<%= image_tag current_user.avatar.url, class: 'img-circle', style: '' %>
 					<span class="sr-only">Toggle Dropdown</span>
 					</a>
@@ -78,8 +81,12 @@ function showCarts(){
 	request.done(function( message ) {
 		$(".cart_lists").empty();
 		var q = 0
-		$.each(  message , function( i, l ){						
-			$(".cart_lists").append('<li>'+l.name+' 數量:'+l.quantity+' 價錢'+l.price+'</li>')
+		$.each(  message , function( i, l ){					
+			$(".cart_lists").append('<li><a href="/products/'+l.id+'">'+
+			'<img  class="cart_image img-circle" src="'+l.image_url+'"><div class="cart_content">'+
+			l.name+
+			'<br>'+l.quantity+'箱'+
+			'<br>'+l.price+'元</div></a></li>')
 			q = q + l.quantity	
 	 	});
 	 	if(q!=0)

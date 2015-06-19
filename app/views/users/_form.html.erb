@@ -52,8 +52,12 @@
 			<%end%>	
 		</div>		
 		<div class="col-sm-3">
-		<%if @user.addresses.first.phone_no_confirmed_at.blank?%>			
+		<%if @user.addresses.first.phone_no_confirmed_at.blank?%>
+			<%if @user.addresses.first.phone_no%>			
 			<a id="confirmation_btn" class="btn btn-success" href="<%= '/users/'+@user.id.to_s+'/mobileSMSConfirmation?phone_no='+@user.addresses.first.phone_no.gsub(/^\+/, '%2B')%>">簡訊驗證立刻獲得回饋金</a>		
+			<%else%>
+			<a id="confirmation_btn" class="btn btn-success" href="<%= '/users/'+@user.id.to_s+'/mobileSMSConfirmation'%>">簡訊驗證立刻獲得回饋金</a>					
+			<%end%>
 		<%else%>
 			已驗證
 		<%end%>			

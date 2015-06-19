@@ -84,10 +84,10 @@ class UsersController < ApplicationController
                  password: Rails.configuration.mitake_password,
                  dstaddr: params[:phone_no].gsub(/^\+886/, '0'),
                  encoding: 'UTF8',
-                 smbody: '小農1號行動電話驗證, 您的簡訊驗證碼為: '+token.to_s
+                 smbody: '小農1號行動電話驗證，您的簡訊驗證碼為:'+token.to_s
                  } 
-        #result = RestClient.get( Rails.configuration.mitake_sm_send_get_url, data)    
-        logger.info result
+        #result = RestClient.get( Rails.configuration.mitake_sm_send_get_url, params: data)    
+        
         
         
         render json: {alert_class: 'success', message: '已送出您的驗證碼, 您將在數分鐘內收到'}          

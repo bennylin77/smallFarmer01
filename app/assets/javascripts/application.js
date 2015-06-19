@@ -29,5 +29,6 @@
 //= require moment-with-locales.min.js
 //= require toastr.min.js
 //= require toastr_options.js
+//= require bootstrap-hover-dropdown.min.js 
 //
 //= require_tree .

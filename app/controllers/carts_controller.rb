@@ -42,9 +42,11 @@ class CartsController < ApplicationController
       end
       carts << 
       {
+        id: c.product_boxing.product.id,  
         name: c.product_boxing.product.name,
         quantity: c.quantity, 
-        price: price.to_i
+        price: price.to_i,
+        image_url: c.product_boxing.product.product_images.first.image.url(:small)
       }       
     end
     render json: carts.to_json    
