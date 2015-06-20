@@ -78,7 +78,7 @@
 }
 .farm_fruits_price{
   margin-top: 20px;  
-  font-size: 17px;  
+  font-size: 16px;  
 }
 .farm_fruits_reviews{
   margin-top: 10px;    
@@ -123,7 +123,7 @@
     width: 130px;      
   }
   .farm_cover_parallax_parent {
-    height: 400px;
+    height: 450px;
   }  
   .farm_words, .farm_words_name{
     width: 420px;
@@ -156,7 +156,18 @@
   }  
 }
 @media (max-width: 992px) {
-
+  .farm_triangle {
+    display: none;
+    visibility: hidden;
+  }  
+  .farm_description{
+    width: 100%;
+    font-size: 16px;
+    padding: 35px 45px;
+  }  
+  .farm_words, .farm_words_name{
+    width: 100%;
+  }
 }
 /*======================================= Carousel =======================================*/
 .farm_carousel
@@ -224,13 +235,14 @@
     height: 200px !important;  
   }
 }
-@media (max-width: 768px) {
+@media (max-width: 992px) {
   .farm_carousel{
-    width: 65% !important;    
+    width: 500px !important;   
+    margin-top: 50px !important;  
   }  
   .farm_item img {
-    width: 100%;     
-    height: 200px;
+    width: 100% !important;      
+    height: 300px !important;
   }  
 }
 @media (max-width: 480px) {

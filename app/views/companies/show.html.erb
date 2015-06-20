@@ -1,18 +1,21 @@
 <div class="container-fluid main_frontend">	
-	<ol class="breadcrumb">
+	<ol class="breadcrumb hidden-xs">
 	  <li><%= link_to '首頁', root_url %></li>
 	  <li><a href="#">合作農場</a></li>
 	  <li class="active">
 	  	<a href="#">
 	  	<%unless @company.county.blank?%>
-	  		<%= image_tag Hash[countyImageOptions].rassoc(@company.county).first, height: '50' %> 
+	  		<%= image_tag Hash[countyImageOptions].rassoc(@company.county).first %> 
 	  	<%else%>
-	  		<%= image_tag Hash[countyImageOptions].rassoc('南海諸島').first, height: '50' %> 	  		
+	  		<%= image_tag Hash[countyImageOptions].rassoc('南海諸島').first%> 	  		
 	  	<%end%> 	
 	  	<%= @company.name %>	  	
 	  	</a>
 	  </li>		
-	</ol>	
+	</ol>		
+	<div class="row" style="margin-bottom: 20px">
+		<h2 class="visible-xs-block text-center"><%=@company.name %></h2>
+	</div>				
 	<div class="row">
 		<div class="col-md-offset-1 col-md-4 vbottom">		
 			<div class="farm_triangle">
@@ -20,7 +23,7 @@
 			</div>		
 			<%= simple_format(@company.description, {class: 'farm_description'}, wrapper_tag: "div")%>			
 		</div>
-		<div class="col-md-2 vbottom text-center">
+		<div class="col-md-2 hidden-sm hidden-xs vbottom text-center">
 			<%= image_tag @company.user.avatar.url, class: 'img-circle farm_user_img' %>
 		</div>				
 		<div class="col-md-4 vbottom">
@@ -47,11 +50,11 @@
 				    <%end%>
 				<%end%>  	   
 			  </div>
-			  <a class="left farm_carousel-control carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+			  <a class="left farm_carousel-control carousel-control hidden-xs" href="#carousel-example-generic" role="button" data-slide="prev">
 			    <span class="glyphicon glyphicon-menu-left icon-prev" aria-hidden="true"></span>
 			    <span class="sr-only">Previous</span>
 			  </a>
-			  <a class="right farm_carousel-control carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+			  <a class="right farm_carousel-control carousel-control hidden-xs" href="#carousel-example-generic" role="button" data-slide="next">
 			    <span class="glyphicon glyphicon-menu-right icon-next" aria-hidden="true"></span>
 			    <span class="sr-only">Next</span>
 			  </a>
@@ -73,9 +76,9 @@
 	<div class="row">
 		<% p.each_with_index do |pp, index|%>
 			<%if index == 0 %>
-				<div class="col-lg-offset-2 col-lg-2 col-md-offset-2 col-md-2  farm_fruits">
+				<div class="col-lg-offset-2 col-lg-2 col-md-offset-2 col-md-2 col-sm-offset-1 col-sm-2 farm_fruits">
 			<%else%>
-				<div class="col-lg-2 col-md-2 farm_fruits">			
+				<div class="col-sm-offset-1 col-sm-2 farm_fruits">			
 			<%end%>				
 			<%= link_to pp do%>
 					<%= image_tag pp.product_images.first.image.url, class: 'img-circle', size: '150x150' %>			
@@ -93,15 +96,7 @@
 		<%end%>	
 	</div>		
 	<%end%>	
-	
 </div>
-<!--
-	<%@company.products.each_slice(2) do |a|%> 
-	<% a.each do |aa|%>
-	<%=aa.id%>
-	<%end%>	
-	<%end%>
--->	
 <script>
 $(document).ready(function($) {
 	// function to be used to retrieve variable
