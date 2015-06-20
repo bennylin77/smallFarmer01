@@ -1,29 +1,29 @@
 <div class="container-fluid main_frontend">	
 	<ol class="breadcrumb">
-	  <li><a href="#">首頁</a></li>
+	  <li><%= link_to '首頁', root_url %></li>
 	  <li><a href="#">合作農場</a></li>
 	  <li class="active">
 	  	<a href="#">
 	  	<%unless @company.county.blank?%>
-	  		<%= image_tag Hash[countyImageOptions].rassoc(@company.county).first, height: '70' %> 
+	  		<%= image_tag Hash[countyImageOptions].rassoc(@company.county).first, height: '50' %> 
 	  	<%else%>
-	  		<%= image_tag Hash[countyImageOptions].rassoc('南海諸島').first, height: '70' %> 	  		
+	  		<%= image_tag Hash[countyImageOptions].rassoc('南海諸島').first, height: '50' %> 	  		
 	  	<%end%> 	
 	  	<%= @company.name %>	  	
 	  	</a>
 	  </li>		
 	</ol>	
 	<div class="row">
-		<div class="col-sm-offset-1 col-sm-4 vbottom">		
+		<div class="col-md-offset-1 col-md-4 vbottom">		
 			<div class="farm_triangle">
 				<div class="farm_triangle_text"><%=@company.name %></div>
 			</div>		
 			<%= simple_format(@company.description, {class: 'farm_description'}, wrapper_tag: "div")%>			
 		</div>
-		<div class="col-sm-2 vbottom text-center">
-			<%= image_tag @company.user.avatar.url, class: 'img-circle', style: 'height: 145px; width: 150px;' %>
+		<div class="col-md-2 vbottom text-center">
+			<%= image_tag @company.user.avatar.url, class: 'img-circle farm_user_img' %>
 		</div>				
-		<div class="col-sm-4 vbottom">
+		<div class="col-md-4 vbottom">
 			<div id="carousel-example-generic" class="farm_carousel carousel slide" data-ride="carousel" data-interval="5000" data-pause="hover" style="margin: 10px auto; ">
 			  <ol class="farm_carousel-indicators carousel-indicators">
 				<%@company.company_images.each_with_index do |c, i|%> 
@@ -66,7 +66,7 @@
 	</div>
 	<div class="row" style="margin-top: 30px;">
 		<div id="parallax1" class="farm_cover_parallax_parent">
-			<div style="background-image: url('<%=@company.cover.url%>');"></div>
+			<div style="background-image: url('<%=@company.cover.url%>'); background-size: cover;"></div>
 		</div>	
 	</div>	
 	<%@company.products.where(available_c: true).each_slice(4) do |p|%> 

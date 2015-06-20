@@ -19,7 +19,7 @@
 	</div>		
 	<div class="form-group">
 		<label class="col-sm-offset-1 col-sm-2 control-label">聯絡電話</label>
-		<div class="col-sm-2">
+		<div class="col-sm-6">
 			<%= hidden_field_tag :phone_no_full%>				
 			<%= f.text_field :phone_no, class: "form-control" %>
 			<span id="valid-msg" class="hide">✓</span>
@@ -150,9 +150,9 @@ $("form").submit(function() {
   $("#phone_no_full").val($("#company_phone_no").intlTelInput("getNumber"));
 });
 //================== error ==================//	
-<% @company.errors.full_messages.each do |message| %>
+<% @company.errors.messages.each do |index, value| %>
 	<%unless value.blank? %>
-		addAlert('error', '<%=value.first%>')
+		toastr['error']('<%=value.first%>')		
 	<%end%>	
 <% end %>
 </script>
