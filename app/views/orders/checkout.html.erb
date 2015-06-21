@@ -41,7 +41,7 @@
 		<%end%>
 		</table>
 	</div>	
-	<div class="row" style="margin-top: 30px;">
+	<div class="row" style="margin-top: 20px; margin-bottom: 30px;">
 		<div class="col-sm-12">
 			<div class="section_title">付款方式</div>
 			<div class="section_underline"></div>			
@@ -99,7 +99,7 @@
 	
 
 
-	<div class="row" style="margin-top: 30px;">
+	<div class="row" style="margin-top: 30px; margin-bottom: 30px;">
 		<div class="col-sm-12">
 			<div class="section_title">訂購人資訊</div>
 			<div class="section_underline"></div>			
@@ -144,21 +144,22 @@
 			</div>
 		</div>		  
 	<%end%>
-	<div class="row" style="margin-top: 30px;">
+	<div class="row" style="margin-top: 30px; margin-bottom: 30px;">
 		<div class="col-sm-12">
-			<div class="section_title">收件人資訊</div>
+			<div>
+				<div class="section_title" style="display: inline-block">收件人資訊</div>
+				<div class="checkbox" style="display: inline-block; margin-left: 20px;">
+  					<label>
+				 	<%= check_box_tag 'same_as_user', true, @same_as_user == 'true'%>
+				 	同訂購人資訊
+				  </label>
+				</div>			
+			</div>
 			<div class="section_underline"></div>			
 		</div>					
 	</div>
-	<div class="form-group">
-		<label class="col-sm-2 control-label">收件人資訊</label>
-		<div class="form-inline col-sm-6">
-			<label class="checkbox-inline">
-			 	<%= check_box_tag 'same_as_user', true, @same_as_user == 'true'%>
-			 	同訂購人資訊
-			</label>
-		</div>
-	</div>		
+
+	
   	<% current_user.invoices.each do |i_new| %>
 	    <% if i_new.new_record? %>
 	    	<%= u.fields_for :invoices, i_new do |i| %>
