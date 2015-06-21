@@ -1,100 +1,110 @@
 <div class="container main_frontend">
 <%= form_for current_user, url: { controller: 'orders', action: "confirmCheckout"}, method: :post , html: {class: "form-horizontal", role: "form", id: "first-form"} do |u| %>		 
-	<div class="row" style="margin-top: 30px;">
+	<div class="row" style="margin-top: 30px; margin-bottom: 30px;">
 		<div class="col-sm-12">
 			<div class="section_title">購物明細</div>
+			<div class="section_underline"></div>
 		</div>					
 	</div>	
-	<%current_user.carts.each_with_index do |c, index| %>
+	<div class="table-responsive">
+		<table class="table borderless check_out_product_list" style="vertical-align: middle">	
+		<%current_user.carts.each_with_index do |c, index| %>
 		<% product = c.product_boxing.product%>
-		<div class="row cart_<%=c.id%>">	
-			<div class="col-sm-1  col-sm-offset-1">
-				<%= index+1 %>.
-			</div>
-			<div class="col-sm-2">
-				<%= image_tag product.product_images.first.image.url, class: 'img-circle farm_fruits_img', size: '100x100' %>						
-			</div>							
-			<div class="col-sm-1">
-				<%=link_to c.product_boxing.product.name,  product_path(product)%>
-			</div>
-			<div class="col-sm-2">
-				<% product = c.product_boxing.product%>
-				<% product.product_boxings.first.product_pricings.each do |pp| %>
-					<%if pp.quantity == 1%>	
-						<%= product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %>/箱   <%= pp.price.to_i+GLOBAL_VAR['SHIPPING_RATES']  %>元
-					<%else%>
-						<%= pp.quantity %>箱以上 每箱<%= pp.price.to_i + GLOBAL_VAR['SHIPPING_RATES']%>元		
-					<%end%>
-					<br>
+        <tr class="cart_<%=c.id%>">
+          <td class="check_out_product_list_index"><%= index+1 %>.</td> 	
+          <td>
+			<%= image_tag product.product_images.first.image.url, class: 'img-circle farm_fruits_img'%>						
+          </td>  
+          <td class="check_out_product_list_title">
+			<%= link_to c.product_boxing.product.name,  product_path(product)%>
+          </td>           
+          <td class="check_out_product_list_text">
+			<% product.product_boxings.first.product_pricings.each do |pp| %>
+				<%if pp.quantity == 1%>	
+					<%= "%g" % product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %>/箱   <%= pp.price.to_i+GLOBAL_VAR['SHIPPING_RATES']  %>元
+				<%else%>
+					<%= pp.quantity %>箱以上 每箱<%= pp.price.to_i + GLOBAL_VAR['SHIPPING_RATES']%>元		
 				<%end%>
-			</div>
-			<div class="col-sm-2">			
-			<%= select_tag  'quantity_'+c.id.to_s, options_for_select( (1..50).step(1).to_a, c.quantity.to_s), class: "form-control" %>
-			</div>		
-			<div class="col-sm-1">			
-			箱
-			</div>				
-			<div class="col-sm-1">
-				<span class="total_price_<%=c.id%>"></span>元
-			</div>	
-			<div class="col-sm-1">
-	        	<span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="destroyCart(<%=c.id %>)" style="cursor: pointer"></span>        	
-			</div>						
-		</div>	
-	<%end%>
-	<div class="row">
-		<div class="col-sm-offset-4 col-sm-2">小計</div>				
-		<div class="col-sm-2">		
-		<span class="total_price"></span>	
-		</div>	
-		<div class="col-sm-2">元	</div>			
+				<br>
+			<%end%>          	
+          </td>    
+          <td class="form-group form-inline check_out_product_list_text">
+			<%= select_tag  'quantity_'+c.id.to_s, options_for_select( (1..50).step(1).to_a, c.quantity.to_s), class: "form-control" %>箱
+          </td>     
+          <td class="check_out_product_list_text">
+			<span class="total_price_<%=c.id%>"></span>元
+          </td>       
+          <td>
+	        <span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="destroyCart(<%=c.id %>)" style="cursor: pointer"></span>        	
+          </td>                                   	
+		</tr>					
+		<%end%>
+		</table>
 	</div>	
-	<div class="row">
-		<div class="col-sm-offset-4 col-sm-2">使用回饋金</div>		
-		<div class="col-sm-2">		
-		<%= text_field_tag :coupons_using, @coupon_using || 0, class: "form-control" %>
-		</div>	
-		<div class="col-sm-2">元(餘額: <%=coupons %>元)</div>		
+	<div class="row" style="margin-top: 30px;">
+		<div class="col-sm-12">
+			<div class="section_title">付款方式</div>
+			<div class="section_underline"></div>			
+		</div>					
 	</div>		
 	<div class="row">
-		<div class="col-sm-offset-4 col-sm-2">總計</div>				
-		<div class="col-sm-2">		
-		<span class="sum"></span>	
+		<div class="col-sm-offset-1 col-sm-2 check_out_pay_method">	
+			<div class="radio">
+			<label>
+				 <%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT'].to_s %>
+				 <div class="check_out_pay_method_text">
+				 	線上刷卡
+		  			<%=image_tag 'allPay.png', class: 'img-responsive'%>					 	
+				 </div>
+			</label>	 
+			</div>
+		</div>
+		<div class="col-sm-2 check_out_pay_method">	
+			<div class="radio">
+			<label>
+				 <%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD'].to_s %>
+				 <div class="check_out_pay_method_text"> 
+				 貨到付款
+				 <%=image_tag 'cat.png', class: 'img-responsive'%> 						 
+				 </div>	
+			</label>				 			 
+			</div>
+		</div>
+		<div class="col-sm-7">	
+			<div class="row">
+				<div class="col-sm-offset-5 col-sm-2">小計</div>				
+				<div class="col-sm-2">		
+				<span class="total_price"></span>元		
+				</div>	
+			</div>	
+			<div class="row">
+				<div class="col-sm-offset-5 col-sm-2">使用回饋金</div>		
+				<div class="col-sm-2 form-inline ">		
+				<%= text_field_tag :coupons_using, @coupon_using || 0, class: "form-control" %>
+				<label>元(餘額: <%=coupons %>元)</label>
+				</div>	
+			</div>		
+			<div class="row">
+				<div class="col-sm-offset-5 col-sm-2">總計</div>				
+				<div class="col-sm-2">		
+				<span class="sum"></span>元	
+				</div>	
+			</div>	
 		</div>	
-		<div class="col-sm-2">元	</div>
-	</div>	
-<hr>
-	<div class="form-group">
-		<label class="col-sm-2 control-label">付款方式</label>
-		<div class="form-inline col-sm-6">
-		</div>
-	</div>	
-	<div class="form-group">
-		<label class="col-sm-2 control-label">	
-			 <label class="radio-inline">
-			 <%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT'].to_s %>線上刷卡
-			 </label>
-		</label>
-		<div class="form-inline col-sm-6">
-	  		<%=image_tag 'allPay.png', class: 'img-responsive', size: '80x80'%>	
-		</div>
-	</div>	
-	<div class="form-group">
-		<label class="col-sm-2 control-label">	
-			 <label class="radio-inline">
-			 <%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD'].to_s %>貨到付款
-			 </label>
-		</label>
-		<div class="form-inline col-sm-6">
-			<%=image_tag 'cat.png', class: 'img-responsive', size: '80x80'%> 		
-		</div>
-	</div>	
-<hr>
-	<div class="form-group">
-		<label class="col-sm-2 control-label">訂購人資訊</label>
-		<div class="form-inline col-sm-6">
-		</div>
-	</div>	
+	</div>		
+	
+	
+	
+
+	
+
+
+	<div class="row" style="margin-top: 30px;">
+		<div class="col-sm-12">
+			<div class="section_title">訂購人資訊</div>
+			<div class="section_underline"></div>			
+		</div>					
+	</div>
 	<%= u.fields_for :addresses do |a| %>
 	 	<div class="form-group">
 			<label class="col-sm-2 control-label">姓名</label>
@@ -134,7 +144,12 @@
 			</div>
 		</div>		  
 	<%end%>
-<hr>
+	<div class="row" style="margin-top: 30px;">
+		<div class="col-sm-12">
+			<div class="section_title">收件人資訊</div>
+			<div class="section_underline"></div>			
+		</div>					
+	</div>
 	<div class="form-group">
 		<label class="col-sm-2 control-label">收件人資訊</label>
 		<div class="form-inline col-sm-6">

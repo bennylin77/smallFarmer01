@@ -1,3 +1,29 @@
-// Place all the styles related to the orders controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.check_out_product_list{
+  
+}
+.check_out_product_list td{
+  vertical-align: middle !important; 
+  text-align: center !important;       
+}
+.check_out_product_list_index{
+  font-size: 30px;
+}
+.check_out_product_list img{
+  width: 130px;
+  height: 130px;
+}
+.check_out_product_list_title a{
+  font-size: 22px;
+  color: #605856;    
+}
+.check_out_product_list_text{
+  font-size: 15px;    
+}
+.check_out_pay_method_text{
+  text-align: center;
+  font-size: 18px;
+}
+.check_out_pay_method_text img{
+  width: 70px;
+}
+
