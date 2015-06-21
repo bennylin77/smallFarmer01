@@ -1,39 +1,47 @@
 <div class="container main_frontend">
 <%= form_for current_user, url: { controller: 'orders', action: "confirmCheckout"}, method: :post , html: {class: "form-horizontal", role: "form", id: "first-form"} do |u| %>		 
-	<%current_user.carts.each do |c| %>
-	<% product = c.product_boxing.product%>
-	<div class="row cart_<%=c.id%>">
-		<div class="col-sm-1">
-        <td>
-        	<span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="destroyCart(<%=c.id %>)" style="cursor: pointer"></span>        	
-        </td>
-		</div>			
-		<div class="col-sm-1">
-			<%=link_to c.product_boxing.product.name,  product_path(product)%>
-		</div>
-		<div class="col-sm-2">
-			<% product = c.product_boxing.product%>
-			<% product.product_boxings.first.product_pricings.each do |pp| %>
-				<%if pp.quantity == 1%>	
-					<%= product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %>/箱   <%= pp.price.to_i+GLOBAL_VAR['SHIPPING_RATES']  %>元
-				<%else%>
-					<%= pp.quantity %>箱以上 每箱<%= pp.price.to_i + GLOBAL_VAR['SHIPPING_RATES']%>元		
-				<%end%>
-				<br>
-			<%end%>
-		</div>
-		<div class="col-sm-2">			
-		<%= select_tag  'quantity_'+c.id.to_s, options_for_select( (1..50).step(1).to_a, c.quantity.to_s), class: "form-control" %>
-		</div>		
-		<div class="col-sm-1">			
-		箱
-		</div>				
-		<div class="col-sm-1">
-			<span class="total_price_<%=c.id%>"></span>元
+	<div class="row" style="margin-top: 30px;">
+		<div class="col-sm-12">
+			<div class="section_title">購物明細</div>
 		</div>					
 	</div>	
+	<%current_user.carts.each_with_index do |c, index| %>
+		<% product = c.product_boxing.product%>
+		<div class="row cart_<%=c.id%>">	
+			<div class="col-sm-1  col-sm-offset-1">
+				<%= index+1 %>.
+			</div>
+			<div class="col-sm-2">
+				<%= image_tag product.product_images.first.image.url, class: 'img-circle farm_fruits_img', size: '100x100' %>						
+			</div>							
+			<div class="col-sm-1">
+				<%=link_to c.product_boxing.product.name,  product_path(product)%>
+			</div>
+			<div class="col-sm-2">
+				<% product = c.product_boxing.product%>
+				<% product.product_boxings.first.product_pricings.each do |pp| %>
+					<%if pp.quantity == 1%>	
+						<%= product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %>/箱   <%= pp.price.to_i+GLOBAL_VAR['SHIPPING_RATES']  %>元
+					<%else%>
+						<%= pp.quantity %>箱以上 每箱<%= pp.price.to_i + GLOBAL_VAR['SHIPPING_RATES']%>元		
+					<%end%>
+					<br>
+				<%end%>
+			</div>
+			<div class="col-sm-2">			
+			<%= select_tag  'quantity_'+c.id.to_s, options_for_select( (1..50).step(1).to_a, c.quantity.to_s), class: "form-control" %>
+			</div>		
+			<div class="col-sm-1">			
+			箱
+			</div>				
+			<div class="col-sm-1">
+				<span class="total_price_<%=c.id%>"></span>元
+			</div>	
+			<div class="col-sm-1">
+	        	<span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="destroyCart(<%=c.id %>)" style="cursor: pointer"></span>        	
+			</div>						
+		</div>	
 	<%end%>
-<hr>	
 	<div class="row">
 		<div class="col-sm-offset-4 col-sm-2">小計</div>				
 		<div class="col-sm-2">		
