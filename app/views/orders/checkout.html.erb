@@ -70,25 +70,30 @@
 			</label>				 			 
 			</div>
 		</div>
-		<div class="col-sm-7">	
+		<div class="col-sm-7 check_out_product_list_text">	
 			<div class="row">
 				<div class="col-sm-offset-5 col-sm-2">小計</div>				
-				<div class="col-sm-2">		
-				<span class="total_price"></span>元		
+				<div class="col-sm-2" style="text-align: right">		
+				<span class="total_price"></span>	
 				</div>	
+				<div class="col-sm-2">元</div>											
 			</div>	
-			<div class="row">
-				<div class="col-sm-offset-5 col-sm-2">使用回饋金</div>		
-				<div class="col-sm-2 form-inline ">		
-				<%= text_field_tag :coupons_using, @coupon_using || 0, class: "form-control" %>
-				<label>元(餘額: <%=coupons %>元)</label>
+			<div class="row" style="margin-top: 10px;">
+				<div class="col-sm-offset-5 col-sm-2">
+					使用回饋金<br>
+					(餘額: <%=coupons %>元)								
+				</div>		
+				<div class="col-sm-2" style="text-align: right">		
+					<%= text_field_tag :coupons_using, @coupon_using || 0, class: "form-control" %>					
 				</div>	
+				<div class="col-sm-2" style="vertical-align: middle">元</div>			
 			</div>		
-			<div class="row">
+			<div class="row" style="margin-top: 10px; font-weight: bold; font-size: 20px;">
 				<div class="col-sm-offset-5 col-sm-2">總計</div>				
-				<div class="col-sm-2">		
-				<span class="sum"></span>元	
+				<div class="col-sm-2" style="text-align: right;">		
+				<span class="sum"></span>
 				</div>	
+				<div class="col-sm-2">元</div>							
 			</div>	
 		</div>	
 	</div>		
@@ -203,8 +208,8 @@
 			</div>
 	</div>			
 	<div class="form-group">
-		<div class="col-sm-offset-1 col-sm-6">    
-		<%= u.submit '送出',  class: "btn btn-default"  %>
+		<div class="col-sm-offset-2 col-sm-6">   
+		<button class="btn btn-default green_btn" type="submit" style="font-size: 20px; padding: 6px 25px;">送出</button>			 
 		</div>
 	</div>
 <%end%>		
