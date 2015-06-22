@@ -14,10 +14,10 @@ class Company < ActiveRecord::Base
   validates :description, presence: { presence: true, message: '請填寫 農場介紹' }, on: :update                       
   validates :words, presence: { presence: true, message: '請填寫 農夫的話' }, on: :update                       
   validates :phone_no, presence: { presence: true, message: '請填寫 聯絡電話' }, on: :update                       
-  validates :postal, presence: { presence: true, message: '請填寫 聯絡地址-郵遞區號' } 
-  validates :county, presence: { presence: true, message: '請填寫 聯絡地址-縣市' } 
-  validates :district, presence: { presence: true, message: '請填寫 聯絡地址-鄉鎮市區' } 
-  validates :address, presence: { presence: true, message: '請填寫 聯絡地址-詳細地址' }
+  validates :postal, presence: { presence: true, message: '請填寫 聯絡地址-郵遞區號' }, on: :update  
+  validates :county, presence: { presence: true, message: '請填寫 聯絡地址-縣市' }, on: :update  
+  validates :district, presence: { presence: true, message: '請填寫 聯絡地址-鄉鎮市區' }, on: :update  
+  validates :address, presence: { presence: true, message: '請填寫 聯絡地址-詳細地址' }, on: :update 
                               
 
 
