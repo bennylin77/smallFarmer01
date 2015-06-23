@@ -1,74 +1,160 @@
 <div class="container-fluid main_frontend">	
 	<div class="row">
-		<div class="col-sm-offset-1 col-sm-4">	
+		<div class="col-sm-offset-1 col-sm-11">	
+		<div><%=@invoice.created_at.strftime("%Y-%m-%d %H:%M:%S") %></div>
+		<div>訂購成功！</div>
+		</div>
+	</div>	
+	<div class="row">
+		<div class="col-sm-offset-1 col-sm-11">	
+		購買編號 <%=@invoice.id %>
+		</div>
+	</div>	
+	<div class="row">
+		<div class="col-sm-offset-1 col-sm-11">	
+			<div class="row">
+				<div class="col-sm-offset-1 col-sm-11">	
+					
+					
+				</div>
+			</div>				
+			<div class="table-responsive">
+				<table class="table borderless check_out_product_list" style="vertical-align: middle">	
+				<%@invoice.orders.each_with_index do |o, index| %>
+		        <tr class="order">
+		          <td class="check_out_product_list_index"><%= index+1 %>.</td> 	
+		          <td>
+					<%= image_tag o.product_boxing.product.product_images.first.image.url, class: 'img-circle farm_fruits_img'%>						
+		          </td>  
+		          <td class="check_out_product_list_title">
+					<%= link_to o.product_boxing.product.name,  product_path(o.product_boxing.product)%>
+		          </td>           
+		          <td class="check_out_product_list_text">
+				  訂單編號 <%= o.id%>	          	
+		          </td>    
+		          <td class="form-group form-inline check_out_product_list_text">
+		          <%= o.quantity%>箱
+		          </td>     
+		          <td class="check_out_product_list_text">
+				  <%= o.price.to_i + o.shipping_rates.to_i %>元
+		          </td>                                        	
+				</tr>					
+				<%end%>
+				</table>
+			</div>				
 			
-		<p><%=@invoice.created_at.strftime("%Y-%m-%d %H:%M:%S") %>已成功, 完成訂購</p>
-		<p>購買編號: <%=@invoice.id %></p>	
-		<p>購買金額: <%=@invoice.amount.to_i%></p>
-		<p>
-    	<% discount = 0 %>
-    	<% @invoice.invoice_coupon_lists.each do |i_c_l|%>
-    		<%discount = discount + i_c_l.amount%>
-    	<%end%>	 			
-		付款金額: <%=(@invoice.amount - discount).to_i  %></p>								
-		<p>購買項目: 
-		<table>	
-		<tr>	
-		    <td>訂單編號</td>						
-		    <td>水果名稱</td>
-			<td>數量(單位/箱)</td>   
-			<td>金額</td> 						 		    
-	  	</tr>      		      	
-    	<%@invoice.orders.each do |o|%>      	
-        <tr>
-          <td><%= o.id %></td>        	        		
-          <td><%= o.product_boxing.product.name%></td>
-          <td><%= o.quantity%>箱 (<%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %>/箱)</td>
-          <td><%= o.price.to_i %>元</td>     
-        </tr>
-    	<%end%>	
-    	</table>  			
-		</p>			
-		<p>付款方式</p>    	
-		<%if @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>	
-				 線上刷卡
-		  		<%=image_tag 'allPay.png', class: 'img-responsive', size: '80x80'%>	
-		<%elsif @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD']%>	
-				 貨到付款
-				<%=image_tag 'cat.png', class: 'img-responsive', size: '80x80'%> 		
-		<%end%>	
-		<%= link_to '查看訂單狀態', controller: 'invoices', action: 'index' %>			 
-		<p>本次購買金額<%= @invoice.amount.to_i %>元, 您可獲得回饋金<%= ((@invoice.amount-discount)*0.04).round%>元, 金流去向如下</p>	
-		<div>下面資料用比例圖</div>
-<%@invoice.orders.each do |o|%>    	        		
-<%= o.product_boxing.product.name%><br>
-	<% total_price = o.price.to_i + o.quantity*GLOBAL_VAR['SHIPPING_RATES'] %>
-	<% total_shipping_rates = o.quantity*GLOBAL_VAR['SHIPPING_RATES']%>
-	<% total_cash_flow = (total_price*0.028).round%>
-	<% total_coupon = (total_price*0.04).round%>
-	<% total_administration = (total_price*0.03).round%>
-	<% total_farmer_get = total_price - total_shipping_rates - total_cash_flow - total_coupon - total_administration%>
-
-農夫獲得
-<%= total_farmer_get %>元
-<br>
-物流費用
-<%= total_shipping_rates %>元
-<br>
-金流費用
-<%= total_cash_flow %>元
-<br>
-行政費用
-<%= total_administration %>元
-元
-<br>
-您的回饋金
-<%= total_coupon %>
-元	
-<br>
-<%end%>			
+			<div class="row">
+				<div class="col-sm-offset-1 col-sm-11">	
+		    	<% discount = 0 %>
+		    	<% @invoice.invoice_coupon_lists.each do |i_c_l|%>
+		    		<%discount = discount + i_c_l.amount%>
+		    	<%end%>						
+				本次消費: <%=@invoice.amount.to_i%>元，使用回饋金: <%=discount.to_i%>元，
+				總計: <%=(@invoice.amount - discount).to_i  %>元，付款方式為
+				<%if @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>	
+						 線上刷卡
+				  		<%=image_tag 'allPay.png', class: 'img-responsive', size: '80x80'%>	
+				<%elsif @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD']%>	
+						 貨到付款
+						<%=image_tag 'cat.png', class: 'img-responsive', size: '80x80'%> 		
+				<%end%>					
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-offset-1 col-sm-11">	
+					您可獲得回饋金<%= ((@invoice.amount-discount)*0.04).round%>元, 金流去向如下			
+				</div>
+			</div>			
+			<div class="row">
+				<div class="col-sm-offset-1 col-sm-11">	
+					<div class="farmer_get_layer">
+						<div class="farmer_get_inner">
+							<span class="total_farmer_get" style="position: relative; top: 45%"></span>
+						</div>
+						<div style="position: relative; top: 45%">農夫獲得</div>
+					</div>
+					<div class="shipping_rates_layer">
+						<div class="shipping_rates_inner">
+							<span class="total_shipping_rates" style="position: relative; top: 40%"></span>					
+						</div>
+						<div style="position: relative; top: 40%">物流費用</div>				
+					</div>
+					<div class="cash_flow_layer">
+						<div class="cash_flow_inner">
+							<span class="total_cash_flow" style="position: relative; top: 0%"></span>										
+						</div>
+						<div style="position: relative; top: 0%">金流費用</div>				
+					</div>
+					<div class="administration_layer">
+						<div class="administration_inner">
+							<span class="total_administration" style="position: relative; top: 0%"></span>										
+						</div>
+						<div style="position: relative; top: 0%">行政費用</div>				
+					</div>									
+					<div class="coupon_layer">
+						<div class="coupon_inner">
+							<span class="total_coupon" style="position: relative; top: 10%"></span>										
+						</div>
+						<div style="position: relative; top: 10%">您的回饋金</div>				
+					</div>	
+				</div>
+			</div>								
+		</div>
+	</div>	
+	<div class="row">
+		<div class="col-sm-offset-1 col-sm-11">	
+			<%= link_to '查看訂單狀態', controller: 'invoices', action: 'index' %>			 		
+		</div>
+	</div>					
+</div>			
 
 		
-		</div>
-	</div>
-</div>			
+
+
+
+
+
+
+<script>
+//total price
+var orders =  []
+var income_to_layer = 500;
+<%@invoice.orders.each do |o|%>    	    
+	orders.push({ farmer_get: <%= ((o.price.to_i + o.shipping_rates.to_i)-(o.price.to_i + o.shipping_rates.to_i)*(0.098)-o.shipping_rates.to_i).round %>,
+				  shipping_rates: <%= o.shipping_rates.to_i %>,
+				  cash_flow: <%= ((o.price.to_i + o.shipping_rates.to_i)*0.028).round %>,
+				  administration: <%= ((o.price.to_i + o.shipping_rates.to_i)*0.03).round %>		          
+		       })
+<%end%>
+countTotalPrice()
+function countTotalPrice(){	
+	total = 0; total_shipping_rates = 0; 
+	total_cash_flow = 0; total_administration = 0; 
+	total_coupon = <%= ((@invoice.amount - discount)*0.04).round %>;
+	total_farmer_get = 0;
+	$.each(orders, function( index, value ) {
+		total_shipping_rates += value.shipping_rates;
+		total_cash_flow      += value.cash_flow;
+		total_administration += value.administration;
+		total_farmer_get += value.farmer_get
+	});		
+	total = total_shipping_rates + total_cash_flow + total_administration + total_farmer_get
+			$('.farmer_get_layer').css({"height": income_to_layer*(total_farmer_get/total)*0.6})
+			$('.farmer_get_inner').css({"height": income_to_layer*(total_farmer_get/total)*0.6})
+			$('.farmer_get_layer').animate({"height": income_to_layer*(total_farmer_get/total)}, 1000)
+			$('.farmer_get_inner').animate({"height": income_to_layer*(total_farmer_get/total)}, 1000)
+			$('.shipping_rates_layer').animate({"height": income_to_layer*(total_shipping_rates/total)})
+			$('.shipping_rates_inner').animate({"height": income_to_layer*(total_shipping_rates/total)})
+			$('.cash_flow_layer').animate({"height": income_to_layer*(total_cash_flow/total)})
+			$('.cash_flow_inner').animate({"height": income_to_layer*(total_cash_flow/total)})
+			$('.administration_layer').animate({"height": income_to_layer*(total_administration/total)})
+			$('.administration_inner').animate({"height": income_to_layer*(total_administration/total)})										
+			$('.coupon_layer').animate({"height": income_to_layer*(total_coupon/total)})
+			$('.coupon_inner').animate({"height": income_to_layer*(total_coupon/total)})
+			$('.total_farmer_get').html( total_farmer_get );	
+			$('.total_shipping_rates').html( total_shipping_rates ); 							
+			$('.total_cash_flow').html( total_cash_flow  );	
+			$('.total_administration').html( total_administration  );			
+			$('.total_coupon').html( total_coupon );	
+}
+</script>	
