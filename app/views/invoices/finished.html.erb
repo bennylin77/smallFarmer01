@@ -1,22 +1,82 @@
-<div class="container-fluid main_frontend">	
+<div class="container main_frontend">	
 	<div class="row">
-		<div class="col-sm-offset-1 col-sm-11">	
-		<div><%=@invoice.created_at.strftime("%Y-%m-%d %H:%M:%S") %></div>
-		<div>訂購成功！</div>
+		<div class="col-sm-12">	
+		<div class="text-center" style="font-size: 30px;"><%=@invoice.created_at.strftime("%Y-%m-%d %H:%M:%S") %></div>
+		<div class="text-center" style="font-size: 40px;">訂購成功！</div>
 		</div>
 	</div>	
 	<div class="row">
-		<div class="col-sm-offset-1 col-sm-11">	
+		<div class="col-sm-12" style="font-size: 20px;">	
 		購買編號 <%=@invoice.id %>
 		</div>
 	</div>	
-	<div class="row">
-		<div class="col-sm-offset-1 col-sm-11">	
-			<div class="row">
-				<div class="col-sm-offset-1 col-sm-11">	
-					
-					
+	<div class="row" style="border: 1px solid #64bb71">
+		<div class="col-sm-12">	
+			<div class="row" style="margin-top: 20px;">
+				<div class="col-sm-offset-1  col-sm-10">	
+				<%=@invoice.user.last_name%><%=@invoice.user.first_name%> 您好：<br>
+				謝謝您在小農1號購買水果。我們會盡快將您所購買的水果寄送到您手中。您可以利用
+				<%= link_to '我的訂單', {controller: 'invoices', action: 'index'}%>			 		
+				查看您訂單的最新處理進度。若您有任何問題請聯絡客服人員。	
 				</div>
+			</div>	
+			<div class="row" style="margin-top: 20px;">
+				<div class="col-sm-offset-1 col-sm-5">	
+					<div class="row">
+						<label class="col-sm-12 control-label">訂購人資訊</label>
+					</div>	
+					<div class="row">
+					<label class="col-sm-4 control-label">姓名</label>
+					<div class="form-inline col-sm-8">
+						<%= current_user.addresses.first.last_name%>
+						<%= current_user.addresses.first.first_name%>			
+					</div>
+					</div>
+					<div class="row">
+						<label class="col-sm-4 control-label">行動電話</label>
+						<div class="col-sm-8">
+								<%= current_user.addresses.first.phone_no%>
+						</div>		
+					</div>		
+					<div class="row">
+							<label class="col-sm-4 control-label">聯絡地址</label>
+							<div class="form-inline col-sm-8">
+								<%= current_user.addresses.first.postal%><%= current_user.addresses.first.county%>
+								<%= current_user.addresses.first.district%><%= current_user.addresses.first.address%>
+							</div>
+					</div>
+					<div class="row">
+						<label class="col-sm-4 control-label">聯絡信箱</label>
+						<div class="form-inline col-sm-8">
+							<%= current_user.email %>
+						</div>
+					</div>		
+				</div>
+				<div class="col-sm-5">					  
+					<div class="row">
+						<label class="col-sm-12 control-label">收件人資訊</label>
+					</div>		
+					<div class="row">
+						<label class="col-sm-4 control-label">姓名</label>
+						<div class="form-inline col-sm-8">
+							<%= @invoice.receiver_last_name%>
+							<%= @invoice.receiver_first_name%>			
+						</div>
+					</div>
+					<div class="row">
+						<label class="col-sm-4 control-label">聯絡電話</label>
+						<div class="col-sm-8">		
+							<%= @invoice.receiver_phone_no%>		
+						</div>		
+					</div>		
+					<div class="row">
+						<label class="col-sm-4 control-label">聯絡地址</label>
+						<div class="form-inline col-sm-8">
+							<%= @invoice.receiver_postal%><%= @invoice.receiver_county%>
+							<%= @invoice.receiver_district%><%= @invoice.receiver_address%>
+						</div>
+					</div>									
+				</div>				
 			</div>				
 			<div class="table-responsive">
 				<table class="table borderless check_out_product_list" style="vertical-align: middle">	
@@ -101,11 +161,19 @@
 			</div>								
 		</div>
 	</div>	
-	<div class="row">
-		<div class="col-sm-offset-1 col-sm-11">	
-			<%= link_to '查看訂單狀態', controller: 'invoices', action: 'index' %>			 		
+	<div class="row" style="margin-top: 20px;">
+		<div class="col-sm-offset-10 col-sm-2">	
+			<%= link_to '查看訂單狀態', {controller: 'invoices', action: 'index'}, class: 'btn btn-default green_btn' %>			 		
 		</div>
-	</div>					
+	</div>		
+	<div class="row" style="margin-top: 50px;">		
+		<div class="col-sm-12">
+			<div class="section_title">您可能感興趣</div>
+			<div class="section_underline"></div>				
+		</div>					
+	</div>	
+	
+				
 </div>			
 
 		
