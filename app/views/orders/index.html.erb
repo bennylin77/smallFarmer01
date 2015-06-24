@@ -1,10 +1,10 @@
 <div class="row">
 <ul class="nav nav-tabs pull-right">
-  <li role="presentation" <%= active( controller: 'orders', action: 'index', shipped_c: false)%>>
-	<%= link_to "尚未通知", controller: 'orders', action: 'index', shipped_c: false%>  	
+  <li role="presentation" <%= active( controller: 'orders', action: 'index', called_smallfarmer_c: false)%>>
+	<%= link_to "尚未通知", controller: 'orders', action: 'index', called_smallfarmer_c: false%>  	
   </li>
-  <li role="presentation" <%= active( controller: 'orders', action: 'index', shipped_c: true)%>>
-	<%= link_to "已通知", controller: 'orders', action: 'index', shipped_c: true%>  	  	
+  <li role="presentation" <%= active( controller: 'orders', action: 'index', called_smallfarmer_c: true)%>>
+	<%= link_to "已通知", controller: 'orders', action: 'index', called_smallfarmer_c: true%>  	  	
   </li>
 </ul>
 </div>
@@ -52,7 +52,11 @@
 		<br>
 		<%= o.invoice.receiver_phone_no %>
 	</td>   	                              
-    <td><%=link_to '通知物流', '#' , class: 'btn btn-primary'%></td>		     
+    <td>
+    	<%if !o.called_smallfarmer_c%>
+    		<%= link_to '通知物流', {controller: 'orders', action: 'confirm', id: o} , class: 'btn btn-primary'%>
+    	<%end%>
+    </td>		     
   </tr>
   <%end%>  
 </table>

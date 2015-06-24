@@ -44,6 +44,7 @@ Rails.application.routes.draw do
                                        registrations: "registrations" }
   resources :products 
   resources :companies
+  resources :orders, only: [:index]   
   resources :users, only: [:show, :edit, :update]
   resources :carts, only: [:destroy] 
 

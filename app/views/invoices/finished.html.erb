@@ -112,11 +112,9 @@
 				本次消費: <%=@invoice.amount.to_i%>元，使用回饋金: <%=discount.to_i%>元，
 				總計: <%=(@invoice.amount - discount).to_i  %>元，付款方式為
 				<%if @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>	
-						 線上刷卡
-				  		<%=image_tag 'allPay.png', class: 'img-responsive', size: '80x80'%>	
+						 線上刷卡 <%=image_tag 'allPay.png', class: 'img-responsive', size: '80x80', style: 'display: inline-block'%>	
 				<%elsif @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD']%>	
-						 貨到付款
-						<%=image_tag 'cat.png', class: 'img-responsive', size: '80x80'%> 		
+						 貨到付款 <%=image_tag 'cat.png', class: 'img-responsive', size: '80x80', style: 'display: inline-block'%> 		
 				<%end%>					
 				</div>
 			</div>
@@ -125,37 +123,37 @@
 					您可獲得回饋金<%= ((@invoice.amount-discount)*0.04).round%>元, 金流去向如下			
 				</div>
 			</div>			
-			<div class="row">
+			<div class="row"  style="margin-top: 30px">
 				<div class="col-sm-offset-1 col-sm-11">	
-					<div class="farmer_get_layer">
-						<div class="farmer_get_inner">
-							<span class="total_farmer_get" style="position: relative; top: 45%"></span>
+					<div class="farmer_get_layer_horizon">
+						<div class="farmer_get_inner_horizon">
+							<span class="total_farmer_get" style="line-height: 60px;"></span>
 						</div>
-						<div style="position: relative; top: 45%">農夫獲得</div>
+						<div style="width: 5px; margin: 10px auto;">農夫獲得</div>
 					</div>
-					<div class="shipping_rates_layer">
-						<div class="shipping_rates_inner">
-							<span class="total_shipping_rates" style="position: relative; top: 40%"></span>					
+					<div class="shipping_rates_layer_horizon">
+						<div class="shipping_rates_inner_horizon">
+							<span class="total_shipping_rates" style="line-height: 60px;"></span>					
 						</div>
-						<div style="position: relative; top: 40%">物流費用</div>				
+						<div style="width: 5px; margin: 10px auto;">物流費用</div>				
 					</div>
-					<div class="cash_flow_layer">
-						<div class="cash_flow_inner">
-							<span class="total_cash_flow" style="position: relative; top: 0%"></span>										
+					<div class="cash_flow_layer_horizon">
+						<div class="cash_flow_inner_horizon">
+							<span class="total_cash_flow" style="line-height: 60px;"></span>										
 						</div>
-						<div style="position: relative; top: 0%">金流費用</div>				
+						<div style="width: 5px; margin: 10px auto;">金流費用</div>				
 					</div>
-					<div class="administration_layer">
-						<div class="administration_inner">
-							<span class="total_administration" style="position: relative; top: 0%"></span>										
+					<div class="administration_layer_horizon">
+						<div class="administration_inner_horizon">
+							<span class="total_administration" style="line-height: 60px;"></span>										
 						</div>
-						<div style="position: relative; top: 0%">行政費用</div>				
+						<div style="width: 5px; margin: 10px auto;">行政費用</div>				
 					</div>									
-					<div class="coupon_layer">
-						<div class="coupon_inner">
-							<span class="total_coupon" style="position: relative; top: 10%"></span>										
+					<div class="coupon_layer_horizon">
+						<div class="coupon_inner_horizon">
+							<span class="total_coupon" style="line-height: 60px;"></span>										
 						</div>
-						<div style="position: relative; top: 10%">您的回饋金</div>				
+						<div style="width: 5px; margin: 10px auto;">您的回饋金</div>				
 					</div>	
 				</div>
 			</div>								
@@ -186,7 +184,7 @@
 <script>
 //total price
 var orders =  []
-var income_to_layer = 500;
+var income_to_layer = 1;
 <%@invoice.orders.each do |o|%>    	    
 	orders.push({ farmer_get: <%= ((o.price.to_i + o.shipping_rates.to_i)-(o.price.to_i + o.shipping_rates.to_i)*(0.098)-o.shipping_rates.to_i).round %>,
 				  shipping_rates: <%= o.shipping_rates.to_i %>,
@@ -207,18 +205,13 @@ function countTotalPrice(){
 		total_farmer_get += value.farmer_get
 	});		
 	total = total_shipping_rates + total_cash_flow + total_administration + total_farmer_get
-			$('.farmer_get_layer').css({"height": income_to_layer*(total_farmer_get/total)*0.6})
-			$('.farmer_get_inner').css({"height": income_to_layer*(total_farmer_get/total)*0.6})
-			$('.farmer_get_layer').animate({"height": income_to_layer*(total_farmer_get/total)}, 1000)
-			$('.farmer_get_inner').animate({"height": income_to_layer*(total_farmer_get/total)}, 1000)
-			$('.shipping_rates_layer').animate({"height": income_to_layer*(total_shipping_rates/total)})
-			$('.shipping_rates_inner').animate({"height": income_to_layer*(total_shipping_rates/total)})
-			$('.cash_flow_layer').animate({"height": income_to_layer*(total_cash_flow/total)})
-			$('.cash_flow_inner').animate({"height": income_to_layer*(total_cash_flow/total)})
-			$('.administration_layer').animate({"height": income_to_layer*(total_administration/total)})
-			$('.administration_inner').animate({"height": income_to_layer*(total_administration/total)})										
-			$('.coupon_layer').animate({"height": income_to_layer*(total_coupon/total)})
-			$('.coupon_inner').animate({"height": income_to_layer*(total_coupon/total)})
+			$('.farmer_get_layer_horizon').css({"width": ((total_farmer_get/total)*100*0.7).toString()+'%' })
+			$('.farmer_get_layer_horizon').animate({"width": ((total_farmer_get/total)*100).toString()+'%' }, 1000)
+			
+			$('.shipping_rates_layer_horizon').animate({"width": ((total_shipping_rates/total)*100*0.6).toString()+'%'})
+			$('.cash_flow_layer_horizon').animate({"width": ((total_cash_flow/total)*100*0.6).toString()+'%'})
+			$('.administration_layer_horizon').animate({"width": ((total_administration/total)*100*0.6).toString()+'%'})
+			$('.coupon_layer_horizon').animate({"width": ((total_coupon/total)*100*0.6).toString()+'%'})
 			$('.total_farmer_get').html( total_farmer_get );	
 			$('.total_shipping_rates').html( total_shipping_rates ); 							
 			$('.total_cash_flow').html( total_cash_flow  );	

@@ -4,8 +4,8 @@ class OrdersController < ApplicationController
 
   
   def index    
-    params[:shipped_c] = params[:shipped_c] == 'true' ? true : false    
-    @orders = Order.joins(product_boxing: {product: :company}, invoice: {} ).where('companies.id = ? and called_smallfarmer_c = ? and invoices.confirmed_c = 1', current_user.companies.first, params[:shipped_c] ).all.paginate(page: params[:page], per_page: 30).order('id DESC')    
+    params[:called_smallfarmer_c] = params[:called_smallfarmer_c] == 'true' ? true : false    
+    @orders = Order.joins(product_boxing: {product: :company}, invoice: {} ).where('companies.id = ? and called_smallfarmer_c = ? and invoices.confirmed_c = 1', current_user.companies.first, params[:called_smallfarmer_c] ).all.paginate(page: params[:page], per_page: 30).order('id DESC')    
     render layout: 'companies'      
   end
   
@@ -51,7 +51,12 @@ class OrdersController < ApplicationController
   end
   
   def confirm
-    
+    @order.called_smallfarmer_c = true
+    @order.called_smallfarmer_at = Time.now
+    @order.status = GLOBAL_VAR['ORDER_STATUS_CONFIRMED'] 
+    @order.save!    
+    flash[:notice] ='已通知物流'        
+    redirect_to  controller: 'orders', action: 'index', called_smallfarmer_c: 'false'     
   end
   
   
