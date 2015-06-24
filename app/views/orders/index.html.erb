@@ -43,6 +43,9 @@
     </td>	
     <td><%= showBlank o.tracing_code%></td>    
 	<td>
+		<%if o.called_smallfarmer_at%>
+			在<%= o.called_smallfarmer_at.strftime("%Y-%m-%d %H:%M:%S")%><br>
+		<%end%>		
 		<%= Hash[orderCompanyStatusOptions].rassoc(o.status).first%>
 	</td>    
 	<td>

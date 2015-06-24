@@ -51,10 +51,12 @@ class OrdersController < ApplicationController
   end
   
   def confirm
-    @order.called_smallfarmer_c = true
-    @order.called_smallfarmer_at = Time.now
-    @order.status = GLOBAL_VAR['ORDER_STATUS_CONFIRMED'] 
-    @order.save!    
+    if !@order.called_smallfarmer_c
+      @order.called_smallfarmer_c = true
+      @order.called_smallfarmer_at = Time.now
+      @order.status = GLOBAL_VAR['ORDER_STATUS_CONFIRMED'] 
+      @order.save!    
+    end  
     flash[:notice] ='已通知物流'        
     redirect_to  controller: 'orders', action: 'index', called_smallfarmer_c: 'false'     
   end
