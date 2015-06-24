@@ -5,26 +5,6 @@
 <%=render "layouts/menu" %>
 <%= yield %>
 <%=render "layouts/footer" %>
-<div id="fb-root"></div>
-<script>  	
-<% flash.each do |type, message| %>	
-	<%case type%>
-	<%when 'notice'%>
-		toastr['success']('<%=message.html_safe%>')				
-	<%when 'alert'%>
-		toastr['warning']('<%=message.html_safe%>')					
-	<%else%>
-		toastr['<%=type%>']('<%=message.html_safe%>')			
-	<%end%> 
-<% end %>
-(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3&appId=918735938148015";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-
-</script>	 
+<%=render "layouts/script" %> 
 </body>
 </html>

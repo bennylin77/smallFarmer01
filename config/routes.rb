@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   
-
   get    'comments/post'  
   post   'comments/post'
   post   'comments/delete'
@@ -27,8 +26,11 @@ Rails.application.routes.draw do
   
   post   'users/mobileSMSConfirmationSend'
   get    'main/index'  
-    
-                                     
+
+  get    'management/index'    
+  get    'management/invoices'
+  get    'management/orders'  
+                                       
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
   match '/users/:id/mobileSMSConfirmation' => 'users#mobileSMSConfirmation', via: [:get, :patch], :as => :mobileSMSConfirmation 
   match '/companies/:id/companyImagesUpload' => 'companies#companyImagesUpload', via: [:post], :as => :companyImagesUpload
