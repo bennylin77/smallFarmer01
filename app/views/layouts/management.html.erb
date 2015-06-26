@@ -18,10 +18,10 @@
         <div id="navbar" class="navbar-collapse collapse">   
           <ul class="nav navbar-nav hidden-xs">
             <li><%= link_to '購買單列表', {controller: 'management', action: 'invoices'}, style: "font-size: 17px; color: #536132;" %></li>
-            <li><%= link_to '訂單列表', {controller: 'management', action: 'orders', called_smallfarmer_c: false}, style: "font-size: 17px; color: #536132;" %></li>            
+            <li><%= link_to '訂單列表', {controller: 'management', action: 'orders', called_smallfarmer_c: false, called_logistics_c: false}, style: "font-size: 17px; color: #536132;" %></li>            
             <li><a href="#about" style="font-size: 17px; color: #536132; ">農場列表</a></li>
-            <li><a href="#about" style="font-size: 17px; color: #536132; ">使用者列表</a></li>
             <li><a href="#about" style="font-size: 17px; color: #536132; ">水果列表</a></li>            
+            <li><a href="#about" style="font-size: 17px; color: #536132; ">使用者列表</a></li>          
           </ul>        	 	      	      	
           <ul class="nav navbar-nav navbar-right">
 			<%if user_signed_in?%>          	

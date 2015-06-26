@@ -31,10 +31,8 @@ class ProductsController < ApplicationController
         p_i.save!      
       end    
       flash[:notice]='成功新增水果'
-      redirect_to products_url
-    else
-      render :new
     end
+    render :new    
   end
 
   def edit
@@ -43,10 +41,8 @@ class ProductsController < ApplicationController
   def update
     if @product.update(product_params)
       flash[:notice] ='成功更改水果資料'
-      render 'edit'
-    else
-      render 'edit'
     end   
+    render 'edit'    
   end
 
   def destroy

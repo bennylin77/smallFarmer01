@@ -14,18 +14,16 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/:id.:format
   def update
     # authorize! :update, @user
-    respond_to do |format|
-      if @user.update(user_params)
-        sign_in(@user == current_user ? @user : current_user, :bypass => true)
-        address = @user.addresses.first
-        address.first_name = @user.first_name
-        address.last_name = @user.last_name     
-        address.save!  
-        flash[:notice] ='成功更改個人資料'
-        format.html { redirect_to edit_user_path }
-      else
-        format.html { redirect_to edit_user_path  }
-      end
+    if @user.update(user_params)
+      sign_in(@user == current_user ? @user : current_user, :bypass => true)
+      address = @user.addresses.first
+      address.first_name = @user.first_name
+      address.last_name = @user.last_name     
+      address.save!  
+      flash[:notice] ='成功更改個人資料'
+      render 'edit'
+    else
+      render 'edit'
     end
   end
 

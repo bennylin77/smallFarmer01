@@ -142,7 +142,10 @@ $("form").submit(function() {
   $("#phone_no_full").val($("#user_addresses_attributes_0_phone_no").intlTelInput("getNumber"));
 });
 //================== error ==================//	
-<% @user.errors.full_messages.each do |message| %>
-	toastr["error"]('<%=message%>')
+<% @user.errors.messages.each do |index, value| %>
+	<%unless value.blank? %>
+		toastr['error']('<%=value.first%>')		
+	<%end%>	
 <% end %>
+
 </script>

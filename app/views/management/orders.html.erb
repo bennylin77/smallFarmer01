@@ -1,17 +1,18 @@
 <div class="row">
-	
-	
-<ul class="nav nav-tabs pull-right">
+<ul class="nav nav-tabs pull-left">
   <li role="presentation" <%= active( controller: 'management', action: 'orders', called_smallfarmer_c: false, called_logistics_c: false)%>>
-	<%= link_to "農夫尚未處理", controller: 'management', action: 'orders', called_smallfarmer_c: false%>  	
+	<%= link_to "農夫尚未處理", controller: 'management', action: 'orders', called_smallfarmer_c: false, called_logistics_c: false%>  	
   </li>
   <li role="presentation" <%= active( controller: 'management', action: 'orders', called_smallfarmer_c: true, called_logistics_c: false)%>>
-	<%= link_to "尚未處理", controller: 'management', action: 'orders', called_smallfarmer_c: true%>  	  	
+	<%= link_to "尚未通知物流", controller: 'management', action: 'orders', called_smallfarmer_c: true, called_logistics_c: false%>  	  	
   </li>
   <li role="presentation" <%= active( controller: 'management', action: 'orders', called_smallfarmer_c: true, called_logistics_c: true)%>>
-	<%= link_to "已處理", controller: 'management', action: 'orders', called_logistics_c: true%>  	  	
+	<%= link_to "已處理", controller: 'management', action: 'orders', called_smallfarmer_c: true, called_logistics_c: true%>  	  	
   </li>   
 </ul>
+<%if current_page?(controller: 'management', action: 'orders', called_smallfarmer_c: true, called_logistics_c: false)%>
+	<div class='btn btn-primary pull-right' id='call_logistics'>轉換為已處理</div>
+<%end%>
 </div>
 
 <div class="row">
@@ -19,14 +20,13 @@
 <table class="table table-bordered table-hover">
   <tr>
     <th>訂單編號</th>  	
-    <th>訂單日期</th>
 	<th>水果名稱</th>
 	<th>數量(單位/箱)</th>  
 	<th>金額(含運)</th>	
 	<th>付款方式</th>							 		    
 	<th>物流追蹤碼</th>
-	<th>狀態</th>			       
-    <th>收件人</th>    
+    <th>收件人</th>   
+	<th class="text-center">狀態</th>			            
 	<th>
 	<label class="checkbox-inline">	
 		<%= check_box_tag 'order_all'%>全選
@@ -34,9 +34,8 @@
 	</th>         
   </tr>
   <% @orders.each do |o| %>
-  <tr>
+  <tr id='order_container_<%=o.id %>'>
     <td><%= o.id %></td>  	
-    <td><%= o.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
     <td><%= o.product_boxing.product.name%></td>    
     <td><%= o.quantity%>箱 (<%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %>/箱)</td> 
     <td><%= o.price.to_i + o.shipping_rates.to_i %>元</td>    
@@ -50,20 +49,27 @@
 	<%=image_tag 'cat.png', class: 'img-responsive', size: '60x60'%> 			
 	<%end%>    	
     </td>	
-    <td><%= showBlank o.tracing_code%></td>    
-	<td>
-		<%if o.called_smallfarmer_at%>
-			在<%= o.called_smallfarmer_at.strftime("%Y-%m-%d %H:%M:%S")%><br>
-		<%end%>		
-		<%= Hash[orderCompanyStatusOptions].rassoc(o.status).first%>
-	</td>    
+    <td><%= showBlank o.tracing_code%></td>        
 	<td>
 		<%= o.invoice.receiver_last_name %> <%= o.invoice.receiver_first_name %>
 		<br>
 		<%= o.invoice.receiver_postal %><%= o.invoice.receiver_county %><%= o.invoice.receiver_district %><%= o.invoice.receiver_address %>
 		<br>
 		<%= o.invoice.receiver_phone_no %>
-	</td>   	                              
+	</td>  
+	<td>
+		<div class="text-center">在<%= o.created_at.strftime("%Y-%m-%d %H:%M:%S") %> 建立訂單</div>		
+		<div class="text-center">&darr;</div>				
+		<%if o.called_smallfarmer_c%>
+		<div class="text-center">在<%= o.called_smallfarmer_at.strftime("%Y-%m-%d %H:%M:%S")%> 通知小農</div>
+		<div class="text-center">&darr;</div>						
+		<%end%>	
+		<%if o.called_logistics_c%>
+		<div class="text-center">在<%= o.called_logistics_at.strftime("%Y-%m-%d %H:%M:%S")%> 通知物流</div>
+		<div class="text-center">&darr;</div>						
+		<%end%>					
+		<div class="text-center"><%= Hash[orderBackendStatusOptions].rassoc(o.status).first%></div>	
+	</td>	 	                              
     <td>
 		<label class="checkbox-inline">
 			<%= check_box_tag 'orders[]', o.id, false, class: 'order_idv'%>
@@ -82,4 +88,31 @@ $('#order_all').change(function() {
    else
    	$('.order_idv').prop('checked', false);
 });
+
+<%if current_page?(controller: 'management', action: 'orders', called_smallfarmer_c: true, called_logistics_c: false)%>
+$("#call_logistics").click(function(){			
+	var orders = []
+	$('input[name="orders[]"]').each(function() {
+		if($(this).prop('checked') == true)
+			orders.push($(this).val()); 
+	});				
+	$.ajax({
+			type : 'GET',
+			url : '/management/callLogistics',
+			data : {
+				orders: orders 
+			},
+			datatype : 'json',
+			success : function(data) {
+				if (data.success) {
+					$.each(orders, function( index, value ) {
+						$('#order_container_'+value).remove();					
+					});
+				} else {
+					toastr['warning']('warning', data.message)
+				}
+			}
+		});	
+});	
+<%end%>			
 </script>
