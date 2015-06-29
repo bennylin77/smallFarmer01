@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150524160052) do
+ActiveRecord::Schema.define(version: 20150629132916) do
 
   create_table "addresses", force: true do |t|
     t.integer  "user_id"
@@ -148,6 +148,25 @@ ActiveRecord::Schema.define(version: 20150524160052) do
   end
 
   add_index "invoices", ["user_id"], name: "index_invoices_on_user_id", using: :btree
+
+  create_table "notifications", force: true do |t|
+    t.integer  "category"
+    t.integer  "sub_category"
+    t.string   "content"
+    t.integer  "order_id"
+    t.integer  "user_id"
+    t.integer  "comment_id"
+    t.integer  "product_id"
+    t.integer  "invoice_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "notifications", ["comment_id"], name: "index_notifications_on_comment_id", using: :btree
+  add_index "notifications", ["invoice_id"], name: "index_notifications_on_invoice_id", using: :btree
+  add_index "notifications", ["order_id"], name: "index_notifications_on_order_id", using: :btree
+  add_index "notifications", ["product_id"], name: "index_notifications_on_product_id", using: :btree
+  add_index "notifications", ["user_id"], name: "index_notifications_on_user_id", using: :btree
 
   create_table "orders", force: true do |t|
     t.integer  "product_boxing_id"

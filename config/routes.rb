@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  resources :notifications
+
   get    'comments/post'  
   post   'comments/post'
   post   'comments/delete'
@@ -55,5 +57,7 @@ Rails.application.routes.draw do
   #devise_scope :user do
   #  delete "/logout" => "devise/sessions#destroy"
   #end      
+  get    'main/marketing'
+    
   root to: "main#index" 
 end

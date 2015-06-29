@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  category: 1
+  sub_category: MyString
+  content: MyString
+  order_id: 
+  user_id: 
+  comment_id: 
+  product_id: 
+  invoice_id: 
+
+two:
+  category: 1
+  sub_category: MyString
+  content: MyString
+  order_id: 
+  user_id: 
+  comment_id: 
+  product_id: 
+  invoice_id: 
