@@ -1,19 +1,36 @@
-<h1>Listing notifications</h1>
+<div class="container main_frontend">
+	
+	<div class="row">
+		<ul class="nav nav-tabs pull-right">
+		  <li role="presentation" <%= active( controller: 'notifications', action: 'index')%>>
+			<%= link_to "全部", controller: 'notifications', action: 'index'%>  	
+		  </li>
+		  <li role="presentation" <%= active( controller: 'orders', action: 'index')%>>
+			<%= link_to "留言", controller: 'orders', action: 'index'%>  	  	
+		  </li>
+		  <li role="presentation" <%= active( controller: 'orders', action: 'index')%>>
+			<%= link_to "訂單", controller: 'orders', action: 'index'%>  	  	
+		  </li>	
+		  <li role="presentation" <%= active( controller: 'orders', action: 'index')%>>
+			<%= link_to "系統", controller: 'orders', action: 'index'%>  	  	
+		  </li>			  	  
+		</ul>
+	</div>	
+	<% @notifications.each do |notification| %>
+	<div class="row" style="margin-top: 30px; margin-bottom: 30px;">
+		<div class="col-sm-2">
+		</div>
 
+		<div class="col-sm-2">
+		</div>
+		<div class="col-sm-2">
+		</div>
+		<div class="col-sm-4">
+		</div>		
+		
+	</div>	
 <table>
-  <thead>
-    <tr>
-      <th>Category</th>
-      <th>Sub category</th>
-      <th>Content</th>
-      <th>Order</th>
-      <th>User</th>
-      <th>Comment</th>
-      <th>Product</th>
-      <th>Invoice</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+
 
   <tbody>
     <% @notifications.each do |notification| %>
@@ -33,7 +50,6 @@
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Notification', new_notification_path %>
+		</div>
+	</div>
+</div>

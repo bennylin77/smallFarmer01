@@ -2,8 +2,9 @@
 <div>
 	<div class="row comment_post">
 	  <div class="col-sm-1"><%= image_tag current_user.avatar.url, class: 'img-circle', size: '50x50' %></div>
-	  <div class="col-sm-10"><textarea class="form-control comment_textarea" rows="2" placeholder='想說什麼...' id="post_content"></textarea><br>
-	  <button class="btn btn-default pull-right comment_button" id="post_button" onclick="postComment()" data-loading-text="傳送中...">送出</button>
+	  <div class="col-sm-10">
+	  	<div class="talkbubble"><textarea class="form-control comment_textarea" rows="2" placeholder='想說什麼...' id="post_content"></textarea></div>
+	  	<button class="btn btn-default pull-right comment_button" id="post_button" onclick="postComment()" data-loading-text="傳送中...">送出</button>
 	  </div>
 	</div>	
 </div>
@@ -14,7 +15,7 @@
 		    <%= hidden_field_tag  :id,  product.id  %>	
 	  		<div class="col-sm-1"><%= image_tag 'default_avatar.png', class: 'img-circle', size: '50x50' %></div>		    
 	  		<div class="col-sm-10">
-	  			<textarea name="content" class="form-control comment_textarea" rows="2" placeholder='想說什麼...' id="post_content"></textarea><br>
+	  			<div class="talkbubble"><textarea name="content" class="form-control comment_textarea" rows="2" placeholder='想說什麼...' id="post_content"></textarea></div>
 	  			<%= submit_tag '送出',  class: "btn btn-default pull-right comment_button"  %>
 	  		</div>
 		<% end %>
@@ -112,7 +113,7 @@ function addComment(comment, sub_comments)
 			$row_post_sub_comment.append('<div class="col-sm-1 col-sm-offset-1">'+
 										 '<img src="'+current_user.avatar_url+'" onerror="this.src=\''+default_avatar+'\'" alt="missing" width="50" height="50" class="img-circle">'+
 										 '</div>'+				
-	  									 '<div class="col-sm-9" ><textarea class="form-control comment_textarea" rows="1" placeholder="回應..." id="post_sub_content_'+comment.id.toString()+'"></textarea><br>'+		
+	  									 '<div class="col-sm-9" ><div class="talkbubble"><textarea class="form-control comment_textarea" rows="1" placeholder="回應..." id="post_sub_content_'+comment.id.toString()+'"></textarea></div>'+		
 	  							 		 '<button class="btn btn-default pull-right comment_button" id="post_sub_button_'+comment.id.toString()+'" onclick="postSubComment('+comment.id.toString()+')">送出</button></div>');	  	
 	}
 	if(sub_comments.length==0 && current_user.id!=-1)

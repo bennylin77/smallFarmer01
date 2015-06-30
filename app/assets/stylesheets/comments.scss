@@ -1,9 +1,39 @@
 .comment_post{
   margin-top: 20px;  
 }
-.comment_textarea{
+
+.talkbubble {
+  position: relative;
+  padding: 0px;
+  border-radius: 10px;
+  border: none;
   background: #ffffff;
+  margin-bottom: 10px;
 }
+.talkbubble:before {
+  content:"";
+  position: absolute;
+  right: 100%;
+  top: 15px;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-right: 10px solid #ffffff;
+  border-bottom: 8px solid transparent;
+}
+.talkbubble textarea {
+  border-radius: inherit !important;  
+  position: inherit !important;
+  background: inherit !important; 
+  margin: 0 !important;
+  border: none !important;
+  resize: none !important;
+}
+
+
+
+
+
 .comment_row{
   margin-top: 20px;
 }
