@@ -18,17 +18,22 @@
 	</div>	
 	<% @notifications.each do |notification| %>
 	<div class="row" style="margin-top: 30px; margin-bottom: 30px;">
-		<div class="col-sm-2">
+		<div class="col-sm-3">
 		</div>
-
+		<%if true%>
 		<div class="col-sm-2">
 		</div>
 		<div class="col-sm-2">
 		</div>
 		<div class="col-sm-4">
-		</div>		
-		
+		</div>	
+		<%end%>
+		<%if true%>	
+		<div class="col-sm-8">
+		</div>
+		<%end%>							
 	</div>	
+	<%end%>
 <table>
 
 
