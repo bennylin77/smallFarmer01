@@ -1,5 +1,4 @@
 <div class="container main_frontend">
-	
 	<div class="row">
 		<ul class="nav nav-tabs pull-right">
 		  <li role="presentation" <%= active( controller: 'notifications', action: 'index')%>>
@@ -13,48 +12,43 @@
 		  </li>	
 		  <li role="presentation" <%= active( controller: 'orders', action: 'index')%>>
 			<%= link_to "系統", controller: 'orders', action: 'index'%>  	  	
-		  </li>			  	  
+		  </li>		
+		  <li role="presentation" <%= active( controller: 'orders', action: 'index')%>>
+			<%= link_to "促銷", controller: 'orders', action: 'index'%>  	  	
+		  </li>			  	  	  
 		</ul>
 	</div>	
 	<% @notifications.each do |notification| %>
 	<div class="row" style="margin-top: 30px; margin-bottom: 30px;">
-		<div class="col-sm-3">
+		<div class="col-sm-3">		
+		<%= Hash[categoryOptions].rassoc(notification.category).first%>			
 		</div>
-		<%if true%>
-		<div class="col-sm-2">
-		</div>
-		<div class="col-sm-2">
-		</div>
-		<div class="col-sm-4">
-		</div>	
-		<%end%>
-		<%if true%>	
-		<div class="col-sm-8">
-		</div>
-		<%end%>							
+		<%if notification.sub_category == GLOBAL_VAR['NOTIFICATION_SUB_NONE']%>
+			<%= render partial: "none", locals: {notification: notification} %>
+		<%elsif notification.sub_category == GLOBAL_VAR['NOTIFICATION_SUB_NEW_COMMENT']%>	
+			<%= render partial: "new_comment", locals: {notification: notification} %>
+		<%elsif notification.sub_category == GLOBAL_VAR['NOTIFICATION_SUB_NEW_ORDER']%>	
+			<%= render partial: "new_order", locals: {notification: notification} %>
+		<%elsif notification.sub_category == GLOBAL_VAR['NOTIFICATION_SUB_NEW_SUB_COMMENT']%>	
+			<%= render partial: "new_sub_comment", locals: {notification: notification} %>
+		<%elsif notification.sub_category == GLOBAL_VAR['NOTIFICATION_SUB_UPDATING_INVOICE']%>	
+			<%= render partial: "updating_invoice", locals: {notification: notification} %>
+		<%elsif notification.sub_category == GLOBAL_VAR['NOTIFICATION_SUB_REVIEW']%>	
+			<%= render partial: "review", locals: {notification: notification} %>
+		<%elsif notification.sub_category == GLOBAL_VAR['NOTIFICATION_SUB_VERIFY']%>	
+			<%= render partial: "verify", locals: {notification: notification} %>
+		<%end%>	
 	</div>	
 	<%end%>
-<table>
-
-
-  <tbody>
-    <% @notifications.each do |notification| %>
-      <tr>
-        <td><%= notification.category %></td>
-        <td><%= notification.sub_category %></td>
-        <td><%= notification.content %></td>
-        <td><%= notification.order %></td>
-        <td><%= notification.user %></td>
-        <td><%= notification.comment %></td>
-        <td><%= notification.product %></td>
-        <td><%= notification.invoice %></td>
-        <td><%= link_to 'Show', notification %></td>
-        <td><%= link_to 'Edit', edit_notification_path(notification) %></td>
-        <td><%= link_to 'Destroy', notification, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-		</div>
-	</div>
 </div>
+<script>
+$('#hotlink').click( function () { 
+    $.ajax({ 
+      async: false,
+      type: "POST", 
+      url: "http://myurl.com/mypage.php", 
+      data: "param1=value&param2=value",  // &param3=value... etc. 
+    });    
+    window.location = $(this).attr('href');    
+}); 
+</script>

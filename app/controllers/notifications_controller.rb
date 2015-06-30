@@ -6,29 +6,6 @@ class NotificationsController < ApplicationController
     @notifications = current_user.notifications
   end
 
-  def show
-  end
-
-  def new
-    @notification = Notification.new
-  end
-
-  def edit
-  end
-
-  def create
-    @notification = Notification.new(notification_params)
-    @notification.save
-  end
-
-  def update
-    @notification.update(notification_params)
-  end
-
-  def destroy
-    @notification.destroy
-  end
-
   private
     def set_notification
       @notification = Notification.find(params[:id])

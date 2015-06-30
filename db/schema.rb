@@ -153,6 +153,8 @@ ActiveRecord::Schema.define(version: 20150629132916) do
     t.integer  "category"
     t.integer  "sub_category"
     t.string   "content"
+    t.boolean  "read_c",       default: false, null: false
+    t.datetime "read_at"
     t.integer  "order_id"
     t.integer  "user_id"
     t.integer  "comment_id"

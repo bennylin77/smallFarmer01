@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
   
-  resources :notifications
-
   get    'comments/post'  
   post   'comments/post'
   post   'comments/delete'
@@ -50,6 +48,7 @@ Rails.application.routes.draw do
                                        registrations: "registrations" }
   resources :products 
   resources :companies
+  resources :notifications, only: [:index]     
   resources :orders, only: [:index]   
   resources :users, only: [:show, :edit, :update]
   resources :carts, only: [:destroy] 

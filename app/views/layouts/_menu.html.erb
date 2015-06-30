@@ -8,7 +8,7 @@
             <span class="icon-bar"></span>
           </button>
  		  <%=link_to root_url, class: 'navbar-brand' do%>
-			小農1號
+			<%=image_tag 'smallfarmer01.png', style: 'height: 30px; margin-top: -5px;' %>
 		  <%end%>         
         </div>
         <div id="navbar" class="navbar-collapse collapse">    
@@ -61,7 +61,12 @@
 						<li><%= link_to "個人管理", edit_user_path(current_user) %></li>
 						<li><%= link_to '登出', destroy_user_session_path, :method => :delete %></li>
 					</ul>			
-				</li>     
+				</li> 
+	            <li><a href="/notifications" class="menu_right">
+					<%= image_tag 'farm_icon.png', class: '', style: 'height: 34px; width: 38px' %>	            	
+		            <span class='mobile_menu_label'>管理農場</span>	            	
+	            	</a>
+	            </li>				    
 			<%else%>	
 				<li><%= link_to "註冊", new_user_registration_path %></li>
 				<li><%= link_to "登入", new_user_session_path %></li>
