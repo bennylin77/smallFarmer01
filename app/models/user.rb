@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   has_many :companies, dependent: :destroy  
   has_many :addresses, dependent: :destroy  
   has_many :carts, dependent: :destroy  
+  has_many :notifications, dependent: :destroy    
   has_many :coupons
   has_many :invoices   
   
@@ -83,5 +84,8 @@ private
   def setUserAddress
     addresses.create(last_name: self.last_name, first_name: self.first_name)
     companies.create(activate_c: false)
+    notifications.create(category: GLOBAL_VAR['NOTIFICATION_PROMOTION'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_VERIFY'], 
+                         content: '立刻驗證獲得30元回饋金')
+    
   end         
 end

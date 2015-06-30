@@ -4,6 +4,8 @@ class CreateNotifications < ActiveRecord::Migration
       t.integer :category
       t.integer :sub_category
       t.string :content
+      t.boolean :read_c, default: false, null: false 
+      t.datetime :read_at      
       t.belongs_to :order, index: true
       t.belongs_to :user, index: true
       t.belongs_to :comment, index: true

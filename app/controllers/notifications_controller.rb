@@ -1,20 +1,16 @@
 class NotificationsController < ApplicationController
   before_action :set_notification, only: [:show, :edit, :update, :destroy]
 
-  respond_to :html
 
   def index
     @notifications = Notification.all
-    respond_with(@notifications)
   end
 
   def show
-    respond_with(@notification)
   end
 
   def new
     @notification = Notification.new
-    respond_with(@notification)
   end
 
   def edit
@@ -23,17 +19,14 @@ class NotificationsController < ApplicationController
   def create
     @notification = Notification.new(notification_params)
     @notification.save
-    respond_with(@notification)
   end
 
   def update
     @notification.update(notification_params)
-    respond_with(@notification)
   end
 
   def destroy
     @notification.destroy
-    respond_with(@notification)
   end
 
   private

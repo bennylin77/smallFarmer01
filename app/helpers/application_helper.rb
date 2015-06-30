@@ -8,6 +8,10 @@ module ApplicationHelper
     quantity == 0 ? "" : quantity   
   end  
   
+  def notifications
+    current_user.notifications.size
+  end
+  
   def active(hash={})     
     if current_page?(hash)
       "class='active'".html_safe     
