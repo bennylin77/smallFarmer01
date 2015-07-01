@@ -43,6 +43,8 @@ Rails.application.routes.draw do
   match '/orders/:id/confirm' => 'orders#confirm', via: [:get], as: :confirm
   match '/orders/:id/cancel' => 'orders#cancel', via: [:get], as: :cancel
 
+  match '/notifications/:id/read' => 'notifications#read', via: [:get], as: :read
+
  
   devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks',
                                        registrations: "registrations" }

@@ -41,14 +41,4 @@
 	</div>	
 	<%end%>
 </div>
-<script>
-$('#hotlink').click( function () { 
-    $.ajax({ 
-      async: false,
-      type: "POST", 
-      url: "http://myurl.com/mypage.php", 
-      data: "param1=value&param2=value",  // &param3=value... etc. 
-    });    
-    window.location = $(this).attr('href');    
-}); 
-</script>
+

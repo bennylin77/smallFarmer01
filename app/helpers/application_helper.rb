@@ -9,7 +9,7 @@ module ApplicationHelper
   end  
   
   def notifications
-    current_user.notifications.size
+    current_user.notifications.where(read_c: false).size ==0 ? "" : current_user.notifications.where(read_c: false).size 
   end
   
   def active(hash={})     

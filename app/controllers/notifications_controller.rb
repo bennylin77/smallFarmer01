@@ -1,9 +1,16 @@
 class NotificationsController < ApplicationController
-  before_action :set_notification, only: [:show, :edit, :update, :destroy]
+  before_action :set_notification, only: [:read, :show, :edit, :update, :destroy]
 
 
   def index
     @notifications = current_user.notifications
+  end
+
+  def read
+    @notification.read_c = true
+    @notification.read_at = Time.now
+    @notification.save!
+    render json: { success: true, unread_size: current_user.notifications.where(read_c: false).size }
   end
 
   private

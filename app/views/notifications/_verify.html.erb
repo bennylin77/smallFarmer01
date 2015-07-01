@@ -1,3 +1,23 @@
 <div class="col-sm-8">
-	<%=link_to notification.content, '/users/'+current_user.id.to_s+'/mobileSMSConfirmation' %>
+	<%=link_to notification.content, '/users/'+current_user.id.to_s+'/mobileSMSConfirmation', 
+			   id: 'notification_'+notification.id.to_s %>
 </div>
+
+<script>
+$('#notification_<%=notification.id.to_s%>').click( function () { 
+    var request = $.ajax({ 
+      async: false,
+      type: "GET", 
+      url: "/notifications/<%= notification.id %>/read", 
+	  dataType: "json"
+    });    
+	request.done(function( message ) {
+	 	if(message.size!=0)
+    		$('.notifications_badge').html(message.size);	
+	 	else
+	 		$('.notifications_badge').html('');	    		
+	});    
+        
+    window.location = $(this).attr('href');    
+}); 
+</script>
