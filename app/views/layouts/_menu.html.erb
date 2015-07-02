@@ -124,8 +124,8 @@ function showCoupons(){
 		dataType: "json"
 	});
 	request.done(function( message) {
-	 	if( message.quantify != 0)
-	 		$('.menu_coupons').html(message.quantify);
+	 	if( message.quantity != 0)
+	 		$('.menu_coupons').html(message.quantity);
 	 	else
 	 		$('.menu_coupons').html('');	
 	});
