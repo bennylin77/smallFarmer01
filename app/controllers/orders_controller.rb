@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
 
-  before_action :set_order, only: [:confirm, :cancel]
+  before_action :set_order, only: [:confirm, :cancel, :review]
 
   
   def index    
@@ -63,6 +63,24 @@ class OrdersController < ApplicationController
     redirect_to  controller: 'orders', action: 'index', called_smallfarmer_c: 'false'     
   end
   
+  def review
+
+    if @order.review_score.blank? and @order.review_feedback.blank? and @order.review_at.blank?     
+      @order.review_score = params[:review_score]
+      @order.review_feedback = params[:review_feedback]
+      @order.review_at = Time.now
+      @order.save!
+      # important !!!!!!!!!!!!!!!!
+      # coupon = Coupon.new
+      # coupon.user = current_user
+      # coupon.kind = GLOBAL_VAR['COUPON_CHECK_OUT']
+      # coupon.amount = @order.
+      # coupon.original_amount = @order.
+      # coupon.save!
+    else
+      render json: {success: true, message: '您已評論過'}      
+    end  
+  end
   
   private   
     def set_order

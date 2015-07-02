@@ -6,20 +6,16 @@
 	<%= image_tag order.invoice.user.avatar.url, class: 'img-circle', size: '50x50' %>				
 </div>
 <div class="col-sm-4">
-	<%= form_tag  '/order/review', method: 'get' do %>
-		<div class="form-group">
-    		<div class="input-group">
-    			<div id="radioBtn" class="btn-group">
-    				<a class="btn btn-primary btn-sm active" data-toggle="fun" data-title="Y">非吃不可</a>
-                    <a class="btn btn-primary btn-sm notActive" data-toggle="fun" data-title="X">好吃</a>
-    				<a class="btn btn-primary btn-sm notActive" data-toggle="fun" data-title="N">普通</a>
-    			</div>
-    			<input type="hidden" name="fun" id="fun">
-    		</div>
-    	</div>		
-		<div class="talkbubble"><textarea name="content" class="form-control comment_textarea" rows="2" placeholder='想說什麼...' id="post_content"></textarea></div>
-		<%= submit_tag '送出，立即獲得4%回饋金',  class: "btn btn-default pull-right comment_button"  %>
-	<% end %>
+	<div class="input-group">
+    	<div id="radioBtn" class="btn-group">
+    		<a class="btn btn-primary btn-sm active" data-toggle="fun" data-title="<%= GLOBAL_VAR['ORDER_REVIEW_DELICIOUS'] %>">非吃不可</a>
+            <a class="btn btn-primary btn-sm notActive" data-toggle="fun" data-title="<%= GLOBAL_VAR['ORDER_REVIEW_TASTY'] %>">好吃</a>
+    		<a class="btn btn-primary btn-sm notActive" data-toggle="fun" data-title="<%= GLOBAL_VAR['ORDER_REVIEW_COMMON'] %>">普通</a>
+    	</div>
+    	<input type="hidden" name="fun" id="fun">
+    </div><br>
+	<div class="talkbubble"><textarea name="content" class="form-control comment_textarea" rows="2" placeholder='想說什麼...' id="post_content"></textarea></div>
+	<button class="btn btn-default pull-right comment_button" id="post_button" onclick="postComment()" data-loading-text="傳送中...">送出，立即獲得4%回饋金</button>		
 </div>
 
 

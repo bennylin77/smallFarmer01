@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   post   'orders/confirmCheckout'  
   post   'orders/checkout'
   get    'orders/index'
+  post   'orders/review'  
 
   post   'carts/addCart'
   post   'carts/updateCart'  

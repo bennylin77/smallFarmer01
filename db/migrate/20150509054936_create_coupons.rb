@@ -8,7 +8,7 @@ class CreateCoupons < ActiveRecord::Migration
       
       
       t.belongs_to :user, index: true
-      t.belongs_to :order, index: true
+      t.belongs_to :invoice, index: true
 
       t.timestamps
     end

@@ -94,12 +94,12 @@ ActiveRecord::Schema.define(version: 20150629132916) do
     t.integer  "kind"
     t.boolean  "available_c",                default: true, null: false
     t.integer  "user_id"
-    t.integer  "order_id"
+    t.integer  "invoice_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "coupons", ["order_id"], name: "index_coupons_on_order_id", using: :btree
+  add_index "coupons", ["invoice_id"], name: "index_coupons_on_invoice_id", using: :btree
   add_index "coupons", ["user_id"], name: "index_coupons_on_user_id", using: :btree
 
   create_table "identities", force: true do |t|
