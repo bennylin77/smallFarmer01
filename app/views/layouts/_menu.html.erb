@@ -99,4 +99,38 @@ function showCarts(){
 	request.fail(function( jqXHR, textStatus ) {
 	});		
 }
+function showNotifications(){
+	var request = $.ajax({
+		url: "/notifications/showNotifications",
+		type: "GET",
+		data: {},
+		dataType: "json"
+	});
+	request.done(function( message) {
+	 	if( message.quantify != 0)
+	 		$('.notifications_badge').html(message.quantify);
+	 	else
+	 		$('.notifications_badge').html('');	
+	});
+	request.fail(function( jqXHR, textStatus ) {
+	});		
+}
+
+function showCoupons(){
+	var request = $.ajax({
+		url: "/coupons/showCoupons",
+		type: "GET",
+		data: {},
+		dataType: "json"
+	});
+	request.done(function( message) {
+	 	if( message.quantify != 0)
+	 		$('.menu_coupons').html(message.quantify);
+	 	else
+	 		$('.menu_coupons').html('');	
+	});
+	request.fail(function( jqXHR, textStatus ) {
+	});		
+}
+
 </script>

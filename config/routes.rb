@@ -9,21 +9,24 @@ Rails.application.routes.draw do
   post   'comments/deleteSub'
   
   get    'coupons/index'
+  get    'coupons/showCoupons'
 
   get    'invoices/index'
   post   'invoices/create'
   get    'invoices/allpayCredit'
   post   'invoices/allpayCreditNotify'
-  get    'invoices/finished'    
-  
+  get    'invoices/finished'   
+     
   post   'orders/confirmCheckout'  
   post   'orders/checkout'
   get    'orders/index'
-  post   'orders/review'  
 
   post   'carts/addCart'
   post   'carts/updateCart'  
   get    'carts/showCarts'  
+  
+  get    'notifications/showNotifications'
+  post   'notifications/review'    
   
   post   'users/mobileSMSConfirmationSend'
   get    'main/index'  

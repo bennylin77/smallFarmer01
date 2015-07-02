@@ -94,10 +94,9 @@ class InvoicesController < ApplicationController
     @invoice.save!
   end
   
-  def finished
-    
+  def finished   
   end
-  
+    
   def allpayCreditNotify
     if macValueOk? # we still need to check domain   
       if params[:RtnCode] == '1' # trade success or not
