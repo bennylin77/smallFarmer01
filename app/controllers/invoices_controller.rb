@@ -53,10 +53,8 @@ class InvoicesController < ApplicationController
       invoice.confirmed_c = true
       invoice.save!  
       invoice.orders.each do |o|
-        user = o.product_boxing.product.company.user
-        user.notifications<< Notification.create(category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_NEW_ORDER'], 
-                                                 order_id: o.id)
-        user.save!  
+        notify( o.product_boxing.product.company.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_NEW_ORDER'], 
+                                                         order_id: o.id}) 
       end            
       redirect_to  controller: 'invoices' , action: 'finished', id: invoice.id 
     elsif invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']
@@ -115,15 +113,11 @@ class InvoicesController < ApplicationController
           invoice.paid_c = true
           invoice.confirmed_c = true          
           invoice.save!   
-        end
-        
+        end        
         invoice.orders.each do |o|
-          user = o.product_boxing.product.company.user
-          user.notifications<< Notification.create(category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_NEW_ORDER'], 
-                                                   order_id: o.id)
-          user.save!  
-        end
-        
+          notify( o.product_boxing.product.company.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_NEW_ORDER'], 
+                                                           order_id: o.id})  
+        end     
       end
       render text: "1|OK"      
     else  

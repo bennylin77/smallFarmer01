@@ -1,6 +1,43 @@
+<% order = notification.order %>
 <div class="col-sm-2">
+	<%= image_tag order.product_boxing.product.product_images.first.image.url, class: 'img-circle farm_fruits_img', size: '100x100' %>				
 </div>
-<div class="col-sm-2">
+<div class="col-sm-1">
+	<%= image_tag order.invoice.user.avatar.url, class: 'img-circle', size: '50x50' %>				
 </div>
 <div class="col-sm-4">
-</div>	
+	<%= form_tag  '/order/review', method: 'get' do %>
+		<div class="form-group">
+    		<div class="input-group">
+    			<div id="radioBtn" class="btn-group">
+    				<a class="btn btn-primary btn-sm active" data-toggle="fun" data-title="Y">非吃不可</a>
+                    <a class="btn btn-primary btn-sm notActive" data-toggle="fun" data-title="X">好吃</a>
+    				<a class="btn btn-primary btn-sm notActive" data-toggle="fun" data-title="N">普通</a>
+    			</div>
+    			<input type="hidden" name="fun" id="fun">
+    		</div>
+    	</div>		
+		<div class="talkbubble"><textarea name="content" class="form-control comment_textarea" rows="2" placeholder='想說什麼...' id="post_content"></textarea></div>
+		<%= submit_tag '送出，立即獲得4%回饋金',  class: "btn btn-default pull-right comment_button"  %>
+	<% end %>
+</div>
+
+
+<style>
+#radioBtn .notActive{
+    color: #3276b1;
+    background-color: #fff;
+}
+</style>
+<script>
+	$('#radioBtn a').on('click', function(){
+	    var sel = $(this).data('title');
+	    var tog = $(this).data('toggle');
+	    $('#'+tog).prop('value', sel);
+	    
+	    $('a[data-toggle="'+tog+'"]').not('[data-title="'+sel+'"]').removeClass('active').addClass('notActive');
+	    $('a[data-toggle="'+tog+'"][data-title="'+sel+'"]').removeClass('notActive').addClass('active');
+	})
+</script>
+
+	

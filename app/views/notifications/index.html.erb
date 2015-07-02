@@ -20,7 +20,7 @@
 	</div>	
 	<% @notifications.each do |notification| %>
 	<div class="row" style="margin-top: 30px; margin-bottom: 30px;">
-		<div class="col-sm-3">		
+		<div class="col-sm-2">		
 		<%= Hash[categoryOptions].rassoc(notification.category).first%>			
 		</div>
 		<%if notification.sub_category == GLOBAL_VAR['NOTIFICATION_SUB_NONE']%>

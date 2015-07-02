@@ -46,5 +46,10 @@ class ApplicationController < ActionController::Base
       u.permit(:password, :password_confirmation, :current_password) 
     }
   end  
+  
+  def notify( user, hash={} )
+    user.notifications<< Notification.create(hash)
+    user.save!   
+  end
  
 end

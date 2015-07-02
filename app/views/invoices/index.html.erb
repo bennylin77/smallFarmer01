@@ -71,7 +71,15 @@
           <td><%= o.quantity%>箱 (<%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %>/箱)</td>
           <td><%= o.price.to_i %>元</td>     
           <td><%= showBlank o.tracing_code%></td>     
-          <td><%= Hash[orderCustomerStatusOptions].rassoc(o.status).first%></td>	                              
+          <td>
+			<div class="text-center">在<%= o.created_at.strftime("%Y-%m-%d %H:%M:%S") %><br>建立訂單</div>		
+			<div class="text-center">&darr;</div>				
+			<%if o.called_smallfarmer_c%>
+			<div class="text-center">在<%= o.called_smallfarmer_at.strftime("%Y-%m-%d %H:%M:%S")%><br>農夫開始處理</div>
+			<div class="text-center">&darr;</div>						
+			<%end%>	
+			<div class="text-center"><%= Hash[orderCustomerStatusOptions].rassoc(o.status).first%></div>          	          	
+          </td>	                              
         </tr>
     	<%end%>	        
       </table>    	
