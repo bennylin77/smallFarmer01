@@ -1,5 +1,5 @@
 <% products.where(available_c: true).each_slice(4) do |p|%> 
-	<div class="row">
+	<div class="row" style="padding-bottom: 60px;">
 		<% p.each_with_index do |pp, index|%>
 				<div class="col-sm-3 farm_fruits">			
 			<%= link_to pp do%>

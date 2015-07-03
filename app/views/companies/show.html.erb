@@ -73,12 +73,12 @@
 		</div>	
 	</div>	
 	<%@company.products.where(available_c: true).each_slice(4) do |p|%> 
-	<div class="row" style="padding-top: 60px;">
+	<div class="row" style="padding-top: 70px;">
 		<% p.each_with_index do |pp, index|%>
 			<%if index == 0 %>
-				<div class="col-lg-offset-2 col-lg-2 col-md-offset-2 col-md-2 col-sm-offset-1 col-sm-2 farm_fruits">
+				<div class="col-lg-offset-2 col-lg-2 col-md-offset-1 col-md-2 farm_fruits">
 			<%else%>
-				<div class="col-sm-offset-1 col-sm-2 farm_fruits">			
+				<div class="col-md-2 farm_fruits">			
 			<%end%>				
 			<%= link_to pp do%>
 					<%= image_tag pp.product_images.first.image.url, class: 'img-circle farm_fruits_img' %>			
