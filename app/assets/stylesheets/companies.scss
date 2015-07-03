@@ -67,6 +67,8 @@
   opacity: 0.8;
 }
 .farm_fruits_img{
+  width: 150px;
+  height: 150px;
   border: solid 1px #526031;
   padding: 3px;
   background-clip: content-box; /* support: IE9+ */
@@ -168,6 +170,10 @@
   .farm_words, .farm_words_name{
     width: 100%;
   }
+  .farm_fruits_img{
+    width: 130px;
+    height: 130px;
+  }    
 }
 /*======================================= Carousel =======================================*/
 .farm_carousel

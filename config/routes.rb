@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   post   'users/mobileSMSConfirmationSend'
   get    'main/index'  
   get    'main/delivered'
+  get    'main/search'
 
   get    'management/index'    
   get    'management/invoices'

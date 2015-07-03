@@ -1,0 +1,24 @@
+<% products.where(available_c: true).each_slice(4) do |p|%> 
+	<div class="row">
+		<% p.each_with_index do |pp, index|%>
+			<%if index == 0 %>
+				<div class="col-lg-offset-2 col-lg-2 col-md-offset-2 col-md-2 col-sm-offset-1 col-sm-2 farm_fruits">
+			<%else%>
+				<div class="col-sm-offset-1 col-sm-2 farm_fruits">			
+			<%end%>				
+			<%= link_to pp do%>
+					<%= image_tag pp.product_images.first.image.url, class: 'img-circle farm_fruits_img', size: '150x150' %>			
+					<div class="farm_fruits_name">
+					<%= pp.name%>
+					</div>	  
+					<div class="farm_fruits_price">
+					<%= pp.product_boxings.first.product_pricings.first.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %>元(含運) <%= "%g" % pp.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(pp.unit).first %>/箱
+				    </div>
+				    <div class="farm_fruits_reviews">
+						<span class="farm_fruits_excellent">3764</span><span class="farm_fruits_excellent_text">人說非吃不可</span>
+				    </div>	
+			<%end%>		 				
+				</div>	
+		<%end%>	
+	</div>		
+<%end%>	
