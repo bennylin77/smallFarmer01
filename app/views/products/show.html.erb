@@ -66,32 +66,30 @@
 			</div>					
 		</div>
 		<div class="col-sm-4">
-			<div class="row">
-		      <div class="col-sm-1 vmiddle">
-		      </div>				
-		      <div class="col-sm-6 vmiddle">
+			<div class="row">			
+		      <div class="col-sm-8 vmiddle">
 		        <div class="product_name"><%= @product.name %></div>
 		        <div class="product_excellent"><span class="product_excellent_no">3764 </span><span class="product_excellent_text">人說非吃不可</span></div>	
 		      </div>
-		      <div class="col-sm-2 vmiddle">
-			  		<%=image_tag 'sweet_degree/18.png', class: '', style: 'height: 70px; width: 110px;'  %>		      
+		      <div class="col-sm-1 vmiddle">
+			  		<%=image_tag 'sweet_degree/18.png', class: '', style: 'height: 60px; width: 90px;'  %>		      
 		      </div>		      
 		    </div>				
 			<div class="row">
-		      <div class="col-sm-offset-5 col-sm-5 text-right" style="margin-top: 10px;">
+		      <div class="col-sm-offset-5 col-sm-6 text-right" style="margin-top: 10px;">
 					<%=image_tag 'gap.png', class: '', style: 'height: 55px; width: 55px;'  %>		      
 					<%=image_tag 'tap.png', class: '', style: 'height: 50px; width: 50px;'  %>		      		      
 		      </div>
 		    </div>		
 			<div class="row">
-		      <div class="col-sm-offset-5 col-sm-5 text-right" style="margin-top: 15px;">
+		      <div class="col-sm-offset-5 col-sm-6 text-right" style="margin-top: 15px;">
 				<div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button_count"></div>		      
 		      </div>
 		    </div>			    
 			<div class="row product_price" style="margin-top: 20px;">
 			<%@product.product_boxings.first.product_pricings.each do |p| %>
 				<%if p.quantity == 1%>	
-					<div class="col-sm-offset-2 col-sm-3">							
+					<div class="col-sm-offset-2 col-sm-4">							
 	 					<%= "%g" % @product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(@product.unit).first %>/箱 				
 					</div>	   
 					<div class="col-sm-3 text-right">						
@@ -100,7 +98,7 @@
 					<div class="col-sm-3">元<span style="font-size: 85%">(含運)<span></div>											
 			</div>
 			<div class="row product_price" style="margin-top: 10px;">
-					<div class="col-sm-offset-2 col-sm-3">數量</div>
+					<div class="col-sm-offset-3 col-sm-3">數量</div>
 					<div class="col-sm-3">	
 					<%= select_tag  :quantity, options_for_select( (1..50).step(1).to_a), class: "form-control" %>				
 					</div>	  
@@ -108,19 +106,19 @@
 			</div>						
 					<%else%>
 			<div class="row product_promote" style="margin-top: 18px;">	
-					<div class="col-sm-offset-4 col-sm-6 text-right">								
+					<div class="col-sm-offset-4 col-sm-7 text-right">								
 						<%= p.quantity %>箱以上 每箱<%= p.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %>元(含運)		
 					</div>
 			</div>						
 					<%end%>
 				<%end%>
 			<div class="row" style="margin-top: 2px;">	
-					<div class="col-sm-offset-4 col-sm-6 text-right">				
+					<div class="col-sm-offset-4 col-sm-7 text-right">				
 						＊企業團體購買，請聯絡客服人員
 					</div>
 			</div>		
 			<div class="row product_promote" style="margin-top: 20px;">	
-					<div class="col-sm-offset-4 col-sm-6 text-right">							
+					<div class="col-sm-offset-4 col-sm-7 text-right">							
 						<button type="button" class="add_to_cart btn btn-primary" autocomplete="off">加入購物車</button>			
 					</div>
 			</div>	
@@ -129,7 +127,7 @@
 	<div class="row" style="margin-top: 50px;">
 		<div class="col-sm-offset-1 col-sm-6">
 			<div class="row" style="">		
-				<div class="col-sm-6">
+				<div class="col-sm-12">
 					<div class="section_title">關於<%= @product.name %></div>
 				</div>					
 			</div>
