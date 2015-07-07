@@ -1,0 +1,19 @@
+<div class="table-responsive">
+<table class="table table-bordered table-hover">
+  <tr>
+    <th>農場編號</th>  	
+	<th>農場名稱</th>
+	<th>聯絡電話</th>  
+	<th>聯絡地址</th>	
+	<th></th>							 		    
+  </tr>
+  <% @companies.each do |c| %>
+  <tr id='company_container_<%=c.id %>'>
+    <td><%= c.id %></td>  	
+    <td><%= c.name%></td>    
+    <td><%= c.phone_no%></td> 
+    <td></td>    	 	                              	     
+  </tr>
+  <%end%>  
+</table>
+</div>

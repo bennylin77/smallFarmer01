@@ -69,7 +69,7 @@
 			<div class="row">			
 		      <div class="col-sm-8 vmiddle">
 		        <div class="product_name"><%= @product.name %></div>
-		        <div class="product_excellent"><span class="product_excellent_no">3764 </span><span class="product_excellent_text">人說非吃不可</span></div>	
+		        <div class="product_excellent"><span class="product_excellent_no" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and delivered_c = 1 and review_score = ? ', @product.id, GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count %>'> </span><span class="product_excellent_text">人說非吃不可</span></div>	
 		      </div>
 		      <div class="col-sm-1 vmiddle">
 			  		<%=image_tag 'sweet_degree/18.png', class: '', style: 'height: 60px; width: 90px;'  %>		      
@@ -137,7 +137,7 @@
 					<table class="table">
 					<tr><td>產地</td><td><%=@product.company.county %><%=@product.company.district%></td></tr>
 					<tr><td>內容量</td><td>每箱 <%= "%g" % @product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(@product.unit).first %> </td></tr>
-					<tr><td>保存方式</td><td>--</td></tr>		
+					<tr><td>保存方式</td><td><%= @product.preservation %></td></tr>		
 					</table>	
 				</div>	
 				<div class="col-sm-6">
@@ -242,6 +242,8 @@
 
 
 <script>
+$('.product_excellent_no').html( $('.product_excellent_no').attr("data-count")+' ' )
+// add cart
 $('.add_to_cart').click(function() {
 	//var $btn = $(this).button('加入中...')	
 	var request = $.ajax({

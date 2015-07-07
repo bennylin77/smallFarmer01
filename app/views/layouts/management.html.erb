@@ -19,9 +19,9 @@
           <ul class="nav navbar-nav hidden-xs">
             <li><%= link_to '購買單列表', {controller: 'management', action: 'invoices'}, style: "font-size: 17px; color: #536132;" %></li>
             <li><%= link_to '訂單列表', {controller: 'management', action: 'orders', called_smallfarmer_c: false, called_logistics_c: false}, style: "font-size: 17px; color: #536132;" %></li>            
-            <li><a href="#about" style="font-size: 17px; color: #536132; ">農場列表</a></li>
-            <li><a href="#about" style="font-size: 17px; color: #536132; ">水果列表</a></li>            
-            <li><a href="#about" style="font-size: 17px; color: #536132; ">使用者列表</a></li>          
+            <li><%= link_to '農場列表', {controller: 'management', action: 'companies'}, style: "font-size: 17px; color: #536132;" %></li>
+            <li><%= link_to '水果列表', {controller: 'management', action: 'products'}, style: "font-size: 17px; color: #536132;" %></li>            
+            <li><%= link_to '使用者列表', {controller: 'management', action: 'users'}, style: "font-size: 17px; color: #536132;" %></li>          
           </ul>        	 	      	      	
           <ul class="nav navbar-nav navbar-right">
 			<%if user_signed_in?%>          	
@@ -42,17 +42,9 @@
         </div>
 	</div>
 </nav>	
-<div class="container-fluid">
+<div class="container main_frontend">
 	<div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-          <ul class="nav nav-sidebar">
-			<li <%= active( controller: 'invoices', action: 'index' )%> ><%= link_to "xxxx", controller: 'invoices', action: 'index'%></li>
-			<li <%= active( controller: 'coupons', action: 'index' )%>><%= link_to "xxxx", controller: 'coupons', action: 'index'%></li>
-			<li <%= active( controller: 'users', action: 'edit', id: current_user)%>><%= link_to "xxxx", edit_user_path(current_user) %></li>			
-			<li <%= active( controller: 'registrations', action: 'edit')%>><%= link_to "xxxx", edit_user_registration_path %></li>
-          </ul>
-        </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main_backend">
+        <div class="col-sm-12">
 			<%= yield %>
     	</div>
 	</div>

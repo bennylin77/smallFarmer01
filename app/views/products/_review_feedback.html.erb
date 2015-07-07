@@ -4,7 +4,7 @@
 	<%=image_tag 'default_avatar.png', class: 'review_feedback_avatar' %> 				
 	<div class="review_feedback_name"><%=o.invoice.user.email.gsub(/@.*$/, '')%></div> 
 	<div class="review_feedback_date"><%=time_ago_in_words o.review_at%>之前 所留下的購物評價</div>
-	<div class="review_feedback_option review_common_bg"></div>
+	<div class="review_feedback_option <%= reviewBg o.review_score %>"></div>
 	<div class="review_feedback_option_text">
 		<%=Hash[orderReviewOptions].rassoc(o.review_score).first%>
 	</div>						

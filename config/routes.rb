@@ -37,6 +37,12 @@ Rails.application.routes.draw do
   get    'management/invoices'
   get    'management/orders'  
   get    'management/callLogistics'
+  get    'management/companies'  
+  get    'management/products'  
+  get    'management/users'  
+
+
+
                                        
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
   match '/users/:id/mobileSMSConfirmation' => 'users#mobileSMSConfirmation', via: [:get, :patch], :as => :mobileSMSConfirmation 

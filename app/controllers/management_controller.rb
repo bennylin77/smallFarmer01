@@ -7,6 +7,7 @@ class ManagementController < ApplicationController
   end
   
   def invoices 
+    @invoices = Invoice.all
   end
   
   def orders
@@ -28,9 +29,22 @@ class ManagementController < ApplicationController
     render json: {success: true}
   end
   
-  private   
-    def set_order
-      @order = Order.find(params[:id])
-    end  
+  def companies
+    @companies = Company.all    
+  end  
+
+  def products
+    @products = Product.all        
+  end
+  
+  def users
+    @users = User.all
+  end  
+  
+private   
+  
+  def set_order
+    @order = Order.find(params[:id])
+  end  
   
 end
