@@ -24,5 +24,13 @@ module OrdersHelper
      ['已通知物流', GLOBAL_VAR['ORDER_STATUS_CALLED_LOGISTICS']],     
      ['運送中', GLOBAL_VAR['ORDER_STATUS_SHIPPING']],
      ['已交付', GLOBAL_VAR['ORDER_STATUS_DELIVERED']]]
+  end  
+  
+  def orderReviewOptions
+    [['超級難吃', GLOBAL_VAR['ORDER_REVIEW_UNEATABLE']],
+     ['難吃', GLOBAL_VAR['ORDER_REVIEW_UNAPPEALING']], 
+     ['普通', GLOBAL_VAR['ORDER_REVIEW_COMMON']],     
+     ['好吃', GLOBAL_VAR['ORDER_REVIEW_TASTY']],
+     ['非吃不可', GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']]]     
   end     
 end
