@@ -40,8 +40,11 @@ Rails.application.routes.draw do
   get    'management/companies'  
   get    'management/activateCompany'  
   get    'management/products'  
+  get    'management/setCertification'     
   get    'management/users'  
-  get    'management/blockUser'  
+  get    'management/blockUser' 
+
+
 
                                   
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup

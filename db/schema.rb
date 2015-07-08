@@ -240,6 +240,7 @@ ActiveRecord::Schema.define(version: 20150629132916) do
     t.integer  "company_id"
     t.text     "preservation"
     t.integer  "sweet_degree"
+    t.boolean  "GAP_c",          default: false, null: false
     t.boolean  "TAP_c",          default: false, null: false
     t.boolean  "OTAP_c",         default: false, null: false
     t.boolean  "UTAP_c",         default: false, null: false

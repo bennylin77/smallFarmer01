@@ -3,6 +3,7 @@ class ManagementController < ApplicationController
   before_action :set_order, only: []
   before_action :set_company, only: [:activateCompany]
   before_action :set_user, only: [:blockUser]
+  before_action :set_product, only: [:setCertification]
   
   def index
     
@@ -51,6 +52,45 @@ class ManagementController < ApplicationController
     @products = Product.all.paginate(page: params[:page], per_page: 60).order('id DESC')             
   end
   
+  def setCertification    
+    params[:val] = params[:val] == 'true' ? true : false                      
+    case params[:kind]
+    when 'GAP'
+      if params[:val]
+        @product.update_columns(GAP_c: params[:val])
+        render json: {success: true, message: '水果編號 '+@product.id.to_s+' 吉園圃已認證'}    
+      else
+        @product.update_columns(GAP_c: params[:val])
+        render json: {success: true, message: '水果編號 '+@product.id.to_s+' 吉園圃已停用'}          
+      end  
+    when 'TAP'
+      if params[:val]
+        @product.update_columns(TAP_c: params[:val])
+        render json: {success: true, message: '水果編號 '+@product.id.to_s+' TAP已認證'}    
+      else
+        @product.update_columns(TAP_c: params[:val])
+        render json: {success: true, message: '水果編號 '+@product.id.to_s+' TAP已停用'}          
+      end 
+    when 'OTAP'
+      if params[:val]
+        @product.update_columns(OTAP_c: params[:val])
+        render json: {success: true, message: '水果編號 '+@product.id.to_s+' OTAP已認證'}    
+      else
+        @product.update_columns(OTAP_c: params[:val])
+        render json: {success: true, message: '水果編號 '+@product.id.to_s+' OTAP已停用'}          
+      end 
+    when 'UTAP'
+      if params[:val]
+        @product.update_columns(UTAP_c: params[:val])
+        render json: {success: true, message: '水果編號 '+@product.id.to_s+' UTAP已認證'}    
+      else
+        @product.update_columns(UTAP_c: params[:val])
+        render json: {success: true, message: '水果編號 '+@product.id.to_s+' UTAP已停用'}          
+      end                   
+    end   
+  end  
+        
+  
   def users
     @users = User.all.paginate(page: params[:page], per_page: 60).order('id DESC')     
   end  
@@ -78,5 +118,10 @@ private
   
   def set_user
     @user = User.find(params[:id])
+  end  
+  
+  def set_product
+    @product = Product.find(params[:id])
   end      
+  
 end
