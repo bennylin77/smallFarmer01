@@ -1,0 +1,73 @@
+<div class="row">
+<div class="table-responsive">
+<table class="table table-bordered table-hover">
+  <tr>
+    <th>使用者編號</th>  	
+	<th>姓名</th>
+	<th>行動電話</th>  
+	<th>聯絡地址</th>	
+	<th>Email</th>		
+	<th>停用</th>						 		            
+  </tr>
+  <% @users.each do |u| %>
+  <tr id='user_container_<%=u.id %>'>
+    <td><%= u.id %></td>  	
+    <td>
+    	<%= image_tag u.avatar.url, class: 'img-circle', style: 'height: 50px; width: 50px;' %>
+    	<%= u.last_name%><%= u.first_name%>
+    </td> 
+    <td><%= u.addresses.first.phone_no %></td> 
+    <td><%= u.addresses.first.postal%> <%= u.addresses.first.county%><%= u.addresses.first.district%><%= u.addresses.first.address%></td>                	     
+    <td><%= u.email %></td>   
+  	<td>
+    	<div class="form-group">
+    		<div class="col-sm-12">
+    			<div class="input-group">
+    				<div id="" class="radioBtn btn-group">
+    					<a class="btn btn-primary btn-sm <%if u.blocked_c%>notActive<%else%>active<%end%>" data-toggle="block_<%=u.id %>" data-id="<%=u.id %>" data-title="false" style="border: none;">否</a>
+    					<a class="btn btn-primary btn-sm <%if u.blocked_c%>active<%else%>notActive<%end%>" data-toggle="block_<%=u.id %>" data-id="<%=u.id %>" data-title="true" style="border: none;">是</a>
+    					<input type="hidden" name="block_<%=u.id %>" id="block_<%=u.id %>" value="<%=u.blocked_c%>">
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+  	</td>     
+  </tr>
+  <%end%>  
+</table>
+</div>
+</div>
+<%= will_paginate @users, renderer: BootstrapPagination::Rails %>
+
+<style>
+.radioBtn .notActive{
+    color: #3276b1;
+    background-color: #fff;
+}
+</style>
+<script>
+	$('.radioBtn a').on('click', function(){
+		var sel = $(this).data('title');
+		var tog = $(this).data('toggle');	 
+		var id = $(this).data('id')   
+		if(sel.toString()!=$('#'+tog).val() )
+		{
+		    $('a[data-toggle="'+tog+'"]').not('[data-title="'+sel+'"]').removeClass('active').addClass('notActive');
+		    $('a[data-toggle="'+tog+'"][data-title="'+sel+'"]').removeClass('notActive').addClass('active');
+			$.ajax({
+				type : 'GET',
+				url : '/management/blockUser',
+				data : { id: id, block: sel },
+				datatype : 'json',
+				success : function(data) {
+					if (data.success) {
+						toastr['success'](data.message)		
+						$('#'+tog).val(sel.toString()) 								
+					} else {
+						toastr['warning'](data.message)
+					}
+				}
+			});	
+		}	
+	})
+</script>

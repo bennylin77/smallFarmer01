@@ -1,8 +1,8 @@
 <div class="table-responsive">
 <table class="table table-bordered">
   <tr>
-    <th>購買日期</th>
-    <th>購買編號</th>
+    <th>訂單日期</th>
+    <th>訂單編號</th>
     <th>購買金額</th>
 	<th>回饋金使用</th>
 	<th>付款金額</th>	
@@ -57,7 +57,7 @@
     <td>
       <table class="table table-striped">     
 		<tr>	
-		    <td>訂單編號</td>						
+		    <td>出貨單編號</td>						
 		    <td>水果名稱</td>
 			<td>數量(單位/箱)</td>   
 			<td>金額</td> 						 		    
@@ -72,7 +72,7 @@
           <td><%= o.price.to_i %>元</td>     
           <td><%= showBlank o.tracing_code%></td>     
           <td>
-			<div class="text-center">在<%= o.created_at.strftime("%Y-%m-%d %H:%M:%S") %><br>建立訂單</div>		
+			<div class="text-center">在<%= o.created_at.strftime("%Y-%m-%d %H:%M:%S") %><br>建立出貨單</div>		
 			<div class="text-center">&darr;</div>				
 			<%if o.called_smallfarmer_c%>
 			<div class="text-center">在<%= o.called_smallfarmer_at.strftime("%Y-%m-%d %H:%M:%S")%><br>農夫開始處理</div>

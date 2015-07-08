@@ -1,19 +1,89 @@
+<div class="row">
+<ul class="nav nav-tabs pull-left">	
+  <li role="presentation" <%= active( controller: 'management', action: 'companies', activated_c: true)%>>
+	<%= link_to "營運", controller: 'management', action: 'companies', activated_c: true%>  	
+  </li>
+  <li role="presentation" <%= active( controller: 'management', action: 'companies', activated_c: false)%>>
+	<%= link_to "非營運", controller: 'management', action: 'companies', activated_c: false%>  	  	
+  </li>  
+</ul>
+</div>
+<div class="row">
 <div class="table-responsive">
 <table class="table table-bordered table-hover">
   <tr>
-    <th>農場編號</th>  	
+    <th>農場編號</th>  
+	<th>農場主</th>	  	    	
 	<th>農場名稱</th>
 	<th>聯絡電話</th>  
 	<th>聯絡地址</th>	
+	<th>營運狀態</th>		
 	<th></th>							 		    
   </tr>
   <% @companies.each do |c| %>
   <tr id='company_container_<%=c.id %>'>
-    <td><%= c.id %></td>  	
+    <td><%= c.id %></td>  
+    <td>
+    	<%= image_tag c.user.avatar.url, class: 'img-circle', style: 'height: 50px; width: 50px;' %>
+    	<%= c.user.last_name%><%= c.user.first_name%>
+    </td>     	
     <td><%= c.name%></td>    
-    <td><%= c.phone_no%></td> 
-    <td></td>    	 	                              	     
+    <td><%unless c.phone_no.blank?%><%= c.phone_no.gsub(/^\+886/, '0')  %><%end%></td> 
+    <td><%= c.postal%> <%= c.county%><%= c.district%><%= c.address%></td>    	 	                              	     
+  	<td>
+    	<div class="form-group">
+    		<div class="col-sm-12">
+    			<div class="input-group">
+    				<div id="" class="radioBtn btn-group">
+    					<a class="btn btn-primary btn-sm <%if c.activated_c%>active<%else%>notActive<%end%>" data-toggle="activate_<%=c.id %>" data-id="<%=c.id %>" data-title="true" style="border: none;">是</a>
+    					<a class="btn btn-primary btn-sm <%if c.activated_c%>notActive<%else%>active<%end%>" data-toggle="activate_<%=c.id %>" data-id="<%=c.id %>" data-title="false" style="border: none;">非</a>
+    					<input type="hidden" name="activate_<%=c.id %>" id="activate_<%=c.id %>" value="<%=c.activated_c%>">
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+  	</td>  	
+  	<td>
+  		<%=link_to '瀏覽', c, class: 'btn-default btn'%>
+  	</td>
   </tr>
   <%end%>  
 </table>
 </div>
+<div class="pagination">
+  <%= will_paginate @companies, renderer: BootstrapPagination::Rails %>
+</div>
+</div>
+
+<style>
+.radioBtn .notActive{
+    color: #3276b1;
+    background-color: #fff;
+}
+</style>
+<script>
+	$('.radioBtn a').on('click', function(){
+		var sel = $(this).data('title');
+		var tog = $(this).data('toggle');	 
+		var id = $(this).data('id')   
+		if(sel.toString()!=$('#'+tog).val() )
+		{
+		    $('a[data-toggle="'+tog+'"]').not('[data-title="'+sel+'"]').removeClass('active').addClass('notActive');
+		    $('a[data-toggle="'+tog+'"][data-title="'+sel+'"]').removeClass('notActive').addClass('active');
+			$.ajax({
+				type : 'GET',
+				url : '/management/activateCompany',
+				data : { id: id, activate: sel },
+				datatype : 'json',
+				success : function(data) {
+					if (data.success) {
+						$('#company_container_'+id).remove();
+						toastr['success'](data.message)										
+					} else {
+						toastr['warning'](data.message)
+					}
+				}
+			});	
+		}	
+	})
+</script>

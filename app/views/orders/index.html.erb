@@ -13,7 +13,7 @@
 <div class="table-responsive">
 <table class="table table-bordered table-hover">
   <tr>
-    <th>訂單編號</th>  
+    <th>出貨單編號</th>  
 	<th>狀態</th>			          	
 	<th>水果名稱</th>
 	<th>數量(單位/箱)</th>  
@@ -27,7 +27,7 @@
   <tr>
     <td><%= o.id %></td>  	
 	<td>
-		<div class="text-center">在<%= o.created_at.strftime("%Y-%m-%d %H:%M:%S") %> 建立訂單</div>		
+		<div class="text-center">在<%= o.created_at.strftime("%Y-%m-%d %H:%M:%S") %> 建立出貨單</div>		
 		<div class="text-center">&darr;</div>				
 		<%if o.called_smallfarmer_c%>
 		<div class="text-center">在<%= o.called_smallfarmer_at.strftime("%Y-%m-%d %H:%M:%S")%> 通知物流</div>

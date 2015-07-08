@@ -1,0 +1,72 @@
+<div class="row">
+<div class="table-responsive">
+<table class="table table-bordered table-hover">
+  <tr>
+    <th>訂單編號</th>  
+    <th>訂單日期</th>     	
+	<th>訂購人</th>
+	<th>購買金額</th>  
+	<th>回饋金使用</th>	
+	<th>付款金額</th>		
+	<th>付款狀態</th>		
+	<th><span class=" glyphicon glyphicon-leaf menu_right_icon" aria-hidden="true"></span> 獲得回饋金<br> 
+		<abbr title="獲得回饋金為'付款金額'x4%, 並採取無條件進入"><small>付款金額x4%</small></abbr>
+	</th>	 	
+	<th>收件人</th>							 		            
+  </tr>
+  <% @invoices.each do |i| %>
+  <tr id='invoice_container_<%=i.id %>'>
+    <td><%= i.id %></td>  	
+    <td><%= i.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>   
+    <td>
+    	<%= image_tag i.user.avatar.url, class: 'img-circle', style: 'height: 50px; width: 50px;' %>
+    	<%= i.user.last_name%><%= i.user.first_name%><br>
+		<%= i.user.addresses.first.phone_no.gsub(/^\+886/, '0') %><br>
+    	<%= i.user.addresses.first.postal%> <%= i.user.addresses.first.county%><%= i.user.addresses.first.district%><%= i.user.addresses.first.address%><br>                	     
+    	<%= i.user.email %>
+    </td>   
+    <td><%= i.amount.to_i %>元</td>    
+	<td>
+    	<% discount = 0 %>
+    	<% i.invoice_coupon_lists.each do |i_c_l|%>
+    		<%discount = discount + i_c_l.amount%>
+    	<%end%>
+    	<%=discount.to_i%>元
+    </td>
+    <td><mark><%= (i.amount-discount).to_i %>元</mark></td>  
+    <td>  	
+    	<%if i.paid_c%>
+			<%if i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>
+			<%=image_tag 'allPay.png', class: 'img-responsive', size: '50x30'%>    			
+    		付款編號<br>
+    		<%= i.allpay_merchant_trade_no %><br>   	
+    		<%elsif o.invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD']%>		
+    		<%end%>	
+    		付款日期<br>  
+    		<%= i.paid_at.strftime("%Y-%m-%d %H:%M:%S") %>    		    		   		
+    	<%else%>
+			<%if i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>
+			<%=image_tag 'allPay.png', class: 'img-responsive', size: '50x30'%>    	
+			<p>線上刷卡, 尚未付款</p>    	
+	    	<%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD']%>		
+			<%=image_tag 'cat.png', class: 'img-responsive', size: '60x60'%> 
+			<p>貨到付款, 尚未付款</p>			    	
+	    	<%end%>	
+    	<%end%>
+    </td>         
+    <td><%= ((i.amount-discount)*0.04).round%>元</td>         
+	<td>
+		<%=i.receiver_last_name %> <%=i.receiver_first_name %>
+		<br>
+		<%=i.receiver_phone_no.gsub(/^\+886/, '0') %>	
+		<br>
+		<%=i.receiver_postal %><%=i.receiver_county %><%=i.receiver_district %><%=i.receiver_address %>
+	</td>    
+    
+        
+  </tr>
+  <%end%>  
+</table>
+</div>
+</div>
+<%= will_paginate @invoices, renderer: BootstrapPagination::Rails %>

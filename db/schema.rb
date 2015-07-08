@@ -63,7 +63,8 @@ ActiveRecord::Schema.define(version: 20150629132916) do
     t.text     "words"
     t.integer  "user_id"
     t.boolean  "deleted_c",          default: false, null: false
-    t.boolean  "activate_c",         default: true,  null: false
+    t.boolean  "activated_c",        default: true,  null: false
+    t.datetime "activated_at"
     t.string   "phone_no"
     t.string   "postal"
     t.string   "county"
@@ -277,6 +278,8 @@ ActiveRecord::Schema.define(version: 20150629132916) do
     t.string   "first_name"
     t.string   "last_name"
     t.boolean  "deleted_c",              default: false, null: false
+    t.boolean  "blocked_c",              default: false, null: false
+    t.datetime "blocked_at"
     t.string   "avatar_file_name"
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
