@@ -6,7 +6,8 @@
 	<th>水果名稱</th>
 	<th>水果總庫存量</th>  
 	<th>水果日處理量</th>	
-	<th>價錢</th>		
+	<th>價錢</th>	
+	<th>甜度</th>			
 	<th>
 		<%=image_tag 'gap.png', class: '', style: 'height: 55px; width: 55px;'  %>		      
 		吉園圃
@@ -23,7 +24,7 @@
 		<%=image_tag 'utap.png', class: '', style: 'height: 55px; width: 55px;'  %>		      				
 		UTAP
 	</th>						 		            
-						 		            
+	<th></th>							 		    						 		            
   </tr>
   <% @products.each do |p| %>
   <tr id='product_container_<%=p.id %>'>
@@ -41,6 +42,9 @@
 			<br>
 		<%end%>     	
     </td> 
+  	<td>
+		<%= select_tag "sweet_degree", options_for_select((10..20).step(1), p.sweet_degree), prompt: '請選擇', class: 'form-control sweet_degree', 'data-id'=> p.id %>  		
+  	</td>	    
   	<td>
     	<div class="form-group">
     		<div class="col-sm-12">
@@ -92,7 +96,10 @@
     			</div>
     		</div>
     	</div>
-  	</td>  	 	 
+  	</td>
+  	<td>
+  		<%=link_to '瀏覽', p, class: 'btn-default btn'%>
+  	</td>  	  	 	 
   </tr>
   <%end%>  
 </table>
@@ -132,4 +139,20 @@
 			});	
 		}	
 	})
+	$( ".sweet_degree" ).change(function() {
+	  var id = $(this).data('id')  	  
+	  $.ajax({
+				type : 'GET',
+				url : '/management/setSweetDegree',
+				data : { id: id, val: $(this).val() },
+				datatype : 'json',
+				success : function(data) {
+					if (data.success) {
+						toastr['success'](data.message)		
+					} else {
+						toastr['warning'](data.message)
+					}
+				}
+			});		    
+	});	
 </script>

@@ -3,7 +3,7 @@ class ManagementController < ApplicationController
   before_action :set_order, only: []
   before_action :set_company, only: [:activateCompany]
   before_action :set_user, only: [:blockUser]
-  before_action :set_product, only: [:setCertification]
+  before_action :set_product, only: [:setCertification, :setSweetDegree]
   
   def index
     
@@ -20,6 +20,29 @@ class ManagementController < ApplicationController
     @orders = Order.joins(:invoice).where('called_smallfarmer_c = ? and called_logistics_c = ? and invoices.confirmed_c = 1', 
                                     params[:called_smallfarmer_c], params[:called_logistics_c]).all.paginate(page: params[:page], per_page: 60).order('id DESC')    
   end
+  
+  def exportOrders  
+    @orders = Order.all
+    time_str = Time.now.strftime("%Y%m%d%H%M")    
+    respond_to do |format|
+       format.xls{
+        response.headers['Content-Type'] = 'application/vnd.ms-excel; charset="utf-8" '
+        response.headers['Content-Disposition'] = " attachment; filename=\"#{time_str}出貨單.xls\" "  
+       }
+    end     
+=begin    
+    period = Period.find(params[:id])
+    @progresses = period.progresses.gte(:stage=>4)
+    time_str = Time.now.strftime("%Y%m%d%H%M")
+    respond_to do |format|
+       format.xls{
+        response.headers['Content-Type'] = 'application/vnd.ms-excel; charset="utf-8" '
+        response.headers['Content-Disposition'] = " attachment; filename=\"#{time_str}學員資料.xls\" "  
+       }
+    end  
+=end    
+  end  
+  
   
   def callLogistics
     params[:orders].each do |o|
@@ -90,6 +113,10 @@ class ManagementController < ApplicationController
     end   
   end  
         
+  def setSweetDegree
+    @product.update_columns(sweet_degree: params[:val])
+    render json: {success: true, message: '水果編號 '+@product.id.to_s+' 甜度已變更為'+@product.sweet_degree.to_s}     
+  end
   
   def users
     @users = User.all.paginate(page: params[:page], per_page: 60).order('id DESC')     

@@ -30,7 +30,10 @@
 	<label class="checkbox-inline">	
 		<%= check_box_tag 'order_all'%>全選
 	</label>	
-	</th>         
+	</th>  
+	<th>
+		<%=link_to '訂貨單', "/management/exportOrders.xls", class: 'btn btn-info' %>	
+	</th>       
   </tr>
   <% @orders.each do |o| %>
   <tr id='order_container_<%=o.id %>'>

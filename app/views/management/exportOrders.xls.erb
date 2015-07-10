@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">訂單編號</Data></Cell>      	
+        <Cell><Data ss:Type="String">溫層(1.常溫/2.冷藏/3.冷凍)</Data></Cell>
+		<Cell><Data ss:Type="String">是否到付(Y/N)</Data></Cell>
+		<Cell><Data ss:Type="String">收件人姓名</Data></Cell>
+        <Cell><Data ss:Type="String">收件人電話</Data></Cell>
+        <Cell><Data ss:Type="String">收件人手機</Data></Cell>
+        <Cell><Data ss:Type="String">收件人地址</Data></Cell>
+		<Cell><Data ss:Type="String">寄件人姓名</Data></Cell>
+		<Cell><Data ss:Type="String">寄件人電話</Data></Cell>
+		<Cell><Data ss:Type="String">寄件人手機</Data></Cell>
+		<Cell><Data ss:Type="String">寄件人地址</Data></Cell>
+		<Cell><Data ss:Type="String">指定送達時間(1.(9點到12點)/2.(12點到17點)/3.(17點到20點)/4.(不指定))</Data></Cell>
+		<Cell><Data ss:Type="String">物品名稱</Data></Cell>
+		<Cell><Data ss:Type="String">備註</Data></Cell>
+      </Row>
+    <% @orders.each do |o|%>
+      <Row>
+        <Cell><Data ss:Type="String"><%=o.id  %></Data></Cell>     	
+        <Cell><Data ss:Type="String">1</Data></Cell>
+		<Cell><Data ss:Type="String">N</Data></Cell>
+		<Cell><Data ss:Type="String"><%=o.invoice.receiver_last_name %><%=o.invoice.receiver_first_name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%=o.invoice.receiver_phone_no.gsub(/^\+886/, '0') %></Data></Cell>
+        <Cell><Data ss:Type="String"><%=o.invoice.receiver_phone_no.gsub(/^\+886/, '0') %></Data></Cell>
+        <Cell><Data ss:Type="String"><%=o.invoice.receiver_postal %><%= o.invoice.receiver_county %><%= o.invoice.receiver_district %><%= o.invoice.receiver_address %></Data></Cell>
+		<Cell><Data ss:Type="String"><%=o.product_boxing.product.company.name%></Data></Cell>
+		<Cell><Data ss:Type="String"><%=o.product_boxing.product.company.phone_no.gsub(/^\+886/, '0')%></Data></Cell>
+		<Cell><Data ss:Type="String"><%=o.product_boxing.product.company.phone_no.gsub(/^\+886/, '0')%></Data></Cell>
+		<Cell><Data ss:Type="String"><%=o.product_boxing.product.company.postal %><%= o.product_boxing.product.company.county %><%= o.product_boxing.product.company.district %><%= o.product_boxing.product.company.address %></Data></Cell>
+		<Cell><Data ss:Type="String">4</Data></Cell>
+		<Cell><Data ss:Type="String"><%= o.product_boxing.product.name%>*<%= o.quantity%></Data></Cell>
+		<Cell><Data ss:Type="String"></Data></Cell>						
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>
+

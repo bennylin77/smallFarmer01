@@ -72,13 +72,15 @@
 		        <div class="product_excellent"><span class="product_excellent_no" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and delivered_c = 1 and review_score = ? ', @product.id, GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count %>'> </span><span class="product_excellent_text">人說非吃不可</span></div>	
 		      </div>
 		      <div class="col-sm-1 vmiddle">
-			  		<%=image_tag 'sweet_degree/18.png', class: '', style: 'height: 60px; width: 90px;'  %>		      
+			  		<%=image_tag 'sweet_degree/'+@product.sweet_degree.to_s+'.png', class: '', style: 'height: 60px; width: 90px;'  %>		      
 		      </div>		      
 		    </div>				
 			<div class="row">
 		      <div class="col-sm-offset-5 col-sm-6 text-right" style="margin-top: 10px;">
-					<%=image_tag 'gap.png', class: '', style: 'height: 55px; width: 55px;'  %>		      
-					<%=image_tag 'tap.png', class: '', style: 'height: 50px; width: 50px;'  %>		      		      
+					<%if @product.GAP_c%><%=image_tag 'gap.png', class: '', style: 'height: 55px; width: 55px;'  %><%end%>		      
+					<%if @product.TAP_c%><%=image_tag 'tap.png', class: '', style: 'height: 50px; width: 50px;'  %><%end%>		      		      
+					<%if @product.OTAP_c%><%=image_tag 'otap.png', class: '', style: 'height: 50px; width: 50px;'  %><%end%>		      		      
+					<%if @product.UTAP_c%><%=image_tag 'utap.png', class: '', style: 'height: 50px; width: 50px;'  %><%end%>		      		      		      
 		      </div>
 		    </div>		
 			<div class="row">
