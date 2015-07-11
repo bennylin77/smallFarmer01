@@ -120,13 +120,9 @@ var $input = $("#product_image");
 		previewFileType: "image",
 	    browseClass: "btn btn-success",
 		browseIcon: '<i class="glyphicon glyphicon-picture"></i>',						 				
-        <%unless @product.new_record?%>
 		browseLabel: "選取照片",        
         uploadUrl: "/products/<%=@product.id %>/productImagesUpload", // server upload action
         uploadAsync: true,
-        <%else%>
-		browseLabel: "選取照片 (按ctrl可選多張)",                
-        <%end%>
         maxFileCount: 5,
 		initialPreview: [
 			<% @product.product_images.each do |p_i|%>

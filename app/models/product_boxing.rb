@@ -5,6 +5,6 @@ class ProductBoxing < ActiveRecord::Base
   has_many   :orders  
     
   accepts_nested_attributes_for :product_pricings  
-  validates :quantity, presence: { presence: true, message: '請填寫 每箱數量' } 
+  validates :quantity, presence: { presence: true, message: '請填寫 每箱數量' }, on: :update 
 
 end

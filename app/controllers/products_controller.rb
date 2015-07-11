@@ -14,13 +14,15 @@ class ProductsController < ApplicationController
   end
 
   def new
-    @product = Product.new
-    p_b= @product.product_boxings.build() 
+    product = Product.new
+    p_b= product.product_boxings.build() 
     p_b.product_pricings.build(quantity: 1)   
     p_b.product_pricings.build()       
-    #redirect_to edit_product_path(product)
+    product.company = current_user.companies.first
+    product.save!    
+    redirect_to edit_product_path(product)
   end
-
+=begin
   def create
     @product = Product.new(product_params)
     @product.company = current_user.companies.first
@@ -34,7 +36,7 @@ class ProductsController < ApplicationController
     end
     render :new    
   end
-
+=end
   def edit
   end
 

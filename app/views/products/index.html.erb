@@ -24,16 +24,18 @@
         <td>
 		<%product.product_boxings.first.product_pricings.each do |p| %>
 			<%if p.quantity == 1%>	
-				<%= p.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %>元(含運) <%= "%g" % product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %>/箱
+				<%= p.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %>元(含運) <%if product.product_boxings.first.quantity%><%= "%g" % product.product_boxings.first.quantity %><%end%><%if product.unit%><%= Hash[unitOptions].rassoc(product.unit).first %>/箱<%end%>
 			<%elsif p.quantity%>
 				<%= p.quantity %>箱以上 每箱<%= p.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %>元	(含運)	
 			<%end%>
 			<br>
 		<%end%>        	    	
         </td>
-        <td><%= product.inventory %>箱</td>
-        <td><%= product.daily_capacity %>箱</td>
-        <td><%= 2121 %>箱</td>        
+        <td><%= product.inventory.to_i %> 箱</td>
+        <td><%= product.daily_capacity.to_i %> 箱</td>
+        <td>
+        	<%= product.product_boxings.first.orders.sum(:quantity) %> 箱    
+        </td>        
         <td>
         	<%if product.available_c%>
         		<%= link_to '下架', {controller: 'products', action: 'available', id: product}, class: 'btn btn-primary' %>
