@@ -1,7 +1,8 @@
-$grid-float-breakpoint: 960px;
+$grid-float-breakpoint: 1065px;
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "main";
+@import "backend";
 @import "users";
 @import "companies";
 @import "comments";

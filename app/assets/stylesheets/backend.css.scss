@@ -1,0 +1,64 @@
+.main_backend {
+  padding: 90px 20px;
+}
+@media (min-width: 768px) {
+  .main_backend {
+    padding: 90px 40px;    
+  }
+}
+
+/*======================================= Sidebar navigation =======================================*/
+/* Hide for mobile, show later */
+.sidebar {
+    margin-top: 52px;
+    left: 0;
+    padding: 70px 30px;
+    overflow-x: hidden;
+    background-color: none;
+}
+.sidebar_user_img{
+  height: 110px;
+  width: 110px;
+  border: solid 1px #526031;
+  padding: 3px;
+  background-clip: content-box; /* support: IE9+ */
+  background-color: transparent;  
+}
+.sidebar_info_title{
+  font-size: 18px;
+  margin-top: 18px;
+  text-align: center;
+}
+
+.nav-sidebar {
+}
+.nav-sidebar > li {
+  text-align: center;  
+  padding: 6px 0px;
+}
+.nav-sidebar > li > a {
+  margin: 0 auto;  
+  max-width: 80px;
+  padding: 5px 10px;
+  color:  #526031;  
+  border: solid 1px #526031; 
+}
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus {
+  color: #64bb71;
+  border: solid 1px #64bb71;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    margin-top: 52px;
+    left: 0;
+    padding: 20px 30px;
+    overflow-x: hidden;
+    background-color: none;
+  }
+  .nav-sidebar > li > a {
+    max-width: none;
+  }  
+}
