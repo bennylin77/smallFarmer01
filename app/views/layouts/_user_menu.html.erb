@@ -1,27 +1,40 @@
 <div class="container-fluid">
 	<div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
+        <div class="col-sm-3 col-lg-2 sidebar">
 		  <%= image_tag current_user.avatar.url, class: 'img-circle sidebar_user_img center-block'  %>        	
           <div class="sidebar_info_title"><%=current_user.last_name%> <%=current_user.first_name%></div>      
           <ul class="description-sidebar">
-	          <li>
+	          <li>	
+	          	<div class='description-sidebar-container'>
 	      		<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
 	          	<%= current_user.email%>
+	          	</div>
 	          </li>          	
 	          <li>
+	          	<div class='description-sidebar-container'>
 	      		<span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
+	      		<%if current_user.addresses.first.phone_no.blank?%>
+	      		--
+	          	<%else%>
+	          	<%= current_user.addresses.first.phone_no.gsub(/^\+886/, '0') %>		          	
+	          	<%end%>
+	          	</div>
 	          </li>    
           </ul>
           <ul class="nav nav-sidebar">
-			<li <%= active( controller: 'invoices', action: 'index' )%> ><%= link_to "管理訂單", controller: 'invoices', action: 'index'%></li>
-			<li <%= active( controller: 'coupons', action: 'index' )%>><%= link_to "回饋金", controller: 'coupons', action: 'index'%></li>
 			<li <%= active( controller: 'users', action: 'edit', id: current_user)%>><%= link_to "個人資訊", edit_user_path(current_user) %></li>			
 			<li <%= active( controller: 'registrations', action: 'edit')%>><%= link_to "更改密碼", edit_user_registration_path %></li>          
           	<li><%= link_to '登出', destroy_user_session_path, :method => :delete %></li>
           </ul>
         </div>
-        <div class="col-sm-9 col-md-10 main_backend" style="border-left: solid 1px #526031;">
+        <div class="col-sm-9 col-lg-10 main_backend">
+			<ul class="nav nav-tabs">
+			  <li <%= active( controller: 'invoices', action: 'index' )%> ><%= link_to "管理訂單", controller: 'invoices', action: 'index'%></li>
+	   		  <li <%= active( controller: 'coupons', action: 'index' )%>><%= link_to "回饋金", controller: 'coupons', action: 'index'%></li>
+			</ul>      
+			<div class="tab-content">  	
 			<%= yield %>
+    		</div>
     	</div>
 	</div>
 </div>
