@@ -1,5 +1,4 @@
-<div class="row">
-<ul class="nav nav-tabs pull-right">
+<ul class="nav nav-tabs">
   <li role="presentation" <%= active( controller: 'orders', action: 'index', called_smallfarmer_c: false)%>>
 	<%= link_to "尚未通知", controller: 'orders', action: 'index', called_smallfarmer_c: false%>  	
   </li>
@@ -7,9 +6,7 @@
 	<%= link_to "已通知", controller: 'orders', action: 'index', called_smallfarmer_c: true%>  	  	
   </li>
 </ul>
-</div>
 
-<div class="row">
 <div class="table-responsive">
 <table class="table table-bordered table-hover">
   <tr>
@@ -64,7 +61,6 @@
   </tr>
   <%end%>  
 </table>
-</div>
 </div>
 <%= will_paginate @orders, renderer: BootstrapPagination::Rails %>
 

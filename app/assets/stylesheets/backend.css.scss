@@ -1,6 +1,6 @@
 .main_backend {
   margin-top: 52px;  
-  padding: 30px 20px;
+  padding: 10px 20px;
 }
 @media (max-width: 768px) {
   .main_backend {
@@ -55,12 +55,15 @@
   text-align: center;  
   padding: 6px 0px;
 }
-.nav-sidebar > li > a {
+.nav-sidebar > li > a{
   margin: 0 auto;  
   max-width: 80px;
   padding: 5px 10px;
   color:  #526031;  
   border: solid 1px #526031; 
+}
+.nav-sidebar > li > a:hover {
+  opacity: 0.8
 }
 .nav-sidebar > .active > a,
 .nav-sidebar > .active > a:hover,
@@ -82,9 +85,30 @@
   }  
 }
 /*======================================= Center =======================================*/
+.main_backend-tabs{
+    border-bottom: 1px solid #526031;
+}
+.main_backend-tabs > li > a, 
+.main_backend-tabs > li > a:hover, 
+.main_backend-tabs > li > a:focus{
+    color: #526031;  
+    background: inherit;     
+    border-bottom: none;     
+}
+.main_backend-tabs > li > a:hover, 
+.main_backend-tabs > li > a:focus{
+    opacity: 0.8;    
+}
+.main_backend-tabs > li.active > a, 
+.main_backend-tabs > li.active > a:hover, 
+.main_backend-tabs > li.active > a:focus{
+    color: #526031;
+    background: inherit; 
+    border: 1px solid #526031;   
+    border-bottom: 1px solid #f1f0ec; 
+}
 
-
-.tab-content {
+.main_backend-tab-content {
     min-height: 500px;
     padding: 50px 15px;
     border: 1px solid #526031;

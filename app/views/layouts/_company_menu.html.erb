@@ -1,14 +1,43 @@
 <div class="container-fluid">
 	<div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
+        <div class="col-sm-3 col-lg-2 sidebar">
+		  <%= image_tag current_user.avatar.url, class: 'img-circle sidebar_user_img center-block'  %>        	
+          <div class="sidebar_info_title"><%=current_user.last_name%> <%=current_user.first_name%></div>      
+          <ul class="description-sidebar">
+	          <li>	
+	          	<div class='description-sidebar-container'>
+	      		<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+	          	<%= current_user.email%>
+	          	</div>
+	          </li>          	
+	          <li>
+	          	<div class='description-sidebar-container'>
+	      		<span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
+	      		<%if current_user.addresses.first.phone_no.blank?%>
+				<a id="confirmation_btn" class=" " href="<%= '/users/'+current_user.id.to_s+'/mobileSMSConfirmation'%>">驗證拿回饋金</a>					
+	          	<%else%>
+	          	<%= current_user.addresses.first.phone_no.gsub(/^\+886/, '0') %>		          	
+	          	<%end%>
+	          	</div>
+	          </li>    
+	          <li>
+	          	<div class='description-sidebar-container'>	          
+	          	<span class="glyphicon glyphicon-home" aria-hidden="true"></span>       	
+	          	</div>
+	          </li> 	          	
+          </ul>        	
           <ul class="nav nav-sidebar">
-			<li <%= active( controller: 'orders', action: 'index' )%> ><%= link_to "管理出貨", controller: 'orders', action: 'index', called_smallfarmer_c: 'false'%></li>
-			<li <%= active( controller: '/companies', action: 'edit', id: current_user.companies.first.id)%>><%= link_to "管理農場", edit_company_path(current_user.companies.first) %></li>
-			<li <%= active( controller: '/products')%>><%= link_to "管理水果", products_url %></li>			
-          </ul>
+			<li <%= active( controller: '/companies', action: 'edit', id: current_user.companies.first.id)%>><%= link_to "農場資訊", edit_company_path(current_user.companies.first) %></li>
+          </ul>        	    
         </div>
         <div class="col-sm-9 col-md-10 main_backend">
+			<ul class="nav nav-tabs main_backend-tabs">
+			  <li <%= active( controller: 'orders', action: 'index' )%> ><%= link_to "管理出貨", controller: 'orders', action: 'index', called_smallfarmer_c: 'false'%></li>
+			  <li <%= active( controller: '/products')%>><%= link_to "管理水果", products_url %></li>			
+			</ul>      
+			<div class="main_backend-tab-content">  	
 			<%= yield %>
+    		</div>
     	</div>
 	</div>
 </div>
