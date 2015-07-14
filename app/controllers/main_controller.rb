@@ -29,4 +29,12 @@ class MainController < ApplicationController
     
   end
   
+  def fb
+    redirect_to 'https://www.facebook.com/smallfarmer01'
+  end
+  
+  def under
+    render layout: false
+  end
+  
 end

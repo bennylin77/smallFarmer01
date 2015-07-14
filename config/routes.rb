@@ -75,6 +75,8 @@ Rails.application.routes.draw do
   #  delete "/logout" => "devise/sessions#destroy"
   #end      
   get    'main/marketing'
+  get    'main/fb'  
+  get    'main/under'  
     
-  root to: "main#index" 
+  root to: "main#under" 
 end

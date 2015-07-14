@@ -35,9 +35,9 @@
     <td>
 		<% p.product_boxings.first.product_pricings.each do |pp| %>
 			<%if pp.quantity == 1%>	
-				<%= "%g" % p.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(p.unit).first %>/箱   <%= pp.price.to_i+GLOBAL_VAR['SHIPPING_RATES']  %>元
-			<%else%>
-				<%= pp.quantity %>箱以上 每箱<%= pp.price.to_i + GLOBAL_VAR['SHIPPING_RATES']%>元		
+				<%= pp.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %>元(含運) <%if p.product_boxings.first.quantity%><%= "%g" % p.product_boxings.first.quantity %><%end%><%if p.unit%><%= Hash[unitOptions].rassoc(p.unit).first %>/箱<%end%>			
+			<%elsif pp.quantity%>
+				<%= pp.quantity %>箱以上 每箱<%= pp.price.to_i + GLOBAL_VAR['SHIPPING_RATES']%>元(含運)		
 			<%end%>
 			<br>
 		<%end%>     	

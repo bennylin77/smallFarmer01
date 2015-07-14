@@ -1,12 +1,8 @@
-<ul class="nav nav-tabs">
+<ul class="main_backend-sub-tabs">
   <li role="presentation" <%= active( controller: 'orders', action: 'index', called_smallfarmer_c: false)%>>
 	<%= link_to "尚未通知", controller: 'orders', action: 'index', called_smallfarmer_c: false%>  	
-  </li>
-  <li role="presentation" <%= active( controller: 'orders', action: 'index', called_smallfarmer_c: true)%>>
-	<%= link_to "已通知", controller: 'orders', action: 'index', called_smallfarmer_c: true%>  	  	
-  </li>
+  </li><li role="presentation" <%= active( controller: 'orders', action: 'index', called_smallfarmer_c: true)%>><%= link_to "已通知", controller: 'orders', action: 'index', called_smallfarmer_c: true%></li>
 </ul>
-
 <div class="table-responsive">
 <table class="table table-bordered table-hover">
   <tr>

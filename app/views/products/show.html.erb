@@ -92,7 +92,7 @@
 			<%@product.product_boxings.first.product_pricings.each do |p| %>
 				<%if p.quantity == 1%>	
 					<div class="col-sm-offset-2 col-sm-4">							
-	 					<%= "%g" % @product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(@product.unit).first %>/箱 				
+					    每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%>
 					</div>	   
 					<div class="col-sm-3 text-right">						
 						<%= p.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %><br>				
@@ -106,7 +106,7 @@
 					</div>	  
 					<div class="col-sm-2">箱</div>					 				
 			</div>						
-					<%else%>
+					<%elsif p.quantity%>
 			<div class="row product_promote" style="margin-top: 18px;">	
 					<div class="col-sm-offset-4 col-sm-7 text-right">								
 						<%= p.quantity %>箱以上 每箱<%= p.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %>元(含運)		
@@ -138,7 +138,7 @@
 					<div></div>
 					<table class="table">
 					<tr><td>產地</td><td><%=@product.company.county %><%=@product.company.district%></td></tr>
-					<tr><td>內容量</td><td>每箱 <%= "%g" % @product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(@product.unit).first %> </td></tr>
+					<tr><td>內容量</td><td>每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%> </td></tr>
 					<tr><td>保存方式</td><td><%= @product.preservation %></td></tr>		
 					</table>	
 				</div>	
