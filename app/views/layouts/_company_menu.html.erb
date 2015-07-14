@@ -1,36 +1,52 @@
 <div class="container-fluid">
 	<div class="row">
         <div class="col-sm-3 col-lg-2 sidebar">
-		  <%= image_tag current_user.avatar.url, class: 'img-circle sidebar_user_img center-block'  %>        	
+			<svg width="160" height="100" class="center-block">
+			  <defs>
+				 <clipPath id="clipPolygon">
+      				<path d="M80,0 L160,60 L160,160 L0,160 L0,60z" />
+				 </clipPath>
+			  </defs>
+			  <image clip-path="url(#clipPolygon)" xlink:href="<%=current_user.companies.first.cover.url%>" width="160px" height="130px"  />
+			</svg>    		      
           <div class="sidebar_info_title"><%=current_user.last_name%> <%=current_user.first_name%></div>      
-          <ul class="description-sidebar">
-	          <li>	
-	          	<div class='description-sidebar-container'>
-	      		<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-	          	<%= current_user.email%>
-	          	</div>
-	          </li>          	
+          <ul class="description-sidebar">         	
 	          <li>
 	          	<div class='description-sidebar-container'>
-	      		<span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
-	      		<%if current_user.addresses.first.phone_no.blank?%>
-				<a id="confirmation_btn" class=" " href="<%= '/users/'+current_user.id.to_s+'/mobileSMSConfirmation'%>">驗證拿回饋金</a>					
+				<div style="display:table-cell; padding-right: 8px;" class="glyphicon glyphicon-earphone" aria-hidden="true"></div> 	      		
+	      		<%if current_user.companies.first.phone_no.blank?%>
+	      		--
 	          	<%else%>
-	          	<%= current_user.addresses.first.phone_no.gsub(/^\+886/, '0') %>		          	
+	          	<%= current_user.companies.first.phone_no.gsub(/^\+886/, '0') %>		          	
 	          	<%end%>
 	          	</div>
 	          </li>    
 	          <li>
 	          	<div class='description-sidebar-container'>	          
-	          	<span class="glyphicon glyphicon-home" aria-hidden="true"></span>       	
+	          	<div style="display:table-cell; padding-right: 8px;" class="glyphicon glyphicon-home" aria-hidden="true"></div> 
+	          	<%if current_user.companies.first.postal%>  
+	          	<div style="display:table-cell;">
+	          		  <%= current_user.companies.first.postal %>
+	          		  <%= current_user.companies.first.county %><%= current_user.companies.first.district %><%= current_user.companies.first.address %>
+	          	</div>    		
+	          	<%else%>
+	          	--
+	          	<%end%>
 	          	</div>
 	          </li> 	          	
-          </ul>        	
+          </ul>      
+          <div class="sidebar_info_more">
+          	<%if current_user.companies.first.description%>
+          	<%=current_user.companies.first.description%>
+          	<%else%>
+          	--
+          	<%end%>
+          </div>                  	
           <ul class="nav nav-sidebar">
 			<li <%= active( controller: '/companies', action: 'edit', id: current_user.companies.first.id)%>><%= link_to "農場資訊", edit_company_path(current_user.companies.first) %></li>
           </ul>        	    
         </div>
-        <div class="col-sm-9 col-md-10 main_backend">
+        <div class="col-sm-9 col-lg-10 main_backend">
 			<ul class="nav nav-tabs main_backend-tabs">
 			  <li <%= active( controller: 'orders', action: 'index' )%> ><%= link_to "管理出貨", controller: 'orders', action: 'index', called_smallfarmer_c: 'false'%></li>
 			  <li <%= active( controller: '/products')%>><%= link_to "管理水果", products_url %></li>			

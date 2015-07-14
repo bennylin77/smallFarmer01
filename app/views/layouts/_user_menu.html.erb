@@ -6,13 +6,13 @@
           <ul class="description-sidebar">
 	          <li>	
 	          	<div class='description-sidebar-container'>
-	      		<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+	      		<div style="display:table-cell; padding-right: 8px;" class="glyphicon glyphicon-envelope" aria-hidden="true"></div>
 	          	<%= current_user.email%>
 	          	</div>
 	          </li>          	
 	          <li>
 	          	<div class='description-sidebar-container'>
-	      		<span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
+	      		<div style="display:table-cell; padding-right: 8px;" class="glyphicon glyphicon-phone" aria-hidden="true"></div>
 	      		<%if current_user.addresses.first.phone_no.blank?%>
 				<a id="confirmation_btn" class=" " href="<%= '/users/'+current_user.id.to_s+'/mobileSMSConfirmation'%>">驗證拿回饋金</a>					
 	          	<%else%>
