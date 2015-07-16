@@ -1,6 +1,6 @@
 class InvoicesController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:allpayCreditNotify]
-  before_action :set_invoice, only: [:allpayCredit, :finished]
+  before_action :set_invoice, only: [:allpayCredit, :finished, :cancel]
   
   def index    
     @invoices = current_user.invoices.paginate(page: params[:page], per_page: 5).order('id DESC')    
@@ -123,6 +123,29 @@ class InvoicesController < ApplicationController
       render text: "0|ErrorMessage"
     end   
   end
+  
+  def cancel      
+    cancel_available = true
+    @invoice.orders.each do |o|      
+      if o.called_smallfarmer_c
+        cancel_available = false
+      end      
+    end
+    if cancel_available
+      @invoice.orders.each do |o|      
+        o.status = GLOBAL_VAR['ORDER_STATUS_CANCELED']  
+        o.canceled_c = true
+        o.canceled_at = Time.now
+        o.save!    
+      end    
+      @invoice.canceled_c = true
+      @invoice.canceled_at = Time.now
+      @invoice.save!
+      flash[:notice] = '訂單編號'+@invoice.id.to_s+' 已取消'
+    end  
+    redirect_to controller: :invoices, action: :index  
+  end
+  
   
   private   
     def candidateCoupons( hash={} )

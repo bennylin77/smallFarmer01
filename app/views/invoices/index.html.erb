@@ -86,13 +86,15 @@
     	<%end%>	        
       </table>    	
     </td> 	
-    <td>
+    <td>	    
     	<%if !i.paid_c%>
 			<%if i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>    	
     		<div style="margin-bottom: 10px;"><%=link_to '線上付款', {controller: 'invoices', action: 'allpayCredit', id: i.id } ,class: 'btn btn-primary' %></div>  
     		<%end%>
-    	<%end%>	   	 	
-    	<div><%=link_to '取消購買', '#' ,class: 'btn btn-danger delete_button' %></div>
+    	<%end%>	   	
+  		<%if cancelAvailable i %>	 	
+    	<div><%=link_to '取消購買', {controller: :invoices, action: :cancel, id: i.id} ,class: 'btn btn-danger delete_button' %></div>
+    	<%end%>
     </td>	         
   </tr>
   <%end%>  
