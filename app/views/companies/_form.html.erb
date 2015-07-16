@@ -48,8 +48,8 @@
 
 	<div class="form-group">
 		<div class="col-sm-offset-3 col-sm-10">
-			<%= f.submit '儲存',  class: "btn btn-primary"  %>
-			<%= link_to '預覽',  @company, class: "btn btn-default"  %>			
+			<%= f.submit '儲存',  class: "btn btn-success add_button", style: 'margin-right: 5px;'  %>
+			<%= link_to '預覽',  @company, class: "btn btn-default edit_button"  %>			
 		</div>
 	</div>	
 <% end %>
@@ -61,10 +61,10 @@ $("#company_cover").fileinput({showCaption: false,
 			   				   showRemove: false,
 							   allowedFileTypes: ["image"],
 							   previewFileType: "image",
-							   browseClass: "btn btn-success",
+							   browseClass: "btn btn-default edit_button",
 							   browseLabel: " 選取照片",
 							   browseIcon: '<i class="glyphicon glyphicon-picture"></i>',
-							   uploadClass: "btn btn-default",
+							   uploadClass: "btn btn-default edit_button",
 							   uploadLabel: "上傳",
 							   uploadIcon: '<i class="glyphicon glyphicon-upload"></i>',
 						       uploadUrl: "/companies/<%=@company.id %>/companyCoverUpload", // server upload action
@@ -89,7 +89,7 @@ $("#company_image").fileinput({showCaption: false,
 			   				   showRemove: false,
 							   allowedFileTypes: ["image"],
 							   previewFileType: "image",
-							   browseClass: "btn btn-success",
+							   browseClass: "btn btn-default edit_button",
 							   browseLabel: " 選取照片",
 							   browseIcon: '<i class="glyphicon glyphicon-picture"></i>',						 				
 						       uploadUrl: "/companies/<%=@company.id %>/companyImagesUpload", // server upload action

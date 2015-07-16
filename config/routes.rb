@@ -38,6 +38,7 @@ Rails.application.routes.draw do
   get    'management/orders'  
   get    'management/callLogistics'
   get    'management/exportOrders'
+  post   'management/uploadTracking'
   get    'management/companies'  
   get    'management/activateCompany'  
   get    'management/products'  

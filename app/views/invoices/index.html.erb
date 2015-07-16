@@ -1,13 +1,15 @@
 <div class="table-responsive">
 <table class="table table-bordered">
   <tr>
+    <th>訂單編號</th>  	
     <th>訂單日期</th>
-    <th>訂單編號</th>
     <th>購買金額</th>
 	<th>回饋金使用</th>
 	<th>付款金額</th>	
 	<th>付款狀態</th>				
-	<th><span class=" glyphicon glyphicon-leaf menu_right_icon" aria-hidden="true"></span> 獲得回饋金<br> 
+	<th>
+		<%= image_tag 'coupons_icon.png', class: '', style: 'width: 25px; height: 25px;' %>
+		獲得回饋金<br> 
 		<abbr title="獲得回饋金為'付款金額'x4%, 並採取無條件進入"><small>付款金額x4%</small></abbr>
 	</th>	       
     <th>收件人</th>    
@@ -16,8 +18,8 @@
   </tr>
   <%@invoices.each do |i| %>
   <tr>
+    <td><%= i.id %></td>  	
     <td><%= i.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
-    <td><%= i.id %></td>
     <td><%= i.amount.to_i %>元</td>    
     <td>
     	<% discount = 0 %>
@@ -52,7 +54,7 @@
 		<br>
 		<%=i.receiver_postal %><%=i.receiver_county %><%=i.receiver_district %><%=i.receiver_address %>
 		<br>
-		<%=i.receiver_phone_no %>
+		<%=i.receiver_phone_no.gsub(/^\+886/, '0') %>
 	</td>	
     <td>
       <table class="table table-striped">     
@@ -90,10 +92,14 @@
     		<div style="margin-bottom: 10px;"><%=link_to '線上付款', {controller: 'invoices', action: 'allpayCredit', id: i.id } ,class: 'btn btn-primary' %></div>  
     		<%end%>
     	<%end%>	   	 	
-    	<div><%=link_to '取消購買', '#' ,class: 'btn btn-danger' %></div>
+    	<div><%=link_to '取消購買', '#' ,class: 'btn btn-danger delete_button' %></div>
     </td>	         
   </tr>
   <%end%>  
 </table>
 </div>
+<div class="backend_pagination">
 <%= will_paginate @invoices, renderer: BootstrapPagination::Rails %>
+</div>
+
+

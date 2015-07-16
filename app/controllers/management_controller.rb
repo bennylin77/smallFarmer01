@@ -30,19 +30,22 @@ class ManagementController < ApplicationController
         response.headers['Content-Disposition'] = " attachment; filename=\"#{time_str}出貨單.xls\" "  
        }
     end     
-=begin    
-    period = Period.find(params[:id])
-    @progresses = period.progresses.gte(:stage=>4)
-    time_str = Time.now.strftime("%Y%m%d%H%M")
-    respond_to do |format|
-       format.xls{
-        response.headers['Content-Type'] = 'application/vnd.ms-excel; charset="utf-8" '
-        response.headers['Content-Disposition'] = " attachment; filename=\"#{time_str}學員資料.xls\" "  
-       }
-    end  
-=end    
   end  
   
+  def uploadTracking
+    workbook = Roo::Spreadsheet.open params[:file_data].path, extension: :xls
+    workbook.each_with_pagename do |name, rows|
+      rows.drop(2).each do |row|
+        order = Order.find(row[1])
+        order.product_boxing.product.name
+        if order.tracing_code.blank?
+          order.tracing_code = row[0]
+          order.save!
+        end  
+      end
+    end    
+    render json: {success: true}
+  end
   
   def callLogistics
     params[:orders].each do |o|
