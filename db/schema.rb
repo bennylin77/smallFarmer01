@@ -190,6 +190,8 @@ ActiveRecord::Schema.define(version: 20150629132916) do
     t.datetime "called_logistics_at"
     t.boolean  "delivered_c",                      default: false, null: false
     t.datetime "delivered_at"
+    t.boolean  "three_days_c",                     default: false, null: false
+    t.boolean  "five_days_c",                      default: false, null: false
     t.boolean  "seven_days_c",                     default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"

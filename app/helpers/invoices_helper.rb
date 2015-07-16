@@ -6,6 +6,9 @@ module InvoicesHelper
           cancel_available = false
       end      
     end
+    if invoice.canceled_c
+      cancel_available = false      
+    end
     cancel_available
   end
 end

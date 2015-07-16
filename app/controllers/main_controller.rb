@@ -25,8 +25,7 @@ class MainController < ApplicationController
     redirect_to root_url    
   end
   
-  def marketing
-    
+  def marketing   
   end
   
   def fb
@@ -34,7 +33,11 @@ class MainController < ApplicationController
   end
   
   def under
-    render layout: false
+    render layout: 'temp'
+  end
+  
+  def surveyFarmer
+    render layout: 'temp'   
   end
   
 end

@@ -79,6 +79,7 @@ Rails.application.routes.draw do
   get    'main/marketing'
   get    'main/fb'  
   get    'main/under'  
+  get    'main/surveyFarmer'
     
   root to: "main#under" 
 end
