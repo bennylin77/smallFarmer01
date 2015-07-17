@@ -26,8 +26,8 @@ class User < ActiveRecord::Base
          
   validates_format_of :email, without: TEMP_EMAIL_REGEX, on: :update         
 
-  validates :last_name, presence: { presence: true, message: '請填寫 姓' }, on: :update  
-  validates :first_name, presence: { presence: true, message: '請填寫 名' }, on: :update 
+  validates :last_name, presence: { presence: true, message: '請填寫 姓' }
+  validates :first_name, presence: { presence: true, message: '請填寫 名' }
           
        
   def self.find_for_oauth(auth, signed_in_resource = nil)

@@ -233,5 +233,62 @@ input.rounded:focus {
 }
 
 /*======================================= login/register =======================================*/
+.facebook{
+  border: none;
+  border-radius: 0;
+  color: #ffffff;
+  font-size: 16px;
+  padding: 10px 18px;
+  background: #4565a3;
+  text-decoration: none;
+}
+.facebook:hover{
+  color: #ffffff;
+  text-decoration: none;
+}
+.facebook img{
+  height: 20px;
+  width: 20px;
+  margin-right: 5px;
+}
 
+.account-wall
+{
+    margin-top: 20px;
+    padding: 40px 0px 20px 0px;
+    background-color: #f7f7f7;
+    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.no-background {
+    font: 20px sans-serif;
+    margin-top: 25px;
+    margin-bottom: 25px;    
+    text-align: center;  
+    position: relative;
+    overflow: hidden;
+    span {
+        display: inline-block;
+        vertical-align: baseline;
+        zoom: 1;
+        *display: inline;
+        *vertical-align: auto;
+        position: relative;
+        padding: 0 20px;
+
+        &:before, &:after {
+            content: '';
+            display: block;
+            width: 1000px;
+            position: absolute;
+            top: 0.73em;
+            border-top: 1px solid #536132;
+        }
+
+        &:before { right: 100%; }
+        &:after { left: 100%; }
+    }
+}
 

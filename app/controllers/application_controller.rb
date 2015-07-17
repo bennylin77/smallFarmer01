@@ -45,6 +45,9 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:account_update) { |u| 
       u.permit(:password, :password_confirmation, :current_password) 
     }
+    devise_parameter_sanitizer.for(:sign_up)  { |u| 
+      u.permit(:first_name, :last_name, :password, :password_confirmation, :email) 
+    }
   end  
   
   def notify( user, hash={} )
