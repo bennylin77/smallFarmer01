@@ -167,7 +167,14 @@
   float: left;   
 }
 /*======================================= reviews =======================================*/
-
+.review_score{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.review_score li{
+  margin-bottom: 3px;
+}
 .review_title{
   display: inline-block;
   font-size: 18px;

@@ -173,7 +173,7 @@
 					<%end%>
 				</div>								
 			</div>		
-			<div class="row" style="margin-top: 40px;">		
+			<div class="row" style="margin-top: 20px;">		
 				<div class="col-sm-12">
 				<%= simple_format( @product.description, {class: ''}, wrapper_tag: "div")%>												
 				</div>								
@@ -225,21 +225,21 @@
 		</div>		
 	</div>				
 	<div class="row">
-		<div class="col-md-12 col-lg-offset-1 col-lg-5" style="margin-top: 40px; margin-bottom: 40px;">	
+		<div class="col-md-12 col-lg-offset-1 col-lg-5" style="margin-top: 40px; margin-bottom: 40px; font-size: 16px;">	
 			<div class="row" style="margin-bottom: 20px;">		
 				<div class="col-sm-6">
 					<div class="section_title">顧客評價</div>
 				</div>					
 			</div>				
-			<div class="row" style="">		
-				<div class="col-sm-6">
-					<span>累積評價</span><span> 自 <%=@product.created_at.strftime("%Y年%m月%d日") %> 累積至今</span>
+			<div class="row" style="margin-bottom: 15px;">		
+				<div class="col-sm-12">
+					<span style="font-size: 22px;">累積評價</span><span> 自 <%=@product.created_at.strftime("%Y 年 %m 月 %d 日") %> 累積至今</span>
 				</div>					
 			</div>				
 			<%= render partial: "products/review_score", locals: { product: @product} %>			
-			<div class="row" style="">		
+			<div class="row" style="margin-top: 15px;">		
 				<div class="col-sm-6">
-					<span>最新評價</span>
+					<span style="font-size: 22px;">最新評價</span>
 				</div>					
 			</div>			
 			<%= render partial: "products/review_feedback", locals: { product: @product} %>											
