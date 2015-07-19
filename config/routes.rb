@@ -33,6 +33,8 @@ Rails.application.routes.draw do
   get    'main/index'  
   get    'main/delivered'
   get    'main/search'
+  get    'main/fruits'
+  get    'main/farms'   
 
   get    'management/index'    
   get    'management/invoices'
@@ -50,11 +52,13 @@ Rails.application.routes.draw do
                               
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
   match '/users/:id/mobileSMSConfirmation' => 'users#mobileSMSConfirmation', via: [:get, :patch], :as => :mobileSMSConfirmation 
-  
+
+  match '/companies/preview/:id' => 'companies#preview', via: [:patch]
   match '/companies/:id/companyCoverUpload' => 'companies#companyCoverUpload', via: [:post], :as => :companyCoverUpload
   match '/companies/:id/companyCoverDelete' => 'companies#companyCoverDelete', via: [:delete], :as => :companyCoverDelete  
   match '/companies/:id/companyImagesUpload' => 'companies#companyImagesUpload', via: [:post], :as => :companyImagesUpload
   match '/companies/:id/companyImagesDelete' => 'companies#companyImagesDelete', via: [:delete], :as => :companyImagesDelete
+  match '/products/preview/:id' => 'products#preview', via: [:patch]   
   match '/products/:id/productImagesUpload' => 'products#productImagesUpload', via: [:post], :as => :productImagesUpload
   match '/products/:id/productImagesDelete' => 'products#productImagesDelete', via: [:delete], :as => :productImagesDelete
   match '/products/:id/available' => 'products#available', via: [:get], as: :available

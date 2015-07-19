@@ -2,7 +2,7 @@
 	<div class="col-sm-12">	
 		<ul>
 			<li>
-				<div class="review_title">非吃不可</div>	
+				<div class="review_title">超好吃</div>	
 				<div class="review_block_bar">
 				<div class="review_block1_bar review_block_bar_inner review_delisious_bg"></div>	
 				<div class="review_block1_number review_block_number review_delicious" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and delivered_c = 1 and review_score = ? ', @product.id, GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count %>'>				

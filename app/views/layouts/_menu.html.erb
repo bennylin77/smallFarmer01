@@ -13,7 +13,9 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">    
           <ul class="nav navbar-nav hidden-xs">
-            <li><a href="#" style="font-size: 17px; color: #536132; ">本站水果</a></li>
+            <li>
+ 		  		<%=link_to '本站水果', 'main/fruits', class: '', style: 'font-size: 17px; color: #536132;'%>
+            </li>	            	
             <li><a href="#about" style="font-size: 17px; color: #536132; ">合作農場</a></li>
           </ul>          	            	   	
           <form class="navbar-form navbar-left" action="/main/search" method="get">

@@ -25,6 +25,13 @@ class MainController < ApplicationController
     redirect_to root_url    
   end
   
+  def farms    
+  end
+  
+  def fruits   
+    @products = Product.all  
+  end
+  
   def marketing   
   end
   

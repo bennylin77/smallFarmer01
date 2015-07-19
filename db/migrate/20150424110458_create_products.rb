@@ -8,6 +8,9 @@ class CreateProducts < ActiveRecord::Migration
       t.integer :unit      
       t.boolean :deleted_c, default: false, null: false
       t.boolean :available_c, default: false, null: false
+      t.datetime  :available_at              
+     
+      
       t.belongs_to :company, index: true
       t.text :preservation
 

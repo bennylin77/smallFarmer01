@@ -3,28 +3,31 @@
   border-radius: 40px;
 }
 .product_farm_description_avatar{
-  display: inline-block;
-  height: 90px; width: 90px;
+  height: 90px; 
+  width: 90px;
+  margin-top: 10px;
 }
 .product_farm_description_text
 {
-  padding: 10px 10px;   
-  display: inline-block; 
+  padding: 10px 20px;
   font-size: 16.5px;
-  vertical-align: middle;
 }
 .product_name
 {  
-  font-size: 25px;  
+  font-size: 30px;  
 }
 .product_excellent_no
 {
   color: #de562c;
-  font-size: 30px;  
+  font-size: 35px;  
 }
 .product_excellent_text
 {
-  font-size: 20px;    
+  font-size: 28px;    
+}
+.product_sweet_degree{
+  height: 60px; 
+  width: 100px;  
 }
 .product_price{
   font-size: 18px;    
@@ -34,27 +37,29 @@
   color: #536132;     
 }
 .add_to_cart{
-  background: #35a142;
   border: none;
   border-radius: 0;
   font-size: 20px;
-  padding: 10px 20px;
+  padding: 7px 14px;
+  box-shadow: 3px 3px rgb(209, 209, 200);    
 }
 .add_to_cart:hover{
   background: #6fc57b;
 }
+
+
 /*======================================= Carousel =======================================*/
 .product_carousel
 { 
   margin-bottom: 30px !important;  
-  width: 500px !important;  
+  width: 700px !important;  
 }
 .product_carousel-inner{
   border-radius: 10px !important;    
 }
 .product_item img
 {  
-  width: 650px !important; 
+  width: 700px !important; 
   height: 420px !important;    
 }
 .product_carousel-indicators li {
@@ -81,34 +86,38 @@
     margin-right: -70px; color: black;
   }     
 }
-@media (max-width: 992px) {
+@media (max-width: 1550px) {
  .product_carousel{
-   width: 100% !important; 
+   width: 600px !important; 
  }
   .product_item img {
-    width: 100%;
-    height: 220px;
+   width: 600px;
  } 
 }
-@media (max-width: 768px) {
+@media (max-width: 1280px) {
   .product_carousel{
-    width: 100% !important;    
-  }  
-  .product_item img {
-    width: 100%;     
-    height: 200px;
-  }  
+    width: 500px !important;   
+   }
+  .product_item img{  
+    width: 500px !important;   
+  }
 }
+@media (max-width: 992px) {
+  .product_carousel{
+    width: 90% !important;    
+  }     
+  .product_item img {
+    width: 100% !important;     
+  }  
+} 
 @media (max-width: 480px) {
   .product_carousel{
     width: 100% !important;    
   }     
   .product_item img {
     width: 100%;     
-    height: 200px;
   }  
-} 
-
+}
 /*======================================= cash flow =======================================*/
 .farmer_get_layer{  
   text-align: center;

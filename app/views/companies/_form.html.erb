@@ -12,9 +12,11 @@
 		</div>
 	</div>	
 	<div class="form-group">
-		<label class="col-sm-offset-1 col-sm-2 control-label">農夫的話</label>
+		<label class="col-sm-offset-1 col-sm-2 control-label">
+			農夫的話
+		</label>
 		<div class="col-sm-6">
-			<%= f.text_area :words, placeholder: '農夫的話', class: "form-control" %>
+			<%= f.text_area :words, placeholder: '農夫的話(140字內)', class: "form-control", rows: '4' %>
 		</div>
 	</div>		
 	<div class="form-group">
@@ -49,7 +51,7 @@
 	<div class="form-group">
 		<div class="col-sm-offset-3 col-sm-10">
 			<%= f.submit '儲存',  class: "btn btn-success add_button", style: 'margin-right: 5px;'  %>
-			<%= link_to '預覽',  @company, class: "btn btn-default edit_button"  %>			
+			<%= f.submit '預覽', formaction: "/companies/preview/"+@company.id.to_s, class: "btn btn-default edit_button"%>					
 		</div>
 	</div>	
 <% end %>

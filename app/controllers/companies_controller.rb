@@ -1,8 +1,8 @@
 class CompaniesController < ApplicationController
  
  
-  before_action only: [:edit, :update, :destroy, :companyImagesUpload, :companyImagesDelete] { |c| c.CompanyCheckUser(params[:id])}  
-  before_action :set_company, only: [:show, :edit, :update, :destroy, :companyImagesUpload, :companyImagesDelete, :companyCoverUpload, :companyCoverDelete]
+  before_action only: [:edit, :update, :preview, :destroy, :companyImagesUpload, :companyImagesDelete] { |c| c.CompanyCheckUser(params[:id])}  
+  before_action :set_company, only: [:show, :edit, :update, :preview, :destroy, :companyImagesUpload, :companyImagesDelete, :companyCoverUpload, :companyCoverDelete]
 
 
   def show
@@ -15,10 +15,16 @@ class CompaniesController < ApplicationController
   def update
     if @company.update(company_params)
       flash[:notice] ='成功更改農場資料'
-      render 'edit'
+    end
+    render 'edit'    
+  end
+
+  def preview
+    if @company.update(company_params)
+      redirect_to @company
     else
       render 'edit'
-    end    
+    end      
   end
 
   def companyCoverUpload

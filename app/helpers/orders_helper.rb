@@ -31,6 +31,6 @@ module OrdersHelper
      ['難吃', GLOBAL_VAR['ORDER_REVIEW_UNAPPEALING']], 
      ['普通', GLOBAL_VAR['ORDER_REVIEW_COMMON']],     
      ['好吃', GLOBAL_VAR['ORDER_REVIEW_TASTY']],
-     ['非吃不可', GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']]]     
+     ['超好吃', GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']]]     
   end     
 end
