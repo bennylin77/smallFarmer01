@@ -152,35 +152,34 @@
 			</div>	
 		</div>
 	</div>		
-	<div class="row">
-		<div class="col-md-12 col-lg-offset-1 col-lg-6" style="margin-top: 40px; margin-bottom: 40px;">
+	<div class="row" style="font-size: 16px;">
+		<div class="col-md-12 col-lg-offset-1 col-lg-5" style="margin-top: 40px; margin-bottom: 40px;">
 			<div class="row" style="margin-bottom: 20px;">		
 				<div class="col-sm-12">
 					<div class="section_title">關於<%= @product.name %></div>
 				</div>					
 			</div>
 			<div class="row" style="">		
-				<div class="col-sm-6">
-					<div></div>
-					<table class="table">
-					<tr><td>產地</td><td><%=@product.company.county %><%=@product.company.district%></td></tr>
-					<tr><td>內容量</td><td>每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%> </td></tr>
-					<tr><td>保存方式</td><td><%= @product.preservation %></td></tr>		
+				<div class="col-sm-7">
+					<table class="table	product_spec">
+					<tr><th>產地</th><td><%=@product.company.county %><%=@product.company.district%></td></tr>
+					<tr><th>內容量</th><td>每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%> </td></tr>
+					<tr><th>保存方式</th><td><%= @product.preservation %></td></tr>		
 					</table>	
 				</div>	
-				<div class="col-sm-6">
+				<div class="col-sm-5">
 					<%unless @product.product_images.last.blank? %>
-						<%=image_tag @product.product_images.last.image.url, class:'', style: 'height: 250px; width: 100%;'%>
+						<%=image_tag @product.product_images.last.image.url, class:'', style: 'width: 100%; border-radius: 10px;'%>
 					<%end%>
 				</div>								
 			</div>		
-			<div class="row" style="">		
+			<div class="row" style="margin-top: 40px;">		
 				<div class="col-sm-12">
 				<%= simple_format( @product.description, {class: ''}, wrapper_tag: "div")%>												
 				</div>								
 			</div>					
 		</div>
-		<div class="col-lg-4" style="margin-top: 40px; margin-bottom: 40px;">
+		<div class="col-lg-offset-1 col-lg-4" style="margin-top: 40px; margin-bottom: 40px;">
 			<div class="row" style="margin-bottom: 20px;">		
 				<div class="col-sm-6">
 					<div class="section_title">金流去向</div>
@@ -227,7 +226,7 @@
 	</div>				
 	<div class="row">
 		<div class="col-md-12 col-lg-offset-1 col-lg-5" style="margin-top: 40px; margin-bottom: 40px;">	
-			<div class="row" style="">		
+			<div class="row" style="margin-bottom: 20px;">		
 				<div class="col-sm-6">
 					<div class="section_title">顧客評價</div>
 				</div>					
@@ -245,8 +244,8 @@
 			</div>			
 			<%= render partial: "products/review_feedback", locals: { product: @product} %>											
 		</div>
-		<div class="col-sm-5">
-			<div class="row" style="margin-top: 40px; margin-bottom: 40px;">		
+		<div class="col-lg-5" style="margin-top: 40px; margin-bottom: 40px;">
+			<div class="row" style="margin-bottom: 20px;">		
 				<div class="col-md-12 col-lg-5">			
 					<div class="section_title">留言</div>	
 				</div>					
