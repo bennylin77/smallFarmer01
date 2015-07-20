@@ -89,7 +89,7 @@
     <td>	    
     	<%if !i.paid_c%>
 			<%if i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>    	
-    		<div style="margin-bottom: 10px;"><%=link_to '線上付款', {controller: 'invoices', action: 'allpayCredit', id: i.id } ,class: 'btn btn-primary' %></div>  
+    		<div style="margin-bottom: 10px;"><%=link_to '線上付款', {controller: 'invoices', action: 'allpayCredit', id: i.id } ,class: 'btn btn-default add_button' %></div>  
     		<%end%>
     	<%end%>	   	
   		<%if cancelAvailable i %>	 	
