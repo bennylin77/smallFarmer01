@@ -1,6 +1,7 @@
 class InvoicesController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:allpayCreditNotify]
   before_action :set_invoice, only: [:allpayCredit, :finished, :cancel]
+  before_action :emptyCarts?, only: [:create]
   
   def index    
     @invoices = current_user.invoices.paginate(page: params[:page], per_page: 5).order('id DESC')    

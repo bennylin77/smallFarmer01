@@ -6,41 +6,40 @@
 			<div class="section_underline"></div>
 		</div>					
 	</div>	
-	<div class="table-responsive">
-		<table class="table borderless check_out_product_list" style="vertical-align: middle">	
-		<%current_user.carts.each_with_index do |c, index| %>
-		<% product = c.product_boxing.product%>
-        <tr class="cart_<%=c.id%>">
-          <td class="check_out_product_list_index"><%= index+1 %>.</td> 	
-          <td>
-			<%= image_tag product.product_images.first.image.url, class: 'img-circle farm_fruits_img'%>						
-          </td>  
-          <td class="check_out_product_list_title">
-			<%= link_to c.product_boxing.product.name,  product_path(product)%>
-          </td>           
-          <td class="check_out_product_list_text">
-			<% product.product_boxings.first.product_pricings.each do |pp| %>
-				<%if pp.quantity == 1%>	
-					<%= "%g" % product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %>/箱   <%= pp.price.to_i+GLOBAL_VAR['SHIPPING_RATES']  %>元
-				<%else%>
-					<%= pp.quantity %>箱以上 每箱<%= pp.price.to_i + GLOBAL_VAR['SHIPPING_RATES']%>元		
-				<%end%>
-				<br>
-			<%end%>          	
-          </td>    
-          <td class="form-group form-inline check_out_product_list_text">
-			<%= select_tag  'quantity_'+c.id.to_s, options_for_select( (1..50).step(1).to_a, c.quantity.to_s), class: "form-control" %>箱
-          </td>     
-          <td class="check_out_product_list_text">
-			<span class="total_price_<%=c.id%>"></span>元
-          </td>       
-          <td>
-	        <span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="destroyCart(<%=c.id %>)" style="cursor: pointer"></span>        	
-          </td>                                   	
-		</tr>					
-		<%end%>
-		</table>
-	</div>	
+	<%current_user.carts.each_with_index do |c, index| %>
+		<% product = c.product_boxing.product%>	
+		<div class="row check_out_product_list cart_<%=c.id%> text-center" style="margin-top: 30px; margin-bottom: 30px;">
+			<div class="col-sm-1 check_out_product_list_index vmiddle hidden-xs">
+				<%= index+1 %>.			
+			</div>	
+			<div class="col-sm-2 col-xs-12 vmiddle">
+				<%= image_tag product.product_images.first.image.url, class: 'img-circle farm_fruits_img'%>						
+			</div>	
+			<div class="col-sm-2 col-xs-12 check_out_product_list_title vmiddle">
+				<%= link_to c.product_boxing.product.name,  product_path(product)%>
+			</div>	
+			<div class="col-sm-2 col-xs-12 check_out_product_list_text vmiddle">
+				<% product.product_boxings.first.product_pricings.each do |pp| %>
+					<%if pp.quantity == 1%>	
+						<%= "%g" % product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %>/箱   <%= pp.price.to_i+GLOBAL_VAR['SHIPPING_RATES']  %>元
+					<%else%>
+						<%= pp.quantity %>箱以上 每箱<%= pp.price.to_i + GLOBAL_VAR['SHIPPING_RATES']%>元		
+					<%end%>
+					<br>
+				<%end%>  					
+			</div>			
+			<div class="col-sm-2 col-xs-12 form-group form-inline check_out_product_list_text vmiddle">
+				<%= select_tag  'quantity_'+c.id.to_s, options_for_select( (1..50).step(1).to_a, c.quantity.to_s), class: "form-control" %>箱				
+			</div>
+			<div class="col-sm-2 col-xs-12 check_out_product_list_text vmiddle">
+				<span class="total_price_<%=c.id%>"></span>元		
+			</div>
+			<div class="col-sm-1 col-xs-12 vmiddle">
+	       		<span class="glyphicon glyphicon-remove hidden-xs" aria-hidden="true" onclick="destroyCart(<%=c.id %>)" style="cursor: pointer"></span>        							
+	       		<span class="btn btn-danger check_out_delete_button hidden-sm hidden-md hidden-lg" aria-hidden="true" onclick="destroyCart(<%=c.id %>)" style="cursor: pointer">刪除</span>        							       			
+			</div>											
+		</div>		
+	<%end%>
 	<div class="row" style="margin-top: 20px; margin-bottom: 30px;">
 		<div class="col-sm-12">
 			<div class="section_title">付款方式</div>

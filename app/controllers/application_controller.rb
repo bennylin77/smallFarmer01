@@ -30,6 +30,13 @@ class ApplicationController < ActionController::Base
     }
   end  
   
+  def emptyCarts?
+    if current_user.carts.size == 0
+      flash['alert'] = '購物車內沒有水果喔!'
+      redirect_to root_url
+    end
+  end
+  
   def ensure_signup_complete
     # Ensure we don't go into an infinite loop
     return if action_name == 'finish_signup'

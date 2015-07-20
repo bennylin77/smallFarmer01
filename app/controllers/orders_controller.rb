@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
 
   before_action :set_order, only: [:confirm, :cancel]
-
+  before_action :emptyCarts?, only: [:checkout, :confirmCheckout]
   
   def index    
     params[:called_smallfarmer_c] = params[:called_smallfarmer_c] == 'true' ? true : false    
