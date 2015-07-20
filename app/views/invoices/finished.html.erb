@@ -7,17 +7,21 @@
 	</div>	
 	<div class="row">
 		<div class="col-sm-12" style="font-size: 20px;">	
-		購買編號 <%=@invoice.id %>
+		訂單編號 <%=@invoice.id %>
 		</div>
 	</div>	
-	<div class="row" style="border: 1px solid #64bb71">
+	<div class="row" style="border: 1px solid #526031">
 		<div class="col-sm-12">	
-			<div class="row" style="margin-top: 20px;">
-				<div class="col-sm-offset-1  col-sm-10">	
-				<%=@invoice.user.last_name%><%=@invoice.user.first_name%> 您好：<br>
-				謝謝您在小農1號購買水果。我們會盡快將您所購買的水果寄送到您手中。您可以利用
-				<%= link_to '我的訂單', {controller: 'invoices', action: 'index'}%>			 		
-				查看您訂單的最新處理進度。若您有任何問題請聯絡客服人員。	
+			<div class="row" style="margin-top: 30px;">
+				<div class="col-sm-offset-1 col-sm-10 check_out_product_list_text">	
+					<div>
+						<%=@invoice.user.last_name%> <%=@invoice.user.first_name%> 您好：
+					</div>
+					<div>
+						謝謝您在小農1號購買水果。我們會盡快將您所購買的水果寄送到您手中。您可以利用
+						<%= link_to '我的訂單', {controller: 'invoices', action: 'index'}%>			 		
+						查看您訂單的最新處理進度。若您有任何問題請聯絡客服人員。
+					</div>	
 				</div>
 			</div>	
 			<div class="row" style="margin-top: 20px;">
@@ -35,14 +39,13 @@
 					<div class="row">
 						<label class="col-sm-4 control-label">行動電話</label>
 						<div class="col-sm-8">
-								<%= current_user.addresses.first.phone_no%>
+								<%= current_user.addresses.first.phone_no.gsub(/^\+886/, '0')%>
 						</div>		
 					</div>		
 					<div class="row">
 							<label class="col-sm-4 control-label">聯絡地址</label>
 							<div class="form-inline col-sm-8">
-								<%= current_user.addresses.first.postal%><%= current_user.addresses.first.county%>
-								<%= current_user.addresses.first.district%><%= current_user.addresses.first.address%>
+								<%= current_user.addresses.first.postal%> <%= current_user.addresses.first.county%><%= current_user.addresses.first.district%><%= current_user.addresses.first.address%>
 							</div>
 					</div>
 					<div class="row">
@@ -66,43 +69,48 @@
 					<div class="row">
 						<label class="col-sm-4 control-label">聯絡電話</label>
 						<div class="col-sm-8">		
-							<%= @invoice.receiver_phone_no%>		
+							<%= @invoice.receiver_phone_no.gsub(/^\+886/, '0')%>		
 						</div>		
 					</div>		
 					<div class="row">
 						<label class="col-sm-4 control-label">聯絡地址</label>
 						<div class="form-inline col-sm-8">
-							<%= @invoice.receiver_postal%><%= @invoice.receiver_county%>
-							<%= @invoice.receiver_district%><%= @invoice.receiver_address%>
+							<%= @invoice.receiver_postal%> <%= @invoice.receiver_county%><%= @invoice.receiver_district%><%= @invoice.receiver_address%>
 						</div>
 					</div>									
 				</div>				
+			</div>		
+			<%@invoice.orders.each_with_index do |c, index| %>		
+			<% product = c.product_boxing.product%>	
+			<div class="row text-center" style="margin-top: 30px; margin-bottom: 30px;">
+				<div class="col-sm-2 check_out_product_list_title vmiddle hidden-xs">
+					出貨編號 <%= c.id%>	          		
+				</div>	
+				<div class="col-sm-2 col-xs-12 vmiddle">
+					<%= image_tag product.product_images.first.image.url, class: 'img-circle farm_fruits_img', style: 'height: 70px; width: 70px;'%>						
+				</div>	
+				<div class="col-sm-2 col-xs-12 check_out_product_list_title vmiddle">
+					<%= c.product_boxing.product.name %>
+				</div>	
+				<div class="col-sm-2 col-xs-12 check_out_product_list_text vmiddle">
+					<% product.product_boxings.first.product_pricings.each do |pp| %>
+						<%if pp.quantity == 1%>	
+							每箱<%= "%g" % product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %> <%= pp.price.to_i+GLOBAL_VAR['SHIPPING_RATES']  %>元
+						<%else%>
+							<%= pp.quantity %>箱以上 每箱<%= pp.price.to_i + GLOBAL_VAR['SHIPPING_RATES']%>元		
+						<%end%>
+						<br>
+					<%end%>  					
+				</div>			
+				<div class="col-sm-1 col-xs-12 check_out_product_list_text vmiddle">
+					<%= c.quantity%>箱				
+				</div>
+				<div class="col-sm-1 col-xs-12 check_out_product_list_text vmiddle">
+					<span class="total_price_<%=c.id%>"></span>元		
+				</div>											
 			</div>				
-			<div class="table-responsive">
-				<table class="table borderless check_out_product_list" style="vertical-align: middle">	
-				<%@invoice.orders.each_with_index do |o, index| %>
-		        <tr class="order">
-		          <td class="check_out_product_list_index"><%= index+1 %>.</td> 	
-		          <td>
-					<%= image_tag o.product_boxing.product.product_images.first.image.url, class: 'img-circle farm_fruits_img'%>						
-		          </td>  
-		          <td class="check_out_product_list_title">
-					<%= link_to o.product_boxing.product.name,  product_path(o.product_boxing.product)%>
-		          </td>           
-		          <td class="check_out_product_list_text">
-				  訂單編號 <%= o.id%>	          	
-		          </td>    
-		          <td class="form-group form-inline check_out_product_list_text">
-		          <%= o.quantity%>箱
-		          </td>     
-		          <td class="check_out_product_list_text">
-				  <%= o.price.to_i + o.shipping_rates.to_i %>元
-		          </td>                                        	
-				</tr>					
-				<%end%>
-				</table>
-			</div>				
-			
+			<%end%>				
+				
 			<div class="row">
 				<div class="col-sm-offset-1 col-sm-11">	
 		    	<% discount = 0 %>
