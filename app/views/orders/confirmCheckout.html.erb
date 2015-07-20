@@ -1,5 +1,5 @@
 <div class="container main_frontend">
-	<h1>請確認您的訂單資訊</h1>	
+	<h2>請確認您的訂單資訊</h2>	
 	<div class="row" style="margin-top: 30px; margin-bottom: 30px;">
 		<div class="col-sm-12">
 			<div class="section_title">購買項目</div>
@@ -45,23 +45,19 @@
 	<div class="row">
 		<div class="col-sm-offset-3 col-sm-2 col-xs-offset-1 col-xs-5 check_out_pay_method">			
 		<%if @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT'].to_s%>		
-			<div class="radio">
 			<label>
 				 <div class="check_out_pay_method_text">
 				 	線上刷卡
 		  			<%=image_tag 'allPay.png', class: 'img-responsive'%>					 	
 				 </div>
 			</label>	 
-			</div>
 		<%elsif @payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD'].to_s%>				
-			<div class="radio">
 			<label>
 				 <div class="check_out_pay_method_text"> 
 				 貨到付款
 				 <%=image_tag 'cat.png', class: 'img-responsive'%> 						 
 				 </div>	
 			</label>				 			 
-			</div>	
 		<%end%>								
 		</div>
 		<div class="col-sm-7 col-xs-12 check_out_product_list_text">	
@@ -91,73 +87,69 @@
 			</div>	
 		</div>	
 	</div>		
-	
-	
-
-	
-	<hr>
-	<div class="row">
-		<label class="col-sm-2 control-label">訂購人資訊</label>
-		<div class="form-inline col-sm-6">
-		</div>
+	<div class="row" style="margin-top: 30px; margin-bottom: 30px;">
+		<div class="col-sm-12">
+			<div class="section_title">訂購人資訊</div>
+			<div class="section_underline"></div>			
+		</div>					
 	</div>	
-	<div class="row">
-			<label class="col-sm-2 control-label">姓名</label>
-			<div class="form-inline col-sm-8">
-				<%= current_user.addresses.first.last_name%>
-				<%= current_user.addresses.first.first_name%>			
-			</div>
+	<div class="row check_out_product_list_text">
+		<label class="col-sm-offset-2 col-sm-2">姓名</label>
+		<div class="col-sm-8">
+			<%= current_user.addresses.first.last_name%>
+			<%= current_user.addresses.first.first_name%>			
 		</div>
-	<div class="row">
-		<label class="col-sm-2 control-label">行動電話</label>
-		<div class="col-sm-3">
-				<%= current_user.addresses.first.phone_no.gsub(/^\+886/, '0')%>
-		</div>		
-	</div>		
-	<div class="row">
-			<label class="col-sm-2 control-label">聯絡地址</label>
-			<div class="form-inline col-sm-6">
-				<%= current_user.addresses.first.postal%> <%= current_user.addresses.first.county%><%= current_user.addresses.first.district%><%= current_user.addresses.first.address%>
-			</div>
 	</div>
-	<div class="row">
-			<label class="col-sm-2 control-label">聯絡信箱</label>
-			<div class="form-inline col-sm-6">
-				<%= current_user.email %>
+	<div class="row check_out_product_list_text">
+		<label class="col-sm-offset-2 col-sm-2">行動電話</label>
+		<div class="col-sm-8">
+			<%= current_user.addresses.first.phone_no.gsub(/^\+886/, '0')%>			
+		</div>
+	</div>
+	<div class="row check_out_product_list_text">
+		<label class="col-sm-offset-2 col-sm-2">聯絡地址</label>
+		<div class="col-sm-8">
+			<%= current_user.addresses.first.postal%> <%= current_user.addresses.first.county%><%= current_user.addresses.first.district%><%= current_user.addresses.first.address%>		
+		</div>
+	</div>
+	<div class="row check_out_product_list_text">
+		<label class="col-sm-offset-2 col-sm-2">聯絡信箱</label>
+		<div class="col-sm-8">
+			<%= current_user.email %>
+		</div>
+	</div>
+	<div class="row" style="margin-top: 30px; margin-bottom: 30px;">
+		<div class="col-sm-12">
+			<div>
+				<div class="section_title">收件人資訊</div>		
 			</div>
-	</div>		  
-	<hr>
-	<div class="row">
-		<label class="col-sm-2 control-label">收件人資訊</label>
-		<div class="form-inline col-sm-6">
+			<div class="section_underline"></div>			
+		</div>					
+	</div>
+	<% current_user.invoices.each do |i| %>
+		<% if i.new_record? %>	
+	<div class="row check_out_product_list_text">
+		<label class="col-sm-offset-2 col-sm-2">姓名</label>
+		<div class="col-sm-8">
+			<%= i.receiver_last_name%>
+			<%= i.receiver_first_name%>	
+		</div>
+	</div>
+	<div class="row check_out_product_list_text">
+		<label class="col-sm-offset-2 col-sm-2">聯絡電話</label>
+		<div class="col-sm-8">
+			<%= i.receiver_phone_no.gsub(/^\+886/, '0')%>
+		</div>
+	</div>
+	<div class="row check_out_product_list_text">
+		<label class="col-sm-offset-2 col-sm-2">聯絡地址</label>
+		<div class="col-sm-8">
+			<%= i.receiver_postal%> <%= i.receiver_county%><%= i.receiver_district%><%= i.receiver_address%>
 		</div>
 	</div>		
-	<% current_user.invoices.each do |i| %>
-		<% if i.new_record? %>
-		<div class="row">
-			<label class="col-sm-2 control-label">姓名</label>
-			<div class="form-inline col-sm-8">
-				<%= i.receiver_last_name%>
-				<%= i.receiver_first_name%>			
-			</div>
-		</div>
-		<div class="row">
-		<label class="col-sm-2 control-label">聯絡電話</label>
-		<div class="col-sm-3">		
-			<%= i.receiver_phone_no.gsub(/^\+886/, '0')%>		
-		</div>		
-		</div>		
-		<div class="row">
-			<label class="col-sm-2 control-label">聯絡地址</label>
-			<div class="form-inline col-sm-6">
-				<%= i.receiver_postal%> <%= i.receiver_county%><%= i.receiver_district%><%= i.receiver_address%>
-			</div>
-		</div>
 		<%end%>	
 	<%end%>
 
-
-	
 <%= form_for current_user, url: { controller: 'orders', action: "checkout"}, method: :post do |u| %>		 
 		<%= text_field_tag :coupons_using, @coupon_using || 0, style: 'display: none' %>
 		<%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT'].to_s, style: 'display: none' %>
@@ -182,9 +174,13 @@
 			<%= i.text_field :receiver_address, style: 'display: none'%>
 		<%end%>	
 	<%end%>	
-	<%= check_box_tag 'agree', true, @agree == 'true', style: 'display: none'%>   
-	<%= u.submit '修改',  class: "btn btn-default"%>
-	<%= u.submit '確認交易', formaction: "/invoices/create", class: "btn btn-primary"%>		
+	<%= check_box_tag 'agree', true, @agree == 'true', style: 'display: none'%>   	
+	<div class="row" style="margin-top: 20px;">
+		<div class="col-sm-offset-2 col-sm-6">   
+		<%= u.submit '修改',  class: "btn btn-default edit_button", style: 'font-size: 20px; padding: 6px 25px;'%>
+		<%= u.submit '確認交易', formaction: "/invoices/create", class: "btn btn-success add_button", style: 'margin-left: 10px; font-size: 20px; padding: 6px 25px;'%>			
+		</div>
+	</div>		
 <%end-%>	
 </div>	
 
