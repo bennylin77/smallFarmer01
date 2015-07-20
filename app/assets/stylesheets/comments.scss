@@ -1,10 +1,14 @@
 .comment_post{
   margin-top: 20px;  
 }
-
+.comment_post img{
+  height: 50px;
+  width: 50px;
+}
 .talkbubble {
   position: relative;
   padding: 0px;
+  margin-left: 20px;
   border-radius: 10px;
   border: none;
   background: #ffffff;
@@ -29,10 +33,6 @@
   border: none !important;
   resize: none !important;
 }
-
-
-
-
 
 .comment_row{
   margin-top: 20px;
@@ -62,4 +62,8 @@
 }
 .comment_op{
   color: #536132;
+  margin-left: 10px;  
+}
+.comment_reply:hover{
+  opacity: 0.8;  
 }

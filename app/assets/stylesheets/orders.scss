@@ -19,6 +19,13 @@
 .check_out_product_list_text{
   font-size: 15px;    
 }
+
+@media (max-width: 768px) {
+  .check_out_product_list_text{
+    margin-top: 40px;
+  }
+}
+
 .check_out_pay_method_text{
   text-align: center;
   font-size: 18px;

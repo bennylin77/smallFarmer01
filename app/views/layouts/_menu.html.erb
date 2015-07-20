@@ -14,7 +14,7 @@
         <div id="navbar" class="navbar-collapse collapse">    
           <ul class="nav navbar-nav hidden-xs">
             <li>
- 		  		<%=link_to '本站水果', 'main/fruits', class: '', style: 'font-size: 17px; color: #536132;'%>
+ 		  		<%=link_to '本站水果', '/main/fruits', class: '', style: 'font-size: 17px; color: #536132;'%>
             </li>	            	
             <li><a href="#about" style="font-size: 17px; color: #536132; ">合作農場</a></li>
           </ul>          	            	   	
@@ -40,7 +40,7 @@
 		            	<ul style="margin: 0; padding: 0; list-style: none; color: #000000" class="cart_lists">
 		            	</ul>
 		            	<div class='cart_label_container'>
-		            	<span class="cart_label">總計</span><span class="cart_total">1000</span>元
+		            	<span class="cart_label">總計</span><span class="cart_total">0</span>元
 		            	</div>
 						<%= form_tag('/orders/checkout') do -%>
 						<button class="btn btn-default green_btn center-block" type="submit" style="  padding: 5px 20px;">結帳</button>
@@ -82,16 +82,19 @@ function showCarts(){
 	});
 	request.done(function( message ) {
 		$(".cart_lists").empty();
-		var q = 0; var total_price = 0;
-		$.each(  message , function( i, l ){					
-			$(".cart_lists").append('<li><a href="/products/'+l.id+'">'+
-			'<img  class="cart_image img-circle" src="'+l.image_url+'"><div class="cart_content">'+
-			l.name+
-			'<div style="margin-top: 7px;"><span class="cart_label"></span>'+l.quantity+'箱</div>'+
-			'<div><span class="cart_label"></span>'+l.price+'元</div></div></a></li>')
-			q = q + l.quantity	
-			total_price  = total_price + l.price
-	 	});
+		var q = 0; var total_price = 0;		
+		if( message.length!=0 ) 
+			$.each(  message , function( i, l ){				
+				$(".cart_lists").append('<li><a href="/products/'+l.id+'">'+
+				'<img  class="cart_image img-circle" src="'+l.image_url+'"><div class="cart_content">'+
+				l.name+
+				'<div style="margin-top: 7px;"><span class="cart_label"></span>'+l.quantity+'箱</div>'+
+				'<div><span class="cart_label"></span>'+l.price+'元</div></div></a></li>')
+				q = q + l.quantity	
+				total_price  = total_price + l.price
+		 	});
+		else
+			$(".cart_lists").append('購物車內沒有水果');		 	
 	 	$('.cart_total').html(total_price);
 	 	if(q!=0)
 	 		$('.carts_badge').html(q);

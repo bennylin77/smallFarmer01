@@ -37,7 +37,7 @@
           </ul>      
           <div class="sidebar_info_more">
           	<%if current_user.companies.first.description%>
-          	<%=current_user.companies.first.description%>
+			<%= truncate( current_user.companies.first.description, length: 122, omission: '...') %>          	
           	<%else%>
           	--
           	<%end%>
