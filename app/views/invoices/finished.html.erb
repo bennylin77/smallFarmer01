@@ -19,7 +19,7 @@
 					</div>
 					<div>
 						謝謝您在小農1號購買水果。我們會盡快將您所購買的水果寄送到您手中。您可以利用
-						<%= link_to '我的訂單', {controller: 'invoices', action: 'index'}%>			 		
+						<%= link_to '管理訂單', {controller: 'invoices', action: 'index'}%>			 		
 						查看您訂單的最新處理進度。若您有任何問題請聯絡客服人員。
 					</div>	
 				</div>
@@ -106,12 +106,11 @@
 					<%= c.quantity%>箱				
 				</div>
 				<div class="col-sm-1 col-xs-12 check_out_product_list_text vmiddle">
-					<span class="total_price_<%=c.id%>"></span>元		
+					<%= c.price.to_i + c.shipping_rates.to_i%>元		
 				</div>											
 			</div>				
-			<%end%>				
-				
-			<div class="row">
+			<%end%>								
+			<div class="row check_out_product_list_text">
 				<div class="col-sm-offset-1 col-sm-11">	
 		    	<% discount = 0 %>
 		    	<% @invoice.invoice_coupon_lists.each do |i_c_l|%>
@@ -169,7 +168,7 @@
 	</div>	
 	<div class="row" style="margin-top: 20px;">
 		<div class="col-sm-offset-10 col-sm-2">	
-			<%= link_to '查看訂單狀態', {controller: 'invoices', action: 'index'}, class: 'btn btn-default green_btn' %>			 		
+			<%= link_to '查看訂單狀態', {controller: 'invoices', action: 'index'}, class: 'btn btn-default edit_button' %>			 		
 		</div>
 	</div>		
 	<div class="row" style="margin-top: 50px;">		
