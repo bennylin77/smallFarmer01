@@ -43,7 +43,7 @@
 		            	<span class="cart_label">總計</span><span class="cart_total">0</span>元
 		            	</div>
 						<%= form_tag('/orders/checkout') do -%>
-						<button class="btn btn-default green_btn center-block" type="submit" style="  padding: 5px 20px;">結帳</button>
+						<button class="btn btn-priamry green_btn center-block menu_checkout_button" type="submit" style="padding: 5px 20px;">結帳</button>
 						<% end -%>		            	
 		            </div>	                 
 	          	</li>
@@ -94,10 +94,16 @@ function showCarts(){
 				total_price  = total_price + l.price
 		 	});
 		else
-			$(".cart_lists").append('購物車內沒有水果');		 	
+		{
+			$(".cart_lists").append('購物車內沒有水果');	
+		    $(".menu_checkout_button").attr('disabled','disabled');
+		}		 	
 	 	$('.cart_total').html(total_price);
 	 	if(q!=0)
+	 	{
 	 		$('.carts_badge').html(q);
+	 		$(".menu_checkout_button").removeAttr('disabled');
+	 	}
 	 	else
 	 		$('.carts_badge').html('');	
 	});
