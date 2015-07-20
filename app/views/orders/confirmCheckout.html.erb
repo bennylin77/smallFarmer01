@@ -1,5 +1,4 @@
 <div class="container main_frontend">
-	<div class="row">
 	<h1>請確認您的訂單資訊</h1>	
 	<%current_user.carts.each do |c| %>
 	<div class="row">
@@ -70,14 +69,13 @@
 	<div class="row">
 		<label class="col-sm-2 control-label">行動電話</label>
 		<div class="col-sm-3">
-				<%= current_user.addresses.first.phone_no%>
+				<%= current_user.addresses.first.phone_no.gsub(/^\+886/, '0')%>
 		</div>		
 	</div>		
 	<div class="row">
 			<label class="col-sm-2 control-label">聯絡地址</label>
 			<div class="form-inline col-sm-6">
-				<%= current_user.addresses.first.postal%><%= current_user.addresses.first.county%>
-				<%= current_user.addresses.first.district%><%= current_user.addresses.first.address%>
+				<%= current_user.addresses.first.postal%> <%= current_user.addresses.first.county%><%= current_user.addresses.first.district%><%= current_user.addresses.first.address%>
 			</div>
 	</div>
 	<div class="row">
@@ -104,19 +102,19 @@
 		<div class="row">
 		<label class="col-sm-2 control-label">聯絡電話</label>
 		<div class="col-sm-3">		
-			<%= i.receiver_phone_no%>		
+			<%= i.receiver_phone_no.gsub(/^\+886/, '0')%>		
 		</div>		
 		</div>		
 		<div class="row">
 			<label class="col-sm-2 control-label">聯絡地址</label>
 			<div class="form-inline col-sm-6">
-				<%= i.receiver_postal%><%= i.receiver_county%>
-				<%= i.receiver_district%><%= i.receiver_address%>
+				<%= i.receiver_postal%> <%= i.receiver_county%><%= i.receiver_district%><%= i.receiver_address%>
 			</div>
 		</div>
 		<%end%>	
 	<%end%>
-	</div>	
+
+
 	
 <%= form_for current_user, url: { controller: 'orders', action: "checkout"}, method: :post do |u| %>		 
 		<%= text_field_tag :coupons_using, @coupon_using || 0, style: 'display: none' %>
