@@ -253,9 +253,9 @@
 			<%= render partial: "comments/show", locals: { product: @product} %>			
 		</div>		
 	</div>	
-	<div class="row" style="margin-top: 50px;">
+	<div class="row" style="margin-top: 40px;">
 		<div class="col-sm-offset-1 col-sm-10">
-			<div class="row" style="">		
+			<div class="row" style="margin-bottom: 40px;">		
 				<div class="col-sm-6">
 					<div class="section_title">推薦產品</div>
 				</div>					
@@ -268,8 +268,6 @@
 
 
 <script>
-//$('.product_excellent_no').html( $('.product_excellent_no').attr("data-count")+' ' )
-
 var controller = new ScrollMagic.Controller({globalSceneOptions: {triggerHook: "onEnter", duration: "200%"}});
 new ScrollMagic.Scene({triggerElement: ".product_excellent"})
 		.addTo(controller)
@@ -283,7 +281,7 @@ new ScrollMagic.Scene({triggerElement: ".product_excellent"})
 			      $this.text(Math.floor(this.Counter));
 			    },
 			  	complete: function() {
-			  		$this.attr("data-count");
+			  		$this.html($this.attr("data-count"));
 			  	}		    
 			  });
 			});					

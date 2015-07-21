@@ -17,11 +17,11 @@
  		  		<%=link_to '本站水果', '/main/fruits', class: '', style: 'font-size: 17px; color: #536132;'%>
             </li>	            	
             <li><a href="#about" style="font-size: 17px; color: #536132; ">合作農場</a></li>
-          </ul>          	            	   	
+          </ul>         	            	   	
           <form class="navbar-form navbar-left" action="/main/search" method="get">
             <input type="text" class="form-control rounded" placeholder="搜尋水果、農場&hellip;">
     		<button type="submit" class="btn btn-default hidden-xs" style="border: none; background: none; color: #536132;"><span class="glyphicon glyphicon-search"></span></button>
-    	  </form>  	      	      	
+    	  </form> 	      	      	
           <ul class="nav navbar-nav navbar-right">
 			<%if user_signed_in?%>          	
 	            <li><a href="/coupons/index" class="menu_right">
