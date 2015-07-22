@@ -89,7 +89,7 @@
 					<%= pp.product_boxings.first.product_pricings.first.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %>元(含運) <%= "%g" % pp.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(pp.unit).first %>/箱
 				    </div>
 				    <div class="farm_fruits_reviews">
-						<span class="farm_fruits_excellent">3764 </span><span class="farm_fruits_excellent_text">人說非吃不可</span>
+						<span class="farm_fruits_excellent" data-count="<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and delivered_c = 1 and review_score = ? ', pp.id, GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count + Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and delivered_c = 1 and review_score = ? ', pp.id, GLOBAL_VAR['ORDER_REVIEW_TASTY']).count %>" ></span><span class="farm_fruits_excellent_text"></span><span class="farm_fruits_excellent_text">人說好吃</span>
 				    </div>	
 			<%end%>		 				
 				</div>	
@@ -132,12 +132,15 @@ $(document).ready(function($) {
 		.on('start', function(e){
 			$('.farm_fruits_excellent').each(function () {
 			  var $this = $(this);
-			  jQuery({ Counter: 0 }).animate({ Counter: $this.text() }, {
+			  jQuery({ Counter: 0 }).animate({ Counter: $this.attr("data-count") }, {
 			    duration: 1000,
 			    easing: 'swing',
 			    step: function () {
 			      $this.text(Math.ceil(this.Counter));
-			    }
+			    },
+			  	complete: function() {
+			  		$this.html($this.attr("data-count"));
+			  	}	
 			  });
 			});					
 		});																																																										

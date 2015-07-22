@@ -18,7 +18,7 @@
 	</ul>      
 	<div class="main_backend-tab-content">  	 
 		<% @notifications.each do |notification| %>
-		<div class="row" style="margin-top: 30px; min-height: 140px; border-bottom: 1px solid #526031">
+		<div class="row" style="margin-top: 20px; min-height: 120px; border-bottom: 1px solid #526031">
 			<div class="col-sm-2 vmiddle text-center">		
 				<div class="notification_category"><%= Hash[categoryOptions].rassoc(notification.category).first%></div>
 				<div class="notification_category_date"><%= time_ago_in_words notification.created_at%>之前</div>						

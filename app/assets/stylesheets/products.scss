@@ -202,7 +202,7 @@
   background: #e79568; 
 }
 .review_common_bg{
-  background: #eed3af; 
+  background: #FFCC99; 
 }
 .review_delicious{
   color: #de562c;
@@ -211,28 +211,29 @@
   color: #e79568;
 }
 .review_common{
-  color: #eed3af;
+  color: #FFCC99;
 } 
 /*======================================= reviews feedback=======================================*/
 .review_feedback_avatar{
   display: inline-block;
-  height: 40px;
-  width: 40px;  
+  height: 35px;
+  width: 35px;  
   vertical-align: middle;
 }
 .review_feedback_name{
   display: inline-block;  
-  font-size: 25px;
+  font-size: 23px;
   vertical-align: middle;  
 }
 .review_feedback_date{
   display: inline-block;  
-  vertical-align: middle;  
+  vertical-align: middle; 
+  font-size: 14px; 
 }
 .review_feedback_option{
   display: inline-block;  
-  height: 30px;
-  width: 30px;
+  height: 25px;
+  width: 25px;
   border-radius: 20px;
   vertical-align: middle;  
 }

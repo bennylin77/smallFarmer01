@@ -125,7 +125,7 @@ function addComment(comment, sub_comments)
 	else
 		$.each( sub_comments, function( i, l ){
 			var $row_sub =$("<div>", {class: "row comment_sub_row", id: 'sub_comment_'+l.id.toString()}); 			
-			$row_sub.append('<div class="col-xs-1 col-sm-offset-1">'+
+			$row_sub.append('<div class="col-xs-1 col-xs-offset-1">'+
 				     	  '<img src="'+l.user_avatar_url+'" onerror="this.src=\''+default_avatar+'\'" alt="missing" width="50" height="50" class="img-circle">'+
 				     	  '</div>');
 						  //'<div class="col-sm-7">'+l.user_last_name+' '+moment(l.created_at, "YYYY-MM-DD HH:mm:ss" ).fromNow()+'<div class="comment_msg">'+l.content+'</div>'+

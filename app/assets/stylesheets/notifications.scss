@@ -15,3 +15,30 @@
   color: #605856;
   font-size: 19px;  
 }
+.notification_review_radioBtn{
+  margin-bottom: 10px;
+  margin-left: 20px;
+}
+.notification_review_radioBtn a{
+  color: #ffffff; 
+  box-shadow: none !important;  
+}
+.notification_review_radioBtn a:hover{
+  color: #EDEDED; 
+}
+.notification_notActive{
+  background: none;
+}
+.notification_notActive.review_delicious_bg{
+  color: #de562c; 
+  border: 1px solid #de562c;  
+}
+.notification_notActive.review_tasty_bg{
+  color: #e79568; 
+  border: 1px solid #e79568; 
+}
+.notification_notActive.review_common_bg{
+  color: #eed3af;
+  border: 1px solid #eed3af; 
+}
+

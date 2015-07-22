@@ -15,4 +15,15 @@ module ProductsHelper
       'review_common_bg'    
     end            
   end
+  
+  def reviewText(score)
+    case score
+    when GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']
+      'review_delicious'
+    when GLOBAL_VAR['ORDER_REVIEW_TASTY']
+      'review_tasty'
+    when GLOBAL_VAR['ORDER_REVIEW_COMMON']     
+      'review_common'    
+    end            
+  end  
 end

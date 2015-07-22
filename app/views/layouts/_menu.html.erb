@@ -16,7 +16,9 @@
             <li>
  		  		<%=link_to '本站水果', '/main/fruits', class: '', style: 'font-size: 17px; color: #536132;'%>
             </li>	            	
-            <li><a href="#about" style="font-size: 17px; color: #536132; ">合作農場</a></li>
+            <li>
+            	<%=link_to '合作農場', '/main/farms', class: '', style: 'font-size: 17px; color: #536132;'%>
+            </li>
           </ul>         	            	   	
           <form class="navbar-form navbar-left" action="/main/search" method="get">
             <input type="text" class="form-control rounded" placeholder="搜尋水果、農場&hellip;">
@@ -58,11 +60,13 @@
 		            <span class='mobile_menu_label'><%if current_user.last_name%><%=current_user.last_name+' '+current_user.first_name%><%end%></span>					
 					</a>			
 				</li> 
+	            <%if current_user.companies.first.activated_c%>
 	            <li><a href="/orders/index?called_smallfarmer_c=false" class="menu_right">
 					<%= image_tag 'farm_icon.png', class: '', style: 'height: 34px; width: 38px' %>	            	
 		            <span class='mobile_menu_label'>管理農場</span>	            	
 	            	</a>
-	            </li>				    
+	            </li>	
+	            <%end%>			    
 			<%else%>	
 				<li><%= link_to "註冊", new_user_registration_path %></li>
 				<li><%= link_to "登入", new_user_session_path %></li>
