@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   get    'invoices/allpayCredit'
   post   'invoices/allpayCreditNotify'
   get    'invoices/finished'   
+  get    'invoices/cancel'    
      
   post   'orders/confirmCheckout'  
   post   'orders/checkout'
@@ -31,16 +32,34 @@ Rails.application.routes.draw do
   post   'users/mobileSMSConfirmationSend'
   get    'main/index'  
   get    'main/delivered'
+  get    'main/search'
+  get    'main/fruits'
+  get    'main/farms' 
+  get    'main/getFruitsAndFarms'  
 
   get    'management/index'    
   get    'management/invoices'
   get    'management/orders'  
   get    'management/callLogistics'
-                                       
+  get    'management/exportOrders'
+  post   'management/uploadTracking'
+  get    'management/companies'  
+  get    'management/activateCompany'  
+  get    'management/products'  
+  get    'management/setCertification'   
+  get    'management/setSweetDegree'  
+  get    'management/users'  
+  get    'management/blockUser' 
+                              
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
   match '/users/:id/mobileSMSConfirmation' => 'users#mobileSMSConfirmation', via: [:get, :patch], :as => :mobileSMSConfirmation 
+
+  match '/companies/preview/:id' => 'companies#preview', via: [:patch]
+  match '/companies/:id/companyCoverUpload' => 'companies#companyCoverUpload', via: [:post], :as => :companyCoverUpload
+  match '/companies/:id/companyCoverDelete' => 'companies#companyCoverDelete', via: [:delete], :as => :companyCoverDelete  
   match '/companies/:id/companyImagesUpload' => 'companies#companyImagesUpload', via: [:post], :as => :companyImagesUpload
   match '/companies/:id/companyImagesDelete' => 'companies#companyImagesDelete', via: [:delete], :as => :companyImagesDelete
+  match '/products/preview/:id' => 'products#preview', via: [:patch]   
   match '/products/:id/productImagesUpload' => 'products#productImagesUpload', via: [:post], :as => :productImagesUpload
   match '/products/:id/productImagesDelete' => 'products#productImagesDelete', via: [:delete], :as => :productImagesDelete
   match '/products/:id/available' => 'products#available', via: [:get], as: :available
@@ -63,6 +82,9 @@ Rails.application.routes.draw do
   #  delete "/logout" => "devise/sessions#destroy"
   #end      
   get    'main/marketing'
+  get    'main/fb'  
+  get    'main/under'  
+  get    'main/surveyFarmer'
     
-  root to: "main#index" 
+  root to: "main#under" 
 end

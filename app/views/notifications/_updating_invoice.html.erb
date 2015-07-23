@@ -1,7 +1,10 @@
 <% order = notification.order %>
-<div class="col-sm-2">
-	<%= image_tag order.product_boxing.product.product_images.first.image.url, class: 'img-circle farm_fruits_img', size: '100x100' %>			
+<div class="col-sm-2 vmiddle text-center">
+	<%= link_to order.product_boxing.product do%>
+	<%= image_tag order.product_boxing.product.product_images.first.image.url, class: 'img-circle farm_fruits_img notification_fruit_img' %>	
+	<div class="notification_fruit_name"><%= order.product_boxing.product.name%></div>	
+	<%end%>		
 </div>
-<div class="col-sm-2">
-	<%=link_to notification.content, '/invoices/index'%>
+<div class="col-sm-4 vmiddle text-center">
+	<%=link_to notification.content, '/invoices/index', class: 'notification_link'%>
 </div>

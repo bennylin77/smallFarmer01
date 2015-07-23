@@ -1,0 +1,158 @@
+<div class="row">
+<div class="table-responsive">
+<table class="table table-bordered table-hover">
+  <tr>
+    <th>水果編號</th>  	
+	<th>水果名稱</th>
+	<th>水果總庫存量</th>  
+	<th>水果日處理量</th>	
+	<th>價錢</th>	
+	<th>甜度</th>			
+	<th>
+		<%=image_tag 'gap.png', class: '', style: 'height: 55px; width: 55px;'  %>		      
+		吉園圃
+	</th>	
+	<th>
+		<%=image_tag 'tap.png', class: '', style: 'height: 55px; width: 55px;'  %>		      
+		TAP
+	</th>						 		            
+	<th>
+		<%=image_tag 'otap.png', class: '', style: 'height: 55px; width: 55px;'  %>		      		
+		OTAP
+	</th>						 		            
+	<th>
+		<%=image_tag 'utap.png', class: '', style: 'height: 55px; width: 55px;'  %>		      				
+		UTAP
+	</th>						 		            
+	<th></th>							 		    						 		            
+  </tr>
+  <% @products.each do |p| %>
+  <tr id='product_container_<%=p.id %>'>
+    <td><%= p.id %></td>  	
+    <td><%= p.name %></td>   
+    <td><%= p.inventory %>箱</td>      
+    <td><%= p.daily_capacity %>箱</td>        
+    <td>
+		<% p.product_boxings.first.product_pricings.each do |pp| %>
+			<%if pp.quantity == 1%>	
+				<%= pp.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %>元(含運) <%if p.product_boxings.first.quantity%><%= "%g" % p.product_boxings.first.quantity %><%end%><%if p.unit%><%= Hash[unitOptions].rassoc(p.unit).first %>/箱<%end%>			
+			<%elsif pp.quantity%>
+				<%= pp.quantity %>箱以上 每箱<%= pp.price.to_i + GLOBAL_VAR['SHIPPING_RATES']%>元(含運)		
+			<%end%>
+			<br>
+		<%end%>     	
+    </td> 
+  	<td>
+		<%= select_tag "sweet_degree", options_for_select((10..20).step(1), p.sweet_degree), prompt: '請選擇', class: 'form-control sweet_degree', 'data-id'=> p.id %>  		
+  	</td>	    
+  	<td>
+    	<div class="form-group">
+    		<div class="col-sm-12">
+    			<div class="input-group">
+    				<div id="" class="radioBtn btn-group">
+    					<a class="btn btn-primary btn-sm <%if p.GAP_c%>active<%else%>notActive<%end%>" data-toggle="GAP_<%=p.id %>" data-id="<%=p.id %>" data-title="true" data-kind="GAP" style="border: none;">是</a>
+    					<a class="btn btn-primary btn-sm <%if p.GAP_c%>notActive<%else%>active<%end%>" data-toggle="GAP_<%=p.id %>" data-id="<%=p.id %>" data-title="false" data-kind="GAP" style="border: none;">否</a>
+    					<input type="hidden" name="GAP_<%=p.id %>" id="GAP_<%=p.id %>" value="<%=p.GAP_c%>">
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+  	</td>    
+  	<td>
+    	<div class="form-group">
+    		<div class="col-sm-12">
+    			<div class="input-group">
+    				<div id="" class="radioBtn btn-group">
+    					<a class="btn btn-primary btn-sm <%if p.TAP_c%>active<%else%>notActive<%end%>" data-toggle="TAP_<%=p.id %>" data-id="<%=p.id %>" data-title="true" data-kind="TAP" style="border: none;">是</a>
+    					<a class="btn btn-primary btn-sm <%if p.TAP_c%>notActive<%else%>active<%end%>" data-toggle="TAP_<%=p.id %>" data-id="<%=p.id %>" data-title="false" data-kind="TAP" style="border: none;">否</a>
+    					<input type="hidden" name="TAP_<%=p.id %>" id="TAP_<%=p.id %>" value="<%=p.TAP_c%>">
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+  	</td>
+  	<td>
+    	<div class="form-group">
+    		<div class="col-sm-12">
+    			<div class="input-group">
+    				<div id="" class="radioBtn btn-group">
+    					<a class="btn btn-primary btn-sm <%if p.OTAP_c%>active<%else%>notActive<%end%>" data-toggle="OTAP_<%=p.id %>" data-id="<%=p.id %>" data-title="true" data-kind="OTAP" style="border: none;">是</a>
+    					<a class="btn btn-primary btn-sm <%if p.OTAP_c%>notActive<%else%>active<%end%>" data-toggle="OTAP_<%=p.id %>" data-id="<%=p.id %>" data-title="false" data-kind="OTAP" style="border: none;">否</a>
+    					<input type="hidden" name="OTAP_<%=p.id %>" id="OTAP_<%=p.id %>" value="<%=p.OTAP_c%>">
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+  	</td>  	 
+  	<td>
+    	<div class="form-group">
+    		<div class="col-sm-12">
+    			<div class="input-group">
+    				<div id="" class="radioBtn btn-group">
+    					<a class="btn btn-primary btn-sm <%if p.UTAP_c%>active<%else%>notActive<%end%>" data-toggle="UTAP_<%=p.id %>" data-id="<%=p.id %>" data-title="true" data-kind="UTAP" style="border: none;">是</a>
+    					<a class="btn btn-primary btn-sm <%if p.UTAP_c%>notActive<%else%>active<%end%>" data-toggle="UTAP_<%=p.id %>" data-id="<%=p.id %>" data-title="false" data-kind="UTAP" style="border: none;">否</a>
+    					<input type="hidden" name="UTAP_<%=p.id %>" id="UTAP_<%=p.id %>" value="<%=p.UTAP_c%>">
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+  	</td>
+  	<td>
+  		<%=link_to '瀏覽', p, class: 'btn-default btn'%>
+  	</td>  	  	 	 
+  </tr>
+  <%end%>  
+</table>
+</div>
+</div>
+<%= will_paginate @products, renderer: BootstrapPagination::Rails %>
+
+<style>
+.radioBtn .notActive{
+    color: #3276b1;
+    background-color: #fff;
+}
+</style>
+<script>
+	$('.radioBtn a').on('click', function(){
+		var sel = $(this).data('title');
+		var tog = $(this).data('toggle');	 
+		var id = $(this).data('id')   
+		var kind = $(this).data('kind') 		
+		if(sel.toString()!=$('#'+tog).val() )
+		{
+		    $('a[data-toggle="'+tog+'"]').not('[data-title="'+sel+'"]').removeClass('active').addClass('notActive');
+		    $('a[data-toggle="'+tog+'"][data-title="'+sel+'"]').removeClass('notActive').addClass('active');
+			$.ajax({
+				type : 'GET',
+				url : '/management/setCertification',
+				data : { id: id, val: sel, kind: kind },
+				datatype : 'json',
+				success : function(data) {
+					if (data.success) {
+						toastr['success'](data.message)		
+						$('#'+tog).val(sel.toString()) 								
+					} else {
+						toastr['warning'](data.message)
+					}
+				}
+			});	
+		}	
+	})
+	$( ".sweet_degree" ).change(function() {
+	  var id = $(this).data('id')  	  
+	  $.ajax({
+				type : 'GET',
+				url : '/management/setSweetDegree',
+				data : { id: id, val: $(this).val() },
+				datatype : 'json',
+				success : function(data) {
+					if (data.success) {
+						toastr['success'](data.message)		
+					} else {
+						toastr['warning'](data.message)
+					}
+				}
+			});		    
+	});	
+</script>

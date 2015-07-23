@@ -1,7 +1,7 @@
 class ProductPricing < ActiveRecord::Base
   belongs_to :product_boxing
 
-  validate  :quantityMostWithPrice
+  validate  :quantityMostWithPrice, on: :update 
      
   def quantityMostWithPrice
     if quantity and price.blank?

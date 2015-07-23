@@ -1,61 +1,81 @@
 .product_farm_description{
   background-color: rgba( 230, 218, 207, 0.5);  
   border-radius: 40px;
+  min-height: 90px;
 }
 .product_farm_description_avatar{
-  display: inline-block;
-  height: 90px; width: 90px;
+  height: 90px; 
+  width: 90px;
+  position: absolute;
 }
 .product_farm_description_text
 {
-  padding: 10px 10px;   
-  display: inline-block; 
-  width: 1000px; 
-  font-size: 16.5px;
-  vertical-align: middle;
+  position: absolute;
+  padding: 15px 20px;
+  left: 100px;
+  font-size: 15px;
+  color: #605856;
+}
+@media (max-width: 768px) {
+  .product_farm_description_avatar{
+    margin-top: 10px;
+    position: static;
+  }
+  .product_farm_description_text
+  {
+    position: static;
+  }
 }
 .product_name
 {  
-  font-size: 32px;  
+  font-size: 30px;  
 }
 .product_excellent_no
 {
   color: #de562c;
-  font-size: 40px;  
+  font-size: 35px;  
 }
 .product_excellent_text
 {
-  font-size: 25px;    
+  font-size: 28px;    
+}
+.product_sweet_degree{
+  height: 60px; 
+  width: 100px;  
 }
 .product_price{
-  font-size: 21px;    
+  font-size: 18px;    
 }
 .product_promote{
-  font-size: 18px; 
+  font-size: 16px; 
   color: #536132;     
 }
 .add_to_cart{
-  background: #35a142;
   border: none;
   border-radius: 0;
   font-size: 20px;
-  padding: 10px 20px;
+  padding: 7px 14px;
+  box-shadow: 3px 3px rgb(209, 209, 200);    
 }
 .add_to_cart:hover{
   background: #6fc57b;
 }
+.product_spec th{
+  width: 81px;
+}
+
 /*======================================= Carousel =======================================*/
 .product_carousel
 { 
   margin-bottom: 30px !important;  
-  width: 650px !important;  
+  width: 700px !important;  
 }
 .product_carousel-inner{
   border-radius: 10px !important;    
 }
 .product_item img
 {  
-  width: 650px !important; 
+  width: 700px !important; 
   height: 420px !important;    
 }
 .product_carousel-indicators li {
@@ -71,6 +91,7 @@
 }
 .product_carousel-control {
   &.left, &.right {
+    z-index: 1;
     background: none;
     position:absolute; 
     @include reset-filter();
@@ -82,34 +103,38 @@
     margin-right: -70px; color: black;
   }     
 }
-@media (max-width: 992px) {
+@media (max-width: 1550px) {
  .product_carousel{
-   width: 100% !important; 
+   width: 600px !important; 
  }
   .product_item img {
-    width: 100%;
-    height: 220px;
+   width: 600px;
  } 
 }
-@media (max-width: 768px) {
+@media (max-width: 1280px) {
   .product_carousel{
-    width: 100% !important;    
-  }  
-  .product_item img {
-    width: 100%;     
-    height: 200px;
-  }  
+    width: 550px !important;   
+   }
+  .product_item img{  
+    width: 550px !important;   
+  }
 }
+@media (max-width: 992px) {
+  .product_carousel{
+    width: 90% !important;    
+  }     
+  .product_item img {
+    width: 100% !important;     
+  }  
+} 
 @media (max-width: 480px) {
   .product_carousel{
     width: 100% !important;    
   }     
   .product_item img {
     width: 100%;     
-    height: 200px;
   }  
-} 
-
+}
 /*======================================= cash flow =======================================*/
 .farmer_get_layer{  
   text-align: center;
@@ -157,7 +182,14 @@
   float: left;   
 }
 /*======================================= reviews =======================================*/
-
+.review_score{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.review_score li{
+  margin-bottom: 3px;
+}
 .review_title{
   display: inline-block;
   font-size: 18px;
@@ -178,44 +210,45 @@
   display: inline-block;  
   font-size: 18px;   
 }
-.review_excellent_bg{
+.review_delicious_bg{
   background: #de562c; 
 }
-.review_good_bg{
+.review_tasty_bg{
   background: #e79568; 
 }
-.review_soso_bg{
-  background: #eed3af; 
+.review_common_bg{
+  background: #FFCC99; 
 }
-.review_excellent{
+.review_delicious{
   color: #de562c;
 }
-.review_good{
+.review_tasty{
   color: #e79568;
 }
-.review_soso{
-  color: #eed3af;
+.review_common{
+  color: #FFCC99;
 } 
 /*======================================= reviews feedback=======================================*/
 .review_feedback_avatar{
   display: inline-block;
-  height: 40px;
-  width: 40px;  
+  height: 35px;
+  width: 35px;  
   vertical-align: middle;
 }
 .review_feedback_name{
   display: inline-block;  
-  font-size: 25px;
+  font-size: 23px;
   vertical-align: middle;  
 }
 .review_feedback_date{
   display: inline-block;  
-  vertical-align: middle;  
+  vertical-align: middle; 
+  font-size: 14px; 
 }
 .review_feedback_option{
   display: inline-block;  
-  height: 30px;
-  width: 30px;
+  height: 25px;
+  width: 25px;
   border-radius: 20px;
   vertical-align: middle;  
 }

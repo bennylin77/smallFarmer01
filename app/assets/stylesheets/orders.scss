@@ -1,10 +1,6 @@
 .check_out_product_list{
   
 }
-.check_out_product_list td{
-  vertical-align: middle !important; 
-  text-align: center !important;       
-}
 .check_out_product_list_index{
   font-size: 30px;
 }
@@ -12,13 +8,38 @@
   width: 110px;
   height: 110px;
 }
-.check_out_product_list_title a{
+.check_out_product_list_title a, .check_out_product_list_title{
   font-size: 22px;
   color: #605856;    
 }
 .check_out_product_list_text{
   font-size: 15px;    
 }
+.check_out_delete_button{
+  background: #afb3ad;
+  color: #ffffff;
+  border: none;
+  border-radius: 0;
+  font-size: 14px;
+  padding: 4px 10px;
+  box-shadow: 3px 3px rgb(209, 209, 200);     
+}
+@media (max-width: 768px) {  
+  .check_out_product_list{
+    padding-bottom: 20px; 
+    border-bottom: 1px solid #afb3ad;  
+  }
+  .check_out_product_list_title{
+    margin-top: 20px;    
+  }
+  .check_out_product_list_text{
+    margin-top: 15px;
+  }
+  .check_out_delete_button{
+    margin-top: 10px;
+  }
+}
+
 .check_out_pay_method_text{
   text-align: center;
   font-size: 18px;

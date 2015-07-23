@@ -26,8 +26,8 @@ class User < ActiveRecord::Base
          
   validates_format_of :email, without: TEMP_EMAIL_REGEX, on: :update         
 
-  validates :last_name, presence: { presence: true, message: '請填寫 姓' }, on: :update  
-  validates :first_name, presence: { presence: true, message: '請填寫 名' }, on: :update 
+  validates :last_name, presence: { presence: true, message: '請填寫 姓' }
+  validates :first_name, presence: { presence: true, message: '請填寫 名' }
           
        
   def self.find_for_oauth(auth, signed_in_resource = nil)
@@ -79,11 +79,14 @@ class User < ActiveRecord::Base
   def email_verified?
     self.email && self.email !~ TEMP_EMAIL_REGEX
   end      
-           
+
+  def active_for_authentication?
+    super && !self.blocked_c
+  end           
 private
   def setUserAddress
     addresses.create(last_name: self.last_name, first_name: self.first_name)
-    companies.create(activate_c: false)
+    companies.create(activated_c: false)
     notifications.create(category: GLOBAL_VAR['NOTIFICATION_PROMOTION'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_VERIFY'], 
                          content: '立刻驗證獲得30元回饋金')
     

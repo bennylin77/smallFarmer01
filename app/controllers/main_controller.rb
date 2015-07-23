@@ -1,6 +1,9 @@
 class MainController < ApplicationController
   def index
-    
+  end
+  
+  def search
+    @products = Product.all
   end
   
   def delivered 
@@ -22,8 +25,45 @@ class MainController < ApplicationController
     redirect_to root_url    
   end
   
-  def marketing
-    
+  def farms  
+    @companies = Company.all       
   end
   
+  def fruits   
+    @products = Product.all  
+  end
+  
+  def marketing   
+  end
+  
+  def fb
+    redirect_to 'https://www.facebook.com/smallfarmer01'
+  end
+  
+  def under
+    render layout: 'temp'
+  end
+  
+  def surveyFarmer
+    render layout: 'temp'   
+  end
+  
+  def getFruitsAndFarms
+    
+    result = Array.new
+=begin    
+    company = Company.where("name LIKE ?", "%#{params[:term]}%")
+    company.each do |c|
+      result << 
+      {
+        abc: 123
+        #:label =>c.model+' '+c.title+' '+c.kind,
+        #:value =>c.model
+      }      
+    end
+=end
+    result<< {abc: 123}
+    result<< {abc: 123}    
+    render json: result.to_json       
+  end  
 end

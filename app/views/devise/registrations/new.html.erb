@@ -1,29 +1,70 @@
-<h2>Sign up</h2>
-
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %>
-    <% if @validatable %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "off" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
-  </div>
-  <%= recaptcha_tags %>
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+<div class="container-fluid main_frontend">
+	<div class="row">
+		<div class="col-sm-offset-3 col-sm-6 col-lg-offset-4 col-lg-4">
+		<%- if devise_mapping.omniauthable? %>
+		  <%- resource_class.omniauth_providers.each do |provider| %>
+		 		<%if provider.to_s.titleize == 'Facebook'%>
+			 		<%=link_to omniauth_authorize_path(resource_name, provider), class: 'btn facebook center-block' do%>
+						<%=image_tag 'facebook.png' %> <%="以 #{provider.to_s.titleize} 登入"%>
+					<%end%>    
+		    	<%end%>
+		  <% end -%>
+		<% end -%>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-offset-3 col-sm-6 col-lg-offset-4 col-lg-4">	
+			<div class="no-background"><span>或</span></div>
+		</div>
+	</div>	
+	<div class="row">
+		<div class="col-sm-offset-3 col-sm-6 col-lg-offset-4 col-lg-4">	
+			<div class="text-center" style="font-size: 26px;">註冊新帳號</div>
+			<p class="text-center">您已經擁有小農1號的帳號? 請按此 
+			<%- if controller_name != 'sessions' %>
+			  <%= link_to "登入", new_session_path(resource_name) %><br />
+			<% end -%>
+			</p>			
+		</div>
+	</div>		
+	<div class="row">
+		<div class="col-sm-offset-3 col-sm-6 col-lg-offset-4 col-lg-4">	
+		<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: "form-horizontal", role: "form"}) do |f| %>
+		  <%= devise_error_messages! %>
+			<div class="form-group">
+				<div class="col-sm-6">
+					<%= f.text_field :last_name, class: "form-control", placeholder: '姓' %>
+				</div>		
+				<div class="col-sm-6">	
+					<%= f.text_field :first_name, class: "form-control", placeholder: '名' %>			
+				</div>    	
+		  	</div>
+			<div class="form-group">
+				<div class="col-sm-12">
+		    	<%= f.email_field :email, autofocus: true, class: "form-control", placeholder: '電子信箱' %>
+		    	</div>
+		  	</div>
+			<div class="form-group">
+				<div class="col-sm-12">
+		    	<%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: '密碼 (至少8個字元)' %>
+		    	</div>
+		  	</div>
+			<div class="form-group">
+				<div class="col-sm-12">
+		    	<%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control", placeholder: '密碼確認' %>
+		    	</div>
+		  	</div>  	
+			<div class="form-group">
+				<div class="col-sm-12">		
+		  			<%= recaptcha_tags %>
+		  		</div>
+		  	</div>    	
+			<div class="form-group" style="margin-top: 30px;">
+				<div class="col-sm-12">
+		    	<%= f.submit "註冊", class: "btn btn-success add_button btn-block" %>
+		  		</div>
+		  	</div> 
+		<% end %>
+		</div>
+	</div>		
+</div>

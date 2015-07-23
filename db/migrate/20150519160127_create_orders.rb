@@ -24,6 +24,8 @@ class CreateOrders < ActiveRecord::Migration
       t.boolean   :delivered_c, default: false, null: false  
       t.datetime  :delivered_at 
 
+      t.boolean   :three_days_c, default: false, null: false
+      t.boolean   :five_days_c, default: false, null: false
       t.boolean   :seven_days_c, default: false, null: false
                         
       t.timestamps

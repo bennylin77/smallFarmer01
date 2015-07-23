@@ -1,44 +1,45 @@
 <div class="container main_frontend">
-	<div class="row">
-		<ul class="nav nav-tabs pull-right">
-		  <li role="presentation" <%= active( controller: 'notifications', action: 'index')%>>
-			<%= link_to "全部", controller: 'notifications', action: 'index'%>  	
-		  </li>
-		  <li role="presentation" <%= active( controller: 'orders', action: 'index')%>>
-			<%= link_to "留言", controller: 'orders', action: 'index'%>  	  	
-		  </li>
-		  <li role="presentation" <%= active( controller: 'orders', action: 'index')%>>
-			<%= link_to "訂單", controller: 'orders', action: 'index'%>  	  	
-		  </li>	
-		  <li role="presentation" <%= active( controller: 'orders', action: 'index')%>>
-			<%= link_to "系統", controller: 'orders', action: 'index'%>  	  	
-		  </li>		
-		  <li role="presentation" <%= active( controller: 'orders', action: 'index')%>>
-			<%= link_to "促銷", controller: 'orders', action: 'index'%>  	  	
-		  </li>			  	  	  
-		</ul>
+	<ul class="nav nav-tabs main_backend-tabs">
+		<li <%= active( '/notifications/index')%> >
+			<%= link_to "全部", controller: 'notifications', action: 'index'%>
+		</li>
+		<li <%= active( controller: 'notifications', action: 'index', category: GLOBAL_VAR['NOTIFICATION_PRODUCT'] )%>>
+			<%= link_to "訂單", controller: 'notifications', action: 'index', category: GLOBAL_VAR['NOTIFICATION_PRODUCT']%>  	
+		</li>			
+		<li <%= active( controller: 'notifications', action: 'index', category: GLOBAL_VAR['NOTIFICATION_PROMOTION'] )%>>
+			<%= link_to "促銷活動", controller: 'notifications', action: 'index', category: GLOBAL_VAR['NOTIFICATION_PROMOTION']%>  	
+		</li>		
+		<li <%= active( controller: 'notifications', action: 'index', category: GLOBAL_VAR['NOTIFICATION_COMMENT'] )%>>
+			<%= link_to "留言", controller: 'notifications', action: 'index', category: GLOBAL_VAR['NOTIFICATION_COMMENT']%>  	
+		</li>
+		<li <%= active( controller: 'notifications', action: 'index', category: GLOBAL_VAR['NOTIFICATION_SYSTEM'] )%>>
+			<%= link_to "系統", controller: 'notifications', action: 'index', category: GLOBAL_VAR['NOTIFICATION_SYSTEM']%>  	
+		</li>						
+	</ul>      
+	<div class="main_backend-tab-content">  	 
+		<% @notifications.each do |notification| %>
+		<div class="row" style="margin-top: 20px; min-height: 120px; border-bottom: 1px solid #526031">
+			<div class="col-sm-2 vmiddle text-center">		
+				<div class="notification_category"><%= Hash[categoryOptions].rassoc(notification.category).first%></div>
+				<div class="notification_category_date"><%= time_ago_in_words notification.created_at%>之前</div>						
+			</div>
+			<%if notification.sub_category == GLOBAL_VAR['NOTIFICATION_SUB_NONE']%>
+				<%= render partial: "none", locals: {notification: notification} %>
+			<%elsif notification.sub_category == GLOBAL_VAR['NOTIFICATION_SUB_NEW_COMMENT']%>	
+				<%= render partial: "new_comment", locals: {notification: notification} %>
+			<%elsif notification.sub_category == GLOBAL_VAR['NOTIFICATION_SUB_NEW_ORDER']%>	
+				<%= render partial: "new_order", locals: {notification: notification} %>
+			<%elsif notification.sub_category == GLOBAL_VAR['NOTIFICATION_SUB_NEW_SUB_COMMENT']%>	
+				<%= render partial: "new_sub_comment", locals: {notification: notification} %>
+			<%elsif notification.sub_category == GLOBAL_VAR['NOTIFICATION_SUB_UPDATING_INVOICE']%>	
+				<%= render partial: "updating_invoice", locals: {notification: notification} %>
+			<%elsif notification.sub_category == GLOBAL_VAR['NOTIFICATION_SUB_REVIEW']%>	
+				<%= render partial: "review", locals: {notification: notification} %>
+			<%elsif notification.sub_category == GLOBAL_VAR['NOTIFICATION_SUB_VERIFY']%>	
+				<%= render partial: "verify", locals: {notification: notification} %>
+			<%end%>	
+		</div>	
+		<%end%>
 	</div>	
-	<% @notifications.each do |notification| %>
-	<div class="row" style="margin-top: 30px; margin-bottom: 30px;">
-		<div class="col-sm-2">		
-		<%= Hash[categoryOptions].rassoc(notification.category).first%>			
-		</div>
-		<%if notification.sub_category == GLOBAL_VAR['NOTIFICATION_SUB_NONE']%>
-			<%= render partial: "none", locals: {notification: notification} %>
-		<%elsif notification.sub_category == GLOBAL_VAR['NOTIFICATION_SUB_NEW_COMMENT']%>	
-			<%= render partial: "new_comment", locals: {notification: notification} %>
-		<%elsif notification.sub_category == GLOBAL_VAR['NOTIFICATION_SUB_NEW_ORDER']%>	
-			<%= render partial: "new_order", locals: {notification: notification} %>
-		<%elsif notification.sub_category == GLOBAL_VAR['NOTIFICATION_SUB_NEW_SUB_COMMENT']%>	
-			<%= render partial: "new_sub_comment", locals: {notification: notification} %>
-		<%elsif notification.sub_category == GLOBAL_VAR['NOTIFICATION_SUB_UPDATING_INVOICE']%>	
-			<%= render partial: "updating_invoice", locals: {notification: notification} %>
-		<%elsif notification.sub_category == GLOBAL_VAR['NOTIFICATION_SUB_REVIEW']%>	
-			<%= render partial: "review", locals: {notification: notification} %>
-		<%elsif notification.sub_category == GLOBAL_VAR['NOTIFICATION_SUB_VERIFY']%>	
-			<%= render partial: "verify", locals: {notification: notification} %>
-		<%end%>	
-	</div>	
-	<%end%>
 </div>
 

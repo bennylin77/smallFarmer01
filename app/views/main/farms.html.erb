@@ -1,0 +1,22 @@
+<div class="container-fluid main_frontend">
+	<br><br>
+<% @companies.where(activated_c: true).each_slice(4) do |c|%> 
+	<div class="row" style="padding-bottom: 60px;">
+		<% c.each_with_index do |cc, index|%>
+				<div class="col-sm-3 farm_fruits">			
+				<%= link_to cc do%>
+					<svg width="160" height="100" class="center-block">
+					  <defs>
+						 <clipPath id="clipPolygon">
+		      				<path d="M80,0 L160,60 L160,160 L0,160 L0,60z" />
+						 </clipPath>
+					  </defs>
+					  <image clip-path="url(#clipPolygon)" xlink:href="<%=cc.cover.url%>" width="160px" height="130px"  />
+					</svg>	
+	          		<div class="sidebar_info_title"><%=cc.name%></div>      			  	
+				<%end%>		 				
+				</div>			
+		<% end %>
+	</div>
+<%end%>	
+</div>	

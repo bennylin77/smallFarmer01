@@ -13,13 +13,25 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">    
           <ul class="nav navbar-nav hidden-xs">
-            <li><a href="#" style="font-size: 17px; color: #536132; ">本站水果</a></li>
-            <li><a href="#about" style="font-size: 17px; color: #536132; ">合作農場</a></li>
-          </ul>          	            	   	
-          <form class="navbar-form navbar-left">
-            <input type="text" class="form-control rounded" placeholder="搜尋水果、農場&hellip;">
+            <li>
+ 		  		<%=link_to '本站水果', '/main/fruits', class: '', style: 'font-size: 17px; color: #536132;'%>
+            </li>	            	
+            <li>
+            	<%=link_to '合作農場', '/main/farms', class: '', style: 'font-size: 17px; color: #536132;'%>
+            </li>
+          </ul>  
+          <form class="navbar-form navbar-left" action="/main/search" method="get">
+            <div id="remote">
+            <input type="text" class="form-control rounded typeahead" id="search_term" placeholder="搜尋水果、農場">
+    		<!--<button type="submit" class="btn btn-default hidden-xs" style="border: none; background: none; color: #536132;"><span class="glyphicon glyphicon-search"></span></button>-->   		
+    		</div>
+    	  </form>          
+          <!--       	            	   	
+          <form class="navbar-form navbar-left" action="/main/search" method="get">
+            <input type="text" class="form-control rounded" id="search_term" placeholder="搜尋水果、農場">
     		<button type="submit" class="btn btn-default hidden-xs" style="border: none; background: none; color: #536132;"><span class="glyphicon glyphicon-search"></span></button>
-    	  </form>  	      	      	
+    	  </form>
+    	  --> 	      	      	
           <ul class="nav navbar-nav navbar-right">
 			<%if user_signed_in?%>          	
 	            <li><a href="/coupons/index" class="menu_right">
@@ -38,10 +50,10 @@
 		            	<ul style="margin: 0; padding: 0; list-style: none; color: #000000" class="cart_lists">
 		            	</ul>
 		            	<div class='cart_label_container'>
-		            	<span class="cart_label">總計</span><span class="cart_total">1000</span>元
+		            	<span class="cart_label">總計</span><span class="cart_total">0</span>元
 		            	</div>
 						<%= form_tag('/orders/checkout') do -%>
-						<button class="btn btn-default green_btn center-block" type="submit" style="  padding: 5px 20px;">結帳</button>
+						<button class="btn btn-priamry green_btn center-block menu_checkout_button" type="submit" style="padding: 5px 20px;">結帳</button>
 						<% end -%>		            	
 		            </div>	                 
 	          	</li>
@@ -56,11 +68,13 @@
 		            <span class='mobile_menu_label'><%if current_user.last_name%><%=current_user.last_name+' '+current_user.first_name%><%end%></span>					
 					</a>			
 				</li> 
+	            <%if current_user.companies.first.activated_c%>
 	            <li><a href="/orders/index?called_smallfarmer_c=false" class="menu_right">
 					<%= image_tag 'farm_icon.png', class: '', style: 'height: 34px; width: 38px' %>	            	
 		            <span class='mobile_menu_label'>管理農場</span>	            	
 	            	</a>
-	            </li>				    
+	            </li>	
+	            <%end%>			    
 			<%else%>	
 				<li><%= link_to "註冊", new_user_registration_path %></li>
 				<li><%= link_to "登入", new_user_session_path %></li>
@@ -80,19 +94,28 @@ function showCarts(){
 	});
 	request.done(function( message ) {
 		$(".cart_lists").empty();
-		var q = 0; var total_price = 0;
-		$.each(  message , function( i, l ){					
-			$(".cart_lists").append('<li><a href="/products/'+l.id+'">'+
-			'<img  class="cart_image img-circle" src="'+l.image_url+'"><div class="cart_content">'+
-			l.name+
-			'<div style="margin-top: 7px;"><span class="cart_label"></span>'+l.quantity+'箱</div>'+
-			'<div><span class="cart_label"></span>'+l.price+'元</div></div></a></li>')
-			q = q + l.quantity	
-			total_price  = total_price + l.price
-	 	});
+		var q = 0; var total_price = 0;		
+		if( message.length!=0 ) 
+			$.each(  message , function( i, l ){				
+				$(".cart_lists").append('<li><a href="/products/'+l.id+'">'+
+				'<img  class="cart_image img-circle" src="'+l.image_url+'"><div class="cart_content">'+
+				l.name+
+				'<div style="margin-top: 7px;"><span class="cart_label"></span>'+l.quantity+'箱</div>'+
+				'<div><span class="cart_label"></span>'+l.price+'元</div></div></a></li>')
+				q = q + l.quantity	
+				total_price  = total_price + l.price
+		 	});
+		else
+		{
+			$(".cart_lists").append('購物車內沒有水果');	
+		    $(".menu_checkout_button").attr('disabled','disabled');
+		}		 	
 	 	$('.cart_total').html(total_price);
 	 	if(q!=0)
+	 	{
 	 		$('.carts_badge').html(q);
+	 		$(".menu_checkout_button").removeAttr('disabled');
+	 	}
 	 	else
 	 		$('.carts_badge').html('');	
 	});
@@ -115,7 +138,6 @@ function showNotifications(){
 	request.fail(function( jqXHR, textStatus ) {
 	});		
 }
-
 function showCoupons(){
 	var request = $.ajax({
 		url: "/coupons/showCoupons",
@@ -133,4 +155,22 @@ function showCoupons(){
 	});		
 }
 
+
+
+
+var bestPictures = new Bloodhound({
+  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+  queryTokenizer: Bloodhound.tokenizers.whitespace,
+  remote: {
+    url: '/main/getFruitsAndFarms?term=%QUERY',
+    wildcard: '%QUERY'
+  }
+  //prefetch: '../data/films/post_1960.json',  
+});
+
+$('#remote .typeahead').typeahead(null, {
+  name: 'best-pictures',
+  display: 'value',
+  source: bestPictures
+});
 </script>

@@ -1,20 +1,50 @@
 class ManagementController < ApplicationController
   
   before_action :set_order, only: []
+  before_action :set_company, only: [:activateCompany]
+  before_action :set_user, only: [:blockUser]
+  before_action :set_product, only: [:setCertification, :setSweetDegree]
   
   def index
     
   end
   
   def invoices 
+    @invoices = Invoice.all.paginate(page: params[:page], per_page: 60).order('id DESC')     
   end
   
   def orders
     params[:called_smallfarmer_c] = params[:called_smallfarmer_c] == 'true' ? true : false    
     params[:called_logistics_c] = params[:called_logistics_c] == 'true' ? true : false    
-   
-    @orders = Order.joins(product_boxing: {product: :company}, invoice: {} ).where('companies.id = ? and called_smallfarmer_c = ? and called_logistics_c = ? and invoices.confirmed_c = 1', 
-                          current_user.companies.first, params[:called_smallfarmer_c], params[:called_logistics_c]).all.paginate(page: params[:page], per_page: 30).order('id DESC')    
+      
+    @orders = Order.joins(:invoice).where('called_smallfarmer_c = ? and called_logistics_c = ? and invoices.confirmed_c = 1', 
+                                    params[:called_smallfarmer_c], params[:called_logistics_c]).all.paginate(page: params[:page], per_page: 60).order('id DESC')    
+  end
+  
+  def exportOrders  
+    @orders = Order.all
+    time_str = Time.now.strftime("%Y%m%d%H%M")    
+    respond_to do |format|
+       format.xls{
+        response.headers['Content-Type'] = 'application/vnd.ms-excel; charset="utf-8" '
+        response.headers['Content-Disposition'] = " attachment; filename=\"#{time_str}出貨單.xls\" "  
+       }
+    end     
+  end  
+  
+  def uploadTracking
+    workbook = Roo::Spreadsheet.open params[:file_data].path, extension: :xls
+    workbook.each_with_pagename do |name, rows|
+      rows.drop(2).each do |row|
+        order = Order.find(row[1])
+        order.product_boxing.product.name
+        if order.tracing_code.blank?
+          order.tracing_code = row[0]
+          order.save!
+        end  
+      end
+    end    
+    render json: {success: true}
   end
   
   def callLogistics
@@ -28,9 +58,100 @@ class ManagementController < ApplicationController
     render json: {success: true}
   end
   
-  private   
-    def set_order
-      @order = Order.find(params[:id])
-    end  
+  def companies
+    params[:activated_c] = params[:activated_c] == 'true' ? true : false              
+    @companies = Company.where('activated_c = ?', params[:activated_c]).all.paginate(page: params[:page], per_page: 60).order('id DESC')     
+  end  
+  
+  def activateCompany
+    params[:activate] = params[:activate] == 'true' ? true : false                  
+    if params[:activate]
+      @company.update_columns(activated_c: params[:activate], activated_at: Time.now)
+      render json: {success: true, message: '農場編號 '+@company.id.to_s+' 改為營運'}    
+    else
+      @company.update_columns(activated_c: params[:activate])
+      render json: {success: true, message: '農場編號 '+@company.id.to_s+' 改為非營運'}          
+    end    
+  end
+
+  def products
+    @products = Product.all.paginate(page: params[:page], per_page: 60).order('id DESC')             
+  end
+  
+  def setCertification    
+    params[:val] = params[:val] == 'true' ? true : false                      
+    case params[:kind]
+    when 'GAP'
+      if params[:val]
+        @product.update_columns(GAP_c: params[:val])
+        render json: {success: true, message: '水果編號 '+@product.id.to_s+' 吉園圃已認證'}    
+      else
+        @product.update_columns(GAP_c: params[:val])
+        render json: {success: true, message: '水果編號 '+@product.id.to_s+' 吉園圃已停用'}          
+      end  
+    when 'TAP'
+      if params[:val]
+        @product.update_columns(TAP_c: params[:val])
+        render json: {success: true, message: '水果編號 '+@product.id.to_s+' TAP已認證'}    
+      else
+        @product.update_columns(TAP_c: params[:val])
+        render json: {success: true, message: '水果編號 '+@product.id.to_s+' TAP已停用'}          
+      end 
+    when 'OTAP'
+      if params[:val]
+        @product.update_columns(OTAP_c: params[:val])
+        render json: {success: true, message: '水果編號 '+@product.id.to_s+' OTAP已認證'}    
+      else
+        @product.update_columns(OTAP_c: params[:val])
+        render json: {success: true, message: '水果編號 '+@product.id.to_s+' OTAP已停用'}          
+      end 
+    when 'UTAP'
+      if params[:val]
+        @product.update_columns(UTAP_c: params[:val])
+        render json: {success: true, message: '水果編號 '+@product.id.to_s+' UTAP已認證'}    
+      else
+        @product.update_columns(UTAP_c: params[:val])
+        render json: {success: true, message: '水果編號 '+@product.id.to_s+' UTAP已停用'}          
+      end                   
+    end   
+  end  
+        
+  def setSweetDegree
+    @product.update_columns(sweet_degree: params[:val])
+    render json: {success: true, message: '水果編號 '+@product.id.to_s+' 甜度已變更為'+@product.sweet_degree.to_s}     
+  end
+  
+  def users
+    @users = User.all.paginate(page: params[:page], per_page: 60).order('id DESC')     
+  end  
+  
+  def blockUser
+    params[:block] = params[:block] == 'true' ? true : false                  
+    if params[:block]
+      @user.update_columns(blocked_c: params[:block], blocked_at: Time.now)
+      render json: {success: true, message: '使用者編號 '+@user.id.to_s+' 已停用'}    
+    else
+      @user.update_columns(blocked_c: params[:block])
+      render json: {success: true, message: '使用者編號 '+@user.id.to_s+' 已啟用'}          
+    end    
+  end
+  
+private   
+  
+  def set_order
+    @order = Order.find(params[:id])
+  end  
+
+  def set_company
+    @company = Company.find(params[:id])
+  end
+  
+  def set_user
+    @user = User.find(params[:id])
+  end  
+  
+  def set_product
+    @product = Product.find(params[:id])
+  end      
   
 end

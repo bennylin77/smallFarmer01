@@ -1,38 +1,50 @@
 <div class="row" style="">				
-	<div class="col-sm-12">	
-		<ul>
+	<div class="col-xs-12">	
+		<ul class="review_score">
 			<li>
-				<div class="review_title">非吃不可</div>	
+				<div class="review_title">超好吃</div>	
 				<div class="review_block_bar">
-				<div class="review_block1_bar review_block_bar_inner review_excellent_bg"></div>	
-				<div class="review_block1_number review_block_number review_excellent">3147</div>				
+				<div class="review_block1_bar review_block_bar_inner review_delisious_bg"></div>	
+				<div class="review_block1_number review_block_number review_delicious" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and delivered_c = 1 and review_score = ? ', @product.id, GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count %>'>				
+				</div>				
 				</div>
 			</li>
 			<li>
 				<div class="review_title">好吃</div>
 				<div class="review_block_bar">					
-				<div class="review_block2_bar review_block_bar_inner review_good_bg"></div>	
-				<div class="review_block2_number review_block_number review_good">76</div>					
+				<div class="review_block2_bar review_block_bar_inner review_tasty_bg"></div>	
+				<div class="review_block2_number review_block_number review_tasty" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and delivered_c = 1 and review_score = ? ', @product.id, GLOBAL_VAR['ORDER_REVIEW_TASTY']).count %>'>
+				</div>					
 				</div>			
 			</li>
 			<li>
 				<div class="review_title">普通</div>	
 				<div class="review_block_bar">									
-				<div class="review_block3_bar review_block_bar_inner review_soso_bg"></div>	
-				<div class="review_block3_number review_block_number review_soso">2301</div>					
+				<div class="review_block3_bar review_block_bar_inner review_common_bg"></div>	
+				<div class="review_block3_number review_block_number review_common" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and delivered_c = 1 and review_score = ? ', @product.id, GLOBAL_VAR['ORDER_REVIEW_COMMON']).count %>'>
+				</div>					
 				</div>
 			</li>				
 		</ul>	
 	</div>	
 </div>
 <script>
-	var controller = new ScrollMagic.Controller();
-	new ScrollMagic.Scene({triggerElement: ".product_section_title"})
+var delicious_count = $('.review_delicious').attr("data-count")
+var tasty_count = $('.review_tasty').attr("data-count")
+var common_count = $('.review_common').attr("data-count")
+var max_count = Math.max( delicious_count, tasty_count, common_count); 
+
+$('.review_delicious').html(delicious_count);
+$('.review_tasty').html(tasty_count);
+$('.review_common').html(common_count);
+
+var controller = new ScrollMagic.Controller();
+new ScrollMagic.Scene({triggerElement: ".product_section_title"})
 		.addTo(controller)
 		.on('start', function(e){
-			$('.review_block1_bar').animate({"width": 100}, 1000)
-			$('.review_block2_bar').animate({"width": 20}, 1000)
-			$('.review_block3_bar').animate({"width": 100}, 1000)				
+			$('.review_block1_bar').animate({"width": 100*(delicious_count/max_count)}, 1000)
+			$('.review_block2_bar').animate({"width": 100*(tasty_count/max_count)}, 1000)
+			$('.review_block3_bar').animate({"width": 100*(common_count/max_count)}, 1000)				
 		}).on('leave', function(e){
 			$('.review_block1_bar').animate({"width": 0}, 0)
 			$('.review_block2_bar').animate({"width": 0}, 0)

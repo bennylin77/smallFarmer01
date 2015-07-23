@@ -24,3 +24,5 @@ gem "recaptcha", :require => "recaptcha/rails"
 gem 'will_paginate', '~> 3.0.6'
 gem 'will_paginate-bootstrap'
 gem 'rest-client'
+gem 'roo'
+gem 'google_drive'

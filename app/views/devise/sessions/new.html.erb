@@ -1,26 +1,63 @@
-<h2>Log in</h2>
-
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "off" %>
-  </div>
-
-  <% if devise_mapping.rememberable? -%>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
-    </div>
-  <% end -%>
-
-  <div class="actions">
-    <%= f.submit "Log in" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+<div class="container-fluid main_frontend">
+	<div class="row">
+		<div class="col-sm-offset-3 col-sm-6 col-lg-offset-4 col-lg-4">
+		<%- if devise_mapping.omniauthable? %>
+		  <%- resource_class.omniauth_providers.each do |provider| %>
+		 		<%if provider.to_s.titleize == 'Facebook'%>
+			 		<%=link_to omniauth_authorize_path(resource_name, provider), class: 'btn facebook center-block' do%>
+						<%=image_tag 'facebook.png' %> <%="以 #{provider.to_s.titleize} 登入"%>
+					<%end%>    
+		    	<%end%>
+		  <% end -%>
+		<% end -%>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-offset-3 col-sm-6 col-lg-offset-4 col-lg-4">	
+			<div class="no-background"><span>或</span></div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-offset-3 col-sm-6 col-lg-offset-4 col-lg-4">	
+			<div class="text-center" style="font-size: 26px;">小農帳號登入</div>
+			<p class="text-center">還沒有小農1號的帳號? 請按此 
+			<%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+			  <%= link_to "註冊", new_registration_path(resource_name) %><br />
+			<% end -%>
+			</p>			
+		</div>
+	</div>			
+	<div class="row">
+		<div class="col-sm-offset-3 col-sm-6 col-lg-offset-4 col-lg-4">
+		<%= form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "form-horizontal", role: "form"}) do |f| %>
+			<div class="form-group">
+				<div class="col-sm-12">
+		    	<%= f.email_field :email, autofocus: true, class: "form-control", placeholder: '電子信箱' %>
+		    	</div>
+		  	</div>			
+			<div class="form-group">
+				<div class="col-sm-12">
+		    	<%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: '密碼' %>
+		    	</div>
+		  	</div>			
+			<div class="form-group">
+				<div class="col-sm-6">		  	
+				  <% if devise_mapping.rememberable? -%>
+				      <%= f.check_box :remember_me %> 記住我
+				  <% end -%>	
+		    	</div>
+				<div class="col-sm-6 text-right">			    	
+				<%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+				  <%= link_to "忘記密碼?", new_password_path(resource_name) %><br />
+				<% end -%>	
+		    	</div>				    					    	
+		  	</div>			  							   	
+			<div class="form-group" style="margin-top: 30px;">
+				<div class="col-sm-12">
+		    	<%= f.submit "登入", class: "btn btn-success add_button btn-block" %>
+		  		</div>
+		  	</div> 
+		<% end %>			
+		</div>
+	</div>				
+</div>

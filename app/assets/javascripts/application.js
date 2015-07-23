@@ -31,5 +31,6 @@
 //= require toastr.min.js
 //= require toastr_options.js
 //= require bootstrap-hover-dropdown.min.js 
+//= require typeahead.bundle.min.js
 //
 //= require_tree .

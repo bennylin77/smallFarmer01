@@ -1,9 +1,9 @@
 class ProductsController < ApplicationController
-  layout "companies", only: [:index, :edit, :new, :create, :update]  
+  layout "companies", only: [:index, :edit, :new, :create, :update, :preview]  
   before_filter :authenticate_user!, except: [:show] 
   
-  before_action only: [:edit, :update, :destroy, :productImagesUpload, :productImagesDelete] { |c| c.ProductCheckUser(params[:id])}    
-  before_action :set_product, only: [:show, :edit, :update, :destroy, :productImagesUpload, :productImagesDelete, :available]
+  before_action only: [:edit, :update, :preview, :destroy, :productImagesUpload, :productImagesDelete] { |c| c.ProductCheckUser(params[:id])}    
+  before_action :set_product, only: [:show, :edit, :update, :preview, :destroy, :productImagesUpload, :productImagesDelete, :available]
 
   def index
     @products = current_user.companies.first.products
@@ -14,13 +14,15 @@ class ProductsController < ApplicationController
   end
 
   def new
-    @product = Product.new
-    p_b= @product.product_boxings.build() 
+    product = Product.new
+    p_b= product.product_boxings.build() 
     p_b.product_pricings.build(quantity: 1)   
     p_b.product_pricings.build()       
-    #redirect_to edit_product_path(product)
+    product.company = current_user.companies.first
+    product.save!    
+    redirect_to edit_product_path(product)
   end
-
+=begin
   def create
     @product = Product.new(product_params)
     @product.company = current_user.companies.first
@@ -34,7 +36,7 @@ class ProductsController < ApplicationController
     end
     render :new    
   end
-
+=end
   def edit
   end
 
@@ -44,6 +46,15 @@ class ProductsController < ApplicationController
     end   
     render 'edit'    
   end
+  
+  def preview
+    if @product.update(product_params)
+      redirect_to @product
+    else
+      render 'edit'
+    end    
+  end
+  
 
   def destroy
     @product.destroy

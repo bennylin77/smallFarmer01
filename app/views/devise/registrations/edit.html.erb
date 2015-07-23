@@ -6,26 +6,26 @@
   <% end %>
 
  	<div class="form-group">
-		<label class="col-sm-2 control-label">新密碼</label>
-		<div class="col-sm-6">
+		<label class="col-sm-offset-1 col-sm-2 control-label">新密碼</label>
+		<div class="col-sm-5">
 			<%= f.password_field :password, autocomplete: "off", class: "form-control" %>			
 		</div>
 	</div>
  	<div class="form-group">
-		<label class="col-sm-2 control-label">新密碼確認</label>
-		<div class="col-sm-6">
+		<label class="col-sm-offset-1 col-sm-2 control-label">新密碼確認</label>
+		<div class="col-sm-5">
 			<%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control" %>			
 		</div>
 	</div>
  	<div class="form-group">
-		<label class="col-sm-2 control-label">目前密碼</label>
-		<div class="col-sm-6">
+		<label class="col-sm-offset-1 col-sm-2 control-label">目前密碼</label>
+		<div class="col-sm-5">
 			<%= f.password_field :current_password, autocomplete: "off", class: "form-control" %>			
 		</div>
 	</div>
 	<div class="form-group">
-		<div class="col-sm-offset-2 col-sm-10">
-			<%= f.submit '儲存',  class: "btn btn-default"  %>
+		<div class="col-sm-offset-3 col-sm-9">
+			<%= f.submit '儲存',  class: "btn btn-success add_button"  %>
 		</div>
 	</div>
 <% end %>
