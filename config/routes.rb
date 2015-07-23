@@ -34,7 +34,8 @@ Rails.application.routes.draw do
   get    'main/delivered'
   get    'main/search'
   get    'main/fruits'
-  get    'main/farms'   
+  get    'main/farms' 
+  get    'main/getFruitsAndFarms'  
 
   get    'management/index'    
   get    'management/invoices'

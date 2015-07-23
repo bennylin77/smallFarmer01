@@ -48,4 +48,22 @@ class MainController < ApplicationController
     render layout: 'temp'   
   end
   
+  def getFruitsAndFarms
+    
+    result = Array.new
+=begin    
+    company = Company.where("name LIKE ?", "%#{params[:term]}%")
+    company.each do |c|
+      result << 
+      {
+        abc: 123
+        #:label =>c.model+' '+c.title+' '+c.kind,
+        #:value =>c.model
+      }      
+    end
+=end
+    result<< {abc: 123}
+    result<< {abc: 123}    
+    render json: result.to_json       
+  end  
 end

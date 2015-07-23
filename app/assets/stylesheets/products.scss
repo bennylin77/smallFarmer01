@@ -1,16 +1,30 @@
 .product_farm_description{
   background-color: rgba( 230, 218, 207, 0.5);  
   border-radius: 40px;
+  min-height: 90px;
 }
 .product_farm_description_avatar{
   height: 90px; 
   width: 90px;
-  margin-top: 10px;
+  position: absolute;
 }
 .product_farm_description_text
 {
-  padding: 10px 20px;
-  font-size: 16.5px;
+  position: absolute;
+  padding: 15px 20px;
+  left: 100px;
+  font-size: 15px;
+  color: #605856;
+}
+@media (max-width: 768px) {
+  .product_farm_description_avatar{
+    margin-top: 10px;
+    position: static;
+  }
+  .product_farm_description_text
+  {
+    position: static;
+  }
 }
 .product_name
 {  
@@ -77,6 +91,7 @@
 }
 .product_carousel-control {
   &.left, &.right {
+    z-index: 1;
     background: none;
     position:absolute; 
     @include reset-filter();

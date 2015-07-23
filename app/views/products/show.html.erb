@@ -15,16 +15,26 @@
 	  <li class="active"><%= @product.name %></li>	
 	</ol>
 	<div class="row">
-		<div class="col-md-12 col-lg-offset-1 col-lg-10 product_farm_description">		
-			<div class="row">
-				<div class="col-lg-2 text-center">					
-				<%= image_tag @product.company.user.avatar.url, class: 'img-circle product_farm_description_avatar', style: '' %>		
-				</div>
-				<div class="col-lg-10 product_farm_description_text">	
+		<div class="hidden-xs col-md-12 col-lg-offset-2 col-lg-8 product_farm_description">		
+				<%= image_tag @product.company.user.avatar.url, class: 'img-circle product_farm_description_avatar' %>		
+				<%=link_to @product.company do%>
+				<div class="product_farm_description_text">	
 				<%= truncate( @product.company.description, length: 122, omission: '... more') %>
 				</div>
-			</div>
+				<%end%>
 		</div>				
+		<div class="visible-xs-block col-xs-12 product_farm_description">		
+			<div class="row">
+				<div class="col-xs-12 text-center">					
+				<%= image_tag @product.company.user.avatar.url, class: 'img-circle product_farm_description_avatar', style: '' %>		
+				</div>
+				<%=link_to @product.company do%>				
+				<div class="col-xs-12 product_farm_description_text">	
+				<%= truncate( @product.company.description, length: 122, omission: '... more') %>
+				</div>
+				<%end%>				
+			</div>
+		</div>			
 	</div>	
 	<div class="row" style="margin-top: 30px;">
 		<div class="col-md-6 col-lg-offset-1 col-lg-5">		
