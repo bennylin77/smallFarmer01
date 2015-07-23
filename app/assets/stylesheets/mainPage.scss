@@ -1,0 +1,41 @@
+
+.review_title{
+  display: inline-block;
+  font-size: 23px;
+  width: 80px;
+  text-align: right;
+}
+.review_block_bar{
+  display: inline-block; 
+  width: 300px;  
+}
+
+.review_block_bar_inner{
+  display: inline-block; 
+  height: 18px;   
+}
+
+.review_block_number{
+  display: inline-block;  
+  font-size: 18px;   
+}
+.review_delicious_bg{
+  background: #de562c; 
+}
+.review_tasty_bg{
+  background: #e79568; 
+}
+.review_common_bg{
+  background: #eed3af; 
+}
+.review_delicious{
+  color: #de562c;
+}
+.review_tasty{
+  color: #e79568;
+}
+.review_common{
+  color: #eed3af;
+} 
+
+

@@ -18,9 +18,10 @@
 //= require EasePack.min.js
 //= require TweenMax.min.js
 //= require modernizr.custom.min.js
-//= require ScrollMagic.js
+//= require ScrollMagic.min.js
 //= require animation.gsap.js
 //= require debug.addIndicators.js
+//= require debug.addIndicators.min.js
 
 //= require jquery.twzipcode.min.js
 //= require intlTelInput.min.js
