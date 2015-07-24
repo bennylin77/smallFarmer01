@@ -1,5 +1,339 @@
-<br><br><br><br>
-<%=image_tag 'home.png', style: 'width: 100%;' %>
+<script>
+	// init controller
+	var controller = new ScrollMagic.Controller();
+</script>
+<section class="first_section" style="height: 1760px;">
+	<div class="container-fluid">
+	    <div class="row" style="margin-top: 50px;">
+    	<div class="col-sm-12">
+			<div class="papaya">
+				<%= image_tag 'papaya.png', style:'visibility: hidden; position: absolute; top: 280px; left: 71%;', size: '50x70', id: 'papaya_1' %>
+				<%= image_tag 'mogo.png', style:'visibility: hidden; position: absolute; top: 170px; left: 77%;', size: '70x70', id: 'mogo_1' %>
+				<%= image_tag 'papaya.png', style:'visibility: hidden; position: absolute; top: 280px; left: 83%;', size: '50x70', id: 'papaya_2' %>
+			</div>
+			<%= image_tag 'say_nice_1.png', style:'visibility: hidden; position: absolute; top: 183px; left: 20%;', size: '100x50', id: 'say_nice_1' %>
+			<%= image_tag 'say_nice_2.png', style:'visibility: hidden; position: absolute; top: 415px; left: 29%;', size: '100x50', id: 'say_nice_2' %>
+			<%= image_tag 'three_chatting_girls.png', style:' position: absolute; top: 250px; left: 70%;', size: '262x313', id: 'three_chatting_girls_1' %>
+			<%= image_tag 'fruit_farmer.png', style:' position: absolute; top: 160px; left: 13%;', size: '262x369', id: 'fruit_farmer_1' %>
+			<ul id="comment" style="visibility: hidden; position: absolute; top: 290px; left: 40%;">
+				<li>
+					<div class="review_title">超好吃</div>	
+					<div class="review_block_bar">
+					<div class="review_block1_bar review_block_bar_inner review_delicious_bg"></div>	
+					<div class="review_block1_number review_block_number review_delicious" data-count='3764'></div>				
+					</div>
+				</li>
+				<li>
+					<div class="review_title">好吃</div>
+					<div class="review_block_bar">					
+					<div class="review_block2_bar review_block_bar_inner review_tasty_bg"></div>	
+					<div class="review_block2_number review_block_number review_tasty" data-count='1064'>
+					</div>					
+					</div>			
+				</li>
+				<li>
+					<div class="review_title">普通</div>	
+					<div class="review_block_bar">									
+					<div class="review_block3_bar review_block_bar_inner review_common_bg"></div>	
+					<div class="review_block3_number review_block_number review_common" data-count='2004'>
+					</div>					
+					</div>
+				</li>
+			</ul>
+		</div>
+		</div>
+	</div>
+</section>
+<section class="second_section" style="height: 720px;">
+	<div class="container-fluid">
+		<div class="row" style="margin-top: 50px;">
+    	<div class="col-sm-12 fair-eval">
+    		<%=image_tag 'fair_eval.png', style:' position: absolute; top: 70px; left: 41%;', size:'200x320'%>
+  			<%=image_tag 'fair_eval_words.png', style:' position: absolute; top: 410px; left: 39%;', size:'295x85'%>
+  		</div>
+	</div>
+</section>
+<section class="third_section" style="height: 2500px;">
+	<div class="container-fluid">
+		<div class="row" style="margin-top: 50px;">
+    	<div class="col-sm-12">
+    		<%= image_tag 'three_chatting_girls.png', style:' position: absolute; top: 250px; left: 70%;', size: '262x313', id: 'three_chatting_girls_3' %>
+			<%= image_tag 'three_chatting_girls_fruits.png', style:'visibility: hidden; position: absolute; top: 250px; left: 70%;', size: '262x313', id: 'three_chatting_girls_fruits_3' %>
+			<%= image_tag 'fruit_farmer.png', style:' position: absolute; top: 160px; left: 13%;', size: '262x369', id: 'fruit_farmer_3' %>
+			<%= image_tag 'money_flow.png', style:'visibility: hidden; position: absolute; top: 80px; left: 35%;', size: '350x350', id: 'money_flow' %>
+			<%= image_tag 'coin.png', style:' visibility: hidden; position: absolute; top: 116px; left: 15%;', size: '45x45', id: 'coin_1' %>
+ 			<%= image_tag 'coin.png', style:' visibility: hidden; position: absolute; top: 191px; left: 22.5%;', size: '45x45', id: 'coin_2' %>
+ 			<div class="tap">
+ 				<%= image_tag 'lean_trans_mogo.png', style:' position: absolute; top: 300px; left: 32%;', size: '80x80', id: 'lean_trans_mogo_1' %>
+    			<%= image_tag 'lean_trans_papaya.png', style:' position: absolute; top: 300px; left: 45%;', size: '80x80', id: 'lean_trans_papaya_1' %>
+    			<%= image_tag 'lean_trans_mogo.png', style:' position: absolute; top: 300px; left: 58%;', size: '80x80', id: 'lean_trans_mogo_2' %>
+	 			<%= image_tag 'trans_tap.png', style:' position: absolute; top: 400px; left: 29%;', size: '45x45', id: 'tap_1' %>
+	 			<%= image_tag 'trans_tap.png', style:' position: absolute; top: 400px; left: 33.3%;', size: '45x45', id: 'tap_2' %>
+	 			<%= image_tag 'trans_tap.png', style:' position: absolute; top: 400px; left: 37.6%;', size: '45x45', id: 'tap_3' %>
+	 			<%= image_tag 'trans_tap.png', style:' position: absolute; top: 400px; left: 41.9%;', size: '45x45', id: 'tap_4' %>
+	 			<%= image_tag 'trans_tap.png', style:' position: absolute; top: 400px; left: 46.2%;', size: '45x45', id: 'tap_5' %>
+	 			<%= image_tag 'trans_tap.png', style:' position: absolute; top: 400px; left: 50.5%;', size: '45x45', id: 'tap_6' %>
+	 			<%= image_tag 'trans_tap.png', style:' position: absolute; top: 400px; left: 54.8%;', size: '45x45', id: 'tap_7' %>
+	 			<%= image_tag 'trans_tap.png', style:' position: absolute; top: 400px; left: 59.2%;', size: '45x45', id: 'tap_8' %>
+	 			<%= image_tag 'trans_tap.png', style:' position: absolute; top: 400px; left: 64%;', size: '45x45', id: 'tap_9' %>
+	 		</div>
+ 		</div>
+	</div>
+</section>
+<section class="fourth_section" style="height: 720px;">
+	<div class="container-fluid">
+		<div class="row" style="margin-top: 50px;">
+    	<div class="col-sm-12 openness">
+    		<%=image_tag 'openness.png', style:' position: absolute; top: 70px; left: 41%;', size:'200x320'%>
+ 			<%=image_tag 'openness_words.png', style:' position: absolute; top: 410px; left: 39%;', size:'295x108'%>
+ 		</div>
+	</div>
+</section>
+<section class="fifth_section" style="height: 1900px;">
+	<div class="container-fluid">
+		<div class="row" style="margin-top: 50px;">
+    	<div class="col-sm-12">
+    		<div class="fifth_pin">
+				<%= image_tag 'three_chatting_girls_fruits.png', style:'position: absolute; top: 250px; left: 68%;', size: '262x313', id: 'three_chatting_girls_fruits_3' %>
+				<%= image_tag 'fruit_farmer.png', style:' position: absolute; top: 160px; left: 13%;', size: '262x369', id: 'fruit_farmer_3' %>
+				<%= image_tag 'top_arrow.png', style:' position: absolute; top: 35px; left: 21%;', size: '669x202', id: 'top_arrow' %>
+				<%= image_tag 'bottom_arrow.png', style:' position: absolute; top: 401px; left: 33%;', size: '450x120', id: 'bottom_arrow' %>
+			</div>
+			<%= image_tag '4_pcentage.png', style:' position: absolute; top: 370px; left: 27%;', size: '80x80', id: 'four_pcentage_1' %>
+			<%= image_tag '4_pcentage.png', style:' visibility:hidden; position: absolute; top: 246px; left: 64%;', size: '80x80', id: 'four_pcentage_2' %>
+ 		</div>
+	</div>
+</section>
+<section class="sixth_section" style="height: 720px;">
+	<div class="container-fluid">
+		<div class="row" style="margin-top: 50px;">
+    	<div class="col-sm-12 feedback">
+    		<%=image_tag 'feedback.png', style:' position: absolute; top: 70px; left: 41%;', size:'200x320'%>
+ 			<%=image_tag 'feedback_words.png', style:' position: absolute; top: 410px; left: 39%;', size:'295x108'%>
+ 		</div>
+	</div>
+</section>
+<section class="seventh_section" style="height: 720px;">
+	<div class="container-fluid">
+		<div class="row" style="margin-top: 50px;">
+    	<div class="col-sm-12 logo">
+    		<%=image_tag 'page_logo.png', style:' position: absolute; top: 70px; left: 41%;', size:'200x320'%>
+ 			<%=image_tag 'logo_words.png', style:' position: absolute; top: 410px; left: 39%;', size:'295x40'%>
+ 		</div>
+	</div>
+</section>
+<script>
+	$(function () { // wait for document ready
+		var delicious_count = $('.review_delicious').attr("data-count")
+		var tasty_count = $('.review_tasty').attr("data-count")
+		var common_count = $('.review_common').attr("data-count")
+		$('.review_delicious').html(delicious_count);
+		$('.review_tasty').html(tasty_count);
+		$('.review_common').html(common_count);
+		// build scene
+		//公證評價
+		//set pin
+		new ScrollMagic.Scene({duration: 1024, triggerElement: ".first_section", triggerHook: "0" })
+			.setPin("#three_chatting_girls_1")
+			.addTo(controller);
+		new ScrollMagic.Scene({duration: 1024, triggerElement: ".first_section", triggerHook: "0" })
+			.setPin("#fruit_farmer_1")
+			.addTo(controller);
+		new ScrollMagic.Scene({duration: 100, triggerElement: ".first_section", triggerHook: "0" })
+			.setPin(".papaya")
+			.addTo(controller);
+		new ScrollMagic.Scene({duration: 1024, triggerElement: ".first_section", triggerHook: "0" })
+			.setPin("#say_nice_1")
+			.addTo(controller);
+		new ScrollMagic.Scene({duration: 1024, triggerElement: ".first_section", triggerHook: "0" })
+			.setPin("#say_nice_2")
+			.addTo(controller);
+		//木瓜群	
+		new ScrollMagic.Scene({duration: 1, triggerElement: ".first_section", triggerHook: "0"})
+			.setTween(TweenMax.to("#papaya_1", 1, {autoAlpha: 1, ease: Linear.easeNone}))
+			.addTo(controller)
+		new ScrollMagic.Scene({duration:125, offset: 100, triggerElement: ".first_section", triggerHook: "0"})
+			.setTween(TweenMax.to("#papaya_1", 1, {autoAlpha: 0, ease: Linear.easeNone}))
+			.addTo(controller)
+		new ScrollMagic.Scene({duration: 1, triggerElement: ".first_section", triggerHook: "0"})
+			.setTween(TweenMax.to("#papaya_2", 1, {autoAlpha: 1, ease: Linear.easeNone}))
+			.addTo(controller)
+		new ScrollMagic.Scene({duration: 125, offset: 100, triggerElement: ".first_section", triggerHook: "0"})
+			.setTween(TweenMax.to("#papaya_2", 1, {autoAlpha: 0, ease: Linear.easeNone}))
+			.addTo(controller)
+		new ScrollMagic.Scene({duration: 1, triggerElement: ".first_section", triggerHook: "0"})
+			.setTween(TweenMax.to("#mogo_1", 1, {autoAlpha: 1, ease: Linear.easeNone}))
+			.addTo(controller)
+		new ScrollMagic.Scene({duration: 125, offset: 100, triggerElement: ".first_section", triggerHook: "0"})
+			.setTween(TweenMax.to("#mogo_1", 1, {autoAlpha: 0, ease: Linear.easeNone}))
+			.addTo(controller)
+		//說好吃	
+		new ScrollMagic.Scene({duration: 1, offset:370, triggerElement: ".first_section", triggerHook: "0"})
+			.setTween(TweenMax.to("#say_nice_1", 1, {autoAlpha: 1, ease: Linear.easeNone}))
+			.addTo(controller)
+		new ScrollMagic.Scene({duration: 1, offset:370, triggerElement: ".first_section", triggerHook: "0"})
+			.setTween(TweenMax.to("#say_nice_2", 1, {autoAlpha: 1, ease: Linear.easeNone}))
+			.addTo(controller)
+			
+		//評價
+		new ScrollMagic.Scene({duration: 1,offset: 500, triggerElement: ".first_section", triggerHook: "0"})
+			.setTween(TweenMax.to("#comment", 1, {autoAlpha: 1, ease: Linear.easeNone}))
+			.addTo(controller)
+		new ScrollMagic.Scene({duration: 1024})
+			.setPin("#comment")
+			.addTo(controller)
+		new ScrollMagic.Scene({ offset:512, triggerElement: ".first_section", triggerHook: "0"})
+			.addTo(controller)
+			.on('start', function(e){
+				$('.review_block1_bar').animate({"width": 100*(delicious_count/delicious_count)}, 1000)
+				$('.review_block2_bar').animate({"width": 100*(tasty_count/delicious_count)}, 1000)
+				$('.review_block3_bar').animate({"width": 100*(common_count/delicious_count)}, 1000)				
+			}).on('leave', function(e){
+				$('.review_block1_bar').animate({"width": 0}, 0)
+				$('.review_block2_bar').animate({"width": 0}, 0)
+				$('.review_block3_bar').animate({"width": 0}, 0)				
+			})
+		//公開透明
+		//set pin
+		new ScrollMagic.Scene({ duration: 1812, triggerElement: ".third_section", triggerHook: "0"})
+			.setPin("#three_chatting_girls_3")
+			.addTo(controller);
+		new ScrollMagic.Scene({ duration: 1812, triggerElement: ".third_section", triggerHook: "0"})
+			.setPin("#three_chatting_girls_fruits_3")
+			.addTo(controller);
+		new ScrollMagic.Scene({ duration: 1812, triggerElement: ".third_section", triggerHook: "0"})
+			.setPin("#fruit_farmer_3")
+			.addTo(controller);
+		new ScrollMagic.Scene({ duration: 1812, triggerElement: ".third_section", triggerHook: "0"})
+			.setPin(".tap")
+			.addTo(controller);
+		new ScrollMagic.Scene({ duration: 1812, triggerElement: ".third_section", triggerHook: "0"})
+			.setPin("#money_flow")
+			.addTo(controller);
+		new ScrollMagic.Scene({ duration: 500, triggerElement: ".third_section", triggerHook: "0"})
+			.setPin("#coin_1")
+			.addTo(controller);
+		new ScrollMagic.Scene({ duration: 500, triggerElement: ".third_section", triggerHook: "0"})
+			.setPin("#coin_2")
+			.addTo(controller);
+			
+		//trans tap
+		new ScrollMagic.Scene({duration: 5000, offset: 0, triggerElement: ".third_section", triggerHook: "0" })
+			.setTween(TweenMax.to("#tap_1", 1, {repeat: -1, opacity: .50, opacity: 0, ease: Linear.easeNone}))
+			.addTo(controller)
+		new ScrollMagic.Scene({duration: 5000, offset: 0, triggerElement: ".third_section", triggerHook: "0" })
+			.setTween(TweenMax.to("#tap_2", 1, {repeat: -1, delay:.100, opacity: 0, ease: Linear.easeNone}))
+			.addTo(controller)
+		new ScrollMagic.Scene({duration: 5000, offset: 0, triggerElement: ".third_section", triggerHook: "0" })
+			.setTween(TweenMax.to("#tap_3", 1, {repeat: -1, delay:.200,opacity: 0, ease: Linear.easeNone}))
+			.addTo(controller)
+		new ScrollMagic.Scene({duration: 5000, offset: 0, triggerElement: ".third_section", triggerHook: "0" })
+			.setTween(TweenMax.to("#tap_4", 1, {repeat: -1, delay:.300,opacity: 0, ease: Linear.easeNone}))
+			.addTo(controller)
+		new ScrollMagic.Scene({duration: 5000, offset: 0, triggerElement: ".third_section", triggerHook: "0" })
+			.setTween(TweenMax.to("#tap_5", 1, {repeat: -1, delay:.400,opacity: 0, ease: Linear.easeNone}))
+			.addTo(controller)
+		new ScrollMagic.Scene({duration: 5000, offset: 0, triggerElement: ".third_section", triggerHook: "0" })
+			.setTween(TweenMax.to("#tap_6", 1, {repeat: -1, delay:.500,opacity: 0, ease: Linear.easeNone}))
+			.addTo(controller)
+		new ScrollMagic.Scene({duration: 5000, offset: 0, triggerElement: ".third_section", triggerHook: "0" })
+			.setTween(TweenMax.to("#tap_7", 1, {repeat: -1, delay:.600,opacity: 0, ease: Linear.easeNone}))
+			.addTo(controller)
+		new ScrollMagic.Scene({duration: 5000, offset: 0, triggerElement: ".third_section", triggerHook: "0" })
+			.setTween(TweenMax.to("#tap_8", 1, {repeat: -1, delay:.700,opacity: 0, ease: Linear.easeNone}))
+			.addTo(controller)
+		new ScrollMagic.Scene({duration: 5000, offset: 0, triggerElement: ".third_section", triggerHook: "0" })
+			.setTween(TweenMax.to("#tap_9", 1, {repeat: -1, delay:.800,opacity: 0, ease: Linear.easeNone}))
+			.addTo(controller)
+		//coin
+		new ScrollMagic.Scene({duration: 1, offset: 50, triggerElement: ".third_section", triggerHook: "0" })
+			.setTween(TweenMax.to("#coin_1", 1, {autoAlpha: 1, ease: Linear.easeNone}))
+			.addTo(controller)
+		new ScrollMagic.Scene({duration: 1, offset: 50, triggerElement: ".third_section", triggerHook: "0"})
+			.setTween(TweenMax.to("#coin_2", 1, {autoAlpha: 1, ease: Linear.easeNone}))
+			.addTo(controller)
+		new ScrollMagic.Scene({duration: 100, offset: 250, triggerElement: ".third_section", triggerHook: "0" })
+			.setTween(TweenMax.to("#coin_1", 1, {autoAlpha: 0, ease: Linear.easeNone}))
+			.addTo(controller)
+		new ScrollMagic.Scene({duration: 100, offset: 250, triggerElement: ".third_section", triggerHook: "0"})
+			.setTween(TweenMax.to("#coin_2", 1, {autoAlpha: 0, ease: Linear.easeNone}))
+			.addTo(controller)
+		//move papaya and mongo on tap
+		new ScrollMagic.Scene({duration: 1000, offset: 250, triggerElement: ".third_section", triggerHook: "0" })
+			.setTween(TweenMax.to("#lean_trans_mogo_1", 1, {xPercent: 80, ease: Linear.easeNone}))
+			.addTo(controller)
+		new ScrollMagic.Scene({duration: 1000, offset: 250, triggerElement: ".third_section", triggerHook: "0" })
+			.setTween(TweenMax.to("#lean_trans_papaya_1", 1, {xPercent: 80, ease: Linear.easeNone}))
+			.addTo(controller)
+		new ScrollMagic.Scene({duration: 1000, offset: 250, triggerElement: ".third_section", triggerHook: "0" })
+			.setTween(TweenMax.to("#lean_trans_mogo_2", 1, {xPercent: 80, ease: Linear.easeNone}))
+			.addTo(controller)
+		
+		//show papaya
+		new ScrollMagic.Scene({duration: 1, offset: 1000, triggerElement: ".third_section", triggerHook: "0" })
+			.setTween(TweenMax.to("#three_chatting_girls_3", 1, {autoAlpha: 0, ease: Linear.easeNone}))
+			.addTo(controller)
+		new ScrollMagic.Scene({duration: 1, offset: 1000, triggerElement: ".third_section", triggerHook: "0"})
+			.setTween(TweenMax.to("#three_chatting_girls_fruits_3", 1, {autoAlpha: 1, ease: Linear.easeNone}))
+			.addTo(controller)
+		
+		//show statistics
+		new ScrollMagic.Scene({duration: 1, offset: 1400, triggerElement: ".third_section", triggerHook: "0" })
+			.setTween(TweenMax.to(".tap", 1, {autoAlpha: 0, ease: Linear.easeNone}))
+			.addTo(controller)
+		new ScrollMagic.Scene({duration: 1, offset: 1400, triggerElement: ".third_section", triggerHook: "0"})
+			.setTween(TweenMax.to("#money_flow", 1, {autoAlpha: 1, ease: Linear.easeNone}))
+			.addTo(controller)
+			
+		//互助回饋
+		var flightpath = {
+			entry : {
+				values: [
+						{x: 0,	y: 0},
+						{x: 220,	y: 400},
+						{x: 480,	y: 570},
+						{x: 540,	y: 570},
+					]
+			},
+			leave : {
+				values: [
+						{x: 0,	y: -20},
+						{x: -120,	y: -130},
+						{x: -250,	y: -172},
+						{x: -420,	y: -172},
+						{x: -540,	y: -135},
+						{x: -570,	y: -90},
+					]
+			}
+		};
+		var tween_1 = new TimelineMax()
+			.add(TweenMax.to($("#four_pcentage_1"), 1.2, {css:{bezier:flightpath.entry}, ease:Linear.easeNone}))
+
+		new ScrollMagic.Scene({triggerElement: ".fifth_section", triggerHook: "0", duration: 500, offset: 0})
+						.setTween(tween_1)
+						.addTo(controller);
+		var tween_w = new TimelineMax()
+			.add(TweenMax.to($("#four_pcentage_2"), 1.2, {css:{bezier:flightpath.leave}, ease:Linear.easeNone}))
+
+		new ScrollMagic.Scene({triggerElement: ".fifth_section", triggerHook: "0", duration: 500, offset: 500})
+						.setTween(tween_w)
+						.addTo(controller);
+		
+		new ScrollMagic.Scene({duration: 1, offset: 500, triggerElement: ".fifth_section", triggerHook: "0" })
+			.setTween(TweenMax.to("#four_pcentage_1", 1, {autoAlpha: 0, ease: Linear.easeNone}))
+			.addTo(controller)
+		new ScrollMagic.Scene({duration: 1, offset: 500, triggerElement: ".fifth_section", triggerHook: "0"})
+			.setTween(TweenMax.to("#four_pcentage_2", 1, {autoAlpha: 1, ease: Linear.easeNone}))
+			.addTo(controller)
+		//set pin
+		new ScrollMagic.Scene({duration: 1000, triggerElement: ".fifth_section", triggerHook: "0"})
+			.setPin(".fifth_pin")
+			.addTo(controller)
+		new ScrollMagic.Scene({duration: 1000, triggerElement: ".fifth_section", triggerHook: "0"})
+			.setPin("#four_pcentage_2")
+			.addTo(controller)
+	});
+</script>
 <!--
 <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="3000" data-pause="hover">
   <ol class="carousel-indicators">
