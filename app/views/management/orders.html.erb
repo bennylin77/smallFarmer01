@@ -11,10 +11,15 @@
   </li>   
 </ul>
 <%if current_page?(controller: 'management', action: 'orders', called_smallfarmer_c: true, called_logistics_c: false)%>
-	<div class='btn btn-primary pull-right' id='call_logistics'>轉換為已處理</div>
+	<%= form_tag('/management/exportOrders.xls', id: 'export_orders') do -%>
+		<%=submit_tag '匯出出貨單', class: 'btn btn-default pull-right', style: 'margin-right: 10px;' %>	
+	<%end%>
+	<!--<%= link_to '匯出訂貨單', "/management/exportOrders.xls", class: 'btn btn-default pull-right', style: 'margin-right: 10px;' %>		
+	-->
+	<div class='btn btn-default pull-right' id='call_logistics' style='margin-right: 10px;'>轉換為已處理</div>
+<%elsif  current_page?(controller: 'management', action: 'orders', called_smallfarmer_c: true, called_logistics_c: true)%>
+	<input id="tracing_file" type="file">
 <%end%>
-
-<input id="tracing_file" type="file">
 
 </div>
 <div class="row">
@@ -35,7 +40,6 @@
 	</label>	
 	</th>  
 	<th>
-		<%=link_to '訂貨單', "/management/exportOrders.xls", class: 'btn btn-info' %>	
 	</th>       
   </tr>
   <% @orders.each do |o| %>
@@ -119,13 +123,31 @@ $("#call_logistics").click(function(){
 			}
 		});	
 });	
+
+$('#export_orders').submit(function() {
+	$('input[name="selected_orders[]"]').remove();
+	$('input[name="orders[]"]').each(function() {
+		if($(this).prop('checked') == true)
+		{
+	        var input = $("<input>").attr({"type":"hidden","name":"selected_orders[]"}).val($(this).val());
+	        $('#export_orders').append(input);   			
+		}	
+	});		
+
+	return true; // return false to cancel form action
+});
+
+
+
+
+
 <%end%>	
 
 $("#tracing_file").fileinput({showCaption: false,
 			   				   showRemove: false,
 			   				   showPreview: false,
-							   browseClass: "btn btn-success",
-							   browseLabel: " 選取檔案",
+							   browseClass: "btn btn-default pull-right",
+							   browseLabel: " 上傳追蹤碼",
 							   browseIcon: '<i class="glyphicon glyphicon-picture"></i>',
 							   uploadClass: "btn btn-default",
 							   uploadLabel: "上傳",

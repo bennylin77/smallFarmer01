@@ -126,13 +126,15 @@ class InvoicesController < ApplicationController
   end
   
   def cancel      
+=begin    
     cancel_available = true
     @invoice.orders.each do |o|      
       if o.called_smallfarmer_c
         cancel_available = false
       end      
     end
-    if cancel_available
+=end    
+    if @invoice.confirmed_c ? false : true
       @invoice.orders.each do |o|      
         o.status = GLOBAL_VAR['ORDER_STATUS_CANCELED']  
         o.canceled_c = true

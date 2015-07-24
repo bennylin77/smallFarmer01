@@ -22,14 +22,22 @@ class ManagementController < ApplicationController
   end
   
   def exportOrders  
-    @orders = Order.all
-    time_str = Time.now.strftime("%Y%m%d%H%M")    
-    respond_to do |format|
-       format.xls{
-        response.headers['Content-Type'] = 'application/vnd.ms-excel; charset="utf-8" '
-        response.headers['Content-Disposition'] = " attachment; filename=\"#{time_str}出貨單.xls\" "  
-       }
-    end     
+    unless params[:selected_orders].blank?
+      @orders = []
+      params[:selected_orders].each do |o|
+        @orders << Order.find(o)
+      end
+      time_str = Time.now.strftime("%Y%m%d%H%M")    
+      respond_to do |format|
+         format.xls{
+          response.headers['Content-Type'] = 'application/vnd.ms-excel; charset="utf-8" '
+          response.headers['Content-Disposition'] = " attachment; filename=\"#{time_str}出貨單.xls\" "  
+         }
+      end  
+    else
+      flash[:warning] = '請勾取出貨單'
+      redirect_to controller: 'management', action: 'orders', called_smallfarmer_c: true, called_logistics_c: false 
+    end
   end  
   
   def uploadTracking
@@ -37,7 +45,7 @@ class ManagementController < ApplicationController
     workbook.each_with_pagename do |name, rows|
       rows.drop(2).each do |row|
         order = Order.find(row[1])
-        order.product_boxing.product.name
+        #order.product_boxing.product.name
         if order.tracing_code.blank?
           order.tracing_code = row[0]
           order.save!

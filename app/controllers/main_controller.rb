@@ -62,8 +62,18 @@ class MainController < ApplicationController
       }      
     end
 =end
-    result<< {abc: 123}
-    result<< {abc: 123}    
+
+    
+    result = {
+    options: [
+        "Option 1",
+        "Option 2",
+        "Option 3",
+        "Option 4",
+        "Option 5"
+    ]
+  }
+    
     render json: result.to_json       
   end  
 end
