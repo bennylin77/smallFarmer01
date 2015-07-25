@@ -52,7 +52,13 @@ class InvoicesController < ApplicationController
     invoice.save!      
     if invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD']
       invoice.confirmed_c = true
-      invoice.save!  
+      invoice.save!   
+      invoice.orders.each do |o|
+        if o.product_boxing.product.daily_capacity.to_i*3 > o.product_boxing.orders.joins(:invoice).where('invoices.confirmed_c = ? and called_smallfarmer_c = ?', true, false).sum(:quantity)     
+          o.seven_days_c = true
+          o.save!
+        end  
+      end             
       invoice.orders.each do |o|
         notify( o.product_boxing.product.company.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_NEW_ORDER'], 
                                                          order_id: o.id}) 
@@ -112,12 +118,18 @@ class InvoicesController < ApplicationController
           invoice.allpay_trade_no = params[:TradeNo] 
           invoice.paid_c = true
           invoice.confirmed_c = true          
-          invoice.save!   
+          invoice.save!
+          invoice.orders.each do |o|
+            if o.product_boxing.product.daily_capacity.to_i*3 > o.product_boxing.orders.joins(:invoice).where('invoices.confirmed_c = ? and called_smallfarmer_c = ?', true, false).sum(:quantity)     
+              o.seven_days_c = true
+              o.save!
+            end  
+          end            
+          invoice.orders.each do |o|
+            notify( o.product_boxing.product.company.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_NEW_ORDER'], 
+                                                             order_id: o.id})  
+          end               
         end        
-        invoice.orders.each do |o|
-          notify( o.product_boxing.product.company.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_NEW_ORDER'], 
-                                                           order_id: o.id})  
-        end     
       end
       render text: "1|OK"      
     else  

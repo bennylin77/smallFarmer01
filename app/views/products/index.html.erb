@@ -44,9 +44,17 @@
 		<%end%>        	    	
         </td>
         <td>
-        	總庫存量 <%= product.inventory.to_i %> 箱<br>
+        	<%if product.inventory.to_i <= product.daily_capacity.to_i*3%>
+	        	<div style="color: #b24d4b">
+	        	總庫存量 <%= product.inventory.to_i %> 箱
+	        	</div>
+	        <%else%>
+	        	<div>
+	        	總庫存量 <%= product.inventory.to_i %> 箱
+	        	</div>	        
+	        <%end%>	            
             每日處理量 <%= product.daily_capacity.to_i %> 箱<br>
-        	已出貨 <%= product.product_boxings.first.orders.sum(:quantity) %> 箱
+        	已出貨 <%= product.product_boxings.first.orders.where(called_smallfarmer_c: true).sum(:quantity) %> 箱
         </td>        
         <td>
         	<%if product.available_c%>

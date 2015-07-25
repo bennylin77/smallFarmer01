@@ -53,7 +53,12 @@
 	<%=image_tag 'cat.png', class: 'img-responsive', size: '60x60'%> 			
 	<%end%>    	
     </td>	
-    <td><%= showBlank o.tracing_code%></td>      
+    <td>
+    	<%= showBlank o.tracing_code%><br>
+		<%if o.seven_days_c%>	
+			<%=image_tag 'seven_days.png', class: '', style: 'width: 100px;'  %>					
+		<%end%>	    
+    </td>      
 	<td>
 		<%= o.invoice.receiver_last_name %> <%= o.invoice.receiver_first_name %>
 		<br>
