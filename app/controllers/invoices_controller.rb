@@ -49,7 +49,8 @@ class InvoicesController < ApplicationController
     end
     current_user.carts.destroy_all
     invoice.payment_method = params[:payment_method]  
-    invoice.save!      
+    invoice.save!  
+=begin        
     if invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD']
       invoice.confirmed_c = true
       invoice.save!   
@@ -58,6 +59,8 @@ class InvoicesController < ApplicationController
           o.seven_days_c = true
           o.save!
         end  
+        o.product_boxing.product.inventory = o.product_boxing.product.inventory - 1
+        o.product_boxing.product.save!   
       end             
       invoice.orders.each do |o|
         notify( o.product_boxing.product.company.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_NEW_ORDER'], 
@@ -66,7 +69,9 @@ class InvoicesController < ApplicationController
       redirect_to  controller: 'invoices' , action: 'finished', id: invoice.id 
     elsif invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']
       redirect_to  controller: 'invoices', action: 'allpayCredit', id: invoice.id       
-    end            
+    end   
+=end
+    redirect_to  controller: 'invoices', action: 'allpayCredit', id: invoice.id                    
   end  
   
   def allpayCredit   
@@ -100,9 +105,6 @@ class InvoicesController < ApplicationController
     @invoice.allpay_merchant_trade_no = merchant_trade_no
     @invoice.save!
   end
-  
-  def finished   
-  end
     
   def allpayCreditNotify
     if macValueOk? # we still need to check domain   
@@ -123,6 +125,8 @@ class InvoicesController < ApplicationController
             if o.product_boxing.product.daily_capacity.to_i*3 > o.product_boxing.orders.joins(:invoice).where('invoices.confirmed_c = ? and called_smallfarmer_c = ?', true, false).sum(:quantity)     
               o.seven_days_c = true
               o.save!
+              o.product_boxing.product.inventory = o.product_boxing.product.inventory - 1
+              o.product_boxing.product.save!                
             end  
           end            
           invoice.orders.each do |o|
@@ -135,6 +139,9 @@ class InvoicesController < ApplicationController
     else  
       render text: "0|ErrorMessage"
     end   
+  end
+
+  def finished   
   end
   
   def cancel      
