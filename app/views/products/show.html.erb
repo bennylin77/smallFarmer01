@@ -338,9 +338,9 @@ function countTotalPrice(q){
 		{		
 			total_price = q*value.price+q*<%=GLOBAL_VAR['SHIPPING_RATES']%>
 			total_shipping_rates = q*<%=GLOBAL_VAR['SHIPPING_RATES']%>
-			total_cash_flow = Math.round((q*value.price+q*<%=GLOBAL_VAR['SHIPPING_RATES']%>)*0.028 )
-			total_coupon = Math.round((q*value.price+q*<%=GLOBAL_VAR['SHIPPING_RATES']%>)*0.04 )
-			total_administration = Math.round((q*value.price+q*<%=GLOBAL_VAR['SHIPPING_RATES']%>)*0.03 )
+			total_cash_flow = Math.round((q*value.price+q*<%=GLOBAL_VAR['SHIPPING_RATES']%>)*<%=GLOBAL_VAR['CASH_FLOW_FEE']%> )
+			total_coupon = Math.round((q*value.price+q*<%=GLOBAL_VAR['SHIPPING_RATES']%>)*<%=GLOBAL_VAR['COUPON_FEE']%> )
+			total_administration = Math.round((q*value.price+q*<%=GLOBAL_VAR['SHIPPING_RATES']%>)*<%=GLOBAL_VAR['ADMINISTRATION_FEE']%>  )
 			total_farmer_get = q*value.price - total_administration - total_coupon - total_cash_flow 
 			
 			$('.total_price').html( total_price ); $('.total_quantity').html(q); 
@@ -361,8 +361,7 @@ function countTotalPrice(q){
 			$('.administration_layer').animate({"height": cash_flow_layer*(total_administration/total_price)})
 			$('.administration_inner').animate({"height": cash_flow_layer*(total_administration/total_price)})										
 			$('.coupon_layer').animate({"height": cash_flow_layer*(total_coupon/total_price)})
-			$('.coupon_inner').animate({"height": cash_flow_layer*(total_coupon/total_price)})
-							
+			$('.coupon_inner').animate({"height": cash_flow_layer*(total_coupon/total_price)})						
 			return false;
 		}	
 	});		
