@@ -1,0 +1,213 @@
+<div class="container main_frontend">
+	<h2>請確認您的訂單資訊</h2>	
+	<div class="row" style="margin-top: 30px; margin-bottom: 30px;">
+		<div class="col-sm-12">
+			<div class="section_title">購買項目</div>
+			<div class="section_underline"></div>
+		</div>					
+	</div>		
+	<%current_user.carts.each_with_index do |c, index| %>
+		<% product = c.product_boxing.product%>	
+		<div class="row check_out_product_list cart_<%=c.id%> text-center" style="margin-top: 30px; margin-bottom: 30px;">
+			<div class="col-sm-1 check_out_product_list_index vmiddle hidden-xs">
+				<%= index+1 %>.			
+			</div>	
+			<div class="col-sm-2 col-xs-12 vmiddle">
+				<%= image_tag product.product_images.first.image.url, class: 'img-circle farm_fruits_img'%>						
+			</div>	
+			<div class="col-sm-2 col-xs-12 check_out_product_list_title vmiddle">
+				<%= c.product_boxing.product.name %>
+			</div>	
+			<div class="col-sm-2 col-xs-12 check_out_product_list_text vmiddle">
+				<% product.product_boxings.first.product_pricings.each do |pp| %>
+					<%if pp.quantity == 1%>	
+						每箱<%= "%g" % product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %> <%= pp.price.to_i+GLOBAL_VAR['SHIPPING_RATES']  %>元
+					<%else%>
+						<%= pp.quantity %>箱以上 每箱<%= pp.price.to_i + GLOBAL_VAR['SHIPPING_RATES']%>元		
+					<%end%>
+					<br>
+				<%end%>  					
+			</div>			
+			<div class="col-sm-1 col-xs-12 check_out_product_list_text vmiddle">
+				<%= c.quantity%>箱				
+			</div>
+			<div class="col-sm-1 col-xs-12 check_out_product_list_text vmiddle">
+				<span class="total_price_<%=c.id%>"></span>元		
+			</div>											
+		</div>			
+	<%end%>
+	<div class="row" style="margin-top: 20px; margin-bottom: 30px;">
+		<div class="col-sm-12">
+			<div class="section_title">付款方式</div>
+			<div class="section_underline"></div>			
+		</div>					
+	</div>	
+	<div class="row">
+		<div class="col-sm-offset-3 col-sm-2 col-xs-offset-1 col-xs-5 check_out_pay_method">			
+		<%if @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT'].to_s%>		
+			<label>
+				 <div class="check_out_pay_method_text">
+				 	線上刷卡
+		  			<%=image_tag 'allPay.png', class: 'img-responsive'%>					 	
+				 </div>
+			</label>	 
+		<%elsif @payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD'].to_s%>				
+			<label>
+				 <div class="check_out_pay_method_text"> 
+				 貨到付款
+				 <%=image_tag 'cat.png', class: 'img-responsive'%> 						 
+				 </div>	
+			</label>				 			 
+		<%end%>								
+		</div>
+		<div class="col-sm-7 col-xs-12 check_out_product_list_text">	
+			<div class="row">
+				<div class="col-sm-offset-4 col-sm-3 col-xs-offset-1 col-xs-4">小計</div>				
+				<div class="col-sm-2 col-xs-5" style="text-align: right">		
+				<span class="total_price"></span>
+				</div>	
+				<div class="col-sm-2 col-xs-1">元</div>											
+			</div>	
+			<div class="row" style="margin-top: 10px;">
+				<div class="col-sm-offset-4 col-sm-3 col-xs-offset-1 col-xs-4">
+					使用回饋金<br>
+					(餘額: <%=coupons %>元)								
+				</div>		
+				<div class="col-sm-2 col-xs-5" style="text-align: right">		
+					<%= @coupon_using || 0 %>
+				</div>	
+				<div class="col-sm-2 col-xs-1" style="vertical-align: middle">元</div>			
+			</div>		
+			<div class="row" style="margin-top: 10px; font-weight: bold; font-size: 20px;">
+				<div class="col-sm-offset-4 col-sm-3 col-xs-offset-1 col-xs-4">總計</div>				
+				<div class="col-sm-2 col-xs-5" style="text-align: right;">		
+				<span class="sum"></span>
+				</div>	
+				<div class="col-sm-2 col-xs-1">元</div>							
+			</div>	
+		</div>	
+	</div>		
+	<div class="row" style="margin-top: 30px; margin-bottom: 30px;">
+		<div class="col-sm-12">
+			<div class="section_title">訂購人資訊</div>
+			<div class="section_underline"></div>			
+		</div>					
+	</div>	
+	<div class="row check_out_product_list_text">
+		<label class="col-sm-offset-2 col-sm-2">姓名</label>
+		<div class="col-sm-8">
+			<%= current_user.addresses.first.last_name%>
+			<%= current_user.addresses.first.first_name%>			
+		</div>
+	</div>
+	<div class="row check_out_product_list_text">
+		<label class="col-sm-offset-2 col-sm-2">行動電話</label>
+		<div class="col-sm-8">
+			<%= current_user.addresses.first.phone_no.gsub(/^\+886/, '0')%>			
+		</div>
+	</div>
+	<div class="row check_out_product_list_text">
+		<label class="col-sm-offset-2 col-sm-2">聯絡地址</label>
+		<div class="col-sm-8">
+			<%= current_user.addresses.first.postal%> <%= current_user.addresses.first.county%><%= current_user.addresses.first.district%><%= current_user.addresses.first.address%>		
+		</div>
+	</div>
+	<div class="row check_out_product_list_text">
+		<label class="col-sm-offset-2 col-sm-2">聯絡信箱</label>
+		<div class="col-sm-8">
+			<%= current_user.email %>
+		</div>
+	</div>
+	<div class="row" style="margin-top: 30px; margin-bottom: 30px;">
+		<div class="col-sm-12">
+			<div>
+				<div class="section_title">收件人資訊</div>		
+			</div>
+			<div class="section_underline"></div>			
+		</div>					
+	</div>
+	<% current_user.invoices.each do |i| %>
+		<% if i.new_record? %>	
+	<div class="row check_out_product_list_text">
+		<label class="col-sm-offset-2 col-sm-2">姓名</label>
+		<div class="col-sm-8">
+			<%= i.receiver_last_name%>
+			<%= i.receiver_first_name%>	
+		</div>
+	</div>
+	<div class="row check_out_product_list_text">
+		<label class="col-sm-offset-2 col-sm-2">聯絡電話</label>
+		<div class="col-sm-8">
+			<%= i.receiver_phone_no.gsub(/^\+886/, '0')%>
+		</div>
+	</div>
+	<div class="row check_out_product_list_text">
+		<label class="col-sm-offset-2 col-sm-2">聯絡地址</label>
+		<div class="col-sm-8">
+			<%= i.receiver_postal%> <%= i.receiver_county%><%= i.receiver_district%><%= i.receiver_address%>
+		</div>
+	</div>		
+		<%end%>	
+	<%end%>
+
+<%= form_for current_user, url: { controller: 'orders', action: "checkout"}, method: :post do |u| %>		 
+		<%= text_field_tag :coupons_using, @coupon_using || 0, style: 'display: none' %>
+		<%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT'].to_s, style: 'display: none' %>
+	    <%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD'].to_s, style: 'display: none' %>
+	<%= u.fields_for :addresses do |a| %>
+		<%= a.text_field :last_name, style: 'display: none' %>
+		<%= a.text_field :first_name, style: 'display: none' %>			
+		<%= a.text_field :phone_no, style: 'display: none' %>
+		<%= a.text_field :postal, style: 'display: none' %>		
+		<%= a.text_field :county, style: 'display: none' %>		
+		<%= a.text_field :district, style: 'display: none' %>		
+		<%= a.text_field :address, style: 'display: none' %>		  
+	<%end%>
+	<%= u.fields_for :invoices do |i| %>
+		<% if i.object.new_record? %>
+			<%= i.text_field :receiver_last_name, style: 'display: none'%>
+			<%= i.text_field :receiver_first_name, style: 'display: none'%>				
+			<%= i.text_field :receiver_phone_no, style: 'display: none'%>
+			<%= i.text_field :receiver_postal, style: 'display: none'%>		
+			<%= i.text_field :receiver_county, style: 'display: none'%>		
+			<%= i.text_field :receiver_district, style: 'display: none'%>				
+			<%= i.text_field :receiver_address, style: 'display: none'%>
+		<%end%>	
+	<%end%>	
+	<%= check_box_tag 'agree', true, @agree == 'true', style: 'display: none'%>   	
+	<div class="row" style="margin-top: 20px;">
+		<div class="col-sm-offset-2 col-sm-6">   
+		<%= u.submit '修改',  class: "btn btn-default edit_button", style: 'font-size: 20px; padding: 6px 25px;'%>
+		<%= u.submit '確認交易', formaction: "/invoices/create", class: "btn btn-success add_button", style: 'margin-left: 10px; font-size: 20px; padding: 6px 25px;'%>			
+		</div>
+	</div>		
+<%end-%>	
+</div>	
+
+
+
+<script>
+var total_price = 0
+var shipping_rates = <%=GLOBAL_VAR['SHIPPING_RATES']%>
+<%current_user.carts.each do |c| %>
+	var pricing_<%=c.id %> =  []
+	<%c.product_boxing.product_pricings.order('quantity desc').each do |p| %>
+		pricing_<%=c.id %>.push({ price: <%= p.price.to_i %>, quantity: <%= p.quantity %>  })
+	<%end%>
+	$('.total_price_<%=c.id %>').data( "price", 0 );		
+	updatePrice(<%= c.quantity %>, pricing_<%=c.id %>, <%=c.id %>)		
+<%end%>
+function updatePrice(quantity, pricing, id){
+	$.each(pricing, function( index, value ) {
+		if(quantity >= value.quantity)	
+		{
+			$('.total_price_'+id).html(quantity*(value.price+shipping_rates));
+			total_price =  total_price - $('.total_price_'+id ).data( "price") + quantity*(value.price+shipping_rates)
+			$('.total_price').html(total_price)
+			$('.sum').html(total_price-<%= @coupon_using %>)
+			$('.total_price_'+id ).data( "price", quantity*(value.price+shipping_rates) );
+			return false;
+		}	
+	});	
+}
+</script>

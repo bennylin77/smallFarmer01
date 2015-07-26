@@ -13,13 +13,14 @@ Rails.application.routes.draw do
 
   get    'invoices/index'
   post   'invoices/create'
+  post   'invoices/confirmCheckout'  
+  post   'invoices/checkout'  
   get    'invoices/allpayCredit'
   post   'invoices/allpayCreditNotify'
   get    'invoices/finished'   
   get    'invoices/cancel'    
      
-  post   'orders/confirmCheckout'  
-  post   'orders/checkout'
+
   get    'orders/index'
 
   post   'carts/addCart'

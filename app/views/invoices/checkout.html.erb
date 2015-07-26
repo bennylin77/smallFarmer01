@@ -1,0 +1,419 @@
+<div class="container main_frontend">
+<%= form_for current_user, url: { controller: 'orders', action: "confirmCheckout"}, method: :post , html: {class: "form-horizontal", role: "form", id: "first-form"} do |u| %>		 
+	<div class="row" style="margin-top: 30px; margin-bottom: 30px;">
+		<div class="col-sm-12">
+			<div class="section_title">購買項目</div>
+			<div class="section_underline"></div>
+		</div>					
+	</div>	
+	<%current_user.carts.each_with_index do |c, index| %>
+		<% product = c.product_boxing.product%>	
+		<div class="row check_out_product_list cart_<%=c.id%> text-center" style="margin-top: 30px; margin-bottom: 30px;">
+			<div class="col-sm-1 check_out_product_list_index vmiddle hidden-xs">
+				<%= index+1 %>.			
+			</div>	
+			<div class="col-sm-2 col-xs-12 vmiddle">
+				<%= image_tag product.product_images.first.image.url, class: 'img-circle farm_fruits_img'%>						
+			</div>	
+			<div class="col-sm-2 col-xs-12 check_out_product_list_title vmiddle">
+				<%= link_to c.product_boxing.product.name,  product_path(product)%>
+			</div>	
+			<div class="col-sm-2 col-xs-12 check_out_product_list_text vmiddle">
+				<% product.product_boxings.first.product_pricings.each do |pp| %>
+					<%if pp.quantity == 1%>	
+						每箱<%= "%g" % product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %> <%= pp.price.to_i+GLOBAL_VAR['SHIPPING_RATES']  %>元
+					<%else%>
+						<%= pp.quantity %>箱以上 每箱<%= pp.price.to_i + GLOBAL_VAR['SHIPPING_RATES']%>元		
+					<%end%>
+					<br>
+				<%end%>  					
+			</div>			
+			<div class="col-sm-2 col-xs-12 form-group form-inline check_out_product_list_text vmiddle">
+				<%= select_tag  'quantity_'+c.id.to_s, options_for_select( (1..50).step(1).to_a, c.quantity.to_s), class: "form-control" %>箱				
+			</div>
+			<div class="col-sm-2 col-xs-12 check_out_product_list_text vmiddle">
+				<span class="total_price_<%=c.id%>"></span>元		
+			</div>
+			<div class="col-sm-1 col-xs-12 vmiddle">
+	       		<span class="glyphicon glyphicon-remove hidden-xs" aria-hidden="true" onclick="destroyCart(<%=c.id %>)" style="cursor: pointer"></span>        							
+	       		<span class="btn btn-danger check_out_delete_button hidden-sm hidden-md hidden-lg" aria-hidden="true" onclick="destroyCart(<%=c.id %>)" style="cursor: pointer">刪除</span>        							       			
+			</div>											
+		</div>		
+	<%end%>
+	<div class="row" style="margin-top: 20px; margin-bottom: 30px;">
+		<div class="col-sm-12">
+			<div class="section_title">付款方式</div>
+			<div class="section_underline"></div>			
+		</div>					
+	</div>		
+	<div class="row">
+		<div class="col-sm-2 col-xs-offset-1 col-xs-5 check_out_pay_method">	
+			<div class="radio">
+			<label>
+				 <%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT'].to_s %>
+				 <div class="check_out_pay_method_text">
+				 	線上刷卡
+		  			<%=image_tag 'allPay.png', class: 'img-responsive'%>					 	
+				 </div>
+			</label>	 
+			</div>
+		</div>
+		<div class="col-sm-2 col-xs-5 check_out_pay_method">	
+			<div class="radio">
+			<label>
+				 <%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM'].to_s %>
+				 <div class="check_out_pay_method_text"> 
+				 ATM轉帳
+		  		 <%=image_tag 'allPay.png', class: 'img-responsive'%>					 	
+				 </div>	
+			</label>				 			 
+			</div>
+		</div>
+		<div class="col-sm-offset-0  col-sm-2 col-xs-offset-1 col-xs-5 check_out_pay_method">	
+			<div class="radio">
+			<label>
+				 <%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS'].to_s %>
+				 <div class="check_out_pay_method_text"> 
+				 超商代碼
+		  		 <%=image_tag 'allPay.png', class: 'img-responsive'%>					 	
+				 </div>	
+			</label>				 			 
+			</div>
+		</div>				
+		<!--
+		<div class="col-sm-2 col-xs-5 check_out_pay_method">	
+			<div class="radio">
+			<label>
+				 <%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD'].to_s %>
+				 <div class="check_out_pay_method_text"> 
+				 貨到付款
+				 <%=image_tag 'cat.png', class: 'img-responsive'%> 						 
+				 </div>	
+			</label>				 			 
+			</div>
+		</div>
+		-->
+		<div class="col-sm-5 col-xs-12 check_out_product_list_text">	
+			<div class="row">
+				<div class="col-sm-offset-1 col-sm-5 col-xs-offset-1 col-xs-4">小計</div>				
+				<div class="col-sm-2 col-xs-5" style="text-align: right">		
+				<span class="total_price"></span>
+				</div>	
+				<div class="col-sm-2 col-xs-1">元</div>											
+			</div>	
+			<div class="row" style="margin-top: 10px;">
+				<div class="col-sm-offset-1 col-sm-5 col-xs-offset-1 col-xs-4">
+					使用回饋金<br>
+					(餘額: <%=coupons %>元)								
+				</div>		
+				<div class="col-sm-2 col-xs-5" style="text-align: right">		
+					<%= text_field_tag :coupons_using, @coupon_using || 0, class: "form-control" %>					
+				</div>	
+				<div class="col-sm-2 col-xs-1" style="vertical-align: middle">元</div>			
+			</div>		
+			<div class="row" style="margin-top: 10px; font-weight: bold; font-size: 20px;">
+				<div class="col-sm-offset-1 col-sm-5 col-xs-offset-1 col-xs-4">總計</div>				
+				<div class="col-sm-2 col-xs-5" style="text-align: right;">		
+				<span class="sum"></span>
+				</div>	
+				<div class="col-sm-2 col-xs-1">元</div>							
+			</div>	
+		</div>	
+	</div>		
+	<div class="row" style="margin-top: 30px; margin-bottom: 30px;">
+		<div class="col-sm-12">
+			<div class="section_title">訂購人資訊</div>
+			<div class="section_underline"></div>			
+		</div>					
+	</div>
+	<%= u.fields_for :addresses do |a| %>
+	 	<div class="form-group">
+			<label class="col-sm-2 control-label">姓名</label>
+			<div class="form-inline col-sm-8">
+				<%= a.text_field :last_name, class: "form-control", placeholder: '姓' %>
+				<%= a.text_field :first_name, class: "form-control", placeholder: '名' %>			
+			</div>
+		</div>
+		<div class="form-group">
+		<label class="col-sm-2 control-label">
+			行動電話
+		<span class="glyphicon glyphicon-phone" aria-hidden="true"></span>			
+		</label>
+		<div class="col-sm-3">
+			<%= hidden_field_tag :phone_no_full%>				
+			<%if current_user.addresses.first.phone_no_confirmed_at.blank?%>
+				<%= a.text_field :phone_no, class: "form-control" %>
+				<span id="valid-msg" class="hide">✓</span>
+				<span id="error-msg" class="hide">格式錯誤</span>			
+			<%else%>
+				<%= a.text_field :phone_no, class: "form-control", readonly: true %>			
+			<%end%>	
+			例: 0912 345 678
+		</div>		
+		</div>		
+		<div class="form-group">
+			<label class="col-sm-2 control-label">聯絡地址</label>
+			<div class="form-inline col-sm-6">
+				<span id="twzipcode"></span>
+				<%= a.text_field :address, class: "form-control" %>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">聯絡信箱</label>
+			<div class="form-inline col-sm-6">
+				<%= current_user.email %>
+			</div>
+		</div>		  
+	<%end%>
+	<div class="row" style="margin-top: 30px; margin-bottom: 30px;">
+		<div class="col-sm-12">
+			<div>
+				<div class="section_title" style="display: inline-block">收件人資訊</div>
+				<div class="checkbox" style="display: inline-block; margin-left: 20px;">
+  					<label>
+				 	<%= check_box_tag 'same_as_user', true, @same_as_user == 'true'%>
+				 	同訂購人資訊
+				  </label>
+				</div>			
+			</div>
+			<div class="section_underline"></div>			
+		</div>					
+	</div>
+
+	
+  	<% current_user.invoices.each do |i_new| %>
+	    <% if i_new.new_record? %>
+	    	<%= u.fields_for :invoices, i_new do |i| %>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">姓名</label>
+					<div class="form-inline col-sm-8">
+						<%= i.text_field :receiver_last_name, class: "form-control", placeholder: '姓' %>
+						<%= i.text_field :receiver_first_name, class: "form-control", placeholder: '名' %>			
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">聯絡電話
+						<span class="glyphicon glyphicon-phone" aria-hidden="true"></span> or
+						<span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span>				
+					</label>
+					<div class="col-sm-3">
+						<%= hidden_field_tag :receiver_phone_no_full%>				
+						<%= i.text_field :receiver_phone_no, class: "form-control" %>
+						<span id="receiver_valid-msg" class="hide">✓</span>
+						<span id="receiver_error-msg" class="hide">格式錯誤</span>
+						例: 0912 345 678 或 02 2222 8888			
+					</div>		
+				</div>		
+				<div class="form-group">
+						<label class="col-sm-2 control-label">聯絡地址</label>
+						<div class="form-inline col-sm-6">
+							<span id="twzipcode_receiver"></span>
+							<%= i.text_field :receiver_address, class: "form-control" %>
+						</div>
+				</div>	
+			<%end%>	
+		<% end %>   	
+	<% end %>
+	<div class="form-group">
+		<label class="col-sm-2 control-label"></label>
+			<div class="form-inline col-sm-6">
+				<label class="checkbox-inline">
+			 	<%= check_box_tag 'agree', true, @agree == 'true'%>
+				我已詳閱並同意 小農1號 電子商務約定條款		 	
+			 	</label>
+			</div>
+	</div>			
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-6">   
+		<button class="btn btn-success add_button" type="submit" style="font-size: 20px; padding: 6px 25px;">送出</button>			 
+		</div>
+	</div>
+<%end%>		
+</div>
+
+<script>
+
+//====================== error ======================//
+<% current_user.errors.messages.each do |index, value| %>
+	<%unless value.blank? %>
+		toastr["error"]('<%=value.first%>')	
+	<%end%>	
+<% end %>
+
+//====================== same_as_user ======================//
+$('#same_as_user').change(function() {
+   if ( this.checked )
+   {
+   		$('#user_invoices_attributes_0_receiver_last_name').val($('#user_addresses_attributes_0_last_name').val())	
+   		$('#user_invoices_attributes_0_receiver_first_name').val($('#user_addresses_attributes_0_first_name').val())	  		
+   		$('#user_invoices_attributes_0_receiver_phone_no').val($('#user_addresses_attributes_0_phone_no').val())	 	
+    	$('#user_invoices_attributes_0_receiver_address').val($('#user_addresses_attributes_0_address').val())			   
+    	$("[name='user[invoices_attributes][0][receiver_county]']").val($("[name='user[addresses_attributes][0][county]']").val()).change();	
+    	$("input[name='user[invoices_attributes][0][postal]']").val($("[name='user[addresses_attributes][0][postal]']").val())	 
+    	$("[name='user[invoices_attributes][0][receiver_district]']").val($("[name='user[addresses_attributes][0][district]']").val())	
+   }
+});
+
+//====================== price ======================//
+var total_price = 0
+var shipping_rates = <%=GLOBAL_VAR['SHIPPING_RATES']%>
+<%current_user.carts.each do |c| %>
+	var pricing_<%=c.id %> =  []
+	<%c.product_boxing.product_pricings.order('quantity desc').each do |p| %>
+		pricing_<%=c.id %>.push({ price: <%= p.price.to_i %>, quantity: <%= p.quantity %>  })
+	<%end%>
+	$('.total_price_<%=c.id %>').data( "price", 0 );		
+	updatePrice($('#quantity_<%=c.id %>').val(), pricing_<%=c.id %>, <%=c.id %>)		
+	$('#quantity_<%=c.id %>').change(function(){			
+	    updateQuantity($('#quantity_<%=c.id %>').val(), pricing_<%=c.id %>, <%=c.id %>)
+	});	
+<%end%>
+$('#coupons_using').change(function(){		
+	if( $.isNumeric( $(this).val()) )
+	{
+		if( $(this).val() < 0 || $(this).val() > <%=coupons %> )
+		{
+			toastr["error"]('填入回饋金超出持有範圍')
+			$(this).val(0)
+		}
+	}
+	else
+	{
+		toastr["error"]('回饋金應填入數字')
+		$(this).val(0)
+	}	
+	$('.sum').html(total_price-$('#coupons_using').val())	
+});	
+function updateQuantity(quantity, pricing, id){	
+	var request = $.ajax({
+		url: "/carts/updateCart",
+		type: "POST",
+		data: { id: id, quantity: quantity},
+		dataType: "json"
+	});
+	request.done(function( message ) {
+	    showCarts();
+	});
+	request.fail(function( jqXHR, textStatus ) {
+	});				
+	updatePrice(quantity, pricing, id)
+}
+function updatePrice(quantity, pricing, id){
+	$.each(pricing, function( index, value ) {
+		if(quantity >= value.quantity)	
+		{
+			$('.total_price_'+id).html(quantity*(value.price+shipping_rates));
+			total_price =  total_price - $('.total_price_'+id ).data( "price") + quantity*(value.price+shipping_rates)
+			$('.total_price').html(total_price )
+			$('.sum').html(total_price-$('#coupons_using').val())
+			$('.total_price_'+id ).data( "price", quantity*(value.price+shipping_rates) );
+			return false;
+		}	
+	});	
+}
+function destroyCart(id){
+	var request = $.ajax({
+		url: "/carts/"+id.toString(),
+		type: "DELETE",
+		data: {},
+		dataType: "json"
+	});
+	request.done(function( message ) {
+	    showCarts();
+		total_price =  total_price - $('.total_price_'+id.toString() ).data( "price")
+		$('.total_price').html(total_price)	   
+		$('.sum').html(total_price-$('#coupons_using').val())		 
+	    $(".cart_"+id.toString()).remove();
+	});
+	request.fail(function( jqXHR, textStatus ) {
+	});		
+}
+
+//====================== tw zip ======================//
+$('#twzipcode').twzipcode({
+	zipcodeName: 'user[addresses_attributes][0][postal]',
+    countyName: 'user[addresses_attributes][0][county]',
+    districtName: 'user[addresses_attributes][0][district]',
+    zipcodeIntoDistrict: true,
+    css: ['form-control', 'form-control'], 
+    <%unless current_user.addresses.first.county.blank?%>
+	countySel: '<%=current_user.addresses.first.county%>',
+	districtSel: '<%=current_user.addresses.first.district%>'
+	<%end%>    
+});
+$('#twzipcode_receiver').twzipcode({
+	zipcodeName: 'user[invoices_attributes][0][receiver_postal]',
+    countyName: 'user[invoices_attributes][0][receiver_county]',
+    districtName: 'user[invoices_attributes][0][receiver_district]',
+    zipcodeIntoDistrict: true,
+    css: ['form-control', 'form-control'], 
+    <%unless current_user.invoices.first.receiver_county.blank?%>
+	countySel: '<%=current_user.invoices.first.receiver_county%>',
+	districtSel: '<%=current_user.invoices.first.receiver_district%>'
+	<%end%>    
+});
+
+//====================== phone ======================//
+var telInput = $("#user_addresses_attributes_0_phone_no");
+errorMsg = $("#error-msg"),
+validMsg = $("#valid-msg");
+// initialise plugin
+telInput.intlTelInput({
+	autoPlaceholder: false,    
+    defaultCountry: "auto",
+    numberType: "MOBILE", 
+    utilsScript: "<%=asset_path 'utils.js'%>"
+});
+// on blur: validate
+telInput.blur(function() {
+  if ($.trim(telInput.val())) {
+    if (telInput.intlTelInput("isValidNumber") && intlTelInputUtils.numberType.MOBILE == telInput.intlTelInput("getNumberType") ) {
+      validMsg.removeClass("hide");
+    } else {
+      telInput.addClass("error");
+      errorMsg.removeClass("hide");
+      validMsg.addClass("hide");
+    }
+  }
+});
+// on keydown: reset
+telInput.keydown(function() {
+  telInput.removeClass("error");
+  errorMsg.addClass("hide");
+  validMsg.addClass("hide");
+});
+$("form").submit(function() {
+  $("#phone_no_full").val($("#user_addresses_attributes_0_phone_no").intlTelInput("getNumber"));
+});
+
+var receiver_telInput = $("#user_invoices_attributes_0_receiver_phone_no");
+receiver_errorMsg = $("#receiver_error-msg"),
+receiver_validMsg = $("#receiver_valid-msg");
+// initialise plugin
+receiver_telInput.intlTelInput({
+	autoPlaceholder: false,    
+    defaultCountry: "auto",
+    utilsScript: "<%=asset_path 'utils.js'%>"
+});
+// on blur: validate
+receiver_telInput.blur(function() {
+  if ($.trim(receiver_telInput.val())) {
+    if (receiver_telInput.intlTelInput("isValidNumber") ) {
+      receiver_validMsg.removeClass("hide");
+    } else {
+      receiver_telInput.addClass("error");
+      receiver_errorMsg.removeClass("hide");
+      receiver_validMsg.addClass("hide");
+    }
+  }
+});
+// on keydown: reset
+receiver_telInput.keydown(function() {
+  receiver_telInput.removeClass("error");
+  receiver_errorMsg.addClass("hide");
+  receiver_validMsg.addClass("hide");
+});
+$("form").submit(function() {
+  $("#receiver_phone_no_full").val($("#user_invoices_attributes_0_receiver_phone_no").intlTelInput("getNumber"));
+});
+</script>
