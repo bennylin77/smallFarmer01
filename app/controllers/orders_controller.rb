@@ -1,20 +1,11 @@
 class OrdersController < ApplicationController
 
-  before_action :set_order, only: [:confirm, :cancel]
+  before_action :set_order, only: [:confirm]
   
   def index    
     params[:called_smallfarmer_c] = params[:called_smallfarmer_c] == 'true' ? true : false    
     @orders = Order.joins(product_boxing: {product: :company}, invoice: {} ).where('companies.id = ? and called_smallfarmer_c = ? and invoices.confirmed_c = 1', current_user.companies.first, params[:called_smallfarmer_c] ).all.paginate(page: params[:page], per_page: 30).order('id')    
     render layout: 'companies'      
-  end
-    
-  def cancel
-    @order.canceled_c = true
-    @order.save!
-    
-    @order.invoice.amount = @order.invoice.amount - @order.price - @order.shipping_rates
-    
-    redirect_to controller: 'invoices', action: 'index'
   end
   
   def confirm

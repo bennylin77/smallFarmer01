@@ -50,28 +50,13 @@ class InvoicesController < ApplicationController
     current_user.carts.destroy_all
     invoice.payment_method = params[:payment_method]  
     invoice.save!  
-=begin        
-    if invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD']
-      invoice.confirmed_c = true
-      invoice.save!   
-      invoice.orders.each do |o|
-        if o.product_boxing.product.daily_capacity.to_i*3 > o.product_boxing.orders.joins(:invoice).where('invoices.confirmed_c = ? and called_smallfarmer_c = ?', true, false).sum(:quantity)     
-          o.seven_days_c = true
-          o.save!
-        end  
-        o.product_boxing.product.inventory = o.product_boxing.product.inventory - 1
-        o.product_boxing.product.save!   
-      end             
-      invoice.orders.each do |o|
-        notify( o.product_boxing.product.company.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_NEW_ORDER'], 
-                                                         order_id: o.id}) 
-      end            
-      redirect_to  controller: 'invoices' , action: 'finished', id: invoice.id 
-    elsif invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']
-      redirect_to  controller: 'invoices', action: 'allpayCredit', id: invoice.id       
-    end   
-=end
-    redirect_to  controller: 'invoices', action: 'allpayCredit', id: invoice.id                    
+    
+    if invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']
+      redirect_to  controller: 'invoices', action: 'allpayCredit', id: invoice.id                          
+    elsif invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM'] 
+      redirect_to  controller: 'invoices', action: 'allpayATM', id: invoice.id                          
+    elsif invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']
+    end
   end  
   
   def allpayCredit   

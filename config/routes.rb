@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   post   'invoices/checkout'  
   get    'invoices/allpayCredit'
   post   'invoices/allpayCreditNotify'
+  get    'invoices/allpayATM'
   get    'invoices/finished'   
   get    'invoices/cancel'    
      
@@ -65,7 +66,6 @@ Rails.application.routes.draw do
   match '/products/:id/productImagesDelete' => 'products#productImagesDelete', via: [:delete], :as => :productImagesDelete
   match '/products/:id/available' => 'products#available', via: [:get], as: :available
   match '/orders/:id/confirm' => 'orders#confirm', via: [:get], as: :confirm
-  match '/orders/:id/cancel' => 'orders#cancel', via: [:get], as: :cancel
 
   match '/notifications/:id/read' => 'notifications#read', via: [:get], as: :read
 
