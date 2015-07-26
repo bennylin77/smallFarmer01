@@ -39,7 +39,7 @@ Rails.application.configure do
   config.allpay_merchant_id = '2000132'
   config.allpay_hash_key    = '5294y06JbISpM5x9'
   config.allpay_hash_iv     = 'v77hoKGq4kWxNNIS'
-  config.allpay_return_url = 'http://smallfarmer01.com/invoices/allpayCreditNotify'  
+  config.allpay_return_url = 'http://smallfarmer01.com/invoices/allpayNotify'  
      
   config.smallfarmer01_host = 'http://smallfarmer01.com'
       

@@ -16,8 +16,8 @@ Rails.application.routes.draw do
   post   'invoices/confirmCheckout'  
   post   'invoices/checkout'  
   get    'invoices/allpayCredit'
-  post   'invoices/allpayCreditNotify'
   get    'invoices/allpayATM'
+  post   'invoices/allpayNotify'  
   get    'invoices/finished'   
   get    'invoices/cancel'    
      
