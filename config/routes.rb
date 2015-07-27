@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   get    'invoices/allpayCredit'
   get    'invoices/allpayATM'
   post   'invoices/allpayNotify'  
+  post   'invoices/allpayPaymentInfoNotify'
   get    'invoices/finished'   
   get    'invoices/cancel'    
      

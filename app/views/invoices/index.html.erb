@@ -36,6 +36,7 @@
     		付款編號<br>
     		<%= i.allpay_merchant_trade_no %><br>   	
     		<%elsif o.invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD']%>		
+    		
     		<%end%>	
     		付款日期<br>  
     		<%= i.paid_at.strftime("%Y-%m-%d %H:%M:%S") %>    		    		   		
@@ -43,9 +44,12 @@
 			<%if i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>
 			<%=image_tag 'allPay.png', class: 'img-responsive', size: '50x30'%>    	
 			<p>線上刷卡, 尚未付款</p>    	
-	    	<%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD']%>		
-			<%=image_tag 'cat.png', class: 'img-responsive', size: '60x60'%> 
-			<p>貨到付款, 尚未付款</p>			    	
+	    	<%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM']%>		
+			<%=image_tag 'allPay.png', class: 'img-responsive', size: '50x30'%>    	
+			<p>ATM轉帳, 尚未付款</p>
+	    	<%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>		
+			<%=image_tag 'allPay.png', class: 'img-responsive', size: '50x30'%>    	
+			<p>超商代碼, 尚未付款</p>						    	
 	    	<%end%>	
     	<%end%>
     </td>         
@@ -96,6 +100,9 @@
 	    	<%if !i.paid_c%>
 				<%if i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>    	
 	    		<div style="margin-bottom: 10px;"><%=link_to '線上付款', {controller: 'invoices', action: 'allpayCredit', id: i.id } ,class: 'btn btn-default add_button' %></div>  
+				<%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM']%>    	
+	    		<div style="margin-bottom: 10px;"><%=link_to 'ATM轉帳', {controller: 'invoices', action: 'allpayATM', id: i.id } ,class: 'btn btn-default add_button' %></div>  				
+				<%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>    	   		
 	    		<%end%>
 	    	<%end%>	   	
 	  		<%if cancelAvailable i %>	 	

@@ -1,6 +1,6 @@
 class InvoicesController < ApplicationController
-  skip_before_action :verify_authenticity_token, only: [:allpayCreditNotify]
-  before_action :set_invoice, only: [:allpayCredit, :finished, :cancel]
+  skip_before_action :verify_authenticity_token, only: [:allpayNotify, :allpayPaymentInfoNotify]
+  before_action :set_invoice, only: [:allpayCredit, :allpayATM, :finished, :cancel]
   before_action :emptyCarts?, only: [:create, :checkout, :confirmCheckout]
     
   def index    
@@ -126,6 +126,10 @@ class InvoicesController < ApplicationController
     end   
   end
 
+  def allpayPaymentInfoNotify
+    
+  end
+  
   def allpayATM
     discount = 0 
     @invoice.invoice_coupon_lists.each do |i_c_l|
@@ -145,13 +149,14 @@ class InvoicesController < ApplicationController
                     TotalAmount: @invoice.amount.to_i - discount.to_i,
                     ItemName: item_name,       
                     ReturnURL: Rails.configuration.allpay_return_url,
+                    PaymentInfoURL: Rails.configuration.allpay_payment_info_url,
                     ChoosePayment: "ATM",
                     ClientBackURL: Rails.configuration.smallfarmer01_host+'/invoices/finished?id='+@invoice.id.to_s}    
     #CheckMacValue
     result = @allpay_var.to_a.sort.map do |key, value|
       "#{key}=#{value}"
     end
-    result = result.join("&")
+    result = result.join("&")    
     url_encode_downcase = CGI::escape("HashKey=" + Rails.configuration.allpay_hash_key + "&" + result + "&HashIV=" + Rails.configuration.allpay_hash_iv).downcase   
     @check_mac_value = Digest::MD5.hexdigest(url_encode_downcase).upcase     
     @invoice.allpay_merchant_trade_no = merchant_trade_no
