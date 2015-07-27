@@ -58,45 +58,32 @@
 			</label>	 
 			</div>
 		</div>
-		<div class="col-sm-2 col-xs-5 check_out_pay_method">	
+		<div class="col-sm-2 col-xs-6 check_out_pay_method">	
 			<div class="radio">
 			<label>
 				 <%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM'].to_s %>
 				 <div class="check_out_pay_method_text"> 
-				 ATM轉帳
+				 ATM櫃員機
 		  		 <%=image_tag 'allPay.png', class: 'img-responsive'%>					 	
 				 </div>	
 			</label>				 			 
 			</div>
 		</div>
-		<div class="col-sm-offset-0  col-sm-2 col-xs-offset-1 col-xs-5 check_out_pay_method">	
+		<div class="col-sm-offset-0 col-sm-2 col-xs-offset-1 col-xs-7 check_out_pay_method">	
 			<div class="radio">
 			<label>
 				 <%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS'].to_s %>
 				 <div class="check_out_pay_method_text"> 
-				 超商代碼
+				 超商代碼<span style="color: #b24d4b; font-size: 90%;"> +30元</span>
 		  		 <%=image_tag 'allPay.png', class: 'img-responsive'%>					 	
 				 </div>	
 			</label>				 			 
 			</div>
 		</div>				
-		<!--
-		<div class="col-sm-2 col-xs-5 check_out_pay_method">	
-			<div class="radio">
-			<label>
-				 <%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD'].to_s %>
-				 <div class="check_out_pay_method_text"> 
-				 貨到付款
-				 <%=image_tag 'cat.png', class: 'img-responsive'%> 						 
-				 </div>	
-			</label>				 			 
-			</div>
-		</div>
-		-->
 		<div class="col-sm-5 col-xs-12 check_out_product_list_text">	
 			<div class="row">
 				<div class="col-sm-offset-1 col-sm-5 col-xs-offset-1 col-xs-4">小計</div>				
-				<div class="col-sm-2 col-xs-5" style="text-align: right">		
+				<div class="col-sm-4 col-xs-5" style="text-align: right">		
 				<span class="total_price"></span>
 				</div>	
 				<div class="col-sm-2 col-xs-1">元</div>											
@@ -106,14 +93,14 @@
 					使用回饋金<br>
 					(餘額: <%=coupons %>元)								
 				</div>		
-				<div class="col-sm-2 col-xs-5" style="text-align: right">		
+				<div class="col-sm-4 col-xs-5" style="text-align: right">		
 					<%= text_field_tag :coupons_using, @coupon_using || 0, class: "form-control" %>					
 				</div>	
 				<div class="col-sm-2 col-xs-1" style="vertical-align: middle">元</div>			
 			</div>		
 			<div class="row" style="margin-top: 10px; font-weight: bold; font-size: 20px;">
 				<div class="col-sm-offset-1 col-sm-5 col-xs-offset-1 col-xs-4">總計</div>				
-				<div class="col-sm-2 col-xs-5" style="text-align: right;">		
+				<div class="col-sm-4 col-xs-5" style="text-align: right;">		
 				<span class="sum"></span>
 				</div>	
 				<div class="col-sm-2 col-xs-1">元</div>							

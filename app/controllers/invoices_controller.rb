@@ -127,7 +127,19 @@ class InvoicesController < ApplicationController
   end
 
   def allpayPaymentInfoNotify
-    
+    if macValueOk? # we still need to check domain   
+      if params[:RtnCode] == '2' # trade success or not
+        invoice = Invoice.where(allpay_merchant_trade_no: params[:MerchantTradeNo]).first
+        invoice.allpay_trade_no = params[:TradeNo] 
+        invoice.allpay_bank_code = params[:BankCode] 
+        invoice.allpay_v_account = params[:vAccount] 
+        invoice.allpay_expired_at = params[:ExpireDate]                
+        invoice.save!           
+      elsif params[:RtnCode] == '10100073'   
+             
+      end
+    end 
+    render :nothing    
   end
   
   def allpayATM
@@ -151,6 +163,7 @@ class InvoicesController < ApplicationController
                     ReturnURL: Rails.configuration.allpay_return_url,
                     PaymentInfoURL: Rails.configuration.allpay_payment_info_url,
                     ChoosePayment: "ATM",
+                    ExpireDate: 1,
                     ClientBackURL: Rails.configuration.smallfarmer01_host+'/invoices/finished?id='+@invoice.id.to_s}    
     #CheckMacValue
     result = @allpay_var.to_a.sort.map do |key, value|

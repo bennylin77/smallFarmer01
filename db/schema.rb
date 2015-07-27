@@ -134,6 +134,10 @@ ActiveRecord::Schema.define(version: 20150629132916) do
     t.float    "payment_charge_fee",       limit: 24, default: 0.0,   null: false
     t.string   "allpay_trade_no"
     t.string   "allpay_merchant_trade_no"
+    t.string   "allpay_bank_code"
+    t.string   "allpay_v_account"
+    t.datetime "allpay_expired_at"
+    t.string   "allpay_payment_no"
     t.integer  "payment_method"
     t.float    "amount",                   limit: 24, default: 0.0,   null: false
     t.string   "receiver_last_name"
@@ -239,6 +243,7 @@ ActiveRecord::Schema.define(version: 20150629132916) do
     t.integer  "unit"
     t.boolean  "deleted_c",      default: false, null: false
     t.boolean  "available_c",    default: false, null: false
+    t.datetime "available_at"
     t.integer  "company_id"
     t.text     "preservation"
     t.integer  "sweet_degree"
