@@ -1,6 +1,6 @@
 class InvoicesController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:allpayNotify, :allpayPaymentInfoNotify]
-  before_action :set_invoice, only: [:allpayCredit, :allpayATM, :finished, :cancel]
+  before_action :set_invoice, only: [:allpayCredit, :allpayATM, :allpayCVS, :finished, :cancel]
   before_action :emptyCarts?, only: [:create, :checkout, :confirmCheckout]
     
   def index    
@@ -56,7 +56,7 @@ class InvoicesController < ApplicationController
     elsif invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM'] 
       redirect_to  controller: 'invoices', action: 'allpayATM', id: invoice.id                          
     elsif invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']
-      invoice.amount = invoice.amount + GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']
+      invoice.amount = invoice.amount + GLOBAL_VAR['ALLPAY_CVS_FEE']
       invoice.save!
       redirect_to  controller: 'invoices', action: 'allpayCVS', id: invoice.id                              
     end
@@ -139,7 +139,11 @@ class InvoicesController < ApplicationController
         invoice.allpay_expired_at = params[:ExpireDate]                
         invoice.save!           
       elsif params[:RtnCode] == '10100073'   
-             
+        invoice = Invoice.where(allpay_merchant_trade_no: params[:MerchantTradeNo]).first
+        invoice.allpay_trade_no = params[:TradeNo] 
+        invoice.allpay_expired_at = params[:ExpireDate]  
+        invoice.allpay_payment_no = params[:PaymentNo]              
+        invoice.save!               
       end
     end 
     render :nothing    

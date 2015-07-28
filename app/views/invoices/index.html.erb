@@ -20,7 +20,12 @@
   <tr>
     <td><%= i.id %></td>  	
     <td><%= i.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
-    <td><%= i.amount.to_i %>元</td>    
+    <td>
+    <%= i.amount.to_i %>元
+	<%if i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>	
+	<div style="font-size: 90%">(含超商手續費)</div>	
+    <%end%>
+    </td>    
     <td>
     	<% discount = 0 %>
     	<% i.invoice_coupon_lists.each do |i_c_l|%>
@@ -59,7 +64,15 @@
 			</dl>			
 	    	<%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>		
 			<%=image_tag 'allPay.png', class: 'img-responsive', size: '50x30'%>    	
-			<p>超商代碼, 尚未付款</p>						    	
+			<p>超商代碼, 尚未付款</p>	
+			<dl>
+			  <dt>超商繳費代碼</dt>
+			  <dd><%=showBlank i.allpay_payment_no%></dd> 
+			  <dt>繳費期限</dt>
+			  <dd>
+			  	<%if i.allpay_expired_at%><%=i.allpay_expired_at.strftime("%Y-%m-%d %H:%M:%S")%><%else%>--<%end%>		  		
+			  </dd>   
+			</dl>									    	
 	    	<%end%>	
     	<%end%>
     </td>         
@@ -85,7 +98,7 @@
           <td><%= o.id %></td>        	        		
           <td><%= link_to o.product_boxing.product.name, o.product_boxing.product%></td>
           <td><%= o.quantity%>箱 (<%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %>/箱)</td>
-          <td><%= o.price.to_i+ GLOBAL_VAR['SHIPPING_RATES'] %>元</td>     
+          <td><%= o.price.to_i+ o.quantity*GLOBAL_VAR['SHIPPING_RATES'] %>元</td>     
           <td>
           	<%= showBlank o.tracing_code%><br>
 			<%if o.seven_days_c%>	
@@ -115,6 +128,9 @@
 	    			<div style="margin-bottom: 10px;"><%=link_to '重新取得繳費帳號', {controller: 'invoices', action: 'allpayATM', id: i.id } ,class: 'btn btn-default add_button' %></div>  				
 					<%end%>
 				<%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>    	   		
+	    			<%if %>
+	    			<div style="margin-bottom: 10px;"><%=link_to '重新取得繳費代碼', {controller: 'invoices', action: 'allpayCVS', id: i.id } ,class: 'btn btn-default add_button' %></div>  				
+					<%end%>	    		
 	    		<%end%>
 	    	<%end%>	   	
 	  		<%if cancelAvailable i %>	 	

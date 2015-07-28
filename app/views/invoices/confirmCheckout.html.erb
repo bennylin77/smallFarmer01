@@ -90,7 +90,7 @@
 				<div class="col-sm-2 col-xs-5" style="text-align: right;">		
 				<span class="sum"></span>
 				<% if @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS'].to_s%> 			
-				<span class="extra_cash_flow_fee" style="color: #b24d4b; font-size: 80%;"> +30</span>
+				<span class="extra_cash_flow_fee" style="color: #b24d4b; font-size: 80%;"> +<%=GLOBAL_VAR['ALLPAY_CVS_FEE']%></span>
 				<% end %>
 				</div>	
 				<div class="col-sm-2 col-xs-1">元</div>							
