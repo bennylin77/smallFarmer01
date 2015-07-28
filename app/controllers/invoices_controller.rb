@@ -205,7 +205,7 @@ class InvoicesController < ApplicationController
                     PaymentInfoURL: Rails.configuration.allpay_payment_info_url,
                     ChoosePayment: "CVS",
                     Desc_1: item_name,
-                    ExpireDate: 2160,
+                    StoreExpireDate: 2160,
                     ClientBackURL: Rails.configuration.smallfarmer01_host+'/invoices/finished?id='+@invoice.id.to_s}    
     #CheckMacValue
     result = @allpay_var.to_a.sort.map do |key, value|
