@@ -1,6 +1,7 @@
 class InvoicesController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:allpayNotify, :allpayPaymentInfoNotify]
   before_action :set_invoice, only: [:allpayCredit, :allpayATM, :allpayCVS, :finished, :cancel]
+  before_action :paid?, only: [:allpayCredit, :allpayATM, :allpayCVS]
   before_action :emptyCarts?, only: [:create, :checkout, :confirmCheckout]
     
   def index    
@@ -61,39 +62,7 @@ class InvoicesController < ApplicationController
       redirect_to  controller: 'invoices', action: 'allpayCVS', id: invoice.id                              
     end
   end  
-  
-  def allpayCredit   
-    discount = 0 
-    @invoice.invoice_coupon_lists.each do |i_c_l|
-        discount = discount + i_c_l.amount
-    end    
-    item_name = []
-    @invoice.orders.each do |o|                            
-      item_name << o.product_boxing.product.name+'x'+o.quantity.to_s+'箱'    
-    end   
-    item_name = item_name.join("#")    
-    merchant_trade_no = @invoice.id.to_s+'AT'+Time.now.strftime("%Y%m%d%H%M%S").to_s
-    @allpay_var = { MerchantID: Rails.configuration.allpay_merchant_id,
-                    MerchantTradeNo: merchant_trade_no,
-                    MerchantTradeDate: @invoice.created_at.strftime("%Y/%m/%d %H:%M:%S"), 
-                    PaymentType: "aio",
-                    TradeDesc: "歐付寶付款",
-                    TotalAmount: @invoice.amount.to_i - discount.to_i,
-                    ItemName: item_name,       
-                    ReturnURL: Rails.configuration.allpay_return_url,
-                    ChoosePayment: "Credit",
-                    ClientBackURL: Rails.configuration.smallfarmer01_host+'/invoices/finished?id='+@invoice.id.to_s}    
-    #CheckMacValue
-    result = @allpay_var.to_a.sort.map do |key, value|
-      "#{key}=#{value}"
-    end
-    result = result.join("&")
-    url_encode_downcase = CGI::escape("HashKey=" + Rails.configuration.allpay_hash_key + "&" + result + "&HashIV=" + Rails.configuration.allpay_hash_iv).downcase   
-    @check_mac_value = Digest::MD5.hexdigest(url_encode_downcase).upcase     
-    @invoice.allpay_merchant_trade_no = merchant_trade_no
-    @invoice.save!
-  end
-    
+      
   def allpayNotify
     if macValueOk? # we still need to check domain   
       if params[:RtnCode] == '1' # trade success or not
@@ -148,74 +117,121 @@ class InvoicesController < ApplicationController
     end 
     render :nothing    
   end
+
+  def allpayCredit   
+    if @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT'] 
+      discount = 0 
+      @invoice.invoice_coupon_lists.each do |i_c_l|
+          discount = discount + i_c_l.amount
+      end    
+      item_name = []
+      @invoice.orders.each do |o|                            
+        item_name << o.product_boxing.product.name+'x'+o.quantity.to_s+'箱'    
+      end   
+      item_name = item_name.join("#")    
+      merchant_trade_no = @invoice.id.to_s+'AT'+Time.now.strftime("%Y%m%d%H%M%S").to_s
+      @allpay_var = { MerchantID: Rails.configuration.allpay_merchant_id,
+                      MerchantTradeNo: merchant_trade_no,
+                      MerchantTradeDate: @invoice.created_at.strftime("%Y/%m/%d %H:%M:%S"), 
+                      PaymentType: "aio",
+                      TradeDesc: "歐付寶付款",
+                      TotalAmount: @invoice.amount.to_i - discount.to_i,
+                      ItemName: item_name,       
+                      ReturnURL: Rails.configuration.allpay_return_url,
+                      ChoosePayment: "Credit",
+                      ClientBackURL: Rails.configuration.smallfarmer01_host+'/invoices/finished?id='+@invoice.id.to_s}    
+      #CheckMacValue
+      result = @allpay_var.to_a.sort.map do |key, value|
+        "#{key}=#{value}"
+      end
+      result = result.join("&")
+      url_encode_downcase = CGI::escape("HashKey=" + Rails.configuration.allpay_hash_key + "&" + result + "&HashIV=" + Rails.configuration.allpay_hash_iv).downcase   
+      @check_mac_value = Digest::MD5.hexdigest(url_encode_downcase).upcase     
+      @invoice.allpay_merchant_trade_no = merchant_trade_no
+      @invoice.save!
+    else  
+        flash[:warning] = '訂單編號'+@invoice.id.to_s+' 付款方式不符合'
+        redirect_to controller: :invoices, action: :index       
+    end  
+  end
   
   def allpayATM
-    discount = 0 
-    @invoice.invoice_coupon_lists.each do |i_c_l|
-        discount = discount + i_c_l.amount
-    end    
-    item_name = []
-    @invoice.orders.each do |o|                            
-      item_name << o.product_boxing.product.name+'x'+o.quantity.to_s+'箱'    
-    end   
-    item_name = item_name.join("#")    
-    merchant_trade_no = @invoice.id.to_s+'AT'+Time.now.strftime("%Y%m%d%H%M%S").to_s
-    @allpay_var = { MerchantID: Rails.configuration.allpay_merchant_id,
-                    MerchantTradeNo: merchant_trade_no,
-                    MerchantTradeDate: @invoice.created_at.strftime("%Y/%m/%d %H:%M:%S"), 
-                    PaymentType: "aio",
-                    TradeDesc: "歐付寶付款",
-                    TotalAmount: @invoice.amount.to_i - discount.to_i,
-                    ItemName: item_name,       
-                    ReturnURL: Rails.configuration.allpay_return_url,
-                    PaymentInfoURL: Rails.configuration.allpay_payment_info_url,
-                    ChoosePayment: "ATM",
-                    ExpireDate: 1,
-                    ClientBackURL: Rails.configuration.smallfarmer01_host+'/invoices/finished?id='+@invoice.id.to_s}    
-    #CheckMacValue
-    result = @allpay_var.to_a.sort.map do |key, value|
-      "#{key}=#{value}"
-    end
-    result = result.join("&")    
-    url_encode_downcase = CGI::escape("HashKey=" + Rails.configuration.allpay_hash_key + "&" + result + "&HashIV=" + Rails.configuration.allpay_hash_iv).downcase   
-    @check_mac_value = Digest::MD5.hexdigest(url_encode_downcase).upcase     
-    @invoice.allpay_merchant_trade_no = merchant_trade_no
-    @invoice.save!    
+    if @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM']    
+      discount = 0 
+      @invoice.invoice_coupon_lists.each do |i_c_l|
+          discount = discount + i_c_l.amount
+      end    
+      item_name = []
+      @invoice.orders.each do |o|                            
+        item_name << o.product_boxing.product.name+'x'+o.quantity.to_s+'箱'    
+      end   
+      item_name = item_name.join("#")    
+      merchant_trade_no = @invoice.id.to_s+'AT'+Time.now.strftime("%Y%m%d%H%M%S").to_s
+      @allpay_var = { MerchantID: Rails.configuration.allpay_merchant_id,
+                      MerchantTradeNo: merchant_trade_no,
+                      MerchantTradeDate: @invoice.created_at.strftime("%Y/%m/%d %H:%M:%S"), 
+                      PaymentType: "aio",
+                      TradeDesc: "歐付寶付款",
+                      TotalAmount: @invoice.amount.to_i - discount.to_i,
+                      ItemName: item_name,       
+                      ReturnURL: Rails.configuration.allpay_return_url,
+                      PaymentInfoURL: Rails.configuration.allpay_payment_info_url,
+                      ChoosePayment: "ATM",
+                      ExpireDate: 1,
+                      ClientBackURL: Rails.configuration.smallfarmer01_host+'/invoices/finished?id='+@invoice.id.to_s}    
+      #CheckMacValue
+      result = @allpay_var.to_a.sort.map do |key, value|
+        "#{key}=#{value}"
+      end
+      result = result.join("&")    
+      url_encode_downcase = CGI::escape("HashKey=" + Rails.configuration.allpay_hash_key + "&" + result + "&HashIV=" + Rails.configuration.allpay_hash_iv).downcase   
+      @check_mac_value = Digest::MD5.hexdigest(url_encode_downcase).upcase     
+      @invoice.allpay_merchant_trade_no = merchant_trade_no
+      @invoice.save!
+    else  
+        flash[:warning] = '訂單編號'+@invoice.id.to_s+' 付款方式不符合'
+        redirect_to controller: :invoices, action: :index       
+    end            
   end
 
   def allpayCVS
-    discount = 0 
-    @invoice.invoice_coupon_lists.each do |i_c_l|
-        discount = discount + i_c_l.amount
-    end    
-    item_name = []
-    @invoice.orders.each do |o|                            
-      item_name << o.product_boxing.product.name+'x'+o.quantity.to_s+'箱'    
-    end   
-    item_name = item_name.join("#")    
-    merchant_trade_no = @invoice.id.to_s+'AT'+Time.now.strftime("%Y%m%d%H%M%S").to_s
-    @allpay_var = { MerchantID: Rails.configuration.allpay_merchant_id,
-                    MerchantTradeNo: merchant_trade_no,
-                    MerchantTradeDate: @invoice.created_at.strftime("%Y/%m/%d %H:%M:%S"), 
-                    PaymentType: "aio",
-                    TradeDesc: "歐付寶付款",
-                    TotalAmount: @invoice.amount.to_i - discount.to_i,
-                    ItemName: item_name,       
-                    ReturnURL: Rails.configuration.allpay_return_url,
-                    PaymentInfoURL: Rails.configuration.allpay_payment_info_url,
-                    ChoosePayment: "CVS",
-                    Desc_1: item_name,
-                    StoreExpireDate: 2160,
-                    ClientBackURL: Rails.configuration.smallfarmer01_host+'/invoices/finished?id='+@invoice.id.to_s}    
-    #CheckMacValue
-    result = @allpay_var.to_a.sort.map do |key, value|
-      "#{key}=#{value}"
-    end
-    result = result.join("&")    
-    url_encode_downcase = CGI::escape("HashKey=" + Rails.configuration.allpay_hash_key + "&" + result + "&HashIV=" + Rails.configuration.allpay_hash_iv).downcase   
-    @check_mac_value = Digest::MD5.hexdigest(url_encode_downcase).upcase     
-    @invoice.allpay_merchant_trade_no = merchant_trade_no
-    @invoice.save!    
+    if @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']      
+      discount = 0 
+      @invoice.invoice_coupon_lists.each do |i_c_l|
+          discount = discount + i_c_l.amount
+      end    
+      item_name = []
+      @invoice.orders.each do |o|                            
+        item_name << o.product_boxing.product.name+'x'+o.quantity.to_s+'箱'    
+      end   
+      item_name = item_name.join("#")    
+      merchant_trade_no = @invoice.id.to_s+'AT'+Time.now.strftime("%Y%m%d%H%M%S").to_s
+      @allpay_var = { MerchantID: Rails.configuration.allpay_merchant_id,
+                      MerchantTradeNo: merchant_trade_no,
+                      MerchantTradeDate: @invoice.created_at.strftime("%Y/%m/%d %H:%M:%S"), 
+                      PaymentType: "aio",
+                      TradeDesc: "歐付寶付款",
+                      TotalAmount: @invoice.amount.to_i - discount.to_i,
+                      ItemName: item_name,       
+                      ReturnURL: Rails.configuration.allpay_return_url,
+                      PaymentInfoURL: Rails.configuration.allpay_payment_info_url,
+                      ChoosePayment: "CVS",
+                      Desc_1: item_name,
+                      StoreExpireDate: 2160,
+                      ClientBackURL: Rails.configuration.smallfarmer01_host+'/invoices/finished?id='+@invoice.id.to_s}    
+      #CheckMacValue
+      result = @allpay_var.to_a.sort.map do |key, value|
+        "#{key}=#{value}"
+      end
+      result = result.join("&")    
+      url_encode_downcase = CGI::escape("HashKey=" + Rails.configuration.allpay_hash_key + "&" + result + "&HashIV=" + Rails.configuration.allpay_hash_iv).downcase   
+      @check_mac_value = Digest::MD5.hexdigest(url_encode_downcase).upcase     
+      @invoice.allpay_merchant_trade_no = merchant_trade_no
+      @invoice.save!  
+    else  
+        flash[:warning] = '訂單編號'+@invoice.id.to_s+' 付款方式不符合'
+        redirect_to controller: :invoices, action: :index       
+    end         
   end
 
   def finished   
@@ -339,6 +355,13 @@ class InvoicesController < ApplicationController
       else
         return false
       end
+    end
+
+    def paid?
+      if @invoice.paid_c
+        flash[:warning] = '訂單編號'+@invoice.id.to_s+' 已付款'
+        redirect_to controller: :invoices, action: :index          
+      end      
     end
 
     def set_invoice

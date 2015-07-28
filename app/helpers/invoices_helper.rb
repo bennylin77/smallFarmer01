@@ -11,6 +11,7 @@ module InvoicesHelper
       cancel_available = false      
     end
 =end
-    invoice.confirmed_c ? false : true
+    #invoice.confirmed_c ? false : true
+    false
   end
 end

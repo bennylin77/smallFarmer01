@@ -13,7 +13,10 @@ class CreateOrders < ActiveRecord::Migration
       t.datetime  :review_at
     
       t.integer   :status 
-      t.string    :tracing_code     
+      t.string    :tracing_code 
+      
+      t.integer   :t_cat_status
+      t.datetime  :t_cat_status_updated_at          
       
       t.boolean   :canceled_c, default: false, null: false
       t.datetime  :canceled_at              
