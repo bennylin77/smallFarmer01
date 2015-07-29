@@ -13,6 +13,23 @@
 	  	</a>
 	  </li>
 	  <li class="active"><%= @product.name %></li>	
+
+
+
+
+	  <li class="active">
+	  	
+	  	<%= Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', @product.product_boxings.first.id, false, Time.now ).sum(:quantity)%>
+	  	
+		<% Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', @product.product_boxings.first.id, false, Time.now ).each do |o|%>
+  			<%=o.id%>---<%=o.quantity%>!!
+	  	<%end%>
+	  	
+	  </li>	
+
+
+
+	  
 	</ol>
 	<div class="row">
 		<div class="hidden-xs col-md-12 col-lg-offset-2 col-lg-8 product_farm_description">		

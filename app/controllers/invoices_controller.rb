@@ -2,10 +2,11 @@ class InvoicesController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:allpayNotify, :allpayPaymentInfoNotify]
   before_action :set_invoice, only: [:allpayCredit, :allpayATM, :allpayCVS, :finished, :cancel]
   before_action :paid?, only: [:allpayCredit, :allpayATM, :allpayCVS]
+  before_action :expired?, only: [:allpayCredit, :allpayATM, :allpayCVS]   
   before_action :emptyCarts?, only: [:create, :checkout, :confirmCheckout]
     
   def index    
-    @invoices = current_user.invoices.paginate(page: params[:page], per_page: 5).order('id DESC')    
+    @invoices = current_user.invoices.paginate(page: params[:page], per_page: 15).order('id DESC')    
     render layout: 'users'    
   end  
   
@@ -50,6 +51,7 @@ class InvoicesController < ApplicationController
     end
     current_user.carts.destroy_all
     invoice.payment_method = params[:payment_method]  
+    invoice.allpay_expired_at = Time.now + 1.day    
     invoice.save!  
     
     if invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']
@@ -62,7 +64,7 @@ class InvoicesController < ApplicationController
       redirect_to  controller: 'invoices', action: 'allpayCVS', id: invoice.id                              
     end
   end  
-      
+# ================================== allpay ================================== #    
   def allpayNotify
     if macValueOk? # we still need to check domain   
       if params[:RtnCode] == '1' # trade success or not
@@ -85,6 +87,8 @@ class InvoicesController < ApplicationController
               o.product_boxing.product.inventory = o.product_boxing.product.inventory - 1
               o.product_boxing.product.save!                
             end  
+            o.product_boxing.product.inventory = o.product_boxing.product.inventory - 1
+            o.product_boxing.product.save!               
           end            
           invoice.orders.each do |o|
             notify( o.product_boxing.product.company.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_NEW_ORDER'], 
@@ -148,6 +152,7 @@ class InvoicesController < ApplicationController
       url_encode_downcase = CGI::escape("HashKey=" + Rails.configuration.allpay_hash_key + "&" + result + "&HashIV=" + Rails.configuration.allpay_hash_iv).downcase   
       @check_mac_value = Digest::MD5.hexdigest(url_encode_downcase).upcase     
       @invoice.allpay_merchant_trade_no = merchant_trade_no
+      @invoice.allpay_expired_at = Time.now + 1.day
       @invoice.save!
     else  
         flash[:warning] = '訂單編號'+@invoice.id.to_s+' 付款方式不符合'
@@ -234,6 +239,8 @@ class InvoicesController < ApplicationController
     end         
   end
 
+# ================================== others ================================== #    
+
   def finished   
   end
   
@@ -245,7 +252,7 @@ class InvoicesController < ApplicationController
         cancel_available = false
       end      
     end
-=end    
+    
     if @invoice.confirmed_c ? false : true
       @invoice.orders.each do |o|      
         o.status = GLOBAL_VAR['ORDER_STATUS_CANCELED']  
@@ -259,6 +266,7 @@ class InvoicesController < ApplicationController
       flash[:notice] = '訂單編號'+@invoice.id.to_s+' 已取消'
     end  
     redirect_to controller: :invoices, action: :index  
+=end    
   end
   
   def checkout   
@@ -362,6 +370,14 @@ class InvoicesController < ApplicationController
         flash[:warning] = '訂單編號'+@invoice.id.to_s+' 已付款'
         redirect_to controller: :invoices, action: :index          
       end      
+    end
+
+    def inventoryEmpty?
+      
+    end
+    
+    def expired?
+      
     end
 
     def set_invoice
