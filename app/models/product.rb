@@ -12,4 +12,13 @@ class Product < ActiveRecord::Base
   validates :inventory, presence: { presence: true, message: '請填寫 水果總庫存量' }, on: :update 
   validates :daily_capacity, presence: { presence: true, message: '請填寫 水果日處理量' }, on: :update 
   
+  
+  validate  :inventoryMoreThanUnpaid, on: :update 
+     
+  def inventoryMoreThanUnpaid
+    if inventory <  Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', self.product_boxings.first.id, false, Time.now ).sum(:quantity)
+      errors.add(:inventory, "庫存箱數不能低於尚未付款箱數")
+    end   
+  end   
+  
 end

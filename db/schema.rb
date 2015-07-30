@@ -178,25 +178,27 @@ ActiveRecord::Schema.define(version: 20150629132916) do
   create_table "orders", force: true do |t|
     t.integer  "product_boxing_id"
     t.integer  "invoice_id"
-    t.float    "price",                 limit: 24
+    t.float    "price",                   limit: 24
     t.integer  "quantity"
-    t.float    "shipping_rates",        limit: 24
+    t.float    "shipping_rates",          limit: 24
     t.integer  "review_score"
     t.string   "review_feedback"
     t.datetime "review_at"
     t.integer  "status"
     t.string   "tracing_code"
-    t.boolean  "canceled_c",                       default: false, null: false
+    t.integer  "t_cat_status"
+    t.datetime "t_cat_status_updated_at"
+    t.boolean  "canceled_c",                         default: false, null: false
     t.datetime "canceled_at"
-    t.boolean  "called_smallfarmer_c",             default: false, null: false
+    t.boolean  "called_smallfarmer_c",               default: false, null: false
     t.datetime "called_smallfarmer_at"
-    t.boolean  "called_logistics_c",               default: false, null: false
+    t.boolean  "called_logistics_c",                 default: false, null: false
     t.datetime "called_logistics_at"
-    t.boolean  "delivered_c",                      default: false, null: false
+    t.boolean  "delivered_c",                        default: false, null: false
     t.datetime "delivered_at"
-    t.boolean  "three_days_c",                     default: false, null: false
-    t.boolean  "five_days_c",                      default: false, null: false
-    t.boolean  "seven_days_c",                     default: false, null: false
+    t.boolean  "three_days_c",                       default: false, null: false
+    t.boolean  "five_days_c",                        default: false, null: false
+    t.boolean  "seven_days_c",                       default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

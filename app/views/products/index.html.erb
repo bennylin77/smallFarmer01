@@ -15,7 +15,6 @@
       <th></th>      
     </tr>
   </thead>
-
   <tbody>
     <% @products.each do |product| %>
       <tr>
@@ -25,14 +24,16 @@
         <td>
         	<%= product.created_at.strftime("%Y-%m-%d %H:%M:%S") %>
         </td>      	
-        <td>
-	        <%if product.product_images.first %>
-			<div class="text-center">
-			<%= image_tag product.product_images.first.image.url, class: 'img-circle backend_fruits_img' %>			
-	        </div>
-	        <%end%> 	
-	    	<div class="text-center"><%= product.name%></div>
-    	</td>
+	    <td>
+	        <%= link_to product do%>
+				<%if product.product_images.first %>
+					<div class="text-center">
+					<%= image_tag product.product_images.first.image.url, class: 'img-circle backend_fruits_img' %>			
+			        </div>
+			    <%end%> 	
+	    		<div class="text-center"><%= product.name%></div>           	
+	        <%end%>   	
+	    </td>         	
         <td>
 		<%product.product_boxings.first.product_pricings.each do |p| %>
 			<%if p.quantity == 1%>	
@@ -52,9 +53,14 @@
 	        	<div>
 	        	總庫存量 <%= product.inventory.to_i %> 箱
 	        	</div>	        
-	        <%end%>	            
-            每日處理量 <%= product.daily_capacity.to_i %> 箱<br>
-        	已出貨 <%= product.product_boxings.first.orders.where(called_smallfarmer_c: true).sum(:quantity) %> 箱
+	        <%end%>	   
+	        <div>
+	        尚未付款
+			<%= Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', product.product_boxings.first.id, false, Time.now ).sum(:quantity)%>
+        	箱
+        	</div>
+            <div>每日處理量 <%= product.daily_capacity.to_i %> 箱</div>
+        	<div>已出貨 <%= product.product_boxings.first.orders.where(called_smallfarmer_c: true).sum(:quantity) %> 箱</div>
         </td>        
         <td>
         	<%if product.available_c%>

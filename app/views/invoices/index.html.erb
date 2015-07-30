@@ -50,13 +50,13 @@
 			  <dd><%if i.paid_c%>已付款<%else%><div style="color: #b24d4b">尚未付款</div><%end%></dd> 
 			  <dt><abbr title="請於繳費期限內繳款, 超過繳費期限, 將有可能買不到商品">繳費期限</abbr></dt>
 			  <dd>
-			  <%if i.allpay_expired_at < Time.now%>	
-				  <div style="color: #b24d4b">
-				  	<%=i.allpay_expired_at.strftime("%Y-%m-%d %H:%M:%S")%>		  		
-				  </div>
-			  <%else%>
-				  	<%=i.allpay_expired_at.strftime("%Y-%m-%d %H:%M:%S")%>		  					  	  
-			  <%end%>
+			  	<%if i.allpay_expired_at < Time.now%>	
+				<div style="color: #b24d4b">
+				<%=i.allpay_expired_at.strftime("%Y-%m-%d %H:%M:%S")%>		  		
+				</div>
+				<%else%>
+				<%=i.allpay_expired_at.strftime("%Y-%m-%d %H:%M:%S")%>		  					  	  
+				<%end%>
 			  </dd> 			  	
 		      <%if i.paid_c%>			  	
 			  <dt>付款編號</dt>
@@ -83,7 +83,7 @@
 			  <dd><%=showBlank i.allpay_v_account%></dd>  
 			  <dt><abbr title="請於繳費期限內繳款, 超過繳費期限, 將有可能買不到商品">繳費期限</abbr></dt>
 			  <dd>
-			  	<%if i.allpay_expired_at%><%=i.allpay_expired_at.strftime("%Y-%m-%d 23:59:59")%><%else%>--<%end%>		  		
+			  	<%if i.allpay_expired_at%><%=i.allpay_expired_at.strftime("%Y-%m-%d %H:%M:%S")%><%else%>--<%end%>		  		
 			  </dd>  
 		      <%if i.paid_c%>			  	
 			  <dt>付款編號</dt>
@@ -133,7 +133,7 @@
 		    <td>水果名稱</td>
 			<td style="min-width: 120px;">數量(單位)</td>   
 			<td style="min-width: 70px;">金額</td> 						 		    
-			<td>物流追蹤碼</td>
+			<!--<td>物流追蹤碼</td>-->
 		    <td>出貨狀態</td>					           
 	  	</tr>      		      	
     	<%i.orders.each do |o|%>      	
@@ -153,13 +153,12 @@
           <div><%= o.quantity%>箱</div> 
           (<%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %>/箱)</td>
           <td><%= o.price.to_i+ o.quantity*GLOBAL_VAR['SHIPPING_RATES'] %>元</td>     
+          <!--
           <td>
-          	<%= showBlank o.tracing_code%><br>
-			<%if o.seven_days_c%>	
-				<%=image_tag 'seven_days.png', class: '', style: 'width: 100px;'  %>					
-			<%end%>	          	
+          	<%= showBlank o.tracing_code%><br>	          	
           </td>     
-          <td>
+          -->
+          <td>        	
 			<div class="text-center">在<%= o.created_at.strftime("%Y-%m-%d %H:%M:%S") %><br>建立出貨單</div>		
 			<div class="text-center">&darr;</div>				
 			<%if o.called_smallfarmer_c%>
@@ -167,6 +166,11 @@
 			<div class="text-center">&darr;</div>						
 			<%end%>	
 			<div class="text-center"><%= Hash[orderCustomerStatusOptions].rassoc(o.status).first%></div>          	          	
+			<%if o.seven_days_c%>	
+			<div class="text-center">
+				<%=image_tag 'seven_days.png', class: '', style: 'width: 100px; margin: 5px;'  %>					
+			</div>
+			<%end%>            
           </td>	                              
         </tr>
     	<%end%>	        
@@ -176,23 +180,15 @@
     	<%unless i.canceled_c%>   
 	    	<%if !i.paid_c%>
 				<%if i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>    	
-	    		<div style="margin-bottom: 10px;"><%=link_to '線上付款', {controller: 'invoices', action: 'allpayCredit', id: i.id } ,class: 'btn btn-default add_button' %></div>  
+	    		<div style="margin-bottom: 10px;"><%=link_to '線上付款', {controller: 'invoices', action: 'allpayCredit', id: i.id } ,class: 'btn btn-default edit_button' %></div>  
 				<%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM']%>    	
-	    			<%unless i.allpay_expired_at.blank?%>	    			
-		    			<%if Time.now > i.allpay_expired_at.strftime("%Y-%m-%d 23:59:59")  %>
-		    			<div style="margin-bottom: 10px;"><%=link_to '重新取得繳費帳號', {controller: 'invoices', action: 'allpayATM', id: i.id } ,class: 'btn btn-default add_button' %></div>  				
-						<%end%>
-					<%else%>
-		    			<div style="margin-bottom: 10px;"><%=link_to '重新取得繳費帳號', {controller: 'invoices', action: 'allpayATM', id: i.id } ,class: 'btn btn-default add_button' %></div>  										
-					<%end%>							
+		    		<%if Time.now > i.allpay_expired_at.strftime("%Y-%m-%d %H:%M:%S")  %>
+		    			<div style="margin-bottom: 10px;"><%=link_to '重新取得繳費帳號', {controller: 'invoices', action: 'allpayATM', id: i.id } ,class: 'btn btn-default edit_button' %></div>  				
+					<%end%>
 				<%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>    	   		
-	    			<%unless i.allpay_expired_at.blank?%>
-		    			<%if Time.now > i.allpay_expired_at %>
-		    			<div style="margin-bottom: 10px;"><%=link_to '重新取得繳費代碼', {controller: 'invoices', action: 'allpayCVS', id: i.id } ,class: 'btn btn-default add_button' %></div>  				
-						<%end%>	 
-					<%else%>
-		    			<div style="margin-bottom: 10px;"><%=link_to '重新取得繳費代碼', {controller: 'invoices', action: 'allpayCVS', id: i.id } ,class: 'btn btn-default add_button' %></div>  										
-					<%end%>	   		
+		    		<%if Time.now > i.allpay_expired_at %>
+		    			<div style="margin-bottom: 10px;"><%=link_to '重新取得繳費代碼', {controller: 'invoices', action: 'allpayCVS', id: i.id } ,class: 'btn btn-default edit_button' %></div>  				
+					<%end%>	 
 	    		<%end%>
 	    	<%end%>	   	
 	  		<%if cancelAvailable i %>	 	

@@ -90,7 +90,7 @@
 					<%= image_tag product.product_images.first.image.url, class: 'img-circle farm_fruits_img', style: 'height: 70px; width: 70px;'%>						
 				</div>	
 				<div class="col-sm-2 col-xs-12 check_out_product_list_title vmiddle">
-					<%= c.product_boxing.product.name %>
+					<%=link_to c.product_boxing.product.name, c.product_boxing.product%>
 				</div>	
 				<div class="col-sm-2 col-xs-12 check_out_product_list_text vmiddle">
 					<% product.product_boxings.first.product_pricings.each do |pp| %>

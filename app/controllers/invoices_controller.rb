@@ -4,6 +4,7 @@ class InvoicesController < ApplicationController
   before_action :paid?, only: [:allpayCredit, :allpayATM, :allpayCVS]
   before_action :expired?, only: [:allpayCredit, :allpayATM, :allpayCVS]   
   before_action :emptyCarts?, only: [:create, :checkout, :confirmCheckout]
+  before_action :inventory?, only: [:create, :confirmCheckout]
     
   def index    
     @invoices = current_user.invoices.paginate(page: params[:page], per_page: 15).order('id DESC')    
@@ -109,7 +110,7 @@ class InvoicesController < ApplicationController
         invoice.allpay_trade_no = params[:TradeNo] 
         invoice.allpay_bank_code = params[:BankCode] 
         invoice.allpay_v_account = params[:vAccount] 
-        invoice.allpay_expired_at = params[:ExpireDate]                
+        invoice.allpay_expired_at = params[:ExpireDate].to_time + 1.day - 1              
         invoice.save!           
       elsif params[:RtnCode] == '10100073'   
         invoice = Invoice.where(allpay_merchant_trade_no: params[:MerchantTradeNo]).first
