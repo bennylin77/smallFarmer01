@@ -60,6 +60,16 @@
 .add_to_cart:hover{
   background: #6fc57b;
 }
+.cart_unavailable{
+  border: none;
+  border-radius: 0;
+  font-size: 20px;
+  color: #ffffff;
+  padding: 7px 14px !important; 
+  box-shadow: 3px 3px rgb(209, 209, 200) !important;  
+  background: #afb3ad !important;    
+}
+
 .product_spec th{
   width: 81px;
 }

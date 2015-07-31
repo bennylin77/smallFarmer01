@@ -227,7 +227,7 @@ class InvoicesController < ApplicationController
       url_encode_downcase = CGI::escape("HashKey=" + Rails.configuration.allpay_hash_key + "&" + result + "&HashIV=" + Rails.configuration.allpay_hash_iv).downcase   
       @check_mac_value = Digest::MD5.hexdigest(url_encode_downcase).upcase     
       @invoice.allpay_merchant_trade_no = merchant_trade_no
-      @invoice.allpay_expired_at = Time.now + 1
+      @invoice.allpay_expired_at = Time.now + 1.day
       @invoice.save!
     else  
         flash[:warning] = '訂單編號'+@invoice.id.to_s+' 付款方式不符合'
