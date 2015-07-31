@@ -77,16 +77,19 @@
 		</div>
 		<div class="col-md-6 col-lg-5">
 			<div class="row">			
-		      <div class="col-xs-12 col-md-offset-1 col-md-7 vmiddle text-center">
+		      <div class="hidden-xs hidden-sm col-md-offset-1 col-md-10">
+		      	<%unless @product.sweet_degree.blank?%>
+			  		<%=image_tag 'sweet_degree/'+@product.sweet_degree.to_s+'.png', class: 'product_sweet_degree pull-right', style: 'margin-top: 20px;' %>		      
+		      	<%end%>		        
+		        <div class="pull-right" style="display: inline-block; margin-right: 20px;">
+		        	<div class="product_name text-center"><%= @product.name %></div>
+		        	<div class="product_excellent text-center"><span class="product_excellent_no" data-count='14306'> </span><span class="product_excellent_text">人說好吃</span></div>		      
+		      	</div>	
+		      </div>		      	
+		      <div class="hidden-md hidden-lg col-xs-12 text-center">    	
 		        <div class="product_name"><%= @product.name %></div>
-		        <!--<div class="product_excellent"><span class="product_excellent_no" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and delivered_c = 1 and review_score = ? ', @product.id, GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count + Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and delivered_c = 1 and review_score = ? ', @product.id, GLOBAL_VAR['ORDER_REVIEW_TASTY']).count %>'> </span><span class="product_excellent_text">人說好吃</span></div>-->
 		        <div class="product_excellent"><span class="product_excellent_no" data-count='14306'> </span><span class="product_excellent_text">人說好吃</span></div>		      
-		      </div>
-		      <div class="col-md-3 hidden-xs hidden-sm vmiddle">
-		      		<%if @product.sweet_degree%>
-			  			<%=image_tag 'sweet_degree/'+@product.sweet_degree.to_s+'.png', class: 'product_sweet_degree pull-right' %>		      
-		      		<%end%>
-		      </div>		      
+		      </div>			      		      
 		    </div>				
 			<div class="row">
 		      <div class="hidden-xs hidden-sm col-md-11 text-right" style="margin-top: 10px;">					
@@ -143,10 +146,10 @@
 					<%elsif p.quantity%>
 			<div class="row product_promote" style="margin-top: 18px;">	
 					<div class="hidden-xs hidden-sm col-sm-offset-4 col-sm-7 text-right">								
-						<%= p.quantity %>箱以上 每箱<%= p.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %>元(含運)		
+						<%= p.quantity %>箱以上 每箱<span style="font-size: 130%"><%= p.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %></span>元(含運)		
 					</div>
 					<div class="hidden-md hidden-lg col-xs-12 text-center">								
-						<%= p.quantity %>箱以上 每箱<%= p.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %>元(含運)		
+						<%= p.quantity %>箱以上 每箱<span style="font-size: 130%"><%= p.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %></span>元(含運)		
 					</div>					
 			</div>						
 					<%end%>
@@ -159,9 +162,12 @@
 						＊企業團體購買，請聯絡客服人員
 					</div>					
 			</div>		
-			<div class="row product_promote" style="margin-top: 20px;">								
+			<div class="row product_promote" style="margin-top: 15px;">								
 					<div class="hidden-xs hidden-sm col-sm-11 text-right">							
-			  			<%=image_tag 'coupons_icon.png', class: '', style: 'height: 75px; margin-top: 25px; margin-right: 10px;' %>	      
+			  			<%=image_tag 'coupons_icon.png', class: '', style: 'height: 60px; margin-top: 5px; margin-right: 10px;' %>
+			  			<span>
+			  			最多可獲得<span>200</span>元回饋金			  				
+			  			</span>			  				      
 						<%if @product.inventory - Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', @product.product_boxings.first.id, false, Time.now ).sum(:quantity) == 0%>
 						<button type="button" class="cart_unavailable btn btn-default" autocomplete="off" disabled="disabled">已搶購完</button>			
 						<%else%>
