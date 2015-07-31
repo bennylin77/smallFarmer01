@@ -169,7 +169,7 @@
 			</div>		
 			<div class="row product_promote" style="margin-top: 20px;">								
 					<div class="hidden-xs hidden-sm col-sm-11 text-right">							
-			  			<%=image_tag '4_1.png', class: 'p', style: 'height: 75px; margin-top: 25px; margin-right: 10px;' %>	      
+			  			<%=image_tag 'coupons_icon.png', class: '', style: 'height: 75px; margin-top: 25px; margin-right: 10px;' %>	      
 						<%if @product.inventory - Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', @product.product_boxings.first.id, false, Time.now ).sum(:quantity) == 0%>
 						<button type="button" class="delete_button btn btn-default" autocomplete="off" disabled="disabled">已搶購完</button>			
 						<%else%>

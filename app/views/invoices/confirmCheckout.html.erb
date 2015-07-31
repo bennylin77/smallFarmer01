@@ -69,25 +69,25 @@
 		</div>
 		<div class="col-sm-7 col-xs-12 check_out_product_list_text">	
 			<div class="row">
-				<div class="col-sm-offset-3 col-sm-5 col-xs-offset-1 col-xs-4">小計</div>				
-				<div class="col-sm-2 col-xs-5" style="text-align: right">		
+				<div class="col-sm-offset-2 col-sm-3 col-xs-offset-1 col-xs-4">小計</div>				
+				<div class="col-sm-4 col-xs-5" style="text-align: right">		
 				<span class="total_price"></span>
 				</div>	
 				<div class="col-sm-2 col-xs-1">元</div>											
 			</div>	
 			<div class="row" style="margin-top: 10px;">
-				<div class="col-sm-offset-3 col-sm-5 col-xs-offset-1 col-xs-4">
+				<div class="col-sm-offset-2 col-sm-3 col-xs-offset-1 col-xs-4">
 					使用回饋金<br>
 					(餘額: <%=coupons %>元)								
 				</div>		
-				<div class="col-sm-2 col-xs-5" style="text-align: right">		
+				<div class="col-sm-4 col-xs-5" style="text-align: right">		
 					<%= @coupon_using || 0 %>
 				</div>	
 				<div class="col-sm-2 col-xs-1" style="vertical-align: middle">元</div>			
 			</div>		
 			<div class="row" style="margin-top: 10px; font-weight: bold; font-size: 20px;">
-				<div class="col-sm-offset-3 col-sm-5 col-xs-offset-1 col-xs-4">總計</div>				
-				<div class="col-sm-2 col-xs-5" style="text-align: right;">		
+				<div class="col-sm-offset-2 col-sm-3 col-xs-offset-1 col-xs-4">總計</div>				
+				<div class="col-sm-4 col-xs-5" style="text-align: right;">		
 				<span class="sum"></span>
 				<% if @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS'].to_s%> 			
 				<span class="extra_cash_flow_fee" style="color: #b24d4b; font-size: 80%;"> +<%=GLOBAL_VAR['ALLPAY_CVS_FEE']%></span>

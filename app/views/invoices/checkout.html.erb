@@ -166,8 +166,6 @@
 			<div class="section_underline"></div>			
 		</div>					
 	</div>
-
-	
   	<% current_user.invoices.each do |i_new| %>
 	    <% if i_new.new_record? %>
 	    	<%= u.fields_for :invoices, i_new do |i| %>

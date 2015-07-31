@@ -4,7 +4,6 @@ class InvoicesController < ApplicationController
   before_action :paid?, only: [:allpayCredit, :allpayATM, :allpayCVS]
   before_action :expired?, only: [:allpayCredit, :allpayATM, :allpayCVS]   
   before_action :emptyCarts?, only: [:create, :checkout, :confirmCheckout]
-  before_action :inventory?, only: [:create, :confirmCheckout]
     
   def index    
     @invoices = current_user.invoices.paginate(page: params[:page], per_page: 15).order('id DESC')    
@@ -12,7 +11,15 @@ class InvoicesController < ApplicationController
   end  
   
   def create  
-    current_user.update_attributes(user_params)  
+    current_user.carts.each do |c|        
+      unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', c.product_boxing.id, false, Time.now ).sum(:quantity)     
+      if c.product_boxing.product.inventory - unpaid - c.quantity < 0
+        flash[:warning] = c.product_boxing.product.name + '庫存剩'+(c.product_boxing.product.inventory - unpaid).to_s+'箱'
+        redirect_to controller: 'products', action: 'show', id: c.product_boxing.product.id
+      end 
+    end 
+        
+    current_user.update_attributes(user_params)     
     invoice =  current_user.invoices.where(confirmed_c: false).last 
     #Orders       
     current_user.carts.each do |c|
@@ -65,7 +72,76 @@ class InvoicesController < ApplicationController
       redirect_to  controller: 'invoices', action: 'allpayCVS', id: invoice.id                              
     end
   end  
+
+# ================================== others ================================== #    
+
+  def finished   
+  end
+  
+  def cancel      
+=begin    
+    cancel_available = true
+    @invoice.orders.each do |o|      
+      if o.called_smallfarmer_c
+        cancel_available = false
+      end      
+    end
+    
+    if @invoice.confirmed_c ? false : true
+      @invoice.orders.each do |o|      
+        o.status = GLOBAL_VAR['ORDER_STATUS_CANCELED']  
+        o.canceled_c = true
+        o.canceled_at = Time.now
+        o.save!    
+      end    
+      @invoice.canceled_c = true
+      @invoice.canceled_at = Time.now
+      @invoice.save!
+      flash[:notice] = '訂單編號'+@invoice.id.to_s+' 已取消'
+    end  
+    redirect_to controller: :invoices, action: :index  
+=end    
+  end
+  
+  def checkout   
+    unless params[:user].blank?
+      current_user.assign_attributes(user_params)   
+    else
+      current_user.invoices.build()
+    end                              
+    @coupon_using = params[:coupons_using]
+    @payment_method = params[:payment_method]
+    @agree = params[:agree]    
+  end
+  
+  def confirmCheckout   
+    params[:user][:addresses_attributes]['0'][:phone_no] = params[:phone_no_full]
+    params[:user][:invoices_attributes]['0'][:receiver_phone_no] = params[:receiver_phone_no_full]    
+    current_user.assign_attributes(user_params)  
+    @coupon_using = params[:coupons_using]
+    @payment_method = params[:payment_method]
+    @agree = params[:agree]
+     
+    current_user.valid?   
+    current_user.carts.each do |c|        
+      unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', c.product_boxing.id, false, Time.now ).sum(:quantity)     
+      if c.product_boxing.product.inventory - unpaid - c.quantity < 0
+        current_user.errors.add('quantity_'+c.id.to_s, c.product_boxing.product.name + '庫存剩'+(c.product_boxing.product.inventory - unpaid).to_s+'箱')     
+      end 
+    end            
+    if @payment_method.blank?  
+      current_user.errors.add(:payment_method, "請選擇付款方式")
+    end        
+    unless @agree  
+      current_user.errors.add(:agree, "請勾選 小農1號 電子商務約定條款")
+    end  
+    if current_user.errors.any?
+      render 'checkout'
+    end
+  end    
+  
 # ================================== allpay ================================== #    
+  
   def allpayNotify
     if macValueOk? # we still need to check domain   
       if params[:RtnCode] == '1' # trade success or not
@@ -84,11 +160,9 @@ class InvoicesController < ApplicationController
           invoice.orders.each do |o|
             if o.product_boxing.product.daily_capacity.to_i*3 > o.product_boxing.orders.joins(:invoice).where('invoices.confirmed_c = ? and called_smallfarmer_c = ?', true, false).sum(:quantity)     
               o.seven_days_c = true
-              o.save!
-              o.product_boxing.product.inventory = o.product_boxing.product.inventory - 1
-              o.product_boxing.product.save!                
+              o.save!                
             end  
-            o.product_boxing.product.inventory = o.product_boxing.product.inventory - 1
+            o.product_boxing.product.inventory = o.product_boxing.product.inventory - o.quantity
             o.product_boxing.product.save!               
           end            
           invoice.orders.each do |o|
@@ -153,7 +227,7 @@ class InvoicesController < ApplicationController
       url_encode_downcase = CGI::escape("HashKey=" + Rails.configuration.allpay_hash_key + "&" + result + "&HashIV=" + Rails.configuration.allpay_hash_iv).downcase   
       @check_mac_value = Digest::MD5.hexdigest(url_encode_downcase).upcase     
       @invoice.allpay_merchant_trade_no = merchant_trade_no
-      @invoice.allpay_expired_at = Time.now + 1.day
+      @invoice.allpay_expired_at = Time.now + 1
       @invoice.save!
     else  
         flash[:warning] = '訂單編號'+@invoice.id.to_s+' 付款方式不符合'
@@ -240,68 +314,7 @@ class InvoicesController < ApplicationController
     end         
   end
 
-# ================================== others ================================== #    
 
-  def finished   
-  end
-  
-  def cancel      
-=begin    
-    cancel_available = true
-    @invoice.orders.each do |o|      
-      if o.called_smallfarmer_c
-        cancel_available = false
-      end      
-    end
-    
-    if @invoice.confirmed_c ? false : true
-      @invoice.orders.each do |o|      
-        o.status = GLOBAL_VAR['ORDER_STATUS_CANCELED']  
-        o.canceled_c = true
-        o.canceled_at = Time.now
-        o.save!    
-      end    
-      @invoice.canceled_c = true
-      @invoice.canceled_at = Time.now
-      @invoice.save!
-      flash[:notice] = '訂單編號'+@invoice.id.to_s+' 已取消'
-    end  
-    redirect_to controller: :invoices, action: :index  
-=end    
-  end
-  
-  def checkout   
-    unless params[:user].blank?
-      current_user.assign_attributes(user_params)   
-    else
-      current_user.invoices.build()
-    end                              
-    @coupon_using = params[:coupons_using]
-    @payment_method = params[:payment_method]
-    @agree = params[:agree]    
-  end
-  
-  def confirmCheckout   
-    params[:user][:addresses_attributes]['0'][:phone_no] = params[:phone_no_full]
-    params[:user][:invoices_attributes]['0'][:receiver_phone_no] = params[:receiver_phone_no_full]    
-    current_user.assign_attributes(user_params)  
-    @coupon_using = params[:coupons_using]
-    @payment_method = params[:payment_method]
-    @agree = params[:agree]
-    
-    current_user.valid?
-    if @payment_method.blank?  
-      current_user.errors.add(:payment_method, "請選擇付款方式")
-    end    
-    unless @agree  
-      current_user.errors.add(:agree, "請勾選 小農1號 電子商務約定條款")
-    end
-    if current_user.errors.any?
-      render 'checkout'
-    else
-    end
-  end  
-  
   private   
     def candidateCoupons( hash={} )
       candidate_coupons = Array.new
@@ -372,13 +385,20 @@ class InvoicesController < ApplicationController
         redirect_to controller: :invoices, action: :index          
       end      
     end
-
-    def inventoryEmpty?
-      
-    end
     
     def expired?
-      
+      if Time.now > @invoice.allpay_expired_at
+        @invoice.orders.each do |o|
+          unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', o.product_boxing.id, false, Time.now ).sum(:quantity)     
+          if o.product_boxing.product.inventory - unpaid - o.quantity < 0
+            @invoice.canceled_c = true
+            @invoice.canceled_at = Time.now
+            @invoice.save!        
+            flash[:alert] = o.product_boxing.product.name + '庫存剩'+(o.product_boxing.product.inventory - unpaid).to_s+'箱 此訂單已取消且無法付款'          
+            redirect_to controller: 'invoices', action: 'index'            
+          end
+        end        
+      end
     end
 
     def set_invoice

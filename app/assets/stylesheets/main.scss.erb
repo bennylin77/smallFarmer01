@@ -202,7 +202,7 @@ input.rounded:focus {
 /*======================================= main =======================================*/
 .main_frontend {
   padding-top: 80px;
-  padding-bottom: 150px;  
+  padding-bottom: 80px;  
 }
 /*======================================= Breadcrumb =======================================*/
 .breadcrumb {background: rgba(255, 255, 255, 0); border: 5px solid rgba(245, 245, 245, 0); border-radius: 0px; display: block;}
@@ -242,16 +242,18 @@ input.rounded:focus {
   background: #4565a3;
   text-decoration: none;
 }
-.facebook:hover{
-  color: #ffffff;
+.facebook:hover, 
+.facebook:focus, 
+.facebook:active{
+  color: #ffffff !important;
   text-decoration: none;
+  opacity: 0.8;
 }
 .facebook img{
   height: 20px;
   width: 20px;
   margin-right: 5px;
 }
-
 .account-wall
 {
     margin-top: 20px;

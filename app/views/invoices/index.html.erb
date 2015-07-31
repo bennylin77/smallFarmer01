@@ -42,14 +42,25 @@
 		</dl>    	
     </td>    
     <td>  	  		    		   		
-		<%if i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>
-			<dl>
-			  <dt>付款方式</dt>
-			  	<dd>線上刷卡</dd> 	 
-			  <dt>付款狀態</dt>			
-			  <dd><%if i.paid_c%>已付款<%else%><div style="color: #b24d4b">尚未付款</div><%end%></dd> 
-			  <dt><abbr title="請於繳費期限內繳款, 超過繳費期限, 將有可能買不到商品">繳費期限</abbr></dt>
-			  <dd>
+		<dl>
+			<dt>付款方式</dt>
+				<%if i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>
+				<dd>線上刷卡</dd> 
+	   			<%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM']%>		
+			  	<dd>ATM櫃員機</dd> 			  						  
+	   			<%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>		
+				<dd>超商代碼</dd> 
+				<%end%>								 
+			<dt>付款狀態</dt>			
+			  	<dd><%if i.paid_c%>已付款<%else%><div style="color: #b24d4b">尚未付款</div><%end%></dd> 		  	
+		    <%if i.paid_c%>			  	
+			<dt>付款編號</dt>
+			  	<dd><%= i.allpay_merchant_trade_no %></dd>			  	
+			<dt>付款日期</dt>
+			  	<dd><%= i.paid_at.strftime("%Y-%m-%d %H:%M:%S") %></dd>	
+			<%else%>
+			<dt><abbr title="請於付款期限內付款, 超過付款期限, 有可能因為庫存不足, 訂單無法成立">付款期限</abbr></dt>
+			  	<dd>
 			  	<%if i.allpay_expired_at < Time.now%>	
 				<div style="color: #b24d4b">
 				<%=i.allpay_expired_at.strftime("%Y-%m-%d %H:%M:%S")%>		  		
@@ -57,67 +68,19 @@
 				<%else%>
 				<%=i.allpay_expired_at.strftime("%Y-%m-%d %H:%M:%S")%>		  					  	  
 				<%end%>
-			  </dd> 			  	
-		      <%if i.paid_c%>			  	
-			  <dt>付款編號</dt>
-			  	<dd><%= i.allpay_merchant_trade_no %></dd>			  	
-			  <dt>付款日期</dt>
-			  	<dd><%= i.paid_at.strftime("%Y-%m-%d %H:%M:%S") %></dd>	
-			  <%end%>		
-			</dl>  		  	
-	    <%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM']%>		
-			<dl>
-			  <dt>付款方式</dt>
-			  <dd>ATM櫃員機</dd> 	
-			  <dt>付款狀態</dt>			
-			  	<dd>
-		    		<%if i.paid_c%>
-		    		已付款
-					<%else%>
-			  		<div style="color: #b24d4b">尚未付款</div>
-			  		<%end%>
-			  	</dd>			  			
-			  <dt>繳費銀行代碼</dt>
-			  <dd><%=showBlank i.allpay_bank_code%></dd>
-			  <dt>繳費虛擬帳號</dt>
-			  <dd><%=showBlank i.allpay_v_account%></dd>  
-			  <dt><abbr title="請於繳費期限內繳款, 超過繳費期限, 將有可能買不到商品">繳費期限</abbr></dt>
-			  <dd>
-			  	<%if i.allpay_expired_at%><%=i.allpay_expired_at.strftime("%Y-%m-%d %H:%M:%S")%><%else%>--<%end%>		  		
-			  </dd>  
-		      <%if i.paid_c%>			  	
-			  <dt>付款編號</dt>
-			  	<dd><%= i.allpay_merchant_trade_no %></dd>			  	
-			  <dt>付款日期</dt>
-			  	<dd><%= i.paid_at.strftime("%Y-%m-%d %H:%M:%S") %></dd>	
-			  <%end%>			   
-			</dl>			
-	    <%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>		
-			<dl>
-			  <dt>付款方式</dt>
-			  <dd>超商代碼</dd> 	  					  
-			  <dt>付款狀態</dt>			
-			  	<dd>
-		    		<%if i.paid_c%>
-		    		已付款
-					<%else%>
-			  		<div style="color: #b24d4b">尚未付款</div>
-			  		<%end%>
-			  	</dd>			  
-			  <dt>超商繳費代碼</dt>
-			  <dd><%=showBlank i.allpay_payment_no%></dd> 
-			  <dt><abbr title="請於繳費期限內繳款, 超過繳費期限, 將有可能買不到商品">繳費期限</abbr></dt>
-			  <dd>
-			  	<%if i.allpay_expired_at%><%=i.allpay_expired_at.strftime("%Y-%m-%d %H:%M:%S")%><%else%>--<%end%>		  		
-			  </dd> 
-		      <%if i.paid_c%>			  	
-			  <dt>付款編號</dt>
-			  	<dd><%= i.allpay_merchant_trade_no %></dd>			  	
-			  <dt>付款日期</dt>
-			  	<dd><%= i.paid_at.strftime("%Y-%m-%d %H:%M:%S") %></dd>	
-			  <%end%>			   
-			</dl>									    	
-    	<%end%>
+			  	</dd> 			  
+			<%end%>	
+			<%if i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>
+	   		<%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM']%>		
+			<dt>繳費銀行代碼</dt>
+				<dd><%=showBlank i.allpay_bank_code%></dd>
+			<dt>繳費虛擬帳號</dt>
+			  <dd><%=showBlank i.allpay_v_account%></dd>  	   		
+	   		<%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>		
+			<dt>超商繳費代碼</dt>
+			  <dd><%=showBlank i.allpay_payment_no%></dd> 			
+			<%end%>				  	  	
+		</dl>
     </td>         
     <td><%= ((i.amount-discount)*0.04).round%>元</td>         
 	<td><%=i.receiver_last_name %> <%=i.receiver_first_name %>
@@ -182,7 +145,7 @@
 				<%if i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>    	
 	    		<div style="margin-bottom: 10px;"><%=link_to '線上付款', {controller: 'invoices', action: 'allpayCredit', id: i.id } ,class: 'btn btn-default edit_button' %></div>  
 				<%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM']%>    	
-		    		<%if Time.now > i.allpay_expired_at.strftime("%Y-%m-%d %H:%M:%S")  %>
+		    		<%if Time.now > i.allpay_expired_at  %>
 		    			<div style="margin-bottom: 10px;"><%=link_to '重新取得繳費帳號', {controller: 'invoices', action: 'allpayATM', id: i.id } ,class: 'btn btn-default edit_button' %></div>  				
 					<%end%>
 				<%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>    	   		
