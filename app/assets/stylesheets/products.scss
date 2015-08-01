@@ -238,6 +238,18 @@
 .review_common{
   color: #FFCC99;
 } 
+@media (max-width: 480px) {
+  .review_title{
+    font-size: 17px !important; 
+    width: 65px !important;
+  } 
+  .review_block_bar{
+    width: 210px !important;  
+  }
+  .review_score_from{
+    font-size: 80%;
+  }  
+}
 /*======================================= reviews feedback=======================================*/
 .review_feedback_avatar{
   display: inline-block;

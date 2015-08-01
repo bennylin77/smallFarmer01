@@ -162,17 +162,22 @@
 						＊企業團體購買，請聯絡客服人員
 					</div>					
 			</div>		
-			<div class="row product_promote" style="margin-top: 15px;">								
-					<div class="hidden-xs hidden-sm col-sm-11 text-right">							
-			  			<%=image_tag 'coupons_icon.png', class: '', style: 'height: 60px; margin-top: 5px; margin-right: 10px;' %>
-			  			<span>
-			  			最多可獲得<span>200</span>元回饋金			  				
-			  			</span>			  				      
+			<div class="row product_promote" style="margin-top: 30px;">								
+					<div class="hidden-xs hidden-sm col-sm-11">								  				      
 						<%if @product.inventory - Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', @product.product_boxings.first.id, false, Time.now ).sum(:quantity) == 0%>
-						<button type="button" class="cart_unavailable btn btn-default" autocomplete="off" disabled="disabled">已搶購完</button>			
+						<button type="button" class="cart_unavailable btn btn-default pull-right" autocomplete="off" disabled="disabled">已搶購完</button>			
 						<%else%>
-						<button type="button" class="add_to_cart btn btn-success" autocomplete="off">加入購物車</button>			
+						<button type="button" class="add_to_cart btn btn-success pull-right" autocomplete="off">加入購物車</button>			
 						<%end%>
+				  		<div style="display: inline-block; margin-right: 15px; margin-top: -5px; color: #B5841B" class="text-center pull-right">				  		
+					  		<div style="color: #B5841B; font-size: 90%;">
+					  		最多獲得回饋金			  				
+					  		</div>	
+					  		<div>					
+					  		<%=image_tag 'coupons_icon.png', class: '', style: 'height: 35px;' %>			  													  												
+							<div style="margin-top: -30px"><span style="font-size: 130%;" class="coupons_est"></span><span style="font-size: 80%;">元</span></div>
+							</div>	
+						</div>							
 					</div>
 					<div class="hidden-md hidden-lg col-xs-12 text-center">							
 						<%if @product.inventory - Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', @product.product_boxings.first.id, false, Time.now ).sum(:quantity) == 0%>
@@ -265,7 +270,7 @@
 			</div>				
 			<div class="row" style="margin-bottom: 15px;">		
 				<div class="col-sm-12">
-					<span style="font-size: 22px;">累積評價</span><span> 自 <%=@product.created_at.strftime("%Y 年 %m 月 %d 日") %> 累積至今</span>
+					<span style="font-size: 22px;">累積評價</span><span class="review_score_from"> 自 <%=@product.created_at.strftime("%Y 年 %m 月 %d 日") %> 累積至今</span>
 				</div>					
 			</div>				
 			<%= render partial: "products/review_score", locals: { product: @product} %>			
@@ -365,6 +370,7 @@ function countTotalPrice(q){
 			$('.total_cash_flow').html( total_cash_flow  );	
 			$('.total_administration').html( total_administration  );			
 			$('.total_coupon').html( total_coupon );
+			$('.coupons_est').html( total_coupon );
 
 			$('.farmer_get_layer').css({"height": cash_flow_layer*(total_farmer_get/total_price)*0.6})
 			$('.farmer_get_inner').css({"height": cash_flow_layer*(total_farmer_get/total_price)*0.6})
@@ -378,6 +384,7 @@ function countTotalPrice(q){
 			$('.administration_inner').animate({"height": cash_flow_layer*(total_administration/total_price)})										
 			$('.coupon_layer').animate({"height": cash_flow_layer*(total_coupon/total_price)})
 			$('.coupon_inner').animate({"height": cash_flow_layer*(total_coupon/total_price)})						
+			
 			return false;
 		}	
 	});		
