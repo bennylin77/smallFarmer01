@@ -162,6 +162,19 @@
 						＊企業團體購買，請聯絡客服人員
 					</div>					
 			</div>		
+			<div class="row product_promote" style="margin-top: 10px;">											
+				<div class="hidden-md hidden-lg col-xs-12 text-center">												
+				  	<div style="display: inline-block; color: #B5841B" class="text-center">				  		
+					  	<div style="color: #B5841B; font-size: 90%;">
+					  		最多獲得回饋金			  				
+					  	</div>	
+					  	<div>					
+					  		<%=image_tag 'coupons_icon.png', class: '', style: 'height: 35px;' %>			  													  												
+							<div style="margin-top: -30px"><span style="font-size: 130%;" class="coupons_est"></span><span style="font-size: 80%;">元</span></div>
+						</div>	
+					</div>	
+				</div>				
+			</div>
 			<div class="row product_promote" style="margin-top: 30px;">								
 					<div class="hidden-xs hidden-sm col-sm-11">								  				      
 						<%if @product.inventory - Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', @product.product_boxings.first.id, false, Time.now ).sum(:quantity) == 0%>
@@ -178,7 +191,7 @@
 							<div style="margin-top: -30px"><span style="font-size: 130%;" class="coupons_est"></span><span style="font-size: 80%;">元</span></div>
 							</div>	
 						</div>							
-					</div>
+					</div>					
 					<div class="hidden-md hidden-lg col-xs-12 text-center">							
 						<%if @product.inventory - Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', @product.product_boxings.first.id, false, Time.now ).sum(:quantity) == 0%>
 						<button type="button" class="cart_unavailable btn btn-default" autocomplete="off" disabled="disabled">已搶購完</button>			
