@@ -3,7 +3,7 @@ class NotificationsController < ApplicationController
 
 
   def index
-    if params[:category]
+    if params[:category] != 'all'
       @notifications = current_user.notifications.where(category: params[:category]).paginate(page: params[:page], per_page: 30).order('id desc')
     else
       @notifications = current_user.notifications.paginate(page: params[:page], per_page: 30).order('id desc')      

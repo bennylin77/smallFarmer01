@@ -12,6 +12,15 @@ module ApplicationHelper
     current_user.notifications.where(read_c: false).size ==0 ? "" : current_user.notifications.where(read_c: false).size 
   end
   
+  def cartsAndNotifications
+    quantity = 0
+    current_user.carts.each do |c| 
+      quantity = quantity + c.quantity
+    end 
+    quantity = quantity + current_user.notifications.where(read_c: false).size
+    quantity == 0 ? "" : quantity             
+  end
+  
   def active(hash={})     
     if current_page?(hash)
       "class='active'".html_safe     

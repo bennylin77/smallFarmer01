@@ -76,4 +76,9 @@ class MainController < ApplicationController
     
     render json: result.to_json       
   end  
+  
+  def showCartsNotifications
+    render json: { quantity: current_user.notifications.where(read_c: false).size + current_user.carts.sum(:quantity) }  
+  end
+  
 end

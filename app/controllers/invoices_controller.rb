@@ -166,7 +166,9 @@ class InvoicesController < ApplicationController
             o.product_boxing.product.save!               
           end            
           invoice.orders.each do |o|
-            notify( o.product_boxing.product.company.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_NEW_ORDER'], 
+            System.sendNewOrder(o).deliver   
+            notify( o.product_boxing.product.company.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], 
+                                                             sub_category: GLOBAL_VAR['NOTIFICATION_SUB_NEW_ORDER'], 
                                                              order_id: o.id})  
           end               
         end        

@@ -1,7 +1,7 @@
 <div class="container main_frontend">
 	<ul class="nav nav-tabs main_backend-tabs">
-		<li <%= active( '/notifications/index')%> >
-			<%= link_to "全部", controller: 'notifications', action: 'index'%>
+		<li <%= active( controller: 'notifications', action: 'index', category: 'all' )%> >
+			<%= link_to "全部", controller: 'notifications', action: 'index', category: 'all'%>
 		</li>
 		<li <%= active( controller: 'notifications', action: 'index', category: GLOBAL_VAR['NOTIFICATION_PRODUCT'] )%>>
 			<%= link_to "訂單", controller: 'notifications', action: 'index', category: GLOBAL_VAR['NOTIFICATION_PRODUCT']%>  	

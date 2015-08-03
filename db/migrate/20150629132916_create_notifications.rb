@@ -9,6 +9,7 @@ class CreateNotifications < ActiveRecord::Migration
       t.belongs_to :order, index: true
       t.belongs_to :user, index: true
       t.belongs_to :comment, index: true
+      t.belongs_to :sub_comment, index: true      
       t.belongs_to :product, index: true
       t.belongs_to :invoice, index: true
 

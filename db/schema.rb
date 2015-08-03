@@ -158,11 +158,12 @@ ActiveRecord::Schema.define(version: 20150629132916) do
     t.integer  "category"
     t.integer  "sub_category"
     t.string   "content"
-    t.boolean  "read_c",       default: false, null: false
+    t.boolean  "read_c",         default: false, null: false
     t.datetime "read_at"
     t.integer  "order_id"
     t.integer  "user_id"
     t.integer  "comment_id"
+    t.integer  "sub_comment_id"
     t.integer  "product_id"
     t.integer  "invoice_id"
     t.datetime "created_at"
@@ -173,6 +174,7 @@ ActiveRecord::Schema.define(version: 20150629132916) do
   add_index "notifications", ["invoice_id"], name: "index_notifications_on_invoice_id", using: :btree
   add_index "notifications", ["order_id"], name: "index_notifications_on_order_id", using: :btree
   add_index "notifications", ["product_id"], name: "index_notifications_on_product_id", using: :btree
+  add_index "notifications", ["sub_comment_id"], name: "index_notifications_on_sub_comment_id", using: :btree
   add_index "notifications", ["user_id"], name: "index_notifications_on_user_id", using: :btree
 
   create_table "orders", force: true do |t|

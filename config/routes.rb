@@ -40,6 +40,7 @@ Rails.application.routes.draw do
   get    'main/fruits'
   get    'main/farms' 
   get    'main/getFruitsAndFarms'  
+  get    'main/showCartsNotifications'
 
   get    'management/index'    
   get    'management/invoices'

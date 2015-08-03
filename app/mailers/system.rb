@@ -9,4 +9,16 @@ class System < ActionMailer::Base
     mail( to: @user.email, subject: subject)
   end  
   
+  def sendNewOrder(order)
+    @order = order
+    subject = '【出貨通知】'+@order.product_boxing.product.name+' '+@order.quantity.to_s+'箱'
+    mail( to: @order.product_boxing.product.company.user.email, subject: subject)  
+  end
+  
+  def sendNewComment(comment)
+    @comment = comment
+    subject = '【留言通知】'+@comment.content
+    mail( to: @comment.product.company.user.email, subject: subject)      
+  end
+  
 end

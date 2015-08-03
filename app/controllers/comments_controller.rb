@@ -8,19 +8,18 @@ class CommentsController < ApplicationController
   
 
   def post
+    comment = Comment.new()
+    comment.content = params[:content]
+    comment.user = current_user 
+    comment.product = @product
+    comment.save!
+    System.sendNewComment(comment).deliver      
+    notify( @product.company.user, { category: GLOBAL_VAR['NOTIFICATION_COMMENT'], 
+                                     sub_category: GLOBAL_VAR['NOTIFICATION_SUB_NEW_COMMENT'], 
+                                     comment_id: comment.id})   
     if request.xhr?
-      comment = Comment.new()
-      comment.content = params[:content]
-      comment.user = current_user
-      comment.product = @product
-      comment.save!
       render json: {success: true, message: '張貼成功'}   
     else
-      comment = Comment.new()
-      comment.content = params[:content]
-      comment.user = current_user
-      comment.product = @product
-      comment.save!
       redirect_to @product       
     end            
   end
@@ -65,6 +64,10 @@ class CommentsController < ApplicationController
     sub_comment.user = current_user
     sub_comment.comment = @comment
     sub_comment.save!
+    notify( sub_comment.comment.user, { category: GLOBAL_VAR['NOTIFICATION_COMMENT'], 
+                                        sub_category: GLOBAL_VAR['NOTIFICATION_SUB_NEW_SUB_COMMENT'], 
+                                        sub_comment_id: sub_comment.id})     
+    
     render json: {success: true, message: '張貼成功'}     
   end
 

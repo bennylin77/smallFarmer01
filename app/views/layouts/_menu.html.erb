@@ -1,7 +1,10 @@
 <nav class="navbar navbar-default navbar-fixed-top menu">
 	<div class="container-fluid">
     	<div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <button type="button" class="navbar-toggle collapsed" onmouseover="showCartsNotifications();" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+			<%if user_signed_in?%>          				
+			<span class="badge badge-toggle badge-danger carts_notifications_badge"><%= cartsAndNotifications %></span>		            	           
+            <%end%>
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -19,20 +22,18 @@
             <li>
             	<%=link_to '合作農場', '/main/farms', class: '', style: 'font-size: 17px; color: #536132;'%>
             </li>
-          </ul>  
+          </ul>
+    	  <!--	            
           <form class="navbar-form navbar-left" action="/main/search" method="get">
             <div id="remote">
             <input type="text" class="form-control rounded typeahead" id="search_term" placeholder="搜尋水果、農場">
     		<button type="submit" class="btn btn-default hidden-xs" style="border: none; background: none; color: #536132;"><span class="glyphicon glyphicon-search"></span></button>  		
     		</div>
-    	  </form>     
-    	  <!--
-    	  
+    	  </form>       
  		  <div id="the-basics">
 		  	<input class="rounded typeahead" type="text" placeholder="States of USA">
 		  </div>
-			-->
-    	       
+			-->   	       
           <!--       	            	   	
           <form class="navbar-form navbar-left" action="/main/search" method="get">
             <input type="text" class="form-control rounded" id="search_term" placeholder="搜尋水果、農場">
@@ -48,7 +49,7 @@
 	            	</a>
 	            </li>
 	           	<li><a class="dropdown-toggle menu_right" onmouseover="showCarts();" href="#" data-toggle="dropdown" aria-expanded="false">
-						<%= image_tag 'cart_icon.png', class: '', style: '' %>	            	
+						<%= image_tag 'cart_icon.png', class: 'menu_cart_icon', style: '' %>	            	
 		            	<span class='mobile_menu_label'>購物車<span class="caret"></span></span>
 						<span class="badge badge-danger carts_badge"><%=carts%></span>		            	
 		            	<span class="sr-only">Toggle Dropdown</span>
@@ -124,7 +125,8 @@ function showCarts(){
 	 		$(".menu_checkout_button").removeAttr('disabled');
 	 	}
 	 	else
-	 		$('.carts_badge').html('');	
+	 		$('.carts_badge').html('');
+	 	showCartsNotifications();	
 	});
 	request.fail(function( jqXHR, textStatus ) {
 	});		
@@ -161,6 +163,25 @@ function showCoupons(){
 	request.fail(function( jqXHR, textStatus ) {
 	});		
 }
+
+function showCartsNotifications(){
+	var request = $.ajax({
+		url: "/main/showCartsNotifications",
+		type: "GET",
+		data: {},
+		dataType: "json",
+	});
+	request.done(function( message ) {
+		if(message.quantity!=0)
+			$('.carts_notifications_badge').html(message.quantity);
+		else
+			 $('.carts_notifications_badge').html('');	
+	});						
+}
+
+
+
+
 
 
 

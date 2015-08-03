@@ -37,7 +37,7 @@ input.rounded:focus {
   vertical-align: middle;
 }
 .navbar-right>li>a.menu_right>.menu_right_icon{
-  height:35px;
+  height: 35px;
   width: 35px;
   font-size: 20px;  
   text-align: center;
@@ -80,6 +80,15 @@ input.rounded:focus {
 .badge-danger {
   background-color: #d43f3a;
 }
+.badge-toggle {
+  display: block;
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  line-height: 20px;
+  height: 20px;
+  padding: 0 7px;
+}
 .dropdown-menu{
   margin-top: 10px !important;
   color: #605856;  
@@ -109,9 +118,12 @@ input.rounded:focus {
   border-left: 18px solid transparent;
   content: '';
 }
-@media (max-width: 960px) {
+@media (max-width: 1065px) {
   .menu{
-    box-shadow: none;    
+    background: #f3f3f2;
+    border-bottom: none;
+    box-shadow: 0px 1px 0px 0px #E7E7E7;  
+    color: #f1f1f1 !important;    
   }
   .dropdown-menu:before{
     border: none;
@@ -173,7 +185,7 @@ input.rounded:focus {
   text-align: right;  
 }
 
-@media (max-width: 960px) {
+@media (max-width: 1065px) {
   .cart-dropdown-menu{
     width: auto !important;
   }
@@ -263,7 +275,6 @@ input.rounded:focus {
     -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
 }
-
 .no-background {
     font: 20px sans-serif;
     margin-top: 25px;
@@ -279,7 +290,6 @@ input.rounded:focus {
         *vertical-align: auto;
         position: relative;
         padding: 0 20px;
-
         &:before, &:after {
             content: '';
             display: block;
@@ -288,7 +298,6 @@ input.rounded:focus {
             top: 0.73em;
             border-top: 1px solid #536132;
         }
-
         &:before { right: 100%; }
         &:after { left: 100%; }
     }

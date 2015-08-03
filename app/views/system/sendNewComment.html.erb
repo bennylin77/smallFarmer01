@@ -1,0 +1,10 @@
+留言通知<br>
+
+<%= @comment.product.name%><br>
+<%= image_tag Rails.configuration.smallfarmer01_host+'/'+@comment.product.product_images.first.image.url%><br>
+
+<%= @comment.product.name%><br>
+<%= @comment.user.email.gsub(/@.*$/, '')%><br>
+<%= @comment.content%><br>
+<%= Rails.configuration.smallfarmer01_host+'/products/'+@comment.product.id.to_s%>    
+

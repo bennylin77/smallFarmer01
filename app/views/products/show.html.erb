@@ -180,6 +180,7 @@
 						<%if @product.inventory - Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', @product.product_boxings.first.id, false, Time.now ).sum(:quantity) == 0%>
 						<button type="button" class="cart_unavailable btn btn-default pull-right" autocomplete="off" disabled="disabled">已搶購完</button>			
 						<%else%>
+						<%=image_tag 'cart_icon.png', class: 'cart_icon_product_992', style: 'height: 35px; position: absolute; right: 62.5px; top: 5px; z-index: -1' %>			  													  																													
 						<button type="button" class="add_to_cart btn btn-success pull-right" autocomplete="off">加入購物車</button>			
 						<%end%>
 				  		<div style="display: inline-block; margin-right: 15px; margin-top: -5px; color: #B5841B" class="text-center pull-right">				  		
@@ -187,17 +188,18 @@
 					  		最多獲得回饋金			  				
 					  		</div>	
 					  		<div>					
-					  		<%=image_tag 'coupons_icon.png', class: '', style: 'height: 35px;' %>			  													  												
+					  		<%=image_tag 'coupons_icon.png', class: 'coupons_icon_product', style: 'height: 35px;' %>			  													  												
 							<div style="margin-top: -30px"><span style="font-size: 130%;" class="coupons_est"></span><span style="font-size: 80%;">元</span></div>
 							</div>	
-						</div>							
+						</div>		
 					</div>					
 					<div class="hidden-md hidden-lg col-xs-12 text-center">							
 						<%if @product.inventory - Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', @product.product_boxings.first.id, false, Time.now ).sum(:quantity) == 0%>
 						<button type="button" class="cart_unavailable btn btn-default" autocomplete="off" disabled="disabled">已搶購完</button>			
 						<%else%>
+						<%=image_tag 'cart_icon.png', class: 'cart_icon_product', style: 'height: 35px; position: absolute; right: 47%; top: 5px; z-index: -1' %>			  													  																												
 						<button type="button" class="add_to_cart btn btn-success" autocomplete="off">加入購物車</button>			
-						<%end%>										
+						<%end%>		
 					</div>					
 			</div>	
 		</div>
@@ -337,7 +339,6 @@ new ScrollMagic.Scene({triggerElement: ".product_excellent"})
 			});					
 		});	
 
-
 // add cart
 $('.add_to_cart').click(function() {
 	//var $btn = $(this).button('加入中...')	
@@ -351,6 +352,44 @@ $('.add_to_cart').click(function() {
 		if(message.alert_class != 'success')
 			toastr[message.alert_class](message.message)
 	    //$btn.button('reset')		
+	        
+	    if( $(window).width() > 1065)
+	    	var cart = $('.menu_cart_icon');
+	    else
+	    	var cart = $('.navbar-toggle');
+	    	
+	    if( $(window).width() >= 992)
+	    	var imgtodrag =  $('.cart_icon_product_992')   	
+	   	else		    	
+	    	var imgtodrag =  $('.cart_icon_product')
+	    
+	    if (imgtodrag) {
+            var imgclone = imgtodrag.clone().offset({
+                top: imgtodrag.offset().top,
+                left: imgtodrag.offset().left
+            }).css({
+                	'opacity': '0.5',
+                    'position': 'absolute',
+                    'height': '150px',
+                    'width': '150px',
+                    'z-index': '10000'
+            }).appendTo($('body')).animate({
+                'top': cart.offset().top + 10,
+                'left': cart.offset().left + 10,
+                'width': 75,
+                'height': 75
+            }, 1000);
+	    	
+	        imgclone.animate({
+                'width': 0,
+                'height': 0
+            }, function () {
+                $(this).detach()
+            });
+	      }
+	    
+	    
+	    
 	    showCarts();
  		//$('.cart-dropdown-menu').dropdown('toggle');	    
 	});
