@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  layout "companies", only: [:index, :edit, :new, :create, :update, :preview]  
+  layout "companies", only: [:index, :edit, :new, :create, :update, :preview, :available]  
   before_filter :authenticate_user!, except: [:show] 
   
   before_action only: [:edit, :update, :preview, :destroy, :productImagesUpload, :productImagesDelete] { |c| c.ProductCheckUser(params[:id])}    
@@ -26,12 +26,12 @@ class ProductsController < ApplicationController
   def create
     @product = Product.new(product_params)
     @product.company = current_user.companies.first
-    if @product.save
-      params[:product_image].each do |p|
-        p_i = ProductImage.create(image: p )
-        p_i.product = @product
-        p_i.save!      
-      end    
+    if @product.save      
+      #params[:product_image].each do |p|
+      #  p_i = ProductImage.create(image: p )
+      #  p_i.product = @product
+      #  p_i.save!      
+      #end    
       flash[:notice]='成功新增水果'
     end
     render :new    
@@ -41,10 +41,15 @@ class ProductsController < ApplicationController
   end
 
   def update
-    if @product.update(product_params)
+    @product.update(product_params)
+    @product.product_boxings.first.valid?   
+    
+    unless @product.errors.any?  
       flash[:notice] ='成功更改水果資料'
+      redirect_to products_url      
+    else  
+      render 'edit'
     end   
-    render 'edit'    
   end
   
   def preview
@@ -86,6 +91,7 @@ class ProductsController < ApplicationController
     end    
   end 
 
+
   def available
     if @product.available_c
       @product.available_c = false
@@ -93,7 +99,9 @@ class ProductsController < ApplicationController
       flash[:alert] ='水果已下架'        
       redirect_to products_url      
     else  
-      if @product.update(available_c: true)
+      @product.update(available_c: true)
+      @product.valid?       
+      unless @product.errors.any?
         flash[:success] ='成功上架水果'        
         redirect_to products_url
       else
@@ -101,6 +109,8 @@ class ProductsController < ApplicationController
       end        
     end 
   end
+  
+  
   private
     def set_product
       @product = Product.find(params[:id])
