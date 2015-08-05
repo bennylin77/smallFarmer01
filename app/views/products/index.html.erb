@@ -66,7 +66,7 @@
         	<%if product.available_c%>
         		<%= link_to '下架', {controller: 'products', action: 'available', id: product}, class: 'btn btn-default edit_button', style: 'margin-right: 5px;' %>
         	<%else%>
-        		<%= link_to '上架', {controller: 'products', action: 'available', id: product}, class: 'btn btn-default edit_button', style: 'margin-right: 5px;'  %>
+        		<%= link_to '上架', {controller: 'products', action: 'available', id: product}, class: 'btn btn-success add_button', style: 'margin-right: 5px;'  %>
         	<%end%>
         <%= link_to '編輯', edit_product_path(product), class: 'btn btn-default edit_button', style: 'margin-right: 5px;'%>
         <%= link_to '刪除', product, method: :delete, data: { confirm: '您確定要刪除水果編號 '+product.id.to_s+' 的水果 (注意: 此動作將無法回復)?' }, class: 'btn btn-danger delete_button', style: 'margin-right: 5px;' %>

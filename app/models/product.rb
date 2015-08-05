@@ -12,8 +12,17 @@ class Product < ActiveRecord::Base
   validates :inventory, presence: { presence: true, message: '請填寫 水果總庫存量' }, on: :update 
   validates :daily_capacity, presence: { presence: true, message: '請填寫 水果日處理量' }, on: :update 
   
+  validates_associated :product_boxings, message: '填寫格式錯誤或不能為空'  
   
   validate  :inventoryMoreThanUnpaid, on: :update 
+  validate  :productImageNotEmpty, on: :update   
+  validate  :associatedProductBoxings  
+
+  def productImageNotEmpty
+    if product_images.empty?
+      errors.add(:product_images, "請至少上傳一張水果照片")  
+    end     
+  end 
      
   def inventoryMoreThanUnpaid
     if inventory 
@@ -23,6 +32,16 @@ class Product < ActiveRecord::Base
     else
       errors.add(:inventory, "請填寫 水果總庫存量")  
     end   
-  end   
+  end
   
+  def associatedProductBoxings  
+    product_boxings.each do |product_boxing|
+      unless product_boxing.valid?
+        product_boxing.errors.messages.each do |index, value|
+          errors.add(index, value.first)
+        end
+      end 
+    end
+  end   
+   
 end

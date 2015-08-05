@@ -1,0 +1,13 @@
+<div class="col-sm-2 vmiddle text-center">
+	<%= link_to notification.comment.product do%>
+	<%= image_tag notification.comment.product.product_images.first.image.url, class: 'img-circle farm_fruits_img notification_fruit_img' %>	
+	<div class="notification_fruit_name"><%= notification.comment.product.name%></div>	
+	<%end%>		
+</div>
+<div class="col-sm-2 vmiddle text-center">
+	<%= image_tag notification.comment.user.avatar.url, class: 'img-circle', size: '70x70' %>
+	<div><%= notification.comment.user.email.gsub(/@.*$/, '') %></div>			
+</div>
+<div class="col-sm-2 vmiddle text-center">
+
+</div>

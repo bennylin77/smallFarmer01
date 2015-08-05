@@ -106,7 +106,12 @@
 <script>
 <% @product.errors.messages.each do |index, value| %>
 	<%unless value.blank? %>
-		toastr['error']('<%=value.first%>')		
+		<%if index.to_s != 'product_boxings' and index.to_s != 'product_pricings' and 
+			 index.to_s != 'product_boxings.quantity' and index.to_s != 'product_boxings.price' and
+			 index.to_s != 'product_boxings.product_pricings' and index.to_s != 'product_boxings.product_pricings.price' and 
+			 index.to_s != 'product_pricings.price' %>
+			toastr['error']('<%=value.first%>')	
+		<%end%>
 	<%end%>	
 <% end %>
 

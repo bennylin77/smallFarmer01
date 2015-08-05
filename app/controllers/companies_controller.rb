@@ -38,7 +38,7 @@ class CompaniesController < ApplicationController
                      }]
                    }              
     else
-      render json: { error: '只能上傳一張農場封面。如要更新農場圖片，請先刪除舊的。' }      
+      render json: { error: '只能上傳一張農場封面。如要更新農場封面，請先刪除舊的封面。' }      
     end  
   end
   

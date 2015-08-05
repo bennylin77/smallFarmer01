@@ -41,9 +41,7 @@ class ProductsController < ApplicationController
   end
 
   def update
-    @product.update(product_params)
-    @product.product_boxings.first.valid?   
-    
+    @product.update(product_params)    
     unless @product.errors.any?  
       flash[:notice] ='成功更改水果資料'
       redirect_to products_url      
@@ -92,6 +90,7 @@ class ProductsController < ApplicationController
   end 
 
 
+
   def available
     if @product.available_c
       @product.available_c = false
@@ -99,13 +98,18 @@ class ProductsController < ApplicationController
       flash[:alert] ='水果已下架'        
       redirect_to products_url      
     else  
-      @product.update(available_c: true)
-      @product.valid?       
-      unless @product.errors.any?
-        flash[:success] ='成功上架水果'        
-        redirect_to products_url
+      @company = current_user.companies.first
+      @company.valid?(false) 
+      unless @company.errors.any?
+        @product.update(available_c: true)
+        unless @product.errors.any?
+          flash[:success] ='成功上架水果'        
+          redirect_to products_url
+        else
+          render 'edit'
+        end  
       else
-        render 'edit'
+        render 'companies/edit'  
       end        
     end 
   end
