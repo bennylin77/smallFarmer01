@@ -151,7 +151,12 @@
 					<div class="hidden-md hidden-lg col-xs-12 text-center">								
 						<%= p.quantity %>箱以上 每箱<span style="font-size: 130%"><%= p.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %></span>元(含運)		
 					</div>					
-			</div>						
+			</div>	
+					<%else%>
+			<div class="row product_promote" style="margin-top: 18px;">	
+					<div class="col-sm-offset-4 col-sm-12">	
+					</div>				
+			</div>										
 					<%end%>
 				<%end%>
 			<div class="row" style="margin-top: 2px;">	
@@ -402,7 +407,9 @@ $('.add_to_cart').click(function() {
 var pricing =  []
 var cash_flow_layer = 500;
 <%@product.product_boxings.first.product_pricings.order('quantity desc').each do |p| %>
-	pricing.push({ price: <%= p.price.to_i %>, quantity: <%= p.quantity %>  })
+	<% unless p.quantity.blank? %>
+		pricing.push({ price: <%= p.price.to_i %>, quantity: <%= p.quantity %>  })
+	<% end %>
 <%end%>
 countTotalPrice($('#quantity').val())
 function countTotalPrice(q){	
