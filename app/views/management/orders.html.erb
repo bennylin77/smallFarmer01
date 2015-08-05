@@ -14,11 +14,10 @@
 	<%= form_tag('/management/exportOrders.xls', id: 'export_orders') do -%>
 		<%=submit_tag '匯出出貨單', class: 'btn btn-default pull-right', style: 'margin-right: 10px;' %>	
 	<%end%>
-	<!--<%= link_to '匯出訂貨單', "/management/exportOrders.xls", class: 'btn btn-default pull-right', style: 'margin-right: 10px;' %>		
-	-->
 	<div class='btn btn-default pull-right' id='call_logistics' style='margin-right: 10px;'>轉換為已處理</div>
 <%elsif  current_page?(controller: 'management', action: 'orders', called_smallfarmer_c: true, called_logistics_c: true)%>
-	<input id="tracing_file" type="file">
+	<div class='btn btn-default pull-right' id='delivered' style='margin-right: 10px;'>已交付</div>
+	<input id="tracing_file" type="file" class="form-control">
 <%end%>
 
 </div>
@@ -38,9 +37,7 @@
 	<label class="checkbox-inline">	
 		<%= check_box_tag 'order_all'%>全選
 	</label>	
-	</th>  
-	<th>
-	</th>       
+	</th>        
   </tr>
   <% @orders.each do |o| %>
   <tr id='order_container_<%=o.id %>'>
@@ -83,7 +80,7 @@
 		<label class="checkbox-inline">
 			<%= check_box_tag 'orders[]', o.id, false, class: 'order_idv'%>
 		</label>    	
-    </td>		     
+    </td>			     
   </tr>
   <%end%>  
 </table>
@@ -136,12 +133,39 @@ $('#export_orders').submit(function() {
 
 	return true; // return false to cancel form action
 });
+<%else%>	
+
+$("#delivered").click(function(){			
+	var orders = []
+	$('input[name="orders[]"]').each(function() {
+		if($(this).prop('checked') == true)
+			orders.push($(this).val()); 
+	});				
+	$.ajax({
+			type : 'GET',
+			url : '/management/delivered',
+			data : {
+				orders: orders 
+			},
+			datatype : 'json',
+			success : function(data) {
+				if (data.success) {
+					$.each(orders, function( index, value ) {
+						//$('#order_container_'+value).remove();					
+					});
+				} else {
+					toastr['warning'](data.message)
+				}
+			}
+		});	
+});	
 
 
 
 
 
-<%end%>	
+
+
 
 $("#tracing_file").fileinput({showCaption: false,
 			   				   showRemove: false,
@@ -158,5 +182,5 @@ $("#tracing_file").fileinput({showCaption: false,
 							   overwriteInitial: true							 
 							   });	
 
-		
+<%end%>		
 </script>

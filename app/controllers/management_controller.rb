@@ -66,6 +66,29 @@ class ManagementController < ApplicationController
     render json: {success: true}
   end
   
+  
+  def delivered 
+    params[:orders].each do |o|    
+      order = Order.find(o)
+      order.delivered_c = true
+      order.delivered_at = Time.now 
+      order.status = GLOBAL_VAR['ORDER_STATUS_DELIVERED'] 
+      order.save! 
+      delivered_all = true
+      order.invoice.orders.each do |i_o|
+        if !i_o.delivered_c   
+          delivered_all = false       
+        end
+      end       
+      if delivered_all
+        notify( order.invoice.user, { category: GLOBAL_VAR['NOTIFICATION_PROMOTION'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_REVIEW'], 
+                                      invoice_id: order.invoice.id})               
+      end  
+    end
+    render json: {success: true}
+  end  
+  
+  
   def companies
     params[:activated_c] = params[:activated_c] == 'true' ? true : false              
     @companies = Company.where('activated_c = ?', params[:activated_c]).all.paginate(page: params[:page], per_page: 60).order('id DESC')     

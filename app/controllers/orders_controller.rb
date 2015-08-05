@@ -15,7 +15,7 @@ class OrdersController < ApplicationController
       @order.status = GLOBAL_VAR['ORDER_STATUS_CONFIRMED'] 
       @order.save!    
       notify( @order.invoice.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_UPDATING_INVOICE'], 
-                                     order_id: @order.id, content: '您購買的 "'+@order.product_boxing.product.name+'" 農夫已處理中'})       
+                                     order_id: @order.id, content: '您購買的 "'+@order.product_boxing.product.name+'" 農夫處理中'})       
     end  
     flash[:notice] ='已通知物流'        
     redirect_to  controller: 'orders', action: 'index', called_smallfarmer_c: 'false'     

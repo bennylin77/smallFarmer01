@@ -35,7 +35,6 @@ Rails.application.routes.draw do
   
   post   'users/mobileSMSConfirmationSend'
   get    'main/index'  
-  get    'main/delivered'
   get    'main/search'
   get    'main/fruits'
   get    'main/farms' 
@@ -46,8 +45,9 @@ Rails.application.routes.draw do
   get    'management/invoices'
   get    'management/orders'  
   get    'management/callLogistics'
+  get    'management/delivered'  
   post   'management/exportOrders'
-  post   'management/uploadTracking'
+  post   'management/uploadTracking'    
   get    'management/companies'  
   get    'management/activateCompany'  
   get    'management/products'  
