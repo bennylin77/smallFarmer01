@@ -23,7 +23,6 @@ Rails.application.routes.draw do
   get    'invoices/finished'   
   get    'invoices/cancel'    
      
-
   get    'orders/index'
 
   post   'carts/addCart'
@@ -34,6 +33,7 @@ Rails.application.routes.draw do
   post   'notifications/review'    
   
   post   'users/mobileSMSConfirmationSend'
+  
   get    'main/index'  
   get    'main/search'
   get    'main/fruits'
@@ -55,6 +55,7 @@ Rails.application.routes.draw do
   get    'management/setSweetDegree'  
   get    'management/users'  
   get    'management/blockUser' 
+  get    'management/confirmPhoneNo'
                               
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
   match '/users/:id/mobileSMSConfirmation' => 'users#mobileSMSConfirmation', via: [:get, :patch], :as => :mobileSMSConfirmation 

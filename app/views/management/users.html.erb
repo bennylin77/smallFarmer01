@@ -34,7 +34,7 @@
     	</div>
   	</td>
   	<td>  
-  		<%= link_to '驗證通過',{controller: :management,  }, class: 'btn btn-success'%>
+  		<%= link_to '行動電話驗證通過',{ controller: :management, action: :confirmPhoneNo, id: u.id  }, class: 'btn btn-success'%>
   	</td>  			     
   </tr>
   <%end%>  

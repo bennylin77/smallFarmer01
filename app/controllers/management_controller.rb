@@ -2,7 +2,7 @@ class ManagementController < ApplicationController
   
   before_action :set_order, only: []
   before_action :set_company, only: [:activateCompany]
-  before_action :set_user, only: [:blockUser]
+  before_action :set_user, only: [:blockUser, :confirmPhoneNo]
   before_action :set_product, only: [:setCertification, :setSweetDegree]
   
   def index
@@ -66,7 +66,6 @@ class ManagementController < ApplicationController
     render json: {success: true}
   end
   
-  
   def delivered 
     params[:orders].each do |o|    
       order = Order.find(o)
@@ -87,8 +86,7 @@ class ManagementController < ApplicationController
     end
     render json: {success: true}
   end  
-  
-  
+   
   def companies
     params[:activated_c] = params[:activated_c] == 'true' ? true : false              
     @companies = Company.where('activated_c = ?', params[:activated_c]).all.paginate(page: params[:page], per_page: 60).order('id DESC')     
@@ -165,6 +163,12 @@ class ManagementController < ApplicationController
       @user.update_columns(blocked_c: params[:block])
       render json: {success: true, message: '使用者編號 '+@user.id.to_s+' 已啟用'}          
     end    
+  end
+  
+  def confirmPhoneNo
+      @user.current_user.addresses.first   
+      phone_no_confirmation_token
+      phone_no_confirmed_at   
   end
   
 private   

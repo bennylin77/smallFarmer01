@@ -1,17 +1,14 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
-  # GET /users/:id.:format
   def show
     # authorize! :read, @user
   end
 
-  # GET /users/:id/edit
   def edit
     # authorize! :update, @user
   end
 
-  # PATCH/PUT /users/:id.:format
   def update
     # authorize! :update, @user
     if @user.update(user_params)
@@ -27,7 +24,6 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET/PATCH /users/:id/finish_signup
   def finish_signup
     # authorize! :update, @user 
     if request.patch? && params[:user] #&& params[:user][:email]
@@ -94,7 +90,6 @@ class UsersController < ApplicationController
     end     
   end    
 
-  # DELETE /users/:id.:format
   def destroy
     # authorize! :delete, @user
     @user.destroy
