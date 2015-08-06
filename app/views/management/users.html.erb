@@ -7,7 +7,8 @@
 	<th>行動電話</th>  
 	<th>聯絡地址</th>	
 	<th>Email</th>		
-	<th>停用</th>						 		            
+	<th>停用</th>
+	<th></th>								 		            
   </tr>
   <% @users.each do |u| %>
   <tr id='user_container_<%=u.id %>'>
@@ -16,7 +17,7 @@
     	<%= image_tag u.avatar.url, class: 'img-circle', style: 'height: 50px; width: 50px;' %>
     	<%= u.last_name%><%= u.first_name%>
     </td> 
-    <td><%= u.addresses.first.phone_no %></td> 
+    <td><%unless u.addresses.first.phone_no.blank?%><%= u.addresses.first.phone_no.gsub(/^\+886/, '0') %><%else%>--<%end%></td> 
     <td><%= u.addresses.first.postal%> <%= u.addresses.first.county%><%= u.addresses.first.district%><%= u.addresses.first.address%></td>                	     
     <td><%= u.email %></td>   
   	<td>
@@ -31,7 +32,10 @@
     			</div>
     		</div>
     	</div>
-  	</td>     
+  	</td>
+  	<td>  
+  		<%= link_to '驗證通過',{controller: :management,  }, class: 'btn btn-success'%>
+  	</td>  			     
   </tr>
   <%end%>  
 </table>

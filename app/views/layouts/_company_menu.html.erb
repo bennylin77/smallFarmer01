@@ -10,7 +10,7 @@
 			  <image clip-path="url(#clipPolygon)" xlink:href="<%=current_user.companies.first.cover.url%>" width="160px" height="130px"  />
 			</svg>    		      
           <div class="sidebar_info_title"><%=current_user.companies.first.name%></div>      
-          <ul class="description-sidebar">         	
+          <ul class="description-sidebar hidden-xs">         	
 	          <li>
 	          	<div class='description-sidebar-container'>
 				<div style="display:table-cell; padding-right: 8px;" class="glyphicon glyphicon-earphone" aria-hidden="true"></div> 	      		
@@ -35,7 +35,7 @@
 	          	</div>
 	          </li> 	          	
           </ul>      
-          <div class="sidebar_info_more">
+          <div class="sidebar_info_more hidden-xs">
           	<%if current_user.companies.first.description%>
 			<%= truncate( current_user.companies.first.description, length: 122, omission: '...') %>          	
           	<%else%>
