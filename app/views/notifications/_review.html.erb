@@ -15,7 +15,7 @@
 			<div class="input-group notification_review_radioBtn">
 		    	<div class="btn-group notification_radioBtn">
 		    		<a class="btn btn-sm active review_delicious_bg" data-toggle="review_score_<%= o.id %>" data-title="<%= GLOBAL_VAR['ORDER_REVIEW_DELICIOUS'] %>">
-		    			<span class="glyphicon glyphicon-ok"></span> 非吃不可
+		    			<span class="glyphicon glyphicon-ok"></span> 超好吃
 		    		</a>
 		            <a class="btn btn-sm notification_notActive review_tasty_bg" data-toggle="review_score_<%= o.id %>" data-title="<%= GLOBAL_VAR['ORDER_REVIEW_TASTY'] %>">
 		            	<span class="glyphicon glyphicon-ok"></span> 好吃
@@ -26,15 +26,26 @@
 		    	</div>
 		    	<input type="hidden" name="review_score_<%= o.id %>" id="review_score_<%= o.id %>" vaule="<%= GLOBAL_VAR['ORDER_REVIEW_DELICIOUS'] %>">
 		    </div>
-			<div class="talkbubble"><textarea name="content" class="form-control" rows="2" placeholder='有什麼評價...' id="review_feedback_<%= o.id %>"></textarea></div>
+		    
+			<div class="talkbubble">
+				<%if o.review_at.blank?%>
+				<textarea name="content" class="form-control" rows="2" placeholder='有什麼評價...' id="review_feedback_<%= o.id %>"></textarea>
+				<%else%>
+				<div class="talkbubble_content">
+					<%= o.review_feedback %>				
+				</div>				
+				<%end%>
+			</div>
 		</div>			
 	</div>	
 	<%end%>
+	<%if notification.invoice.orders.first.review_at.blank?%>
 	<div class="row notification_button_<%= notification.id %>" style="height: 40px;">	
 		<div class="col-sm-12">
 			<button class="btn btn-default pull-right comment_button" id="post_button" onclick="sendReview(<%= notification.id %>, <%=notification.invoice.id%>, <%=notification.invoice.orders.pluck(:id)%>)" data-loading-text="傳送中...">送出，立即獲得4%回饋金</button>		
 		</div>
-	</div>			
+	</div>
+	<%end%>			
 </div>
 
 
@@ -49,16 +60,18 @@ $('.notification_radioBtn a').on('click', function(){
 	
 function sendReview( notification_id, invoice_id, orders)
 {
+	orders_id = [];
 	review_scores = [];
 	review_feedbacks = [];
 	$.each( orders, function( index, value ) {
+	  orders_id.push( value )		
 	  review_scores.push( $( "#review_score_"+value ).val() )
 	  review_feedbacks.push( $( "#review_feedback_"+value ).val() )	  
 	});	
 	var request = $.ajax({
-		url: "/notifications/reviewss",
+		url: "/notifications/review",
 		type: "POST",
-		data: { id: notification_id, review_scores: review_scores, review_feedbacks: review_feedbacks },
+		data: { id: notification_id, review_scores: review_scores, review_feedbacks: review_feedbacks, orders_id: orders_id },
 		dataType: "json"
 		});
 		request.done(function( status ) {

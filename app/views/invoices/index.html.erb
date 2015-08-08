@@ -8,13 +8,13 @@
 	<th style="min-width: 118px;">
 		<%= image_tag 'coupons_icon.png', class: '', style: 'width: 25px; height: 25px;' %>
 		獲得回饋金<br> 
-		<abbr title="獲得回饋金為'總計'x4%, 並採取無條件進入"><small>總計x4%</small></abbr>
+		<abbr title="獲得回饋金為'總計'x4%, 並採取四捨五入"><small>總計x4%</small></abbr>
 	</th>	       
     <th>收件人</th>    
 	<th>購買項目</th> 
 	<td></td>		        
   </tr>
-  <%@invoices.each do |i| %>
+  <%@invoices.where(canceled_c: false).each do |i| %>
   <tr>
     <td><%= i.id %></td>  	
     <td><%= i.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
@@ -152,10 +152,8 @@
 		    		<%if Time.now > i.allpay_expired_at %>
 		    			<div style="margin-bottom: 10px;"><%=link_to '重新取得繳費代碼', {controller: 'invoices', action: 'allpayCVS', id: i.id } ,class: 'btn btn-default edit_button' %></div>  				
 					<%end%>	 
-	    		<%end%>
-	    	<%end%>	   	
-	  		<%if cancelAvailable i %>	 	
-	    	<div><%=link_to '取消購買', {controller: :invoices, action: :cancel, id: i.id} ,class: 'btn btn-danger delete_button' %></div>
+	    		<%end%>	   	
+	    	<div><%=link_to '取消訂單', {controller: :invoices, action: :cancel, id: i.id} ,class: 'btn btn-danger delete_button' %></div>
 	    	<%end%>
 	    <%end%>	
     </td>	         

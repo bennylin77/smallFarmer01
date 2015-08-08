@@ -5,23 +5,6 @@
 			<%= f.file_field :avatar, class: "form-control",  accept: "image/*" %>			
 		</div>
 	</div>	
-	<script>	
-	$("#user_avatar").fileinput({showCaption: false,
-								 showRemove: false,
-								 allowedFileTypes: ["image"],
-								 previewFileType: "image",
-								 browseClass: "btn btn-default edit_button",
-								 browseLabel: " 選取圖片",
-								 browseIcon: '<i class="glyphicon glyphicon-picture"></i>',
-								 uploadClass: "btn btn-default edit_button",
-								 uploadLabel: "上傳",
-								 uploadIcon: '<i class="glyphicon glyphicon-upload"></i>',
-							     initialPreview: [
-							        '<%= image_tag current_user.avatar.url,class: 'file-preview-image' %>'
-							     ],
-							     overwriteInitial: true							 
-							    });	
-	</script>
  	<div class="form-group">
 		<label class="col-sm-offset-1 col-sm-2 control-label">Email</label>
 		<div class="col-sm-6"><%= @user.email %></div>
@@ -78,13 +61,21 @@
 
 <script>
 //================== image uplaod ==================//	
-
-
-
-
-
-
-
+$("#user_avatar").fileinput({showCaption: false,
+							 showRemove: false,
+							 allowedFileTypes: ["image"],
+							 previewFileType: "image",
+							 browseClass: "btn btn-default edit_button",
+							 browseLabel: " 選取圖片",
+							 browseIcon: '<i class="glyphicon glyphicon-picture"></i>',
+							 uploadClass: "btn btn-default edit_button",
+							 uploadLabel: "上傳",
+							 uploadIcon: '<i class="glyphicon glyphicon-upload"></i>',
+						     initialPreview: [
+						        '<%= image_tag current_user.avatar.url,class: 'file-preview-image' %>'
+						     ],
+						     overwriteInitial: true							 
+						    });	
 
 //================== twzipcode ==================//	
 $('#twzipcode').twzipcode({

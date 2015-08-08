@@ -79,28 +79,24 @@ class InvoicesController < ApplicationController
   end
   
   def cancel      
-=begin    
-    cancel_available = true
-    @invoice.orders.each do |o|      
-      if o.called_smallfarmer_c
-        cancel_available = false
-      end      
-    end
-    
-    if @invoice.confirmed_c ? false : true
-      @invoice.orders.each do |o|      
-        o.status = GLOBAL_VAR['ORDER_STATUS_CANCELED']  
-        o.canceled_c = true
-        o.canceled_at = Time.now
-        o.save!    
-      end    
+    if !@invoice.paid_c
       @invoice.canceled_c = true
       @invoice.canceled_at = Time.now
-      @invoice.save!
-      flash[:notice] = '訂單編號'+@invoice.id.to_s+' 已取消'
-    end  
+      @invoice.save!      
+      #Coupons
+      @invoice.invoice_coupon_lists.each do |i_c_l|
+        coupon = i_c_l.coupon
+        coupon.amount = coupon.amount + i_c_l.amount 
+        coupon.amount == 0 ? coupon.available_c = false : coupon.available_c = true 
+        coupon.save!
+        i_c_l.destroy
+      end      
+      flash[:notice] = '訂單編號'+@invoice.id.to_s+' 已取消'    
+    else  
+      flash[:warning] = '訂單編號'+@invoice.id.to_s+' 已付款無法取消'      
+    end
     redirect_to controller: :invoices, action: :index  
-=end    
+
   end
   
   def checkout   

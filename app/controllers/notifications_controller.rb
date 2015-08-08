@@ -24,11 +24,12 @@ class NotificationsController < ApplicationController
   def review     
     invoice = @notification.invoice     
     if invoice.coupon.blank?
-      invoice.orders.each_with_index do |o, index|
-        o.review_score = params[:review_scores][index]
-        o.review_feedback = params[:review_feedbacks][index]
-        o.review_at = Time.now
-        o.save!    
+      params[:orders_id].each_with_index do |o, index|
+        order = Order.find(o)
+        order.review_score = params[:review_scores][index]
+        order.review_feedback = params[:review_feedbacks][index]
+        order.review_at = Time.now
+        order.save!    
       end
       # important !!!!!!!!!!!!!!!!      
       discount = 0 

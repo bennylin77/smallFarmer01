@@ -12,24 +12,13 @@ class CreateInvoices < ActiveRecord::Migration
       t.float     :payment_charge_fee, default: 0, null: false 
       t.string    :allpay_trade_no
       t.string    :allpay_merchant_trade_no
-
       t.string    :allpay_bank_code
       t.string    :allpay_v_account
       t.datetime  :allpay_expired_at
       t.string    :allpay_payment_no
-                  
-
       t.integer   :payment_method          
-      t.float     :amount, default: 0, null: false 
-      t.string    :receiver_last_name
-      t.string    :receiver_first_name
-      t.string    :receiver_phone_no
-      t.string    :receiver_postal
-      t.string    :receiver_county
-      t.string    :receiver_district                        
-      t.string    :receiver_address 
-      t.string    :receiver_country
-
+      t.float     :amount, default: 0, null: false
+          
       t.timestamps
     end
   end

@@ -74,7 +74,7 @@
 		<div class="text-center">在<%= o.called_logistics_at.strftime("%Y-%m-%d %H:%M:%S")%> 通知物流</div>
 		<div class="text-center">&darr;</div>						
 		<%end%>					
-		<div class="text-center"><%= Hash[orderBackendStatusOptions].rassoc(o.status).first%></div>	
+		<div class="text-center" id="status_<%=o.id%>"><%= Hash[orderBackendStatusOptions].rassoc(o.status).first%></div>	
 	</td>	 	                              
     <td>
 		<label class="checkbox-inline">
@@ -150,8 +150,9 @@ $("#delivered").click(function(){
 			datatype : 'json',
 			success : function(data) {
 				if (data.success) {
+					toastr['success']('成功將選取出貨單改為已交付')
 					$.each(orders, function( index, value ) {
-						//$('#order_container_'+value).remove();					
+						$('#status_'+value).html('已交付');					
 					});
 				} else {
 					toastr['warning'](data.message)

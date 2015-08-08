@@ -67,22 +67,24 @@ class ManagementController < ApplicationController
   end
   
   def delivered 
-    params[:orders].each do |o|    
+    params[:orders].each do |o|          
       order = Order.find(o)
-      order.delivered_c = true
-      order.delivered_at = Time.now 
-      order.status = GLOBAL_VAR['ORDER_STATUS_DELIVERED'] 
-      order.save! 
-      delivered_all = true
-      order.invoice.orders.each do |i_o|
-        if !i_o.delivered_c   
-          delivered_all = false       
-        end
-      end       
-      if delivered_all
-        notify( order.invoice.user, { category: GLOBAL_VAR['NOTIFICATION_PROMOTION'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_REVIEW'], 
-                                      invoice_id: order.invoice.id})               
-      end  
+      if !order.delivered_c
+        order.delivered_c = true
+        order.delivered_at = Time.now 
+        order.status = GLOBAL_VAR['ORDER_STATUS_DELIVERED'] 
+        order.save! 
+        delivered_all = true
+        order.invoice.orders.each do |i_o|
+          if !i_o.delivered_c   
+            delivered_all = false       
+          end
+        end       
+        if delivered_all
+          notify( order.invoice.user, { category: GLOBAL_VAR['NOTIFICATION_PROMOTION'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_REVIEW'], 
+                                        invoice_id: order.invoice.id})               
+        end  
+      end      
     end
     render json: {success: true}
   end  
@@ -166,9 +168,26 @@ class ManagementController < ApplicationController
   end
   
   def confirmPhoneNo
-      @user.current_user.addresses.first   
-      phone_no_confirmation_token
-      phone_no_confirmed_at   
+    address = @user.addresses.first 
+    if !address.phone_no.blank? and address.phone_no_confirmed_at.blank?
+      address.phone_no_confirmed_at = Time.now  
+      address.save!     
+      # important !!!!!!!!!!!!!!!!
+      if @user.coupons.where(kind: GLOBAL_VAR['COUPON_SIGN_UP']).first.blank?       
+        coupon = Coupon.new
+        coupon.user = @user
+        coupon.kind = GLOBAL_VAR['COUPON_SIGN_UP']
+        coupon.amount = 30
+        coupon.original_amount = 30
+        coupon.save!
+        flash[:success] = @user.last_name+@user.first_name+' 已成功驗證, 並獲得30元回饋金' 
+      else
+        flash[:alert] = @user.last_name+@user.first_name+' 已驗證過'                          
+      end 
+    else
+      flash[:alert] = @user.last_name+@user.first_name+' 沒填行動電話或已驗證通過'                                
+    end      
+    redirect_to controller: 'management', action: 'users'   
   end
   
 private   

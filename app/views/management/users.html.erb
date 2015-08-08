@@ -33,8 +33,10 @@
     		</div>
     	</div>
   	</td>
-  	<td>  
-  		<%= link_to '行動電話驗證通過',{ controller: :management, action: :confirmPhoneNo, id: u.id  }, class: 'btn btn-success'%>
+  	<td> 
+  		<%if u.addresses.first.phone_no_confirmed_at.blank?%> 
+  			<%= link_to '行動電話驗證通過',{ controller: :management, action: :confirmPhoneNo, id: u.id  }, class: 'btn btn-success'%>
+  		<%end%>
   	</td>  			     
   </tr>
   <%end%>  

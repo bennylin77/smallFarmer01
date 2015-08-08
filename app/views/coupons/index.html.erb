@@ -8,7 +8,7 @@
     <th>來源</th>    
 	<th>原始金額</th>
 	<th>剩餘金額</th>  
-	<th>項目明細</th>						 		           
+	<th>使用明細</th>						 		           
   </tr>
   <% current_user.coupons.order('id desc').each do |c| %>
   <tr>
@@ -17,16 +17,20 @@
     <td><%= couponExpired(c)%></td>
     <td><%= couponSource(c)%></td>
     <td><%= c.original_amount.to_i%>元</td>    
-    <td><%= c.original_amount.to_i - c.amount.to_i%>元</td> 	
+    <td><%= c.amount.to_i%>元</td> 	
     <td>
 		<table class="table table-striped">     
 		<tr>
-		    <td>購買編號</td>					    								           
+		    <td>訂單編號</td>		
+		    <td>訂單日期</td>
+		    <td>回饋金使用</td>			    			    			    								           
 	  	</tr>
 	  	<%if c.invoice_coupon_lists.size != 0%> 		      	
 	    	<% c.invoice_coupon_lists.each.each do |i_c_l|%>      	
 	        <tr>	
-			    <td><%= i_c_l.invoice.id %></td>	         	
+			    <td><%= i_c_l.invoice.id %></td>
+			    <td><%= i_c_l.invoice.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>	         				    
+			    <td><%= i_c_l.amount.to_i %></td>	         	
 	        </tr>
 	    	<%end%>	 
 	    <%else%>

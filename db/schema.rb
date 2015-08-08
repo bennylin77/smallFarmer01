@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150629132916) do
+ActiveRecord::Schema.define(version: 20150808040046) do
 
   create_table "addresses", force: true do |t|
     t.integer  "user_id"
@@ -140,14 +140,6 @@ ActiveRecord::Schema.define(version: 20150629132916) do
     t.string   "allpay_payment_no"
     t.integer  "payment_method"
     t.float    "amount",                   limit: 24, default: 0.0,   null: false
-    t.string   "receiver_last_name"
-    t.string   "receiver_first_name"
-    t.string   "receiver_phone_no"
-    t.string   "receiver_postal"
-    t.string   "receiver_county"
-    t.string   "receiver_district"
-    t.string   "receiver_address"
-    t.string   "receiver_country"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -177,30 +169,41 @@ ActiveRecord::Schema.define(version: 20150629132916) do
   add_index "notifications", ["sub_comment_id"], name: "index_notifications_on_sub_comment_id", using: :btree
   add_index "notifications", ["user_id"], name: "index_notifications_on_user_id", using: :btree
 
-  create_table "orders", force: true do |t|
-    t.integer  "product_boxing_id"
-    t.integer  "invoice_id"
-    t.float    "price",                   limit: 24
+  create_table "order_receiver_address_lists", force: true do |t|
+    t.integer  "order_id"
+    t.integer  "receiver_address_id"
     t.integer  "quantity"
-    t.float    "shipping_rates",          limit: 24
-    t.integer  "review_score"
-    t.string   "review_feedback"
-    t.datetime "review_at"
     t.integer  "status"
     t.string   "tracing_code"
     t.integer  "t_cat_status"
     t.datetime "t_cat_status_updated_at"
-    t.boolean  "canceled_c",                         default: false, null: false
-    t.datetime "canceled_at"
-    t.boolean  "called_smallfarmer_c",               default: false, null: false
-    t.datetime "called_smallfarmer_at"
-    t.boolean  "called_logistics_c",                 default: false, null: false
-    t.datetime "called_logistics_at"
-    t.boolean  "delivered_c",                        default: false, null: false
+    t.boolean  "delivered_c",             default: false, null: false
     t.datetime "delivered_at"
-    t.boolean  "three_days_c",                       default: false, null: false
-    t.boolean  "five_days_c",                        default: false, null: false
-    t.boolean  "seven_days_c",                       default: false, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "order_receiver_address_lists", ["order_id"], name: "index_order_receiver_address_lists_on_order_id", using: :btree
+  add_index "order_receiver_address_lists", ["receiver_address_id"], name: "index_order_receiver_address_lists_on_receiver_address_id", using: :btree
+
+  create_table "orders", force: true do |t|
+    t.integer  "product_boxing_id"
+    t.integer  "invoice_id"
+    t.float    "price",                 limit: 24
+    t.integer  "quantity"
+    t.float    "shipping_rates",        limit: 24
+    t.integer  "review_score"
+    t.string   "review_feedback"
+    t.datetime "review_at"
+    t.boolean  "canceled_c",                       default: false, null: false
+    t.datetime "canceled_at"
+    t.boolean  "called_smallfarmer_c",             default: false, null: false
+    t.datetime "called_smallfarmer_at"
+    t.boolean  "called_logistics_c",               default: false, null: false
+    t.datetime "called_logistics_at"
+    t.boolean  "three_days_c",                     default: false, null: false
+    t.boolean  "five_days_c",                      default: false, null: false
+    t.boolean  "seven_days_c",                     default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -260,6 +263,19 @@ ActiveRecord::Schema.define(version: 20150629132916) do
   end
 
   add_index "products", ["company_id"], name: "index_products_on_company_id", using: :btree
+
+  create_table "receiver_addresses", force: true do |t|
+    t.string   "last_name"
+    t.string   "first_name"
+    t.string   "phone_no"
+    t.string   "postal"
+    t.string   "county"
+    t.string   "district"
+    t.string   "address"
+    t.string   "country"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "sub_comments", force: true do |t|
     t.integer  "user_id"
