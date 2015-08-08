@@ -11,16 +11,32 @@ class InvoicesController < ApplicationController
   end  
   
   def create  
+    #inventory
     current_user.carts.each do |c|        
       unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', c.product_boxing.id, false, Time.now ).sum(:quantity)     
       if c.product_boxing.product.inventory - unpaid - c.quantity < 0
         flash[:warning] = c.product_boxing.product.name + '庫存剩'+(c.product_boxing.product.inventory - unpaid).to_s+'箱'
         redirect_to controller: 'products', action: 'show', id: c.product_boxing.product.id
       end 
-    end 
-        
-    current_user.update_attributes(user_params)     
-    invoice =  current_user.invoices.where(confirmed_c: false).last 
+    end
+    # user_attributes   
+    current_user.update_attributes(user_params)          
+    # address
+    if current_user.addresses.first 
+       address = current_user.addresses.first 
+    else
+       address = Address.new
+    end     
+    address.first_name = params[:receiver_first_name]    
+    address.last_name = params[:receiver_last_name]
+    address.phone_no = params[:receiver_phone_no]
+    address.postal = params[:receiver_postal]
+    address.county = params[:receiver_county]
+    address.district = params[:receiver_district]
+    address.address = params[:receiver_address]      
+    address.user = current_user
+    address.save!          
+    invoice =  Invoice.new
     #Orders       
     current_user.carts.each do |c|
       order = Order.new
@@ -34,8 +50,25 @@ class InvoicesController < ApplicationController
         end  
       end
       order.shipping_rates = order.quantity*GLOBAL_VAR['SHIPPING_RATES'] 
-      order.status = GLOBAL_VAR['ORDER_STATUS_UNCONFIRMED']       
       order.save!
+      
+      receiver_address = ReceiverAddress.new
+      receiver_address.first_name = params[:receiver_first_name]    
+      receiver_address.last_name = params[:receiver_last_name]
+      receiver_address.phone_no = params[:receiver_phone_no]
+      receiver_address.postal = params[:receiver_postal]
+      receiver_address.county = params[:receiver_county]
+      receiver_address.district = params[:receiver_district]
+      receiver_address.address = params[:receiver_address]  
+      receiver_address.save!
+            
+      order_receiver_address_list = OrderReceiverAddressList.new
+      order_receiver_address_list.quantity = order.quantity
+      order_receiver_address_list.status = GLOBAL_VAR['ORDER_STATUS_UNCONFIRMED']            
+      order_receiver_address_list.order = order
+      order_receiver_address_list.receiver_address = receiver_address
+      order_receiver_address_list.save!
+      
       invoice.amount = invoice.amount + order.price + order.shipping_rates
     end
     invoice.save! 
@@ -102,15 +135,27 @@ class InvoicesController < ApplicationController
   def checkout   
     unless params[:user].blank?
       current_user.assign_attributes(user_params)  
-    end         
-    ##
-    @receiver_first_name = params[:receiver_first_name]    
-    @receiver_last_name = params[:receiver_last_name]
-    @receiver_phone_no = params[:receiver_phone_no]
-    @receiver_postal = params[:receiver_postal]
-    @receiver_county = params[:receiver_county]
-    @receiver_district = params[:receiver_district]
-    @receiver_address = params[:receiver_address]
+    end
+                 
+    if params[:receiver_first_name] and params[:receiver_last_name] and params[:receiver_phone_no] and
+       params[:receiver_postal] and params[:receiver_county] and params[:receiver_district] and params[:receiver_address]
+      @receiver_first_name = params[:receiver_first_name]    
+      @receiver_last_name = params[:receiver_last_name]
+      @receiver_phone_no = params[:receiver_phone_no]
+      @receiver_postal = params[:receiver_postal]
+      @receiver_county = params[:receiver_county]
+      @receiver_district = params[:receiver_district]
+      @receiver_address = params[:receiver_address]         
+    elsif current_user.addresses.first 
+      @receiver_first_name = current_user.addresses.first.first_name   
+      @receiver_last_name = current_user.addresses.first.last_name
+      @receiver_phone_no = current_user.addresses.first.phone_no
+      @receiver_postal = current_user.addresses.first.postal
+      @receiver_county = current_user.addresses.first.county
+      @receiver_district = current_user.addresses.first.district
+      @receiver_address = current_user.addresses.first.address 
+    else   
+    end    
     ##                     
     @coupon_using = params[:coupons_using]
     @payment_method = params[:payment_method]
@@ -118,7 +163,7 @@ class InvoicesController < ApplicationController
   end
   
   def confirmCheckout   
-    params[:user][:addresses_attributes]['0'][:phone_no] = params[:phone_no_full]
+    params[:user][:phone_no] = params[:phone_no_full]
     current_user.update_attributes(user_params)  
     ##      
     @coupon_using = params[:coupons_using]
@@ -441,8 +486,7 @@ class InvoicesController < ApplicationController
     end
     
     def user_params
-      accessible = [:first_name, :last_name, :email]
-
+      accessible = [:first_name, :last_name, :email, :phone_no]
       params.require(:user).permit(accessible)    
     end      
 end

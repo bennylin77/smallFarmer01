@@ -11,8 +11,7 @@ class CreateOrders < ActiveRecord::Migration
       t.integer   :review_score
       t.string    :review_feedback      
       t.datetime  :review_at
-          
-              
+                        
       t.boolean   :canceled_c, default: false, null: false
       t.datetime  :canceled_at              
       t.boolean   :called_smallfarmer_c, default: false, null: false

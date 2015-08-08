@@ -106,24 +106,18 @@
 	<div class="row check_out_product_list_text">
 		<label class="col-sm-offset-2 col-sm-2">姓名</label>
 		<div class="col-sm-8">
-			<%= current_user.addresses.first.last_name%>
-			<%= current_user.addresses.first.first_name%>			
+			<%= current_user.last_name%>
+			<%= current_user.first_name%>			
 		</div>
 	</div>
 	<div class="row check_out_product_list_text">
 		<label class="col-sm-offset-2 col-sm-2">行動電話</label>
 		<div class="col-sm-8">
-			<%= current_user.addresses.first.phone_no.gsub(/^\+886/, '0')%>			
+			<%= current_user.phone_no.gsub(/^\+886/, '0')%>			
 		</div>
 	</div>
 	<div class="row check_out_product_list_text">
-		<label class="col-sm-offset-2 col-sm-2">聯絡地址</label>
-		<div class="col-sm-8">
-			<%= current_user.addresses.first.postal%> <%= current_user.addresses.first.county%><%= current_user.addresses.first.district%><%= current_user.addresses.first.address%>		
-		</div>
-	</div>
-	<div class="row check_out_product_list_text">
-		<label class="col-sm-offset-2 col-sm-2">聯絡信箱</label>
+		<label class="col-sm-offset-2 col-sm-2">Email</label>
 		<div class="col-sm-8">
 			<%= current_user.email %>
 		</div>
@@ -136,55 +130,45 @@
 			<div class="section_underline"></div>			
 		</div>					
 	</div>
-	<% current_user.invoices.each do |i| %>
-		<% if i.new_record? %>	
 	<div class="row check_out_product_list_text">
 		<label class="col-sm-offset-2 col-sm-2">姓名</label>
 		<div class="col-sm-8">
-			<%= i.receiver_last_name%>
-			<%= i.receiver_first_name%>	
+			<%= @receiver_last_name%>
+			<%= @receiver_first_name%>	
 		</div>
 	</div>
 	<div class="row check_out_product_list_text">
 		<label class="col-sm-offset-2 col-sm-2">聯絡電話</label>
 		<div class="col-sm-8">
-			<%= i.receiver_phone_no.gsub(/^\+886/, '0')%>
+			<%= @receiver_phone_no.gsub(/^\+886/, '0')%>
 		</div>
 	</div>
 	<div class="row check_out_product_list_text">
 		<label class="col-sm-offset-2 col-sm-2">聯絡地址</label>
 		<div class="col-sm-8">
-			<%= i.receiver_postal%> <%= i.receiver_county%><%= i.receiver_district%><%= i.receiver_address%>
+			<%= @receiver_postal%> <%= @receiver_county%><%= @receiver_district%><%= @receiver_address%>
 		</div>
 	</div>		
-		<%end%>	
-	<%end%>
+
 
 <%= form_for current_user, url: { controller: 'invoices', action: "checkout"}, method: :post do |u| %>		 
-		<%= text_field_tag :coupons_using, @coupon_using || 0, style: 'display: none' %>
-		<%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT'].to_s, style: 'display: none' %>
-		<%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM'].to_s, style: 'display: none' %>
-		<%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS'].to_s, style: 'display: none' %>
-	<%= u.fields_for :addresses do |a| %>
-		<%= a.text_field :last_name, style: 'display: none' %>
-		<%= a.text_field :first_name, style: 'display: none' %>			
-		<%= a.text_field :phone_no, style: 'display: none' %>
-		<%= a.text_field :postal, style: 'display: none' %>		
-		<%= a.text_field :county, style: 'display: none' %>		
-		<%= a.text_field :district, style: 'display: none' %>		
-		<%= a.text_field :address, style: 'display: none' %>		  
-	<%end%>
-	<%= u.fields_for :invoices do |i| %>
-		<% if i.object.new_record? %>
-			<%= i.text_field :receiver_last_name, style: 'display: none'%>
-			<%= i.text_field :receiver_first_name, style: 'display: none'%>				
-			<%= i.text_field :receiver_phone_no, style: 'display: none'%>
-			<%= i.text_field :receiver_postal, style: 'display: none'%>		
-			<%= i.text_field :receiver_county, style: 'display: none'%>		
-			<%= i.text_field :receiver_district, style: 'display: none'%>				
-			<%= i.text_field :receiver_address, style: 'display: none'%>
-		<%end%>	
-	<%end%>	
+	<%= text_field_tag :coupons_using, @coupon_using || 0, style: 'display: none' %>
+	<%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT'].to_s, style: 'display: none' %>
+	<%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM'].to_s, style: 'display: none' %>
+	<%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS'].to_s, style: 'display: none' %>
+	
+	<%= u.text_field :last_name, style: 'display: none' %>
+	<%= u.text_field :first_name, style: 'display: none' %>
+	<%= u.text_field :phone_no, style: 'display: none' %>				
+	<%= u.text_field :email, style: 'display: none' %>
+
+	<%= text_field_tag :receiver_last_name, @receiver_last_name, style: 'display: none'%>
+	<%= text_field_tag :receiver_first_name, @receiver_first_name, style: 'display: none'%>				
+	<%= text_field_tag :receiver_phone_no, @receiver_phone_no, style: 'display: none'%>
+	<%= text_field_tag :receiver_postal, @receiver_postal, style: 'display: none'%>		
+	<%= text_field_tag :receiver_county, @receiver_county, style: 'display: none'%>		
+	<%= text_field_tag :receiver_district, @receiver_district, style: 'display: none'%>				
+	<%= text_field_tag :receiver_address, @receiver_address, style: 'display: none'%>
 	<%= check_box_tag 'agree', true, @agree == 'true', style: 'display: none'%>   	
 	<div class="row" style="margin-top: 20px;">
 		<div class="col-sm-offset-2 col-sm-6">   
