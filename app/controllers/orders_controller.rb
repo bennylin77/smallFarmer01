@@ -12,8 +12,10 @@ class OrdersController < ApplicationController
     if !@order.called_smallfarmer_c
       @order.called_smallfarmer_c = true
       @order.called_smallfarmer_at = Time.now
-      @order.status = GLOBAL_VAR['ORDER_STATUS_CONFIRMED'] 
-      @order.save!    
+      @order.order_receiver_address_lists.each do  |o_r_a_l|
+        o_r_a_l.status = GLOBAL_VAR['ORDER_STATUS_CONFIRMED']   
+      end  
+      @order.save!
       notify( @order.invoice.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_UPDATING_INVOICE'], 
                                      order_id: @order.id, content: '您購買的 "'+@order.product_boxing.product.name+'" 農夫處理中'})       
     end  
