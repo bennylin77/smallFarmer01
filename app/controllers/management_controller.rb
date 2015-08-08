@@ -81,18 +81,20 @@ class ManagementController < ApplicationController
         end  
       end 
       #
-      delivered_all = true          
-      order.invoice.orders.each do |i_o|
-        i_o.shipments.each do |ss| 
-          if !ss.delivered_c
-            delivered_all = false       
+      #if order.review_at.blank?
+        delivered_all = true          
+        order.invoice.orders.each do |i_o|
+          i_o.shipments.each do |ss| 
+            if !ss.delivered_c
+              delivered_all = false       
+            end
           end
+        end      
+        if delivered_all
+          notify( order.invoice.user, { category: GLOBAL_VAR['NOTIFICATION_PROMOTION'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_REVIEW'], 
+                                        invoice_id: order.invoice.id})               
         end
-      end      
-      if delivered_all
-        notify( order.invoice.user, { category: GLOBAL_VAR['NOTIFICATION_PROMOTION'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_REVIEW'], 
-                                      invoice_id: order.invoice.id})               
-      end              
+      #end                
     end
     render json: {success: true}
   end  

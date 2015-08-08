@@ -5,7 +5,6 @@
     <th>使用者編號</th>  	
 	<th>姓名</th>
 	<th>行動電話</th>  
-	<th>聯絡地址</th>	
 	<th>Email</th>		
 	<th>停用</th>
 	<th></th>								 		            
@@ -17,8 +16,7 @@
     	<%= image_tag u.avatar.url, class: 'img-circle', style: 'height: 50px; width: 50px;' %>
     	<%= u.last_name%><%= u.first_name%>
     </td> 
-    <td><%unless u.addresses.first.phone_no.blank?%><%= u.addresses.first.phone_no.gsub(/^\+886/, '0') %><%else%>--<%end%></td> 
-    <td><%= u.addresses.first.postal%> <%= u.addresses.first.county%><%= u.addresses.first.district%><%= u.addresses.first.address%></td>                	     
+    <td><%unless u.phone_no.blank?%><%= u.phone_no.gsub(/^\+886/, '0') %><%else%>--<%end%></td> 
     <td><%= u.email %></td>   
   	<td>
     	<div class="form-group">
@@ -34,7 +32,7 @@
     	</div>
   	</td>
   	<td> 
-  		<%if u.addresses.first.phone_no_confirmed_at.blank?%> 
+  		<%if u.phone_no_confirmed_at.blank?%> 
   			<%= link_to '行動電話驗證通過',{ controller: :management, action: :confirmPhoneNo, id: u.id  }, class: 'btn btn-success'%>
   		<%end%>
   	</td>  			     

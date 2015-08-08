@@ -35,7 +35,7 @@
 	        <%end%>   	
 	    </td>         	
         <td>
-        <%if product.product_boxings.first.quantity%>每箱<%= "%g" % product.product_boxings.first.quantity %><%end%><%if product.unit%><%= Hash[unitOptions].rassoc(product.unit).first %><%end%>
+        <%if product.product_boxings.first.quantity%><div style="margin-bottom: 10px;">每箱<%= "%g" % product.product_boxings.first.quantity %><%end%><%if product.unit%><%= Hash[unitOptions].rassoc(product.unit).first %></div><%end%>
 		<table>
 		<%product.product_boxings.first.product_pricings.each do |p| %>
 			<%if p.quantity == 1%>	
@@ -51,20 +51,11 @@
 					<td>(含運<%=p.price.to_i + GLOBAL_VAR['SHIPPING_RATES']%>元) </td>	
 				</tr>
 			<%end%>
-			<br>
 		<%end%>   
 		</table>     	    	
         </td>
         <td>
-        	<%if product.inventory.to_i <= product.daily_capacity.to_i*3%>
-	        	<div style="color: #b24d4b">
-	        	總庫存量 <%= product.inventory.to_i %> 箱
-	        	</div>
-	        <%else%>
-	        	<div>
-	        	總庫存量 <%= product.inventory.to_i %> 箱
-	        	</div>	        
-	        <%end%>	   
+	        <div>總庫存量<%= product.inventory.to_i %>箱</div>	          
 	        <div>
 	        尚未付款
 			<%= Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', product.product_boxings.first.id, false, Time.now ).sum(:quantity)%>
