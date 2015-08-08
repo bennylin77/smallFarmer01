@@ -37,6 +37,8 @@ class InvoicesController < ApplicationController
     address.user = current_user
     address.save!          
     invoice =  Invoice.new
+    invoice.user = current_user
+    invoice.save! 
     #Orders       
     current_user.carts.each do |c|
       order = Order.new
@@ -71,7 +73,6 @@ class InvoicesController < ApplicationController
       
       invoice.amount = invoice.amount + order.price + order.shipping_rates
     end
-    invoice.save! 
     #Coupons
     candidate_coupons = candidateCoupons(coupons_using: params[:coupons_using].to_i )
     if candidate_coupons
@@ -185,6 +186,9 @@ class InvoicesController < ApplicationController
       end 
     end 
     #
+    if current_user.phone_no.blank?    
+      current_user.errors.add(:phone_no, "請填寫 訂購人資訊-行動電話")
+    end    
     if @receiver_last_name.blank?  
       current_user.errors.add(:receiver_last_name, "請填寫 收件人資訊-姓")
     end    

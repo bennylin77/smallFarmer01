@@ -333,7 +333,7 @@ $('#twzipcode_receiver').twzipcode({
 });
 
 //====================== phone ======================//
-var telInput = $("#user_addresses_attributes_0_phone_no");
+var telInput = $("#user_phone_no");
 errorMsg = $("#error-msg"),
 validMsg = $("#valid-msg");
 // initialise plugin
@@ -362,7 +362,7 @@ telInput.keydown(function() {
   validMsg.addClass("hide");
 });
 $("form").submit(function() {
-  $("#phone_no_full").val($("#user_addresses_attributes_0_phone_no").intlTelInput("getNumber"));
+  $("#phone_no_full").val($("#user_phone_no").intlTelInput("getNumber"));
 });
 ///////////receiver
 var receiver_telInput = $("#receiver_phone_no");
