@@ -35,14 +35,25 @@
 	        <%end%>   	
 	    </td>         	
         <td>
+        <%if product.product_boxings.first.quantity%>每箱<%= "%g" % product.product_boxings.first.quantity %><%end%><%if product.unit%><%= Hash[unitOptions].rassoc(product.unit).first %><%end%>
+		<table>
 		<%product.product_boxings.first.product_pricings.each do |p| %>
 			<%if p.quantity == 1%>	
-				<%= p.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %>元(含運) <%if product.product_boxings.first.quantity%><%= "%g" % product.product_boxings.first.quantity %><%end%><%if product.unit%><%= Hash[unitOptions].rassoc(product.unit).first %>/箱<%end%>
+				<tr>
+					<td>1箱&nbsp;</td> 
+					<td>每箱賣<%= p.price.to_i %>元&nbsp;</td>
+					<td>(含運<%= p.price.to_i + GLOBAL_VAR['SHIPPING_RATES']%>元) </td>
+				</tr>
 			<%elsif p.quantity%>
-				<%= p.quantity %>箱以上 每箱<%= p.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %>元	(含運)	
+				<tr>
+					<td><%= p.quantity %>箱以上(含)&nbsp;</td>
+					<td>每箱賣<%= p.price.to_i %>元&nbsp;</td> 
+					<td>(含運<%=p.price.to_i + GLOBAL_VAR['SHIPPING_RATES']%>元) </td>	
+				</tr>
 			<%end%>
 			<br>
-		<%end%>        	    	
+		<%end%>   
+		</table>     	    	
         </td>
         <td>
         	<%if product.inventory.to_i <= product.daily_capacity.to_i*3%>
