@@ -131,6 +131,7 @@
 					</div>	
 					<div class="hidden-xs hidden-sm col-sm-3">元<span style="font-size: 90%">(含運)<span></div>														
 					<div class="col-sm-12 hidden-md hidden-lg text-center">
+					<% @original_price = p.price.to_i%>
 					每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%>				
 					<%= p.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %>								
 					元<span style="font-size: 80%">(含運)<span>					
@@ -146,10 +147,10 @@
 					<%elsif p.quantity%>
 			<div class="row product_promote" style="margin-top: 18px;">	
 					<div class="hidden-xs hidden-sm col-sm-offset-4 col-sm-7 text-right">								
-						<%= p.quantity %>箱以上 每箱<span style="font-size: 130%"><%= p.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %></span>元(含運)		
+						<%= p.quantity %>箱以上 每箱便宜<span style="font-size: 130%"><%= @original_price - p.price.to_i  %></span>元(含運)		
 					</div>
 					<div class="hidden-md hidden-lg col-xs-12 text-center">								
-						<%= p.quantity %>箱以上 每箱<span style="font-size: 130%"><%= p.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %></span>元(含運)		
+						<%= p.quantity %>箱以上 每箱便宜<span style="font-size: 130%"><%= @original_price - p.price.to_i %></span>元(含運)		
 					</div>					
 			</div>	
 					<%else%>
