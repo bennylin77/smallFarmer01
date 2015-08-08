@@ -18,23 +18,22 @@
 			<%= f.text_field :first_name, class: "form-control", placeholder: '名' %>			
 		</div>
 	</div>	
-	<%= f.fields_for :addresses do |g| %>		 
 	<div class="form-group">
 		<label class="col-sm-offset-1 col-sm-2 control-label">行動電話</label>
 		<div class="col-sm-2">
 			<%= hidden_field_tag :phone_no_full%>				
-			<%if @user.addresses.first.phone_no_confirmed_at.blank?%>
-				<%= g.text_field :phone_no, class: "form-control" %>
+			<%if @user.phone_no_confirmed_at.blank?%>
+				<%= f.text_field :phone_no, class: "form-control" %>
 				<span id="valid-msg" class="hide">✓</span>
 				<span id="error-msg" class="hide">格式錯誤</span>			
 			<%else%>
-				<%= g.text_field :phone_no, class: "form-control", readonly: true %>			
+				<%= f.text_field :phone_no, class: "form-control", readonly: true %>			
 			<%end%>	
 		</div>		
 		<div class="col-sm-3">
-		<%if @user.addresses.first.phone_no_confirmed_at.blank?%>
-			<%if @user.addresses.first.phone_no%>			
-			<a id="confirmation_btn" class="btn btn-default edit_button" href="<%= '/users/'+@user.id.to_s+'/mobileSMSConfirmation?phone_no='+@user.addresses.first.phone_no.gsub(/^\+/, '%2B')%>">驗證拿回饋金</a>		
+		<%if @user.phone_no_confirmed_at.blank?%>
+			<%if @user.phone_no%>			
+			<a id="confirmation_btn" class="btn btn-default edit_button" href="<%= '/users/'+@user.id.to_s+'/mobileSMSConfirmation?phone_no='+@user.phone_no.gsub(/^\+/, '%2B')%>">驗證拿回饋金</a>		
 			<%else%>
 			<a id="confirmation_btn" class="btn btn-default edit_button" href="<%= '/users/'+@user.id.to_s+'/mobileSMSConfirmation'%>">驗證拿回饋金</a>					
 			<%end%>
@@ -43,14 +42,6 @@
 		<%end%>			
 		</div>				
 	</div>						
-	<div class="form-group">
-		<label class="col-sm-offset-1 col-sm-2 control-label">聯絡地址</label>
-		<div class="form-inline col-sm-9">
-			<span id="twzipcode"></span>
-			<%= g.text_field :address, class: "form-control" %>
-		</div>
-	</div>	
-	<%end%>
 	<div class="form-group">
 		<div class="col-sm-offset-3 col-sm-10">
 			<%= f.submit '儲存',  class: "btn btn-success add_button"  %>
@@ -76,21 +67,8 @@ $("#user_avatar").fileinput({showCaption: false,
 						     ],
 						     overwriteInitial: true							 
 						    });	
-
-//================== twzipcode ==================//	
-$('#twzipcode').twzipcode({
-	zipcodeName: 'user[addresses_attributes][0][postal]',
-    countyName: 'user[addresses_attributes][0][county]',
-    districtName: 'user[addresses_attributes][0][district]',
-    zipcodeIntoDistrict: true,
-    css: ['form-control', 'form-control'], 
-    <%unless @user.addresses.first.county.blank?%>
-	countySel: '<%=@user.addresses.first.county%>',
-	districtSel: '<%=@user.addresses.first.district%>'
-	<%end%>    
-});
 //================== confirmation ==================//	
-var telInput = $("#user_addresses_attributes_0_phone_no");
+var telInput = $("#user_phone_no");
 errorMsg = $("#error-msg"),
 validMsg = $("#valid-msg");
 // initialise plugin
@@ -127,7 +105,7 @@ telInput.keydown(function() {
   validMsg.addClass("hide");
 });
 $("form").submit(function() {
-  $("#phone_no_full").val($("#user_addresses_attributes_0_phone_no").intlTelInput("getNumber"));
+  $("#phone_no_full").val($("#user_phone_no").intlTelInput("getNumber"));
 });
 //================== error ==================//	
 <% @user.errors.messages.each do |index, value| %>

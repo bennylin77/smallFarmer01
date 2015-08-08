@@ -101,10 +101,17 @@ class InvoicesController < ApplicationController
   
   def checkout   
     unless params[:user].blank?
-      current_user.assign_attributes(user_params)   
-    else
-      current_user.invoices.build()
-    end                              
+      current_user.assign_attributes(user_params)  
+    end         
+    ##
+    @receiver_first_name = params[:receiver_first_name]    
+    @receiver_last_name = params[:receiver_last_name]
+    @receiver_phone_no = params[:receiver_phone_no]
+    @receiver_postal = params[:receiver_postal]
+    @receiver_county = params[:receiver_county]
+    @receiver_district = params[:receiver_district]
+    @receiver_address = params[:receiver_address]
+    ##                     
     @coupon_using = params[:coupons_using]
     @payment_method = params[:payment_method]
     @agree = params[:agree]    
@@ -112,23 +119,53 @@ class InvoicesController < ApplicationController
   
   def confirmCheckout   
     params[:user][:addresses_attributes]['0'][:phone_no] = params[:phone_no_full]
-    params[:user][:invoices_attributes]['0'][:receiver_phone_no] = params[:receiver_phone_no_full]    
-    current_user.assign_attributes(user_params)  
+    current_user.update_attributes(user_params)  
+    ##      
     @coupon_using = params[:coupons_using]
     @payment_method = params[:payment_method]
     @agree = params[:agree]
-     
-    current_user.valid?   
+    ##
+    @receiver_first_name = params[:receiver_first_name]    
+    @receiver_last_name = params[:receiver_last_name]
+    @receiver_phone_no = params[:receiver_phone_no_full]
+    @receiver_postal = params[:receiver_postal]
+    @receiver_county = params[:receiver_county]
+    @receiver_district = params[:receiver_district]
+    @receiver_address = params[:receiver_address]
+      
     current_user.carts.each do |c|        
       unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', c.product_boxing.id, false, Time.now ).sum(:quantity)     
       if c.product_boxing.product.inventory - unpaid - c.quantity < 0
         current_user.errors.add('quantity_'+c.id.to_s, c.product_boxing.product.name + '庫存剩'+(c.product_boxing.product.inventory - unpaid).to_s+'箱')     
       end 
-    end            
+    end 
+    #
+    if @receiver_last_name.blank?  
+      current_user.errors.add(:receiver_last_name, "請填寫 收件人資訊-姓")
+    end    
+    if @receiver_first_name.blank?  
+      current_user.errors.add(:receiver_first_name, "請填寫 收件人資訊-名")
+    end    
+    if @receiver_phone_no.blank?  
+      current_user.errors.add(:receiver_phone_no, "請填寫 收件人資訊-聯絡電話")
+    end
+    if @receiver_postal.blank?  
+      current_user.errors.add(:receiver_postal, "請填寫 收件人資訊-郵遞區號")
+    end    
+    if @receiver_county.blank?  
+      current_user.errors.add(:receiver_county, "請填寫 收件人資訊-縣市")
+    end        
+    if @receiver_district.blank?  
+      current_user.errors.add(:receiver_district, "請填寫 收件人資訊-鄉鎮市區")
+    end        
+    if @receiver_address.blank?  
+      current_user.errors.add(:receiver_address, "請填寫 收件人資訊-詳細地址")
+    end       
+    #           
     if @payment_method.blank?  
       current_user.errors.add(:payment_method, "請選擇付款方式")
     end        
-    unless @agree  
+    if @agree.blank?    
       current_user.errors.add(:agree, "請勾選 小農1號 電子商務約定條款")
     end  
     if current_user.errors.any?
@@ -404,9 +441,8 @@ class InvoicesController < ApplicationController
     end
     
     def user_params
-      accessible = [:first_name, :last_name, addresses_attributes:[:id, :first_name, :last_name, :phone_no, :postal, :county, :district, :address, :country],
-                                             invoices_attributes:[:id, :receiver_last_name, :receiver_first_name, :receiver_phone_no, :receiver_postal, 
-                                                                  :receiver_county, :receiver_district, :receiver_address, :receiver_country]]
+      accessible = [:first_name, :last_name, addresses_attributes:[:id, :first_name, :last_name, :phone_no, :postal, :county, :district, :address, :country]]
+
       params.require(:user).permit(accessible)    
     end      
 end

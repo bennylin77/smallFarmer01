@@ -13,10 +13,6 @@ class UsersController < ApplicationController
     # authorize! :update, @user
     if @user.update(user_params)
       sign_in(@user == current_user ? @user : current_user, :bypass => true)
-      address = @user.addresses.first
-      address.first_name = @user.first_name
-      address.last_name = @user.last_name     
-      address.save!  
       flash[:notice] ='成功更改個人資料'
       render 'edit'
     else
@@ -39,11 +35,10 @@ class UsersController < ApplicationController
 
   def mobileSMSConfirmation 
     if request.patch? && params[:token] 
-      address = current_user.addresses.first
-      if params[:token] == address.phone_no_confirmation_token
-        address.phone_no = address.phone_no_for_confirmation
-        address.phone_no_confirmed_at = Time.now
-        address.save!
+      if params[:token] == current_user.phone_no_confirmation_token
+        current_user.phone_no = current_user.phone_no_for_confirmation
+        current_user.phone_no_confirmed_at = Time.now
+        current_user.save!
         # important !!!!!!!!!!!!!!!!
         if current_user.coupons.where(kind: GLOBAL_VAR['COUPON_SIGN_UP']).first.blank?       
           coupon = Coupon.new
@@ -65,22 +60,21 @@ class UsersController < ApplicationController
   end  
   
   def mobileSMSConfirmationSend
-    address = current_user.addresses.first
     unless params[:phone_no].blank?
-      unless address.phone_no_confirmation_frequency == 5
+      unless current_user.phone_no_confirmation_frequency == 5
         token = Random.rand(10000...99999)
-        address.phone_no_for_confirmation = params[:phone_no]
-        address.phone_no_confirmation_token = token
-        address.phone_no_confirmation_frequency = address.phone_no_confirmation_frequency + 1
-        address.save!
-        #System.sendConfirmation(current_user).deliver   
+        current_user.phone_no_for_confirmation = params[:phone_no]
+        current_user.phone_no_confirmation_token = token
+        current_user.phone_no_confirmation_frequency = current_user.phone_no_confirmation_frequency + 1
+        current_user.save!
+        System.sendConfirmation(current_user).deliver   
         data = { username: Rails.configuration.mitake_username, 
                  password: Rails.configuration.mitake_password,
                  dstaddr: params[:phone_no].gsub(/^\+886/, '0'),
                  encoding: 'UTF8',
                  smbody: '小農1號行動電話驗證，您的簡訊驗證碼為:'+token.to_s
                  } 
-        result = RestClient.get( Rails.configuration.mitake_sm_send_get_url, params: data)        
+        #result = RestClient.get( Rails.configuration.mitake_sm_send_get_url, params: data)        
         render json: {alert_class: 'success', message: '已送出您的驗證碼, 您將在數分鐘內收到'}          
       else
         render json: {alert_class: 'alert', message: '您的驗證已嘗試超過五次，請直接聯絡客服人員，謝謝！'}       
@@ -105,9 +99,9 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      params[:user][:addresses_attributes]['0'][:phone_no] = params[:phone_no_full]
-      accessible = [ :first_name, :last_name, :avatar,addresses_attributes:[:id, :first_name, :last_name, :phone_no, :postal, :county, :district, :address, :country] ] # extend with your own params
-      accessible << [ :password, :password_confirmation ] unless params[:user][:password].blank?
+      params[:user][:phone_no] = params[:phone_no_full]
+      accessible = [ :first_name, :last_name, :avatar, :phone_no] 
+      #accessible << [ :password, :password_confirmation ] unless params[:user][:password].blank?
       params.require(:user).permit(accessible)
     end
 end

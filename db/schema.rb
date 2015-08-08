@@ -15,13 +15,9 @@ ActiveRecord::Schema.define(version: 20150808040046) do
 
   create_table "addresses", force: true do |t|
     t.integer  "user_id"
-    t.string   "first_name"
     t.string   "last_name"
+    t.string   "first_name"
     t.string   "phone_no"
-    t.string   "phone_no_for_confirmation"
-    t.string   "phone_no_confirmation_token"
-    t.datetime "phone_no_confirmed_at"
-    t.integer  "phone_no_confirmation_frequency", default: 0, null: false
     t.string   "postal"
     t.string   "county"
     t.string   "district"
@@ -289,12 +285,12 @@ ActiveRecord::Schema.define(version: 20150808040046) do
   add_index "sub_comments", ["user_id"], name: "index_sub_comments_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "email",                  default: "",    null: false
-    t.string   "encrypted_password",     default: "",    null: false
+    t.string   "email",                           default: "",    null: false
+    t.string   "encrypted_password",              default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,     null: false
+    t.integer  "sign_in_count",                   default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -303,10 +299,15 @@ ActiveRecord::Schema.define(version: 20150808040046) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.string   "first_name"
     t.string   "last_name"
-    t.boolean  "deleted_c",              default: false, null: false
-    t.boolean  "blocked_c",              default: false, null: false
+    t.string   "first_name"
+    t.string   "phone_no"
+    t.string   "phone_no_for_confirmation"
+    t.string   "phone_no_confirmation_token"
+    t.datetime "phone_no_confirmed_at"
+    t.integer  "phone_no_confirmation_frequency", default: 0,     null: false
+    t.boolean  "deleted_c",                       default: false, null: false
+    t.boolean  "blocked_c",                       default: false, null: false
     t.datetime "blocked_at"
     t.string   "avatar_file_name"
     t.string   "avatar_content_type"

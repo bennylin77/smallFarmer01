@@ -31,13 +31,18 @@ class DeviseCreateUsers < ActiveRecord::Migration
       # t.datetime :locked_at
       
       ## Customize
-      t.string   :first_name
-      t.string   :last_name  
-      t.boolean  :deleted_c, default: false, null: false  
-      t.boolean  :blocked_c, default: false, null: false  
+      t.string   :last_name        
+      t.string   :first_name     
+      t.string   :phone_no
+      t.string   :phone_no_for_confirmation    
+      t.string   :phone_no_confirmation_token
+      t.datetime :phone_no_confirmed_at
+      t.integer  :phone_no_confirmation_frequency, default: 0, null: false   
+       
+      t.boolean    :deleted_c, default: false, null: false  
+      t.boolean    :blocked_c, default: false, null: false  
       t.datetime   :blocked_at
       t.attachment :avatar       
-
       t.timestamps
     end
 
