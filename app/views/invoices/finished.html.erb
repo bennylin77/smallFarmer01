@@ -50,7 +50,7 @@
 					</div>		
 				</div>
 				<div class="col-sm-5">	
-					<% receiver_address = @invoice.orders.first.order_receiver_address_lists.first.receiver_address%>				  
+					<% receiver_address = @invoice.orders.first.shipments.first.receiver_address%>				  
 					<div class="row">
 						<label class="col-sm-12 control-label">收件人資訊</label>
 					</div>		

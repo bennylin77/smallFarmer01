@@ -122,11 +122,11 @@
 			<%end%>            
           </td>	  
           <td>  
-          	<% o.order_receiver_address_lists.each do |o_r_a_l| %>
-          		<%receiver_address = o_r_a_l.receiver_address %>
+          	<% o.shipments.each do |s| %>
+          		<%receiver_address = s.receiver_address %>
 				<dl>
 				  	<dt>
-				  		<%= Hash[orderCustomerStatusOptions].rassoc(o_r_a_l.status).first%></div>         		
+				  		<%= Hash[orderCustomerStatusOptions].rassoc(s.status).first%></div>         		
 					</dt>
 					<dd>   		
           			<div><%=receiver_address.last_name %> <%=receiver_address.first_name %></div>

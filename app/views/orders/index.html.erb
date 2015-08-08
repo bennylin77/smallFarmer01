@@ -50,16 +50,16 @@
 		    <td>數量 (單位/箱)</td>				
 		    <td style="min-width: 70px;">收件人</td>								    			           
 	  	</tr>  
-		<%o.order_receiver_address_lists.each do |o_r_a_l|%>
+		<%o.shipments.each do |s|%>
 		<tr>
           <td> 
-          <%=o_r_a_l.quantity%>箱 (<%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %>/箱)	
+          <%=s.quantity%>箱 (<%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %>/箱)	
           </td> 			      		  
           <td>  
-          	  <%receiver_address = o_r_a_l.receiver_address %>
+          	  <%receiver_address = s.receiver_address %>
 			  <dl>
 				  <dt>
-				  	<%= Hash[orderCompanyStatusOptions].rassoc(o_r_a_l.status).first%></div>         		
+				  	<%= Hash[orderCompanyStatusOptions].rassoc(s.status).first%></div>         		
 				  </dt>
 				  <dd>   		
           			<div><%=receiver_address.last_name %> <%=receiver_address.first_name %></div>

@@ -64,12 +64,12 @@ class InvoicesController < ApplicationController
       receiver_address.address = params[:receiver_address]  
       receiver_address.save!
             
-      order_receiver_address_list = OrderReceiverAddressList.new
-      order_receiver_address_list.quantity = order.quantity
-      order_receiver_address_list.status = GLOBAL_VAR['ORDER_STATUS_UNCONFIRMED']            
-      order_receiver_address_list.order = order
-      order_receiver_address_list.receiver_address = receiver_address
-      order_receiver_address_list.save!
+      shipment = Shipment.new
+      shipment.quantity = order.quantity
+      shipment.status = GLOBAL_VAR['ORDER_STATUS_UNCONFIRMED']            
+      shipment.order = order
+      shipment.receiver_address = receiver_address
+      shipment.save!
       
       invoice.amount = invoice.amount + order.price + order.shipping_rates
     end

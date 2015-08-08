@@ -2,18 +2,16 @@
 <div class="table-responsive">
 <table class="table table-bordered table-hover">
   <tr>
-    <th>訂單編號</th>  
+    <th style="min-width: 75px;">訂單編號</th>  
     <th>訂單日期</th>     	
 	<th>訂購人</th>
-	<th>購買金額</th>  
-	<th>回饋金使用</th>	
-	<th>付款金額</th>		
-	<th>付款狀態</th>		
-	<th><%= image_tag 'coupons_icon.png', class: '', style: 'width: 25px; height: 25px;' %>
+	<th style="min-width: 100px;">金額</th>  	
+	<th>付款</th>
+	<th style="min-width: 118px;">
+		<%= image_tag 'coupons_icon.png', class: '', style: 'width: 25px; height: 25px;' %>
 		獲得回饋金<br> 
-		<abbr title="獲得回饋金為'付款金額'x4%, 並採取四捨五入"><small>付款金額x4%</small></abbr>
-	</th>	 	
-	<th>收件人</th>
+		<abbr title="獲得回饋金為'總計'x4%, 並採取四捨五入"><small>總計x4%</small></abbr>
+	</th>				 	
 	<th>購買項目</th> 
 	<td></td>									 		            
   </tr>
@@ -24,80 +22,134 @@
     <td>
     	<%= image_tag i.user.avatar.url, class: 'img-circle', style: 'height: 50px; width: 50px;' %>
     	<%= i.user.last_name%><%= i.user.first_name%><br>
-		<%= i.user.addresses.first.phone_no.gsub(/^\+886/, '0') %><br>
-    	<%= i.user.addresses.first.postal%> <%= i.user.addresses.first.county%><%= i.user.addresses.first.district%><%= i.user.addresses.first.address%><br>                	     
+		<%= i.user.phone_no.gsub(/^\+886/, '0') %><br>
     	<%= i.user.email %>
     </td>   
-    <td><%= i.amount.to_i %>元</td>    
 	<td>
-    	<% discount = 0 %>
-    	<% i.invoice_coupon_lists.each do |i_c_l|%>
-    		<%discount = discount + i_c_l.amount%>
-    	<%end%>
-    	<%=discount.to_i%>元
-    </td>
-    <td><mark><%= (i.amount-discount).to_i %>元</mark></td>  
-    <td>  	
-    	<%if i.paid_c%>
+	  <dl>
+	 	<dt>購買金額</dt>
+			<dd>
+				<%= i.amount.to_i %>元
+				<%if i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>	
+				<div><small><ins>含超商手續費</ins></small></div>	
+				<%end%>					
+			</dd>
+		<dt>回饋金使用</dt>
+			<dd>
+		    	<% discount = 0 %>
+		    	<% i.invoice_coupon_lists.each do |i_c_l|%>
+		    		<%discount = discount + i_c_l.amount%>
+		    	<%end%>
+		    	<%=discount.to_i%>元			  	
+			</dd>  
+		<dt>總計</dt>
+			<dd>
+				<mark><%= (i.amount-discount).to_i %>元</mark>			
+			</dd>   
+		</dl>    	
+    </td>  
+    <td>  	  		    		   		
+		<dl>
+			<dt>付款方式</dt>
+				<%if i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>
+				<dd>線上刷卡</dd> 
+	   			<%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM']%>		
+			  	<dd>ATM櫃員機</dd> 			  						  
+	   			<%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>		
+				<dd>超商代碼</dd> 
+				<%end%>								 
+			<dt>付款狀態</dt>			
+			  	<dd><%if i.paid_c%>已付款<%else%><div style="color: #b24d4b">尚未付款</div><%end%></dd> 		  	
+		    <%if i.paid_c%>			  	
+			<dt>付款編號</dt>
+			  	<dd><%= i.allpay_merchant_trade_no %></dd>			  	
+			<dt>付款日期</dt>
+			  	<dd><%= i.paid_at.strftime("%Y-%m-%d %H:%M:%S") %></dd>	
+			<%else%>
+			<dt><abbr title="請於付款期限內付款, 超過付款期限, 有可能因為庫存不足, 訂單無法成立">付款期限</abbr></dt>
+			  	<dd>
+			  	<%if i.allpay_expired_at < Time.now%>	
+				<div style="color: #b24d4b">
+				<%=i.allpay_expired_at.strftime("%Y-%m-%d %H:%M:%S")%>		  		
+				</div>
+				<%else%>
+				<%=i.allpay_expired_at.strftime("%Y-%m-%d %H:%M:%S")%>		  					  	  
+				<%end%>
+			  	</dd> 			  
+			<%end%>	
 			<%if i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>
-			<%=image_tag 'allPay.png', class: 'img-responsive', size: '50x30'%>    			
-    		付款編號<br>
-    		<%= i.allpay_merchant_trade_no %><br>   	
-    		<%elsif o.invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD']%>		
-    		<%end%>	
-    		付款日期<br>  
-    		<%= i.paid_at.strftime("%Y-%m-%d %H:%M:%S") %>    		    		   		
-    	<%else%>
-			<%if i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>
-			<%=image_tag 'allPay.png', class: 'img-responsive', size: '50x30'%>    	
-			<p>線上刷卡, 尚未付款</p>    	
-	    	<%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD']%>		
-			<%=image_tag 'cat.png', class: 'img-responsive', size: '60x60'%> 
-			<p>貨到付款, 尚未付款</p>			    	
-	    	<%end%>	
-    	<%end%>
-    </td>         
+	   		<%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM']%>		
+			<dt>繳費銀行代碼</dt>
+				<dd><%=showBlank i.allpay_bank_code%></dd>
+			<dt>繳費虛擬帳號</dt>
+			  <dd><%=showBlank i.allpay_v_account%></dd>  	   		
+	   		<%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>		
+			<dt>超商繳費代碼</dt>
+			  <dd><%=showBlank i.allpay_payment_no%></dd> 			
+			<%end%>				  	  	
+		</dl>
+    </td>          
     <td>
     	<%= ((i.amount-discount)*0.04).round%>元
-    </td>         
-	<td>
-		<%=i.receiver_last_name %> <%=i.receiver_first_name %>
-		<br>
-		<%=i.receiver_phone_no.gsub(/^\+886/, '0') %>	
-		<br>
-		<%=i.receiver_postal %><%=i.receiver_county %><%=i.receiver_district %><%=i.receiver_address %>
-	</td>    
+    </td>            
 	<td>
       <table class="table table-striped">     
 		<tr>	
-		    <td>出貨編號</td>						
+		    <td style="min-width: 75px;">出貨編號</td>						
 		    <td>水果名稱</td>
-			<td>數量(單位/箱)</td>   
-			<td>金額</td> 						 		    
-			<td>物流追蹤碼</td>
-		    <td>狀態</td>					           
+			<td style="min-width: 120px;">數量(單位)</td>   
+			<td style="min-width: 70px;">金額</td> 						 		    
+		    <td>處理狀態</td>		
+		    <td style="min-width: 70px;">收件人</td>			    			           
 	  	</tr>      		      	
     	<%i.orders.each do |o|%>      	
         <tr>
           <td><%= o.id %></td>        	        		
-          <td><%= o.product_boxing.product.name%></td>
-          <td><%= o.quantity%>箱 (<%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %>/箱)</td>
-          <td><%= o.price.to_i %>元</td>     
-          <td><%= showBlank o.tracing_code%></td>     
           <td>
+          	<%= link_to o.product_boxing.product do%>
+				<%if o.product_boxing.product.product_images.first %>
+				<div class="text-center">
+				<%= image_tag o.product_boxing.product.product_images.first.image.url, class: 'img-circle backend_fruits_img' %>			
+		        </div>
+		        <%end%> 	
+    			<div class="text-center"><%= o.product_boxing.product.name%></div>           	
+          	<%end%>          	
+          </td>         
+          <td>
+          <div><%= o.quantity%>箱</div> 
+          (<%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %>/箱)</td>
+          <td><%= o.price.to_i+ o.quantity*GLOBAL_VAR['SHIPPING_RATES'] %>元</td>     
+          <td>        	
 			<div class="text-center">在<%= o.created_at.strftime("%Y-%m-%d %H:%M:%S") %><br>建立出貨單</div>		
-			<div class="text-center">&darr;</div>				
 			<%if o.called_smallfarmer_c%>
-			<div class="text-center">在<%= o.called_smallfarmer_at.strftime("%Y-%m-%d %H:%M:%S")%><br>農夫開始處理</div>
-			<div class="text-center">&darr;</div>						
+			<div class="text-center">&darr;</div>							
+			<div class="text-center">在<%= o.called_smallfarmer_at.strftime("%Y-%m-%d %H:%M:%S")%><br>農夫已處理</div>
 			<%end%>	
-			<div class="text-center"><%= Hash[orderCustomerStatusOptions].rassoc(o.status).first%></div>          	          	
-          </td>	                              
+			<%if o.seven_days_c%>	
+			<div class="text-center">
+				<%=image_tag 'seven_days.png', class: '', style: 'width: 100px; margin: 5px;'  %>					
+			</div>
+			<%end%>            
+          </td>	  
+          <td>  
+          	<% o.shipments.each do |s| %>
+          		<%receiver_address = s.receiver_address %>
+				<dl>
+				  	<dt>
+				  		<%= Hash[orderCustomerStatusOptions].rassoc(s.status).first%></div>         		
+					</dt>
+					<dd>   		
+          			<div><%=receiver_address.last_name %> <%=receiver_address.first_name %></div>
+ 					<div><%=receiver_address.postal %><%=receiver_address.county %><%=receiver_address.district %><%=receiver_address.address %></div>
+ 					<div><%=receiver_address.phone_no.gsub(/^\+886/, '0') %></div>
+					</dd>
+				</dl>           	
+          	<%end%>	         
+          </td>	                                            
         </tr>
     	<%end%>	        
       </table>    	
-    </td>     
-        
+    </td> 	
   </tr>
   <%end%>  
 </table>
