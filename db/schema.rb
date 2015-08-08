@@ -165,23 +165,6 @@ ActiveRecord::Schema.define(version: 20150808040046) do
   add_index "notifications", ["sub_comment_id"], name: "index_notifications_on_sub_comment_id", using: :btree
   add_index "notifications", ["user_id"], name: "index_notifications_on_user_id", using: :btree
 
-  create_table "order_receiver_address_lists", force: true do |t|
-    t.integer  "order_id"
-    t.integer  "receiver_address_id"
-    t.integer  "quantity"
-    t.integer  "status"
-    t.string   "tracing_code"
-    t.integer  "t_cat_status"
-    t.datetime "t_cat_status_updated_at"
-    t.boolean  "delivered_c",             default: false, null: false
-    t.datetime "delivered_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "order_receiver_address_lists", ["order_id"], name: "index_order_receiver_address_lists_on_order_id", using: :btree
-  add_index "order_receiver_address_lists", ["receiver_address_id"], name: "index_order_receiver_address_lists_on_receiver_address_id", using: :btree
-
   create_table "orders", force: true do |t|
     t.integer  "product_boxing_id"
     t.integer  "invoice_id"
@@ -272,6 +255,23 @@ ActiveRecord::Schema.define(version: 20150808040046) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "shipments", force: true do |t|
+    t.integer  "order_id"
+    t.integer  "receiver_address_id"
+    t.integer  "quantity"
+    t.integer  "status"
+    t.string   "tracing_code"
+    t.integer  "t_cat_status"
+    t.datetime "t_cat_status_updated_at"
+    t.boolean  "delivered_c",             default: false, null: false
+    t.datetime "delivered_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "shipments", ["order_id"], name: "index_shipments_on_order_id", using: :btree
+  add_index "shipments", ["receiver_address_id"], name: "index_shipments_on_receiver_address_id", using: :btree
 
   create_table "sub_comments", force: true do |t|
     t.integer  "user_id"

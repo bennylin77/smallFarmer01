@@ -89,7 +89,7 @@
 					<%= pp.product_boxings.first.product_pricings.first.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %>元(含運) <%= "%g" % pp.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(pp.unit).first %>/箱
 				    </div>
 				    <div class="farm_fruits_reviews">
-						<span class="farm_fruits_excellent" data-count="<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and delivered_c = 1 and review_score = ? ', pp.id, GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count + Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and delivered_c = 1 and review_score = ? ', pp.id, GLOBAL_VAR['ORDER_REVIEW_TASTY']).count %>" ></span><span class="farm_fruits_excellent_text"></span><span class="farm_fruits_excellent_text">人說好吃</span>
+						<span class="farm_fruits_excellent" data-count="<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL', pp.id, GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count + Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL', pp.id, GLOBAL_VAR['ORDER_REVIEW_TASTY']).count %>" ></span><span class="farm_fruits_excellent_text"></span><span class="farm_fruits_excellent_text">人說好吃</span>
 				    </div>	
 			<%end%>		 				
 				</div>	

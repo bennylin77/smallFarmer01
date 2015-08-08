@@ -60,8 +60,11 @@ class ManagementController < ApplicationController
       order = Order.find(o)
       order.called_logistics_c = true
       order.called_logistics_at = Time.now 
-      order.status = GLOBAL_VAR['ORDER_STATUS_CALLED_LOGISTICS'] 
       order.save!
+      order.shipments.each do |s|
+        s.status = GLOBAL_VAR['ORDER_STATUS_CALLED_LOGISTICS'] 
+        s.save!
+      end  
     end
     render json: {success: true}
   end
@@ -69,22 +72,27 @@ class ManagementController < ApplicationController
   def delivered 
     params[:orders].each do |o|          
       order = Order.find(o)
-      if !order.delivered_c
-        order.delivered_c = true
-        order.delivered_at = Time.now 
-        order.status = GLOBAL_VAR['ORDER_STATUS_DELIVERED'] 
-        order.save! 
-        delivered_all = true
-        order.invoice.orders.each do |i_o|
-          if !i_o.delivered_c   
+      order.shipments.each do |s|     
+        if !s.delivered_c
+          s.delivered_c = true
+          s.delivered_at = Time.now 
+          s.status = GLOBAL_VAR['ORDER_STATUS_DELIVERED'] 
+          s.save! 
+        end  
+      end 
+      #
+      delivered_all = true          
+      order.invoice.orders.each do |i_o|
+        i_o.shipments.each do |ss| 
+          if !ss.delivered_c
             delivered_all = false       
           end
-        end       
-        if delivered_all
-          notify( order.invoice.user, { category: GLOBAL_VAR['NOTIFICATION_PROMOTION'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_REVIEW'], 
-                                        invoice_id: order.invoice.id})               
-        end  
+        end
       end      
+      if delivered_all
+        notify( order.invoice.user, { category: GLOBAL_VAR['NOTIFICATION_PROMOTION'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_REVIEW'], 
+                                      invoice_id: order.invoice.id})               
+      end              
     end
     render json: {success: true}
   end  
