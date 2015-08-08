@@ -11,7 +11,7 @@ module OrdersHelper
   def orderCustomerStatusOptions
     [['已取消', GLOBAL_VAR['ORDER_STATUS_CANCELED']],
      ['尚未處理', GLOBAL_VAR['ORDER_STATUS_UNCONFIRMED']], 
-     ['農夫處理中', GLOBAL_VAR['ORDER_STATUS_CONFIRMED']],     
+     ['等待物流載貨', GLOBAL_VAR['ORDER_STATUS_CONFIRMED']],     
      ['物流處理中', GLOBAL_VAR['ORDER_STATUS_CALLED_LOGISTICS']],     
      ['運送中', GLOBAL_VAR['ORDER_STATUS_SHIPPING']],
      ['已交付', GLOBAL_VAR['ORDER_STATUS_DELIVERED']]]
