@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     # authorize! :update, @user
     if @user.update(user_params)
       sign_in(@user == current_user ? @user : current_user, :bypass => true)
-      flash[:notice] ='成功更改個人資料'
+      flash.now[:notice] ='成功更改個人資料'
       render 'edit'
     else
       render 'edit'
@@ -100,7 +100,7 @@ class UsersController < ApplicationController
 
     def user_params
       params[:user][:phone_no] = params[:phone_no_full]
-      accessible = [ :first_name, :last_name, :avatar, :phone_no] 
+      accessible = [ :first_name, :last_name, :avatar, :phone_no, :email] 
       #accessible << [ :password, :password_confirmation ] unless params[:user][:password].blank?
       params.require(:user).permit(accessible)
     end

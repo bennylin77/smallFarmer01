@@ -441,7 +441,7 @@ class InvoicesController < ApplicationController
     end
     
     def user_params
-      accessible = [:first_name, :last_name, addresses_attributes:[:id, :first_name, :last_name, :phone_no, :postal, :county, :district, :address, :country]]
+      accessible = [:first_name, :last_name, :email]
 
       params.require(:user).permit(accessible)    
     end      

@@ -113,38 +113,36 @@
 			<div class="section_underline"></div>			
 		</div>					
 	</div>
-	<%= u.fields_for :addresses do |a| %>
-	 	<div class="form-group">
-			<label class="col-sm-2 control-label">姓名</label>
-			<div class="form-inline col-sm-8">
-				<%= a.text_field :last_name, class: "form-control", placeholder: '姓' %>
-				<%= a.text_field :first_name, class: "form-control", placeholder: '名' %>			
-			</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">姓名</label>
+		<div class="form-inline col-sm-8">
+			<%= u.text_field :last_name, class: "form-control", placeholder: '姓' %>
+			<%= u.text_field :first_name, class: "form-control", placeholder: '名' %>			
 		</div>
-		<div class="form-group">
+	</div>
+	<div class="form-group">
 		<label class="col-sm-2 control-label">
 			行動電話
 		<span class="glyphicon glyphicon-phone" aria-hidden="true"></span>			
 		</label>
 		<div class="col-sm-3">
 			<%= hidden_field_tag :phone_no_full%>				
-			<%if current_user.addresses.first.phone_no_confirmed_at.blank?%>
-				<%= a.text_field :phone_no, class: "form-control" %>
+			<%if current_user.phone_no_confirmed_at.blank?%>
+				<%= u.text_field :phone_no, class: "form-control" %>
 				<span id="valid-msg" class="hide">✓</span>
 				<span id="error-msg" class="hide">格式錯誤</span>			
 			<%else%>
-				<%= a.text_field :phone_no, class: "form-control", readonly: true %>			
+				<%= u.text_field :phone_no, value: current_user.phone_no.gsub(/^\+886/, '0'), class: "form-control", readonly: true %>			
 			<%end%>	
 			例: 0912 345 678
 		</div>		
-		</div>		
-		<div class="form-group">
-			<label class="col-sm-2 control-label">聯絡信箱</label>
-			<div class="form-inline col-sm-6">
-				<%= current_user.email %>
-			</div>
-		</div>		  
-	<%end%>
+	</div>		
+	<div class="form-group">
+		<label class="col-sm-2 control-label">聯絡信箱</label>
+		<div class="form-inline col-sm-6">
+			<%= u.text_field :email, class: "form-control" %>						
+		</div>
+	</div>		  
 	<div class="row" style="margin-top: 30px; margin-bottom: 30px;">
 		<div class="col-sm-12">
 			<div>
