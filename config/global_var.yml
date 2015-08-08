@@ -7,6 +7,7 @@ defaults: &defaults
   UNIT_CATTY: 0
   UNIT_KG: 1
   UNIT_STAR: 2  
+  UNIT_BAO: 3   
   
   PAYMENT_METHOD_ALLPAY_CREDIT: 0
   PAYMENT_METHOD_ALLPAY_ATM: 1
