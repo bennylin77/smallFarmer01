@@ -32,22 +32,16 @@
 					<div class="row">
 					<label class="col-sm-4 control-label">姓名</label>
 					<div class="form-inline col-sm-8">
-						<%= current_user.addresses.first.last_name%>
-						<%= current_user.addresses.first.first_name%>			
+						<%= current_user.last_name%>
+						<%= current_user.first_name%>			
 					</div>
 					</div>
 					<div class="row">
 						<label class="col-sm-4 control-label">行動電話</label>
 						<div class="col-sm-8">
-								<%= current_user.addresses.first.phone_no.gsub(/^\+886/, '0')%>
+							<%= current_user.phone_no.gsub(/^\+886/, '0')%>
 						</div>		
 					</div>		
-					<div class="row">
-							<label class="col-sm-4 control-label">聯絡地址</label>
-							<div class="form-inline col-sm-8">
-								<%= current_user.addresses.first.postal%> <%= current_user.addresses.first.county%><%= current_user.addresses.first.district%><%= current_user.addresses.first.address%>
-							</div>
-					</div>
 					<div class="row">
 						<label class="col-sm-4 control-label">聯絡信箱</label>
 						<div class="form-inline col-sm-8">
@@ -55,27 +49,28 @@
 						</div>
 					</div>		
 				</div>
-				<div class="col-sm-5">					  
+				<div class="col-sm-5">	
+					<% receiver_address = @invoice.orders.first.order_receiver_address_lists.first.receiver_address%>				  
 					<div class="row">
 						<label class="col-sm-12 control-label">收件人資訊</label>
 					</div>		
 					<div class="row">
 						<label class="col-sm-4 control-label">姓名</label>
 						<div class="form-inline col-sm-8">
-							<%= @invoice.receiver_last_name%>
-							<%= @invoice.receiver_first_name%>			
+							<%= receiver_address.last_name%>
+							<%= receiver_address.first_name%>			
 						</div>
 					</div>
 					<div class="row">
 						<label class="col-sm-4 control-label">聯絡電話</label>
 						<div class="col-sm-8">		
-							<%= @invoice.receiver_phone_no.gsub(/^\+886/, '0')%>		
+							<%= receiver_address.phone_no.gsub(/^\+886/, '0')%>		
 						</div>		
 					</div>		
 					<div class="row">
 						<label class="col-sm-4 control-label">聯絡地址</label>
 						<div class="form-inline col-sm-8">
-							<%= @invoice.receiver_postal%> <%= @invoice.receiver_county%><%= @invoice.receiver_district%><%= @invoice.receiver_address%>
+							<%= receiver_address.postal%> <%= receiver_address.county%><%= receiver_address.district%><%= receiver_address.address%>
 						</div>
 					</div>									
 				</div>				
