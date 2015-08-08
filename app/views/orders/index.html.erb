@@ -13,11 +13,8 @@
   <tr>
     <th>出貨編號</th>  
 	<th>狀態</th>			          	
-	<th>水果</th>
-	<th>數量(單位/箱)</th>  
+	<th>水果</th>  
 	<th>金額(含運)</th>	
-	<th>付款方式</th>							 		    
-	<th>物流追蹤碼</th>
     <th>收件人</th>    
 	<th></th>         
   </tr>
@@ -25,13 +22,16 @@
   <tr>
     <td><%= o.id %></td>  	
 	<td>
-		<div class="text-center">在<%= o.created_at.strftime("%Y-%m-%d %H:%M:%S") %> 建立出貨單</div>		
-		<div class="text-center">&darr;</div>				
+		<div class="text-center">在<%= o.created_at.strftime("%Y-%m-%d %H:%M:%S") %> 建立出貨單</div>					
 		<%if o.called_smallfarmer_c%>
+		<div class="text-center">&darr;</div>	
 		<div class="text-center">在<%= o.called_smallfarmer_at.strftime("%Y-%m-%d %H:%M:%S")%> 通知物流</div>
-		<div class="text-center">&darr;</div>						
-		<%end%>	
-		<div class="text-center"><%= Hash[orderCompanyStatusOptions].rassoc(o.status).first%></div>
+		<%end%>
+		<%if o.seven_days_c%>
+		<div class="text-center">	
+		<%=image_tag 'seven_days.png', class: '', style: 'width: 100px;'  %>					
+		</div>
+		<%end%>				
 	</td>  
     <td>
         <%= link_to o.product_boxing.product do%>
@@ -43,30 +43,34 @@
     		<div class="text-center"><%= o.product_boxing.product.name%></div>           	
         <%end%>   	
     </td>    
-    <td><%= o.quantity%>箱 (<%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %>/箱)</td> 
-    <td><%= o.price.to_i + o.shipping_rates.to_i %>元</td>    
-    <td>
-	<%if o.invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>	
-	<p>線上刷卡</p>
-	<%=image_tag 'allPay.png', class: 'img-responsive', size: '50x30'%>	
-	</div>	
-	<%elsif o.invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD']%>	
-	<p>貨到付款</p>
-	<%=image_tag 'cat.png', class: 'img-responsive', size: '60x60'%> 			
-	<%end%>    	
-    </td>	
-    <td>
-    	<%= showBlank o.tracing_code%><br>
-		<%if o.seven_days_c%>	
-			<%=image_tag 'seven_days.png', class: '', style: 'width: 100px;'  %>					
-		<%end%>	    
-    </td>      
+    <td><%= o.price.to_i + o.shipping_rates.to_i %>元</td>    	      
 	<td>
-		<%= o.invoice.receiver_last_name %> <%= o.invoice.receiver_first_name %>
-		<br>
-		<%= o.invoice.receiver_postal %><%= o.invoice.receiver_county %><%= o.invoice.receiver_district %><%= o.invoice.receiver_address %>
-		<br>
-		<%= o.invoice.receiver_phone_no.gsub(/^\+886/, '0') %>
+      <table class="table table-striped">     
+		<tr>	
+		    <td>數量 (單位/箱)</td>				
+		    <td style="min-width: 70px;">收件人</td>								    			           
+	  	</tr>  
+		<%o.order_receiver_address_lists.each do |o_r_a_l|%>
+		<tr>
+          <td> 
+          <%=o_r_a_l.quantity%>箱 (<%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %>/箱)	
+          </td> 			      		  
+          <td>  
+          	  <%receiver_address = o_r_a_l.receiver_address %>
+			  <dl>
+				  <dt>
+				  	<%= Hash[orderCompanyStatusOptions].rassoc(o_r_a_l.status).first%></div>         		
+				  </dt>
+				  <dd>   		
+          			<div><%=receiver_address.last_name %> <%=receiver_address.first_name %></div>
+ 					<div><%=receiver_address.postal %><%=receiver_address.county %><%=receiver_address.district %><%=receiver_address.address %></div>
+ 					<div><%=receiver_address.phone_no.gsub(/^\+886/, '0') %></div>
+				  </dd>
+			  </dl>           	
+          </td>	                                          
+        </tr>	  	
+	  	<%end%>	  	
+	  </table>
 	</td>   	                              
     <td>
     	<%if !o.called_smallfarmer_c%>
