@@ -94,7 +94,6 @@
 			<div class="row">
 		      <div class="hidden-xs hidden-sm col-md-11 text-right" style="margin-top: 10px;">					
 					<%if @product.daily_capacity.to_i*3 > @product.product_boxings.first.orders.joins(:invoice).where('invoices.confirmed_c = ? and called_smallfarmer_c = ?', true, false).sum(:quantity)%>	
-						<%=image_tag 'seven_days.png', class: '', style: 'width: 130px; margin-left: 5px;'  %>					
 					<%end%>					
 					<%if @product.GAP_c%><%=image_tag 'gap.png', class: '', style: 'height: 55px; width: 55px; margin-left: 5px;'  %><%end%>		      
 					<%if @product.TAP_c%><%=image_tag 'tap.png', class: '', style: 'height: 50px; width: 50px; margin-left: 5px;'  %><%end%>		      		      
@@ -103,7 +102,6 @@
 		      </div>
 		      <div class="hidden-md hidden-lg col-xs-12 text-center" style="margin-top: 10px;">				
 					<%if @product.daily_capacity.to_i*3 > @product.product_boxings.first.orders.joins(:invoice).where('invoices.confirmed_c = ? and called_smallfarmer_c = ?', true, false).sum(:quantity)%>						
-						<%=image_tag 'seven_days.png', class: '', style: 'width: 110px; margin-left: 5px;'  %>										
 					<%end%>											
 					<%if @product.GAP_c%><%=image_tag 'gap.png', class: '', style: 'height: 55px; width: 55px; margin-left: 5px;'  %><%end%>		      
 					<%if @product.TAP_c%><%=image_tag 'tap.png', class: '', style: 'height: 50px; width: 50px; margin-left: 5px;'  %><%end%>		      		      

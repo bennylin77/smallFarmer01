@@ -22,7 +22,7 @@
 	          </li>    	          	
           </ul>
           <ul class="nav nav-sidebar">
-			<li <%= active( controller: 'users', action: 'edit', id: current_user)%>><%= link_to "個人資訊", edit_user_path(current_user) %></li>			
+			<li <%= active( controller: 'users', action: 'edit', id: current_user)%>><%= link_to "編輯個人資訊", edit_user_path(current_user) %></li>			
 			<li <%= active( controller: 'registrations', action: 'edit')%>><%= link_to "更改密碼", edit_user_registration_path %></li>          
           	<li><%= link_to '登出', destroy_user_session_path, :method => :delete %></li>
           </ul>

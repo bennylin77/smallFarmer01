@@ -17,7 +17,7 @@
 		<h2 class="visible-xs-block text-center"><%=@company.name %></h2>
 	</div>				
 	<div class="row">
-		<div class="col-md-offset-1 col-md-4 vbottom">		
+		<div class="col-xs-12 col-md-offset-1 col-md-4 vbottom">		
 			<div class="farm_triangle">
 				<div class="farm_triangle_text"><%=@company.name %></div>
 			</div>		
@@ -26,7 +26,7 @@
 		<div class="col-md-2 hidden-sm hidden-xs vbottom text-center">
 			<%= image_tag @company.user.avatar.url, class: 'img-circle farm_user_img' %>
 		</div>				
-		<div class="col-md-4 vbottom">
+		<div class="col-xs-12 col-md-4 vbottom">
 			<div id="carousel-example-generic" class="farm_carousel carousel slide" data-ride="carousel" data-interval="5000" data-pause="hover" style="margin: 10px auto; ">
 			  <ol class="farm_carousel-indicators carousel-indicators">
 				<%@company.company_images.each_with_index do |c, i|%> 

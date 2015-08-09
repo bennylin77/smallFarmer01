@@ -36,16 +36,16 @@
 	          	<%end%>
 	          	</div>
 	          </li> 	          	
-          </ul>      
-          <div class="sidebar_info_more hidden-xs">
+          </ul>  
+     <!-- <div class="sidebar_info_more hidden-xs">
           	<%if current_user.companies.first.description%>
 			<%= truncate( current_user.companies.first.description, length: 122, omission: '...') %>          	
           	<%else%>
           	--
           	<%end%>
-          </div>                  	
+          </div>-->                  	
           <ul class="nav nav-sidebar">
-			<li <%= active( controller: '/companies', action: 'edit', id: current_user.companies.first.id)%>><%= link_to "農場資訊", edit_company_path(current_user.companies.first) %></li>
+			<li <%= active( controller: '/companies', action: 'edit', id: current_user.companies.first.id)%>><%= link_to "編輯農場資訊", edit_company_path(current_user.companies.first) %></li>
           </ul>        	    
         </div>
         <div class="col-sm-9 col-lg-10 main_backend">
