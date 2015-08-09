@@ -81,7 +81,7 @@ class ManagementController < ApplicationController
         end  
       end 
       #
-      #if order.review_at.blank?
+      if order.review_at.blank?
         delivered_all = true          
         order.invoice.orders.each do |i_o|
           i_o.shipments.each do |ss| 
@@ -94,7 +94,7 @@ class ManagementController < ApplicationController
           notify( order.invoice.user, { category: GLOBAL_VAR['NOTIFICATION_PROMOTION'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_REVIEW'], 
                                         invoice_id: order.invoice.id})               
         end
-      #end                
+      end                
     end
     render json: {success: true}
   end  

@@ -65,7 +65,7 @@
 	<td>
       <table class="table table-striped">     
 		<tr>	
-		    <td>數量 (單位/箱)</td>				
+		    <td style="width: 140px;">數量 (單位/箱)</td>				
 		    <td style="min-width: 70px;">收件人</td>								    			           
 	  	</tr>  
 		<%o.shipments.each do |s|%>
@@ -92,9 +92,11 @@
 	  </table>
 	</td>       	                              
     <td>
-		<label class="checkbox-inline">
+    	<%if !o.shipments.first.delivered_c%>
+		<label class="checkbox-inline" id='order_check_box_container_<%=o.id %>'>
 			<%= check_box_tag 'orders[]', o.id, false, class: 'order_idv'%>
-		</label>    	
+		</label>   
+		<%end%> 	
     </td>			     
   </tr>
   <%end%>  
@@ -145,7 +147,6 @@ $('#export_orders').submit(function() {
 	        $('#export_orders').append(input);   			
 		}	
 	});		
-
 	return true; // return false to cancel form action
 });
 <%else%>	
@@ -167,7 +168,8 @@ $("#delivered").click(function(){
 				if (data.success) {
 					toastr['success']('成功將選取出貨單改為已交付')
 					$.each(orders, function( index, value ) {
-						$('#status_'+value).html('已交付');					
+						$('#status_'+value).html('已交付');
+						$('#order_check_box_container_'+value).remove();											
 					});
 				} else {
 					toastr['warning'](data.message)
@@ -175,14 +177,6 @@ $("#delivered").click(function(){
 			}
 		});	
 });	
-
-
-
-
-
-
-
-
 $("#tracing_file").fileinput({showCaption: false,
 			   				   showRemove: false,
 			   				   showPreview: false,
