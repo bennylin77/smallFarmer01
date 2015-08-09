@@ -9,7 +9,7 @@
 		</div>	
 		<div class="col-sm-3 vmiddle text-center">
 			<%= image_tag o.invoice.user.avatar.url, class: 'img-circle', size: '70x70' %>				
-			<div><%= o.invoice.user.email.gsub(/@.*$/, '') %></div>					
+			<div><%= o.invoice.user.last_name %><%= o.invoice.user.first_name %></div>					
 		</div>		
 		<div class="col-sm-6 vmiddle">
 			<div class="input-group notification_review_radioBtn">
