@@ -63,7 +63,7 @@ class CompaniesController < ApplicationController
                      }]
                    }        
     else
-      render json: { error: '上傳超過5張圖片' }
+      render json: { error: '上傳超過5張照片' }
     end                                 
   end
 

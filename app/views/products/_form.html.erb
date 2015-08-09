@@ -90,7 +90,7 @@
 	<%end%>	 	
 <%end%>		
 		<div class="form-group">
-			<label class="col-sm-offset-1 col-sm-2 control-label">水果照片</label>		
+			<label class="col-sm-offset-1 col-sm-2 control-label">水果照片<br>(最多5張)</label>		
 			<div class="col-sm-6">
 			<input id="product_image" name="product_image[]" type="file" multiple class="file-loading">
 	  		</div>
@@ -121,9 +121,12 @@ var $input = $("#product_image");
 		showRemove: false,	
 		allowedFileTypes: ["image"],
 		previewFileType: "image",
-	    browseClass: "btn btn-default edit_button",
-		browseIcon: '<i class="glyphicon glyphicon-picture"></i> ',						 				
-		browseLabel: "選取照片",        
+		browseClass: "btn btn-default edit_button",
+		browseLabel: " 選取照片",
+		browseIcon: '<i class="glyphicon glyphicon-plus"></i>',
+		uploadClass: "btn btn-default edit_button",
+		uploadLabel: " 上傳",
+		uploadIcon: '<i class="glyphicon glyphicon-upload"></i>',      
         uploadUrl: "/products/<%=@product.id %>/productImagesUpload", // server upload action
         uploadAsync: true,
         maxFileCount: 5,

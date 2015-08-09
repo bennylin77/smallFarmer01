@@ -42,7 +42,7 @@
   		</div>
   	</div>  
 	<div class="form-group">
-		<label class="col-sm-offset-1 col-sm-2 control-label">農場照片<br>(至多5張)</label>		
+		<label class="col-sm-offset-1 col-sm-2 control-label">農場照片<br>(最多5張)</label>		
 		<div class="col-sm-9">
 		<input id="company_image" name="company_image[]" type="file" multiple class="file-loading form-control">
   		</div>
@@ -65,9 +65,9 @@ $("#company_cover").fileinput({showCaption: false,
 							   previewFileType: "image",
 							   browseClass: "btn btn-default edit_button",
 							   browseLabel: " 選取照片",
-							   browseIcon: '<i class="glyphicon glyphicon-picture"></i>',
+							   browseIcon: '<i class="glyphicon glyphicon-plus"></i>',
 							   uploadClass: "btn btn-default edit_button",
-							   uploadLabel: "上傳",
+							   uploadLabel: " 上傳",
 							   uploadIcon: '<i class="glyphicon glyphicon-upload"></i>',
 						       uploadUrl: "/companies/<%=@company.id %>/companyCoverUpload", // server upload action
 						       uploadAsync: true,
@@ -93,7 +93,10 @@ $("#company_image").fileinput({showCaption: false,
 							   previewFileType: "image",
 							   browseClass: "btn btn-default edit_button",
 							   browseLabel: " 選取照片",
-							   browseIcon: '<i class="glyphicon glyphicon-picture"></i>',						 				
+							   browseIcon: '<i class="glyphicon glyphicon-plus"></i>',
+							   uploadClass: "btn btn-default edit_button",
+							   uploadLabel: " 上傳",
+							   uploadIcon: '<i class="glyphicon glyphicon-upload"></i>',					 				
 						       uploadUrl: "/companies/<%=@company.id %>/companyImagesUpload", // server upload action
 						       uploadAsync: true,
 						       maxFileCount: 5,
