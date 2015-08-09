@@ -42,7 +42,7 @@
   		</div>
   	</div>  
 	<div class="form-group">
-		<label class="col-sm-offset-1 col-sm-2 control-label">農場照片</label>		
+		<label class="col-sm-offset-1 col-sm-2 control-label">農場照片<br>(至多5張)</label>		
 		<div class="col-sm-9">
 		<input id="company_image" name="company_image[]" type="file" multiple class="file-loading form-control">
   		</div>
@@ -51,7 +51,7 @@
 	<div class="form-group">
 		<div class="col-sm-offset-3 col-sm-10">
 			<%= f.submit '儲存',  class: "btn btn-success add_button", style: 'margin-right: 5px;'  %>
-			<%= f.submit '預覽', formaction: "/companies/preview/"+@company.id.to_s, class: "btn btn-default edit_button"%>					
+			<!--<%= f.submit '預覽', formaction: "/companies/preview/"+@company.id.to_s, class: "btn btn-default edit_button"%>-->					
 		</div>
 	</div>	
 <% end %>

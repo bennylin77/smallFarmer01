@@ -1,15 +1,17 @@
 <div class="container-fluid">
 	<div class="row">
         <div class="col-sm-3 col-lg-2 sidebar">
-			<svg width="160" height="100" class="center-block">
+          <%=link_to current_user.companies.first do%>
+		  <svg width="160" height="100" class="center-block">
 			  <defs>
 				 <clipPath id="clipPolygon">
       				<path d="M80,0 L160,60 L160,160 L0,160 L0,60z" />
 				 </clipPath>
 			  </defs>
 			  <image clip-path="url(#clipPolygon)" xlink:href="<%=current_user.companies.first.cover.url%>" width="160px" height="130px"  />
-			</svg>    		      
+		  </svg>    		      
           <div class="sidebar_info_title"><%=current_user.companies.first.name%></div>      
+          <%end%>
           <ul class="description-sidebar hidden-xs">         	
 	          <li>
 	          	<div class='description-sidebar-container'>

@@ -7,7 +7,7 @@
 </div>
 <div class="col-sm-2 vmiddle text-center">
 	<%= image_tag order.invoice.user.avatar.url, class: 'img-circle', size: '70x70' %>
-	<div><%= order.invoice.user.email.gsub(/@.*$/, '') %></div>			
+	<div><%= order.invoice.user.last_name %><%= order.invoice.user.first_name %></div>			
 </div>
 <div class="col-sm-2 vmiddle text-center">
 	<%=link_to order.quantity.to_s+'箱 ( '+("%g" % order.product_boxing.quantity)+Hash[unitOptions].rassoc(order.product_boxing.product.unit).first+'/箱 )', '/orders/index?called_smallfarmer_c=false', class: 'notification_link'%>

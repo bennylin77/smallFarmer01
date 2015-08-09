@@ -8,7 +8,7 @@
 		</div>	
 		<div class="col-sm-3 vmiddle text-center">
 			<%= image_tag notification.comment.user.avatar.url, class: 'img-circle', size: '70x70' %>
-			<div><%= notification.comment.user.email.gsub(/@.*$/, '') %></div>				
+			<div><%= notification.comment.user.last_name %><%= notification.comment.user.first_name %></div>				
 		</div>
 		<div class="col-sm-5 vmiddle text-center">		
 			<div class="talkbubble">
