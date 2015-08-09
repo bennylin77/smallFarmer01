@@ -124,12 +124,7 @@
 			<%if o.called_smallfarmer_c%>
 			<div class="text-center">&darr;</div>							
 			<div class="text-center">在<%= o.called_smallfarmer_at.strftime("%Y-%m-%d %H:%M:%S")%><br>農夫已處理</div>
-			<%end%>	
-			<%if o.seven_days_c%>	
-			<div class="text-center">
-				<%=image_tag 'seven_days.png', class: '', style: 'width: 100px; margin: 5px;'  %>					
-			</div>
-			<%end%>            
+			<%end%>	         
           </td>	  
           <td>  
           	<% o.shipments.each do |s| %>

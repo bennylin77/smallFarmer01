@@ -239,11 +239,7 @@ class InvoicesController < ApplicationController
           invoice.paid_c = true
           invoice.confirmed_c = true          
           invoice.save!
-          invoice.orders.each do |o|
-            if o.product_boxing.product.daily_capacity.to_i*3 > o.product_boxing.orders.joins(:invoice).where('invoices.confirmed_c = ? and called_smallfarmer_c = ?', true, false).sum(:quantity)     
-              o.seven_days_c = true
-              o.save!                
-            end  
+          invoice.orders.each do |o| 
             o.product_boxing.product.inventory = o.product_boxing.product.inventory - o.quantity
             o.product_boxing.product.save!               
           end            

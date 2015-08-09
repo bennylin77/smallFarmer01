@@ -7,23 +7,29 @@
 <table class="table table-bordered">
   <thead>
     <tr>
-      <th>水果編號</th>
-      <th>建立日期</th>    	
+      <th></th>     	
+      <th style="min-width: 75px;">水果編號</th>  	
       <th>水果</th>
-      <th>價錢</th>       
-      <th>出貨庫存</th>
-      <th></th>      
+      <th style="min-width: 120px;">狀態</th>        
+      <th style="min-width: 200px;">價錢</th>       
+      <th>建立日期</th>           
     </tr>
   </thead>
   <tbody>
     <% @products.each do |product| %>
       <tr>
-        <td>
-        	<%= product.id %>
+        <td class="text-center">
+        	<%if product.available_c%>
+        		<div class="btn_container"><%= link_to '下架', {controller: 'products', action: 'available', id: product}, class: 'btn btn-default edit_button', style: 'margin-right: 5px;' %></div>
+        	<%else%>
+        		<div class="btn_container"><%= link_to '上架', {controller: 'products', action: 'available', id: product}, class: 'btn btn-success add_button', style: 'margin-right: 5px;'  %></div>
+        	<%end%>
+        	<div class="btn_container"><%= link_to '編輯', edit_product_path(product), class: 'btn btn-default edit_button', style: 'margin-right: 5px;'%></div>
+        	<div class="btn_container"><%= link_to '刪除', product, method: :delete, data: { confirm: '您確定要刪除水果編號 '+product.id.to_s+' 的水果 (注意: 此動作將無法回復)?' }, class: 'btn btn-danger delete_button', style: 'margin-right: 5px;' %></div>
         </td>       	
         <td>
-        	<%= product.created_at.strftime("%Y-%m-%d %H:%M:%S") %>
-        </td>      	
+        	<%= product.id %>
+        </td>       	     	
 	    <td>
 	        <%= link_to product do%>
 				<%if product.product_images.first %>
@@ -33,7 +39,17 @@
 			    <%end%> 	
 	    		<div class="text-center"><%= product.name%></div>           	
 	        <%end%>   	
-	    </td>         	
+	    </td> 
+		<td>
+	        <div>總庫存量<%= product.inventory.to_i %>箱</div>	          
+	        <div>
+	        尚未付款
+			<%= Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', product.product_boxings.first.id, false, Time.now ).sum(:quantity)%>
+        	箱
+        	</div>
+            <div>日處理量 <%= product.daily_capacity.to_i %> 箱</div>
+        	<div>已出貨 <%= product.product_boxings.first.orders.where(called_smallfarmer_c: true).sum(:quantity) %> 箱</div>
+        </td>	            	
         <td>
         <%if product.product_boxings.first.quantity%><div style="margin-bottom: 5px;">每箱<%= "%g" % product.product_boxings.first.quantity %><%end%><%if product.unit%><%= Hash[unitOptions].rassoc(product.unit).first %></div><%end%>
 		<table>
@@ -53,26 +69,10 @@
 			<%end%>
 		<%end%>   
 		</table>     	    	
-        </td>
+        </td>         
         <td>
-	        <div>總庫存量<%= product.inventory.to_i %>箱</div>	          
-	        <div>
-	        尚未付款
-			<%= Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', product.product_boxings.first.id, false, Time.now ).sum(:quantity)%>
-        	箱
-        	</div>
-            <div>日處理量 <%= product.daily_capacity.to_i %> 箱</div>
-        	<div>已出貨 <%= product.product_boxings.first.orders.where(called_smallfarmer_c: true).sum(:quantity) %> 箱</div>
-        </td>        
-        <td>
-        	<%if product.available_c%>
-        		<%= link_to '下架', {controller: 'products', action: 'available', id: product}, class: 'btn btn-default edit_button', style: 'margin-right: 5px;' %>
-        	<%else%>
-        		<%= link_to '上架', {controller: 'products', action: 'available', id: product}, class: 'btn btn-success add_button', style: 'margin-right: 5px;'  %>
-        	<%end%>
-        <%= link_to '編輯', edit_product_path(product), class: 'btn btn-default edit_button', style: 'margin-right: 5px;'%>
-        <%= link_to '刪除', product, method: :delete, data: { confirm: '您確定要刪除水果編號 '+product.id.to_s+' 的水果 (注意: 此動作將無法回復)?' }, class: 'btn btn-danger delete_button', style: 'margin-right: 5px;' %>
-        </td>          
+        	<%= product.created_at.strftime("%Y-%m-%d %H:%M:%S") %>
+        </td>                         
       </tr>
     <% end %>
   </tbody>

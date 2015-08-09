@@ -147,14 +147,14 @@
 		<div class="col-sm-12">
 			<div>
 				<div class="section_title" style="display: inline-block">收件人資訊</div>
-				<!--
+				
 				<div class="checkbox" style="display: inline-block; margin-left: 20px;">
   					<label>
 				 	<%= check_box_tag 'same_as_user', true, @same_as_user == 'true'%>
 				 	同訂購人資訊
 				  </label>
 				</div>			
-				-->
+				
 			</div>
 			<div class="section_underline"></div>			
 		</div>					
@@ -213,20 +213,16 @@
 <% end %>
 
 //====================== same_as_user ======================//
-/*
+
 $('#same_as_user').change(function() {
    if ( this.checked )
    {
-   		$('#receiver_last_name').val($('#user_addresses_attributes_0_last_name').val())	
-   		$('#receiver_first_name').val($('#user_addresses_attributes_0_first_name').val())	  		
-   		$('#receiver_phone_no').val($('#user_addresses_attributes_0_phone_no').val())	 	
-    	$('#receiver_address').val($('#user_addresses_attributes_0_address').val())			   
-    	$("[name='receiver_county']").val($("[name='user[addresses_attributes][0][county]']").val()).change();	
-    	$("input[name='postal']").val($("[name='user[addresses_attributes][0][postal]']").val())	 
-    	$("[name='receiver_district']").val($("[name='user[addresses_attributes][0][district]']").val())	
+   		$('#receiver_last_name').val($('#user_last_name').val())	
+   		$('#receiver_first_name').val($('#user_first_name').val())	  		
+   		$('#receiver_phone_no').val($('#user_phone_no').val())	 	
    }
 });
-*/
+
 //====================== price ======================//
 <% unless @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS'].to_s%> 
 	$('.extra_cash_flow_fee').hide()
