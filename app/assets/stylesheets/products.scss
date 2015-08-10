@@ -224,20 +224,26 @@
   background: #de562c; 
 }
 .review_tasty_bg{
-  background: #e79568; 
+  background: #f69609; 
 }
 .review_common_bg{
-  background: #FFCC99; 
+  background: #fbc507; 
+}
+.review_unappealing_bg{
+  background: #be6f06; 
 }
 .review_delicious{
   color: #de562c;
 }
 .review_tasty{
-  color: #e79568;
+  color: #f69609;
 }
 .review_common{
-  color: #FFCC99;
+  color: #fbc507;
 } 
+.review_unappealing{
+  color: #be6f06;
+}
 @media (max-width: 480px) {
   .review_title{
     font-size: 17px !important; 

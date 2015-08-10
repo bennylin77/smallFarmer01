@@ -14,6 +14,7 @@ class OrdersController < ApplicationController
       @order.called_smallfarmer_at = Time.now
       @order.shipments.each do  |s|
         s.status = GLOBAL_VAR['ORDER_STATUS_CONFIRMED']   
+        s.save!
       end  
       @order.save!
       notify( @order.invoice.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_UPDATING_INVOICE'], 

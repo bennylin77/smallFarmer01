@@ -21,7 +21,7 @@ class NotificationsController < ApplicationController
     render json: { quantity: current_user.notifications.where(read_c: false).size }
   end
 
-  def review     
+  def review    
     invoice = @notification.invoice     
     if invoice.coupon.blank?
       params[:orders_id].each_with_index do |o, index|
@@ -49,7 +49,8 @@ class NotificationsController < ApplicationController
       render json: {type: 'success', message: '您獲得'+coupon.amount.to_i.to_s+'元'}            
     else   
       render json: {type: 'warning', message: '您已評論過'}      
-    end       
+    end   
+     
   end
 
   private

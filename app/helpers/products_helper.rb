@@ -14,6 +14,8 @@ module ProductsHelper
       'review_tasty_bg'
     when GLOBAL_VAR['ORDER_REVIEW_COMMON']     
       'review_common_bg'    
+    when GLOBAL_VAR['ORDER_REVIEW_UNAPPEALING']     
+      'review_unappealing_bg'       
     end            
   end
   
@@ -23,8 +25,10 @@ module ProductsHelper
       'review_delicious'
     when GLOBAL_VAR['ORDER_REVIEW_TASTY']
       'review_tasty'
-    when GLOBAL_VAR['ORDER_REVIEW_COMMON']     
+    when GLOBAL_VAR['ORDER_REVIEW_COMMON']       
       'review_common'    
+    when GLOBAL_VAR['ORDER_REVIEW_UNAPPEALING']     
+      'review_unappealing'       
     end            
   end  
 end

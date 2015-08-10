@@ -24,7 +24,15 @@
 				<div class="review_block3_number review_block_number review_common" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_at IS NOT NULL and review_score = ? ', @product.id, GLOBAL_VAR['ORDER_REVIEW_COMMON']).count %>'>
 				</div>					
 				</div>
-			</li>				
+			</li>	
+			<li>
+				<div class="review_title">不太好吃</div>	
+				<div class="review_block_bar">									
+				<div class="review_block4_bar review_block_bar_inner review_unappealing_bg"></div>	
+				<div class="review_block4_number review_block_number review_unappealing" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_at IS NOT NULL and review_score = ? ', @product.id, GLOBAL_VAR['ORDER_REVIEW_UNAPPEALING']).count %>'>
+				</div>					
+				</div>
+			</li>						
 		</ul>	
 	</div>	
 </div>
@@ -32,23 +40,26 @@
 var delicious_count = $('.review_delicious').attr("data-count")
 var tasty_count = $('.review_tasty').attr("data-count")
 var common_count = $('.review_common').attr("data-count")
-var max_count = Math.max( delicious_count, tasty_count, common_count); 
+var unappealing_count = $('.review_unappealing').attr("data-count")
+var max_count = Math.max( delicious_count, tasty_count, common_count, unappealing_count); 
 
 $('.review_delicious').html(delicious_count);
 $('.review_tasty').html(tasty_count);
 $('.review_common').html(common_count);
-
+$('.review_unappealing').html(unappealing_count);
 var controller = new ScrollMagic.Controller();
 new ScrollMagic.Scene({triggerElement: ".product_section_title"})
 		.addTo(controller)
 		.on('start', function(e){
 			$('.review_block1_bar').animate({"width": 100*(delicious_count/max_count)}, 1000)
 			$('.review_block2_bar').animate({"width": 100*(tasty_count/max_count)}, 1000)
-			$('.review_block3_bar').animate({"width": 100*(common_count/max_count)}, 1000)				
+			$('.review_block3_bar').animate({"width": 100*(common_count/max_count)}, 1000)
+			$('.review_block4_bar').animate({"width": 100*(unappealing_count/max_count)}, 1000)				
 		}).on('leave', function(e){
 			$('.review_block1_bar').animate({"width": 0}, 0)
 			$('.review_block2_bar').animate({"width": 0}, 0)
-			$('.review_block3_bar').animate({"width": 0}, 0)				
+			$('.review_block3_bar').animate({"width": 0}, 0)
+			$('.review_block4_bar').animate({"width": 0}, 0)							
 		})
 </script>
 	
