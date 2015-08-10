@@ -27,12 +27,18 @@ module OrdersHelper
   end  
   
   def orderReviewOptions
-    [['超級難吃', GLOBAL_VAR['ORDER_REVIEW_UNEATABLE']],
-     ['難吃', GLOBAL_VAR['ORDER_REVIEW_UNAPPEALING']], 
+    [['不好吃', GLOBAL_VAR['ORDER_REVIEW_UNEATABLE']],
+     ['不太好吃', GLOBAL_VAR['ORDER_REVIEW_UNAPPEALING']], 
      ['普通', GLOBAL_VAR['ORDER_REVIEW_COMMON']],     
      ['好吃', GLOBAL_VAR['ORDER_REVIEW_TASTY']],
      ['超好吃', GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']]]     
   end 
+  
+  def orderShipmentReviewOptions
+    [['慢', GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_SLOW']],
+     ['普通', GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_COMMON']], 
+     ['快', GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_FAST']]]     
+  end   
   
   def tCatStatusOptions
     [['--', 0],
