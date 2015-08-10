@@ -23,11 +23,11 @@
 		    </div>	 
 			<div class="input-group notification_review_radioBtn">
 		    	<div class="btn-group notification_shipment_radioBtn">
-		    		<a class="btn btn-sm notification_review_active    review_delicious review_delicious_bg" data-toggle="shipment_review_score_<%= o.id %>" data-title="<%= GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_FAST'] %>" style="">寄送很快</a>
+		    		<a class="btn btn-sm notification_review_active    review_delicious review_delicious_bg" data-toggle="shipment_review_score_<%= o.id %>" data-title="<%= GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_FAST'] %>" style="">寄送快</a>
 		            <a class="btn btn-sm notification_review_notActive review_common review_common_bg" data-toggle="shipment_review_score_<%= o.id %>" data-title="<%= GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_COMMON'] %>">寄送普通</a>
 		    		<a class="btn btn-sm notification_review_notActive review_unappealing review_unappealing_bg" data-toggle="shipment_review_score_<%= o.id %>" data-title="<%= GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_SLOW'] %>">寄送慢</a>
 		    	</div>
-		    	<input type="hidden" name="review_score_<%= o.id %>" id="review_score_<%= o.id %>" vaule="<%= GLOBAL_VAR['ORDER_REVIEW_DELICIOUS'] %>">
+		    	<input type="hidden" name="shipment_review_score_<%= o.id %>" id="shipment_review_score_<%= o.id %>" vaule="<%= GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_FAST'] %>">
 		    </div>			       
 			<div class="talkbubble">
 				<%if o.review_at.blank?%>
