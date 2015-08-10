@@ -1,88 +1,86 @@
 <%= form_for(@product, html: {class: "form-horizontal", role: "form", multipart: true}) do |f| %>
 	<div class="form-group">
-		<label class="col-sm-offset-1 col-sm-2 control-label">水果名稱</label>
-		<div class="col-sm-6">
+		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">水果名稱</label>
+		<div class="col-sm-10 col-md-6">
 			<%= f.text_field :name, placeholder: '水果名稱', class: "form-control" %>
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="col-sm-offset-1 col-sm-2 control-label">水果介紹</label>
-		<div class="col-sm-6">
+		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">水果介紹</label>
+		<div class="col-sm-10 col-md-6">
 			<%= f.text_area :description, placeholder: '水果介紹', class: "form-control", rows: '5' %>
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="col-sm-offset-1 col-sm-2 control-label">保存方式</label>
-		<div class="col-sm-6">
+		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">保存方式</label>
+		<div class="col-sm-10 col-md-6">
 			<%= f.text_area :preservation, placeholder: '保存方式', class: "form-control" %>
 		</div>
 	</div>		
 	<div class="form-group text-danger">
-		<label class="col-sm-offset-1 col-sm-2 control-label">水果總庫存量</label>
-		<div class="col-sm-2">
+		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">水果總庫存量</label>
+		<div class="col-sm-5 col-md-2">
 			<%= f.number_field :inventory, placeholder: '水果總庫存量', class: "form-control" %>
 		</div>
-		<div class="col-sm-2">
+		<div class="col-sm-5 col-md-2">
 			<%= f.select :unit, options_for_select(unitOptions, @product.unit), {prompt: '請選擇單位'}, class: "form-control" %>		
 		</div>			
 	</div>
 	<div class="form-group text-danger">
-		<label class="col-sm-offset-1 col-sm-2 control-label">水果日處理量</label>
-		<div class="col-sm-2">
+		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">水果日處理量</label>
+		<div class="col-sm-5 col-md-2">
 			<%= f.number_field :daily_capacity, placeholder: '水果日處理量', class: "form-control" %>
 		</div>
-		<div class="col-sm-2">
-			箱
+		<div class="col-sm-5 col-md-2">
+			<label class="control-label">箱</label>	
 		</div>			
 	</div>		
 <%= f.fields_for :product_boxings do |g| %>		 
 	<div class="form-group">
-		<label class="col-sm-offset-1 col-sm-2 control-label">每箱</label>
-		<div class="col-sm-2">
+		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">每箱</label>
+		<div class="col-sm-5 col-md-2">
 			<%= g.text_field :quantity, placeholder: '數量', class: "form-control" %>				
 		</div>
-		<div class="col-sm-2">		
+		<div class="col-sm-5 col-md-2">		
 			<label class="boxing_unit control-label"><%unless @product.unit.blank?%><%= Hash[unitOptions].rassoc(@product.unit).first%><%else%>--<%end%></label>				
 		</div>	
 	</div>					
 	<%= g.fields_for :product_pricings do |h| %>	
 		<%if h.object.quantity == 1%>
 		<div class="form-group">
-			<label class="col-sm-offset-1 col-sm-2 control-label"></label>
-			<div class="col-sm-2">		
+			<div class="col-sm-offset-2 col-md-offset-3 col-md-2 col-sm-2">		
 				<label class="control-label">
 				1<%= h.hidden_field :quantity, class: "form-control" %>					
 				</label>				
 			</div>	
-			<div class="col-sm-1">		
+			<div class="col-sm-2 col-md-2">		
 				<label class="control-label">箱</label>				
 			</div>	
-			<div class="col-sm-1">		
+			<div class="col-sm-2 col-md-1">		
 				<label class="control-label">每箱賣</label>				
 			</div>									
-			<div class="col-sm-2">
+			<div class="col-sm-2 col-md-2">
 			<%= h.number_field :price, class: "form-control" %>	
 			</div>			
-			<div class="col-sm-2">		
+			<div class="col-sm-2 col-md-2">		
 				<label class="control-label">元(不含運)</label>				
 			</div>		
 		</div>	
 		<%else%>
 		<div class="form-group">
-			<label class="col-sm-offset-1 col-sm-2 control-label"></label>
-			<div class="col-sm-2">
+			<div class="col-sm-offset-2 col-md-offset-3 col-md-2 col-sm-2">
 				<%= h.number_field :quantity, class: "form-control" %>
 			</div>	
-			<div class="col-sm-1">		
+			<div class="col-sm-2 col-md-2">		
 				<label class="control-label">箱以上(含)</label>				
 			</div>	
-			<div class="col-sm-1">		
+			<div class="col-sm-2 col-md-1">		
 				<label class="control-label">每箱賣</label>				
 			</div>				
-			<div class="col-sm-2">
+			<div class="col-sm-2 col-md-2">
 				<%= h.number_field :price, class: "form-control" %>
 			</div>		
-			<div class="col-sm-2">		
+			<div class="col-sm-2 col-md-2">		
 				<label class="control-label">元(不含運)</label>				
 			</div>					
 		</div>			
@@ -90,13 +88,13 @@
 	<%end%>	 	
 <%end%>		
 		<div class="form-group">
-			<label class="col-sm-offset-1 col-sm-2 control-label">水果照片<br>(最多5張)</label>		
-			<div class="col-sm-6">
+			<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">水果照片<br>(最多5張)</label>		
+			<div class="col-sm-9">
 			<input id="product_image" name="product_image[]" type="file" multiple class="file-loading">
 	  		</div>
 	  	</div> 
 		<div class="form-group">
-			<div class="col-sm-offset-3 col-sm-10">
+			<div class="col-sm-offset-2 col-md-offset-3 col-md-10">
 				<%= f.submit '儲存',  class: "btn btn-success add_button", style: 'margin-right: 5px;'  %>
 				<!--<%= f.submit '預覽', formaction: "/products/preview/"+@product.id.to_s, class: "btn btn-default edit_button"%>-->							        
 			</div>

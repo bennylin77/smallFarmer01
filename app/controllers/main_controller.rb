@@ -22,7 +22,7 @@ class MainController < ApplicationController
   end
   
   def under
-    render layout: 'temp'
+    #render layout: 'temp'
   end
   
   def surveyFarmer

@@ -15,8 +15,8 @@
     <th>農場編號</th>  
 	<th>農場主</th>	  	    	
 	<th>農場名稱</th>
-	<th>聯絡電話</th>  
-	<th>聯絡地址</th>	
+	<th>聯絡方式</th>  
+	<th>匯款帳號</th> 	
 	<th>營運狀態</th>		
 	<th></th>							 		    
   </tr>
@@ -28,8 +28,11 @@
     	<%= c.user.last_name%><%= c.user.first_name%>
     </td>     	
     <td><%= c.name%></td>    
-    <td><%unless c.phone_no.blank?%><%= c.phone_no.gsub(/^\+886/, '0')  %><%end%></td> 
-    <td><%= c.postal%> <%= c.county%><%= c.district%><%= c.address%></td>    	 	                              	     
+    <td>
+    	<%= c.postal%> <%= c.county%><%= c.district%><%= c.address%><br>
+		<%unless c.phone_no.blank?%><%= c.phone_no.gsub(/^\+886/, '0')  %><%end%>    
+    </td>  
+    <td></td>       	 	                              	     
   	<td>
     	<div class="form-group">
     		<div class="col-sm-12">

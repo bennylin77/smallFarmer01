@@ -54,9 +54,6 @@ ActiveRecord::Schema.define(version: 20150808040046) do
     t.string   "cover_content_type"
     t.integer  "cover_file_size"
     t.datetime "cover_updated_at"
-    t.string   "name"
-    t.text     "description"
-    t.text     "words"
     t.integer  "user_id"
     t.boolean  "deleted_c",          default: false, null: false
     t.boolean  "activated_c",        default: true,  null: false
@@ -67,6 +64,10 @@ ActiveRecord::Schema.define(version: 20150808040046) do
     t.string   "district"
     t.string   "address"
     t.string   "country"
+    t.string   "bank_account"
+    t.string   "name"
+    t.text     "description"
+    t.text     "words"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -172,6 +173,7 @@ ActiveRecord::Schema.define(version: 20150808040046) do
     t.integer  "quantity"
     t.float    "shipping_rates",        limit: 24
     t.integer  "review_score"
+    t.integer  "shipment_review_score"
     t.string   "review_feedback"
     t.datetime "review_at"
     t.boolean  "canceled_c",                       default: false, null: false
@@ -180,9 +182,6 @@ ActiveRecord::Schema.define(version: 20150808040046) do
     t.datetime "called_smallfarmer_at"
     t.boolean  "called_logistics_c",               default: false, null: false
     t.datetime "called_logistics_at"
-    t.boolean  "three_days_c",                     default: false, null: false
-    t.boolean  "five_days_c",                      default: false, null: false
-    t.boolean  "seven_days_c",                     default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
