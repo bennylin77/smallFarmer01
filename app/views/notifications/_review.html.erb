@@ -20,7 +20,15 @@
 		    		<a class="btn btn-sm notification_review_notActive review_unappealing review_unappealing_bg" data-toggle="review_score_<%= o.id %>" data-title="<%= GLOBAL_VAR['ORDER_REVIEW_UNAPPEALING'] %>">不太好吃</a>		    		
 		    	</div>
 		    	<input type="hidden" name="review_score_<%= o.id %>" id="review_score_<%= o.id %>" vaule="<%= GLOBAL_VAR['ORDER_REVIEW_DELICIOUS'] %>">
-		    </div>	    
+		    </div>	 
+			<div class="input-group notification_review_radioBtn">
+		    	<div class="btn-group notification_shipment_radioBtn">
+		    		<a class="btn btn-sm notification_review_active    review_delicious review_delicious_bg" data-toggle="shipment_review_score_<%= o.id %>" data-title="<%= GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_FAST'] %>" style="">寄送很快</a>
+		            <a class="btn btn-sm notification_review_notActive review_common review_common_bg" data-toggle="shipment_review_score_<%= o.id %>" data-title="<%= GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_COMMON'] %>">寄送普通</a>
+		    		<a class="btn btn-sm notification_review_notActive review_unappealing review_unappealing_bg" data-toggle="shipment_review_score_<%= o.id %>" data-title="<%= GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_SLOW'] %>">寄送慢</a>
+		    	</div>
+		    	<input type="hidden" name="review_score_<%= o.id %>" id="review_score_<%= o.id %>" vaule="<%= GLOBAL_VAR['ORDER_REVIEW_DELICIOUS'] %>">
+		    </div>			       
 			<div class="talkbubble">
 				<%if o.review_at.blank?%>
 				<textarea name="content" class="form-control" rows="2" placeholder='有什麼評價...' id="review_feedback_<%= o.id %>"></textarea>
@@ -52,36 +60,43 @@ $('.notification_radioBtn a').on('click', function(){
 	$('a[data-toggle="'+tog+'"][data-title="'+sel+'"]').removeClass('notification_review_notActive').addClass('notification_review_active');
 })
 
+$('.notification_shipment_radioBtn a').on('click', function(){
+	var sel = $(this).data('title');
+	var tog = $(this).data('toggle');
+	$('#'+tog).prop('value', sel);	   
+	$('a[data-toggle="'+tog+'"]').not('[data-title="'+sel+'"]').removeClass('notification_review_active').addClass('notification_review_notActive');	
+	$('a[data-toggle="'+tog+'"][data-title="'+sel+'"]').removeClass('notification_review_notActive').addClass('notification_review_active');
+})
+
 function sendReview( notification_id, invoice_id, orders)
 {
 	orders_id = [];
+	shipment_review_scores = [];	
 	review_scores = [];
 	review_feedbacks = [];
 	$.each( orders, function( index, value ) {
 	  orders_id.push( value )		
+	  shipment_review_scores.push( $( "#shipment_review_score_"+value ).val() )	  
 	  review_scores.push( $( "#review_score_"+value ).val() )
 	  review_feedbacks.push( $( "#review_feedback_"+value ).val() )	  
 	});	
 	var request = $.ajax({
 		url: "/notifications/review",
 		type: "POST",
-		data: { id: notification_id, review_scores: review_scores, review_feedbacks: review_feedbacks, orders_id: orders_id },
+		data: { id: notification_id, shipment_review_scores: shipment_review_scores, review_scores: review_scores, review_feedbacks: review_feedbacks, orders_id: orders_id },
 		dataType: "json"
 		});
 		request.done(function( status ) {
 			toastr[status.type](status.message)			
 			showCoupons()						
 			showNotifications()	
-			
-			
+						
 			$.each( orders, function( index, value ) {
 			  $( "#review_feedback_"+value ).attr("disabled", "disabled")
 			  $('.notification_radioBtn a').off();				  
 			  $('.notification_button_'+notification_id).remove();			   	  
-			});			
-					
-		});
-	
+			});							
+		});	
 }	
 
 </script>	
