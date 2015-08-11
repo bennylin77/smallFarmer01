@@ -32,7 +32,9 @@
     	<%= c.postal%> <%= c.county%><%= c.district%><%= c.address%><br>
 		<%unless c.phone_no.blank?%><%= c.phone_no.gsub(/^\+886/, '0')  %><%end%>    
     </td>  
-    <td></td>       	 	                              	     
+    <td>
+    	<%=text_field_tag 'bank_account_'+c.id.to_s, c.bank_account, class: 'form-control', placeholder: '匯款帳號', onchange: 'updateBankAccount('+c.id.to_s+')'%>
+    </td>       	 	                              	     
   	<td>
     	<div class="form-group">
     		<div class="col-sm-12">
@@ -89,4 +91,22 @@
 			});	
 		}	
 	})
+
+function updateBankAccount(id)
+{
+	$.ajax({
+			type : 'GET',
+			url : '/management/updateBankAccount',
+			data : { id: id, val: $('#bank_account_'+id.toString()).val() },
+			datatype : 'json',
+			success : function(data) {
+				if (data.success) {
+					toastr['success'](data.message)										
+				} else {
+					toastr['warning'](data.message)
+				}
+			}
+			});		
+}	
+	
 </script>

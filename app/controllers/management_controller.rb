@@ -1,18 +1,19 @@
 class ManagementController < ApplicationController
   
   before_action :set_order, only: []
-  before_action :set_company, only: [:activateCompany]
+  before_action :set_company, only: [:activateCompany, :updateBankAccount]
   before_action :set_user, only: [:blockUser, :confirmPhoneNo]
   before_action :set_product, only: [:setCertification, :setSweetDegree]
   
   def index
     
   end
-  
+#======================# invoice #======================# 
   def invoices 
     @invoices = Invoice.all.paginate(page: params[:page], per_page: 60).order('id DESC')     
   end
   
+#======================# order #======================#   
   def orders
     params[:called_smallfarmer_c] = params[:called_smallfarmer_c] == 'true' ? true : false    
     params[:called_logistics_c] = params[:called_logistics_c] == 'true' ? true : false    
@@ -98,7 +99,8 @@ class ManagementController < ApplicationController
     end
     render json: {success: true}
   end  
-   
+
+#======================# company #======================#      
   def companies
     params[:activated_c] = params[:activated_c] == 'true' ? true : false              
     @companies = Company.where('activated_c = ?', params[:activated_c]).all.paginate(page: params[:page], per_page: 60).order('id DESC')     
@@ -115,6 +117,13 @@ class ManagementController < ApplicationController
     end    
   end
 
+  def updateBankAccount
+    @company.bank_account = params[:val]
+    @company.save!
+    render json: {success: true, message: '已更改農場編號 '+@company.id.to_s+' 的匯款帳號'}               
+  end  
+
+#======================# product #======================#   
   def products
     @products = Product.all.paginate(page: params[:page], per_page: 60).order('id DESC')             
   end
@@ -161,7 +170,8 @@ class ManagementController < ApplicationController
     @product.update_columns(sweet_degree: params[:val])
     render json: {success: true, message: '水果編號 '+@product.id.to_s+' 甜度已變更為'+@product.sweet_degree.to_s}     
   end
-  
+
+#======================# user #======================#     
   def users
     @users = User.all.paginate(page: params[:page], per_page: 60).order('id DESC')     
   end  

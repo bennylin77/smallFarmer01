@@ -50,6 +50,7 @@ Rails.application.routes.draw do
   post   'management/uploadTracking'    
   get    'management/companies'  
   get    'management/activateCompany'  
+  get    'management/updateBankAccount'
   get    'management/products'  
   get    'management/setCertification'   
   get    'management/setSweetDegree'  
