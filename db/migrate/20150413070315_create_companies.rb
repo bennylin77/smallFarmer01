@@ -13,7 +13,8 @@ class CreateCompanies < ActiveRecord::Migration
       t.string   :district                        
       t.string   :address 
       t.string   :country
-      
+
+      t.string  :bank_code     
       t.string  :bank_account
       t.string  :name
       t.text    :description
