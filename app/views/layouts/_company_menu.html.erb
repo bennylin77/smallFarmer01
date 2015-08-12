@@ -52,6 +52,7 @@
 			<ul class="nav nav-tabs main_backend-tabs">
 			  <li <%= active( controller: 'orders', action: 'index' )%> ><%= link_to "管理出貨", controller: 'orders', action: 'index', called_smallfarmer_c: 'false'%></li>
 			  <li <%= active( controller: '/products')%>><%= link_to "管理水果", products_url %></li>			
+			  <li <%= active( controller: '/bills')%>><%= link_to "管理帳務", controller: 'bills', action: 'index' %></li>						
 			</ul>      
 			<div class="main_backend-tab-content">  	
 			<%= yield %>

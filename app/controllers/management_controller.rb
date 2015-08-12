@@ -74,14 +74,41 @@ class ManagementController < ApplicationController
   def delivered 
     params[:orders].each do |o|          
       order = Order.find(o)
+      
       order.shipments.each do |s|     
         if !s.delivered_c
           s.delivered_c = true
           s.delivered_at = Time.now 
           s.status = GLOBAL_VAR['ORDER_STATUS_DELIVERED'] 
-          s.save! 
+          #s.save! 
         end  
       end 
+      
+      company = order.product_boxing.product.company
+      
+      #GLOBAL_VAR['BILL_PERIOD']
+      logger.info 11111111111111111111111
+      bill = company.bills.where("end_at >= ?", Time.now).first
+      if bill.blank?
+        logger.info  Date.civil(Time.now.year, Time.now.month, -1)       
+=begin        
+        bill = Bill.new(title: '小農一號合作農場帳單表', user_first_name: company.user.first_name, user_last_name: company.user.last_name,
+                        company_name: company.name , company_phone_no: company.phone_no, company_postal: company.postal,
+                        company_county: company.county, company_district: company.district, company_address: company.address,
+                        company_country: company.country, bank_code: company.bank_code, bank_account: company.bank_account)
+=end 
+        bill = Bill.new
+        
+        bill.begin.at = 
+        bill.end_at =
+
+        
+      else
+        logger.info  Date.civil(2016, 2, -1)
+            
+      end
+      
+=begin     
       #
       if order.review_at.blank?
         delivered_all = true          
@@ -106,8 +133,10 @@ class ManagementController < ApplicationController
                                       
           #result = RestClient.get( Rails.configuration.mitake_sm_send_get_url, params: data)                                                              
         end
-      end                
+      end    
+=end                   
     end
+   
     render json: {success: true}
   end  
 

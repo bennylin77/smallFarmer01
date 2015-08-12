@@ -1,7 +1,8 @@
 class Company < ActiveRecord::Base
   belongs_to :user
   has_many   :company_images, dependent: :destroy   
-  has_many   :products, dependent: :destroy   
+  has_many   :products, dependent: :destroy 
+  has_many   :bills
 
   has_attached_file :cover, 
                     styles: { medium: "1024x1024>" },

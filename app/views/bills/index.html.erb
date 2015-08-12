@@ -1,0 +1,5 @@
+<div class="row">
+	<div class="col-sm-offset-3 col-sm-6 col-xs-12">
+		<%=select_tag "people", options_from_collection_for_select(current_user.companies.first.bills, "id", "title"), class: 'form-control'%>
+	</div>
+</div>	

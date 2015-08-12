@@ -24,6 +24,8 @@ Rails.application.routes.draw do
   get    'invoices/cancel'    
      
   get    'orders/index'
+  
+  get    'bills/index'
 
   post   'carts/addCart'
   post   'carts/updateCart'  

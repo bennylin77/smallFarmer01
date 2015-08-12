@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150808040046) do
+ActiveRecord::Schema.define(version: 20150812093824) do
 
   create_table "addresses", force: true do |t|
     t.integer  "user_id"
@@ -26,6 +26,35 @@ ActiveRecord::Schema.define(version: 20150808040046) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "bills", force: true do |t|
+    t.integer  "company_id"
+    t.string   "title"
+    t.string   "user_first_name"
+    t.string   "user_last_name"
+    t.string   "company_name"
+    t.string   "company_phone_no"
+    t.string   "company_postal"
+    t.string   "company_county"
+    t.string   "company_district"
+    t.string   "company_address"
+    t.string   "company_country"
+    t.string   "bank_code"
+    t.string   "bank_account"
+    t.float    "total_sales",               limit: 24, default: 0.0, null: false
+    t.float    "total_shipping_fees",       limit: 24, default: 0.0, null: false
+    t.float    "total_cash_flow_fees",      limit: 24, default: 0.0, null: false
+    t.float    "total_administration_fees", limit: 24, default: 0.0, null: false
+    t.float    "total_coupon_fees",         limit: 24, default: 0.0, null: false
+    t.float    "sales_tax",                 limit: 24, default: 0.0, null: false
+    t.float    "transfer_fee",              limit: 24, default: 0.0, null: false
+    t.datetime "begin_at"
+    t.datetime "end_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "bills", ["company_id"], name: "index_bills_on_company_id", using: :btree
 
   create_table "carts", force: true do |t|
     t.integer  "quantity"
@@ -228,6 +257,7 @@ ActiveRecord::Schema.define(version: 20150808040046) do
     t.integer  "daily_capacity"
     t.integer  "unit"
     t.boolean  "deleted_c",      default: false, null: false
+    t.datetime "deleted_at"
     t.boolean  "available_c",    default: false, null: false
     t.datetime "available_at"
     t.integer  "company_id"
