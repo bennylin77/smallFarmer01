@@ -98,9 +98,21 @@ class ManagementController < ApplicationController
                         company_country: company.country, bank_code: company.bank_code, bank_account: company.bank_account)
 =end 
         bill = Bill.new
+        if Time.now.day <= 15 
+          logger.info Date.civil(Time.now.year, Time.now.month, 1).midnight        
+          logger.info Date.civil(Time.now.year, Time.now.month, 16).midnight-1       
+          logger.info Date.civil(Time.now.year, Time.now.month, 16).midnight        
+          logger.info Date.civil(Time.now.year, Time.now.month+1, 1).midnight-1       
+         
+         
+          bill.begin.at = Date.civil(Time.now.year, Time.now.month, 1).midnight
+          bill.end_at = Date.civil(Time.now.year, Time.now.month, 16).midnight-1
+        else
+          bill.begin.at = Date.civil(Time.now.year, Time.now.month, 16).midnight
+          bill.end_at = Date.civil(Time.now.year, Time.now.month+1, 1).midnight-1
         
-        bill.begin.at = 
-        bill.end_at =
+        end
+
 
         
       else
