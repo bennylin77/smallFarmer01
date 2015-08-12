@@ -80,17 +80,13 @@ class ManagementController < ApplicationController
           s.delivered_c = true
           s.delivered_at = Time.now 
           s.status = GLOBAL_VAR['ORDER_STATUS_DELIVERED'] 
-          #s.save! 
+          s.save! 
         end  
       end 
       
-      company = order.product_boxing.product.company
-      
-      #GLOBAL_VAR['BILL_PERIOD']
-      logger.info 11111111111111111111111
+      company = order.product_boxing.product.company   
       bill = company.bills.where("end_at >= ?", Time.now).first
       if bill.blank?
-        logger.info  Date.civil(Time.now.year, Time.now.month, -1)       
 =begin        
         bill = Bill.new(title: '小農一號合作農場帳單表', user_first_name: company.user.first_name, user_last_name: company.user.last_name,
                         company_name: company.name , company_phone_no: company.phone_no, company_postal: company.postal,
@@ -98,28 +94,16 @@ class ManagementController < ApplicationController
                         company_country: company.country, bank_code: company.bank_code, bank_account: company.bank_account)
 =end 
         bill = Bill.new
-        if Time.now.day <= 15 
-          logger.info Date.civil(Time.now.year, Time.now.month, 1).midnight        
-          logger.info Date.civil(Time.now.year, Time.now.month, 16).midnight-1       
-          logger.info Date.civil(Time.now.year, Time.now.month, 16).midnight        
-          logger.info Date.civil(Time.now.year, Time.now.month+1, 1).midnight-1       
-         
-         
-          bill.begin.at = Date.civil(Time.now.year, Time.now.month, 1).midnight
+        if Time.now.day <= 15          
+          bill.begin_at = Date.civil(Time.now.year, Time.now.month, 1).midnight
           bill.end_at = Date.civil(Time.now.year, Time.now.month, 16).midnight-1
         else
-          bill.begin.at = Date.civil(Time.now.year, Time.now.month, 16).midnight
-          bill.end_at = Date.civil(Time.now.year, Time.now.month+1, 1).midnight-1
-        
-        end
-
-
-        
-      else
-        logger.info  Date.civil(2016, 2, -1)
-            
+          bill.begin_at = Date.civil(Time.now.year, Time.now.month, 16).midnight
+          bill.end_at = ( Date.civil(Time.now.year, Time.now.month, -1)+1 ).midnight-1    
+        end   
       end
-      
+      bill.orders << order
+      bill.save!       
 =begin     
       #
       if order.review_at.blank?
