@@ -3,9 +3,8 @@
 <table class="table table-bordered table-hover">
   <tr>
     <th>水果編號</th>  	
-	<th>水果名稱</th>
-	<th>水果總庫存量</th>  
-	<th>水果日處理量</th>	
+	<th>水果</th>
+	<th>狀態</th>  
 	<th>價錢</th>	
 	<th>甜度</th>			
 	<th>
@@ -26,33 +25,61 @@
 	</th>						 		            
 	<th></th>							 		    						 		            
   </tr>
-  <% @products.each do |p| %>
-  <tr id='product_container_<%=p.id %>'>
-    <td><%= p.id %></td>  	
-    <td><%= p.name %></td>   
-    <td><%= p.inventory %>箱</td>      
-    <td><%= p.daily_capacity %>箱</td>        
+  <% @products.each do |product| %>
+  <tr id='product_container_<%=product.id %>'>
+    <td><%= product.id %></td>  	
     <td>
-		<% p.product_boxings.first.product_pricings.each do |pp| %>
-			<%if pp.quantity == 1%>	
-				<%= pp.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %>元(含運) <%if p.product_boxings.first.quantity%><%= "%g" % p.product_boxings.first.quantity %><%end%><%if p.unit%><%= Hash[unitOptions].rassoc(p.unit).first %>/箱<%end%>			
-			<%elsif pp.quantity%>
-				<%= pp.quantity %>箱以上 每箱<%= pp.price.to_i + GLOBAL_VAR['SHIPPING_RATES']%>元(含運)		
+	    <%= link_to product do%>
+			<%if product.product_images.first %>
+				<div class="text-center">
+					<%= image_tag product.product_images.first.image.url, class: 'img-circle backend_fruits_img' %>			
+			    </div>
+			<%end%> 	
+	    	<div class="text-center"><%= product.name%></div>           	
+	    <%end%>     	
+    </td>   
+    <td>
+    	<div><%if product.available_c%>上架中<%else%>已下架<%end%></div>
+		<div>總庫存量<%= product.inventory.to_i %>箱</div>	          
+	    <div>
+	        尚未付款
+			<%= Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', product.product_boxings.first.id, false, Time.now ).sum(:quantity)%>
+        	箱
+        </div>
+        <div>日處理量 <%= product.daily_capacity.to_i %> 箱</div>
+       	<div>已出貨 <%= product.product_boxings.first.orders.where(called_smallfarmer_c: true).sum(:quantity) %> 箱</div>    	
+    </td>      
+    <td>
+		<%if product.product_boxings.first.quantity%><div style="margin-bottom: 5px;">每箱<%= "%g" % product.product_boxings.first.quantity %><%end%><%if product.unit%><%= Hash[unitOptions].rassoc(product.unit).first %></div><%end%>
+		<table>
+		<%product.product_boxings.first.product_pricings.each do |p| %>
+			<%if p.quantity == 1%>	
+				<tr>
+					<td>1箱&nbsp;</td> 
+					<td>每箱賣<%= p.price.to_i %>元&nbsp;</td>
+					<td>(含運<%= p.price.to_i + GLOBAL_VAR['SHIPPING_RATES']%>元) </td>
+				</tr>
+			<%elsif p.quantity%>
+				<tr>
+					<td><%= p.quantity %>箱以上(含)&nbsp;</td>
+					<td>每箱賣<%= p.price.to_i %>元&nbsp;</td> 
+					<td>(含運<%=p.price.to_i + GLOBAL_VAR['SHIPPING_RATES']%>元) </td>	
+				</tr>
 			<%end%>
-			<br>
-		<%end%>     	
+		<%end%>   
+		</table>       	
     </td> 
   	<td>
-		<%= select_tag "sweet_degree", options_for_select((10..20).step(1), p.sweet_degree), prompt: '請選擇', class: 'form-control sweet_degree', 'data-id'=> p.id %>  		
+		<%= select_tag "sweet_degree", options_for_select((10..20).step(1), product.sweet_degree), prompt: '請選擇', class: 'form-control sweet_degree', 'data-id'=> product.id %>  		
   	</td>	    
   	<td>
     	<div class="form-group">
     		<div class="col-sm-12">
     			<div class="input-group">
     				<div id="" class="radioBtn btn-group">
-    					<a class="btn btn-primary btn-sm <%if p.GAP_c%>active<%else%>notActive<%end%>" data-toggle="GAP_<%=p.id %>" data-id="<%=p.id %>" data-title="true" data-kind="GAP" style="border: none;">是</a>
-    					<a class="btn btn-primary btn-sm <%if p.GAP_c%>notActive<%else%>active<%end%>" data-toggle="GAP_<%=p.id %>" data-id="<%=p.id %>" data-title="false" data-kind="GAP" style="border: none;">否</a>
-    					<input type="hidden" name="GAP_<%=p.id %>" id="GAP_<%=p.id %>" value="<%=p.GAP_c%>">
+    					<a class="btn btn-primary btn-sm <%if product.GAP_c%>active<%else%>notActive<%end%>" data-toggle="GAP_<%=product.id %>" data-id="<%=product.id %>" data-title="true" data-kind="GAP" style="border: none;">是</a>
+    					<a class="btn btn-primary btn-sm <%if product.GAP_c%>notActive<%else%>active<%end%>" data-toggle="GAP_<%=product.id %>" data-id="<%=product.id %>" data-title="false" data-kind="GAP" style="border: none;">否</a>
+    					<input type="hidden" name="GAP_<%=product.id %>" id="GAP_<%=product.id %>" value="<%=product.GAP_c%>">
     				</div>
     			</div>
     		</div>
@@ -63,9 +90,9 @@
     		<div class="col-sm-12">
     			<div class="input-group">
     				<div id="" class="radioBtn btn-group">
-    					<a class="btn btn-primary btn-sm <%if p.TAP_c%>active<%else%>notActive<%end%>" data-toggle="TAP_<%=p.id %>" data-id="<%=p.id %>" data-title="true" data-kind="TAP" style="border: none;">是</a>
-    					<a class="btn btn-primary btn-sm <%if p.TAP_c%>notActive<%else%>active<%end%>" data-toggle="TAP_<%=p.id %>" data-id="<%=p.id %>" data-title="false" data-kind="TAP" style="border: none;">否</a>
-    					<input type="hidden" name="TAP_<%=p.id %>" id="TAP_<%=p.id %>" value="<%=p.TAP_c%>">
+    					<a class="btn btn-primary btn-sm <%if product.TAP_c%>active<%else%>notActive<%end%>" data-toggle="TAP_<%=product.id %>" data-id="<%=product.id %>" data-title="true" data-kind="TAP" style="border: none;">是</a>
+    					<a class="btn btn-primary btn-sm <%if product.TAP_c%>notActive<%else%>active<%end%>" data-toggle="TAP_<%=product.id %>" data-id="<%=product.id %>" data-title="false" data-kind="TAP" style="border: none;">否</a>
+    					<input type="hidden" name="TAP_<%=product.id %>" id="TAP_<%=product.id %>" value="<%=product.TAP_c%>">
     				</div>
     			</div>
     		</div>
@@ -76,9 +103,9 @@
     		<div class="col-sm-12">
     			<div class="input-group">
     				<div id="" class="radioBtn btn-group">
-    					<a class="btn btn-primary btn-sm <%if p.OTAP_c%>active<%else%>notActive<%end%>" data-toggle="OTAP_<%=p.id %>" data-id="<%=p.id %>" data-title="true" data-kind="OTAP" style="border: none;">是</a>
-    					<a class="btn btn-primary btn-sm <%if p.OTAP_c%>notActive<%else%>active<%end%>" data-toggle="OTAP_<%=p.id %>" data-id="<%=p.id %>" data-title="false" data-kind="OTAP" style="border: none;">否</a>
-    					<input type="hidden" name="OTAP_<%=p.id %>" id="OTAP_<%=p.id %>" value="<%=p.OTAP_c%>">
+    					<a class="btn btn-primary btn-sm <%if product.OTAP_c%>active<%else%>notActive<%end%>" data-toggle="OTAP_<%=product.id %>" data-id="<%=product.id %>" data-title="true" data-kind="OTAP" style="border: none;">是</a>
+    					<a class="btn btn-primary btn-sm <%if product.OTAP_c%>notActive<%else%>active<%end%>" data-toggle="OTAP_<%=product.id %>" data-id="<%=product.id %>" data-title="false" data-kind="OTAP" style="border: none;">否</a>
+    					<input type="hidden" name="OTAP_<%=product.id %>" id="OTAP_<%=product.id %>" value="<%=product.OTAP_c%>">
     				</div>
     			</div>
     		</div>
@@ -89,16 +116,16 @@
     		<div class="col-sm-12">
     			<div class="input-group">
     				<div id="" class="radioBtn btn-group">
-    					<a class="btn btn-primary btn-sm <%if p.UTAP_c%>active<%else%>notActive<%end%>" data-toggle="UTAP_<%=p.id %>" data-id="<%=p.id %>" data-title="true" data-kind="UTAP" style="border: none;">是</a>
-    					<a class="btn btn-primary btn-sm <%if p.UTAP_c%>notActive<%else%>active<%end%>" data-toggle="UTAP_<%=p.id %>" data-id="<%=p.id %>" data-title="false" data-kind="UTAP" style="border: none;">否</a>
-    					<input type="hidden" name="UTAP_<%=p.id %>" id="UTAP_<%=p.id %>" value="<%=p.UTAP_c%>">
+    					<a class="btn btn-primary btn-sm <%if product.UTAP_c%>active<%else%>notActive<%end%>" data-toggle="UTAP_<%=product.id %>" data-id="<%=product.id %>" data-title="true" data-kind="UTAP" style="border: none;">是</a>
+    					<a class="btn btn-primary btn-sm <%if product.UTAP_c%>notActive<%else%>active<%end%>" data-toggle="UTAP_<%=product.id %>" data-id="<%=product.id %>" data-title="false" data-kind="UTAP" style="border: none;">否</a>
+    					<input type="hidden" name="UTAP_<%=product.id %>" id="UTAP_<%=product.id %>" value="<%=product.UTAP_c%>">
     				</div>
     			</div>
     		</div>
     	</div>
   	</td>
   	<td>
-  		<%=link_to '瀏覽', p, class: 'btn-default btn'%>
+  		<%=link_to '瀏覽', product, class: 'btn-default btn'%>
   	</td>  	  	 	 
   </tr>
   <%end%>  

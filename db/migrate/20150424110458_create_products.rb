@@ -3,11 +3,12 @@ class CreateProducts < ActiveRecord::Migration
     create_table :products do |t|
       t.string :name
       t.text :description
-      t.integer :inventory
-      t.integer :daily_capacity
-      t.integer :unit      
-      t.boolean :deleted_c, default: false, null: false
-      t.boolean :available_c, default: false, null: false
+      t.integer   :inventory
+      t.integer   :daily_capacity
+      t.integer   :unit      
+      t.boolean   :deleted_c, default: false, null: false
+      t.datetime  :deleted_at       
+      t.boolean   :available_c, default: false, null: false
       t.datetime  :available_at              
      
       
@@ -20,6 +21,7 @@ class CreateProducts < ActiveRecord::Migration
       t.boolean :OTAP_c, default: false, null: false
       t.boolean :UTAP_c, default: false, null: false
       
+      t.string  :short_URL
       
       t.timestamps
     end

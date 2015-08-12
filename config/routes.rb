@@ -50,6 +50,7 @@ Rails.application.routes.draw do
   post   'management/uploadTracking'    
   get    'management/companies'  
   get    'management/activateCompany'  
+  get    'management/updateBankCode'
   get    'management/updateBankAccount'
   get    'management/products'  
   get    'management/setCertification'   
@@ -73,7 +74,8 @@ Rails.application.routes.draw do
   match '/orders/:id/confirm' => 'orders#confirm', via: [:get], as: :confirm
 
   match '/notifications/:id/read' => 'notifications#read', via: [:get], as: :read
-
+ 
+ 
  
   devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks',
                                        registrations: "registrations" }

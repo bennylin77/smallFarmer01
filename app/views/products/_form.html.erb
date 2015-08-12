@@ -35,36 +35,27 @@
 			<label class="control-label">箱</label>	
 		</div>			
 	</div>		
-<%= f.fields_for :product_boxings do |g| %>		 
-	<div class="form-group">
-		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">每箱</label>
-		<div class="col-sm-5 col-md-2">
-			<%= g.text_field :quantity, placeholder: '數量', class: "form-control" %>				
-		</div>
-		<div class="col-sm-5 col-md-2">		
-			<label class="boxing_unit control-label"><%unless @product.unit.blank?%><%= Hash[unitOptions].rassoc(@product.unit).first%><%else%>--<%end%></label>				
-		</div>	
-	</div>					
+<%= f.fields_for :product_boxings do |g| %>		 				
 	<%= g.fields_for :product_pricings do |h| %>	
 		<%if h.object.quantity == 1%>
 		<div class="form-group">
-			<div class="col-sm-offset-2 col-md-offset-3 col-md-2 col-sm-2">		
-				<label class="control-label">
-				1<%= h.hidden_field :quantity, class: "form-control" %>					
-				</label>				
-			</div>	
-			<div class="col-sm-2 col-md-2">		
-				<label class="control-label">箱</label>				
-			</div>	
-			<div class="col-sm-2 col-md-1">		
-				<label class="control-label">每箱賣</label>				
-			</div>									
+			<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">每箱</label>
 			<div class="col-sm-2 col-md-2">
+			<%= h.hidden_field :quantity, class: "form-control" %>				
 			<%= h.number_field :price, class: "form-control" %>	
-			</div>			
+			</div>				
 			<div class="col-sm-2 col-md-2">		
 				<label class="control-label">元(不含運)</label>				
-			</div>		
+			</div>	
+			<div class="col-sm-2 col-md-1">		
+				<label class="control-label">共</label>				
+			</div>							
+			<div class="col-sm-2 col-md-2">
+				<%= g.text_field :quantity, placeholder: '數量', class: "form-control" %>				
+			</div>
+			<div class="col-sm-2 col-md-2">		
+				<label class="boxing_unit control-label"><%unless @product.unit.blank?%><%= Hash[unitOptions].rassoc(@product.unit).first%><%else%>--<%end%></label>				
+			</div>					
 		</div>	
 		<%else%>
 		<div class="form-group">

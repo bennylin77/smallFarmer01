@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(version: 20150808040046) do
     t.string   "district"
     t.string   "address"
     t.string   "country"
+    t.string   "bank_code"
     t.string   "bank_account"
     t.string   "name"
     t.text     "description"
@@ -236,6 +237,7 @@ ActiveRecord::Schema.define(version: 20150808040046) do
     t.boolean  "TAP_c",          default: false, null: false
     t.boolean  "OTAP_c",         default: false, null: false
     t.boolean  "UTAP_c",         default: false, null: false
+    t.string   "short_URL"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

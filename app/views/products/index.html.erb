@@ -11,7 +11,8 @@
       <th style="min-width: 75px;">水果編號</th>  	
       <th>水果</th>
       <th style="min-width: 120px;">狀態</th>        
-      <th style="min-width: 280px;">價錢</th>       
+      <th style="min-width: 280px;">價錢</th>
+      <th>縮網址</th>        
       <th>建立日期</th>           
     </tr>
   </thead>
@@ -56,20 +57,23 @@
 		<%product.product_boxings.first.product_pricings.each do |p| %>
 			<%if p.quantity == 1%>	
 				<tr>
-					<td>1箱&nbsp;</td> 
-					<td>每箱賣<%= p.price.to_i %>元&nbsp;</td>
+					<td>每箱<%= p.price.to_i %>元&nbsp;</td>
 					<td>(含運<%= p.price.to_i + GLOBAL_VAR['SHIPPING_RATES']%>元) </td>
 				</tr>
 			<%elsif p.quantity%>
 				<tr>
 					<td><%= p.quantity %>箱以上(含)&nbsp;</td>
-					<td>每箱賣<%= p.price.to_i %>元&nbsp;</td> 
+					<td>每箱<%= p.price.to_i %>元&nbsp;</td> 
 					<td>(含運<%=p.price.to_i + GLOBAL_VAR['SHIPPING_RATES']%>元) </td>	
 				</tr>
 			<%end%>
 		<%end%>   
 		</table>     	    	
-        </td>         
+        </td>   
+        <td>
+        	<%= link_to product.short_URL, product.short_URL %><br>
+        	<b>分享至line等社群</b>
+        </td>      
         <td>
         	<%= product.created_at.strftime("%Y-%m-%d %H:%M:%S") %>
         </td>                         

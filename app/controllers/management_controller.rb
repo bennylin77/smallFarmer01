@@ -1,7 +1,8 @@
 class ManagementController < ApplicationController
+  before_filter :authenticate_user!
   
   before_action :set_order, only: []
-  before_action :set_company, only: [:activateCompany, :updateBankAccount]
+  before_action :set_company, only: [:activateCompany, :updateBankAccount, :updateBankCode]
   before_action :set_user, only: [:blockUser, :confirmPhoneNo]
   before_action :set_product, only: [:setCertification, :setSweetDegree]
   
@@ -93,7 +94,17 @@ class ManagementController < ApplicationController
         end      
         if delivered_all
           notify( order.invoice.user, { category: GLOBAL_VAR['NOTIFICATION_PROMOTION'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_REVIEW'], 
-                                        invoice_id: order.invoice.id})               
+                                        invoice_id: order.invoice.id}) 
+
+          System.sendReviewNotification(order.invoice).deliver   
+          data = { username: Rails.configuration.mitake_username, 
+                   password: Rails.configuration.mitake_password,
+                   dstaddr: params[:phone_no].gsub(/^\+886/, '0'),
+                   encoding: 'UTF8',
+                   smbody: '您的訂單已交付完畢，立刻評價獲得 4% 回饋金'  
+                   } 
+                                      
+          #result = RestClient.get( Rails.configuration.mitake_sm_send_get_url, params: data)                                                              
         end
       end                
     end
@@ -117,9 +128,12 @@ class ManagementController < ApplicationController
     end    
   end
 
+  def updateBankCode
+    @company.update_columns(bank_code: params[:val])
+    render json: {success: true, message: '已更改農場編號 '+@company.id.to_s+' 的銀行代碼'}               
+  end 
   def updateBankAccount
-    @company.bank_account = params[:val]
-    @company.save!
+    @company.update_columns(bank_account: params[:val])    
     render json: {success: true, message: '已更改農場編號 '+@company.id.to_s+' 的匯款帳號'}               
   end  
 

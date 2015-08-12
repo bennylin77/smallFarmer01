@@ -26,3 +26,6 @@ gem 'will_paginate-bootstrap'
 gem 'rest-client'
 gem 'roo'
 gem 'google_drive'
+gem 'googl'
+
+

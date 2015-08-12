@@ -3,14 +3,15 @@ class ProductsController < ApplicationController
   before_filter :authenticate_user!, except: [:show] 
   
   before_action only: [:edit, :update, :preview, :destroy, :productImagesUpload, :productImagesDelete] { |c| c.ProductCheckUser(params[:id])}    
+   
   before_action :set_product, only: [:show, :edit, :update, :preview, :destroy, :productImagesUpload, :productImagesDelete, :available]
+  before_action :available?, only: [:show]
 
   def index
     @products = current_user.companies.first.products
   end
 
   def show
-
   end
 
   def new
@@ -19,7 +20,9 @@ class ProductsController < ApplicationController
     p_b.product_pricings.build(quantity: 1)   
     p_b.product_pricings.build()       
     product.company = current_user.companies.first
-    product.save!    
+    product.save!           
+    url = Googl.shorten(Rails.configuration.smallfarmer01_host+'/products/'+product.id.to_s, "", Rails.configuration.google_API_key )         
+    product.update_columns(short_URL: url.short_url)             
     redirect_to edit_product_path(product)
   end
 =begin
@@ -101,7 +104,7 @@ class ProductsController < ApplicationController
       @company = current_user.companies.first
       @company.valid?(false) 
       unless @company.errors.any?
-        @product.update(available_c: true)
+        @product.update(available_c: true, available_at: Time.now)
         unless @product.errors.any?
           flash[:success] ='成功上架水果'        
           redirect_to products_url
@@ -116,6 +119,14 @@ class ProductsController < ApplicationController
   
   
   private
+  
+    def available?
+      unless @product.available_c or @product.company.user == current_user
+        flash[:warning] = '商品還未上架'
+        redirect_to root_url 
+      end
+    end
+  
     def set_product
       @product = Product.find(params[:id])
     end

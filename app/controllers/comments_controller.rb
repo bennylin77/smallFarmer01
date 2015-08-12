@@ -1,5 +1,4 @@
 class CommentsController < ApplicationController
-
   before_filter :authenticate_user!, except: [:show] 
   
   before_action :set_comment, only: [:delete, :postSub]

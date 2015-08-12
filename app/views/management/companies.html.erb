@@ -16,7 +16,12 @@
 	<th>農場主</th>	  	    	
 	<th>農場名稱</th>
 	<th>聯絡方式</th>  
-	<th>匯款帳號</th> 	
+	<th>
+		<div class="row">
+  		<div class="col-sm-3">銀行代碼</div>			
+  		<div class="col-sm-9">匯款帳號</div>
+  		</div>
+  	</th> 	
 	<th>營運狀態</th>		
 	<th></th>							 		    
   </tr>
@@ -33,7 +38,13 @@
 		<%unless c.phone_no.blank?%><%= c.phone_no.gsub(/^\+886/, '0')  %><%end%>    
     </td>  
     <td>
-    	<%=text_field_tag 'bank_account_'+c.id.to_s, c.bank_account, class: 'form-control', placeholder: '匯款帳號', onchange: 'updateBankAccount('+c.id.to_s+')'%>
+    	<div class="row">
+  		<div class="col-sm-3">
+    		<%=text_field_tag 'bank_code_'+c.id.to_s, c.bank_code, class: 'form-control', placeholder: '銀行代碼', onchange: 'updateBankCode('+c.id.to_s+')'%> 	
+        </div>
+  		<div class="col-sm-9">	
+    		<%=text_field_tag 'bank_account_'+c.id.to_s, c.bank_account, class: 'form-control', placeholder: '匯款帳號', onchange: 'updateBankAccount('+c.id.to_s+')'%>
+    	</div>
     </td>       	 	                              	     
   	<td>
     	<div class="form-group">
@@ -91,6 +102,23 @@
 			});	
 		}	
 	})
+
+function updateBankCode(id)
+{
+	$.ajax({
+			type : 'GET',
+			url : '/management/updateBankCode',
+			data : { id: id, val: $('#bank_code_'+id.toString()).val() },
+			datatype : 'json',
+			success : function(data) {
+				if (data.success) {
+					toastr['success'](data.message)										
+				} else {
+					toastr['warning'](data.message)
+				}
+			}
+			});		
+}	
 
 function updateBankAccount(id)
 {

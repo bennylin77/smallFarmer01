@@ -48,6 +48,8 @@ Rails.application.configure do
   config.mitake_username = '24967500'
   config.mitake_password = 'dsf2rrgjn36kriithjb23wer'
 
+  config.google_API_key  = 'AIzaSyB07PLr104LIF7QSrPnAQwgieZJ0kLb7Ac'
+
 
 
   # General Settings

@@ -64,6 +64,9 @@ GEM
     extlib (0.9.16)
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
+    googl (0.7.1)
+      httparty (~> 0.10)
+      json (>= 1.4.6)
     google-api-client (0.8.2)
       activesupport (>= 3.2)
       addressable (~> 2.3)
@@ -81,6 +84,9 @@ GEM
       oauth2 (>= 0.5.0)
     hashie (3.4.0)
     hike (1.2.3)
+    httparty (0.13.5)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     i18n (0.7.0)
     jbuilder (2.2.13)
       activesupport (>= 3.0.0, < 5)
@@ -218,6 +224,7 @@ DEPENDENCIES
   bootstrap-sass (~> 3.3.4)
   coffee-rails (~> 4.0.0)
   devise
+  googl
   google_drive
   jbuilder (~> 2.0)
   jquery-rails
