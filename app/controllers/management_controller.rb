@@ -106,9 +106,11 @@ class ManagementController < ApplicationController
       end
       bill.orders << order
       bill.save!       
-=begin     
+     
+
+
       #
-      if order.review_at.blank?
+      if order.review_at.blank? and 
         delivered_all = true          
         order.invoice.orders.each do |i_o|
           i_o.shipments.each do |ss| 
@@ -132,7 +134,7 @@ class ManagementController < ApplicationController
           #result = RestClient.get( Rails.configuration.mitake_sm_send_get_url, params: data)                                                              
         end
       end    
-=end                   
+               
     end
    
     render json: {success: true}

@@ -26,12 +26,14 @@
   <%administration = 0%>    
   <%sales_tax = 0%>      
   <% @bill.orders.each do |o| %>
-  <%total_sales = total_sales + o.price.to_i + o.shipping_rates.to_i %>
-  <%shipping_rates = shipping_rates + o.shipping_rates.to_i%>   
-  <%cash_flow = cash_flow + ((o.price.to_i + o.shipping_rates.to_i)*GLOBAL_VAR['CASH_FLOW_FEE']).round %>
-  <%coupon = coupon + ((o.price.to_i + o.shipping_rates.to_i)*GLOBAL_VAR['COUPON_FEE']).round %>  
-  <%administration = administration +((o.price.to_i + o.shipping_rates.to_i)*GLOBAL_VAR['ADMINISTRATION_FEE']).round %>   
-  <%sales_tax = sales_tax +((o.price.to_i + o.shipping_rates.to_i)*GLOBAL_VAR['SALES_TAX']).ceil %>     
+  <%if !o.problem_c%>
+  	<%total_sales = total_sales + o.price.to_i + o.shipping_rates.to_i %>
+  	<%shipping_rates = shipping_rates + o.shipping_rates.to_i%>   
+  	<%cash_flow = cash_flow + ((o.price.to_i + o.shipping_rates.to_i)*GLOBAL_VAR['CASH_FLOW_FEE']).round %>
+  	<%coupon = coupon + ((o.price.to_i + o.shipping_rates.to_i)*GLOBAL_VAR['COUPON_FEE']).round %>  
+  	<%administration = administration +((o.price.to_i + o.shipping_rates.to_i)*GLOBAL_VAR['ADMINISTRATION_FEE']).round %>   
+  	<%sales_tax = sales_tax +((o.price.to_i + o.shipping_rates.to_i)*GLOBAL_VAR['SALES_TAX']).ceil %>     
+  <%end%>
   <tr>	
     <td><%= o.id %></td>  	  
     <td>
@@ -79,8 +81,7 @@
 	<div class="col-sm-offset-3 col-sm-6 col-xs-12">
 		<dl class="dl-horizontal">		  
 		  <dt style="font-size: 130%">總銷售金額:</dt> <dd style="font-size: 130%"><%= total_sales%>元</dd>		  
-		  <dt>總運費支出:</dt><dd><%=shipping_rates %>元</dd>
-		  
+		  <dt>總運費支出:</dt><dd><%=shipping_rates %>元</dd>		  
 		  <dt>總金流支出:</dt><dd><%=cash_flow %>元(<%=GLOBAL_VAR['CASH_FLOW_FEE']*100%>%)</dd>		  
 		  <dt>總回饋金支出:</dt><dd><%=coupon %>元(<%=GLOBAL_VAR['COUPON_FEE']*100%>%)</dd>		  
 		  <dt>總行政費支出:</dt><dd><%=administration %>元(<%=GLOBAL_VAR['ADMINISTRATION_FEE']*100%>%)</dd>

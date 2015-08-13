@@ -2,6 +2,9 @@ class MainController < ApplicationController
   def index
   end
   
+  def privacyPolicy    
+  end
+  
   def search
     @products = Product.all
   end

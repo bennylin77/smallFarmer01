@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   get    'main/farms' 
   get    'main/getFruitsAndFarms'  
   get    'main/showCartsNotifications'
+  get    'main/privacyPolicy'
 
   get    'management/index'    
   get    'management/invoices'
