@@ -199,6 +199,7 @@ ActiveRecord::Schema.define(version: 20150812093824) do
   create_table "orders", force: true do |t|
     t.integer  "product_boxing_id"
     t.integer  "invoice_id"
+    t.integer  "bill_id"
     t.float    "price",                 limit: 24
     t.integer  "quantity"
     t.float    "shipping_rates",        limit: 24
@@ -216,6 +217,7 @@ ActiveRecord::Schema.define(version: 20150812093824) do
     t.datetime "updated_at"
   end
 
+  add_index "orders", ["bill_id"], name: "index_orders_on_bill_id", using: :btree
   add_index "orders", ["invoice_id"], name: "index_orders_on_invoice_id", using: :btree
   add_index "orders", ["product_boxing_id"], name: "index_orders_on_product_boxing_id", using: :btree
 

@@ -1,5 +1,104 @@
 <div class="row">
 	<div class="col-sm-offset-3 col-sm-6 col-xs-12">
-		<%=select_tag "people", options_from_collection_for_select(current_user.companies.first.bills, "id", "title"), class: 'form-control'%>
+		<%=select_tag "bill_select", options_from_collection_for_select(current_user.companies.first.bills.order('id desc'), "id", "begin_at_end_at"), class: 'form-control'%>
 	</div>
 </div>	
+<br>
+
+
+
+
+<div class="table-responsive">
+<table class="table table-bordered table-hover">
+  <tr>
+    <th style="min-width: 75px;">出貨編號</th>  			          	
+    <th style="min-width: 75px;">品項</th>  			          	
+	<th style="min-width: 75px;">出貨數量</th>	
+	<th style="min-width: 75px;">銷售金額</th>
+	<th style="min-width: 75px;">運費</th>		
+    <th>配送明細</th>  
+	<th style="min-width: 75px;">退換貨糾紛</th>	              
+  </tr>
+  <%total_sales = 0%>
+  <%shipping_rates = 0%>   
+  <%cash_flow = 0%>
+  <%coupon = 0%>  
+  <%administration = 0%>    
+  <%sales_tax = 0%>      
+  <% @bill.orders.each do |o| %>
+  <%total_sales = total_sales + o.price.to_i + o.shipping_rates.to_i %>
+  <%shipping_rates = shipping_rates + o.shipping_rates.to_i%>   
+  <%cash_flow = cash_flow + ((o.price.to_i + o.shipping_rates.to_i)*GLOBAL_VAR['CASH_FLOW_FEE']).round %>
+  <%coupon = coupon + ((o.price.to_i + o.shipping_rates.to_i)*GLOBAL_VAR['COUPON_FEE']).round %>  
+  <%administration = administration +((o.price.to_i + o.shipping_rates.to_i)*GLOBAL_VAR['ADMINISTRATION_FEE']).round %>   
+  <%sales_tax = sales_tax +((o.price.to_i + o.shipping_rates.to_i)*GLOBAL_VAR['SALES_TAX']).ceil %>     
+  <tr>	
+    <td><%= o.id %></td>  	  
+    <td>
+        <%= link_to o.product_boxing.product do%>
+			<%if o.product_boxing.product.product_images.first %>
+				<div class="text-center">
+				<%= image_tag o.product_boxing.product.product_images.first.image.url, class: 'img-circle backend_fruits_img' %>			
+		        </div>
+		    <%end%> 	
+    		<div class="text-center"><%= o.product_boxing.product.name%></div>           	
+        <%end%>   	
+    </td>    
+    <td><%= o.quantity %>箱 (<%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %>/箱)</td>      
+    <td><%= o.price.to_i + o.shipping_rates.to_i %>元</td>    	      
+    <td><%= o.shipping_rates.to_i %>元</td>    	      	
+	<td>
+      <table class="table table-striped">     
+		<tr>				
+		    <td style="min-width: 70px;">收件人</td>
+		    <td style="min-width: 70px;">數量</td>			    
+		    <th>交付日期</th>								    			           
+	  	</tr>  
+		<%o.shipments.each do |s|%>
+		<tr>
+          <td>  
+          	<%receiver_address = s.receiver_address %>
+          	<div><%=receiver_address.last_name %> <%=receiver_address.first_name %></div>
+ 			<div><%=receiver_address.postal %><%=receiver_address.county %><%=receiver_address.district %><%=receiver_address.address %></div>
+ 		  	<div><%=receiver_address.phone_no.gsub(/^\+886/, '0') %></div>         	
+          </td>
+          <td><%=s.quantity%>箱</td> 			      		            
+		  <td><%= s.delivered_at.strftime("%Y-%m-%d %H:%M:%S") %></td>          	                                          
+        </tr>	  	
+	  	<%end%>	  	
+	  </table>
+	</td>   	                              		     
+  </tr>
+  <%end%>  
+</table>
+</div>
+<div class="row">
+	<div class="col-sm-offset-3 col-sm-6 col-xs-12">
+		<dl class="dl-horizontal">		  
+		  <dt style="font-size: 130%">總銷售金額:</dt> <dd style="font-size: 130%"><%= total_sales%>元</dd>		  
+		  <dt>總運費支出:</dt><dd><%=shipping_rates %>元</dd>
+		  
+		  <dt>總金流支出:</dt><dd><%=cash_flow %>元(<%=GLOBAL_VAR['CASH_FLOW_FEE']*100%>%)</dd>		  
+		  <dt>總回饋金支出:</dt><dd><%=coupon %>元(<%=GLOBAL_VAR['COUPON_FEE']*100%>%)</dd>		  
+		  <dt>總行政費支出:</dt><dd><%=administration %>元(<%=GLOBAL_VAR['ADMINISTRATION_FEE']*100%>%)</dd>
+		  <dt>撥款手續費:</dt><dd><%=GLOBAL_VAR['TRANSFER_FEE']%>元</dd>
+		  <dt>營業稅:</dt><dd><%= sales_tax %>元</dd>
+		  <dt style="font-size: 130%">應收款項:</dt><dd style="font-size: 130%"><%= total_sales - (shipping_rates + cash_flow + coupon + administration + sales_tax + GLOBAL_VAR['TRANSFER_FEE'])%> 元</dd>		  
+		</dl>
+		
+		
+		
+	</div>
+</div>
+
+
+
+
+
+
+
+<script>
+$( "#bill_select" ).change(function() {
+  alert( "Handler for .change() called." );
+});	
+</script>
