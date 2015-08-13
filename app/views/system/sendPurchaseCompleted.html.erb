@@ -1,0 +1,13 @@
+<% discount = 0 %>
+<% @invoice.invoice_coupon_lists.each do |i_c_l|%>
+	<%discount = discount + i_c_l.amount%>
+<%end%>						
+本次消費: <%=@invoice.amount.to_i%>元，使用回饋金: <%=discount.to_i%>元，
+總計: <%=(@invoice.amount - discount).to_i  %>元，付款方式為
+<%if @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>	
+	線上刷卡 <%=image_tag 'allPay.png', class: 'img-responsive', size: '80x80', style: 'display: inline-block'%>	
+<%elsif @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD']%>	
+	ATM櫃員機 <%=image_tag 'allPay.png', class: 'img-responsive', size: '80x80', style: 'display: inline-block'%> 		
+<%elsif @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>	
+	超商代碼 <%=image_tag 'allPay.png', class: 'img-responsive', size: '80x80', style: 'display: inline-block'%>	
+<%end%>		

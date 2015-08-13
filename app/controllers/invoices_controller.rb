@@ -54,8 +54,7 @@ class InvoicesController < ApplicationController
         end  
       end
       order.shipping_rates = order.quantity*GLOBAL_VAR['SHIPPING_RATES'] 
-      order.save!
-      
+      order.save!      
       receiver_address = ReceiverAddress.new
       receiver_address.first_name = params[:receiver_first_name]    
       receiver_address.last_name = params[:receiver_last_name]
@@ -64,8 +63,7 @@ class InvoicesController < ApplicationController
       receiver_address.county = params[:receiver_county]
       receiver_address.district = params[:receiver_district]
       receiver_address.address = params[:receiver_address]  
-      receiver_address.save!
-            
+      receiver_address.save!            
       shipment = Shipment.new
       shipment.quantity = order.quantity
       shipment.status = GLOBAL_VAR['ORDER_STATUS_UNCONFIRMED']            
@@ -244,7 +242,11 @@ class InvoicesController < ApplicationController
           invoice.orders.each do |o| 
             o.product_boxing.product.inventory = o.product_boxing.product.inventory - o.quantity
             o.product_boxing.product.save!               
-          end            
+          end  
+          System.sendPurchaseCompleted(invoice).deliver   
+          notify( o.product_boxing.product.company.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], 
+                                                           sub_category: GLOBAL_VAR['NOTIFICATION_SUB_PURCHASE_COMPLETED'], 
+                                                           invoice_id: invoice.id})                      
           invoice.orders.each do |o|
             System.sendNewOrder(o).deliver   
             notify( o.product_boxing.product.company.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], 

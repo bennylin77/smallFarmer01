@@ -1,14 +1,14 @@
 <%= form_for(@product, html: {class: "form-horizontal", role: "form", multipart: true}) do |f| %>
 	<div class="form-group">
-		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">水果名稱</label>
+		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">名稱</label>
 		<div class="col-sm-10 col-md-6">
-			<%= f.text_field :name, placeholder: '水果名稱', class: "form-control" %>
+			<%= f.text_field :name, placeholder: '名稱', class: "form-control" %>
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">水果介紹</label>
+		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">介紹</label>
 		<div class="col-sm-10 col-md-6">
-			<%= f.text_area :description, placeholder: '水果介紹', class: "form-control", rows: '5' %>
+			<%= f.text_area :description, placeholder: '介紹', class: "form-control", rows: '5' %>
 		</div>
 	</div>
 	<div class="form-group">
@@ -18,18 +18,18 @@
 		</div>
 	</div>		
 	<div class="form-group text-danger">
-		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">水果總庫存量</label>
+		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">總庫存量</label>
 		<div class="col-sm-5 col-md-2">
-			<%= f.number_field :inventory, placeholder: '水果總庫存量', class: "form-control" %>
+			<%= f.number_field :inventory, placeholder: '總庫存量', class: "form-control" %>
 		</div>
 		<div class="col-sm-5 col-md-2">
 			<%= f.select :unit, options_for_select(unitOptions, @product.unit), {prompt: '請選擇單位'}, class: "form-control" %>		
 		</div>			
 	</div>
 	<div class="form-group text-danger">
-		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">水果日處理量</label>
+		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">每日可出貨量</label>
 		<div class="col-sm-5 col-md-2">
-			<%= f.number_field :daily_capacity, placeholder: '水果日處理量', class: "form-control" %>
+			<%= f.number_field :daily_capacity, placeholder: '每日可出貨量', class: "form-control" %>
 		</div>
 		<div class="col-sm-5 col-md-2">
 			<label class="control-label">箱</label>	
@@ -79,7 +79,7 @@
 	<%end%>	 	
 <%end%>		
 		<div class="form-group">
-			<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">水果照片<br>(最多5張)</label>		
+			<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">照片<br>(最多5張)</label>		
 			<div class="col-sm-9">
 			<input id="product_image" name="product_image[]" type="file" multiple class="file-loading">
 	  		</div>

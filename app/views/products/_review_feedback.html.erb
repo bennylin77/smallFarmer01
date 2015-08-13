@@ -7,8 +7,8 @@
 		<%=time_ago_in_words o.review_at%>之前
 		<span class="hidden-xs">所留下的購物評價</span>
 	</div>
-	<div class="review_feedback_option <%= reviewBg o.review_score %>"></div>
-	<div class="review_feedback_option_text <%= reviewText o.review_score %>">
+	<div class="review_feedback_option <%= reviewBg o.review_score.to_i %>"></div>
+	<div class="review_feedback_option_text <%= reviewText o.review_score.to_i %>">
 		<%=Hash[orderReviewOptions].rassoc(o.review_score).first%>
 	</div>						
 	</div>

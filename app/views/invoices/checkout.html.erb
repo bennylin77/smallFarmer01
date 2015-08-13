@@ -22,10 +22,10 @@
 				<% product.product_boxings.first.product_pricings.each do |pp| %>
 					<%if pp.quantity == 1%>	
 						每箱<%= "%g" % product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %> <%= pp.price.to_i+GLOBAL_VAR['SHIPPING_RATES']  %>元
-					<%else%>
+					<%elsif pp.quantity%>
+						<br>
 						<%= pp.quantity %>箱以上 每箱<%= pp.price.to_i + GLOBAL_VAR['SHIPPING_RATES']%>元		
-					<%end%>
-					<br>
+					<%end%>				
 				<%end%>  					
 			</div>			
 			<div class="col-sm-2 col-xs-12 form-group form-inline check_out_product_list_text vmiddle">

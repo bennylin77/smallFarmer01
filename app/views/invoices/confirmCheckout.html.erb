@@ -22,10 +22,10 @@
 				<% product.product_boxings.first.product_pricings.each do |pp| %>
 					<%if pp.quantity == 1%>	
 						每箱<%= "%g" % product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %> <%= pp.price.to_i+GLOBAL_VAR['SHIPPING_RATES']  %>元
-					<%else%>
+					<%elsif pp.quantity%>
+						<br>
 						<%= pp.quantity %>箱以上 每箱<%= pp.price.to_i + GLOBAL_VAR['SHIPPING_RATES']%>元		
 					<%end%>
-					<br>
 				<%end%>  					
 			</div>			
 			<div class="col-sm-1 col-xs-12 check_out_product_list_text vmiddle">
@@ -187,7 +187,9 @@ var shipping_rates = <%=GLOBAL_VAR['SHIPPING_RATES']%>
 <%current_user.carts.each do |c| %>
 	var pricing_<%=c.id %> =  []
 	<%c.product_boxing.product_pricings.order('quantity desc').each do |p| %>
-		pricing_<%=c.id %>.push({ price: <%= p.price.to_i %>, quantity: <%= p.quantity %>  })
+		<% unless p.quantity.blank? %>		
+			pricing_<%=c.id %>.push({ price: <%= p.price.to_i %>, quantity: <%= p.quantity %>  })
+		<% end %>
 	<%end%>
 	$('.total_price_<%=c.id %>').data( "price", 0 );		
 	updatePrice(<%= c.quantity %>, pricing_<%=c.id %>, <%=c.id %>)		

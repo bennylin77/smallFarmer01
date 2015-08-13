@@ -20,6 +20,12 @@ class System < ActionMailer::Base
     subject = '【留言通知】'+@comment.content
     mail( to: @comment.product.company.user.email, subject: subject)      
   end
+  
+  def sendPurchaseCompleted(invoice)
+    @invoice = invoice
+    subject = '您已付款成功'
+    mail( to: @invoice.user.email, subject: subject)    
+  end
 
   def sendReviewNotification(invoice)
     @invoice = invoice

@@ -71,6 +71,16 @@ class ManagementController < ApplicationController
     render json: {success: true}
   end
   
+  def problem
+    params[:orders].each do |o|
+      order = Order.find(o)
+      order.problem_c = true
+      order.problem_at = Time.now 
+      order.save!    
+    end
+    render json: {success: true}      
+  end
+  
   def delivered 
     params[:orders].each do |o|          
       order = Order.find(o)
@@ -110,7 +120,7 @@ class ManagementController < ApplicationController
 
 
       #
-      if order.review_at.blank? and 
+      if order.review_at.blank? and order.invoice.notifications.where(category: GLOBAL_VAR['NOTIFICATION_PROMOTION'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_REVIEW']).count == 0
         delivered_all = true          
         order.invoice.orders.each do |i_o|
           i_o.shipments.each do |ss| 

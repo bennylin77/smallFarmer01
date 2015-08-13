@@ -28,8 +28,8 @@ class NotificationsController < ApplicationController
     if invoice.coupon.blank?
       params[:orders_id].each_with_index do |o, index|
         order = Order.find(o)
-        order.shipment_review_score = params[:shipment_review_scores][index]
-        order.review_score = params[:review_scores][index]
+        order.shipment_review_score = params[:shipment_review_scores][index].to_i
+        order.review_score = params[:review_scores][index].to_i
         order.review_feedback = params[:review_feedbacks][index]
         order.review_at = Time.now
         order.save!    

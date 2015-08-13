@@ -33,6 +33,8 @@
 				<%= render partial: "new_sub_comment", locals: {notification: notification} %>
 			<%elsif notification.sub_category == GLOBAL_VAR['NOTIFICATION_SUB_UPDATING_INVOICE']%>	
 				<%= render partial: "updating_invoice", locals: {notification: notification} %>
+			<%elsif notification.sub_category == GLOBAL_VAR['NOTIFICATION_SUB_PURCHASE_COMPLETED']%>
+				<%= render partial: "purchase_completed", locals: {notification: notification} %>						
 			<%elsif notification.sub_category == GLOBAL_VAR['NOTIFICATION_SUB_REVIEW']%>	
 				<%= render partial: "review", locals: {notification: notification} %>
 			<%elsif notification.sub_category == GLOBAL_VAR['NOTIFICATION_SUB_VERIFY']%>	

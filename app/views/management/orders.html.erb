@@ -10,6 +10,7 @@
 	<%= link_to "已處理", controller: 'management', action: 'orders', called_smallfarmer_c: true, called_logistics_c: true%>  	  	
   </li>   
 </ul>
+<div class='btn btn-default pull-right' id='problem' style='margin-right: 10px;'>退換貨糾紛</div>
 <%if current_page?(controller: 'management', action: 'orders', called_smallfarmer_c: true, called_logistics_c: false)%>
 	<%= form_tag('/management/exportOrders.xls', id: 'export_orders') do -%>
 		<%=submit_tag '匯出出貨單', class: 'btn btn-default pull-right', style: 'margin-right: 10px;' %>	
@@ -17,9 +18,8 @@
 	<div class='btn btn-default pull-right' id='call_logistics' style='margin-right: 10px;'>轉換為已處理</div>
 <%elsif  current_page?(controller: 'management', action: 'orders', called_smallfarmer_c: true, called_logistics_c: true)%>
 	<div class='btn btn-default pull-right' id='delivered' style='margin-right: 10px;'>已交付</div>
-	<input id="tracing_file" type="file" class="form-control">
+	<input id="tracing_file" type="file" class="form-control" style='margin-right: 10px;'>
 <%end%>
-
 </div>
 <div class="row">
 <div class="table-responsive">
@@ -30,6 +30,7 @@
 	<th style="min-width: 120px;">出貨數量</th>	
 	<th style="min-width: 110px;">金額</th>	
     <th>配送明細</th>   
+    <th>退換貨糾紛</th>      
 	<th>
 	<label class="checkbox-inline">	
 		<%= check_box_tag 'order_all'%>全選
@@ -81,13 +82,14 @@
         </tr>	  	
 	  	<%end%>	  	
 	  </table>
-	</td>         	                              
+	</td> 	        
+	<td>
+	  	<%if o.problem_c%><span class="glyphicon glyphicon-alert" aria-hidden="true"></span><%end%>		
+	</td>	        	        	                              
     <td>
-    	<%if !o.shipments.first.delivered_c%>
 		<label class="checkbox-inline" id='order_check_box_container_<%=o.id %>'>
 			<%= check_box_tag 'orders[]', o.id, false, class: 'order_idv'%>
 		</label>   
-		<%end%> 	
     </td>			     
   </tr>
   <%end%>  
@@ -128,7 +130,6 @@ $("#call_logistics").click(function(){
 			}
 		});	
 });	
-
 $('#export_orders').submit(function() {
 	$('input[name="selected_orders[]"]').remove();
 	$('input[name="orders[]"]').each(function() {
@@ -141,7 +142,6 @@ $('#export_orders').submit(function() {
 	return true; // return false to cancel form action
 });
 <%else%>	
-
 $("#delivered").click(function(){			
 	var orders = []
 	$('input[name="orders[]"]').each(function() {
@@ -160,7 +160,7 @@ $("#delivered").click(function(){
 					toastr['success']('成功將選取出貨單改為已交付')
 					$.each(orders, function( index, value ) {
 						$('#status_'+value).html('已交付');
-						$('#order_check_box_container_'+value).remove();											
+						//$('#order_check_box_container_'+value).remove();											
 					});
 				} else {
 					toastr['warning'](data.message)
@@ -183,5 +183,33 @@ $("#tracing_file").fileinput({showCaption: false,
 							   overwriteInitial: true							 
 							   });	
 
-<%end%>		
+<%end%>	
+
+
+$("#problem").click(function(){			
+	var orders = []
+	$('input[name="orders[]"]').each(function() {
+		if($(this).prop('checked') == true)
+			orders.push($(this).val()); 
+	});				
+	$.ajax({
+			type : 'GET',
+			url : '/management/problem',
+			data : {
+				orders: orders 
+			},
+			datatype : 'json',
+			success : function(data) {
+				if (data.success) {
+					toastr['success']('已將出貨單改為有退換貨糾紛')
+					$.each(orders, function( index, value ) {
+						//$('#status_'+value).html('已交付');
+						//$('#order_check_box_container_'+value).remove();											
+					});
+				} else {
+					toastr['warning'](data.message)
+				}
+			}
+		});	
+});		
 </script>
