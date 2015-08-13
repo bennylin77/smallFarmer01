@@ -213,6 +213,8 @@ ActiveRecord::Schema.define(version: 20150812093824) do
     t.datetime "called_smallfarmer_at"
     t.boolean  "called_logistics_c",               default: false, null: false
     t.datetime "called_logistics_at"
+    t.boolean  "problem_c",                        default: false, null: false
+    t.datetime "problem_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -262,6 +264,7 @@ ActiveRecord::Schema.define(version: 20150812093824) do
     t.datetime "deleted_at"
     t.boolean  "available_c",    default: false, null: false
     t.datetime "available_at"
+    t.datetime "cold_chain"
     t.integer  "company_id"
     t.text     "preservation"
     t.integer  "sweet_degree"

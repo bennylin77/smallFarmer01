@@ -19,7 +19,10 @@ class CreateOrders < ActiveRecord::Migration
       t.boolean   :called_smallfarmer_c, default: false, null: false
       t.datetime  :called_smallfarmer_at      
       t.boolean   :called_logistics_c, default: false, null: false  
-      t.datetime  :called_logistics_at          
+      t.datetime  :called_logistics_at  
+      
+      t.boolean   :problem_c, default: false, null: false  
+      t.datetime  :problem_at                 
                         
       t.timestamps
     end

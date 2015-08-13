@@ -65,9 +65,12 @@
           <td><%=s.quantity%>箱</td> 			      		            
 		  <td><%= s.delivered_at.strftime("%Y-%m-%d %H:%M:%S") %></td>          	                                          
         </tr>	  	
-	  	<%end%>	  	
+	  	<%end%>	 	 	
 	  </table>
-	</td>   	                              		     
+	</td>  
+	<td>
+	  	<%if o.problem_c%><span class="glyphicon glyphicon-alert" aria-hidden="true"></span><%end%>
+	</td>	 	                              		     
   </tr>
   <%end%>  
 </table>
