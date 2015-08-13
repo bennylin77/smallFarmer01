@@ -100,7 +100,8 @@ class ManagementController < ApplicationController
         else
           bill.begin_at = Date.civil(Time.now.year, Time.now.month, 16).midnight
           bill.end_at = ( Date.civil(Time.now.year, Time.now.month, -1)+1 ).midnight-1    
-        end   
+        end  
+        bill.company = company
       end
       bill.orders << order
       bill.save!       

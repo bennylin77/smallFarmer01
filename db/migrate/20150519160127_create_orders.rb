@@ -3,6 +3,7 @@ class CreateOrders < ActiveRecord::Migration
     create_table :orders do |t|
       t.belongs_to :product_boxing, index: true      
       t.belongs_to :invoice, index: true     
+      t.belongs_to :bill, index: true  
       
       t.float     :price
       t.integer   :quantity     
