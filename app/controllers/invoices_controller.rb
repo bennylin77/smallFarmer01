@@ -184,15 +184,26 @@ class InvoicesController < ApplicationController
     @receiver_county = params[:receiver_county]
     @receiver_district = params[:receiver_district]
     @receiver_address = params[:receiver_address]
-    ## inventory AND available  
+    ## inventory AND available AND payment method
+    total_price = 0 
     current_user.carts.each do |c|        
       unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', c.product_boxing.id, false, Time.now ).sum(:quantity)     
       if c.product_boxing.product.inventory - unpaid - c.quantity < 0
         current_user.errors.add('quantity_'+c.id.to_s, c.product_boxing.product.name + '庫存剩'+(c.product_boxing.product.inventory - unpaid).to_s+'箱')     
       elsif !c.product_boxing.product.available_c
         current_user.errors.add('quantity_'+c.id.to_s, c.product_boxing.product.name + '已下架')             
-      end 
-    end 
+      end  
+      c.product_boxing.product_pricings.order('quantity desc').each do |p|
+        if c.quantity >= p.quantity 
+          total_price = total_price + p.quantity*(p.price + GLOBAL_VAR['SHIPPING_RATES'])         
+        break  
+        end  
+      end
+    end   
+    final_total_price = total_price - @coupon_using    
+    if @payment_method.blank? and final_total_price!= 0 
+      current_user.errors.add(:payment_method, "請選擇付款方式")
+    end       
     # Receiver
     if current_user.phone_no.blank?    
       current_user.errors.add(:phone_no, "請填寫 訂購人資訊-行動電話")
@@ -218,10 +229,7 @@ class InvoicesController < ApplicationController
     if @receiver_address.blank?  
       current_user.errors.add(:receiver_address, "請填寫 收件人資訊-詳細地址")
     end       
-    # Others           
-    if @payment_method.blank?  
-      current_user.errors.add(:payment_method, "請選擇付款方式")
-    end        
+    # Others                    
     if @agree.blank?    
       current_user.errors.add(:agree, "請勾選 小農1號 電子商務約定條款")
     end  
