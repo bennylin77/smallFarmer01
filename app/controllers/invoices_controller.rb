@@ -13,7 +13,7 @@ class InvoicesController < ApplicationController
   end  
   
   def create  
-    #inventory AND available
+    #inventory AND available AND payment method
     current_user.carts.each do |c|        
       unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', c.product_boxing.id, false, Time.now ).sum(:quantity)     
       if c.product_boxing.product.inventory - unpaid - c.quantity < 0
@@ -33,10 +33,10 @@ class InvoicesController < ApplicationController
       else
          address = Address.new
       end     
-      address.save( first_name: params[:receiver_first_name], last_name: params[:receiver_last_name],
-                    phone_no: params[:receiver_phone_no], postal: params[:receiver_postal],
-                    county: params[:receiver_county], district: params[:receiver_district],
-                    address: params[:receiver_address], user: current_user)      
+      address.update( first_name: params[:receiver_first_name], last_name: params[:receiver_last_name],
+                      phone_no: params[:receiver_phone_no], postal: params[:receiver_postal],
+                      county: params[:receiver_county], district: params[:receiver_district],
+                      address: params[:receiver_address], user: current_user)      
       invoice =  Invoice.new
       invoice.user = current_user
       invoice.save! 
@@ -55,20 +55,16 @@ class InvoicesController < ApplicationController
         order.shipping_rates = order.quantity*GLOBAL_VAR['SHIPPING_RATES'] 
         order.save!      
         receiver_address = ReceiverAddress.new
-        receiver_address.save( first_name: params[:receiver_first_name], last_name: params[:receiver_last_name],
-                               phone_no: params[:receiver_phone_no], postal: params[:receiver_postal],
-                               county: params[:receiver_county], district: params[:receiver_district],
-                               address: params[:receiver_address])            
+        receiver_address.update( first_name: params[:receiver_first_name], last_name: params[:receiver_last_name],
+                                 phone_no: params[:receiver_phone_no], postal: params[:receiver_postal],
+                                 county: params[:receiver_county], district: params[:receiver_district],
+                                 address: params[:receiver_address])            
         shipment = Shipment.new
-        shipment.quantity = order.quantity
-        shipment.status = GLOBAL_VAR['ORDER_STATUS_UNCONFIRMED']            
-        shipment.order = order
-        shipment.receiver_address = receiver_address
-        shipment.save!
-        
+        shipment.update( quantity: order.quantity, status: GLOBAL_VAR['ORDER_STATUS_UNCONFIRMED'],            
+                         order: order, receiver_address: receiver_address )
         invoice.amount = invoice.amount + order.price + order.shipping_rates
-      end
-      #Coupons
+      end      
+      #Coupons AND payment method
       candidate_coupons = candidateCoupons(coupons_using: params[:coupons_using].to_i )
       if candidate_coupons
         coupons_using_left = params[:coupons_using].to_i
@@ -85,10 +81,18 @@ class InvoicesController < ApplicationController
             coupons_using_left = coupons_using_left - c_c[:amount]
           end
         end
-      end
-      current_user.carts.destroy_all
-      invoice.payment_method = params[:payment_method]  
-      invoice.allpay_expired_at = Time.now + 1.day    
+        
+        if invoice.amount - params[:coupons_using].to_i == 0
+          invoice.payment_method = GLOBAL_VAR['PAYMENT_METHOD_NO_NEED'] 
+        else          
+          invoice.payment_method = params[:payment_method]  
+        end    
+      else
+        invoice.payment_method = params[:payment_method]  
+      end       
+      # END 
+      invoice.allpay_expired_at = Time.now + 1.day                              
+      current_user.carts.destroy_all   
       invoice.save!  
       
       if invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']
@@ -99,6 +103,29 @@ class InvoicesController < ApplicationController
         invoice.amount = invoice.amount + GLOBAL_VAR['ALLPAY_CVS_FEE']
         invoice.save!
         redirect_to  controller: 'invoices', action: 'allpayCVS', id: invoice.id                              
+      elsif invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_NO_NEED']
+=begin           
+        invoice.paid_at = params[:PaymentDate]
+        invoice.payment_charge_fee = params[:PaymentTypeChargeFee]      
+        invoice.allpay_trade_no = params[:TradeNo] 
+        invoice.paid_c = true
+=end          
+        invoice.confirmed_c = true          
+        invoice.save!
+        invoice.orders.each do |o| 
+          o.product_boxing.product.inventory = o.product_boxing.product.inventory - o.quantity
+          o.product_boxing.product.save!               
+        end  
+        System.sendPurchaseCompleted(invoice).deliver   
+        notify( o.product_boxing.product.company.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], 
+                                                         sub_category: GLOBAL_VAR['NOTIFICATION_SUB_PURCHASE_COMPLETED'], 
+                                                         invoice_id: invoice.id})                      
+        invoice.orders.each do |o|
+          System.sendNewOrder(o).deliver   
+          notify( o.product_boxing.product.company.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], 
+                                                           sub_category: GLOBAL_VAR['NOTIFICATION_SUB_NEW_ORDER'], 
+                                                           order_id: o.id})  
+        end        
       end      
     end       
   end  
@@ -126,7 +153,6 @@ class InvoicesController < ApplicationController
       flash[:warning] = '訂單編號'+@invoice.id.to_s+' 已付款無法取消'      
     end
     redirect_to controller: :invoices, action: :index  
-
   end
   
   def checkout   
@@ -425,7 +451,7 @@ class InvoicesController < ApplicationController
               if coupons_using_left - e_c.amount > 0
                 candidate_coupons.push({amount: e_c.amount, coupon: e_c})
                 coupons_using_left = coupons_using_left- e_c.amount               
-              elsif 
+              else 
                 candidate_coupons.push({amount: coupons_using_left, coupon: e_c})
                 coupons_using_left = coupons_using_left- e_c.amount                             
                 break                                                            
@@ -443,7 +469,7 @@ class InvoicesController < ApplicationController
             if coupons_using_left - n_c.amount > 0           
               candidate_coupons.push({amount: n_c.amount, coupon: n_c})
               coupons_using_left = coupons_using_left - n_c.amount
-            elsif coupons_using_left - n_c.amount <= 0
+            else
               candidate_coupons.push({amount: coupons_using_left, coupon: n_c})
               coupons_using_left = coupons_using_left - n_c.amount            
               break                                                            
