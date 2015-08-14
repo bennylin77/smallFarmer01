@@ -153,8 +153,7 @@
 				 	<%= check_box_tag 'same_as_user', true, @same_as_user == 'true'%>
 				 	同訂購人資訊
 				  </label>
-				</div>			
-				
+				</div>							
 			</div>
 			<div class="section_underline"></div>			
 		</div>					
@@ -254,20 +253,28 @@ var shipping_rates = <%=GLOBAL_VAR['SHIPPING_RATES']%>
 	});	
 <%end%>
 $('#coupons_using').change(function(){		
-	if( $.isNumeric( $(this).val()) )
-	{
-		if( $(this).val() < 0 || $(this).val() > <%=coupons %> )
-		{
-			toastr["error"]('填入回饋金超出持有範圍')
-			$(this).val(0)
-		}
-	}
-	else
-	{
+	$('.check_out_pay_method .radio').show();	
+	if( !$.isNumeric( $(this).val()) ){
 		toastr["error"]('回饋金應填入數字')
-		$(this).val(0)
-	}	
-	$('.sum').html(total_price-$('#coupons_using').val())	
+		$(this).val(0)		
+	}
+	else if( $(this).val() < 0 || $(this).val() > <%=coupons %> ){	
+		toastr["error"]('填入回饋金超出持有範圍')
+		$(this).val(0)	
+	}
+	else if( total_price-$('#coupons_using').val() < 0 ){	
+		toastr["error"]('填入回饋金超出小計')
+		$(this).val(0)			
+	}
+	else{
+		if( total_price-$('#coupons_using').val() == 0 )
+		{
+			$('.check_out_pay_method .radio').hide();	
+			$('input[name="payment_method"]').prop('checked', false);				
+		}
+		$('.sum').html(total_price-$('#coupons_using').val())						
+	}		
+				
 });	
 function updateQuantity(quantity, pricing, id){	
 	var request = $.ajax({
