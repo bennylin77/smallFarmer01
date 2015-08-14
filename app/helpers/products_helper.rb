@@ -3,7 +3,8 @@ module ProductsHelper
     [['台斤', GLOBAL_VAR['UNIT_CATTY']], 
      ['公斤', GLOBAL_VAR['UNIT_KG']],
      ['顆', GLOBAL_VAR['UNIT_STAR']],
-     ['包', GLOBAL_VAR['UNIT_BAO']]]
+     ['包', GLOBAL_VAR['UNIT_BAO']],
+     ['罐', GLOBAL_VAR['UNIT_CAN']]]
   end
   
   def reviewBg(score)

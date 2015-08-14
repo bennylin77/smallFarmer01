@@ -13,98 +13,103 @@ class InvoicesController < ApplicationController
   end  
   
   def create  
-    #inventory
+    #inventory AND available
     current_user.carts.each do |c|        
       unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', c.product_boxing.id, false, Time.now ).sum(:quantity)     
       if c.product_boxing.product.inventory - unpaid - c.quantity < 0
         flash[:warning] = c.product_boxing.product.name + '庫存剩'+(c.product_boxing.product.inventory - unpaid).to_s+'箱'
-        redirect_to controller: 'products', action: 'show', id: c.product_boxing.product.id
+      elsif !c.product_boxing.product.available_c
+        flash[:warning] = c.product_boxing.product.name + '已下架'       
       end 
     end
-    # user_attributes   
-    current_user.update_attributes(user_params)          
-    # address
-    if current_user.addresses.first 
-       address = current_user.addresses.first 
-    else
-       address = Address.new
-    end     
-    address.first_name = params[:receiver_first_name]    
-    address.last_name = params[:receiver_last_name]
-    address.phone_no = params[:receiver_phone_no]
-    address.postal = params[:receiver_postal]
-    address.county = params[:receiver_county]
-    address.district = params[:receiver_district]
-    address.address = params[:receiver_address]      
-    address.user = current_user
-    address.save!          
-    invoice =  Invoice.new
-    invoice.user = current_user
-    invoice.save! 
-    #Orders       
-    current_user.carts.each do |c|
-      order = Order.new
-      order.invoice = invoice 
-      order.product_boxing = c.product_boxing
-      order.quantity = c.quantity
-      c.product_boxing.product_pricings.order('quantity desc').each do |p|
-        if c.quantity >= p.quantity 
-          order.price = order.quantity*p.price
-          break  
-        end  
+    if flash[:warning]
+      redirect_to root_url  
+    else  
+      # user_attributes   
+      current_user.update_attributes(user_params)          
+      # address
+      if current_user.addresses.first 
+         address = current_user.addresses.first 
+      else
+         address = Address.new
+      end     
+      address.first_name = params[:receiver_first_name]    
+      address.last_name = params[:receiver_last_name]
+      address.phone_no = params[:receiver_phone_no]
+      address.postal = params[:receiver_postal]
+      address.county = params[:receiver_county]
+      address.district = params[:receiver_district]
+      address.address = params[:receiver_address]      
+      address.user = current_user
+      address.save!          
+      invoice =  Invoice.new
+      invoice.user = current_user
+      invoice.save! 
+      #Orders       
+      current_user.carts.each do |c|
+        order = Order.new
+        order.invoice = invoice 
+        order.product_boxing = c.product_boxing
+        order.quantity = c.quantity
+        c.product_boxing.product_pricings.order('quantity desc').each do |p|
+          if c.quantity >= p.quantity 
+            order.price = order.quantity*p.price
+            break  
+          end  
+        end
+        order.shipping_rates = order.quantity*GLOBAL_VAR['SHIPPING_RATES'] 
+        order.save!      
+        receiver_address = ReceiverAddress.new
+        receiver_address.first_name = params[:receiver_first_name]    
+        receiver_address.last_name = params[:receiver_last_name]
+        receiver_address.phone_no = params[:receiver_phone_no]
+        receiver_address.postal = params[:receiver_postal]
+        receiver_address.county = params[:receiver_county]
+        receiver_address.district = params[:receiver_district]
+        receiver_address.address = params[:receiver_address]  
+        receiver_address.save!            
+        shipment = Shipment.new
+        shipment.quantity = order.quantity
+        shipment.status = GLOBAL_VAR['ORDER_STATUS_UNCONFIRMED']            
+        shipment.order = order
+        shipment.receiver_address = receiver_address
+        shipment.save!
+        
+        invoice.amount = invoice.amount + order.price + order.shipping_rates
       end
-      order.shipping_rates = order.quantity*GLOBAL_VAR['SHIPPING_RATES'] 
-      order.save!      
-      receiver_address = ReceiverAddress.new
-      receiver_address.first_name = params[:receiver_first_name]    
-      receiver_address.last_name = params[:receiver_last_name]
-      receiver_address.phone_no = params[:receiver_phone_no]
-      receiver_address.postal = params[:receiver_postal]
-      receiver_address.county = params[:receiver_county]
-      receiver_address.district = params[:receiver_district]
-      receiver_address.address = params[:receiver_address]  
-      receiver_address.save!            
-      shipment = Shipment.new
-      shipment.quantity = order.quantity
-      shipment.status = GLOBAL_VAR['ORDER_STATUS_UNCONFIRMED']            
-      shipment.order = order
-      shipment.receiver_address = receiver_address
-      shipment.save!
-      
-      invoice.amount = invoice.amount + order.price + order.shipping_rates
-    end
-    #Coupons
-    candidate_coupons = candidateCoupons(coupons_using: params[:coupons_using].to_i )
-    if candidate_coupons
-      coupons_using_left = params[:coupons_using].to_i
-      candidate_coupons.each do |c_c|
-        if coupons_using_left != 0  or c_c.coupon.user == current_user    
-          i_c_l = InvoiceCouponList.new
-          i_c_l.invoice = invoice
-          i_c_l.coupon = c_c[:coupon]
-          i_c_l.amount = c_c[:amount]
-          i_c_l.save!
-          c_c[:coupon].amount = c_c[:coupon].amount - c_c[:amount]   
-          c_c[:coupon].amount == 0 ? c_c[:coupon].available_c = false : c_c[:coupon].available_c = true 
-          c_c[:coupon].save! 
-          coupons_using_left = coupons_using_left - c_c[:amount]
+      #Coupons
+      candidate_coupons = candidateCoupons(coupons_using: params[:coupons_using].to_i )
+      if candidate_coupons
+        coupons_using_left = params[:coupons_using].to_i
+        candidate_coupons.each do |c_c|
+          if coupons_using_left != 0  or c_c.coupon.user == current_user    
+            i_c_l = InvoiceCouponList.new
+            i_c_l.invoice = invoice
+            i_c_l.coupon = c_c[:coupon]
+            i_c_l.amount = c_c[:amount]
+            i_c_l.save!
+            c_c[:coupon].amount = c_c[:coupon].amount - c_c[:amount]   
+            c_c[:coupon].amount == 0 ? c_c[:coupon].available_c = false : c_c[:coupon].available_c = true 
+            c_c[:coupon].save! 
+            coupons_using_left = coupons_using_left - c_c[:amount]
+          end
         end
       end
-    end
-    current_user.carts.destroy_all
-    invoice.payment_method = params[:payment_method]  
-    invoice.allpay_expired_at = Time.now + 1.day    
-    invoice.save!  
-    
-    if invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']
-      redirect_to  controller: 'invoices', action: 'allpayCredit', id: invoice.id                          
-    elsif invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM'] 
-      redirect_to  controller: 'invoices', action: 'allpayATM', id: invoice.id                          
-    elsif invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']
-      invoice.amount = invoice.amount + GLOBAL_VAR['ALLPAY_CVS_FEE']
-      invoice.save!
-      redirect_to  controller: 'invoices', action: 'allpayCVS', id: invoice.id                              
-    end
+      current_user.carts.destroy_all
+      invoice.payment_method = params[:payment_method]  
+      invoice.allpay_expired_at = Time.now + 1.day    
+      invoice.save!  
+      
+      if invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']
+        redirect_to  controller: 'invoices', action: 'allpayCredit', id: invoice.id                          
+      elsif invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM'] 
+        redirect_to  controller: 'invoices', action: 'allpayATM', id: invoice.id                          
+      elsif invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']
+        invoice.amount = invoice.amount + GLOBAL_VAR['ALLPAY_CVS_FEE']
+        invoice.save!
+        redirect_to  controller: 'invoices', action: 'allpayCVS', id: invoice.id                              
+      end      
+    end       
   end  
 
 # ================================== others ================================== #    
@@ -163,7 +168,8 @@ class InvoicesController < ApplicationController
     @agree = params[:agree]    
   end
   
-  def confirmCheckout   
+  def confirmCheckout
+    ## Assign attribute   
     params[:user][:phone_no] = params[:phone_no_full]
     current_user.update_attributes(user_params)  
     ##      
@@ -178,14 +184,16 @@ class InvoicesController < ApplicationController
     @receiver_county = params[:receiver_county]
     @receiver_district = params[:receiver_district]
     @receiver_address = params[:receiver_address]
-      
+    ## inventory AND available  
     current_user.carts.each do |c|        
       unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', c.product_boxing.id, false, Time.now ).sum(:quantity)     
       if c.product_boxing.product.inventory - unpaid - c.quantity < 0
         current_user.errors.add('quantity_'+c.id.to_s, c.product_boxing.product.name + '庫存剩'+(c.product_boxing.product.inventory - unpaid).to_s+'箱')     
+      elsif !c.product_boxing.product.available_c
+        current_user.errors.add('quantity_'+c.id.to_s, c.product_boxing.product.name + '已下架')             
       end 
     end 
-    #
+    # Receiver
     if current_user.phone_no.blank?    
       current_user.errors.add(:phone_no, "請填寫 訂購人資訊-行動電話")
     end    
@@ -210,7 +218,7 @@ class InvoicesController < ApplicationController
     if @receiver_address.blank?  
       current_user.errors.add(:receiver_address, "請填寫 收件人資訊-詳細地址")
     end       
-    #           
+    # Others           
     if @payment_method.blank?  
       current_user.errors.add(:payment_method, "請選擇付款方式")
     end        

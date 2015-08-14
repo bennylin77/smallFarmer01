@@ -107,11 +107,17 @@ function showCarts(){
 		var q = 0; var total_price = 0;		
 		if( message.length!=0 ) 
 			$.each(  message , function( i, l ){				
-				$(".cart_lists").append('<li><a href="/products/'+l.id+'">'+
-				'<img  class="cart_image img-circle" src="'+l.image_url+'"><div class="cart_content">'+
+				$(".cart_lists").append('<li id="'+l.id+'">'+
+				'<a href="/products/'+l.id+'">'+
+				'<img  class="cart_image img-circle" src="'+l.image_url+'">'+
+				'<div class="cart_content">'+
 				l.name+
 				'<div style="margin-top: 7px;"><span class="cart_label"></span>'+l.quantity+'箱</div>'+
-				'<div><span class="cart_label"></span>'+l.price+'元</div></div></a></li>')
+				'<div><span class="cart_label"></span>'+l.price+'元</div>'+
+				'</div></a>'+
+				'<div class="cart_op"><span class="" aria-hidden="true" onclick="destroyMenuCart('+l.cart_id+')" style="cursor: pointer">x</span></div>'+
+				'</li>')
+								
 				q = q + l.quantity	
 				total_price  = total_price + l.price
 		 	});
@@ -129,6 +135,19 @@ function showCarts(){
 	 	else
 	 		$('.carts_badge').html('');
 	 	showCartsNotifications();	
+	});
+	request.fail(function( jqXHR, textStatus ) {
+	});		
+}
+function destroyMenuCart(id){
+	var request = $.ajax({
+		url: "/carts/"+id.toString(),
+		type: "DELETE",
+		data: {},
+		dataType: "json"
+	});
+	request.done(function( message ) {
+	    showCarts();		
 	});
 	request.fail(function( jqXHR, textStatus ) {
 	});		

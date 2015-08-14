@@ -46,6 +46,7 @@ class CartsController < ApplicationController
         name: c.product_boxing.product.name,
         quantity: c.quantity, 
         price: price.to_i,
+        cart_id: c.id,
         image_url: c.product_boxing.product.product_images.first.image.url(:small)
       }       
     end
