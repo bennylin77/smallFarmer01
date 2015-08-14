@@ -33,15 +33,10 @@ class InvoicesController < ApplicationController
       else
          address = Address.new
       end     
-      address.first_name = params[:receiver_first_name]    
-      address.last_name = params[:receiver_last_name]
-      address.phone_no = params[:receiver_phone_no]
-      address.postal = params[:receiver_postal]
-      address.county = params[:receiver_county]
-      address.district = params[:receiver_district]
-      address.address = params[:receiver_address]      
-      address.user = current_user
-      address.save!          
+      address.save( first_name: params[:receiver_first_name], last_name: params[:receiver_last_name],
+                    phone_no: params[:receiver_phone_no], postal: params[:receiver_postal],
+                    county: params[:receiver_county], district: params[:receiver_district],
+                    address: params[:receiver_address], user: current_user)      
       invoice =  Invoice.new
       invoice.user = current_user
       invoice.save! 
@@ -60,14 +55,10 @@ class InvoicesController < ApplicationController
         order.shipping_rates = order.quantity*GLOBAL_VAR['SHIPPING_RATES'] 
         order.save!      
         receiver_address = ReceiverAddress.new
-        receiver_address.first_name = params[:receiver_first_name]    
-        receiver_address.last_name = params[:receiver_last_name]
-        receiver_address.phone_no = params[:receiver_phone_no]
-        receiver_address.postal = params[:receiver_postal]
-        receiver_address.county = params[:receiver_county]
-        receiver_address.district = params[:receiver_district]
-        receiver_address.address = params[:receiver_address]  
-        receiver_address.save!            
+        receiver_address.save( first_name: params[:receiver_first_name], last_name: params[:receiver_last_name],
+                               phone_no: params[:receiver_phone_no], postal: params[:receiver_postal],
+                               county: params[:receiver_county], district: params[:receiver_district],
+                               address: params[:receiver_address])            
         shipment = Shipment.new
         shipment.quantity = order.quantity
         shipment.status = GLOBAL_VAR['ORDER_STATUS_UNCONFIRMED']            
