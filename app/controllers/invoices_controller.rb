@@ -109,23 +109,23 @@ class InvoicesController < ApplicationController
         invoice.payment_charge_fee = params[:PaymentTypeChargeFee]      
         invoice.allpay_trade_no = params[:TradeNo] 
         invoice.paid_c = true
-=end          
+=end
+        invoice.paid_at = Time.now
+        invoice.paid_c = true
         invoice.confirmed_c = true          
         invoice.save!
         invoice.orders.each do |o| 
           o.product_boxing.product.inventory = o.product_boxing.product.inventory - o.quantity
-          o.product_boxing.product.save!               
-        end  
-        System.sendPurchaseCompleted(invoice).deliver   
-        notify( o.product_boxing.product.company.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], 
-                                                         sub_category: GLOBAL_VAR['NOTIFICATION_SUB_PURCHASE_COMPLETED'], 
-                                                         invoice_id: invoice.id})                      
-        invoice.orders.each do |o|
+          o.product_boxing.product.save!  
           System.sendNewOrder(o).deliver   
           notify( o.product_boxing.product.company.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], 
                                                            sub_category: GLOBAL_VAR['NOTIFICATION_SUB_NEW_ORDER'], 
-                                                           order_id: o.id})  
-        end        
+                                                           order_id: o.id})                        
+        end  
+        System.sendPurchaseCompleted(invoice).deliver   
+        notify( invoice.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], 
+                                sub_category: GLOBAL_VAR['NOTIFICATION_SUB_PURCHASE_COMPLETED'], 
+                                invoice_id: invoice.id})                            
       end      
     end       
   end  
@@ -274,18 +274,16 @@ class InvoicesController < ApplicationController
           invoice.save!
           invoice.orders.each do |o| 
             o.product_boxing.product.inventory = o.product_boxing.product.inventory - o.quantity
-            o.product_boxing.product.save!               
-          end  
-          System.sendPurchaseCompleted(invoice).deliver   
-          notify( o.product_boxing.product.company.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], 
-                                                           sub_category: GLOBAL_VAR['NOTIFICATION_SUB_PURCHASE_COMPLETED'], 
-                                                           invoice_id: invoice.id})                      
-          invoice.orders.each do |o|
+            o.product_boxing.product.save!              
             System.sendNewOrder(o).deliver   
             notify( o.product_boxing.product.company.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], 
                                                              sub_category: GLOBAL_VAR['NOTIFICATION_SUB_NEW_ORDER'], 
-                                                             order_id: o.id})  
-          end               
+                                                             order_id: o.id})                          
+          end  
+          System.sendPurchaseCompleted(invoice).deliver   
+          notify( invoice.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], 
+                                  sub_category: GLOBAL_VAR['NOTIFICATION_SUB_PURCHASE_COMPLETED'], 
+                                  invoice_id: invoice.id})                                   
         end        
       end
       render text: "1|OK"      
