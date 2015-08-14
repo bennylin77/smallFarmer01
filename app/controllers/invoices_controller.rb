@@ -173,7 +173,7 @@ class InvoicesController < ApplicationController
     params[:user][:phone_no] = params[:phone_no_full]
     current_user.update_attributes(user_params)  
     ##      
-    @coupon_using = params[:coupons_using]
+    @coupon_using = params[:coupons_using].to_i
     @payment_method = params[:payment_method]
     @agree = params[:agree]
     ##
