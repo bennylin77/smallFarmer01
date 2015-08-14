@@ -17,45 +17,45 @@
 			<%= f.text_area :preservation, placeholder: '保存方式', class: "form-control" %>
 		</div>
 	</div>		
-	<div class="form-group text-danger">
-		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">總庫存量</label>
-		<div class="col-sm-5 col-md-2">
-			<%= f.number_field :inventory, placeholder: '總庫存量', class: "form-control" %>
-		</div>
-		<div class="col-sm-5 col-md-2">
-			<%= f.select :unit, options_for_select(unitOptions, @product.unit), {prompt: '請選擇單位'}, class: "form-control" %>		
+	<%= f.fields_for :product_boxings do |g| %>		 
+		<div class="form-group">
+			<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">每箱</label>				
+			<div class="col-sm-2 col-md-2">
+				<%= g.text_field :quantity, placeholder: '數量', class: "form-control" %>				
+			</div>
+			<div class="col-sm-5 col-md-2">
+				<%= f.select :unit, options_for_select(unitOptions, @product.unit), {prompt: '請選擇單位'}, class: "form-control" %>		
+			</div>						
+		</div>	
+		<div class="form-group">
+			<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">總庫存量</label>
+			<div class="col-sm-5 col-md-2">
+				<%= f.number_field :inventory, placeholder: '總庫存量', class: "form-control" %>
+			</div>
+			<div class="col-sm-5 col-md-2">
+				<label class="control-label">箱</label>	
+			</div>			
 		</div>			
-	</div>
-	<div class="form-group text-danger">
-		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">每日可出貨量</label>
-		<div class="col-sm-5 col-md-2">
-			<%= f.number_field :daily_capacity, placeholder: '每日可出貨量', class: "form-control" %>
-		</div>
-		<div class="col-sm-5 col-md-2">
-			<label class="control-label">箱</label>	
-		</div>			
-	</div>		
-<%= f.fields_for :product_boxings do |g| %>		 				
+		<div class="form-group">
+			<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">每日可出貨量</label>
+			<div class="col-sm-5 col-md-2">
+				<%= f.number_field :daily_capacity, placeholder: '每日可出貨量', class: "form-control" %>
+			</div>
+			<div class="col-sm-5 col-md-2">
+				<label class="control-label">箱</label>	
+			</div>			
+		</div>						
 	<%= g.fields_for :product_pricings do |h| %>	
 		<%if h.object.quantity == 1%>
 		<div class="form-group">
-			<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">每箱</label>
+			<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">賣</label>							
 			<div class="col-sm-2 col-md-2">
 			<%= h.hidden_field :quantity, class: "form-control" %>				
 			<%= h.number_field :price, class: "form-control" %>	
 			</div>				
 			<div class="col-sm-2 col-md-2">		
 				<label class="control-label">元(不含運)</label>				
-			</div>	
-			<div class="col-sm-2 col-md-1">		
-				<label class="control-label">共</label>				
-			</div>							
-			<div class="col-sm-2 col-md-2">
-				<%= g.text_field :quantity, placeholder: '數量', class: "form-control" %>				
-			</div>
-			<div class="col-sm-2 col-md-2">		
-				<label class="boxing_unit control-label"><%unless @product.unit.blank?%><%= Hash[unitOptions].rassoc(@product.unit).first%><%else%>--<%end%></label>				
-			</div>					
+			</div>						
 		</div>	
 		<%else%>
 		<div class="form-group">
@@ -66,7 +66,7 @@
 				<label class="control-label">箱以上(含)</label>				
 			</div>	
 			<div class="col-sm-2 col-md-1">		
-				<label class="control-label">每箱賣</label>				
+				<label class="control-label">一箱賣</label>				
 			</div>				
 			<div class="col-sm-2 col-md-2">
 				<%= h.number_field :price, class: "form-control" %>
@@ -133,9 +133,10 @@ var $input = $("#product_image");
 			<%end%>		    
 		]		        
     });
-
+/*
 $('#product_unit').change(function(){
     $('.boxing_unit').html($('#product_unit option:selected').html())
 
-});	
+});
+*/	
 </script>
