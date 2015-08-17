@@ -1,8 +1,8 @@
 class CreateProducts < ActiveRecord::Migration
   def change
     create_table :products do |t|
-      t.string :name
-      t.text :description
+      t.string    :name
+      t.text      :description
       t.integer   :inventory
       t.integer   :daily_capacity
       t.integer   :unit      
@@ -15,7 +15,7 @@ class CreateProducts < ActiveRecord::Migration
       t.datetime  :cold_chain             
       
       t.belongs_to :company, index: true
-      t.text :preservation
+      t.text       :preservation
 
       t.integer :sweet_degree
       t.boolean :GAP_c, default: false, null: false      

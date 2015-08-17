@@ -6,9 +6,9 @@ class CreateInvoices < ActiveRecord::Migration
       t.boolean   :confirmed_c, default: false, null: false 
       t.boolean   :canceled_c, default: false, null: false
       t.datetime  :canceled_at
-
       t.boolean   :paid_c, default: false, null: false                                      
       t.datetime  :paid_at
+      
       t.float     :payment_charge_fee, default: 0, null: false 
       t.string    :allpay_trade_no
       t.string    :allpay_merchant_trade_no
@@ -18,8 +18,17 @@ class CreateInvoices < ActiveRecord::Migration
       t.string    :allpay_payment_no
       t.integer   :payment_method          
       t.float     :amount, default: 0, null: false
-          
-      t.timestamps
+      
+      t.string    :receipt_c, default: false, null: false      
+      t.string    :receipt_received_from
+      t.string    :receipt_VAT_no
+      t.string    :receipt_postal
+      t.string    :receipt_county
+      t.string    :receipt_district                        
+      t.string    :receipt_address 
+      t.string    :receipt_country       
+                
+      t.timestamps    
     end
   end
 end

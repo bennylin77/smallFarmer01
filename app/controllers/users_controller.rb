@@ -15,8 +15,8 @@ class UsersController < ApplicationController
     # authorize! :update, @user
     if @user.update(user_params)
       sign_in(@user == current_user ? @user : current_user, :bypass => true)
-      flash.now[:notice] ='成功更改個人資料'
-      render 'edit'
+      flash[:notice] ='成功更改個人資料'
+      redirect_to controller: 'users', action: 'edit', id: current_user
     else
       render 'edit'
     end

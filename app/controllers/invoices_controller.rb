@@ -125,7 +125,8 @@ class InvoicesController < ApplicationController
         System.sendPurchaseCompleted(invoice).deliver   
         notify( invoice.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], 
                                 sub_category: GLOBAL_VAR['NOTIFICATION_SUB_PURCHASE_COMPLETED'], 
-                                invoice_id: invoice.id})                            
+                                invoice_id: invoice.id})
+        redirect_to  controller: 'invoices', action: 'finished', id: invoice.id                                                                                          
       end      
     end       
   end  

@@ -6,7 +6,7 @@ class Company < ActiveRecord::Base
 
   has_attached_file :cover, 
                     styles: { medium: "1024x1024>" },
-                    default_url: "/images/:style/missing.png"  
+                    default_url: ':placeholder'               
   validates_attachment :cover, 
                        content_type: { content_type: /\Aimage\/.*\Z/, message: "圖片格式錯誤" }, 
                        size: { less_than: 10.megabytes, message: "圖片大小超過10MB" }  

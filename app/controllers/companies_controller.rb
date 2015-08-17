@@ -15,8 +15,10 @@ class CompaniesController < ApplicationController
   def update
     if @company.update(company_params)
       flash[:notice] ='成功更改農場資料'
+      redirect_to edit_company_path(@company)      
+    else
+      render 'edit'    
     end
-    render 'edit'    
   end
 
   def preview
