@@ -1,14 +1,14 @@
-.product_farm_description{
+.product_farm_words{
   background-color: rgba( 230, 218, 207, 0.5);  
   border-radius: 40px;
   min-height: 90px;
 }
-.product_farm_description_avatar{
+.product_farm_words_avatar{
   height: 90px; 
   width: 90px;
   position: absolute;
 }
-.product_farm_description_text
+.product_farm_words_text
 {
   position: absolute;
   padding: 15px 20px;
@@ -17,11 +17,11 @@
   color: #605856;
 }
 @media (max-width: 768px) {
-  .product_farm_description_avatar{
+  .product_farm_words_avatar{
     margin-top: 10px;
     position: static;
   }
-  .product_farm_description_text
+  .product_farm_words_text
   {
     position: static;
   }

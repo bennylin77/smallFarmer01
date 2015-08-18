@@ -20,7 +20,7 @@ class Company < ActiveRecord::Base
   validates :county, presence: { presence: true, message: '請填寫 聯絡地址-縣市' }, on: :update  
   validates :district, presence: { presence: true, message: '請填寫 聯絡地址-鄉鎮市區' }, on: :update  
   validates :address, presence: { presence: true, message: '請填寫 聯絡地址-詳細地址' }, on: :update 
-  validates :words, length: { maximum: 100, message: '農夫的話 最多100個字' }, on: :update                              
+  validates :words, length: { maximum: 140, message: '農夫的話 最多100個字' }, on: :update                              
 
   validate  :companyImageNotEmpty, on: :update 
   def companyImageNotEmpty

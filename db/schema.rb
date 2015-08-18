@@ -266,24 +266,28 @@ ActiveRecord::Schema.define(version: 20150812093824) do
   add_index "product_pricings", ["product_boxing_id"], name: "index_product_pricings_on_product_boxing_id", using: :btree
 
   create_table "products", force: true do |t|
+    t.string   "cover_file_name"
+    t.string   "cover_content_type"
+    t.integer  "cover_file_size"
+    t.datetime "cover_updated_at"
     t.string   "name"
     t.text     "description"
     t.integer  "inventory"
     t.integer  "daily_capacity"
     t.integer  "unit"
-    t.boolean  "deleted_c",      default: false, null: false
+    t.boolean  "deleted_c",          default: false, null: false
     t.datetime "deleted_at"
-    t.boolean  "available_c",    default: false, null: false
+    t.boolean  "available_c",        default: false, null: false
     t.datetime "available_at"
     t.integer  "cold_chain"
     t.integer  "size"
     t.integer  "company_id"
     t.text     "preservation"
     t.integer  "sweet_degree"
-    t.boolean  "GAP_c",          default: false, null: false
-    t.boolean  "TAP_c",          default: false, null: false
-    t.boolean  "OTAP_c",         default: false, null: false
-    t.boolean  "UTAP_c",         default: false, null: false
+    t.boolean  "GAP_c",              default: false, null: false
+    t.boolean  "TAP_c",              default: false, null: false
+    t.boolean  "OTAP_c",             default: false, null: false
+    t.boolean  "UTAP_c",             default: false, null: false
     t.string   "short_URL"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -314,6 +318,7 @@ ActiveRecord::Schema.define(version: 20150812093824) do
     t.datetime "t_cat_status_updated_at"
     t.boolean  "delivered_c",             default: false, null: false
     t.datetime "delivered_at"
+    t.integer  "delivery_interval"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -15,21 +15,21 @@
 	  <li class="active"><%= @product.name %></li>		  
 	</ol>
 	<div class="row">
-		<div class="hidden-xs col-md-12 col-lg-offset-2 col-lg-8 product_farm_description">		
-				<%= image_tag @product.company.user.avatar.url, class: 'img-circle product_farm_description_avatar' %>		
+		<div class="hidden-xs col-md-12 col-lg-offset-2 col-lg-8 product_farm_words">		
+				<%= image_tag @product.company.user.avatar.url, class: 'img-circle product_farm_words_avatar' %>		
 				<%=link_to @product.company do%>
-				<div class="product_farm_description_text">	
+				<div class="product_farm_words_text">	
 				<%= truncate( @product.company.description, length: 122, omission: '... more') %>
 				</div>
 				<%end%>
 		</div>				
-		<div class="visible-xs-block col-xs-12 product_farm_description">		
+		<div class="visible-xs-block col-xs-12 product_farm_words">		
 			<div class="row">
 				<div class="col-xs-12 text-center">					
-				<%= image_tag @product.company.user.avatar.url, class: 'img-circle product_farm_description_avatar', style: '' %>		
+				<%= image_tag @product.company.user.avatar.url, class: 'img-circle product_farm_words_avatar', style: '' %>		
 				</div>
 				<%=link_to @product.company do%>				
-				<div class="col-xs-12 product_farm_description_text">	
+				<div class="col-xs-12 product_farm_words_text">	
 				<%= truncate( @product.company.description, length: 122, omission: '... more') %>
 				</div>
 				<%end%>				
