@@ -21,6 +21,23 @@ module ApplicationHelper
     quantity == 0 ? "" : quantity             
   end
   
+  def shippingRates(hash={})
+    shipping_rates = 0
+    logger.info 1111111
+    logger.info hash[:size]
+    case hash[:size]
+    when GLOBAL_VAR['BOX_SIZE_FIRST']
+    logger.info 2222222  
+      shipping_rates = GLOBAL_VAR['SHIPPING_RATES_FIRST'] 
+      shipping_rates = shipping_rates + (hash[:cold_chain] != GLOBAL_VAR['SHIPMENT_TEMP_NORMAL'] ? GLOBAL_VAR['SHIPPING_RATES_COLD_CHAIN'] : 0)  
+    when GLOBAL_VAR['BOX_SIZE_SECOND']
+      shipping_rates = GLOBAL_VAR['SHIPPING_RATES_SECOND']   
+      shipping_rates = shipping_rates + (hash[:cold_chain] != GLOBAL_VAR['SHIPMENT_TEMP_NORMAL'] ? GLOBAL_VAR['SHIPPING_RATES_COLD_CHAIN'] : 0)      
+    when GLOBAL_VAR['BOX_SIZE_THIRD']
+      shipping_rates = GLOBAL_VAR['SHIPPING_RATES_THIRD']       
+    end
+  end
+  
   def active(hash={})     
     if current_page?(hash)
       "class='active'".html_safe     

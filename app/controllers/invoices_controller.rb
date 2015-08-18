@@ -46,6 +46,8 @@ class InvoicesController < ApplicationController
         order.invoice = invoice 
         order.product_boxing = c.product_boxing
         order.quantity = c.quantity
+        order.cold_chain = c.product_boxing.product.cold_chain
+        order.size = c.product_boxing.size        
         c.product_boxing.product_pricings.order('quantity desc').each do |p|
           if c.quantity >= p.quantity 
             order.price = order.quantity*p.price
@@ -321,7 +323,8 @@ class InvoicesController < ApplicationController
       end    
       item_name = []
       @invoice.orders.each do |o|                            
-        item_name << o.product_boxing.product.name+'x'+o.quantity.to_s+'箱'    
+        #item_name << o.product_boxing.product.name+'x'+o.quantity.to_s+'箱'    
+        item_name <<  '小農一號商品編號'+o.id.to_s+'x'+o.quantity.to_s+'箱'    
       end   
       item_name = item_name.join("#")    
       merchant_trade_no = @invoice.id.to_s+'AT'+Time.now.strftime("%Y%m%d%H%M%S").to_s
@@ -359,7 +362,8 @@ class InvoicesController < ApplicationController
       end    
       item_name = []
       @invoice.orders.each do |o|                            
-        item_name << o.product_boxing.product.name+'x'+o.quantity.to_s+'箱'    
+        #item_name << o.product_boxing.product.name+'x'+o.quantity.to_s+'箱'    
+        item_name << '小農一號商品編號'+o.id.to_s+'x'+o.quantity.to_s+'箱'          
       end   
       item_name = item_name.join("#")    
       merchant_trade_no = @invoice.id.to_s+'AT'+Time.now.strftime("%Y%m%d%H%M%S").to_s
@@ -398,7 +402,8 @@ class InvoicesController < ApplicationController
       end    
       item_name = []
       @invoice.orders.each do |o|                            
-        item_name << o.product_boxing.product.name+'x'+o.quantity.to_s+'箱'    
+        #item_name << o.product_boxing.product.name+'x'+o.quantity.to_s+'箱'    
+        item_name << '小農一號商品編號'+o.id.to_s+'x'+o.quantity.to_s+'箱'          
       end   
       item_name = item_name.join("#")    
       merchant_trade_no = @invoice.id.to_s+'AT'+Time.now.strftime("%Y%m%d%H%M%S").to_s

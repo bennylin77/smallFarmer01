@@ -11,8 +11,8 @@ class CreateProducts < ActiveRecord::Migration
       t.boolean   :available_c, default: false, null: false
       t.datetime  :available_at  
                   
-      t.boolean   :cold_chain, default: false, null: false
-      t.datetime  :cold_chain             
+      t.integer   :cold_chain
+      t.integer   :size
       
       t.belongs_to :company, index: true
       t.text       :preservation

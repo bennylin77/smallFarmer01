@@ -27,16 +27,16 @@
       	  <%for i in 1..(s.quantity)%>
 	      <Row>
 	        <Cell><Data ss:Type="String"><%= s.id%>_<%= i%></Data></Cell>     	
-	        <Cell><Data ss:Type="String">1</Data></Cell>
+	        <Cell><Data ss:Type="String"><%= o.cold_chain.to_i%></Data></Cell>
 			<Cell><Data ss:Type="String">N</Data></Cell>    
-			<Cell><Data ss:Type="String"><%=s.receiver_address.last_name %><%=s.receiver_address.first_name %></Data></Cell>
-	        <Cell><Data ss:Type="String"><%=s.receiver_address.phone_no.gsub(/^\+886/, '0') %></Data></Cell>
-	        <Cell><Data ss:Type="String"><%=s.receiver_address.phone_no.gsub(/^\+886/, '0') %></Data></Cell>
-	        <Cell><Data ss:Type="String"><%=s.receiver_address.postal %><%= s.receiver_address.county %><%= s.receiver_address.district %><%= s.receiver_address.address %></Data></Cell>    
-			<Cell><Data ss:Type="String"><%=o.product_boxing.product.company.name%></Data></Cell>
-			<Cell><Data ss:Type="String"><%=o.product_boxing.product.company.phone_no.gsub(/^\+886/, '0')%></Data></Cell>
-			<Cell><Data ss:Type="String"><%=o.product_boxing.product.company.phone_no.gsub(/^\+886/, '0')%></Data></Cell>
-			<Cell><Data ss:Type="String"><%=o.product_boxing.product.company.postal %><%= o.product_boxing.product.company.county %><%= o.product_boxing.product.company.district %><%= o.product_boxing.product.company.address %></Data></Cell>    
+			<Cell><Data ss:Type="String"><%= s.receiver_address.last_name %><%=s.receiver_address.first_name %></Data></Cell>
+	        <Cell><Data ss:Type="String"><%= s.receiver_address.phone_no.gsub(/^\+886/, '0') %></Data></Cell>
+	        <Cell><Data ss:Type="String"><%= s.receiver_address.phone_no.gsub(/^\+886/, '0') %></Data></Cell>
+	        <Cell><Data ss:Type="String"><%= s.receiver_address.postal %><%= s.receiver_address.county %><%= s.receiver_address.district %><%= s.receiver_address.address %></Data></Cell>    
+			<Cell><Data ss:Type="String"><%= o.product_boxing.product.company.name%></Data></Cell>
+			<Cell><Data ss:Type="String"><%= o.product_boxing.product.company.phone_no.gsub(/^\+886/, '0')%></Data></Cell>
+			<Cell><Data ss:Type="String"><%= o.product_boxing.product.company.phone_no.gsub(/^\+886/, '0')%></Data></Cell>
+			<Cell><Data ss:Type="String"><%= o.product_boxing.product.company.postal %><%= o.product_boxing.product.company.county %><%= o.product_boxing.product.company.district %><%= o.product_boxing.product.company.address %></Data></Cell>    
 			<Cell><Data ss:Type="String">4</Data></Cell>    
 			<Cell><Data ss:Type="String"><%= o.product_boxing.product.name%></Data></Cell>
 			<Cell><Data ss:Type="String"></Data></Cell>	 

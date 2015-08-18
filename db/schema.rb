@@ -167,6 +167,14 @@ ActiveRecord::Schema.define(version: 20150812093824) do
     t.string   "allpay_payment_no"
     t.integer  "payment_method"
     t.float    "amount",                   limit: 24, default: 0.0,   null: false
+    t.string   "receipt_c",                           default: "0",   null: false
+    t.string   "receipt_received_from"
+    t.string   "receipt_VAT_no"
+    t.string   "receipt_postal"
+    t.string   "receipt_county"
+    t.string   "receipt_district"
+    t.string   "receipt_address"
+    t.string   "receipt_country"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -203,6 +211,8 @@ ActiveRecord::Schema.define(version: 20150812093824) do
     t.float    "price",                 limit: 24
     t.integer  "quantity"
     t.float    "shipping_rates",        limit: 24
+    t.integer  "cold_chain"
+    t.integer  "size"
     t.integer  "review_score"
     t.integer  "shipment_review_score"
     t.string   "review_feedback"
@@ -225,6 +235,7 @@ ActiveRecord::Schema.define(version: 20150812093824) do
 
   create_table "product_boxings", force: true do |t|
     t.float    "quantity",   limit: 24
+    t.integer  "size"
     t.integer  "product_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -264,7 +275,8 @@ ActiveRecord::Schema.define(version: 20150812093824) do
     t.datetime "deleted_at"
     t.boolean  "available_c",    default: false, null: false
     t.datetime "available_at"
-    t.datetime "cold_chain"
+    t.integer  "cold_chain"
+    t.integer  "size"
     t.integer  "company_id"
     t.text     "preservation"
     t.integer  "sweet_degree"

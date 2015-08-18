@@ -7,7 +7,10 @@ class CreateOrders < ActiveRecord::Migration
       
       t.float     :price
       t.integer   :quantity     
-      t.float     :shipping_rates  
+      
+      t.float     :shipping_rates       
+      t.integer   :cold_chain
+      t.integer   :size             
 
       t.integer   :review_score
       t.integer   :shipment_review_score      

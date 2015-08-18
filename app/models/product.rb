@@ -11,7 +11,9 @@ class Product < ActiveRecord::Base
   validates :unit, presence: { presence: true, message: '請填寫 單位' }, on: :update   
   validates :inventory, presence: { presence: true, message: '請填寫 總庫存量' }, on: :update 
   validates :daily_capacity, presence: { presence: true, message: '請填寫 每日可出貨量' }, on: :update 
-  
+  validates :cold_chain, presence: { presence: true, message: '請填寫 運送方式' }, on: :update   
+  validates :name, length: { maximum: 10, message: '名稱 最多10個字' }, on: :update                              
+    
   validates_associated :product_boxings, message: '填寫格式錯誤或不能為空'  
   
   validate  :inventoryMoreThanUnpaid, on: :update 

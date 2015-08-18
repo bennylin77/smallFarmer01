@@ -25,7 +25,7 @@
 			</div>
 			<div class="col-sm-2 col-md-2">
 				<%= f.select :unit, options_for_select(unitOptions, @product.unit), {prompt: '請選擇單位'}, class: "form-control" %>		
-			</div>						
+			</div>																
 		<%= g.fields_for :product_pricings do |h| %>	
 			<%if h.object.quantity == 1%>
 			<div class="col-sm-2 col-md-1 text-right">		
@@ -59,7 +59,13 @@
 				</div>					
 			</div>			
 			<%end%>	
-		<%end%>	 	
+		<%end%>	 
+	<div class="form-group">
+		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">包裝大小</label>
+		<div class="col-sm-5 col-md-2">
+			<%= g.select :size, options_for_select(boxSizeOptions, @product.product_boxings.first.size), {prompt: '請選擇包裝大小'}, class: "form-control" %>		
+		</div>			
+	</div>		
 	<%end%>	
 	<div class="form-group">
 		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">總庫存量</label>
@@ -78,13 +84,22 @@
 		<div class="col-sm-5 col-md-2">
 			<label class="control-label">箱</label>	
 		</div>			
-	</div>		
+	</div>	
+	<div class="form-group"> 
+		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">運送方式</label>
+		<div class="col-sm-5 col-md-2">
+	  		<%=f.select :cold_chain, options_for_select(tempOptions, @product.cold_chain), {prompt: '請選擇運送方式'}, class: "form-control" %>	
+		</div>	
+	</div> 	
+	
+	
+		
 	<div class="form-group">
 		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">照片<br>(最多5張)</label>		
 		<div class="col-sm-9">
 			<input id="product_image" name="product_image[]" type="file" multiple class="file-loading">
   		</div>
-  	</div> 
+  	</div> 	
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-md-offset-3 col-md-10">
 			<%= f.submit '儲存',  class: "btn btn-success add_button", style: 'margin-right: 5px;'  %>

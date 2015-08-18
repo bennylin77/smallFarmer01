@@ -1,4 +1,16 @@
 module ProductsHelper
+  
+  def tempOptions
+    [['常溫', GLOBAL_VAR['SHIPMENT_TEMP_NORMAL']], 
+     ['冷藏', GLOBAL_VAR['SHIPMENT_TEMP_REFRIGERATION']],
+     ['冷凍', GLOBAL_VAR['SHIPMENT_TEMP_FREEZING']]]
+  end  
+
+  def boxSizeOptions
+    [['小等於90公分', GLOBAL_VAR['BOX_SIZE_FIRST']], 
+     ['91公分~120公分', GLOBAL_VAR['BOX_SIZE_SECOND']]]
+  end
+  
   def unitOptions
     [['台斤', GLOBAL_VAR['UNIT_CATTY']], 
      ['公斤', GLOBAL_VAR['UNIT_KG']],
