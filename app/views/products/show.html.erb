@@ -1,4 +1,9 @@
-<div class="container-fluid main_frontend">
+<div class="container-fluid">
+	<div class="row" style="margin-top: 30px;">
+		<div id="parallax1" class="product_cover_parallax_parent">
+			<div style="background-image: url('<%=@product.cover.url%>'); background-size: cover;"></div>
+		</div>	
+	</div>		
 	<ol class="breadcrumb">
 	  <li><a href="#">首頁</a></li>
 	  <li><a href="#">合作農場</a></li>
@@ -13,9 +18,9 @@
 	  	</a>
 	  </li>
 	  <li class="active"><%= @product.name %></li>		  
-	</ol>
+	</ol>	
 	<div class="row">
-		<div class="hidden-xs col-md-12 col-lg-offset-2 col-lg-8 product_farm_words">		
+		<div class="hidden-xs col-md-12 col-lg-offset-1 col-lg-10 product_farm_words">		
 				<%= image_tag @product.company.user.avatar.url, class: 'img-circle product_farm_words_avatar' %>		
 				<%=link_to @product.company do%>
 				<div class="product_farm_words_text">	
@@ -325,6 +330,14 @@
 
 <script>
 var controller = new ScrollMagic.Controller({globalSceneOptions: {triggerHook: "onEnter", duration: "200%"}});
+function move (what, progress) {
+    var to = progress * 25;
+    TweenMax.to(what, 1, {y: '-'+to + "%", overwrite: 5, force3D: true});
+}
+new ScrollMagic.Scene({triggerElement: "#parallax1"})
+		.on("progress", function (e) {
+        	move ("#parallax1 > div", e.progress);
+        }).addTo(controller);	
 new ScrollMagic.Scene({triggerElement: ".product_excellent"})
 		.addTo(controller)
 		.on('start', function(e){
@@ -342,7 +355,6 @@ new ScrollMagic.Scene({triggerElement: ".product_excellent"})
 			  });
 			});					
 		});	
-
 // add cart
 $('.add_to_cart').click(function() {
 	//var $btn = $(this).button('加入中...')	

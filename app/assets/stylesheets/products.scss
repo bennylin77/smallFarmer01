@@ -1,3 +1,23 @@
+.product_cover_parallax_parent {
+  height: 600px;
+  overflow: hidden;
+}
+.product_cover_parallax_parent > * {
+  height:  200%;
+  position: relative;
+  top: 0%;
+}
+@media (max-width: 1750px) {
+  .product_cover_parallax_parent {
+    height: 500px;
+  }  
+}
+@media (max-width: 1500px) {
+  .product_cover_parallax_parent {
+    height: 450px;
+  }    
+}
+
 .product_farm_words{
   background-color: rgba( 230, 218, 207, 0.5);  
   border-radius: 40px;
