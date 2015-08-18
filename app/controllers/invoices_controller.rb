@@ -215,11 +215,12 @@ class InvoicesController < ApplicationController
       end  
       c.product_boxing.product_pricings.order('quantity desc').each do |p|
         if c.quantity >= p.quantity 
-          total_price = total_price + p.quantity*(p.price + shippingRates(cold_chain: p.product_boxing.product.cold_chain, size: p.product_boxing.size))         
+          total_price = total_price + c.quantity*(p.price + shippingRates(cold_chain: p.product_boxing.product.cold_chain, size: p.product_boxing.size))         
         break  
         end  
       end
     end   
+    
     final_total_price = total_price - @coupon_using    
     if @payment_method.blank? and final_total_price!= 0 
       current_user.errors.add(:payment_method, "請選擇付款方式")

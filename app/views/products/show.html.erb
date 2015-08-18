@@ -147,7 +147,8 @@
 					</div>	
 					<%end%>								
 			</div>										
-			<%end%>		
+			<%end%>	
+			<!--	
 			<div class="row" style="margin-top: 10px;">											
 				<div class="hidden-md hidden-lg col-xs-12 text-center">												
 				  	<div style="display: inline-block; color: #B5841B" class="text-center">				  		
@@ -161,6 +162,13 @@
 					</div>	
 				</div>				
 			</div>
+			-->
+			<div class="row" style="margin-top: 30px;">								
+					<div class="hidden-xs hidden-sm col-md-offset-1 col-md-10">	
+					<%=image_tag 'delivery_est_green.png'%>
+					</div>
+			</div>		
+							
 			<div class="row" style="margin-top: 30px;">								
 					<div class="hidden-xs hidden-sm col-sm-11">								  				      
 						<%if @product.inventory - Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', @product.product_boxings.first.id, false, Time.now ).sum(:quantity) == 0%>
