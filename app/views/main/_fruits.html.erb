@@ -8,7 +8,7 @@
 					<%= pp.name%>
 					</div>	  
 					<div class="farm_fruits_price">
-					<%= pp.product_boxings.first.product_pricings.first.price.to_i+GLOBAL_VAR['SHIPPING_RATES'] %>元(含運) <%= "%g" % pp.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(pp.unit).first %>/箱
+					<%= pp.product_boxings.first.product_pricings.first.price.to_i + shippingRates(cold_chain: pp.cold_chain, size: pp.product_boxings.first.size) %>元(含運) <%= "%g" % pp.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(pp.unit).first %>/箱
 				    </div>
 				    <div class="farm_fruits_reviews">
 						<span class="farm_fruits_excellent"><%= rand(2000)%></span><span class="farm_fruits_excellent_text">人說好吃</span>

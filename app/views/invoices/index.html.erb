@@ -122,7 +122,7 @@
           <td>
           <div><%= o.quantity%>箱</div> 
           (<%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %>/箱)</td>
-          <td><%= o.price.to_i+ o.quantity*GLOBAL_VAR['SHIPPING_RATES'] %>元</td>     
+          <td><%= o.price.to_i+ o.quantity*shippingRates(cold_chain: o.cold_chain, size: o.size) %>元</td>     
           <td>
           <table class="table text-center"> 
           	<tr>

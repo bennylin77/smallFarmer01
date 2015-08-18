@@ -2,9 +2,8 @@ class ProductsController < ApplicationController
   layout "companies", only: [:index, :edit, :new, :create, :update, :preview, :available]  
   before_filter :authenticate_user!, except: [:show] 
   
-  before_action only: [:edit, :update, :preview, :destroy, :productImagesUpload, :productImagesDelete] { |c| c.ProductCheckUser(params[:id])}    
-   
-  before_action :set_product, only: [:show, :edit, :update, :preview, :destroy, :productImagesUpload, :productImagesDelete, :available]
+  before_action only: [:edit, :update, :preview, :destroy, :productImagesUpload, :productImagesDelete] { |c| c.ProductCheckUser(params[:id])}      
+  before_action :set_product, only: [:show, :edit, :update, :preview, :destroy, :productImagesUpload, :productImagesDelete, :available, :productCoverUpload, :productCoverDelete]
   before_action :available?, only: [:show]
 
   def index
@@ -61,10 +60,32 @@ class ProductsController < ApplicationController
     end    
   end
   
-
   def destroy
     @product.destroy
     redirect_to products_url
+  end
+
+  def productCoverUpload
+    if @product.cover.blank?      
+      @product.update_attribute(:cover, params[:product][:cover])
+      render json: { initialPreview: [
+                        "<img src='"+@product.cover.url+"' class='file-preview-image'>",
+                     ],
+                     initialPreviewConfig: [{
+                        url: "/products/"+@product.id.to_s+"/productCoverDelete"
+                     }]
+                   }              
+    else
+      render json: { error: '只能上傳一張商品封面。如要更新封面，請先刪除舊的封面。' }      
+    end  
+  end
+  
+  def productCoverDelete
+    if @product.update_attribute(:cover, nil)  
+      render json: {success: '刪除成功'}     
+    else
+      render json: {error: '刪除失敗'}           
+    end   
   end
 
   def productImagesUpload
@@ -91,8 +112,6 @@ class ProductsController < ApplicationController
       render json: {error: '刪除失敗'}           
     end    
   end 
-
-
 
   def available
     if @product.available_c

@@ -28,8 +28,8 @@
 			</div>																
 		<%= g.fields_for :product_pricings do |h| %>	
 			<%if h.object.quantity == 1%>
-			<div class="col-sm-2 col-md-1 text-right">		
-				<label class="control-label">賣</label>				
+			<div class="col-sm-2 col-md-1">		
+				<label class="control-label pull-right">賣</label>				
 			</div>	
 			<div class="col-sm-2 col-md-2">
 				<%= h.hidden_field :quantity, class: "form-control" %>				
@@ -48,8 +48,8 @@
 				<div class="col-sm-2 col-md-2">		
 					<label class="control-label">箱以上(含)</label>				
 				</div>	
-				<div class="col-sm-2 col-md-1 text-right">		
-					<label class="control-label">每箱賣</label>				
+				<div class="col-sm-2 col-md-1">		
+					<label class="control-label pull-right">每箱賣</label>				
 				</div>				
 				<div class="col-sm-2 col-md-2">
 					<%= h.number_field :price, class: "form-control" %>
@@ -61,9 +61,12 @@
 			<%end%>	
 		<%end%>	 
 	<div class="form-group">
-		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">包裝大小</label>
-		<div class="col-sm-5 col-md-2">
+		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label vmiddle">包裹尺寸</label>
+		<div class="col-sm-5 col-md-2 vmiddle">
 			<%= g.select :size, options_for_select(boxSizeOptions, @product.product_boxings.first.size), {prompt: '請選擇包裝大小'}, class: "form-control" %>		
+		</div>
+		<div class="col-sm-4 col-md-6 vmiddle">
+			<%= image_tag 'box_size.png', class: 'img-responsive'%>
 		</div>			
 	</div>		
 	<%end%>	
@@ -93,7 +96,12 @@
 	</div> 	
 	
 	
-		
+	<div class="form-group">
+		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">封面</label>		
+		<div class="col-sm-10 col-md-6">
+    	<%= f.file_field :cover, class: "form-control",  accept: "image/*" %>
+  		</div>
+  	</div>  		
 	<div class="form-group">
 		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">照片<br>(最多5張)</label>		
 		<div class="col-sm-9">
@@ -119,6 +127,34 @@
 		<%end%>
 	<%end%>	
 <% end %>
+
+$("#product_cover").fileinput({showCaption: false,
+			   				   showRemove: false,
+							   allowedFileTypes: ["image"],
+							   previewFileType: "image",
+							   browseClass: "btn btn-default edit_button",
+							   browseLabel: " 選取照片",
+							   browseIcon: '<i class="glyphicon glyphicon-plus"></i>',
+							   uploadClass: "btn btn-default edit_button",
+							   uploadLabel: " 上傳",
+							   uploadIcon: '<i class="glyphicon glyphicon-upload"></i>',
+						       uploadUrl: "/products/<%=@product.id %>/productCoverUpload", // server upload action
+						       uploadAsync: true,
+						       maxFileCount: 1,							   
+							   initialPreview: [
+							   		<%unless @product.cover.blank?%>
+							   		'<%= image_tag @product.cover.url, class: 'file-preview-image' %>'
+							   		<%end%>
+							   ],
+							   initialPreviewConfig: [
+									<%unless @product.cover.blank?%>	
+								    {
+								        url: "/products/<%=@product.id %>/productCoverDelete", // server delete action 
+								    }
+							   		<%end%>	    
+							   ],		        							   
+							   overwriteInitial: true							 
+							   });	
 
 var $input = $("#product_image");
     $input.fileinput({

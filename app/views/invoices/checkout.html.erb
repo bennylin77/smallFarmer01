@@ -21,10 +21,10 @@
 			<div class="col-sm-2 col-xs-12 check_out_product_list_text vmiddle">
 				<% product.product_boxings.first.product_pricings.each do |pp| %>
 					<%if pp.quantity == 1%>	
-						每箱<%= "%g" % product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %> <%= pp.price.to_i+GLOBAL_VAR['SHIPPING_RATES']  %>元
+						每箱<%= "%g" % product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %> <%= pp.price.to_i + shippingRates(cold_chain: product.cold_chain, size: pp.product_boxing.size)%>元
 					<%elsif pp.quantity%>
 						<br>
-						<%= pp.quantity %>箱以上 每箱<%= pp.price.to_i + GLOBAL_VAR['SHIPPING_RATES']%>元		
+						<%= pp.quantity %>箱以上 每箱<%= pp.price.to_i + shippingRates(cold_chain: product.cold_chain, size: pp.product_boxing.size) %>元		
 					<%end%>				
 				<%end%>  					
 			</div>			
@@ -238,18 +238,18 @@ $('input[type=radio][name=payment_method]').change(function() {
 
 
 var total_price = 0
-var shipping_rates = <%=GLOBAL_VAR['SHIPPING_RATES']%>
 <%current_user.carts.each do |c| %>
 	var pricing_<%=c.id %> =  []
+	var shipping_rates_<%=c.id %> = <%= shippingRates(cold_chain: c.product_boxing.product.cold_chain, size: c.product_boxing.size)%>	
 	<%c.product_boxing.product_pricings.order('quantity desc').each do |p| %>
 		<% unless p.quantity.blank? %>
 			pricing_<%=c.id %>.push({ price: <%= p.price.to_i %>, quantity: <%= p.quantity %>  })
 		<% end %>
 	<%end%>
 	$('.total_price_<%=c.id %>').data( "price", 0 );		
-	updatePrice($('#quantity_<%=c.id %>').val(), pricing_<%=c.id %>, <%=c.id %>)		
+	updatePrice($('#quantity_<%=c.id %>').val(), pricing_<%=c.id %>, <%=c.id %>, shipping_rates_<%=c.id %>)		
 	$('#quantity_<%=c.id %>').change(function(){			
-	    updateQuantity($('#quantity_<%=c.id %>').val(), pricing_<%=c.id %>, <%=c.id %>)
+	    updateQuantity($('#quantity_<%=c.id %>').val(), pricing_<%=c.id %>, <%=c.id %>, shipping_rates_<%=c.id %>)
 	});	
 <%end%>
 if( total_price - <%= @coupon_using || 0%> == 0)
@@ -281,7 +281,7 @@ $('#coupons_using').change(function(){
 	}		
 				
 });	
-function updateQuantity(quantity, pricing, id){	
+function updateQuantity(quantity, pricing, id, shipping_rates){	
 	var request = $.ajax({
 		url: "/carts/updateCart",
 		type: "POST",
@@ -293,15 +293,15 @@ function updateQuantity(quantity, pricing, id){
 	});
 	request.fail(function( jqXHR, textStatus ) {
 	});				
-	updatePrice(quantity, pricing, id)
+	updatePrice(quantity, pricing, id, shipping_rates)
 }
-function updatePrice(quantity, pricing, id){
+function updatePrice(quantity, pricing, id, shipping_rates){
 	$.each(pricing, function( index, value ) {
 		if(quantity >= value.quantity)	
 		{
 			$('.total_price_'+id).html(quantity*(value.price+shipping_rates));
 			total_price =  total_price - $('.total_price_'+id ).data( "price") + quantity*(value.price+shipping_rates)
-			$('.total_price').html(total_price )
+			$('.total_price').html(total_price)
 			$('.sum').html(total_price-$('#coupons_using').val())
 			$('.total_price_'+id ).data( "price", quantity*(value.price+shipping_rates) );
 			return false;

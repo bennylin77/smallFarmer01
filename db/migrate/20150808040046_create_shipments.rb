@@ -13,6 +13,8 @@ class CreateShipments < ActiveRecord::Migration
       
       t.boolean   :delivered_c, default: false, null: false  
       t.datetime  :delivered_at 
+      
+      t.integer   :delivery_interval
 
       t.timestamps
     end

@@ -21,10 +21,10 @@
 			<div class="col-sm-2 col-xs-12 check_out_product_list_text vmiddle">
 				<% product.product_boxings.first.product_pricings.each do |pp| %>
 					<%if pp.quantity == 1%>	
-						每箱<%= "%g" % product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %> <%= pp.price.to_i+GLOBAL_VAR['SHIPPING_RATES']  %>元
+						每箱<%= "%g" % product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %> <%= pp.price.to_i + shippingRates(cold_chain: product.cold_chain, size: pp.product_boxing.size)%>元
 					<%elsif pp.quantity%>
 						<br>
-						<%= pp.quantity %>箱以上 每箱<%= pp.price.to_i + GLOBAL_VAR['SHIPPING_RATES']%>元		
+						<%= pp.quantity %>箱以上 每箱<%= pp.price.to_i + shippingRates(cold_chain: product.cold_chain, size: pp.product_boxing.size)%>元		
 					<%end%>
 				<%end%>  					
 			</div>			
@@ -182,18 +182,18 @@
 
 <script>
 var total_price = 0
-var shipping_rates = <%=GLOBAL_VAR['SHIPPING_RATES']%>
 <%current_user.carts.each do |c| %>
 	var pricing_<%=c.id %> =  []
+	var shipping_rates_<%=c.id %> = <%= shippingRates(cold_chain: c.product_boxing.product.cold_chain, size: c.product_boxing.size)%>		
 	<%c.product_boxing.product_pricings.order('quantity desc').each do |p| %>
 		<% unless p.quantity.blank? %>		
 			pricing_<%=c.id %>.push({ price: <%= p.price.to_i %>, quantity: <%= p.quantity %>  })
 		<% end %>
 	<%end%>
 	$('.total_price_<%=c.id %>').data( "price", 0 );		
-	updatePrice(<%= c.quantity %>, pricing_<%=c.id %>, <%=c.id %>)		
+	updatePrice(<%= c.quantity %>, pricing_<%=c.id %>, <%=c.id %>, shipping_rates_<%=c.id %>)		
 <%end%>
-function updatePrice(quantity, pricing, id){
+function updatePrice(quantity, pricing, id, shipping_rates){
 	$.each(pricing, function( index, value ) {
 		if(quantity >= value.quantity)	
 		{

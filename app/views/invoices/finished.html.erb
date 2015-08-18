@@ -86,17 +86,7 @@
 				</div>	
 				<div class="col-sm-2 col-xs-12 check_out_product_list_title vmiddle">
 					<%=link_to c.product_boxing.product.name, c.product_boxing.product%>
-				</div>	
-				<div class="col-sm-2 col-xs-12 check_out_product_list_text vmiddle">
-					<% product.product_boxings.first.product_pricings.each do |pp| %>
-						<%if pp.quantity == 1%>	
-							每箱<%= "%g" % product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %> <%= pp.price.to_i+GLOBAL_VAR['SHIPPING_RATES']  %>元
-						<%else%>
-							<%= pp.quantity %>箱以上 每箱<%= pp.price.to_i + GLOBAL_VAR['SHIPPING_RATES']%>元		
-						<%end%>
-						<br>
-					<%end%>  					
-				</div>			
+				</div>				
 				<div class="col-sm-1 col-xs-12 check_out_product_list_text vmiddle">
 					<%= c.quantity%>箱				
 				</div>

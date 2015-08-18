@@ -54,7 +54,7 @@ class InvoicesController < ApplicationController
             break  
           end  
         end
-        order.shipping_rates = order.quantity*GLOBAL_VAR['SHIPPING_RATES'] 
+        order.shipping_rates = order.quantity*shippingRates(cold_chain: c.product_boxing.product.cold_chain, size: c.product_boxing.size)
         order.save!      
         receiver_address = ReceiverAddress.new
         receiver_address.update( first_name: params[:receiver_first_name], last_name: params[:receiver_last_name],
@@ -215,7 +215,7 @@ class InvoicesController < ApplicationController
       end  
       c.product_boxing.product_pricings.order('quantity desc').each do |p|
         if c.quantity >= p.quantity 
-          total_price = total_price + p.quantity*(p.price + GLOBAL_VAR['SHIPPING_RATES'])         
+          total_price = total_price + p.quantity*(p.price + shippingRates(cold_chain: p.product_boxing.product.cold_chain, size: p.product_boxing.size))         
         break  
         end  
       end
