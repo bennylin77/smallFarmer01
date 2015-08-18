@@ -19,7 +19,8 @@
 }
 
 .product_farm_words{
-  background-color: rgba( 230, 218, 207, 0.5);  
+  border: 1px solid #a8bb7f;
+  background: none; 
   border-radius: 40px;
   min-height: 90px;
 }
@@ -53,11 +54,11 @@
 .product_excellent_no
 {
   color: #de562c;
-  font-size: 35px;  
+  font-size: 37px;  
 }
 .product_excellent_text
 {
-  font-size: 28px;    
+  font-size: 25px;    
 }
 .product_sweet_degree{
   height: 60px; 
@@ -67,8 +68,9 @@
   font-size: 18px;    
 }
 .product_promote{
-  font-size: 16px; 
-  color: #536132;     
+  font-size: 18px;   
+  border-top: 1px solid #a8bb7f;
+  border-bottom: 1px solid #a8bb7f;  
 }
 .add_to_cart{
   border: none;

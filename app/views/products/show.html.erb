@@ -4,7 +4,7 @@
 			<div style="background-image: url('<%=@product.cover.url%>'); background-size: cover;"></div>
 		</div>	
 	</div>		
-	<ol class="breadcrumb">
+	<ol class="breadcrumb" style="margin-top: 20px;">
 	  <li><a href="#">首頁</a></li>
 	  <li><a href="#">合作農場</a></li>
 	  <li>
@@ -42,7 +42,7 @@
 		</div>			
 	</div>	
 	<div class="row" style="margin-top: 30px;">
-		<div class="col-md-6 col-lg-offset-1 col-lg-5">		
+		<div class="col-md-6 col-lg-offset-1 col-lg-6">		
 			<div id="carousel-example-generic" class="product_carousel carousel slide" data-ride="carousel" data-interval="4000" data-pause="hover" style="margin: 10px auto; ">
 			  <ol class="product_carousel-indicators carousel-indicators">
 				<% @product.product_images.each_with_index do |p, i|%> 
@@ -80,98 +80,75 @@
 			  </a>
 			</div>					
 		</div>
-		<div class="col-md-6 col-lg-5">
+		
+		
+		
+		
+		
+		
+		
+		
+		<div class="col-md-6 col-lg-4">
 			<div class="row">			
-		      <div class="hidden-xs hidden-sm col-md-offset-1 col-md-10">
-		      	<%unless @product.sweet_degree.blank?%>
-			  		<%=image_tag 'sweet_degree/'+@product.sweet_degree.to_s+'.png', class: 'product_sweet_degree pull-right', style: 'margin-top: 20px;' %>		      
-		      	<%end%>		        
-		        <div class="pull-right" style="display: inline-block; margin-right: 20px;">
-		        	<div class="product_name text-center"><%= @product.name %></div>
-		        	<div class="product_excellent text-center"><span class="product_excellent_no" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL', @product.id, GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count+Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL ', @product.id, GLOBAL_VAR['ORDER_REVIEW_TASTY']).count %>'> </span><span class="product_excellent_text">人說好吃</span></div>		      
-		      	</div>	
-		      </div>		      	
+		      <div class="hidden-xs hidden-sm col-md-offset-1 col-md-10">        
+		        <div class="" style="">
+		        	<div class="product_name text-left"><%= @product.name %></div>
+		        	<div class="product_excellent text-left"><span class="product_excellent_no" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL', @product.id, GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count+Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL ', @product.id, GLOBAL_VAR['ORDER_REVIEW_TASTY']).count %>'> </span><span class="product_excellent_text"> 人說好吃</span></div>		      
+		      	</div>
+		      </div>	
+		      <!--	      	
 		      <div class="hidden-md hidden-lg col-xs-12 text-center">    	
 		        <div class="product_name"><%= @product.name %></div>
 		        <div class="product_excellent"><span class="product_excellent_no" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL ', @product.id, GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count+Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL ', @product.id, GLOBAL_VAR['ORDER_REVIEW_TASTY']).count %>'> </span><span class="product_excellent_text">人說好吃</span></div>		      
-		      </div>			      		      
-		    </div>				
-			<div class="row">
-		      <div class="hidden-xs hidden-sm col-md-11 text-right" style="margin-top: 10px;">					
-					<%if @product.daily_capacity.to_i*3 > @product.product_boxings.first.orders.joins(:invoice).where('invoices.confirmed_c = ? and called_smallfarmer_c = ?', true, false).sum(:quantity)%>	
-					<%end%>					
-					<%if @product.GAP_c%><%=image_tag 'gap.png', class: '', style: 'height: 55px; width: 55px; margin-left: 5px;'  %><%end%>		      
-					<%if @product.TAP_c%><%=image_tag 'tap.png', class: '', style: 'height: 50px; width: 50px; margin-left: 5px;'  %><%end%>		      		      
-					<%if @product.OTAP_c%><%=image_tag 'otap.png', class: '', style: 'height: 50px; width: 50px; margin-left: 5px;'  %><%end%>		      		      
-					<%if @product.UTAP_c%><%=image_tag 'utap.png', class: '', style: 'height: 50px; width: 50px; margin-left: 5px;'  %><%end%>		      		      		      
 		      </div>
-		      <div class="hidden-md hidden-lg col-xs-12 text-center" style="margin-top: 10px;">				
-					<%if @product.daily_capacity.to_i*3 > @product.product_boxings.first.orders.joins(:invoice).where('invoices.confirmed_c = ? and called_smallfarmer_c = ?', true, false).sum(:quantity)%>						
-					<%end%>											
-					<%if @product.GAP_c%><%=image_tag 'gap.png', class: '', style: 'height: 55px; width: 55px; margin-left: 5px;'  %><%end%>		      
-					<%if @product.TAP_c%><%=image_tag 'tap.png', class: '', style: 'height: 50px; width: 50px; margin-left: 5px;'  %><%end%>		      		      
-					<%if @product.OTAP_c%><%=image_tag 'otap.png', class: '', style: 'height: 50px; width: 50px; margin-left: 5px;'  %><%end%>		      		      
-					<%if @product.UTAP_c%><%=image_tag 'utap.png', class: '', style: 'height: 50px; width: 50px; margin-left: 5px;'  %><%end%>		      		      		      
-		      		<%if @product.sweet_degree%>
-			  			<%=image_tag 'sweet_degree/'+@product.sweet_degree.to_s+'.png', class: 'product_sweet_degree', style:'height: 50px; width: 80px; margin-left: 5px;' %>		      
-		      		<%end%>			   
-					<div class="fb-share-button" style="margin-left: 5px;" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button_count"></div>		      	      		  
-		      </div>		      
-		    </div>		
+		      -->			      		      
+		    </div>	
 			<div class="row hidden-xs hidden-sm ">
 		      <div class="col-sm-offset-5 col-sm-6 text-right" style="margin-top: 15px;">
 				<div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button_count"></div>		      
 		      </div>
-		    </div>			    
+		    </div>			    			
+				
+		    
 			<div class="row product_price" style="margin-top: 20px;">
 			<%@product.product_boxings.first.product_pricings.each do |p| %>
 				<%if p.quantity == 1%>	
-					<div class="hidden-xs hidden-sm col-xs-offset-0 col-sm-offset-2 col-sm-4 text-right">							
+					<div class="hidden-xs hidden-sm col-md-offset-1 col-md-5 text-left">							
 					    每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%>
-					</div>	   
-					<div class="hidden-xs hidden-sm col-sm-3 text-right">						
+					</div>					   			
+					<div class="hidden-xs hidden-sm col-md-3 text-right">							
 						<%= p.price.to_i + shippingRates(cold_chain: @product.cold_chain, size: p.product_boxing.size) %>				
 					</div>	
-					<div class="hidden-xs hidden-sm col-sm-3">元<span style="font-size: 90%">(含運)<span></div>														
+					<div class="hidden-xs hidden-sm col-md-3">元<span style="font-size: 90%">(含運)<span></div>														
+					<!--
 					<div class="col-sm-12 hidden-md hidden-lg text-center">
 					<% @original_price = p.price.to_i%>
 					每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%>				
 					<%= p.price.to_i + shippingRates(cold_chain: @product.cold_chain, size: p.product_boxing.size) %>								
 					元<span style="font-size: 80%">(含運)<span>					
-					</div>													
+					</div>-->													
 			</div>
 			<div class="row product_price" style="margin-top: 10px;">
-					<div class="col-xs-3 col-md-offset-2 col-md-4 text-right">數量</div>					
-					<div class="col-xs-6 col-md-3">	
+				<div class="hidden-xs hidden-sm col-md-offset-1 col-md-5 text-left">數量</div>					
+				<div class="col-xs-6 col-md-3">	
 					<%= select_tag  :quantity, options_for_select( (1..50).step(1).to_a), class: "form-control" %>				
-					</div>	  
-					<div class="col-xs-3 col-md-2">箱</div>					 				
+				</div>	  
+				<div class="col-xs-3 col-md-2">箱</div>					 				
 			</div>						
+			<div class="row" style="margin-top: 18px;">	
 					<%elsif p.quantity%>
-			<div class="row product_promote" style="margin-top: 18px;">	
-					<div class="hidden-xs hidden-sm col-sm-offset-4 col-sm-7 text-right">								
-						<%= p.quantity %>箱以上 每箱便宜<span style="font-size: 130%"><%= @original_price - p.price.to_i  %></span>元	
-					</div>
-					<div class="hidden-md hidden-lg col-xs-12 text-center">								
-						<%= p.quantity %>箱以上 每箱便宜<span style="font-size: 130%"><%= @original_price - p.price.to_i %></span>元		
-					</div>					
-			</div>	
-					<%else%>
-			<div class="row product_promote" style="margin-top: 18px;">	
-					<div class="col-sm-offset-4 col-sm-12">	
-					</div>				
+					<div class="hidden-xs hidden-sm col-md-offset-1 col-md-10 product_promote">								
+						<span style="color: #536132;"><%= p.quantity %>箱以上，每箱便宜<span style="font-size: 130%"><%= @original_price - p.price.to_i  %></span>元</span>
+						<span style="font-size: 80%">＊企業團體購買，請聯絡客服人員</span>				
+					</div>	
+					<%else%>			
+					<div class="hidden-xs hidden-sm col-md-offset-1 col-md-10 product_promote">								
+						<span style="font-size: 80%">＊企業團體購買，請聯絡客服人員</span>				
+					</div>	
+					<%end%>								
 			</div>										
-					<%end%>
-				<%end%>
-			<div class="row" style="margin-top: 2px;">	
-					<div class="hidden-xs hidden-sm col-sm-offset-4 col-sm-7 text-right">				
-						＊企業團體購買，請聯絡客服人員
-					</div>
-					<div class="hidden-md hidden-lg col-xs-12 text-center">				
-						＊企業團體購買，請聯絡客服人員
-					</div>					
-			</div>		
-			<div class="row product_promote" style="margin-top: 10px;">											
+			<%end%>		
+			<div class="row" style="margin-top: 10px;">											
 				<div class="hidden-md hidden-lg col-xs-12 text-center">												
 				  	<div style="display: inline-block; color: #B5841B" class="text-center">				  		
 					  	<div style="color: #B5841B; font-size: 90%;">
@@ -184,7 +161,7 @@
 					</div>	
 				</div>				
 			</div>
-			<div class="row product_promote" style="margin-top: 30px;">								
+			<div class="row" style="margin-top: 30px;">								
 					<div class="hidden-xs hidden-sm col-sm-11">								  				      
 						<%if @product.inventory - Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', @product.product_boxings.first.id, false, Time.now ).sum(:quantity) == 0%>
 						<button type="button" class="cart_unavailable btn btn-default pull-right" autocomplete="off" disabled="disabled">已搶購完</button>			
@@ -212,6 +189,16 @@
 					</div>					
 			</div>	
 		</div>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	</div>		
 	<div class="row" style="font-size: 16px;">
 		<div class="col-md-12 col-lg-offset-1 col-lg-5" style="margin-top: 40px; margin-bottom: 40px;">
@@ -220,8 +207,33 @@
 					<div class="section_title">關於<%= @product.name %></div>
 				</div>					
 			</div>
+			<div class="row">
+		      <div class="hidden-xs hidden-sm col-md-11 text-right" style="margin-top: 10px;">					
+					<%if @product.daily_capacity.to_i*3 > @product.product_boxings.first.orders.joins(:invoice).where('invoices.confirmed_c = ? and called_smallfarmer_c = ?', true, false).sum(:quantity)%>	
+					<%end%>					
+					<%if @product.GAP_c%><%=image_tag 'gap.png', class: '', style: 'height: 55px; width: 55px; margin-left: 5px;'  %><%end%>		      
+					<%if @product.TAP_c%><%=image_tag 'tap.png', class: '', style: 'height: 50px; width: 50px; margin-left: 5px;'  %><%end%>		      		      
+					<%if @product.OTAP_c%><%=image_tag 'otap.png', class: '', style: 'height: 50px; width: 50px; margin-left: 5px;'  %><%end%>		      		      
+					<%if @product.UTAP_c%><%=image_tag 'utap.png', class: '', style: 'height: 50px; width: 50px; margin-left: 5px;'  %><%end%>		      		      		      
+		      </div>
+		      <div class="hidden-md hidden-lg col-xs-12 text-center" style="margin-top: 10px;">				
+					<%if @product.daily_capacity.to_i*3 > @product.product_boxings.first.orders.joins(:invoice).where('invoices.confirmed_c = ? and called_smallfarmer_c = ?', true, false).sum(:quantity)%>						
+					<%end%>											
+					<%if @product.GAP_c%><%=image_tag 'gap.png', class: '', style: 'height: 55px; width: 55px; margin-left: 5px;'  %><%end%>		      
+					<%if @product.TAP_c%><%=image_tag 'tap.png', class: '', style: 'height: 50px; width: 50px; margin-left: 5px;'  %><%end%>		      		      
+					<%if @product.OTAP_c%><%=image_tag 'otap.png', class: '', style: 'height: 50px; width: 50px; margin-left: 5px;'  %><%end%>		      		      
+					<%if @product.UTAP_c%><%=image_tag 'utap.png', class: '', style: 'height: 50px; width: 50px; margin-left: 5px;'  %><%end%>		      		      		      
+		      		<%if @product.sweet_degree%>
+			  			<%=image_tag 'sweet_degree/'+@product.sweet_degree.to_s+'.png', class: 'product_sweet_degree', style:'height: 50px; width: 80px; margin-left: 5px;' %>		      
+		      		<%end%>			   
+		      </div>		      
+		    </div>				
 			<div class="row" style="">		
 				<div class="col-sm-7">
+					
+		      	<%unless @product.sweet_degree.blank?%>
+			  		<%=image_tag 'sweet_degree/'+@product.sweet_degree.to_s+'.png', class: 'product_sweet_degree pull-right', style: 'margin-top: 20px;' %>		      
+		      	<%end%>						
 					<table class="table	product_spec">
 					<tr><th>產地</th><td><%=@product.company.county %><%=@product.company.district%></td></tr>
 					<tr><th>內容量</th><td>每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%> </td></tr>
