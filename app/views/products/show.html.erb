@@ -248,24 +248,24 @@
 		</div>
 		<div class="col-md-6 col-lg-4" style="margin-top: 40px; margin-bottom: 40px;">
 			<div class="row" style="margin-bottom: 20px;">		
-				<div class="col-sm-6">
+				<div class="col-lg-offset-1 col-lg-10">
 					<div class="section_title">顧客評價</div>
 				</div>					
 			</div>				
 			<div class="row" style="margin-bottom: 15px;">		
-				<div class="col-sm-12">
+				<div class="col-lg-offset-1 col-lg-10">
 					<span style="font-size: 22px;">好吃評價</span><span class="review_score_from"> 自 <%=@product.created_at.strftime("%Y 年 %m 月 %d 日") %> 累積至今</span>
 				</div>					
 			</div>				
 			<%= render partial: "products/review_score", locals: { product: @product} %>			
 			<div class="row" style="margin-top: 15px;">		
-				<div class="col-sm-6">
+				<div class="col-lg-offset-1 col-lg-10">
 					<span style="font-size: 22px;">最新評價</span>
 				</div>					
 			</div>			
 			<%= render partial: "products/review_feedback", locals: { product: @product} %>									
 			<div class="row" style="margin-top: 15px;">		
-				<div class="col-sm-6">
+				<div class="col-lg-offset-1 col-lg-10">
 					<span style="font-size: 22px;">出貨速度評價</span>
 				</div>					
 			</div>	
@@ -277,17 +277,17 @@
 		</div>		
 	</div>				
 	<div class="row">
-		<div class="col-md-6 col-lg-offset-1 col-lg-5">
+		<div class="col-md-6 col-lg-offset-1 col-lg-6">
 			<div class="row" style="margin-bottom: 20px;">		
-				<div class="col-md-12 col-lg-5">			
+				<div class="col-lg-offset-1 col-lg-10">			
 					<div class="section_title">留言</div>	
 				</div>					
 			</div>										
 			<%= render partial: "comments/show", locals: { product: @product} %>			
 		</div>	
-		<div class="col-md-6 col-lg-offset-1 col-lg-4" style="margin-top: 40px; margin-bottom: 40px;">		
+		<div class="col-md-6 col-lg-4" style="margin-top: 40px; margin-bottom: 40px;">		
 			<div class="row" style="margin-bottom: 20px;">		
-				<div class="col-sm-6">
+				<div class="col-lg-offset-1 col-lg-10">
 					<div class="section_title">金流去向</div>
 				</div>					
 			</div>
