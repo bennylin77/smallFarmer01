@@ -93,11 +93,21 @@
   box-shadow: 3px 3px rgb(209, 209, 200) !important;  
   background: #afb3ad !important;    
 }
-
-.product_spec th{
-  width: 81px;
+.product_spec {
 }
-
+.product_spec th{
+  vertical-align: middle !important;  
+  width: 81px;
+  height: 50px;
+  background: #d6cfcb;
+}
+.product_spec td{
+  vertical-align: middle !important;  
+  background: #e7e4e2;
+}
+.product_description{
+  padding: 0px 25px;
+}
 /*======================================= Carousel =======================================*/
 .product_carousel
 { 
@@ -168,6 +178,19 @@
   .product_item img {
     width: 100%;     
   }  
+}
+/*======================================= product image =======================================*/
+.product_image_container{
+  padding: 3px;  
+}
+.product_image_upper{
+  height: 250px;  
+}
+.product_image_lower{
+  height: 150px;  
+}
+.product_image_eq{
+  height: 200px;  
 }
 /*======================================= cash flow =======================================*/
 .farmer_get_layer{  

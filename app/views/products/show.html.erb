@@ -1,10 +1,10 @@
-<div class="container-fluid">
+<div class="container-fluid" style="margin-bottom: 50px;">
 	<div class="row" style="margin-top: 30px;">
 		<div id="parallax1" class="product_cover_parallax_parent">
 			<div style="background-image: url('<%=@product.cover.url%>'); background-size: cover;"></div>
 		</div>	
 	</div>		
-	<ol class="breadcrumb" style="margin-top: 20px;">
+	<ol class="breadcrumb hidden-xs" style="margin-top: 20px;">
 	  <li><a href="#">首頁</a></li>
 	  <li><a href="#">合作農場</a></li>
 	  <li>
@@ -200,7 +200,7 @@
 		</div>
 	</div>		
 	<div class="row" style="font-size: 16px;">
-		<div class="col-md-12 col-lg-offset-1 col-lg-5" style="margin-top: 40px; margin-bottom: 40px;">
+		<div class="col-md-6 col-lg-offset-1 col-lg-5" style="margin-top: 40px; margin-bottom: 40px;">
 			<div class="row" style="margin-bottom: 20px;">		
 				<div class="col-sm-12">
 					<div class="section_title">關於<%= @product.name %></div>
@@ -208,16 +208,11 @@
 			</div>
 			<div class="row" style="margin-bottom: 20px;">		
 				<div class="col-sm-12">
-					<div style="margin-left: 15px; font-size: 18px;">基本規格</div>
+					<div style="margin-left: 10px; font-size: 18px;">基本規格</div>
 				</div>					
 			</div>	
-			
-			
-			
 			<div class="row" style="">		
-				<div class="col-sm-7">
-					
-		      	<%unless @product.sweet_degree.blank?%><%=image_tag 'sweet_degree/'+@product.sweet_degree.to_s+'.png', class: 'product_sweet_degree', style: '' %><%end%>						
+				<div class="col-sm-12">
 				<table class="table	product_spec">
 					<tr>
 						<th>產地</th>
@@ -225,7 +220,7 @@
 							<%=@product.company.county %><%=@product.company.district%>
 						</td>
 						<th>檢驗標章</th>
-						<td>
+						<td class="text-center">
 							<%if @product.GAP_c%><%=image_tag 'gap.png', class: '', style: 'height: 55px; width: 55px;'  %><%end%>		      
 							<%if @product.TAP_c%><%=image_tag 'tap.png', class: '', style: 'height: 50px; width: 50px;'  %><%end%>		      		      
 							<%if @product.OTAP_c%><%=image_tag 'otap.png', class: '', style: 'height: 50px; width: 50px;'  %><%end%>		      		      
@@ -238,112 +233,30 @@
 							每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%> 
 						</td>
 						<th>甜度</th>
-						<td>
+						<td class="text-center">
 							<%unless @product.sweet_degree.blank?%><%=image_tag 'sweet_degree/'+@product.sweet_degree.to_s+'.png', class: 'product_sweet_degree', style: '' %><%end%>
 						</td>
 					</tr>			
 					<tr>
 						<th>保存方式</th>
-						<td><%= @product.preservation %></td>
+						<td colspan="3"><%= @product.preservation %></td>
 					</tr>		
 				</table>	
 				</div>								
 			</div>				
-			
-			
-			
-			
-					
-			<div class="row">
-		      <div class="hidden-xs hidden-sm col-md-11 text-right" style="margin-top: 10px;">					
-				
-					<%if @product.GAP_c%><%=image_tag 'gap.png', class: '', style: 'height: 55px; width: 55px; margin-left: 5px;'  %><%end%>		      
-					<%if @product.TAP_c%><%=image_tag 'tap.png', class: '', style: 'height: 50px; width: 50px; margin-left: 5px;'  %><%end%>		      		      
-					<%if @product.OTAP_c%><%=image_tag 'otap.png', class: '', style: 'height: 50px; width: 50px; margin-left: 5px;'  %><%end%>		      		      
-					<%if @product.UTAP_c%><%=image_tag 'utap.png', class: '', style: 'height: 50px; width: 50px; margin-left: 5px;'  %><%end%>		      		      		      
-		      </div>
-		      <div class="hidden-md hidden-lg col-xs-12 text-center" style="margin-top: 10px;">				
-										
-					<%if @product.GAP_c%><%=image_tag 'gap.png', class: '', style: 'height: 55px; width: 55px; margin-left: 5px;'  %><%end%>		      
-					<%if @product.TAP_c%><%=image_tag 'tap.png', class: '', style: 'height: 50px; width: 50px; margin-left: 5px;'  %><%end%>		      		      
-					<%if @product.OTAP_c%><%=image_tag 'otap.png', class: '', style: 'height: 50px; width: 50px; margin-left: 5px;'  %><%end%>		      		      
-					<%if @product.UTAP_c%><%=image_tag 'utap.png', class: '', style: 'height: 50px; width: 50px; margin-left: 5px;'  %><%end%>		      		      		      
-		      		<%if @product.sweet_degree%>
-			  			<%=image_tag 'sweet_degree/'+@product.sweet_degree.to_s+'.png', class: 'product_sweet_degree', style:'height: 50px; width: 80px; margin-left: 5px;' %>		      
-		      		<%end%>			   
-		      </div>		      
-		    </div>				
-			<div class="row" style="">		
-				<div class="col-sm-7">
-					
-		      	<%unless @product.sweet_degree.blank?%>
-			  		<%=image_tag 'sweet_degree/'+@product.sweet_degree.to_s+'.png', class: 'product_sweet_degree pull-right', style: 'margin-top: 20px;' %>		      
-		      	<%end%>						
-					<table class="table	product_spec">
-					<tr><th>產地</th><td><%=@product.company.county %><%=@product.company.district%></td></tr>
-					<tr><th>內容量</th><td>每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%> </td></tr>
-					<tr><th>保存方式</th><td><%= @product.preservation %></td></tr>		
-					</table>	
-				</div>	
-				<div class="col-sm-5">
-					<%unless @product.product_images.last.blank? %>
-						<%=image_tag @product.product_images.last.image.url, class:'', style: 'width: 100%; border-radius: 10px;'%>
-					<%end%>
-				</div>								
-			</div>		
-			<div class="row" style="margin-top: 20px;">		
-				<div class="col-sm-12">
-				<%= simple_format( @product.description, {class: ''}, wrapper_tag: "div")%>												
-				</div>								
-			</div>					
-		</div>
-		<div class="col-lg-offset-1 col-lg-4" style="margin-top: 40px; margin-bottom: 40px;">
 			<div class="row" style="margin-bottom: 20px;">		
-				<div class="col-sm-6">
-					<div class="section_title">金流去向</div>
+				<div class="col-sm-12">
+					<div style="margin-left: 10px; font-size: 18px;">商品介紹</div>
 				</div>					
 			</div>			
-			<div class="row">
-				<div class="col-sm-12">				
-				您選擇<span class="total_quantity"></span>箱，共<span class="total_price"></span>元，您最多可以獲得<span class="total_coupon"></span>元回饋金，金流估計如下：
-				</div>
-			</div	
-			<br>
-			<div class="farmer_get_layer">
-				<div class="farmer_get_inner">
-					<span class="total_farmer_get" style="position: relative; top: 45%"></span>
-				</div>
-				<div style="position: relative; top: 45%">農夫獲得</div>
-			</div>
-			<div class="shipping_rates_layer">
-				<div class="shipping_rates_inner">
-					<span class="total_shipping_rates" style="position: relative; top: 40%"></span>					
-				</div>
-				<div style="position: relative; top: 40%">物流費用</div>				
-			</div>
-			<div class="cash_flow_layer">
-				<div class="cash_flow_inner">
-					<span class="total_cash_flow" style="position: relative; top: 0%"></span>										
-				</div>
-				<div style="position: relative; top: 0%">金流費用</div>				
-			</div>
-			<div class="administration_layer">
-				<div class="administration_inner">
-					<span class="total_administration" style="position: relative; top: 0%"></span>										
-				</div>
-				<div style="position: relative; top: 0%">行政費用</div>				
+			<div class="row">		
+				<div class="col-sm-12">
+				<%= simple_format( @product.description, {class: 'product_description'}, wrapper_tag: "div")%>												
+				</div>								
 			</div>									
-			<div class="coupon_layer">
-				<div class="coupon_inner">
-					<span class="total_coupon" style="position: relative; top: 10%"></span>										
-				</div>
-				<div style="position: relative; top: 10%">您的回饋金</div>				
-			</div>									
-			<abbr title="回饋金為實付金額的固定比例，故當您使用回饋金消費時，最後的金流分佈將會不同。"><small>(最後數據會依實付金額不同而改變)</small></abbr>
-		</div>		
-	</div>				
-	<div class="row">
-		<div class="col-md-12 col-lg-offset-1 col-lg-5" style="margin-top: 40px; margin-bottom: 40px; font-size: 16px;">	
+			<%= render partial: "products/product_images" %>						
+		</div>
+		<div class="col-md-6 col-lg-offset-1 col-lg-4" style="margin-top: 40px; margin-bottom: 40px;">
 			<div class="row" style="margin-bottom: 20px;">		
 				<div class="col-sm-6">
 					<div class="section_title">顧客評價</div>
@@ -351,7 +264,7 @@
 			</div>				
 			<div class="row" style="margin-bottom: 15px;">		
 				<div class="col-sm-12">
-					<span style="font-size: 22px;">累積評價</span><span class="review_score_from"> 自 <%=@product.created_at.strftime("%Y 年 %m 月 %d 日") %> 累積至今</span>
+					<span style="font-size: 22px;">好吃評價</span><span class="review_score_from"> 自 <%=@product.created_at.strftime("%Y 年 %m 月 %d 日") %> 累積至今</span>
 				</div>					
 			</div>				
 			<%= render partial: "products/review_score", locals: { product: @product} %>			
@@ -360,20 +273,40 @@
 					<span style="font-size: 22px;">最新評價</span>
 				</div>					
 			</div>			
-			<%= render partial: "products/review_feedback", locals: { product: @product} %>											
-		</div>
-		<div class="col-lg-5" style="margin-top: 40px; margin-bottom: 40px;">
+			<%= render partial: "products/review_feedback", locals: { product: @product} %>									
+			<div class="row" style="margin-top: 15px;">		
+				<div class="col-sm-6">
+					<span style="font-size: 22px;">出貨速度評價</span>
+				</div>					
+			</div>	
+			<div class="row" style="margin-top: 15px;">		
+				<div class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8">			
+					<%=image_tag 'delivery_statis_green.png', style:'width: 100%; margin-top:20px;'%>	
+				</div>					
+			</div>				
+		</div>		
+	</div>				
+	<div class="row">
+		<div class="col-md-6 col-lg-offset-1 col-lg-5">
 			<div class="row" style="margin-bottom: 20px;">		
 				<div class="col-md-12 col-lg-5">			
 					<div class="section_title">留言</div>	
 				</div>					
 			</div>										
 			<%= render partial: "comments/show", locals: { product: @product} %>			
+		</div>	
+		<div class="col-md-6 col-lg-offset-1 col-lg-4" style="margin-top: 40px; margin-bottom: 40px;">		
+			<div class="row" style="margin-bottom: 20px;">		
+				<div class="col-sm-6">
+					<div class="section_title">金流去向</div>
+				</div>					
+			</div>
+			<%= render partial: "products/cash_flow" %>	
 		</div>		
 	</div>	
-	<div class="row" style="margin-top: 40px;">
+	<div class="row" style="margin-top: 40px; border-top: 1px solid #a8bb7f;">
 		<div class="col-sm-offset-1 col-sm-10">
-			<div class="row" style="margin-bottom: 40px;">		
+			<div class="row" style="margin-bottom: 20px; margin-top: 40px">		
 				<div class="col-sm-6">
 					<div class="section_title">推薦產品</div>
 				</div>					
