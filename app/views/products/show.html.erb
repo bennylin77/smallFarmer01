@@ -136,31 +136,28 @@
 			</div>	
 				<%else%>	
 			<div class="row" style="margin-top: 18px;">				
-				<div class="hidden-xs hidden-sm col-md-offset-1 col-md-10 product_promote text-center">								
+				<div class="col-sm-offset-2 col-sm-8  col-md-offset-1 col-md-10 product_promote text-center">								
 					<span style="font-size: 80%;">＊企業團體購買，請聯絡客服人員</span>				
-				</div>	
+				</div>					
 			</div>	
 				<%end%>								
 			<%end%>	
-			<!--	
-			<div class="row" style="margin-top: 10px;">											
-				<div class="hidden-md hidden-lg col-xs-12 text-center">												
-				  	<div style="display: inline-block; color: #B5841B" class="text-center">				  		
-					  	<div style="color: #B5841B; font-size: 90%;">
-					  		最多獲得回饋金			  				
-					  	</div>	
-					  	<div>					
-					  		<%=image_tag 'coupons_icon.png', class: '', style: 'height: 35px;' %>			  													  												
-							<div style="margin-top: -30px"><span style="font-size: 120%;" class="coupons_est"></span><span style="font-size: 80%;">元</span></div>
-						</div>	
-					</div>	
-				</div>				
-			</div>
-			-->
 			<div class="row" style="margin-top: 30px;">								
 				<div class="hidden-xs hidden-sm col-md-offset-1 col-md-10">						
 					<%=image_tag 'delivery_est_'+deliveryEstimationColor(product: @product)+'.png', class: 'pull-right',style: 'height: 50px;'%>
 				</div>
+				<div class="hidden-md hidden-lg col-xs-6">								  				      																  				      					
+				  	<div class="pull-right" style="color: #B5841B" class="text-center">				  			
+				  		<%=image_tag 'coupons_icon.png', class: 'coupons_icon_product', style: 'height: 50px;' %>			  													  												
+						<div style="margin-top: -40px"><span style="font-size: 24px;" class="coupons_est"></span><span style="font-size: 100%;">元</span></div>
+					</div>	
+					<div class="pull-right" style="color: #B5841B; font-size: 16px; margin-top: 13px; margin-right: 10px;">
+					回饋金約			  				
+					</div>												
+				</div>				
+				<div class="hidden-md hidden-lg col-xs-6">						
+					<%=image_tag 'delivery_est_'+deliveryEstimationColor(product: @product)+'.png', class: '',style: 'height: 50px;'%>
+				</div>				
 			</div>				
 			<div class="row" style="margin-top: 30px;">								
 				<div class="hidden-xs hidden-sm col-sm-11">								  				      
@@ -181,26 +178,26 @@
 					  	</div>							
 				</div>					
 				<div class="hidden-md hidden-lg col-xs-12 text-center">							
-						<%if @product.inventory - Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', @product.product_boxings.first.id, false, Time.now ).sum(:quantity) == 0%>
+					<%if @product.inventory - Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', @product.product_boxings.first.id, false, Time.now ).sum(:quantity) == 0%>
 						<button type="button" class="cart_unavailable btn btn-default" autocomplete="off" disabled="disabled">已搶購完</button>			
-						<%else%>
-						<%=image_tag 'cart_icon.png', class: 'cart_icon_product', style: 'height: 35px; position: absolute; right: 47%; top: 5px; z-index: -1' %>			  													  																												
+					<%else%>
+					<%=image_tag 'cart_icon.png', class: 'cart_icon_product', style: 'height: 35px; position: absolute; right: 47%; top: 5px; z-index: -1' %>			  													  																												
 						<button type="button" class="add_to_cart btn btn-success" autocomplete="off">加入購物車</button>			
-						<%end%>		
+					<%end%>		
 				</div>					
-			</div>	
+			</div>		
 		</div>
 	</div>		
 	<div class="row" style="font-size: 16px;">
-		<div class="col-md-6 col-lg-offset-1 col-lg-6" style="margin-top: 40px; margin-bottom: 40px;">
-			<div class="row" style="margin-bottom: 20px;">		
+		<div class="col-md-7 col-lg-offset-1 col-lg-6" style="margin-top: 40px; margin-bottom: 40px;">
+			<div class="row" style="margin-bottom: 40px;">		
 				<div class="col-lg-offset-1 col-lg-10">
 					<div class="section_title">關於<%= @product.name %></div>
 				</div>					
 			</div>
 			<div class="row" style="margin-bottom: 20px;">		
 				<div class="col-lg-offset-1 col-lg-10">
-					<div style="margin-left: 10px; font-size: 18px;">基本規格</div>
+					<div class="section_sub_title">基本規格</div>
 				</div>					
 			</div>	
 			<div class="row" style="">		
@@ -238,7 +235,7 @@
 			</div>				
 			<div class="row" style="margin-bottom: 20px;">		
 				<div class="col-lg-offset-1 col-lg-10">
-					<div style="margin-left: 10px; font-size: 18px;">商品介紹</div>
+					<div class="section_sub_title">商品介紹</div>
 				</div>					
 			</div>			
 			<div class="row">		
@@ -248,27 +245,27 @@
 			</div>									
 			<%= render partial: "products/product_images" %>						
 		</div>
-		<div class="col-md-6 col-lg-4" style="margin-top: 40px; margin-bottom: 40px;">
-			<div class="row" style="margin-bottom: 20px;">		
+		<div class="col-md-5 col-lg-4" style="margin-top: 40px; margin-bottom: 40px;">
+			<div class="row" style="margin-bottom: 40px;">		
 				<div class="col-lg-offset-1 col-lg-10">
 					<div class="section_title">顧客評價</div>
 				</div>					
-			</div>				
-			<div class="row" style="margin-bottom: 15px;">		
-				<div class="col-lg-offset-1 col-lg-10">
-					<span style="font-size: 22px;">好吃評價</span><span class="review_score_from"> 自 <%=@product.created_at.strftime("%Y 年 %m 月 %d 日") %> 累積至今</span>
+			</div>		
+			<div class="row" style="margin-bottom: 20px;">		
+				<div class="col-lg-offset-1 col-lg-11">
+					<span class="section_sub_title">好吃評價</span><span class="review_score_from"> 自 <%=@product.created_at.strftime("%Y 年 %m 月 %d 日") %> 累積至今</span>
 				</div>					
-			</div>				
+			</div>								
 			<%= render partial: "products/review_score", locals: { product: @product} %>			
-			<div class="row" style="margin-top: 15px;">		
+			<div class="row" style="margin-top: 40px; margin-bottom: 20px;">		
 				<div class="col-lg-offset-1 col-lg-10">
-					<span style="font-size: 22px;">最新評價</span>
+					<span class="section_sub_title">最新評價</span>
 				</div>					
 			</div>			
 			<%= render partial: "products/review_feedback", locals: { product: @product} %>									
-			<div class="row" style="margin-top: 15px;">		
+			<div class="row" style="margin-top: 40px; margin-bottom: 20px;">		
 				<div class="col-lg-offset-1 col-lg-10">
-					<span style="font-size: 22px;">出貨速度評價</span>
+					<span class="section_sub_title">出貨速度評價</span>
 				</div>					
 			</div>	
 			<div class="row" style="margin-top: 15px;">		
