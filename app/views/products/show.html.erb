@@ -198,16 +198,6 @@
 				</div>					
 			</div>	
 		</div>
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 	</div>		
 	<div class="row" style="font-size: 16px;">
 		<div class="col-md-12 col-lg-offset-1 col-lg-5" style="margin-top: 40px; margin-bottom: 40px;">
@@ -216,18 +206,64 @@
 					<div class="section_title">關於<%= @product.name %></div>
 				</div>					
 			</div>
+			<div class="row" style="margin-bottom: 20px;">		
+				<div class="col-sm-12">
+					<div style="margin-left: 15px; font-size: 18px;">基本規格</div>
+				</div>					
+			</div>	
+			
+			
+			
+			<div class="row" style="">		
+				<div class="col-sm-7">
+					
+		      	<%unless @product.sweet_degree.blank?%><%=image_tag 'sweet_degree/'+@product.sweet_degree.to_s+'.png', class: 'product_sweet_degree', style: '' %><%end%>						
+				<table class="table	product_spec">
+					<tr>
+						<th>產地</th>
+						<td>
+							<%=@product.company.county %><%=@product.company.district%>
+						</td>
+						<th>檢驗標章</th>
+						<td>
+							<%if @product.GAP_c%><%=image_tag 'gap.png', class: '', style: 'height: 55px; width: 55px;'  %><%end%>		      
+							<%if @product.TAP_c%><%=image_tag 'tap.png', class: '', style: 'height: 50px; width: 50px;'  %><%end%>		      		      
+							<%if @product.OTAP_c%><%=image_tag 'otap.png', class: '', style: 'height: 50px; width: 50px;'  %><%end%>		      		      
+							<%if @product.UTAP_c%><%=image_tag 'utap.png', class: '', style: 'height: 50px; width: 50px;'  %><%end%>	
+						</td>					
+					</tr>					
+					<tr>
+						<th>內容量</th>
+						<td>
+							每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%> 
+						</td>
+						<th>甜度</th>
+						<td>
+							<%unless @product.sweet_degree.blank?%><%=image_tag 'sweet_degree/'+@product.sweet_degree.to_s+'.png', class: 'product_sweet_degree', style: '' %><%end%>
+						</td>
+					</tr>			
+					<tr>
+						<th>保存方式</th>
+						<td><%= @product.preservation %></td>
+					</tr>		
+				</table>	
+				</div>								
+			</div>				
+			
+			
+			
+			
+					
 			<div class="row">
 		      <div class="hidden-xs hidden-sm col-md-11 text-right" style="margin-top: 10px;">					
-					<%if @product.daily_capacity.to_i*3 > @product.product_boxings.first.orders.joins(:invoice).where('invoices.confirmed_c = ? and called_smallfarmer_c = ?', true, false).sum(:quantity)%>	
-					<%end%>					
+				
 					<%if @product.GAP_c%><%=image_tag 'gap.png', class: '', style: 'height: 55px; width: 55px; margin-left: 5px;'  %><%end%>		      
 					<%if @product.TAP_c%><%=image_tag 'tap.png', class: '', style: 'height: 50px; width: 50px; margin-left: 5px;'  %><%end%>		      		      
 					<%if @product.OTAP_c%><%=image_tag 'otap.png', class: '', style: 'height: 50px; width: 50px; margin-left: 5px;'  %><%end%>		      		      
 					<%if @product.UTAP_c%><%=image_tag 'utap.png', class: '', style: 'height: 50px; width: 50px; margin-left: 5px;'  %><%end%>		      		      		      
 		      </div>
 		      <div class="hidden-md hidden-lg col-xs-12 text-center" style="margin-top: 10px;">				
-					<%if @product.daily_capacity.to_i*3 > @product.product_boxings.first.orders.joins(:invoice).where('invoices.confirmed_c = ? and called_smallfarmer_c = ?', true, false).sum(:quantity)%>						
-					<%end%>											
+										
 					<%if @product.GAP_c%><%=image_tag 'gap.png', class: '', style: 'height: 55px; width: 55px; margin-left: 5px;'  %><%end%>		      
 					<%if @product.TAP_c%><%=image_tag 'tap.png', class: '', style: 'height: 50px; width: 50px; margin-left: 5px;'  %><%end%>		      		      
 					<%if @product.OTAP_c%><%=image_tag 'otap.png', class: '', style: 'height: 50px; width: 50px; margin-left: 5px;'  %><%end%>		      		      
