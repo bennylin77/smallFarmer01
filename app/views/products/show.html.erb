@@ -87,13 +87,11 @@
 		        	<div class="product_name text-left"><%= @product.name %></div>
 		        	<div class="product_excellent text-left"><span class="product_excellent_no" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL', @product.id, GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count+Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL ', @product.id, GLOBAL_VAR['ORDER_REVIEW_TASTY']).count %>'> </span><span class="product_excellent_text"> 人說好吃</span></div>		      
 		      	</div>
-		      </div>	
-		      <!--	      	
+		      </div>	      	
 		      <div class="hidden-md hidden-lg col-xs-12 text-center">    	
 		        <div class="product_name"><%= @product.name %></div>
 		        <div class="product_excellent"><span class="product_excellent_no" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL ', @product.id, GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count+Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL ', @product.id, GLOBAL_VAR['ORDER_REVIEW_TASTY']).count %>'> </span><span class="product_excellent_text">人說好吃</span></div>		      
-		      </div>
-		      -->			      		      
+		      </div>		      		      
 		    </div>	
 			<div class="row hidden-xs hidden-sm ">
 		      <div class="col-sm-offset-5 col-sm-6 text-right" style="margin-top: 15px;">
@@ -110,27 +108,31 @@
 						<%= p.price.to_i + shippingRates(cold_chain: @product.cold_chain, size: p.product_boxing.size) %>				
 					</div>	
 					<div class="hidden-xs hidden-sm col-md-3">元<span style="font-size: 90%">(含運)<span></div>														
-					<!--
-					<div class="col-sm-12 hidden-md hidden-lg text-center">
+					<div class="col-xs-12 hidden-md hidden-lg text-center">
 					<% @original_price = p.price.to_i%>
 					每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%>				
 					<%= p.price.to_i + shippingRates(cold_chain: @product.cold_chain, size: p.product_boxing.size) %>								
 					元<span style="font-size: 80%">(含運)<span>					
-					</div>-->													
+					</div>											
 			</div>
 			<div class="row product_price" style="margin-top: 10px;">
 				<div class="hidden-xs hidden-sm col-md-offset-1 col-md-5 text-left">數量</div>					
-				<div class="col-xs-6 col-md-3">	
+				<div class="hidden-md hidden-lg col-xs-3 text-right">數量</div>									
+				<div class="col-xs-6 col-md-offset-0 col-md-3">	
 					<%= select_tag  :quantity, options_for_select( (1..50).step(1).to_a), class: "form-control" %>				
 				</div>	  
-				<div class="col-xs-3 col-md-2">箱</div>					 				
+				<div class="col-xs-3 col-md-2">箱</div>	
 			</div>						
 				<%elsif p.quantity%>
 			<div class="row" style="margin-top: 18px;">	
 				<div class="hidden-xs hidden-sm col-md-offset-1 col-md-10 product_promote">								
 					<span style="color: #536132;"><%= p.quantity %>箱以上，每箱便宜<span style="font-size: 130%"><%= @original_price - p.price.to_i  %></span>元</span>
 					<span style="font-size: 80%;">＊企業團體購買，請聯絡客服人員</span>				
-				</div>
+				</div>			
+				<div class="hidden-md hidden-lg col-sm-offset-2 col-sm-8 product_promote text-center">								
+					<span style="color: #536132;"><%= p.quantity %>箱以上，每箱便宜<span style="font-size: 130%"><%= @original_price - p.price.to_i  %></span>元</span>
+					<span style="font-size: 80%;">＊企業團體購買，請聯絡客服人員</span>				
+				</div>						
 			</div>	
 				<%else%>	
 			<div class="row" style="margin-top: 18px;">				
