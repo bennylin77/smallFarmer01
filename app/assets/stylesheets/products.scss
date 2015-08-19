@@ -261,14 +261,19 @@
 .review_title{
   display: inline-block;
   font-size: 18px;
-  width: 80px;
+  width: 90px;
   text-align: right;
+  margin-right: 5px;
 }
 .review_block_bar{
   display: inline-block; 
   width: 300px;  
 }
-
+@media (max-width: 1405px) {
+  .review_block_bar{
+    width: 200px;  
+  }
+}
 .review_block_bar_inner{
   display: inline-block; 
   height: 18px;   
@@ -347,4 +352,9 @@
   background: rgba(255, 255, 255, 0.8); 
   font-size: 18px;  
   padding: 10px 10px;
+}
+@media (max-width: 1370px) {
+  .review_block_bar{
+    width: 200px;  
+  }
 }

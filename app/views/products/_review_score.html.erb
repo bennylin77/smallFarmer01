@@ -1,5 +1,5 @@
 <div class="row" style="">				
-	<div class="col-lg-offset-1 col-lg-10">	
+	<div class="col-lg-offset-1 col-lg-11">	
 		<ul class="review_score">
 			<li>
 				<div class="review_title">超好吃</div>	
@@ -48,13 +48,13 @@ $('.review_tasty').html(tasty_count);
 $('.review_common').html(common_count);
 $('.review_unappealing').html(unappealing_count);
 var controller = new ScrollMagic.Controller();
-new ScrollMagic.Scene({triggerElement: ".product_section_title"})
+new ScrollMagic.Scene({triggerElement: ".review_score"})
 		.addTo(controller)
 		.on('start', function(e){
-			$('.review_block1_bar').animate({"width": 100*(delicious_count/max_count)}, 1000)
-			$('.review_block2_bar').animate({"width": 100*(tasty_count/max_count)}, 1000)
-			$('.review_block3_bar').animate({"width": 100*(common_count/max_count)}, 1000)
-			$('.review_block4_bar').animate({"width": 100*(unappealing_count/max_count)}, 1000)				
+			$('.review_block1_bar').animate({"width": $('.review_block_bar').width()*0.8*(delicious_count/max_count)}, 800)
+			$('.review_block2_bar').animate({"width": $('.review_block_bar').width()*0.8*(tasty_count/max_count)}, 800)
+			$('.review_block3_bar').animate({"width": $('.review_block_bar').width()*0.8*(common_count/max_count)}, 800)
+			$('.review_block4_bar').animate({"width": $('.review_block_bar').width()*0.8*(unappealing_count/max_count)}, 800)				
 		}).on('leave', function(e){
 			$('.review_block1_bar').animate({"width": 0}, 0)
 			$('.review_block2_bar').animate({"width": 0}, 0)

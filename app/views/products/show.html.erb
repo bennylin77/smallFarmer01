@@ -190,7 +190,7 @@
 	</div>		
 	<div class="row" style="font-size: 16px;">
 		<div class="col-md-7 col-lg-offset-1 col-lg-6" style="margin-top: 40px; margin-bottom: 40px;">
-			<div class="row" style="margin-bottom: 40px;">		
+			<div class="row" style="margin-bottom: 50px;">		
 				<div class="col-lg-offset-1 col-lg-10">
 					<div class="section_title">關於<%= @product.name %></div>
 				</div>					
@@ -246,7 +246,7 @@
 			<%= render partial: "products/product_images" %>						
 		</div>
 		<div class="col-md-5 col-lg-4" style="margin-top: 40px; margin-bottom: 40px;">
-			<div class="row" style="margin-bottom: 40px;">		
+			<div class="row" style="margin-bottom: 50px;">		
 				<div class="col-lg-offset-1 col-lg-10">
 					<div class="section_title">顧客評價</div>
 				</div>					
@@ -257,13 +257,13 @@
 				</div>					
 			</div>								
 			<%= render partial: "products/review_score", locals: { product: @product} %>			
-			<div class="row" style="margin-top: 40px; margin-bottom: 20px;">		
+			<div class="row" style="margin-top: 50px; margin-bottom: 20px;">		
 				<div class="col-lg-offset-1 col-lg-10">
 					<span class="section_sub_title">最新評價</span>
 				</div>					
 			</div>			
 			<%= render partial: "products/review_feedback", locals: { product: @product} %>									
-			<div class="row" style="margin-top: 40px; margin-bottom: 20px;">		
+			<div class="row" style="margin-top: 50px; margin-bottom: 20px;">		
 				<div class="col-lg-offset-1 col-lg-10">
 					<span class="section_sub_title">出貨速度評價</span>
 				</div>					
