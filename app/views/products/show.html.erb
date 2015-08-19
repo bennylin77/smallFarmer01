@@ -41,8 +41,8 @@
 			</div>
 		</div>			
 	</div>	
-	<div class="row" style="margin-top: 30px;">
-		<div class="col-md-6 col-lg-offset-1 col-lg-6">		
+	<div class="row" style="margin-top: 60px;">
+		<div class="col-md-7 col-lg-offset-1 col-lg-6">		
 			<div id="carousel-example-generic" class="product_carousel carousel slide" data-ride="carousel" data-interval="4000" data-pause="hover" style="margin: 10px auto; ">
 			  <ol class="product_carousel-indicators carousel-indicators">
 				<% @product.product_images.each_with_index do |p, i|%> 
@@ -80,16 +80,8 @@
 			  </a>
 			</div>					
 		</div>
-		
-		
-		
-		
-		
-		
-		
-		
-		<div class="col-md-6 col-lg-4">
-			<div class="row">			
+		<div class="col-md-5 col-lg-4">
+			<div class="row" style="margin-top: 20px;">			
 		      <div class="hidden-xs hidden-sm col-md-offset-1 col-md-10">        
 		        <div class="" style="">
 		        	<div class="product_name text-left"><%= @product.name %></div>
@@ -107,9 +99,7 @@
 		      <div class="col-sm-offset-5 col-sm-6 text-right" style="margin-top: 15px;">
 				<div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button_count"></div>		      
 		      </div>
-		    </div>			    			
-				
-		    
+		    </div>			    			    
 			<div class="row product_price" style="margin-top: 20px;">
 			<%@product.product_boxings.first.product_pricings.each do |p| %>
 				<%if p.quantity == 1%>	
@@ -139,13 +129,13 @@
 			<div class="row" style="margin-top: 18px;">	
 				<div class="hidden-xs hidden-sm col-md-offset-1 col-md-10 product_promote">								
 					<span style="color: #536132;"><%= p.quantity %>箱以上，每箱便宜<span style="font-size: 130%"><%= @original_price - p.price.to_i  %></span>元</span>
-					<span style="font-size: 80%">＊企業團體購買，請聯絡客服人員</span>				
+					<span style="font-size: 80%;">＊企業團體購買，請聯絡客服人員</span>				
 				</div>
 			</div>	
 				<%else%>	
 			<div class="row" style="margin-top: 18px;">				
-				<div class="hidden-xs hidden-sm col-md-offset-1 col-md-10 product_promote">								
-					<span style="font-size: 80%">＊企業團體購買，請聯絡客服人員</span>				
+				<div class="hidden-xs hidden-sm col-md-offset-1 col-md-10 product_promote text-center">								
+					<span style="font-size: 80%;">＊企業團體購買，請聯絡客服人員</span>				
 				</div>	
 			</div>	
 				<%end%>								
@@ -172,21 +162,21 @@
 			</div>				
 			<div class="row" style="margin-top: 30px;">								
 				<div class="hidden-xs hidden-sm col-sm-11">								  				      
-						<%if @product.inventory - Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', @product.product_boxings.first.id, false, Time.now ).sum(:quantity) == 0%>
+					<%if @product.inventory - Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', @product.product_boxings.first.id, false, Time.now ).sum(:quantity) == 0%>
 						<button type="button" class="cart_unavailable btn btn-default pull-right" autocomplete="off" disabled="disabled">已搶購完</button>			
-						<%else%>
+					<%else%>
 						<%=image_tag 'cart_icon.png', class: 'cart_icon_product_992', style: 'height: 35px; position: absolute; right: 62.5px; top: 5px; z-index: -1' %>			  													  																													
 						<button type="button" class="add_to_cart btn btn-success pull-right" autocomplete="off">加入購物車</button>			
-						<%end%>
-				  		<div style="display: inline-block; margin-right: 15px; margin-top: -5px; color: #B5841B" class="text-center pull-right">				  		
-					  		<div style="color: #B5841B; font-size: 90%;">
-					  		最多獲得回饋金			  				
-					  		</div>	
+					<%end%>						
+				  		<div style="display: inline-block; margin-right: 15px; margin-top: 3px; color: #B5841B" class="text-center pull-right">				  			
 					  		<div>					
-					  		<%=image_tag 'coupons_icon.png', class: 'coupons_icon_product', style: 'height: 35px;' %>			  													  												
+					  		<%=image_tag 'coupons_icon.png', class: 'coupons_icon_product', style: 'height: 40px;' %>			  													  												
 							<div style="margin-top: -30px"><span style="font-size: 130%;" class="coupons_est"></span><span style="font-size: 80%;">元</span></div>
 							</div>	
-						</div>		
+						</div>	
+					  	<div class="pull-right" style="color: #B5841B; font-size: 15px; margin-top: 13px; margin-right: 10px;">
+					  		最多獲得回饋金			  				
+					  	</div>							
 				</div>					
 				<div class="hidden-md hidden-lg col-xs-12 text-center">							
 						<%if @product.inventory - Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', @product.product_boxings.first.id, false, Time.now ).sum(:quantity) == 0%>
@@ -200,19 +190,19 @@
 		</div>
 	</div>		
 	<div class="row" style="font-size: 16px;">
-		<div class="col-md-6 col-lg-offset-1 col-lg-5" style="margin-top: 40px; margin-bottom: 40px;">
+		<div class="col-md-6 col-lg-offset-1 col-lg-6" style="margin-top: 40px; margin-bottom: 40px;">
 			<div class="row" style="margin-bottom: 20px;">		
-				<div class="col-sm-12">
+				<div class="col-lg-offset-1 col-lg-10">
 					<div class="section_title">關於<%= @product.name %></div>
 				</div>					
 			</div>
 			<div class="row" style="margin-bottom: 20px;">		
-				<div class="col-sm-12">
+				<div class="col-lg-offset-1 col-lg-10">
 					<div style="margin-left: 10px; font-size: 18px;">基本規格</div>
 				</div>					
 			</div>	
 			<div class="row" style="">		
-				<div class="col-sm-12">
+				<div class="col-sm-offset-1 col-sm-10">
 				<table class="table	product_spec">
 					<tr>
 						<th>產地</th>
@@ -245,18 +235,18 @@
 				</div>								
 			</div>				
 			<div class="row" style="margin-bottom: 20px;">		
-				<div class="col-sm-12">
+				<div class="col-lg-offset-1 col-lg-10">
 					<div style="margin-left: 10px; font-size: 18px;">商品介紹</div>
 				</div>					
 			</div>			
 			<div class="row">		
-				<div class="col-sm-12">
+				<div class="col-sm-offset-1 col-sm-10">
 				<%= simple_format( @product.description, {class: 'product_description'}, wrapper_tag: "div")%>												
 				</div>								
 			</div>									
 			<%= render partial: "products/product_images" %>						
 		</div>
-		<div class="col-md-6 col-lg-offset-1 col-lg-4" style="margin-top: 40px; margin-bottom: 40px;">
+		<div class="col-md-6 col-lg-4" style="margin-top: 40px; margin-bottom: 40px;">
 			<div class="row" style="margin-bottom: 20px;">		
 				<div class="col-sm-6">
 					<div class="section_title">顧客評價</div>
