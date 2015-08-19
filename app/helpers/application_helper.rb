@@ -35,6 +35,19 @@ module ApplicationHelper
     end
   end
   
+  def deliveryEstimationColor(hash={})   
+    daily_capacity = hash[:product].daily_capacity.to_i    
+    unhandle = hash[:product].product_boxings.first.orders.joins(:invoice).where('invoices.confirmed_c = ? and called_smallfarmer_c = ?', true, false).sum(:quantity)        
+    case   
+    when unhandle <= daily_capacity
+      'green'  
+    when unhandle <= daily_capacity*3
+      'yellow'
+    else
+      'red'
+    end  
+  end
+  
   def active(hash={})     
     if current_page?(hash)
       "class='active'".html_safe     
