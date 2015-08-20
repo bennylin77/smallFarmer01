@@ -12,7 +12,7 @@
   margin-right: 20px;
   border-radius: 10px;
   border: none;
-  background: #ffffff;
+  background: #edece9;
   margin-bottom: 10px;
 }
 .talkbubble_right:before {
@@ -23,7 +23,7 @@
   width: 0;
   height: 0;
   border-top: 8px solid transparent;
-  border-left: 10px solid #ffffff;
+  border-left: 10px solid #edece9;
   border-bottom: 8px solid transparent;
 }
 .talkbubble {
@@ -32,7 +32,7 @@
   margin-left: 20px;
   border-radius: 10px;
   border: none;
-  background: #ffffff;
+  background: #edece9;
   margin-bottom: 10px;
 }
 .talkbubble:before {
@@ -43,7 +43,7 @@
   width: 0;
   height: 0;
   border-top: 8px solid transparent;
-  border-right: 10px solid #ffffff;
+  border-right: 10px solid #edece9;
   border-bottom: 8px solid transparent;
 }
 .talkbubble textarea, .talkbubble_right textarea {
@@ -69,7 +69,7 @@
 }
 .comment_msg{
   font-size: 15px;
-  background: rgba(255, 255, 255, 0.7);
+  background: #edece9;
   padding: 5px 10px;
   color: #000000;  
 }
@@ -77,16 +77,13 @@
 .comment_sub_row{
   margin-top: 20px;  
 }
-
-.comment_button{
-  
-}
 .comment_button{
   border: none;
   border-radius: 0;
   font-size: 16px;
   padding: 4px 10px;
-  box-shadow: 3px 3px rgb(209, 209, 200);  
+  box-shadow: 3px 3px rgb(209, 209, 200); 
+  background: #f8f5f3;  
 }
 .comment_button:hover{
 }

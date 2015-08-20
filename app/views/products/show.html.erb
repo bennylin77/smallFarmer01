@@ -269,23 +269,23 @@
 				</div>					
 			</div>	
 			<div class="row" style="margin-top: 15px;">		
-				<div class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8">			
-					<%=image_tag 'delivery_statis_green.png', style:'width: 100%; margin-top:20px;'%>	
+				<div class="col-xs-offset-1 col-xs-10 col-sm-offset-2 col-sm-8">			
+					<%=image_tag 'delivery_statis_'+deliveryStatisticsColor(product: @product)+'.png', style:'width: 90%; margin-top:20px;'%>					
 				</div>					
 			</div>				
 		</div>		
 	</div>				
 	<div class="row">
-		<div class="col-md-6 col-lg-offset-1 col-lg-6">
-			<div class="row" style="margin-bottom: 20px;">		
+		<div class="col-md-7 col-lg-offset-1 col-lg-6" style="margin-top: 20px; margin-bottom: 20px;">
+			<div class="row" style="margin-bottom: 40px;">		
 				<div class="col-lg-offset-1 col-lg-10">			
 					<div class="section_title">留言</div>	
 				</div>					
 			</div>										
 			<%= render partial: "comments/show", locals: { product: @product} %>			
 		</div>	
-		<div class="col-md-6 col-lg-4" style="margin-top: 40px; margin-bottom: 40px;">		
-			<div class="row" style="margin-bottom: 20px;">		
+		<div class="col-md-5 col-lg-4" style="margin-top: 20px; margin-bottom: 20px;">		
+			<div class="row" style="margin-bottom: 40px;">		
 				<div class="col-lg-offset-1 col-lg-10">
 					<div class="section_title">金流去向</div>
 				</div>					
@@ -395,7 +395,7 @@ $('.add_to_cart').click(function() {
 
 //total price
 var pricing =  []
-var cash_flow_layer = 500;
+var cash_flow_layer = 800;
 var shipping_rates = <%= shippingRates(cold_chain: @product.cold_chain, size: @product.product_boxings.first.size)%>;
 <%@product.product_boxings.first.product_pricings.order('quantity desc').each do |p| %>
 	<% unless p.quantity.blank? %>
@@ -422,10 +422,10 @@ function countTotalPrice(q){
 			$('.total_coupon').html( total_coupon );
 			$('.coupons_est').html( total_coupon );
 
-			$('.farmer_get_layer').css({"height": cash_flow_layer*(total_farmer_get/total_price)*0.6})
-			$('.farmer_get_inner').css({"height": cash_flow_layer*(total_farmer_get/total_price)*0.6})
-			$('.farmer_get_layer').animate({"height": cash_flow_layer*(total_farmer_get/total_price)}, 1000)
-			$('.farmer_get_inner').animate({"height": cash_flow_layer*(total_farmer_get/total_price)}, 1000)
+			$('.farmer_get_layer').css({"height": cash_flow_layer*0.5*(total_farmer_get/total_price)*0.6})
+			$('.farmer_get_inner').css({"height": cash_flow_layer*0.5*(total_farmer_get/total_price)*0.6})
+			$('.farmer_get_layer').animate({"height": cash_flow_layer*0.5*(total_farmer_get/total_price)}, 1000)
+			$('.farmer_get_inner').animate({"height": cash_flow_layer*0.5*(total_farmer_get/total_price)}, 1000)
 			$('.shipping_rates_layer').animate({"height": cash_flow_layer*(total_shipping_rates/total_price)})
 			$('.shipping_rates_inner').animate({"height": cash_flow_layer*(total_shipping_rates/total_price)})
 			$('.cash_flow_layer').animate({"height": cash_flow_layer*(total_cash_flow/total_price)})

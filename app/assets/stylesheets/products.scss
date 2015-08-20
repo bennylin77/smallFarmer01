@@ -325,10 +325,11 @@
   height: 35px;
   width: 35px;  
   vertical-align: middle;
+  margin-right: 5px;
 }
 .review_feedback_name{
   display: inline-block;  
-  font-size: 23px;
+  font-size: 20px;
   vertical-align: middle;  
 }
 .review_feedback_date{
@@ -353,8 +354,38 @@
   font-size: 18px;  
   padding: 10px 10px;
 }
-@media (max-width: 1370px) {
-  .review_block_bar{
-    width: 200px;  
+@media (max-width: 1520px) {
+  .review_feedback_avatar{
+    height: 30px;
+    width: 30px;  
   }
+  .review_feedback_name{
+    font-size: 18px;
+  }
+  .review_feedback_date{
+    font-size: 12px; 
+  }
+  .review_feedback_option{
+    height: 20px;
+    width: 20px;
+  }
+  .review_feedback_option_text{
+    font-size: 16px;   
+  }
+}
+@media (max-width: 1365px) {
+  .review_feedback_avatar{
+    height: 26px;
+    width: 26px;  
+  }  
+  .review_feedback_name{
+    font-size: 13px;
+  }  
+  .review_feedback_option{
+    height: 15px;
+    width: 15px;
+  }  
+  .review_feedback_option_text{
+    font-size: 14px;   
+  }  
 }

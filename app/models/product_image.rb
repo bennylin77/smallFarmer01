@@ -2,7 +2,7 @@ class ProductImage < ActiveRecord::Base
   belongs_to :product
  
   has_attached_file :image, 
-                    styles: { medium: "800", small: "100" },
+                    styles: { medium: "800"},
                     default_url: "/images/:style/missing.png"  
   validates_attachment :image, 
                        content_type: { content_type: /\Aimage\/.*\Z/, message: "照片格式錯誤" }, 

@@ -48,6 +48,23 @@ module ApplicationHelper
     end  
   end
   
+  def deliveryStatisticsColor(hash={})   
+    size = hash[:product].product_boxings.first.orders.where('review_at IS NOT NULL').size
+    score = hash[:product].product_boxings.first.orders.where('review_at IS NOT NULL').sum(:shipment_review_score)        
+
+    average = (score.to_f)/size
+    case   
+    when average  <  1.66
+      'green'  
+    when (average  >=  1.66 and average < 2.34)
+      'yellow'
+    when average > 2.34
+      'red'
+    else  
+      'green'       
+    end
+  end  
+  
   def active(hash={})     
     if current_page?(hash)
       "class='active'".html_safe     

@@ -77,7 +77,12 @@
 }
 .farm_fruits_name{
   margin-top: 25px;
-  font-size: 18.5px; 
+  font-size: 20px;
+  font-weight: bold; 
+}
+.farm_fruits_farm_name{
+  margin-top: 5px;  
+  font-size: 16px;  
 }
 .farm_fruits_price{
   margin-top: 15px;  
@@ -91,6 +96,12 @@
   font-size: 29px;
 }
 .farm_fruits_excellent_text{
+}
+.farm_fruits_icons{
+  margin-top: 10px;
+}
+.farm_fruits_icons img{ 
+  margin-right: 5px;
 }
 @media (max-width: 1750px) {
   .farm_triangle {
