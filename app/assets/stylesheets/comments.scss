@@ -57,6 +57,11 @@
   -moz-box-shadow: none;
   box-shadow: none;   
 }
+.talkbubble textarea:focus, .talkbubble_right textarea:focus {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;  
+}
 .talkbubble_content{
   height: 50px;
   border-radius: inherit !important;  
