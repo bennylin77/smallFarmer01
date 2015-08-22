@@ -20,10 +20,10 @@
 	</ul>      
 	<div class="main_backend-tab-content">  	 
 		<% @notifications.each do |notification| %>
-		<div class="row notification_row_container <%if !notification.read_c%>notification_unread<%end%>">
+		<div class="row notification_row_container <%if !notification.read_c%>notification_unreadddd<%end%>">
 			<div class="col-md-2 vmiddle text-right hidden-xs hidden-sm">	
 				<div style="border-right: 3px solid #a8bb7f; padding-right: 20px; ">	
-				<div class="notification_category"><%= Hash[categoryOptions].rassoc(notification.category).first%></div>
+				<div class="notification_category"><%if !notification.read_c%><small class='text-danger'>未讀</small><%end%><%= Hash[categoryOptions].rassoc(notification.category).first%></div>
 				<div class="notification_category_date"><%= time_ago_in_words notification.created_at%>之前</div>						
 				</div>
 			</div>
