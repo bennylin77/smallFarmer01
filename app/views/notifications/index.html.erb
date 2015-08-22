@@ -12,17 +12,27 @@
 		<li <%= active( controller: 'notifications', action: 'index', category: GLOBAL_VAR['NOTIFICATION_COMMENT'] )%>>
 			<%= link_to "留言", controller: 'notifications', action: 'index', category: GLOBAL_VAR['NOTIFICATION_COMMENT']%>  	
 		</li>
+		<!--
 		<li <%= active( controller: 'notifications', action: 'index', category: GLOBAL_VAR['NOTIFICATION_SYSTEM'] )%>>
 			<%= link_to "系統", controller: 'notifications', action: 'index', category: GLOBAL_VAR['NOTIFICATION_SYSTEM']%>  	
-		</li>						
+		</li>	
+		-->					
 	</ul>      
 	<div class="main_backend-tab-content">  	 
 		<% @notifications.each do |notification| %>
-		<div class="row" style="margin-top: 20px; min-height: 120px; border-bottom: 1px solid #526031">
-			<div class="col-sm-2 vmiddle text-center">		
+		<div class="row notification_row_container <%if !notification.read_c%>notification_unread<%end%>">
+			<div class="col-md-2 vmiddle text-right hidden-xs hidden-sm">	
+				<div style="border-right: 3px solid #a8bb7f; padding-right: 20px; ">	
 				<div class="notification_category"><%= Hash[categoryOptions].rassoc(notification.category).first%></div>
 				<div class="notification_category_date"><%= time_ago_in_words notification.created_at%>之前</div>						
+				</div>
 			</div>
+			<div class="col-xs-12 vmiddle text-left hidden-md hidden-lg" style="margin-bottom: 20px;">	
+				<div style="border-left: 3px solid #a8bb7f; padding-left: 10px; ">	
+				<div class="notification_category"><%= Hash[categoryOptions].rassoc(notification.category).first%></div>
+				<div class="notification_category_date"><%= time_ago_in_words notification.created_at%>之前</div>						
+				</div>
+			</div>			
 			<%if notification.sub_category == GLOBAL_VAR['NOTIFICATION_SUB_NONE']%>
 				<%= render partial: "none", locals: {notification: notification} %>
 			<%elsif notification.sub_category == GLOBAL_VAR['NOTIFICATION_SUB_NEW_COMMENT']%>	

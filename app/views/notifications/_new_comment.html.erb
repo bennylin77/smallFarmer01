@@ -1,21 +1,23 @@
-<div class="col-sm-9 vmiddle text-center">
+<div class="col-xs-12 col-md-9 vmiddle text-center">
 	<div class="row">
-		<div class="col-sm-2 vmiddle text-center">
+		<div class="col-sm-3 vmiddle text-center">
 			<%= link_to notification.comment.product do%>
 			<%= image_tag notification.comment.product.product_images.first.image.url, class: 'img-circle farm_fruits_img notification_fruit_img' %>	
 			<div class="notification_fruit_name"><%= notification.comment.product.name%></div>	
 			<%end%>					
 		</div>	
-		<div class="col-sm-3 vmiddle text-center">
+		<div class="col-sm-2 vmiddle text-center hidden-xs">
 			<%= image_tag notification.comment.user.avatar.url, class: 'img-circle', size: '70x70' %>
 			<div><%= notification.comment.user.last_name %> <%= notification.comment.user.first_name %></div>				
 		</div>
-		<div class="col-sm-5 vmiddle text-left">		
-			<div class="talkbubble">
+		<div class="col-sm-6 col-xs-7 vmiddle text-left">		
+			<div class="talkbubble hidden-xs">
 				<div class="talkbubble_content"><%= notification.comment.content %></div>
-			</div>		
+			</div>
+			<div class="comment_msg hidden-sm hidden-md hidden-lg"><%= notification.comment.content %></div>	
 		</div>		
 	</div>
+	<%unless notification.read_c%>	
 	<div class="row">
 		<div class="col-sm-offset-5 col-sm-5 vmiddle">		
 			<div class="talkbubble_right">
@@ -26,6 +28,7 @@
 			<button class="btn btn-default pull-right comment_button" id="post_button" onclick="postSubComment(<%=notification.comment.id%>)" data-loading-text="傳送中...">送出</button>		
 		</div>		
 	</div>	
+	<%end%>	
 </div>
 
 

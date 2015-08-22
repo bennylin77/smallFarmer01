@@ -1,4 +1,4 @@
-<div class="col-sm-8 vmiddle text-center">
+<div class="col-xs-12 col-md-8 vmiddle text-center">
 	<div class="row" style="margin-bottom: 10px;">
 		<div class="col-sm-10 vmiddle text-center">
 			<%page = 1%>
@@ -9,20 +9,11 @@
 			    <%end%>
 			<% end %>
 			<%= link_to '/invoices/index?page='+page.to_s, class: 'notification_link', id: notification.id do%>
-			<div class="table-responsive">
+			<div style="font-size: 15px;">訂單編號 <%=notification.invoice.id%> 付款成功</div>
+			
+			
 			<table class="table table-bordered text-left">
-			  <tr> 	
-			    <th style="min-width: 75px;">訂單編號</th>  	
-			    <th style="min-width: 100px;">金額</th>
-				<th>付款</th>				
-				<th style="min-width: 118px;">
-				<%= image_tag 'coupons_icon.png', class: '', style: 'width: 25px; height: 25px;' %>獲得回饋金<br>
-				<abbr title="獲得回饋金為'付款金額'x4%, 並採取四捨五入"><small>付款金額x4%</small></abbr>	
-				</th>	
-				<th>...</th>		
-			  </tr>
-			  <tr>	
-			    <td><%=notification.invoice.id%></td>  		
+			  <tr>		
 			    <td>
 					<dl>
 				 	<dt>購買金額</dt>
@@ -56,8 +47,6 @@
 				   			<%elsif notification.invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>		
 							<dd>超商代碼</dd> 
 							<%end%>								 
-						<dt>付款狀態</dt>			
-						  	<dd><%if notification.invoice.paid_c%>已付款<%else%><div style="color: #b24d4b">尚未付款</div><%end%></dd> 		  	
 					    <%if notification.invoice.paid_c%>			  	
 						<dt>付款編號</dt>
 						  	<dd><%= notification.invoice.allpay_merchant_trade_no %></dd>			  	
@@ -90,11 +79,9 @@
 				<td>
 			    	<%= ((notification.invoice.amount-discount)*0.04).round%>元
 			    	<div><small><em>-商品送達，評完好吃度即可獲得-</em></small></div>					
-				</td>
-				<td>...</td>							      		  			  
+				</td>						      		  			  
 			  </tr>			  	
 			</table>
-			</div>
 			<%end%>				
 		</div>	
 	</div>

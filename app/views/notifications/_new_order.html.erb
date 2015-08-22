@@ -1,18 +1,18 @@
 <% order = notification.order %>
-<div class="col-sm-8 vmiddle text-center">
+<div class="col-xs-12 col-md-9 vmiddle text-center">
 	<div class="row" style="margin-bottom: 10px;">
-		<div class="col-sm-2 vmiddle text-center">
+		<div class="col-sm-3 vmiddle text-center">
 			<%= link_to order.product_boxing.product do%>
 			<%= image_tag order.product_boxing.product.product_images.first.image.url, class: 'img-circle farm_fruits_img notification_fruit_img' %>	
 			<div class="notification_fruit_name"><%= order.product_boxing.product.name%></div>	
 			<%end%>				
 		</div>	
-		<div class="col-sm-3 vmiddle text-center">
+		<div class="col-sm-2 vmiddle text-center hidden-xs">
 			<%= image_tag order.invoice.user.avatar.url, class: 'img-circle', size: '70x70' %>
 			<div><%= order.invoice.user.last_name %> <%= order.invoice.user.first_name %></div>			
 		</div>	
-		<div class="col-sm-6 vmiddle text-center">
-			<%=link_to order.quantity.to_s+'箱 ( '+("%g" % order.product_boxing.quantity)+Hash[unitOptions].rassoc(order.product_boxing.product.unit).first+'/箱 )', '/orders/index?called_smallfarmer_c=false', class: 'notification_link', id: notification.id%>
+		<div class="col-sm-6 col-xs-7 vmiddle text-left">
+			<%=link_to order.quantity.to_s+'箱 ( '+("%g" % order.product_boxing.quantity)+Hash[unitOptions].rassoc(order.product_boxing.product.unit).first+'/箱 )', '/orders/index?called_smallfarmer_c=false', class: 'notification_link notification_text', id: notification.id%>
 		</div>						
 	</div>
 </div>

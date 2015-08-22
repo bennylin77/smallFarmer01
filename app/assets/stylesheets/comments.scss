@@ -102,3 +102,12 @@
     margin-left: 30px;
   }  
 }
+@media (max-width: 320px) {
+  .comment_row img{
+    display: none;
+  }
+  .comment_sub_row img{
+    display: none;
+  }
+  
+}
