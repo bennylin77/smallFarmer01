@@ -28,9 +28,9 @@
     <td><%= o.id %></td>  	  
     <td>
         <%= link_to o.product_boxing.product do%>
-			<%if o.product_boxing.product.product_images.first %>
+			<%if o.product_boxing.product.cover.url(:medium) %>
 				<div class="text-center">
-				<%= image_tag o.product_boxing.product.product_images.first.image.url, class: 'img-circle backend_fruits_img' %>			
+				<%= image_tag o.product_boxing.product.cover.url(:medium), class: 'img-circle backend_fruits_img' %>			
 		        </div>
 		    <%end%> 	
     		<div class="text-center"><%= o.product_boxing.product.name%></div>           	

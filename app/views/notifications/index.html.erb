@@ -23,7 +23,7 @@
 		<div class="row notification_row_container <%if !notification.read_c%>notification_unreadddd<%end%>">
 			<div class="col-md-2 vmiddle text-right hidden-xs hidden-sm">	
 				<div style="border-right: 3px solid #a8bb7f; padding-right: 20px; ">	
-				<div class="notification_category"><%if !notification.read_c%><small class='text-danger'>未讀</small><%end%><%= Hash[categoryOptions].rassoc(notification.category).first%></div>
+				<div class="notification_category"><%if !notification.read_c%><small class='text-danger' id="notification_unread_<%=notification.id%>">未讀</small><%end%><%= Hash[categoryOptions].rassoc(notification.category).first%></div>
 				<div class="notification_category_date"><%= time_ago_in_words notification.created_at%>之前</div>						
 				</div>
 			</div>
@@ -66,9 +66,42 @@ $(".notification_link").click(function() {
 		request.done(function( status ) {						
 		});    
 	location.href = href;
-
     // Prevent the default action of the link
     return false;
 });
+// comment
+function postSubComment(id, notification_id)
+{
+	if($( "#post_sub_content_"+id.toString() ).val()!= '')
+	{
+		var $btn = $("#post_sub_button_"+id.toString()).button('傳送中...')		
+		var request = $.ajax({
+		url: "/comments/postSub",
+		type: "POST",
+		data: { id: id , content: $( "#post_sub_content_"+id.toString() ).val() },
+		dataType: "json"
+		});
+		request.done(function( message ) {
+		   	$btn.button('reset')		
+			$( "#post_sub_content_"+id.toString() ).val('')	   
+			showNotifications()				
+			$('#notification_comment_post_'+notification_id).remove();
+			$('#notification_unread_'+notification_id).remove();
+			
+		});
+		request.fail(function( jqXHR, textStatus ) {
+			$btn.button('reset')	
+		});	
+	}	
+}
+
+
+
+
+
+
+
+
+
 </script>
 

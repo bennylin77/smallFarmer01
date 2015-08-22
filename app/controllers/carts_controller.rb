@@ -47,7 +47,7 @@ class CartsController < ApplicationController
         quantity: c.quantity, 
         price: price.to_i,
         cart_id: c.id,
-        image_url: c.product_boxing.product.product_images.first.image.url(:small)
+        image_url: c.product_boxing.product.cover.url(:medium)
       }       
     end
     render json: carts.to_json    

@@ -81,7 +81,22 @@
   padding: 5px 10px;
   color: #000000;  
 }
-
+.comment_msg textarea{
+  border-radius: inherit !important;  
+  position: inherit !important;
+  background: inherit !important; 
+  margin: 0 !important;
+  border: none !important;
+  resize: none !important;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;     
+}
+.comment_msg textarea:focus{
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;  
+}
 .comment_sub_row{
   margin-top: 20px;  
 }

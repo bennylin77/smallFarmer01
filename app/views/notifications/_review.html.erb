@@ -3,7 +3,7 @@
 	<div class="row" style="margin-bottom: 10px;">
 		<div class="col-sm-3 vmiddle text-center">
 			<%= link_to o.product_boxing.product do%>
-			<%= image_tag o.product_boxing.product.product_images.first.image.url, class: 'img-circle farm_fruits_img notification_fruit_img' %>	
+			<%= image_tag o.product_boxing.product.cover.url(:medium), class: 'img-circle farm_fruits_img notification_fruit_img' %>	
 			<div class="notification_fruit_name"><%= o.product_boxing.product.name%></div>	
 			<%end%>				
 		</div>	
@@ -11,40 +11,45 @@
 			<%= image_tag o.invoice.user.avatar.url, class: 'img-circle', size: '70x70' %>				
 			<div><%= o.invoice.user.last_name %><%= o.invoice.user.first_name %></div>					
 		</div>		
-		<div class="col-sm-6 col-xs-7 vmiddle">
+		<div class="col-sm-6 col-xs-11 vmiddle" style="padding-top: 20px;">
+			<%if o.review_at.blank?%>		    		       
 			<div class="input-group notification_review_radioBtn">
-		    	<div class="btn-group notification_radioBtn">
-		    		<a class="btn btn-sm notification_review_active    review_delicious review_delicious_bg" data-toggle="review_score_<%= o.id %>" data-title="<%= GLOBAL_VAR['ORDER_REVIEW_DELICIOUS'] %>">超好吃</a>
-		            <a class="btn btn-sm notification_review_notActive review_tasty review_tasty_bg" data-toggle="review_score_<%= o.id %>" data-title="<%= GLOBAL_VAR['ORDER_REVIEW_TASTY'] %>">好吃</a>
-		    		<a class="btn btn-sm notification_review_notActive review_common review_common_bg" data-toggle="review_score_<%= o.id %>" data-title="<%= GLOBAL_VAR['ORDER_REVIEW_COMMON'] %>">普通</a>
-		    		<a class="btn btn-sm notification_review_notActive review_unappealing review_unappealing_bg" data-toggle="review_score_<%= o.id %>" data-title="<%= GLOBAL_VAR['ORDER_REVIEW_UNAPPEALING'] %>">不太好吃</a>		    		
-		    	</div>
-		    	<input type="hidden" name="review_score_<%= o.id %>" id="review_score_<%= o.id %>" value="<%= GLOBAL_VAR['ORDER_REVIEW_DELICIOUS'] %>">
+				<label class="radio-inline">
+				  <input type="radio" name="review_score_<%= o.id %>" id="inlineRadio1" value="<%= GLOBAL_VAR['ORDER_REVIEW_DELICIOUS'] %>"><span class="review_delicious">超好吃</span>
+				</label>
+				<label class="radio-inline">
+				  <input type="radio" name="review_score_<%= o.id %>" id="review_score_<%= o.id %>" value="<%= GLOBAL_VAR['ORDER_REVIEW_TASTY'] %>"><span class="review_tasty">好吃</span>
+				</label>
+				<label class="radio-inline">
+				  <input type="radio" name="review_score_<%= o.id %>" id="review_score_<%= o.id %>" value="<%= GLOBAL_VAR['ORDER_REVIEW_COMMON'] %>"><span class="review_common">普通</span>
+				</label>		
+				<label class="radio-inline">
+				  <input type="radio" name="review_score_<%= o.id %>" id="review_score_<%= o.id %>" value="<%= GLOBAL_VAR['ORDER_REVIEW_UNAPPEALING'] %>"><span class="review_unappealing">不太好吃</span>
+				</label>						
 		    </div>	 
 			<div class="input-group notification_review_radioBtn">
-		    	<div class="btn-group notification_shipment_radioBtn">
-		    		<a class="btn btn-sm notification_review_active    review_delicious review_delicious_bg" data-toggle="shipment_review_score_<%= o.id %>" data-title="<%= GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_FAST'] %>" style="">寄送快</a>
-		            <a class="btn btn-sm notification_review_notActive review_common review_common_bg" data-toggle="shipment_review_score_<%= o.id %>" data-title="<%= GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_COMMON'] %>">寄送普通</a>
-		    		<a class="btn btn-sm notification_review_notActive review_unappealing review_unappealing_bg" data-toggle="shipment_review_score_<%= o.id %>" data-title="<%= GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_SLOW'] %>">寄送慢</a>
-		    	</div>
-		    	<input type="hidden" name="shipment_review_score_<%= o.id %>" id="shipment_review_score_<%= o.id %>" value="<%= GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_FAST'] %>">
-		    </div>			       
-			<div class="talkbubble">
-				<%if o.review_at.blank?%>
-				<textarea name="content" class="form-control" rows="2" placeholder='有什麼評價...' id="review_feedback_<%= o.id %>"></textarea>
-				<%else%>
-				<div class="talkbubble_content">
-					<%= o.review_feedback %>				
-				</div>				
-				<%end%>
+				<label class="radio-inline">
+				  <input type="radio" name="shipment_review_score_<%= o.id %>" id="shipment_review_score_<%= o.id %>" value="<%= GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_FAST'] %>"> 寄送快
+				</label>
+				<label class="radio-inline">
+				  <input type="radio" name="shipment_review_score_<%= o.id %>" id="shipment_review_score_<%= o.id %>" value="<%= GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_COMMON'] %>"> 寄送普通
+				</label>
+				<label class="radio-inline">
+				  <input type="radio" name="shipment_review_score_<%= o.id %>" id="shipment_review_score_<%= o.id %>" value="<%= GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_SLOW'] %>"> 寄送快
+				</label>									    
+		    </div>	
+			<div class="talkbubble text-left hidden-xs">
+				<textarea name="content" class="form-control" rows="2" placeholder='有什麼評價...' id="review_feedback_<%= o.id %>"></textarea>				
 			</div>
+			<div class="comment_msg hidden-sm hidden-md hidden-lg"><textarea name="content" class="form-control" rows="2" placeholder='有什麼評價...' id="review_feedback_<%= o.id %>"></textarea></div>				
+			<%end%>
 		</div>			
 	</div>	
 	<%end%>
 	<%if notification.invoice.orders.first.review_at.blank?%>
 	<div class="row notification_button_<%= notification.id %>" style="margin-bottom: 15px;">	
 		<div class="col-sm-11 vmiddle">
-			<button class="btn btn-default pull-right comment_button" id="post_button" onclick="sendReview(<%= notification.id %>, <%=notification.invoice.id%>, <%=notification.invoice.orders.pluck(:id)%>)" data-loading-text="傳送中...">送出獲得4%回饋金</button>		
+			<button class="btn btn-success pull-right add_button" id="post_button" onclick="sendReview(<%= notification.id %>, <%=notification.invoice.id%>, <%=notification.invoice.orders.pluck(:id)%>)" data-loading-text="傳送中...">送出獲得4%回饋金</button>		
 		</div>
 	</div>
 	<%end%>			
@@ -52,6 +57,7 @@
 
 
 <script>
+/*
 $('.notification_radioBtn a').on('click', function(){
 	var sel = $(this).data('title');
 	var tog = $(this).data('toggle');
@@ -67,7 +73,7 @@ $('.notification_shipment_radioBtn a').on('click', function(){
 	$('a[data-toggle="'+tog+'"]').not('[data-title="'+sel+'"]').removeClass('notification_review_active').addClass('notification_review_notActive');	
 	$('a[data-toggle="'+tog+'"][data-title="'+sel+'"]').removeClass('notification_review_notActive').addClass('notification_review_active');
 })
-
+*/
 function sendReview( notification_id, invoice_id, orders)
 {
 	orders_id = [];

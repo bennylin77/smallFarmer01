@@ -2,7 +2,7 @@
 	<div class="row">
 		<div class="col-sm-3 vmiddle text-center">
 			<%= link_to notification.comment.product do%>
-			<%= image_tag notification.comment.product.product_images.first.image.url, class: 'img-circle farm_fruits_img notification_fruit_img' %>	
+			<%= image_tag notification.comment.product.cover.url(:medium), class: 'img-circle farm_fruits_img notification_fruit_img' %>	
 			<div class="notification_fruit_name"><%= notification.comment.product.name%></div>	
 			<%end%>					
 		</div>	
@@ -18,40 +18,15 @@
 		</div>		
 	</div>
 	<%unless notification.read_c%>	
-	<div class="row">
+	<div class="row" id="notification_comment_post_<%=notification.id%>">
 		<div class="col-sm-offset-5 col-sm-5 vmiddle">		
 			<div class="talkbubble_right">
 				<textarea class="form-control comment_textarea" rows="2" placeholder='回應...' id="post_sub_content_<%= notification.comment.id%>"></textarea>
 			</div>			
 		</div>
 		<div class="col-sm-1 vmiddle">		
-			<button class="btn btn-default pull-right comment_button" id="post_button" onclick="postSubComment(<%=notification.comment.id%>)" data-loading-text="傳送中...">送出</button>		
+			<button class="btn btn-default pull-right comment_button" id="post_button" onclick="postSubComment(<%=notification.comment.id%>, <%=notification.id%>)" data-loading-text="傳送中...">送出</button>		
 		</div>		
 	</div>	
 	<%end%>	
 </div>
-
-
-<script>
-function postSubComment(id)
-{
-	if($( "#post_sub_content_"+id.toString() ).val()!= '')
-	{
-		var $btn = $("#post_sub_button_"+id.toString()).button('傳送中...')		
-		var request = $.ajax({
-		url: "/comments/postSub",
-		type: "POST",
-		data: { id: id , content: $( "#post_sub_content_"+id.toString() ).val() },
-		dataType: "json"
-		});
-		request.done(function( message ) {
-		   	$btn.button('reset')		
-			$( "#post_sub_content_"+id.toString() ).val('')	   
-			showNotifications()	
-		});
-		request.fail(function( jqXHR, textStatus ) {
-			$btn.button('reset')	
-		});	
-	}	
-}
-</script>

@@ -13,7 +13,7 @@
 				<%= index+1 %>.			
 			</div>	
 			<div class="col-sm-2 col-xs-12 vmiddle">
-				<%= image_tag product.product_images.first.image.url, class: 'img-circle farm_fruits_img'%>						
+				<%= image_tag product.cover.url(:medium), class: 'img-circle farm_fruits_img'%>						
 			</div>	
 			<div class="col-sm-2 col-xs-12 check_out_product_list_title vmiddle">
 				<%= c.product_boxing.product.name %>

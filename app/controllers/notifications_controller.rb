@@ -49,7 +49,7 @@ class NotificationsController < ApplicationController
       @notification.read_c = true
       @notification.read_at = Time.now
       @notification.save!
-      render json: {type: 'success', message: '您獲得'+coupon.amount.to_i.to_s+'元'}            
+      render json: {type: 'success', message: '恭喜您獲得'+coupon.amount.to_i.to_s+'元 無期限回饋金'}            
     else   
       render json: {type: 'warning', message: '您已評論過'}      
     end   
