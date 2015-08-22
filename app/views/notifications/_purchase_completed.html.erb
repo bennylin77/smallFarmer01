@@ -1,6 +1,6 @@
 <div class="col-sm-8 vmiddle text-center">
 	<div class="row" style="margin-bottom: 10px;">
-		<div class="col-sm-2 vmiddle text-center">
+		<div class="col-sm-10 vmiddle text-center">
 			<%page = 1%>
 			<% current_user.invoices.order('id DESC').each_with_index do |i, index| %>
 			    <%if i == notification.invoice%>
@@ -9,7 +9,92 @@
 			    <%end%>
 			<% end %>
 			<%= link_to '/invoices/index?page='+page.to_s, class: 'notification_link', id: notification.id do%>
-			訂單編號: <%=notification.invoice.id%> 繳款成功
+			<div class="table-responsive">
+			<table class="table table-bordered text-left">
+			  <tr> 	
+			    <th style="min-width: 75px;">訂單編號</th>  	
+			    <th style="min-width: 100px;">金額</th>
+				<th>付款</th>				
+				<th style="min-width: 118px;">
+				<%= image_tag 'coupons_icon.png', class: '', style: 'width: 25px; height: 25px;' %>獲得回饋金<br>
+				<abbr title="獲得回饋金為'付款金額'x4%, 並採取四捨五入"><small>付款金額x4%</small></abbr>	
+				</th>	
+				<th>...</th>		
+			  </tr>
+			  <tr>	
+			    <td><%=notification.invoice.id%></td>  		
+			    <td>
+					<dl>
+				 	<dt>購買金額</dt>
+						<dd>
+							<%= notification.invoice.amount.to_i %>元
+							<%if notification.invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>	
+							<div><small><ins>含超商手續費</ins></small></div>	
+							<%end%>					
+						</dd>
+					<dt>回饋金使用</dt>
+						<dd>
+					    	<% discount = 0 %>
+					    	<% notification.invoice.invoice_coupon_lists.each do |i_c_l|%>
+					    		<%discount = discount + i_c_l.amount%>
+					    	<%end%>
+					    	<%=discount.to_i%>元			  	
+						</dd>  
+					<dt>付款金額</dt>
+						<dd>
+							<mark><%= (notification.invoice.amount-discount).to_i %>元</mark>			
+						</dd>   
+					</dl>  			    
+				</td>  	 
+				<td>
+					<dl>
+						<dt>付款方式</dt>
+							<%if notification.invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>
+							<dd>線上刷卡</dd> 
+				   			<%elsif notification.invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM']%>		
+						  	<dd>ATM櫃員機</dd> 			  						  
+				   			<%elsif notification.invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>		
+							<dd>超商代碼</dd> 
+							<%end%>								 
+						<dt>付款狀態</dt>			
+						  	<dd><%if notification.invoice.paid_c%>已付款<%else%><div style="color: #b24d4b">尚未付款</div><%end%></dd> 		  	
+					    <%if notification.invoice.paid_c%>			  	
+						<dt>付款編號</dt>
+						  	<dd><%= notification.invoice.allpay_merchant_trade_no %></dd>			  	
+						<dt>付款日期</dt>
+						  	<dd><%= notification.invoice.paid_at.strftime("%Y-%m-%d %H:%M:%S") %></dd>	
+						<%else%>
+						<dt><abbr title="請於付款期限內付款, 超過付款期限, 有可能因為庫存不足, 訂單無法成立">付款期限</abbr></dt>
+						  	<dd>
+						  	<%if notification.invoice.allpay_expired_at < Time.now%>	
+							<div style="color: #b24d4b">
+							<%= notification.invoice.allpay_expired_at.strftime("%Y-%m-%d %H:%M:%S")%>		  		
+							</div>
+							<%else%>
+							<%= notification.invoice.allpay_expired_at.strftime("%Y-%m-%d %H:%M:%S")%>		  					  	  
+							<%end%>
+						  	</dd> 			  
+						<%end%>	
+						<%if notification.invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>
+				   		<%elsif notification.invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM']%>		
+						<dt>繳費銀行代碼</dt>
+							<dd><%=showBlank notification.invoice.allpay_bank_code%></dd>
+						<dt>繳費虛擬帳號</dt>
+						  <dd><%=showBlank notification.invoice.allpay_v_account%></dd>  	   		
+				   		<%elsif notification.invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>		
+						<dt>超商繳費代碼</dt>
+						  <dd><%=showBlank notification.invoice.allpay_payment_no%></dd> 			
+						<%end%>				  	  	
+					</dl>						
+				</td>
+				<td>
+			    	<%= ((notification.invoice.amount-discount)*0.04).round%>元
+			    	<div><small><em>-商品送達，評完好吃度即可獲得-</em></small></div>					
+				</td>
+				<td>...</td>							      		  			  
+			  </tr>			  	
+			</table>
+			</div>
 			<%end%>				
 		</div>	
 	</div>
