@@ -106,12 +106,6 @@ class InvoicesController < ApplicationController
         invoice.save!
         redirect_to  controller: 'invoices', action: 'allpayCVS', id: invoice.id                              
       elsif invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_NO_NEED']
-=begin           
-        invoice.paid_at = params[:PaymentDate]
-        invoice.payment_charge_fee = params[:PaymentTypeChargeFee]      
-        invoice.allpay_trade_no = params[:TradeNo] 
-        invoice.paid_c = true
-=end
         invoice.paid_at = Time.now
         invoice.paid_c = true
         invoice.confirmed_c = true          

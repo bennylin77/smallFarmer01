@@ -25,12 +25,12 @@ class Product < ActiveRecord::Base
   validates_associated :product_boxings, message: '填寫格式錯誤或不能為空'  
   
   validate  :inventoryMoreThanUnpaid, on: :update 
-  validate  :productImageNotEmpty, on: :update   
+  validate  :productImageMoreThan, on: :update   
   validate  :associatedProductBoxings  
 
-  def productImageNotEmpty
-    if product_images.empty?
-      errors.add(:product_images, "請至少上傳一張商品照片")  
+  def productImageMoreThan
+    if product_images.count < 4
+      errors.add(:product_images, "請至少上傳4張商品照片")  
     end     
   end 
      

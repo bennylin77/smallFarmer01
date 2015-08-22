@@ -44,4 +44,21 @@
 		<%end%>
 	</div>	
 </div>
+<script>
+$(".notification_link").click(function() {
+    // Grab the link's href
+    var href = this.href; 
+	var request = $.ajax({
+		url: "/notifications/"+this.id+"/read",
+		type: "GET",
+		dataType: "json"
+		});
+		request.done(function( status ) {						
+		});    
+	location.href = href;
+
+    // Prevent the default action of the link
+    return false;
+});
+</script>
 

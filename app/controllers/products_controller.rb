@@ -89,7 +89,7 @@ class ProductsController < ApplicationController
   end
 
   def productImagesUpload
-    if @product.product_images.size < 5
+    if @product.product_images.size < 8
       p_i = ProductImage.create(image: params[:product_image].first )
       p_i.product = @product
       p_i.save!  
@@ -101,7 +101,7 @@ class ProductsController < ApplicationController
                      }]
                    }
     else
-      render json: { error: '上傳超過5張照片' }
+      render json: { error: '上傳超過8張照片' }
     end                                 
   end
 

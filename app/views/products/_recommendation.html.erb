@@ -1,10 +1,10 @@
-<%@product.company.products.where(available_c: true).each_slice(4) do |p|%> 
+<%@product.company.products.where(available_c: true).each_slice(5) do |p|%> 
 	<div class="row">
 		<% p.each_with_index do |pp, index|%>
 			<%if index == 0 %>
-				<div class="col-lg-3 col-md-3 farm_fruits">
+				<div class="col-sm-offset-1 col-sm-2 farm_fruits">
 			<%else%>
-				<div class="col-lg-3 col-md-3 farm_fruits">			
+				<div class="col-sm-2 farm_fruits">			
 			<%end%>				
 			<%= link_to pp do%>
 					<%= image_tag pp.product_images.first.image.url, class: 'img-circle farm_fruits_img', size: '150x150' %>			

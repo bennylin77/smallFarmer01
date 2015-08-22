@@ -191,17 +191,78 @@
   }  
 }
 /*======================================= product image =======================================*/
-.product_image_container{
-   
-}
-.product_image_upper{
-  height: 250px;  
-}
-.product_image_lower{
-  height: 150px;  
+.product_image_container{ 
+  
 }
 .product_image_eq{
-  height: 200px;  
+  width: 320px;
+  height: 240px;  
+}
+@media (max-width: 1700px) { 
+  .product_image_eq{
+    width: 290px;
+    height: 217.5px;  
+  }
+}
+@media (max-width: 1560px) { 
+  .product_image_eq{
+    width: 250px;
+    height: 187.5px;  
+  }  
+}
+@media (max-width: 1360px) { 
+  .product_image_eq{
+    width: 225px;
+    height: 168.75px;  
+  }     
+}
+@media (max-width: 970px) { 
+  .product_image_eq{
+    width: 270px;
+    height: 217.5px;  
+  }   
+}
+@media (max-width: 750px) {  
+  .product_image_eq{
+    width: 100%;
+    height: 270px;  
+  }   
+}
+@media (max-width: 640px) {  
+  .product_image_eq{
+    width: 100%;
+    height: 237.5px;  
+  }   
+}
+@media (max-width: 530px) {  
+  .product_image_eq{
+    width: 100%;
+    height: 187.5px;   
+  }   
+}
+@media (max-width: 480px) { 
+  .product_image_eq{
+    width: 100%;
+    height: 168.5px;  
+  }   
+}
+@media (max-width: 414px) { 
+  .product_image_eq{
+    width: 100%;
+    height: 144px; 
+  }    
+}
+@media (max-width: 375px) { 
+  .product_image_eq{
+    width: 100%;
+    height: 129px;
+  }   
+}
+@media (max-width: 320px) { 
+  .product_image_eq{
+    width: 100%;
+    height: 100px; 
+  }   
 }
 /*======================================= cash flow =======================================*/
 .farmer_get_layer{  

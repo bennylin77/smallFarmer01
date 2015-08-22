@@ -1,8 +1,9 @@
 <% products.where(available_c: true).each_slice(4) do |p|%> 
-	<div class="row" style="padding-bottom: 60px;">
+	<div class="row" style="padding-bottom: 80px;">
 		<% p.each_with_index do |pp, index|%>
-				<div class="col-sm-3 farm_fruits">			
+				<div class="col-sm-3 farm_fruits">					
 				<%= link_to pp do%>
+					<div class="farm_fruits_container">
 					<%= image_tag pp.cover.url(:medium), class: 'img-circle farm_fruits_img', size: '150x150' %>			
 					<div class="farm_fruits_name">
 					<%= pp.name%>
@@ -22,7 +23,8 @@
 						<%if pp.OTAP_c%><%=image_tag 'otap.png', class: '', style: 'height: 45px; width: 45px;'  %><%end%>		      		      
 						<%if pp.UTAP_c%><%=image_tag 'utap.png', class: '', style: 'height: 45px; width: 45px;'  %><%end%>				    	
 						<%unless pp.sweet_degree.blank?%><%=image_tag 'sweet_degree/'+pp.sweet_degree.to_s+'.png', class: '', style: 'height: 38px; width: 50px;' %><%end%>				    
-				    </div>					    
+				    </div>	
+				    </div>				    
 				<%end%>		 				
 				</div>	
 		<%end%>	

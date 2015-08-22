@@ -33,7 +33,7 @@
  		  <div id="the-basics">
 		  	<input class="rounded typeahead" type="text" placeholder="States of USA">
 		  </div>
-			-->   	       
+		  -->   	       
           <!--       	            	   	
           <form class="navbar-form navbar-left" action="/main/search" method="get">
             <input type="text" class="form-control rounded" id="search_term" placeholder="搜尋水果、農場">
@@ -160,8 +160,8 @@ function showNotifications(){
 		dataType: "json"
 	});
 	request.done(function( message) {
-	 	if( message.quantify != 0)
-	 		$('.notifications_badge').html(message.quantify);
+	 	if( message.quantity != 0)
+	 		$('.notifications_badge').html(message.quantity);
 	 	else
 	 		$('.notifications_badge').html('');	
 	});

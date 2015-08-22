@@ -1,1 +1,16 @@
-繳款成功
+<div class="col-sm-8 vmiddle text-center">
+	<div class="row" style="margin-bottom: 10px;">
+		<div class="col-sm-2 vmiddle text-center">
+			<%page = 1%>
+			<% current_user.invoices.order('id DESC').each_with_index do |i, index| %>
+			    <%if i == notification.invoice%>
+			    	<%page = index+1%>
+			    	<%break%>
+			    <%end%>
+			<% end %>
+			<%= link_to '/invoices/index?page='+page.to_s, class: 'notification_link', id: notification.id do%>
+			訂單編號: <%=notification.invoice.id%> 繳款成功
+			<%end%>				
+		</div>	
+	</div>
+</div>

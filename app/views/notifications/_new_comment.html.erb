@@ -43,7 +43,8 @@ function postSubComment(id)
 		});
 		request.done(function( message ) {
 		   	$btn.button('reset')		
-			$( "#post_sub_content_"+id.toString() ).val('')	   		
+			$( "#post_sub_content_"+id.toString() ).val('')	   
+			showNotifications()	
 		});
 		request.fail(function( jqXHR, textStatus ) {
 			$btn.button('reset')	

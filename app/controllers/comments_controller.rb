@@ -62,11 +62,18 @@ class CommentsController < ApplicationController
     sub_comment.content = params[:content]
     sub_comment.user = current_user
     sub_comment.comment = @comment
-    sub_comment.save!
+    sub_comment.save!    
+    if sub_comment.comment.product.company.user == current_user
+      notficationRead( { category: GLOBAL_VAR['NOTIFICATION_COMMENT'], 
+                         sub_category: GLOBAL_VAR['NOTIFICATION_SUB_NEW_COMMENT'], 
+                         comment_id: sub_comment.comment.id})
+    end
+    
+=begin    
     notify( sub_comment.comment.user, { category: GLOBAL_VAR['NOTIFICATION_COMMENT'], 
                                         sub_category: GLOBAL_VAR['NOTIFICATION_SUB_NEW_SUB_COMMENT'], 
                                         sub_comment_id: sub_comment.id})     
-    
+=end    
     render json: {success: true, message: '張貼成功'}     
   end
 
