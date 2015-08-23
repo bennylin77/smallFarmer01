@@ -43,24 +43,18 @@
 			</div>
 			<div class="comment_msg hidden-sm hidden-md hidden-lg input_group_<%= o.id %>"><textarea name="content" class="form-control" rows="2" placeholder='有什麼評價...' id="review_feedback_<%= o.id %>"></textarea></div>				
 			<%else%>
-				<div class="text-left" style="">			
-					<div class="review_feedback_date">購物評價</div>
-					<div class="review_feedback_option <%= reviewBg o.review_score.to_i %>"></div>
-					<div class="review_feedback_option_text <%= reviewText o.review_score.to_i %>">
+				<div class="text-left notification_review_show notification_review_container_<%=o.id %>">			
+					購物評價
+					<span class="<%= reviewText o.review_score.to_i %>">
 						<%=Hash[orderReviewOptions].rassoc(o.review_score).first%>
-					</div>	
-					<div class="review_feedback_shipment_text">出貨速度</div>	
-					<div class="review_feedback_shipment <%= shipmentReviewBg o.shipment_review_score %>"></div>										
-					<div class="review_feedback_shipment_text <%= shipmentReviewText o.shipment_review_score %>">						
+					</span>	
+					出貨速度	
+					<span class="<%= shipmentReviewText o.shipment_review_score %>">						
 						<%=Hash[orderShipmentReviewOptions].rassoc(o.shipment_review_score).first%>					
-					</div>						
+					</span>						
 				</div>	
 				<%unless o.review_feedback.blank?%>
-				<div class="text-left" style="">		
-					<div class="review_feedback_content">
-						<%=o.review_feedback%>						
-					</div>
-				</div>	
+				<div class="text-left comment_msg"><%=o.review_feedback%></div>	
 				<%end%>
 			<%end%>
 		</div>			
@@ -98,21 +92,10 @@ function sendReview( notification_id, invoice_id, orders)
 		request.done(function( status ) {
 			toastr[status.type](status.message)			
 			showCoupons()						
-			showNotifications()		
-			
-											
+			showNotifications()												
 			$.each( orders, function( index, value ) {
-			  //$( "#review_feedback_"+value ).attr("disabled", "disabled")
-			  //$('.notification_radioBtn a').off();		
-			  
-			  $('.input_group_'+value).remove();			  		  
-			  $('.notification_button_'+notification_id).remove();			   	  
-			
-			
-			
 			});		
-			
-								
-		});	
+			location.href = 'http://smallfarmer01.com/notifications?category=all';					
+		});						
 }	
 </script>	

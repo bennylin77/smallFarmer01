@@ -29,7 +29,7 @@
 				<%end%>  					
 			</div>			
 			<div class="col-sm-2 col-xs-12 form-group form-inline check_out_product_list_text vmiddle">
-				<%= select_tag  'quantity_'+c.id.to_s, options_for_select( (1..product.daily_capacity).step(1).to_a, c.quantity.to_s), class: "form-control" %>箱				
+				<%= select_tag  'quantity_'+c.id.to_s, options_for_select( (1..50).step(1).to_a, c.quantity.to_s), class: "form-control" %>箱				
 			</div>
 			<div class="col-sm-2 col-xs-12 check_out_product_list_text vmiddle">
 				<span class="total_price_<%=c.id%>"></span>元		

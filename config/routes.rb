@@ -99,6 +99,7 @@ Rails.application.routes.draw do
   get    'main/fb'  
   get    'main/under'  
   get    'main/surveyFarmer'
+  get    'main/tempIndex'
     
-  root to: "main#under" 
+  root to: "main#tempIndex" 
 end

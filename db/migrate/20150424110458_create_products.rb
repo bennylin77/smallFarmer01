@@ -6,6 +6,8 @@ class CreateProducts < ActiveRecord::Migration
       t.text      :description
       t.integer   :inventory
       t.integer   :daily_capacity
+      t.datetime  :released_at
+      
       t.integer   :unit      
       t.boolean   :deleted_c, default: false, null: false
       t.datetime  :deleted_at       

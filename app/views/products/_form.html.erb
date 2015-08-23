@@ -71,31 +71,30 @@
 	</div>		
 	<%end%>	
 	<div class="form-group">
-		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">總庫存量</label>
+		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">出貨日期</label>								
+		<div class="col-sm-5 col-md-2">		
+			<%if @product.released_at.blank?%>
+			<%= f.text_field :released_at, class: "form-control", placeholder: '出貨日期' %>	
+			<%else%>
+			<%= f.text_field :released_at, value: @product.released_at.strftime("%Y/%m/%d"), class: "form-control", placeholder: '出貨日期'%>				
+			<%end%>			
+		</div>					
+	</div>		
+	<div class="form-group">
+		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">本批總庫存量</label>
 		<div class="col-sm-5 col-md-2">
-			<%= f.number_field :inventory, placeholder: '總庫存量', class: "form-control" %>
+			<%= f.number_field :inventory, placeholder: '本批總庫存量', class: "form-control" %>
 		</div>
 		<div class="col-sm-5 col-md-2">
 			<label class="control-label">箱</label>	
 		</div>			
 	</div>			
-	<div class="form-group">
-		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">每日可出貨量</label>
-		<div class="col-sm-5 col-md-2">
-			<%= f.number_field :daily_capacity, placeholder: '每日可出貨量', class: "form-control" %>
-		</div>
-		<div class="col-sm-5 col-md-2">
-			<label class="control-label">箱</label>	
-		</div>			
-	</div>	
 	<div class="form-group"> 
 		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">運送方式</label>
 		<div class="col-sm-5 col-md-2">
 	  		<%=f.select :cold_chain, options_for_select(tempOptions, @product.cold_chain), {prompt: '請選擇運送方式'}, class: "form-control" %>	
 		</div>	
 	</div> 	
-	
-	
 	<div class="form-group">
 		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">封面</label>		
 		<div class="col-sm-10 col-md-6">
@@ -155,9 +154,7 @@ $("#product_cover").fileinput({showCaption: false,
 							   ],		        							   
 							   overwriteInitial: true							 
 							   });	
-
-var $input = $("#product_image");
-    $input.fileinput({
+$("#product_image").fileinput({
 		showCaption: false,    
 		showRemove: false,	
 		allowedFileTypes: ["image"],
@@ -185,4 +182,9 @@ var $input = $("#product_image");
 			<%end%>		    
 		]		        
     });
+    
+$('#product_released_at').datepicker({
+	format: "yyyy/mm/dd",	
+    language: "zh-TW"	
+});    
 </script>

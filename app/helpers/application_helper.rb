@@ -55,11 +55,11 @@ module ApplicationHelper
     average = (score.to_f)/size
     case   
     when average  <  1.66
-      'green'  
+      'red'  
     when (average  >=  1.66 and average < 2.34)
       'yellow'
     when average > 2.34
-      'red'
+      'green'
     else  
       'green'       
     end

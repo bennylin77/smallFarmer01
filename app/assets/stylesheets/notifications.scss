@@ -33,59 +33,6 @@
   margin-bottom: 10px;
   margin-left: 20px;
 }
-.notification_review_radioBtn a{
-  width: 75px;
-  color: #ffffff;  
-  box-shadow: none !important;  
-}
-.notification_review_radioBtn a:hover{
-  color: #ffffff;  
-  opacity: 1;
-}
-.notification_review_notActive.review_delicious{
-  color: #de562c;
-  border: 1px solid #de562c;  
-}
-.notification_review_notActive.review_delicious:hover{
-  color: #ffffff;  
-  background: #de562c;  
-}
-.notification_review_notActive.review_tasty{
-  color: #f69609; 
-  border: 1px solid #f69609;
-}
-.notification_review_notActive.review_tasty:hover{
-  color: #ffffff;  
-  background: #f69609; 
-}
-.notification_review_notActive.review_common{
-  color: #fbc507;   
-  border: 1px solid #fbc507;
-}
-.notification_review_notActive.review_common:hover{
-  color: #ffffff;  
-  background: #fbc507;
-}
-.notification_review_notActive.review_unappealing{
-  color: #be6f06;   
-  border: 1px solid #be6f06; 
-}
-.notification_review_notActive.review_unappealing:hover{
-  color: #ffffff;  
-  background: #be6f06;
-}
-.notification_review_notActive{
-  background: none;
-}
-.notification_review_active.review_delicious{
-  border: 1px solid #de562c;  
-}
-.notification_review_active.review_tasty{
-  border: 1px solid #f69609;
-}
-.notification_review_active.review_common{
-  border: 1px solid #fbc507;
-}
-.notification_review_active.review_unappealing{
-  border: 1px solid #be6f06; 
+.notification_review_show{
+  font-size: 16px;
 }

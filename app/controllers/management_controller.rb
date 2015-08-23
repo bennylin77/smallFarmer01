@@ -18,6 +18,8 @@ class ManagementController < ApplicationController
   def orders
     params[:called_smallfarmer_c] = params[:called_smallfarmer_c] == 'true' ? true : false    
     params[:called_logistics_c] = params[:called_logistics_c] == 'true' ? true : false    
+    @called_smallfarmer_c = params[:called_smallfarmer_c]
+    @called_logistics_c = params[:called_logistics_c]
       
     @orders = Order.joins(:invoice).where('called_smallfarmer_c = ? and called_logistics_c = ? and invoices.confirmed_c = 1', 
                                     params[:called_smallfarmer_c], params[:called_logistics_c]).all.paginate(page: params[:page], per_page: 30).order('id DESC')    

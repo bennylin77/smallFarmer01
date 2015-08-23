@@ -2,6 +2,9 @@ class MainController < ApplicationController
   def index
   end
   
+  def tempIndex    
+  end
+  
   def privacyPolicy    
   end
   

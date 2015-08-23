@@ -11,12 +11,12 @@
   </li>   
 </ul>
 <div class='btn btn-default pull-right' id='problem' style='margin-right: 10px;'>退換貨糾紛</div>
-<%if current_page?(controller: 'management', action: 'orders', called_smallfarmer_c: true, called_logistics_c: false)%>
+<%if @called_smallfarmer_c and !@called_logistics_c %>
 	<%= form_tag('/management/exportOrders.xls', id: 'export_orders') do -%>
 		<%=submit_tag '匯出出貨單', class: 'btn btn-default pull-right', style: 'margin-right: 10px;' %>	
 	<%end%>
 	<div class='btn btn-default pull-right' id='call_logistics' style='margin-right: 10px;'>轉換為已處理</div>
-<%elsif  current_page?(controller: 'management', action: 'orders', called_smallfarmer_c: true, called_logistics_c: true)%>
+<%elsif  @called_smallfarmer_c and @called_logistics_c %>
 	<div class='btn btn-default pull-right' id='delivered' style='margin-right: 10px;'>已交付</div>
 	<input id="tracing_file" type="file" class="form-control" style='margin-right: 10px;'>
 <%end%>

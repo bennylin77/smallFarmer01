@@ -38,9 +38,9 @@
     <td><%= o.id %></td>  	  
     <td>
         <%= link_to o.product_boxing.product do%>
-			<%if o.product_boxing.product.product_images.first %>
+			<%if o.product_boxing.product.cover.url %>
 				<div class="text-center">
-				<%= image_tag o.product_boxing.product.product_images.first.image.url, class: 'img-circle backend_fruits_img' %>			
+				<%= image_tag o.product_boxing.product.cover.url, class: 'img-circle backend_fruits_img' %>			
 		        </div>
 		    <%end%> 	
     		<div class="text-center"><%= o.product_boxing.product.name%></div>           	
@@ -62,7 +62,6 @@
           	<%receiver_address = s.receiver_address %>
           	<div><%=receiver_address.last_name %> <%=receiver_address.first_name %></div>
  			<div><%=receiver_address.postal %><%=receiver_address.county %><%=receiver_address.district %><%=receiver_address.address %></div>
- 		  	<div><%=receiver_address.phone_no.gsub(/^\+886/, '0') %></div>         	
           </td>
           <td><%=s.quantity%>箱</td> 			      		            
 		  <td><%= s.delivered_at.strftime("%Y-%m-%d %H:%M:%S") %></td>          	                                          
@@ -80,18 +79,16 @@
 <div class="row">
 	<div class="col-sm-offset-3 col-sm-6 col-xs-12">
 		<dl class="dl-horizontal">		  
-		  <dt style="font-size: 130%">總銷售金額:</dt> <dd style="font-size: 130%"><%= total_sales%>元</dd>		  
-		  <dt>總運費支出:</dt><dd><%=shipping_rates %>元</dd>		  
+		  <dt style="font-size: 130%">總銷售金額<span style="font-size: 70%">(不含運)<span>:</dt> <dd style="font-size: 130%"><%= total_sales - shipping_rates %>元</dd>		  
+		  <!--<dt>總運費支出:</dt><dd><%=shipping_rates %>元(<%= (shipping_rates.to_f/total_sales).round(3)*100 %>%)</dd>-->		  
 		  <dt>總金流支出:</dt><dd><%=cash_flow %>元(<%=GLOBAL_VAR['CASH_FLOW_FEE']*100%>%)</dd>		  
 		  <dt>總回饋金支出:</dt><dd><%=coupon %>元(<%=GLOBAL_VAR['COUPON_FEE']*100%>%)</dd>		  
 		  <dt>總行政費支出:</dt><dd><%=administration %>元(<%=GLOBAL_VAR['ADMINISTRATION_FEE']*100%>%)</dd>
 		  <dt>撥款手續費:</dt><dd><%=GLOBAL_VAR['TRANSFER_FEE']%>元</dd>
 		  <dt>營業稅:</dt><dd><%= sales_tax %>元</dd>
-		  <dt style="font-size: 130%">應收款項:</dt><dd style="font-size: 130%"><%= total_sales - (shipping_rates + cash_flow + coupon + administration + sales_tax + GLOBAL_VAR['TRANSFER_FEE'])%> 元</dd>		  
-		</dl>
-		
-		
-		
+		  <% total_net_income = total_sales - (shipping_rates + cash_flow + coupon + administration + sales_tax + GLOBAL_VAR['TRANSFER_FEE'])%>
+		  <dt style="font-size: 130%">應收金額:</dt><dd style="font-size: 130%"><%= total_net_income%> 元 <small>(約為總銷售金額的 <%=(total_net_income.to_f/(total_sales- shipping_rates)).round(3)*100%>%)</small></dd>		  
+		</dl>	
 	</div>
 </div>
 

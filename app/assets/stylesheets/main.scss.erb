@@ -315,4 +315,89 @@ input.rounded:focus {
         &:after { left: 100%; }
     }
 }
+/*======================================= temp index =======================================*/
 
+
+header{
+    background-image: url(<%=asset_path 'fruits5.jpg'%>);
+    background-attachment: scroll;
+    background-position: center center;
+    background-size: cover;
+    text-align: center;
+    color: #FFF;
+}
+header .intro-text{
+  padding-top:100px;
+  padding-bottom:50px
+}
+
+header .intro-text .intro-lead-in{
+  font-family:"Droid Serif","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size:22px;
+  line-height:22px;
+  margin-bottom:25px
+}
+
+header .intro-text .intro-heading{
+  font-family:Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  text-transform:uppercase;
+  font-weight:700;
+  font-size:50px;
+  line-height:50px;
+  margin-bottom:25px
+}
+
+@media (min-width:768px){
+  header .intro-text{
+    padding-top: 300px;
+    padding-bottom: 300px
+  }
+
+  header .intro-text .intro-lead-in{
+    font-size: 68px;
+    line-height: 68px;
+    margin-bottom: 35px;
+    letter-spacing: 5px;
+  }
+
+  header .intro-text .intro-heading{
+    color: #536132;
+    font-size: 23px;
+    line-height: 23px;
+    letter-spacing: 4px;    
+    margin-bottom: 50px;
+    margin: 0 auto;
+    padding-top: 12px;
+    padding-bottom: 12px;    
+    width: 510px;
+    background: rgba(235, 225, 226, 0.6);
+    border-radius: 20px;
+  }
+
+}
+
+section{
+  padding:100px 0
+}
+
+section h2.section-heading{
+  font-size:40px;
+  margin-top:0;
+  margin-bottom:15px
+}
+
+section h3.section-subheading{
+  font-size:16px;
+  font-family:"Droid Serif","Helvetica Neue",Helvetica,Arial,sans-serif;
+  text-transform:none;
+  font-style:italic;
+  font-weight:400;
+  margin-bottom:75px
+}
+
+@media (min-width:768px){
+  section{
+    padding:150px 0
+  }
+
+}

@@ -22,7 +22,6 @@
 //= require animation.gsap.js
 //= require debug.addIndicators.js
 //= require debug.addIndicators.min.js
-
 //= require jquery.twzipcode.min.js
 //= require intlTelInput.min.js
 //= require fileinput.min.js
@@ -32,5 +31,7 @@
 //= require toastr_options.js
 //= require bootstrap-hover-dropdown.min.js 
 //= require typeahead.bundle.min.js
+//= require bootstrap-datepicker.min.js
+//= require bootstrap-datepicker.zh-TW.min.js
 //
 //= require_tree .

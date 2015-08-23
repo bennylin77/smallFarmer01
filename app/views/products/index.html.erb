@@ -42,13 +42,13 @@
 	        <%end%>   	
 	    </td> 
 		<td>
-	        <div>總庫存量<%= product.inventory.to_i %>箱</div>	          
+	        <div>出貨日期 <%= product.released_at.blank? ? '--' : product.released_at.strftime("%Y/%m/%d") %></div>	          			
+	        <div>本批總庫存量 <%= product.inventory.to_i %>箱</div>	          
 	        <div>
 	        尚未付款
 			<%= Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', product.product_boxings.first.id, false, Time.now ).sum(:quantity)%>
         	箱
         	</div>
-            <div>每日可出貨量 <%= product.daily_capacity.to_i %> 箱</div>
         	<div>已出貨 <%= product.product_boxings.first.orders.where(called_smallfarmer_c: true).sum(:quantity) %> 箱</div>
         </td>	            	
         <td>
