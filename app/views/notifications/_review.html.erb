@@ -9,13 +9,13 @@
 		</div>	
 		<div class="col-sm-2 vmiddle text-center">
 			<%= image_tag o.invoice.user.avatar.url, class: 'img-circle', size: '70x70' %>				
-			<div><%= o.invoice.user.last_name %><%= o.invoice.user.first_name %></div>					
+			<div><%= o.invoice.user.last_name %> <%= o.invoice.user.first_name %></div>					
 		</div>		
 		<div class="col-sm-6 col-xs-11 vmiddle" style="padding-top: 20px;">
 			<%if o.review_at.blank?%>		    		       
-			<div class="input-group notification_review_radioBtn">
+			<div class="input-group input_group_<%= o.id %> notification_review_radioBtn">
 				<label class="radio-inline">
-				  <input type="radio" name="review_score_<%= o.id %>" id="inlineRadio1" value="<%= GLOBAL_VAR['ORDER_REVIEW_DELICIOUS'] %>"><span class="review_delicious">超好吃</span>
+				  <input type="radio" name="review_score_<%= o.id %>" id="review_score_<%= o.id %>" value="<%= GLOBAL_VAR['ORDER_REVIEW_DELICIOUS'] %>"><span class="review_delicious">超好吃</span>
 				</label>
 				<label class="radio-inline">
 				  <input type="radio" name="review_score_<%= o.id %>" id="review_score_<%= o.id %>" value="<%= GLOBAL_VAR['ORDER_REVIEW_TASTY'] %>"><span class="review_tasty">好吃</span>
@@ -27,7 +27,7 @@
 				  <input type="radio" name="review_score_<%= o.id %>" id="review_score_<%= o.id %>" value="<%= GLOBAL_VAR['ORDER_REVIEW_UNAPPEALING'] %>"><span class="review_unappealing">不太好吃</span>
 				</label>						
 		    </div>	 
-			<div class="input-group notification_review_radioBtn">
+			<div class="input-group input_group_<%= o.id %> notification_review_radioBtn">
 				<label class="radio-inline">
 				  <input type="radio" name="shipment_review_score_<%= o.id %>" id="shipment_review_score_<%= o.id %>" value="<%= GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_FAST'] %>"> 寄送快
 				</label>
@@ -35,13 +35,33 @@
 				  <input type="radio" name="shipment_review_score_<%= o.id %>" id="shipment_review_score_<%= o.id %>" value="<%= GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_COMMON'] %>"> 寄送普通
 				</label>
 				<label class="radio-inline">
-				  <input type="radio" name="shipment_review_score_<%= o.id %>" id="shipment_review_score_<%= o.id %>" value="<%= GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_SLOW'] %>"> 寄送快
+				  <input type="radio" name="shipment_review_score_<%= o.id %>" id="shipment_review_score_<%= o.id %>" value="<%= GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_SLOW'] %>"> 寄送慢
 				</label>									    
 		    </div>	
-			<div class="talkbubble text-left hidden-xs">
+			<div class="talkbubble text-left hidden-xs input_group_<%= o.id %>">
 				<textarea name="content" class="form-control" rows="2" placeholder='有什麼評價...' id="review_feedback_<%= o.id %>"></textarea>				
 			</div>
-			<div class="comment_msg hidden-sm hidden-md hidden-lg"><textarea name="content" class="form-control" rows="2" placeholder='有什麼評價...' id="review_feedback_<%= o.id %>"></textarea></div>				
+			<div class="comment_msg hidden-sm hidden-md hidden-lg input_group_<%= o.id %>"><textarea name="content" class="form-control" rows="2" placeholder='有什麼評價...' id="review_feedback_<%= o.id %>"></textarea></div>				
+			<%else%>
+				<div class="text-left" style="">			
+					<div class="review_feedback_date">購物評價</div>
+					<div class="review_feedback_option <%= reviewBg o.review_score.to_i %>"></div>
+					<div class="review_feedback_option_text <%= reviewText o.review_score.to_i %>">
+						<%=Hash[orderReviewOptions].rassoc(o.review_score).first%>
+					</div>	
+					<div class="review_feedback_shipment_text">出貨速度</div>	
+					<div class="review_feedback_shipment <%= shipmentReviewBg o.shipment_review_score %>"></div>										
+					<div class="review_feedback_shipment_text <%= shipmentReviewText o.shipment_review_score %>">						
+						<%=Hash[orderShipmentReviewOptions].rassoc(o.shipment_review_score).first%>					
+					</div>						
+				</div>	
+				<%unless o.review_feedback.blank?%>
+				<div class="text-left" style="">		
+					<div class="review_feedback_content">
+						<%=o.review_feedback%>						
+					</div>
+				</div>	
+				<%end%>
 			<%end%>
 		</div>			
 	</div>	
@@ -57,23 +77,6 @@
 
 
 <script>
-/*
-$('.notification_radioBtn a').on('click', function(){
-	var sel = $(this).data('title');
-	var tog = $(this).data('toggle');
-	$('#'+tog).prop('value', sel);	   
-	$('a[data-toggle="'+tog+'"]').not('[data-title="'+sel+'"]').removeClass('notification_review_active').addClass('notification_review_notActive');	
-	$('a[data-toggle="'+tog+'"][data-title="'+sel+'"]').removeClass('notification_review_notActive').addClass('notification_review_active');
-})
-
-$('.notification_shipment_radioBtn a').on('click', function(){
-	var sel = $(this).data('title');
-	var tog = $(this).data('toggle');
-	$('#'+tog).prop('value', sel);	   
-	$('a[data-toggle="'+tog+'"]').not('[data-title="'+sel+'"]').removeClass('notification_review_active').addClass('notification_review_notActive');	
-	$('a[data-toggle="'+tog+'"][data-title="'+sel+'"]').removeClass('notification_review_notActive').addClass('notification_review_active');
-})
-*/
 function sendReview( notification_id, invoice_id, orders)
 {
 	orders_id = [];
@@ -82,9 +85,9 @@ function sendReview( notification_id, invoice_id, orders)
 	review_feedbacks = [];
 	$.each( orders, function( index, value ) {
 	  orders_id.push( value )		
-	  shipment_review_scores.push( $( "#shipment_review_score_"+value ).val() )	  
-	  review_scores.push( $( "#review_score_"+value ).val() )
-	  review_feedbacks.push( $( "#review_feedback_"+value ).val() )	  
+	  shipment_review_scores.push( $("input[name=shipment_review_score_"+value+"]:checked").val() )	  
+	  review_scores.push( $("input[name=review_score_"+value+"]:checked").val() )
+	  review_feedbacks.push( $("#review_feedback_"+value ).val() )	  
 	});	
 	var request = $.ajax({
 		url: "/notifications/review",
@@ -95,14 +98,21 @@ function sendReview( notification_id, invoice_id, orders)
 		request.done(function( status ) {
 			toastr[status.type](status.message)			
 			showCoupons()						
-			showNotifications()	
-						
+			showNotifications()		
+			
+											
 			$.each( orders, function( index, value ) {
-			  $( "#review_feedback_"+value ).attr("disabled", "disabled")
-			  $('.notification_radioBtn a').off();				  
+			  //$( "#review_feedback_"+value ).attr("disabled", "disabled")
+			  //$('.notification_radioBtn a').off();		
+			  
+			  $('.input_group_'+value).remove();			  		  
 			  $('.notification_button_'+notification_id).remove();			   	  
-			});							
+			
+			
+			
+			});		
+			
+								
 		});	
 }	
-
 </script>	

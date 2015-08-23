@@ -4,8 +4,8 @@ class CartsController < ApplicationController
   def addCart
     cart = current_user.carts.where(product_boxing_id: params[:id]).first        
     unless cart.blank?
-      if cart.quantity + params[:quantity].to_i > 50
-        render json: {alert_class: 'warning', message: '購買數量超過50箱'}          
+      if cart.quantity + params[:quantity].to_i > ProductBoxing.find(params[:id]).product.daily_capacity
+        render json: {alert_class: 'warning', message: '購買數量超過'+ProductBoxing.find(params[:id]).product.daily_capacity.to_s+'箱'}          
       else
         cart.quantity = cart.quantity + params[:quantity].to_i   
         cart.save!  

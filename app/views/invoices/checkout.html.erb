@@ -29,7 +29,7 @@
 				<%end%>  					
 			</div>			
 			<div class="col-sm-2 col-xs-12 form-group form-inline check_out_product_list_text vmiddle">
-				<%= select_tag  'quantity_'+c.id.to_s, options_for_select( (1..50).step(1).to_a, c.quantity.to_s), class: "form-control" %>箱				
+				<%= select_tag  'quantity_'+c.id.to_s, options_for_select( (1..product.daily_capacity).step(1).to_a, c.quantity.to_s), class: "form-control" %>箱				
 			</div>
 			<div class="col-sm-2 col-xs-12 check_out_product_list_text vmiddle">
 				<span class="total_price_<%=c.id%>"></span>元		
@@ -190,12 +190,18 @@
 		<div class="form-inline col-sm-6">
 			<label class="checkbox-inline">
 		 	<%= check_box_tag 'agree', true, @agree == 'true'%>
-			我已詳閱並同意 小農1號 電子商務約定條款		 	
+			我已詳閱並同意 小農1號 退換貨政策		 	
 		 	</label>
 		</div>
-	</div>			
+	</div>	
 	<div class="form-group">
-		<div class="col-sm-offset-2 col-sm-6">   
+		<label class="col-sm-2 control-label"></label>
+		<div class="form-inline col-sm-7"  style="overflow-y: scroll; overflow-x: hidden; height: 100px;">
+			<%=render 'return_policy' %>
+		</div>
+	</div>					
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-8">   
 		<button class="btn btn-success add_button" type="submit" style="font-size: 20px; padding: 6px 25px;">送出</button>			 
 		</div>
 	</div>

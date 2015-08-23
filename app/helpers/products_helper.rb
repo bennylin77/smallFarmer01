@@ -44,4 +44,26 @@ module ProductsHelper
       'review_unappealing'       
     end            
   end  
+
+  def shipmentReviewBg(score)
+    case score
+    when GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_FAST']
+      'shipment_review_fast_bg'
+    when GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_COMMON']
+      'shipment_review_common_bg'
+    when GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_SLOW']       
+      'shipment_review_slow_bg'         
+    end            
+  end
+  
+  def shipmentReviewText(score)
+    case score
+    when GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_FAST']
+      'shipment_review_fast'
+    when GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_COMMON']
+      'shipment_review_common'
+    when GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_SLOW']       
+      'shipment_review_slow'         
+    end            
+  end   
 end
