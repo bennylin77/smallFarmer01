@@ -70,14 +70,14 @@ class UsersController < ApplicationController
           current_user.phone_no_confirmation_token = token
           current_user.phone_no_confirmation_frequency = current_user.phone_no_confirmation_frequency + 1
           current_user.save!
-          System.sendConfirmation(current_user).deliver   
+          #System.sendConfirmation(current_user).deliver   
           data = { username: Rails.configuration.mitake_username, 
                    password: Rails.configuration.mitake_password,
                    dstaddr: params[:phone_no].gsub(/^\+886/, '0'),
                    encoding: 'UTF8',
                    smbody: '小農1號行動電話驗證，您的簡訊驗證碼為:'+token.to_s
                    } 
-          #result = RestClient.get( Rails.configuration.mitake_sm_send_get_url, params: data)        
+          result = RestClient.get( Rails.configuration.mitake_sm_send_get_url, params: data)        
           render json: {alert_class: 'success', message: '已送出您的驗證碼, 您將在數分鐘內收到'}          
         else
           render json: {alert_class: 'warning', message: '您的驗證已嘗試超過五次，請直接聯絡客服人員，謝謝！'}       
