@@ -16,7 +16,7 @@
 /tmp
 
 /public/system
-/config/environments
-/config/initializers
-/config/database.yml
-/config/secrets.yml
+#/config/environments
+#/config/initializers
+#/config/database.yml
+#/config/secrets.yml
