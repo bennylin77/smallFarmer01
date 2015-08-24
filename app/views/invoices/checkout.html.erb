@@ -234,7 +234,7 @@ $('#same_as_user').change(function() {
 <%end%>	
 	
 $('input[type=radio][name=payment_method]').change(function() {
-        if (this.value == '2') {
+        if (this.value == '<%=GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>') {
         	$('.extra_cash_flow_fee').show()
         }
         else{
