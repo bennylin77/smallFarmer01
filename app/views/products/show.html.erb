@@ -96,7 +96,7 @@
 		      	</div>
 		      </div>	      	
 		      <div class="hidden-md hidden-lg col-xs-12 text-center">    	
-		        <div class="product_name"><%if @product.released_at > Time.now %>【預購】<%end%><%= @product.name %></div>
+		        <div class="product_name"><%if @product.released_at%><%if @product.released_at > Time.now %>【預購】<%end%><%end%><%= @product.name %></div>
 		        <div class="product_excellent"><span class="product_excellent_no" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL ', @product.id, GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count+Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL ', @product.id, GLOBAL_VAR['ORDER_REVIEW_TASTY']).count %>'> </span><span class="product_excellent_text">人說好吃</span></div>		      
 		      </div>		      		      
 		    </div>	
