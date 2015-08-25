@@ -199,33 +199,4 @@ function showCartsNotifications(){
 			 $('.carts_notifications_badge').html('');	
 	});						
 }
-
-
-
-
-
-
-
-
-var bestPictures = new Bloodhound({
-  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-  queryTokenizer: Bloodhound.tokenizers.whitespace,
-  remote: {
-    url: '/main/getFruitsAndFarms?term=%QUERY',
-    wildcard: '%QUERY'
-  }
-  //prefetch: '../data/films/post_1960.json',  
-});
-
-$('.typeahead').typeahead(null, {
-  name: 'best-pictures',
-  display: 'value',
-  source: function (query, process) {
-  			$.get('/main/getFruitsAndFarms', { term: query }, function (data) {
-            return  process( data.options );
-        });
-    }
-});
-
-
 </script>

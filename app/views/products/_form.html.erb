@@ -152,7 +152,7 @@ $("#product_cover").fileinput({showCaption: false,
 								    }
 							   		<%end%>	    
 							   ],		        							   
-							   overwriteInitial: true							 
+							   overwriteInitial: false							 
 							   });	
 $("#product_image").fileinput({
 		showCaption: false,    
@@ -180,7 +180,8 @@ $("#product_image").fileinput({
 		        key: <%=p_i.id %>
 		    },
 			<%end%>		    
-		]		        
+		],		        							   
+		overwriteInitial: false		        
     });
     
 $('#product_released_at').datepicker({

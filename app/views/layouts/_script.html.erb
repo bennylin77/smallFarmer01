@@ -3,11 +3,11 @@
 <% flash.each do |type, message| %>	
 	<%case type%>
 	<%when 'notice'%>
-		toastr['success']('<%=message.html_safe%>')				
+		toastr.success('<%=message.html_safe%>')				
 	<%when 'alert'%>
-		toastr['warning']('<%=message.html_safe%>')					
+		toastr.warning('<%=message.html_safe%>')					
 	<%else%>
-		toastr['<%=type%>']('<%=message.html_safe%>')			
+		toastr.<%=type%>('<%=message.html_safe%>')			
 	<%end%> 
 <% end %>
 (function(d, s, id) {

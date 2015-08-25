@@ -95,7 +95,7 @@ function sendReview( notification_id, invoice_id, orders)
 			showNotifications()												
 			$.each( orders, function( index, value ) {
 			});		
-			location.href = 'http://smallfarmer01.com/notifications?category=all';					
+			location.href = '<%=Rails.configuration.smallfarmer01_host%>/notifications?category=all';					
 		});						
 }	
 </script>	

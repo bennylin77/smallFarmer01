@@ -84,7 +84,7 @@ $("#company_cover").fileinput({showCaption: false,
 								    }
 							   		<%end%>	    
 							   ],		        							   
-							   overwriteInitial: true							 
+								overwriteInitial: false								 
 							   });		
 	
 $("#company_image").fileinput({showCaption: false,    
@@ -112,7 +112,8 @@ $("#company_image").fileinput({showCaption: false,
 								        key: <%=c_i.id %>
 								    },
 									<%end%>		    
-							   ]		        
+							   ],		        							   
+								overwriteInitial: false			        
 						       });
 //================== twzipcode ==================//	
 $('#twzipcode').twzipcode({
