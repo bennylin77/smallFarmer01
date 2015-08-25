@@ -1,7 +1,7 @@
 <% content_for :show_fb do %>
     <meta property="og:url" content="<%=Rails.configuration.smallfarmer01_host%>/products/<%=@product.id%>" />
     <meta property="og:type" content="website" />  	
-  	<meta property="og:title" content="<%if @product.released_at > Time.now %>【預購】<%end%><%= @product.name %>" />
+  	<meta property="og:title" content="<%if @product.released_at%><%if @product.released_at > Time.now %><%end%>【預購】<%end%><%= @product.name %>" />
   	<meta property="og:description" content="<%= @product.description%>" />
 	<meta property="og:image" content="<%if @product.cover%><%= @product.cover.url(:medium)%><%end%>" />
 <% end %>
@@ -91,7 +91,7 @@
 			<div class="row" style="margin-top: 20px;">			
 		      <div class="hidden-xs hidden-sm col-md-offset-1 col-md-10">        
 		        <div class="" style="">
-		        	<div class="product_name text-left"><%if @product.released_at > Time.now %>【預購】<%end%><%= @product.name %></div>
+		        	<div class="product_name text-left"><%if @product.released_at%><%if @product.released_at > Time.now %>【預購】<%end%><%end%><%= @product.name %></div>
 		        	<div class="product_excellent text-left"><span class="product_excellent_no" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL', @product.id, GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count+Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL ', @product.id, GLOBAL_VAR['ORDER_REVIEW_TASTY']).count %>'> </span><span class="product_excellent_text"> 人說好吃</span></div>		      
 		      	</div>
 		      </div>	      	
