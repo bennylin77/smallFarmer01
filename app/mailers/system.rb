@@ -1,6 +1,6 @@
 # encoding: utf-8
 class System < ActionMailer::Base
-  default from: "smallFarmer01 小農1號 <smallFarmer01@gmail.com.tw>"
+  default from: "smallFarmer01 小農1號 <no-reply@smallfarmer01.com>"
   helper ApplicationHelper  
 
   def sendConfirmation(user)

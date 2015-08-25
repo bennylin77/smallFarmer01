@@ -38,6 +38,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.string   :phone_no_confirmation_token
       t.datetime :phone_no_confirmed_at
       t.integer  :phone_no_confirmation_frequency, default: 0, null: false   
+      t.string   :referral_code
        
       t.boolean    :deleted_c, default: false, null: false  
       t.boolean    :blocked_c, default: false, null: false  
@@ -48,7 +49,8 @@ class DeviseCreateUsers < ActiveRecord::Migration
 
     add_index :users, :email,                unique: true
     add_index :users, :reset_password_token, unique: true
-    # add_index :users, :confirmation_token,   unique: true
+    add_index :users, :confirmation_token,   unique: true
+    add_index :users, :referral_code,        unique: true    
     # add_index :users, :unlock_token,         unique: true
   end
 end
