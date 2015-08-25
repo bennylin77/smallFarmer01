@@ -1,12 +1,9 @@
 <% content_for :show_fb do %>
     <meta property="og:url" content="<%=Rails.configuration.smallfarmer01_host%>/products/<%=@product.id%>" />
     <meta property="og:type" content="website" />  	
-  	<meta property="og:title" content="<%= @product.name %>" />
-  	
-  	<meta property="og:description" content="" />
-	
-	<meta property="og:image" content="<%=@product.cover.url%>" />
-
+  	<meta property="og:title" content="<%if @product.released_at > Time.now %>【預購】<%end%><%= @product.name %>" />
+  	<meta property="og:description" content="<%= @product.description%>" />
+	<meta property="og:image" content="<%= @product.cover.url(:medium)%>" />
 <% end %>
 <div class="container-fluid" style="margin-bottom: 50px;">
 	<div class="row" style="margin-top: 30px;">

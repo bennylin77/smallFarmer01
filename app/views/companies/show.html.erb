@@ -83,7 +83,7 @@
 			<%= link_to pp do%>
 					<%= image_tag pp.product_images.first.image.url, class: 'img-circle farm_fruits_img' %>			
 					<div class="farm_fruits_name">
-					<%= pp.name%>
+					<%if pp.released_at > Time.now %>【預購】<%end%><%= pp.name%>
 					</div>	  
 					<div class="farm_fruits_price">
 					<%= pp.product_boxings.first.product_pricings.first.price.to_i + shippingRates(cold_chain: pp.cold_chain, size: pp.product_boxings.first.size) %>元(含運) <%= "%g" % pp.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(pp.unit).first %>/箱
