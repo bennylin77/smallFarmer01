@@ -276,19 +276,21 @@ ActiveRecord::Schema.define(version: 20150812093824) do
     t.integer  "daily_capacity"
     t.datetime "released_at"
     t.integer  "unit"
-    t.boolean  "deleted_c",          default: false, null: false
+    t.boolean  "deleted_c",             default: false, null: false
     t.datetime "deleted_at"
-    t.boolean  "available_c",        default: false, null: false
+    t.boolean  "available_c",           default: false, null: false
     t.datetime "available_at"
     t.integer  "cold_chain"
     t.integer  "size"
     t.integer  "company_id"
     t.text     "preservation"
     t.integer  "sweet_degree"
-    t.boolean  "GAP_c",              default: false, null: false
-    t.boolean  "TAP_c",              default: false, null: false
-    t.boolean  "OTAP_c",             default: false, null: false
-    t.boolean  "UTAP_c",             default: false, null: false
+    t.boolean  "GAP_c",                 default: false, null: false
+    t.boolean  "TAP_c",                 default: false, null: false
+    t.boolean  "OTAP_c",                default: false, null: false
+    t.boolean  "UTAP_c",                default: false, null: false
+    t.boolean  "pesticide_zero_c",      default: false, null: false
+    t.boolean  "pesticide_qualified_c", default: false, null: false
     t.string   "short_URL"
     t.datetime "created_at"
     t.datetime "updated_at"
