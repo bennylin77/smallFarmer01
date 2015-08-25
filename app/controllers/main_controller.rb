@@ -17,7 +17,7 @@ class MainController < ApplicationController
   end
   
   def fruits   
-    @products = Product.all  
+    @products = Product.all.where(deleted_c: false)  
   end
   
   def marketing   

@@ -5,9 +5,10 @@ class ProductsController < ApplicationController
   before_action only: [:edit, :update, :preview, :destroy, :productImagesUpload, :productImagesDelete] { |c| c.ProductCheckUser(params[:id])}      
   before_action :set_product, only: [:show, :edit, :update, :preview, :destroy, :productImagesUpload, :productImagesDelete, :available, :productCoverUpload, :productCoverDelete]
   before_action :available?, only: [:show]
+  before_action :delete?, only: [:show]  
 
   def index
-    @products = current_user.companies.first.products
+    @products = current_user.companies.first.products.where(deleted_c: false)
   end
 
   def show
@@ -45,13 +46,13 @@ class ProductsController < ApplicationController
   def update
     @product.update(product_params)    
     unless @product.errors.any?  
-      flash[:notice] ='成功更改水果資料'
+      flash[:notice] ='成功更改商品資料'
       redirect_to products_url      
     else  
       render 'edit'
     end   
   end
-  
+ 
   def preview
     if @product.update(product_params)
       redirect_to @product
@@ -61,7 +62,10 @@ class ProductsController < ApplicationController
   end
   
   def destroy
-    @product.destroy
+    @product.deleted_c = true
+    @product.deleted_at = Time.now
+    @product.save!
+    flash[:notice] ='成功刪除商品編號'+@product.id.to_s        
     redirect_to products_url
   end
 
@@ -117,7 +121,7 @@ class ProductsController < ApplicationController
     if @product.available_c
       @product.available_c = false
       @product.save!    
-      flash[:alert] ='水果已下架'        
+      flash[:alert] ='商品已下架'        
       redirect_to products_url      
     else  
       @company = current_user.companies.first
@@ -125,7 +129,7 @@ class ProductsController < ApplicationController
       unless @company.errors.any?
         @product.update(available_c: true, available_at: Time.now)
         unless @product.errors.any?
-          flash[:success] ='成功上架水果'        
+          flash[:success] ='成功上架商品'        
           redirect_to products_url
         else
           render 'edit'
@@ -145,6 +149,13 @@ class ProductsController < ApplicationController
         redirect_to root_url 
       end
     end
+    
+    def delete?
+      if @product.deleted_c 
+        flash[:warning] = '商品已刪除'
+        redirect_to root_url 
+      end
+    end    
   
     def set_product
       @product = Product.find(params[:id])

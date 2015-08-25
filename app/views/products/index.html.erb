@@ -35,7 +35,7 @@
 	        <%= link_to product do%>
 				<%if product.product_images.first %>
 					<div class="text-center">
-					<%= image_tag product.cover.url(:medium), class: 'img-circle backend_fruits_img' %>			
+					<%= image_tag product.cover.url, class: 'img-circle backend_fruits_img' %>			
 			        </div>
 			    <%end%> 	
 	    		<div class="text-center"><%= product.name%></div>           	
@@ -43,7 +43,7 @@
 	    </td> 
 		<td>
 	        <div>出貨日期 <%= product.released_at.blank? ? '--' : product.released_at.strftime("%Y/%m/%d") %></div>	          			
-	        <div>本批總庫存量 <%= product.inventory.to_i %>箱</div>	          
+	        <div>本批數量 <%= product.inventory.to_i %>箱</div>	          
 	        <div>
 	        尚未付款
 			<%= Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', product.product_boxings.first.id, false, Time.now ).sum(:quantity)%>

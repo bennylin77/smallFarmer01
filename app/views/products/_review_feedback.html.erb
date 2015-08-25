@@ -1,4 +1,4 @@
-<% Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_at IS NOT NULL', @product.id).all.order('id DESC').each do |o| %>   
+<% Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_at IS NOT NULL', @product.id).order('id DESC').limit(5).each do |o| %>   
 <div class="row" style="margin-top: 20px; margin-left: 10px;">			
 	<div class="col-lg-offset-1 col-lg-11">	
 	<%=image_tag o.invoice.user.avatar.url, class: 'review_feedback_avatar img-circle' %> 				

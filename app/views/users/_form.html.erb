@@ -29,9 +29,9 @@
 			<%else%>
 				<%= f.text_field :phone_no, class: "form-control", readonly: true %>			
 			<%end%>	
-		</div>		
+		</div>				
 		<div class="col-sm-2">
-		<%if @user.phone_no_confirmed_at.blank?%>
+	<!--<%if @user.phone_no_confirmed_at.blank?%>
 			<%if @user.phone_no%>			
 			<a id="confirmation_btn" class="btn btn-default edit_button" href="<%= '/users/'+@user.id.to_s+'/mobileSMSConfirmation?phone_no='+@user.phone_no.gsub(/^\+/, '%2B')%>">驗證拿回饋金</a>		
 			<%else%>
@@ -39,7 +39,7 @@
 			<%end%>
 		<%else%>
 			已驗證
-		<%end%>			
+		<%end%>-->			
 		</div>				
 	</div>						
 	<div class="form-group">

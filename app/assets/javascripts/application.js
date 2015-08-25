@@ -14,24 +14,21 @@
 //= require jquery_ujs
 //= require jquery.turbolinks
 //= require bootstrap-sprockets
-
-//= require EasePack.min.js
-//= require TweenMax.min.js
-//= require modernizr.custom.min.js
-//= require ScrollMagic.min.js
 //= require animation.gsap.js
-//= require debug.addIndicators.js
-//= require debug.addIndicators.min.js
-//= require jquery.twzipcode.min.js
-//= require intlTelInput.min.js
-//= require fileinput.min.js
-//= require fileinput_locale_zh.js
-//= require moment-with-locales.min.js
-//= require toastr.min.js
-//= require toastr_options.js
-//= require bootstrap-hover-dropdown.min.js 
-//= require typeahead.bundle.min.js
 //= require bootstrap-datepicker.min.js
 //= require bootstrap-datepicker.zh-TW.min.js
+//= require debug.addIndicators.min.js
+//= require EasePack.min.js
+//= require fileinput.min.js
+//= require fileinput_locale_zh.js
+//= require intlTelInput.min.js
+//= require jquery.twzipcode.min.js
+//= require modernizr.custom.min.js
+//= require moment-with-locales.min.js
+//= require ScrollMagic.min.js
+//= require TweenMax.min.js
+//= require toastr.min.js
+//= require toastr_options.js
+//= require typeahead.bundle.min.js
 //
 //= require_tree .

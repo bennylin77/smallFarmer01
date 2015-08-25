@@ -360,6 +360,7 @@ ActiveRecord::Schema.define(version: 20150812093824) do
     t.string   "phone_no_confirmation_token"
     t.datetime "phone_no_confirmed_at"
     t.integer  "phone_no_confirmation_frequency", default: 0,     null: false
+    t.string   "referral_code"
     t.boolean  "deleted_c",                       default: false, null: false
     t.boolean  "blocked_c",                       default: false, null: false
     t.datetime "blocked_at"
@@ -371,7 +372,9 @@ ActiveRecord::Schema.define(version: 20150812093824) do
     t.datetime "updated_at"
   end
 
+  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["referral_code"], name: "index_users_on_referral_code", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
 end

@@ -34,7 +34,7 @@ Rails.application.routes.draw do
   get    'notifications/showNotifications'
   post   'notifications/review'    
   
-  post   'users/mobileSMSConfirmationSend'
+  #post   'users/mobileSMSConfirmationSend'
   
   get    'main/index'  
   get    'main/search'
@@ -64,7 +64,7 @@ Rails.application.routes.draw do
   get    'management/confirmPhoneNo'
                               
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
-  match '/users/:id/mobileSMSConfirmation' => 'users#mobileSMSConfirmation', via: [:get, :patch], :as => :mobileSMSConfirmation 
+  #match '/users/:id/mobileSMSConfirmation' => 'users#mobileSMSConfirmation', via: [:get, :patch], :as => :mobileSMSConfirmation 
 
   match '/companies/preview/:id' => 'companies#preview', via: [:patch]
   match '/companies/:id/companyCoverUpload' => 'companies#companyCoverUpload', via: [:post], :as => :companyCoverUpload

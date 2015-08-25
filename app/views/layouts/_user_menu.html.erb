@@ -14,7 +14,8 @@
 	          	<div class='description-sidebar-container'>
 	      		<div style="display:table-cell; padding-right: 8px;" class="glyphicon glyphicon-phone" aria-hidden="true"></div>
 	      		<%if current_user.phone_no.blank?%>
-				<a id="confirmation_btn" class=" " href="<%= '/users/'+current_user.id.to_s+'/mobileSMSConfirmation'%>">驗證拿回饋金</a>					
+				<!--<a id="confirmation_btn" class=" " href="<%= '/users/'+current_user.id.to_s+'/mobileSMSConfirmation'%>">驗證拿回饋金</a>-->
+				--					
 	          	<%else%>
 	          	<%= current_user.phone_no.gsub(/^\+886/, '0') %>		          	
 	          	<%end%>

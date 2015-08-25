@@ -5,7 +5,7 @@ class Company < ActiveRecord::Base
   has_many   :bills
 
   has_attached_file :cover, 
-                    styles: { medium: "1024" },
+                    styles: { original: "1024", medium: "500"},
                     default_url: ':placeholder'               
   validates_attachment :cover, 
                        content_type: { content_type: /\Aimage\/.*\Z/, message: "圖片格式錯誤" }, 

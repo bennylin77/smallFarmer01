@@ -3,10 +3,6 @@ class BillsController < ApplicationController
   before_action :set_bill, only: [:index]
   
   def index
-    if params[:id].blank?
-      
-    end
-      
   end
   
   private

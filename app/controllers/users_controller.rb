@@ -34,7 +34,7 @@ class UsersController < ApplicationController
       end
     end
   end
-
+=begin
   def mobileSMSConfirmation 
     if request.patch? && params[:token] 
       if params[:token] == current_user.phone_no_confirmation_token
@@ -59,8 +59,7 @@ class UsersController < ApplicationController
       end
     end    
     @phone_no = params[:phone_no]      
-  end  
-  
+  end    
   def mobileSMSConfirmationSend
     if current_user.phone_no_confirmed_at.blank? 
       unless params[:phone_no].blank?
@@ -89,7 +88,7 @@ class UsersController < ApplicationController
       render json: {alert_class: 'warning', message: '您已驗證通過'}  
     end        
   end    
-
+=end
   def destroy
     # authorize! :delete, @user
     @user.destroy

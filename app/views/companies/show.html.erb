@@ -1,7 +1,7 @@
 <div class="container-fluid main_frontend">	
 	<ol class="breadcrumb hidden-xs">
 	  <li><%= link_to '首頁', root_url %></li>
-	  <li><a href="#">合作農場</a></li>
+	  <li><%= link_to '合作農場', controller: 'main', action: 'farms'%></li>
 	  <li class="active">
 	  	<a href="#">
 	  	<%unless @company.county.blank?%>
@@ -41,11 +41,11 @@
 				<%@company.company_images.each_with_index do |c, i|%>
 					<%if i==0%>
 					    <div class="farm_item item active">
-					      <%=image_tag c.image.url(:medium), class: '' %>
+					      <%=image_tag c.image.url, class: '' %>
 					    </div>
 				    <%else%>
 					    <div class="farm_item item">
-					      <%=image_tag c.image.url(:medium), class: '' %>
+					      <%=image_tag c.image.url, class: '' %>
 					    </div>	    
 				    <%end%>
 				<%end%>  	   

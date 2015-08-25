@@ -1,3 +1,13 @@
+<% content_for :show_fb do %>
+    <meta property="og:url" content="<%=Rails.configuration.smallfarmer01_host%>/products/<%=@product.id%>" />
+    <meta property="og:type" content="website" />  	
+  	<meta property="og:title" content="<%= @product.name %>" />
+  	
+  	<meta property="og:description" content="" />
+	
+	<meta property="og:image" content="<%=@product.cover.url%>" />
+
+<% end %>
 <div class="container-fluid" style="margin-bottom: 50px;">
 	<div class="row" style="margin-top: 30px;">
 		<div id="parallax1" class="product_cover_parallax_parent">
@@ -5,8 +15,8 @@
 		</div>	
 	</div>		
 	<ol class="breadcrumb hidden-xs" style="margin-top: 20px;">
-	  <li><a href="#">首頁</a></li>
-	  <li><a href="#">合作農場</a></li>
+	  <li><%= link_to '首頁', root_url %></li>
+	  <li><%= link_to '合作農場', controller: 'main', action: 'farms'%></li>
 	  <li>
 	  	<a href="/companies/<%=@product.company.id %>">
 	  		<%unless @product.company.county.blank?%>
@@ -58,13 +68,13 @@
 					<%if i==0%>
 					    <div class="product_item item active">
 					      <div class="product_carousel_img">	
-					      <%=image_tag p.image.url(:medium), class: '' %>
+					      <%=image_tag p.image.url, class: '' %>
 					      </div>
 					    </div>
 				    <%else%>
 					    <div class="product_item item">
 					      <div class="product_carousel_img">	
-					      <%=image_tag p.image.url(:medium), class: '' %>
+					      <%=image_tag p.image.url, class: '' %>
 					      </div>
 					    </div>	    
 				    <%end%>
@@ -95,7 +105,7 @@
 		    </div>	
 			<div class="row hidden-xs hidden-sm ">
 		      <div class="col-sm-offset-5 col-sm-6 text-right" style="margin-top: 15px;">
-				<div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button_count"></div>		      
+				<div class="fb-share-button" data-href="<%=Rails.configuration.smallfarmer01_host%>/products/<%=@product.id%>" data-layout="button_count"></div>		      
 		      </div>
 		    </div>			    			    
 			<div class="row product_price" style="margin-top: 20px;">

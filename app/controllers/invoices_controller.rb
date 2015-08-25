@@ -18,8 +18,8 @@ class InvoicesController < ApplicationController
       unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', c.product_boxing.id, false, Time.now ).sum(:quantity)     
       if c.product_boxing.product.inventory - unpaid - c.quantity < 0
         flash[:warning] = c.product_boxing.product.name + '庫存剩'+(c.product_boxing.product.inventory - unpaid).to_s+'箱'
-      elsif !c.product_boxing.product.available_c
-        flash[:warning] = c.product_boxing.product.name + '已下架'       
+      elsif !c.product_boxing.product.available_c or c.product_boxing.product.deleted_c
+        flash[:warning] = c.product_boxing.product.name + '已下架'                  
       end 
     end
     if flash[:warning]
@@ -204,7 +204,7 @@ class InvoicesController < ApplicationController
       unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', c.product_boxing.id, false, Time.now ).sum(:quantity)     
       if c.product_boxing.product.inventory - unpaid - c.quantity < 0
         current_user.errors.add('quantity_'+c.id.to_s, c.product_boxing.product.name + '庫存剩'+(c.product_boxing.product.inventory - unpaid).to_s+'箱')     
-      elsif !c.product_boxing.product.available_c
+      elsif !c.product_boxing.product.available_c or c.product_boxing.product.deleted_c
         current_user.errors.add('quantity_'+c.id.to_s, c.product_boxing.product.name + '已下架')             
       end  
       c.product_boxing.product_pricings.order('quantity desc').each do |p|
