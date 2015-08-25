@@ -37,7 +37,7 @@ var	current_user = {id: -1 };
 <%end%>
 var default_avatar = '<%=asset_path 'default_avatar.png' %>'
 var product_id = <%=product.id %>
-
+moment.locale('zh-tw');
 function postComment()
 {
 	if($( "#post_content" ).val()!= '')

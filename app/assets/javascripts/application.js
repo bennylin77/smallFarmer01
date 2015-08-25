@@ -24,11 +24,11 @@
 //= require intlTelInput.js
 //= require fileinput.js
 //= require fileinput_locale_zh-TW.js
-//= require moment-with-locales.js
 //= require toastr.js
 //= require toastr_options.js
-//= require bootstrap-datepicker.js
-//= require bootstrap-datepicker.zh-TW.js
 
-//
+//= require moment
+//= require bootstrap-datetimepicker
+//= require moment/zh-tw
+
 //= require_tree .

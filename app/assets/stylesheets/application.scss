@@ -1,6 +1,7 @@
 $grid-float-breakpoint: 1065px;
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import 'bootstrap-datetimepicker';
 @import "main";
 @import "backend";
 @import "users";
@@ -16,4 +17,4 @@ $grid-float-breakpoint: 1065px;
 @import "invoices";
 @import "mainPage";
 @import "notifications";
-@import "bootstrap-datepicker3"
+
