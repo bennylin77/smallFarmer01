@@ -25,6 +25,8 @@ class CreateProducts < ActiveRecord::Migration
       t.boolean :TAP_c, default: false, null: false
       t.boolean :OTAP_c, default: false, null: false
       t.boolean :UTAP_c, default: false, null: false
+      t.boolean :pesticide_zero_c, default: false, null: false
+      t.boolean :pesticide_qualified_c, default: false, null: false            
       
       t.string  :short_URL
       

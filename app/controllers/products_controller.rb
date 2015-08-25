@@ -62,9 +62,8 @@ class ProductsController < ApplicationController
   end
   
   def destroy
-    @product.deleted_c = true
-    @product.deleted_at = Time.now
-    @product.save!
+    @product.update_attribute(:deleted_c, true)   
+    @product.update_attribute(:deleted_at, Time.now)     
     flash[:notice] ='成功刪除商品編號'+@product.id.to_s        
     redirect_to products_url
   end
