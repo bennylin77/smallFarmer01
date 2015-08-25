@@ -171,9 +171,9 @@
 				</div>				
 				<div class="hidden-md hidden-lg col-xs-6">
 					<!--
-					<%unless inventory == 0 %>		
-					<%=image_tag 'delivery_est_'+deliveryEstimationColor(product: @product)+'.png', class: '',style: 'height: 50px;'%>
-					<%end%>
+					unless inventory == 0 %>		
+					image_tag 'delivery_est_'+deliveryEstimationColor(product: @product)+'.png', class: '',style: 'height: 50px;'%>
+					end%>
 					-->
 				</div>				
 			</div>				
