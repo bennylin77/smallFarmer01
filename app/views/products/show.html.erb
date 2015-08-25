@@ -112,14 +112,16 @@
 					    每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%>
 					</div>					   			
 					<div class="hidden-xs hidden-sm col-md-3 text-right">							
-						<%= p.price.to_i + shippingRates(cold_chain: @product.cold_chain, size: p.product_boxing.size) %>				
+						<%if p.price %><%= p.price.to_i + shippingRates(cold_chain: @product.cold_chain, size: p.product_boxing.size) %><%end%>				
 					</div>	
 					<div class="hidden-xs hidden-sm col-md-3">元<span style="font-size: 90%">(含運)<span></div>														
 					<div class="col-xs-12 hidden-md hidden-lg text-center">
+					<%if p.price %>
 					<% @original_price = p.price.to_i%>
 					每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%>				
 					<%= p.price.to_i + shippingRates(cold_chain: @product.cold_chain, size: p.product_boxing.size) %>								
 					元<span style="font-size: 80%">(含運)<span>					
+					<%end%>
 					</div>											
 			</div>
 			<div class="row product_price" style="margin-top: 10px;">
