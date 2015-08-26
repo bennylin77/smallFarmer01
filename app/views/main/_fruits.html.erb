@@ -1,4 +1,4 @@
-<% products.where(available_c: true).each_slice(4) do |p|%> 
+<% products.where(available_c: true, deleted_c: false).each_slice(4) do |p|%> 
 	<div class="row" style="padding-bottom: 80px;">
 		<% p.each_with_index do |pp, index|%>
 				<div class="col-sm-3 farm_fruits">					

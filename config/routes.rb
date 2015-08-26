@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   post   'invoices/allpayNotify'  
   post   'invoices/allpayPaymentInfoNotify'
   get    'invoices/finished'   
-  get    'invoices/cancel'    
+  #get    'invoices/cancel'    
      
   get    'orders/index'
   

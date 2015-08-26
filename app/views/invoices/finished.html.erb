@@ -168,12 +168,12 @@
 			<%= link_to '查看訂單狀態', {controller: 'invoices', action: 'index'}, class: 'btn btn-default edit_button' %>			 		
 		</div>
 	</div>		
-	<div class="row" style="margin-top: 50px;">		
+	<div class="row" style="margin-top: 40px; margin-bottom: 30px; ">		
 		<div class="col-sm-12">
 			<div class="section_title">您可能感興趣</div>
-			<div class="section_underline"></div>				
-		</div>					
-	</div>				
+		</div>							
+	</div>	
+	<%= render partial: "products/recommendation" %>														
 </div>			
 
 		

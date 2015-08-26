@@ -74,13 +74,21 @@ module OrdersHelper
      ['退貨完成', 399]]
   end  
       
-  def expressComingDate(checked_time)    
-    t_15_30 = Time.new(checked_time.year, checked_time.month, 
-                       checked_time.day, 15, 30, 00)       
-    if t_15_30 >= checked_time  
-      '明天 '+(checked_time+1.day).to_date.to_s+' '
+  def expressComingDate(hash={})    
+    t_15_30 = Time.new(hash[:checked_time].year, hash[:checked_time].month, 
+                       hash[:checked_time].day, 15, 30, 00)       
+    if t_15_30 >= hash[:checked_time] 
+       if hash[:words]       
+        '明天 '+(hash[:checked_time]+1.day).to_date.to_s+' '
+       else 
+        (hash[:checked_time]+1.day).to_date.to_s
+       end         
     else
-      '後天 '+(checked_time+2.day).to_date.to_s+' '  
+       if hash[:words]
+        '後天 '+(hash[:checked_time]+2.day).to_date.to_s+' '  
+       else 
+        (hash[:checked_time]+2.day).to_date.to_s
+       end 
     end
   end    
 end
