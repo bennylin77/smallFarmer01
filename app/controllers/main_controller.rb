@@ -32,7 +32,7 @@ class MainController < ApplicationController
   end
   
   def surveyFarmer
-    render layout: 'temp'   
+    render layout: false   
   end
   
   def getFruitsAndFarms

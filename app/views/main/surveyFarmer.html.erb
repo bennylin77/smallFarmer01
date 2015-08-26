@@ -1,8 +1,74 @@
-<div style="margin: 0 auto; width: 1024px; background: none">
-<iframe src="https://docs.google.com/forms/d/1XuMekMIJo8cdf8FbhkTVk4VSTVqCTaCSxvhIDtF1O4w/viewform?embedded=true"
-width="1024" 
-height="1400"
-frameborder="0" 
-marginheight="0" 
-marginwidth="0">Loading...</iframe>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+	  <style>
+	  	body{
+	  		width: 640px;
+	  		border: 1px solid #ebe1e2;
+	  	}
+	  	.header{
+			height: 60px;	
+	  	}	  	
+	  	.header_bg_left{
+	  		float: left;
+	  		background: #78b658;
+	  		width: 240px;
+	  		height: 70px;	  		
+	  	}
+	  	.header_bg_left img{
+	  		padding-left: 50px;
+	  		padding-top: 20px;	  		
+			height: 30px; 		
+	  	}	  	
+	  	.header_bg_center{	  		
+	  		float: left;  
+			width: 80px;	  				  		
+	  	}
+	  	.header_bg_center_square{
+	  		background: #78b658;
+	  		height: 30px;	  		
+	  	}	  	
+	  	
+		.header_bg_center_triangle{ width: 0; height: 0; border-top: 40px solid #78b658; border-right: 80px solid transparent; }	  	
+	  	
+	  	
+	  	.header_bg_right{
+	  		float: left;		
+	  		background: #78b658;
+	  		width: 320px;
+	  		height: 30px;
+	  	}	  		  	
+	  </style>     
+  </head>
+  <body>
+<div class="header">   	
+	<div class="header_bg_left">  	
+	<%= link_to image_tag('mail/smallfarmer01.png'), root_url %>
+	</div>
+	<div class="header_bg_center">
+	<div class="header_bg_center_square"></div>	
+	<div class="header_bg_center_triangle"></div>				
+	</div>
+	<div class="header_bg_right"></div>		
+</div>	
+<div class="header_inner">   
+<%=image_tag 'mail/logo.png'%>
 </div>
+<div class="content">    	
+	
+
+		<p>Bennylin77@gmail.com 您好!</p>
+		
+		<p>您可透過以下連結更換密碼</p>
+		
+		<p><%= link_to '更換我的密碼', ''%></p>
+		
+		<p>如果您沒要求更改密碼，請您忽略此信。</p>
+		<p>除非您點擊上面連結並更換密碼，否則您的密碼都不會改變</p>
+</div
+
+    
+ 
+  </body>
+</html>

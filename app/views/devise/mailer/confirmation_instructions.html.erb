@@ -1,8 +1,31 @@
-
-
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+  	
 
 <p><%= @email %> 您好!</p>
 
 <p>請您點擊以下連結進行認證:</p>
 
 <p><%= link_to '認證我的帳號', confirmation_url(@resource, confirmation_token: @token) %></p>
+    
+  <style>
+  
+  </style>  
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
