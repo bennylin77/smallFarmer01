@@ -207,13 +207,13 @@ function countTotalPrice(){
 		total_farmer_get += value.farmer_get
 	});		
 	total = total_shipping_rates + total_cash_flow + total_administration + total_farmer_get
-			$('.farmer_get_layer_horizon').css({"width": ((total_farmer_get/total)*100*0.2).toString()+'%' })
-			$('.farmer_get_layer_horizon').animate({"width": ((total_farmer_get/total)*100*0.4).toString()+'%' }, 2000)
+			$('.farmer_get_layer_horizon').css({"width": ((total_farmer_get/total)*100*0.4).toString()+'%' })
+			$('.farmer_get_layer_horizon').animate({"width": ((total_farmer_get/total)*100*0.6).toString()+'%' }, 2000)
 			
-			$('.shipping_rates_layer_horizon').animate({"width": ((total_shipping_rates/total)*100).toString()+'%'})
-			$('.cash_flow_layer_horizon').animate({"width": ((total_cash_flow/total)*100).toString()+'%'})
-			$('.administration_layer_horizon').animate({"width": ((total_administration/total)*100).toString()+'%'})
-			$('.coupon_layer_horizon').animate({"width": ((total_coupon/total)*100).toString()+'%'})
+			$('.shipping_rates_layer_horizon').animate({"width": ((total_shipping_rates/total)*100*1.2).toString()+'%'})
+			$('.cash_flow_layer_horizon').animate({"width": ((total_cash_flow/total)*100*1.2)).toString()+'%'})
+			$('.administration_layer_horizon').animate({"width": ((total_administration/total)*100*1.2)).toString()+'%'})
+			$('.coupon_layer_horizon').animate({"width": ((total_coupon/total)*100*1.2)).toString()+'%'})
 			$('.total_farmer_get').html( total_farmer_get );	
 			$('.total_shipping_rates').html( total_shipping_rates ); 							
 			$('.total_cash_flow').html( total_cash_flow  );	
