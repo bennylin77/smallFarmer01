@@ -8,7 +8,7 @@ class InvoicesController < ApplicationController
   before_action :emptyCarts?, only: [:create, :checkout, :confirmCheckout]
     
   def index    
-    @invoices = current_user.invoices.paginate(page: params[:page], per_page: 1).order('id DESC')    
+    @invoices = current_user.invoices.where(canceled_c: false).paginate(page: params[:page], per_page: 1).order('id DESC')    
     render layout: 'users'    
   end  
   

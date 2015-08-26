@@ -20,12 +20,12 @@
 					<div>
 						謝謝您在小農1號購買水果。我們會盡快將您所購買的水果寄送到您手中。您可以利用
 						<%= link_to '管理訂單', {controller: 'invoices', action: 'index'}%>			 		
-						查看您訂單的最新處理進度。若您有任何問題請聯絡客服人員。
+						查看您訂單的最新處理進度。若您有任何問題請聯絡客服專線 (02) 8732-6786 。
 					</div>	
 				</div>
 			</div>	
-			<div class="row" style="margin-top: 20px;">
-				<div class="col-sm-offset-1 col-sm-5">	
+			<div class="row">
+				<div class="col-sm-offset-1 col-sm-5" style="margin-top: 20px;">	
 					<div class="row">
 						<label class="col-sm-12 control-label">訂購人資訊</label>
 					</div>	
@@ -49,7 +49,7 @@
 						</div>
 					</div>		
 				</div>
-				<div class="col-sm-5">	
+				<div class="col-sm-5" style="margin-top: 20px;">	
 					<% receiver_address = @invoice.orders.first.shipments.first.receiver_address%>				  
 					<div class="row">
 						<label class="col-sm-12 control-label">收件人資訊</label>
@@ -78,19 +78,16 @@
 			<%@invoice.orders.each_with_index do |c, index| %>		
 			<% product = c.product_boxing.product%>	
 			<div class="row text-center" style="margin-top: 30px; margin-bottom: 30px;">
-				<div class="col-sm-2 check_out_product_list_title vmiddle hidden-xs">
-					出貨編號 <%= c.id%>	          		
-				</div>	
 				<div class="col-sm-2 col-xs-12 vmiddle">
 					<%= image_tag product.cover.url, class: 'img-circle farm_fruits_img', style: 'height: 70px; width: 70px;'%>						
 				</div>	
 				<div class="col-sm-2 col-xs-12 check_out_product_list_title vmiddle">
 					<%=link_to c.product_boxing.product.name, c.product_boxing.product%>
 				</div>				
-				<div class="col-sm-1 col-xs-12 check_out_product_list_text vmiddle">
+				<div class="col-sm-2 col-xs-12 check_out_product_list_text vmiddle">
 					<%= c.quantity%>箱				
 				</div>
-				<div class="col-sm-1 col-xs-12 check_out_product_list_text vmiddle">
+				<div class="col-sm-2 col-xs-12 check_out_product_list_text vmiddle">
 					<%= c.price.to_i + c.shipping_rates.to_i%>元		
 				</div>											
 			</div>				
@@ -102,19 +99,32 @@
 		    		<%discount = discount + i_c_l.amount%>
 		    	<%end%>						
 				本次消費: <%=@invoice.amount.to_i%>元，使用回饋金: <%=discount.to_i%>元，
-				總計: <%=(@invoice.amount - discount).to_i  %>元，付款方式為
+				付款金額: <mark><%=(@invoice.amount - discount).to_i  %>元</mark>，付款方式:
 				<%if @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>	
-					線上刷卡 <%=image_tag 'allPay.png', class: 'img-responsive', size: '80x80', style: 'display: inline-block'%>	
+					線上刷卡 <%=image_tag 'allPay.png', class: 'img-responsive', size: '50x50', style: 'display: inline-block'%>	
 				<%elsif @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD']%>	
-					ATM櫃員機 <%=image_tag 'allPay.png', class: 'img-responsive', size: '80x80', style: 'display: inline-block'%> 		
+					ATM櫃員機 <%=image_tag 'allPay.png', class: 'img-responsive', size: '50x50', style: 'display: inline-block'%> 		
 				<%elsif @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>	
-					超商代碼 <%=image_tag 'allPay.png', class: 'img-responsive', size: '80x80', style: 'display: inline-block'%>			
-				<%end%>													
+					超商代碼 <%=image_tag 'allPay.png', class: 'img-responsive', size: '50x50', style: 'display: inline-block'%>			
+				<%end%>，付款狀態: <%if @invoice.paid_c%>已付款<%else%><span class="text-danger">尚未付款</span><%end%>																
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-sm-offset-1 col-sm-11">	
-					您可獲得回饋金<%= ((@invoice.amount-discount)*0.04).round%>元, 金流去向如下			
+					<div class="pull-left" style="color: #B5841B; font-size: 18px; margin-top: 13px; margin-right: 10px;">
+					  <%if !@invoice.paid_c%>
+					  付款完成後，
+					  <%end%>						  
+					  您可獲得回饋金		  				
+					</div>						
+					<div style="display: inline-block; margin-right: 15px; margin-top: 3px; color: #B5841B" class="text-center pull-left">				  			
+					  	<div>					
+					  		<%=image_tag 'coupons_icon.png', class: 'coupons_icon_product', style: 'height: 40px;' %>			  													  												
+							<div style="margin-top: -30px">
+								<span style="font-size: 130%;"><%= ((@invoice.amount-discount)*GLOBAL_VAR['COUPON_FEE']).round%></span><span style="font-size: 80%;">元</span>
+							</div>
+						</div>	
+					</div>								
 				</div>
 			</div>			
 			<div class="row"  style="margin-top: 30px">

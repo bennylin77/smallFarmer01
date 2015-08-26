@@ -13,7 +13,7 @@
 	<th>購買項目</th>
     <th>訂單日期</th>	 	        
   </tr>
-  <%@invoices.where(canceled_c: false).each do |i| %>
+  <%@invoices.each do |i| %>
   <tr>
  	<td class="text-center" style="min-width: 90px;">	 
 	    <%if !i.paid_c%>
@@ -99,7 +99,7 @@
 		</dl>
     </td>         
     <td>
-    	<%= ((i.amount-discount)*0.04).round%>元
+    	<%= ((i.amount-discount)*GLOBAL_VAR['COUPON_FEE']).round%>元
     	<div><small><em>-商品送達，評完好吃度即可獲得-</em></small></div>
     </td>         
     <td>

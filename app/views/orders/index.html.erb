@@ -11,7 +11,12 @@
 <div class="table-responsive">
 <table class="table table-bordered table-hover">
   <tr>
-	<th></th>   	
+	<th>
+		<ul>
+		  <li>15:30以前通知，<span class="text-danger">隔</span>天物流車會到農場登記地址取貨</li>
+		  <li>15:30以後通知，<span class="text-danger">後</span>天物流車會到農場登記地址取貨</li>		  
+		</ul>		
+	</th>   	
     <th style="min-width: 75px;">出貨編號</th>  			          	
 	<th>品項</th>  
 	<th style="min-width: 120px;">出貨數量</th>	
@@ -22,8 +27,11 @@
   <tr>
     <td class="text-center">
     	<%if !o.called_smallfarmer_c%>
-    		<%= link_to '通知物流', {controller: 'orders', action: 'confirm', id: o} , class: 'btn btn-success add_button'%>
+    		<%= link_to '通知物流', {controller: 'orders', action: 'confirm', id: o}, data: { confirm: '出貨編號:'+o.id.to_s+' 您確定要通知物流? '+expressComingDate(Time.now)+'物流會來取貨' }, class: 'btn btn-success add_button'%>
     	<%end%>
+    	<%if o.called_smallfarmer_c%>
+    		物流取貨時間: <%=expressComingDate o.called_smallfarmer_at %> 
+    	<%end%>   		    	
     </td>  	
     <td><%= o.id %></td>  	  
     <td>

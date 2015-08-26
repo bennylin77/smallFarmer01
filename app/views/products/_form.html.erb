@@ -76,7 +76,7 @@
 			<%if @product.released_at.blank?%>
 				<%= f.text_field :released_at, class: "form-control", placeholder: '出貨日期'%>	
 			<%else%>
-				<%= f.text_field :released_at, value: @product.released_at.strftime("%Y/%m/%d %H:%M"), class: "form-control", placeholder: '出貨日期'%>				
+				<%= f.text_field :released_at, value: @product.released_at.strftime("%Y-%m-%d %H:%M"), class: "form-control", placeholder: '出貨日期'%>				
 			<%end%>			
 		</div>					
 	</div>		
@@ -189,9 +189,9 @@ $("#product_image").fileinput({
 $('#product_released_at').datetimepicker({
 	dayViewHeaderFormat: 'YYYY MMMM',	
 	locale: 'zh-TW',
-	format: 'YYYY/MM/DD HH:mm',
+	format: 'YYYY-MM-DD HH:mm',
 	widgetPositioning: {
-            horizontal: 'auto'
+            horizontal: 'auto',
             vertical: 'bottom'
     }
 });    

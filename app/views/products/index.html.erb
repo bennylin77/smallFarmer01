@@ -42,7 +42,7 @@
 	        <%end%>   	
 	    </td> 
 		<td>
-	        <div>出貨日期 <%= product.released_at.blank? ? '--' : product.released_at.strftime("%Y/%m/%d") %></div>	          			
+	        <div>出貨日期 <%= product.released_at.blank? ? '--' : product.released_at.strftime("%Y-%m-%d %H:%M") %></div>	          			
 	        <div>本批數量 <%= product.inventory.to_i %>箱</div>	          
 	        <div>
 	        尚未付款
