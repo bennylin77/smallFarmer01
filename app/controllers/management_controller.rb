@@ -189,35 +189,51 @@ class ManagementController < ApplicationController
     when 'GAP'
       if params[:val]
         @product.update_columns(GAP_c: params[:val])
-        render json: {success: true, message: '水果編號 '+@product.id.to_s+' 吉園圃已認證'}    
+        render json: {success: true, message: '商品編號 '+@product.id.to_s+' 吉園圃已認證'}    
       else
         @product.update_columns(GAP_c: params[:val])
-        render json: {success: true, message: '水果編號 '+@product.id.to_s+' 吉園圃已停用'}          
+        render json: {success: true, message: '商品編號 '+@product.id.to_s+' 吉園圃已停用'}          
       end  
     when 'TAP'
       if params[:val]
         @product.update_columns(TAP_c: params[:val])
-        render json: {success: true, message: '水果編號 '+@product.id.to_s+' TAP已認證'}    
+        render json: {success: true, message: '商品編號 '+@product.id.to_s+' TAP已認證'}    
       else
         @product.update_columns(TAP_c: params[:val])
-        render json: {success: true, message: '水果編號 '+@product.id.to_s+' TAP已停用'}          
+        render json: {success: true, message: '商品編號 '+@product.id.to_s+' TAP已停用'}          
       end 
     when 'OTAP'
       if params[:val]
         @product.update_columns(OTAP_c: params[:val])
-        render json: {success: true, message: '水果編號 '+@product.id.to_s+' OTAP已認證'}    
+        render json: {success: true, message: '商品編號 '+@product.id.to_s+' OTAP已認證'}    
       else
         @product.update_columns(OTAP_c: params[:val])
-        render json: {success: true, message: '水果編號 '+@product.id.to_s+' OTAP已停用'}          
+        render json: {success: true, message: '商品編號 '+@product.id.to_s+' OTAP已停用'}          
       end 
     when 'UTAP'
       if params[:val]
         @product.update_columns(UTAP_c: params[:val])
-        render json: {success: true, message: '水果編號 '+@product.id.to_s+' UTAP已認證'}    
+        render json: {success: true, message: '商品編號 '+@product.id.to_s+' UTAP已認證'}    
       else
         @product.update_columns(UTAP_c: params[:val])
-        render json: {success: true, message: '水果編號 '+@product.id.to_s+' UTAP已停用'}          
-      end                   
+        render json: {success: true, message: '商品編號 '+@product.id.to_s+' UTAP已停用'}          
+      end   
+    when 'pesticide_qualified'
+      if params[:val]
+        @product.update_columns(pesticide_qualified_c: params[:val])
+        render json: {success: true, message: '商品編號 '+@product.id.to_s+' 藥檢合格已認證'}    
+      else
+        @product.update_columns(pesticide_qualified_c: params[:val])
+        render json: {success: true, message: '商品編號 '+@product.id.to_s+' 藥檢合格已停用'}          
+      end  
+    when 'pesticide_zero'
+      if params[:val]
+        @product.update_columns(pesticide_zero_c: params[:val])
+        render json: {success: true, message: '商品編號 '+@product.id.to_s+' 農藥零檢出已認證'}    
+      else
+        @product.update_columns(pesticide_zero_c: params[:val])
+        render json: {success: true, message: '商品編號 '+@product.id.to_s+' 農藥零檢出已停用'}          
+      end                              
     end   
   end  
         

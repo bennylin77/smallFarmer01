@@ -2,8 +2,8 @@
 <div class="table-responsive">
 <table class="table table-bordered table-hover">
   <tr>
-    <th>水果編號</th>  	
-	<th>水果</th>
+    <th>商品編號</th>  	
+	<th>商品</th>
 	<th>狀態</th>  
 	<th>價錢</th>	
 	<th>甜度</th>			
@@ -22,7 +22,13 @@
 	<th>
 		<%=image_tag 'utap.png', class: '', style: 'height: 55px; width: 55px;'  %>		      				
 		UTAP
-	</th>						 		            
+	</th>	
+	<th>
+		<%=image_tag 'pesticide_qualified.png', class: '', style: 'height: 55px; width: 55px;'  %>		      					
+	</th>
+	<th>
+		<%=image_tag 'pesticide_zero.png', class: '', style: 'height: 55px; width: 55px;'  %>		      				
+	</th>							 		            
 	<th></th>							 		    						 		            
   </tr>
   <% @products.each do |product| %>
@@ -130,6 +136,32 @@
     		</div>
     	</div>
   	</td>
+  	<td>
+    	<div class="form-group">
+    		<div class="col-sm-12">
+    			<div class="input-group">
+    				<div id="" class="radioBtn btn-group">
+    					<a class="btn btn-primary btn-sm <%if product.pesticide_qualified_c%>active<%else%>notActive<%end%>" data-toggle="pesticide_qualified_<%=product.id %>" data-id="<%=product.id %>" data-title="true" data-kind="pesticide_qualified" style="border: none;">是</a>
+    					<a class="btn btn-primary btn-sm <%if product.pesticide_qualified_c%>notActive<%else%>active<%end%>" data-toggle="pesticide_qualified_<%=product.id %>" data-id="<%=product.id %>" data-title="false" data-kind="pesticide_qualified" style="border: none;">否</a>
+    					<input type="hidden" name="pesticide_qualified_<%=product.id %>" id="pesticide_qualified_<%=product.id %>" value="<%=product.pesticide_qualified_c%>">
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+  	</td>
+  	<td>
+    	<div class="form-group">
+    		<div class="col-sm-12">
+    			<div class="input-group">
+    				<div id="" class="radioBtn btn-group">
+    					<a class="btn btn-primary btn-sm <%if product.pesticide_zero_c%>active<%else%>notActive<%end%>" data-toggle="pesticide_zero_<%=product.id %>" data-id="<%=product.id %>" data-title="true" data-kind="pesticide_zero" style="border: none;">是</a>
+    					<a class="btn btn-primary btn-sm <%if product.pesticide_zero_c%>notActive<%else%>active<%end%>" data-toggle="pesticide_zero_<%=product.id %>" data-id="<%=product.id %>" data-title="false" data-kind="pesticide_zero" style="border: none;">否</a>
+    					<input type="hidden" name="pesticide_zero_<%=product.id %>" id="pesticide_zero_<%=product.id %>" value="<%=product.pesticide_zero_c%>">
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+  	</td>  	  	
   	<td>
   		<%=link_to '瀏覽', product, class: 'btn-default btn'%>
   	</td>  	  	 	 

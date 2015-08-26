@@ -236,12 +236,14 @@
 							<%if @product.TAP_c%><%=image_tag 'tap.png', class: '', style: 'height: 50px; width: 50px;'  %><%end%>		      		      
 							<%if @product.OTAP_c%><%=image_tag 'otap.png', class: '', style: 'height: 50px; width: 50px;'  %><%end%>		      		      
 							<%if @product.UTAP_c%><%=image_tag 'utap.png', class: '', style: 'height: 50px; width: 50px;'  %><%end%>	
+							<%if @product.pesticide_qualified_c%><%=image_tag 'pesticide_qualified.png', class: '', style: 'height: 50px; width: 50px;'  %><%end%>	
+							<%if @product.pesticide_zero_c%><%=image_tag 'pesticide_zero.png', class: '', style: 'height: 50px; width: 50px;'  %><%end%>							
 						</td>					
 					</tr>					
 					<tr>
 						<th>內容量</th>
 						<td>
-							每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%> <small>±10%</small> 
+							每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%><%if @product.unit == GLOBAL_VAR['UNIT_CATTY'] or @product.unit == GLOBAL_VAR['UNIT_KG'] %><small> ±10%</small><%end%> 
 						</td>
 						<th>甜度</th>
 						<td class="text-center">
