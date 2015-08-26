@@ -127,7 +127,7 @@
 					</div>								
 				</div>
 			</div>			
-			<div class="row"  style="margin-top: 30px">
+			<div class="row"  style="margin-top: 30px; margin-bottom: 30px;">
 				<div class="col-sm-offset-1 col-sm-11">	
 					<div class="farmer_get_layer_horizon">
 						<div class="farmer_get_inner_horizon">
@@ -173,9 +173,7 @@
 			<div class="section_title">您可能感興趣</div>
 			<div class="section_underline"></div>				
 		</div>					
-	</div>	
-	
-				
+	</div>				
 </div>			
 
 		
@@ -200,7 +198,7 @@ countTotalPrice()
 function countTotalPrice(){	
 	total = 0; total_shipping_rates = 0; 
 	total_cash_flow = 0; total_administration = 0; 
-	total_coupon = <%= ((@invoice.amount - discount)*0.04).round %>;
+	total_coupon = <%= ((@invoice.amount - discount)*GLOBAL_VAR['COUPON_FEE']).round %>;
 	total_farmer_get = 0;
 	$.each(orders, function( index, value ) {
 		total_shipping_rates += value.shipping_rates;
@@ -209,13 +207,13 @@ function countTotalPrice(){
 		total_farmer_get += value.farmer_get
 	});		
 	total = total_shipping_rates + total_cash_flow + total_administration + total_farmer_get
-			$('.farmer_get_layer_horizon').css({"width": ((total_farmer_get/total)*100*0.7).toString()+'%' })
-			$('.farmer_get_layer_horizon').animate({"width": ((total_farmer_get/total)*100).toString()+'%' }, 1000)
+			$('.farmer_get_layer_horizon').css({"width": ((total_farmer_get/total)*100*0.4).toString()+'%' })
+			$('.farmer_get_layer_horizon').animate({"width": ((total_farmer_get/total)*100*0.6).toString()+'%' }, 2000)
 			
-			$('.shipping_rates_layer_horizon').animate({"width": ((total_shipping_rates/total)*100*0.6).toString()+'%'})
-			$('.cash_flow_layer_horizon').animate({"width": ((total_cash_flow/total)*100*0.6).toString()+'%'})
-			$('.administration_layer_horizon').animate({"width": ((total_administration/total)*100*0.6).toString()+'%'})
-			$('.coupon_layer_horizon').animate({"width": ((total_coupon/total)*100*0.6).toString()+'%'})
+			$('.shipping_rates_layer_horizon').animate({"width": ((total_shipping_rates/total)*100*2.8).toString()+'%'})
+			$('.cash_flow_layer_horizon').animate({"width": ((total_cash_flow/total)*100*2.8).toString()+'%'})
+			$('.administration_layer_horizon').animate({"width": ((total_administration/total)*100*2.8).toString()+'%'})
+			$('.coupon_layer_horizon').animate({"width": ((total_coupon/total)*100*2.8).toString()+'%'})
 			$('.total_farmer_get').html( total_farmer_get );	
 			$('.total_shipping_rates').html( total_shipping_rates ); 							
 			$('.total_cash_flow').html( total_cash_flow  );	
