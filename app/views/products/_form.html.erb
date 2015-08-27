@@ -1,6 +1,6 @@
 <%= form_for(@product, html: {class: "form-horizontal", role: "form", multipart: true}) do |f| %>
 	<div class="form-group">
-		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">名稱</label>
+		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">名稱<br>(勿含包裝斤數)</label>
 		<div class="col-sm-10 col-md-7">
 			<%= f.text_field :name, placeholder: '名稱', class: "form-control" %>
 		</div>
