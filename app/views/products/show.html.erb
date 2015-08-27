@@ -29,7 +29,7 @@
 	<div class="row">
 		<div class="hidden-xs col-md-12 col-lg-offset-1 col-lg-10 product_farm_words">		
 				<%= image_tag @product.company.user.avatar.url, class: 'img-circle product_farm_words_avatar' %>		
-				<%=link_to @product.company do%>
+				<%= link_to @product.company do%>
 				<div class="product_farm_words_text">	
 				<%= truncate( @product.company.description, length: 122, omission: '... more') %>
 				</div>
@@ -40,7 +40,7 @@
 				<div class="col-xs-12 text-center">					
 				<%= image_tag @product.company.user.avatar.url, class: 'img-circle product_farm_words_avatar', style: '' %>		
 				</div>
-				<%=link_to @product.company do%>				
+				<%= link_to @product.company do%>				
 				<div class="col-xs-12 product_farm_words_text">	
 				<%= truncate( @product.company.description, length: 122, omission: '... more') %>
 				</div>
@@ -133,7 +133,7 @@
 				<div class="col-xs-3 col-md-2">箱</div>	
 			</div>						
 				<%elsif p.quantity%>
-			<div class="row" style="margin-top: 18px;">	
+			<div class="row" style="margin-top: 22px;">	
 				<div class="hidden-xs hidden-sm col-md-offset-1 col-md-10 product_promote">								
 					<span style="color: #536132;"><%= p.quantity %>箱以上，每箱便宜<span style="font-size: 130%"><%= @original_price - p.price.to_i  %></span>元</span>
 					<span style="font-size: 80%;">＊企業團體購買，請聯絡客服人員</span>				
@@ -144,7 +144,7 @@
 				</div>						
 			</div>	
 				<%else%>	
-			<div class="row" style="margin-top: 18px;">				
+			<div class="row" style="margin-top: 22px;">				
 				<div class="col-sm-offset-2 col-sm-8  col-md-offset-1 col-md-10 product_promote text-center">								
 					<span style="font-size: 80%;">＊企業團體購買，請聯絡客服人員</span>				
 				</div>					
@@ -156,22 +156,23 @@
 					<%if @product.inventory%>
 					<% inventory = @product.inventory - Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', @product.product_boxings.first.id, false, Time.now ).sum(:quantity) %>		
 					<%end%>
+					<%if @product.released_at%>
+						<%if @product.released_at > Time.now %>
+							<div class='product_released_at pull-right'>預計<%= @product.released_at.strftime("%Y-%m-%d") %>起陸續出貨</div> 
+					    <%end%>
+					<%end%>					
 					<!--					
 					unless inventory == 0 %>	
 					image_tag 'delivery_est_'+deliveryEstimationColor(product: @product)+'.png', class: 'pull-right',style: 'height: 50px;'%>
 					end%>
 					-->
-				</div>
-				<div class="hidden-md hidden-lg col-xs-6">								  				      																  				      					
-				  	<div class="pull-right" style="color: #B5841B" class="text-center">				  			
-				  		<%=image_tag 'coupons_icon.png', class: 'coupons_icon_product', style: 'height: 50px;' %>			  													  												
-						<div style="margin-top: -40px"><span style="font-size: 24px;" class="coupons_est"></span><span style="font-size: 100%;">元</span></div>
-					</div>	
-					<div class="pull-right" style="color: #B5841B; font-size: 16px; margin-top: 13px; margin-right: 10px;">
-					回饋金約			  				
-					</div>												
-				</div>				
-				<div class="hidden-md hidden-lg col-xs-6">
+				</div>			
+				<div class="hidden-md hidden-lg col-xs-12 text-center">
+					<%if @product.released_at%>
+						<%if @product.released_at > Time.now %>
+							<div class='product_released_at'>預計<%= @product.released_at.strftime("%Y-%m-%d") %>起陸續出貨</div> 
+					    <%end%>
+					<%end%>						
 					<!--
 					unless inventory == 0 %>		
 					image_tag 'delivery_est_'+deliveryEstimationColor(product: @product)+'.png', class: '',style: 'height: 50px;'%>
@@ -197,14 +198,23 @@
 					  		最多獲得回饋金			  				
 					  	</div>							
 				</div>					
-				<div class="hidden-md hidden-lg col-xs-12 text-center">							
+				<div class="hidden-md hidden-lg col-xs-6">			  	
+				  	<div class="pull-right" style="color: #B5841B" class="text-center">				  			
+				  		<%=image_tag 'coupons_icon.png', class: 'coupons_icon_product', style: 'height: 50px;' %>			  													  												
+						<div style="margin-top: -40px"><span style="font-size: 24px;" class="coupons_est"></span><span style="font-size: 100%;">元</span></div>
+					</div>	
+					<div class="pull-right" style="color: #B5841B; font-size: 16px; margin-top: 13px; margin-right: 10px;">
+					回饋金約			  				
+					</div>
+				</div>	
+				<div class="hidden-md hidden-lg col-xs-6">			  																	
 					<%if @product.inventory%>
-					<%if @product.inventory - Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', @product.product_boxings.first.id, false, Time.now ).sum(:quantity) == 0%>
-						<button type="button" class="cart_unavailable btn btn-default" autocomplete="off" disabled="disabled">已搶購完</button>			
-					<%else%>
-					<%=image_tag 'cart_icon.png', class: 'cart_icon_product', style: 'height: 35px; position: absolute; right: 47%; top: 5px; z-index: -1' %>			  													  																												
-						<button type="button" class="add_to_cart btn btn-success" autocomplete="off">加入購物車</button>			
-					<%end%>	
+						<%if @product.inventory - Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', @product.product_boxings.first.id, false, Time.now ).sum(:quantity) == 0%>
+							<button type="button" class="cart_unavailable btn btn-default" autocomplete="off" disabled="disabled">已搶購完</button>			
+						<%else%>
+							<%=image_tag 'cart_icon.png', class: 'cart_icon_product', style: 'height: 35px; position: absolute; left: 10%; top: 5px; z-index: -1' %>			  													  																												
+							<button type="button" class="add_to_cart btn btn-success" autocomplete="off">加入購物車</button>			
+						<%end%>	
 					<%end%>	
 				</div>					
 			</div>		
