@@ -6,13 +6,15 @@
 					<div class="farm_fruits_container">
 					<%= image_tag pp.cover.url(:medium), class: 'img-circle farm_fruits_img', size: '150x150' %>			
 					<div class="farm_fruits_name">
-					<%if pp.released_at > Time.now %>【預購】<%end%><%= pp.name%>
+					<%if pp.released_at > Time.now %>【預購】<%end%>
+					<%= pp.name%>
+					<%= "%g" % pp.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(pp.unit).first %>					
 					</div>	  
 					<div class="farm_fruits_farm_name">
 					<%= pp.company.name%>
 					</div>						
 					<div class="farm_fruits_price">
-					每箱<%= "%g" % pp.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(pp.unit).first %> <%= pp.product_boxings.first.product_pricings.first.price.to_i + shippingRates(cold_chain: pp.cold_chain, size: pp.product_boxings.first.size) %>元(含運)
+					<%= pp.product_boxings.first.product_pricings.first.price.to_i + shippingRates(cold_chain: pp.cold_chain, size: pp.product_boxings.first.size) %>元(含運)
 				    </div>
 				    <div class="farm_fruits_reviews">
 						<span class="farm_fruits_excellent" data-count="<%= pp.product_boxings.first.orders.where('review_at IS NOT NULL and review_score = ? ', GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count + pp.product_boxings.first.orders.where('review_at IS NOT NULL and review_score = ? ', GLOBAL_VAR['ORDER_REVIEW_TASTY']).count %>"></span> <span class="farm_fruits_excellent_text">人說好吃</span>
