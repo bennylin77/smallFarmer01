@@ -3,72 +3,66 @@
   <head>
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
 	  <style>
-	  	body{
-	  		width: 640px;
-	  		border: 1px solid #ebe1e2;
-	  	}
-	  	.header{
-			height: 60px;	
-	  	}	  	
-	  	.header_bg_left{
-	  		float: left;
-	  		background: #78b658;
-	  		width: 240px;
-	  		height: 70px;	  		
-	  	}
-	  	.header_bg_left img{
-	  		padding-left: 50px;
-	  		padding-top: 20px;	  		
-			height: 30px; 		
-	  	}	  	
-	  	.header_bg_center{	  		
-	  		float: left;  
-			width: 80px;	  				  		
-	  	}
-	  	.header_bg_center_square{
-	  		background: #78b658;
-	  		height: 30px;	  		
-	  	}	  	
-	  	
-		.header_bg_center_triangle{ width: 0; height: 0; border-top: 40px solid #78b658; border-right: 80px solid transparent; }	  	
-	  	
-	  	
-	  	.header_bg_right{
-	  		float: left;		
-	  		background: #78b658;
-	  		width: 320px;
-	  		height: 30px;
-	  	}	  		  	
+	  	body{ width: 640px; border: 1px solid #ebe1e2; font-family: Heiti TC, Microsoft JhengHei, sans-serif;}
+	  	.header{ height: 110px;}	  	
+	  	.header_bg_left{ float: left; background: #78b658; width: 240px; height: 70px;}
+	  	.header_bg_left img{ padding-left: 50px; padding-top: 20px; height: 30px;}	  	
+	  	.header_bg_center{ float: left; width: 80px;}
+	  	.header_bg_center_square{ background: #78b658; height: 30px; }	  		  	
+		.header_bg_center_triangle{ width: 0; height: 0; border-top: 40px solid #78b658; border-right: 80px solid transparent; }	  	 	
+	  	.header_bg_right{ float: left; background: #78b658; width: 320px; height: 30px;}
+	  	.content_outter{border-top: 2px solid #cdc38f; border-bottom: 2px solid #cdc38f; width: 500px; margin: 0 auto;}	  		  	
+	 	.logo_container{ background: #FFFFFF; position: absolute; width: 90px; top: 80px; left: 280px;}
+	 	.logo{ margin: 0 auto; width: 50px; display: block;}
+	 	.content{margin-top: 80px;}
+	 	.company_info{ background: #FFFFFF; position: relative; width: 160px; bottom: -30px; left: 170px; font-size: 12px; text-align: center;}
+
+		.footer_upper{  height: 30px; margin-top: 30px;}
+		.footer_bg_center_triangle{ float: right; width: 0; height: 0; border-bottom: 35px solid #78b658; border-left: 80px solid transparent; }	  	 	
+	  	.footer_bg_right{ float: right; background: #78b658; width: 200px; height: 30px;}
+		.footer_lower{  background: #78b658; width: 600px; font-size: 11px; color: #FFFFFF; padding: 14px 20px; }
 	  </style>     
   </head>
   <body>
-<div class="header">   	
-	<div class="header_bg_left">  	
-	<%= link_to image_tag('mail/smallfarmer01.png'), root_url %>
+	<div class="header">   	
+		<div class="header_bg_left">  	
+		<%= link_to image_tag('mail/smallfarmer01.png'), root_url %>
+		</div>
+		<div class="header_bg_center">
+		<div class="header_bg_center_square"></div>	
+		<div class="header_bg_center_triangle"></div>				
+		</div>
+		<div class="header_bg_right"></div>		
+	</div>	
+	<div class="content_outter">   
+		<div class="logo_container">	
+		<%=image_tag 'mail/logo.png', class: 'logo'%>
+		</div>
+		<div class="content">    	
+				<p>Bennylin77@gmail.com 您好!</p>
+				
+				<p>您可透過以下連結更換密碼</p>
+				
+				<p><%= link_to '更換我的密碼', ''%></p>
+				
+				<p>如果您沒要求更改密碼，請您忽略此信。</p>
+				<p>除非您點擊上面連結並更換密碼，否則您的密碼都不會改變</p>
+		</div>
+		<div class="company_info">	
+			<div>小農號有限公司</div>
+			<div>smallFarmer Inc.</div>
+			<div>(02) 8732-6786 </div>
+			<div>sf.inc@smallfarmer01.com</div>	
+		</div>	
 	</div>
-	<div class="header_bg_center">
-	<div class="header_bg_center_square"></div>	
-	<div class="header_bg_center_triangle"></div>				
+	<div class="footer_upper">
+		<div class="footer_bg_right"></div>		
+		<div class="footer_bg_center_triangle"></div>				
 	</div>
-	<div class="header_bg_right"></div>		
-</div>	
-<div class="header_inner">   
-<%=image_tag 'mail/logo.png'%>
-</div>
-<div class="content">    	
-	
-
-		<p>Bennylin77@gmail.com 您好!</p>
-		
-		<p>您可透過以下連結更換密碼</p>
-		
-		<p><%= link_to '更換我的密碼', ''%></p>
-		
-		<p>如果您沒要求更改密碼，請您忽略此信。</p>
-		<p>除非您點擊上面連結並更換密碼，否則您的密碼都不會改變</p>
-</div
-
-    
- 
+	<div class="footer_lower">
+	煩請務必將此郵件地址加入安全的寄件者，或是直接點選非垃圾郵件等類似功能，避免系統發送的郵件被放入垃圾
+	郵件中！另外，no-reply@smallfarmer01.com所寄出之信件，皆由系統自動發送。在此提醒您，請勿直接回覆或透過此郵
+	件地址與我們聯繫，我們將不會收到您所留下的任何訊息。若有網站使用上的疑問，請透過電話或客服信箱來詢問。
+	</div>	    
   </body>
 </html>
