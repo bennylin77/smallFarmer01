@@ -1,16 +1,16 @@
 <header>
 	<div class="container">
         <div class="intro-text">
-        	<div class="intro-lead-in">歡迎光臨</div>
-            <div class="intro-heading">註冊並驗證手機號碼獲得回饋金</div>
-            <a href="#services" class="page-scroll btn btn-xl">關於小農1號</a>
+        	<div class="intro-lead-in">歡迎光臨！</div>
+            <div class="intro-heading">一起享用甜美多汁的產地直送水果</div>
+            <a href="#services" class="page-scroll intro-about">關於小農1號</a>
     	</div>
     </div>
 </header>
 
 
 <!-- Services Section -->
-    <section id="services">
+    <section id="services" class="first_section">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12 text-center">
@@ -19,44 +19,123 @@
                 </div>
             </div>
             <div class="row text-center">
-                <div class="col-md-offset-2 col-md-1">
-                    <%=image_tag 'index/yellow_circle.png'%>
-                    <h4 class="service-heading">公開透明</h4>
-                    <p class="value_explanation text-muted">公開每筆交易的金額流向，您將不再多花冤枉錢</p>
+                <div class="col-md-2">
+                    <%=image_tag 'index/yellow_circle.png', class: 'yellow_circle value_circle'%>
+                    <h4 class="yellow_value_title value_title">公開透明</h4>
+                    <p class="value_explanation text-muted yellow_value_description">公開每筆交易的金額流向，您將不再多花冤枉錢</p>
                 </div>
-                <div class="col-md-1">
-                    <%=image_tag 'index/plus.png'%>
+                <div class="col-md-1 hidden-sm hidden-xs">
+                    <%=image_tag 'index/plus.png', class: "value_op value_op_1"%>
                 </div>                
-                <div class="col-md-1">
-                    <%=image_tag 'index/green_circle.png'%>
-                    <h4 class="service-heading">回饋互助</h4>
-                    <p class="value_explanation text-muted">每筆交易果農都會將消費金額的4%，回饋給您</p>
+                <div class="col-md-2">
+                    <%=image_tag 'index/green_circle.png', class: 'green_circle value_circle'%>
+                    <h4 class="green_value_title value_title">回饋互助</h4>
+                    <p class="value_explanation text-muted green_value_description">每筆交易果農都會將消費金額的4%，回饋給您</p>
                 </div>    
-                <div class="col-md-1">
-                    <%=image_tag 'index/plus.png'%>
+                <div class="col-md-1 hidden-sm hidden-xs">
+                    <%=image_tag 'index/plus.png', class: "value_op value_op_2"%>
                 </div>                  
-                <div class="col-md-1">
-                    <%=image_tag 'index/red_circle.png'%>
-                    <h4 class="service-heading">公正評價</h4>
-                    <p class="value_explanation text-muted">好吃？只有您說的算！</p>
+                <div class="col-md-2">
+                    <%=image_tag 'index/red_circle.png', class: 'red_circle value_circle'%>
+                    <h4 class="red_value_title value_title">公正評價</h4>
+                    <p class="value_explanation text-muted red_value_description">好吃？只有您說的算！</p>
                 </div>  
-                <div class="col-md-1">
-                    <%=image_tag 'index/equal.png'%>
+                <div class="col-md-2 hidden-sm hidden-xs">
+                    <%=image_tag 'index/equal.png', class: "value_op_eq value_op_3"%>
                 </div>                                                                            	
                 <div class="col-md-2">
-                    <%=image_tag 'index/grey.png'%>
-                    <h4 class="service-heading">平等互惠</h4>
+                    <%=image_tag 'index/grey.png', class: 'grey_circle value_circle'%>
+                    <h4 class="grey_value_title value_title">平等互惠</h4>
                 </div>
             </div>
         </div>
     </section>
-    
+    <section style="background: #edebe8">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">我們的帥氣農夫</h2>
+                    <h3 class="section-subheading text-muted">沒錯！很帥，重點是他種的東西超好吃</h3>
+					<div class="videoWrapper">
+					<iframe id="video" width="560" height="315" src="https://www.youtube.com/embed/GWdLIkoTGOQ" frameborder="0" allowfullscreen></iframe>
+                	</div>
+                </div>
+            </div>
+        </div>
+    </section>                
 <script>
+var controller;
+$(document).ready(function($) {
+	
     $('a.page-scroll').bind('click', function(event) {
         var $anchor = $(this);
         $('html, body').stop().animate({
             scrollTop: $($anchor.attr('href')).offset().top
         }, 1500);
         event.preventDefault();
-    });
+    });	
+	
+	var windowHeight;
+	// function to be used to retrieve variable
+	function getWindowHeight() {
+		return windowHeight;
+	}	
+	// update window height on resize
+	$(window).on("resize", function () {
+			windowHeight = $(window).innerHeight();
+	});		
+	// init controller
+	controller = new ScrollMagic.Controller({globalSceneOptions: {triggerHook: 0.5}});    
+    
+    
+	new ScrollMagic.Scene({triggerElement: ".first_section"})
+						  .setTween(TweenMax.from(".yellow_circle", 1, {top: "100", ease: Linear.easeNone}))
+						  .addTo(controller) 
+	new ScrollMagic.Scene({triggerElement: ".first_section"})
+						  .setTween(TweenMax.from(".yellow_value_title", 1, {top: "100", ease: Linear.easeNone}))
+						  .addTo(controller) 
+	new ScrollMagic.Scene({triggerElement: ".first_section"})
+						  .setTween(TweenMax.from(".yellow_value_description", 1, {top: "100", ease: Linear.easeNone}))
+						  .addTo(controller) 						  						  
+	new ScrollMagic.Scene({triggerElement: ".first_section"})
+						  .setTween(TweenMax.from(".green_circle", 1, {top: "100", ease: Linear.easeNone}))
+						  .addTo(controller) 
+	new ScrollMagic.Scene({triggerElement: ".first_section"})
+						  .setTween(TweenMax.from(".green_value_title", 1, {top: "100", ease: Linear.easeNone}))
+						  .addTo(controller) 
+	new ScrollMagic.Scene({triggerElement: ".first_section"})
+						  .setTween(TweenMax.from(".green_value_description", 1, {top: "100", ease: Linear.easeNone}))
+						  .addTo(controller) 						  
+	new ScrollMagic.Scene({triggerElement: ".first_section"})
+						  .setTween(TweenMax.from(".red_circle", 1, {top: "100", ease: Linear.easeNone}))
+						  .addTo(controller) 
+	new ScrollMagic.Scene({triggerElement: ".first_section"})
+						  .setTween(TweenMax.from(".red_value_title", 1, {top: "100", ease: Linear.easeNone}))
+						  .addTo(controller) 
+	new ScrollMagic.Scene({triggerElement: ".first_section"})
+						  .setTween(TweenMax.from(".red_value_description", 1, {top: "100", ease: Linear.easeNone}))
+						  .addTo(controller) 						  
+						  
+	new ScrollMagic.Scene({triggerElement: ".first_section"})
+								.setTween(TweenMax.to(".value_op_1", 4, {autoAlpha: 1, ease: Linear.easeNone}))
+								.addTo(controller)		
+	new ScrollMagic.Scene({triggerElement: ".first_section"})
+								.setTween(TweenMax.to(".value_op_2", 6, {autoAlpha: 1, ease: Linear.easeNone}))
+								.addTo(controller)													 
+	new ScrollMagic.Scene({triggerElement: ".first_section"})
+								.setTween(TweenMax.to(".value_op_3", 8, {autoAlpha: 1, ease: Linear.easeNone}))
+								.addTo(controller)	
+	new ScrollMagic.Scene({triggerElement: ".first_section"})
+						  .setTween(TweenMax.from(".grey_circle", 1, {bottom: "100", ease: Linear.easeNone}))
+						  .addTo(controller) 									
+	new ScrollMagic.Scene({triggerElement: ".first_section"})
+						  .setTween(TweenMax.from(".grey_value_title", 1, {bottom: "100", ease: Linear.easeNone}))
+						  .addTo(controller) 														  
+
+
+
+						  						  						     
+});    
+    
+    
 </script>
