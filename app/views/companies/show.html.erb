@@ -69,7 +69,7 @@
 	</div>
 	<div class="row" style="margin-top: 30px;">
 		<div id="parallax1" class="farm_cover_parallax_parent">
-			<div style="background-image: url('<%=@company.cover.url%>'); background-size: cover;"></div>
+			<div style="background-image: url('<%=@company.cover.url%>'); background-size: cover; background-position: center center;"></div>
 		</div>	
 	</div>	
 	<%@company.products.where(available_c: true).each_slice(4) do |p|%> 
