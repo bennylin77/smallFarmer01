@@ -2,7 +2,7 @@
 	<div class="container">
         <div class="intro-text">
         	<div class="intro-lead-in">歡迎光臨！</div>
-            <div class="intro-heading">一起享用甜美多汁的產地直送水果</div>
+            <div class="intro-heading">一起享用甜美多汁的產地直送鮮果</div>
             <a href="#services" class="page-scroll intro-about">關於小農1號</a>
     	</div>
     </div>
@@ -19,23 +19,23 @@
                 </div>
             </div>
             <div class="row text-center">
-                <div class="col-md-2">
+                <div class="col-md-2 col-lg-offset-2 col-lg-1">
                     <%=image_tag 'index/yellow_circle.png', class: 'yellow_circle value_circle'%>
                     <h4 class="yellow_value_title value_title">公開透明</h4>
-                    <p class="value_explanation text-muted yellow_value_description">公開每筆交易的金額流向，您將不再多花冤枉錢</p>
+                    <p class="value_explanation text-muted yellow_value_description">公開每筆交易的金額流向，您將不再多花冤枉錢。</p>
                 </div>
                 <div class="col-md-1 hidden-sm hidden-xs">
                     <%=image_tag 'index/plus.png', class: "value_op value_op_1"%>
                 </div>                
-                <div class="col-md-2">
+                <div class="col-md-2 col-lg-1">
                     <%=image_tag 'index/green_circle.png', class: 'green_circle value_circle'%>
                     <h4 class="green_value_title value_title">回饋互助</h4>
-                    <p class="value_explanation text-muted green_value_description">每筆交易果農都會將消費金額的4%，回饋給您</p>
+                    <p class="value_explanation text-muted green_value_description">每筆交易果農會將消費金額的4%，回饋給您。</p>
                 </div>    
                 <div class="col-md-1 hidden-sm hidden-xs">
                     <%=image_tag 'index/plus.png', class: "value_op value_op_2"%>
                 </div>                  
-                <div class="col-md-2">
+                <div class="col-md-2 col-lg-1">
                     <%=image_tag 'index/red_circle.png', class: 'red_circle value_circle'%>
                     <h4 class="red_value_title value_title">公正評價</h4>
                     <p class="value_explanation text-muted red_value_description">好吃？只有您說的算！</p>
@@ -43,9 +43,9 @@
                 <div class="col-md-2 hidden-sm hidden-xs">
                     <%=image_tag 'index/equal.png', class: "value_op_eq value_op_3"%>
                 </div>                                                                            	
-                <div class="col-md-2">
-                    <%=image_tag 'index/grey.png', class: 'grey_circle value_circle'%>
-                    <h4 class="grey_value_title value_title">平等互惠</h4>
+                <div class="col-md-2 col-lg-1">
+                    <%=image_tag 'index/grey.png', class: 'grey_circle value_circle', style:'visibility: hidden;'%>
+                    <h4 class="grey_value_title value_title" style="visibility: hidden;">平等互惠</h4>
                 </div>
             </div>
         </div>
@@ -89,22 +89,22 @@ $(document).ready(function($) {
     
     
 	new ScrollMagic.Scene({triggerElement: ".first_section"})
-						  .setTween(TweenMax.from(".yellow_circle", 1, {top: "100", ease: Linear.easeNone}))
+						  .setTween(TweenMax.from(".yellow_circle", 0.8, {top: "100", ease: Linear.easeNone}))
 						  .addTo(controller) 
 	new ScrollMagic.Scene({triggerElement: ".first_section"})
-						  .setTween(TweenMax.from(".yellow_value_title", 1, {top: "100", ease: Linear.easeNone}))
+						  .setTween(TweenMax.from(".yellow_value_title", 0.8, {top: "100", ease: Linear.easeNone}))
 						  .addTo(controller) 
 	new ScrollMagic.Scene({triggerElement: ".first_section"})
-						  .setTween(TweenMax.from(".yellow_value_description", 1, {top: "100", ease: Linear.easeNone}))
+						  .setTween(TweenMax.from(".yellow_value_description", 0.8, {top: "100", ease: Linear.easeNone}))
 						  .addTo(controller) 						  						  
 	new ScrollMagic.Scene({triggerElement: ".first_section"})
-						  .setTween(TweenMax.from(".green_circle", 1, {top: "100", ease: Linear.easeNone}))
+						  .setTween(TweenMax.from(".green_circle", 0.6, {top: "100", ease: Linear.easeNone}))
 						  .addTo(controller) 
 	new ScrollMagic.Scene({triggerElement: ".first_section"})
-						  .setTween(TweenMax.from(".green_value_title", 1, {top: "100", ease: Linear.easeNone}))
+						  .setTween(TweenMax.from(".green_value_title", 0.6, {top: "100", ease: Linear.easeNone}))
 						  .addTo(controller) 
 	new ScrollMagic.Scene({triggerElement: ".first_section"})
-						  .setTween(TweenMax.from(".green_value_description", 1, {top: "100", ease: Linear.easeNone}))
+						  .setTween(TweenMax.from(".green_value_description", 0.6, {top: "100", ease: Linear.easeNone}))
 						  .addTo(controller) 						  
 	new ScrollMagic.Scene({triggerElement: ".first_section"})
 						  .setTween(TweenMax.from(".red_circle", 1, {top: "100", ease: Linear.easeNone}))
@@ -117,19 +117,19 @@ $(document).ready(function($) {
 						  .addTo(controller) 						  
 						  
 	new ScrollMagic.Scene({triggerElement: ".first_section"})
-								.setTween(TweenMax.to(".value_op_1", 4, {autoAlpha: 1, ease: Linear.easeNone}))
+								.setTween(TweenMax.to(".value_op_1", 0.5, {autoAlpha: 1, ease: Linear.easeNone, delay: 1}))
 								.addTo(controller)		
 	new ScrollMagic.Scene({triggerElement: ".first_section"})
-								.setTween(TweenMax.to(".value_op_2", 6, {autoAlpha: 1, ease: Linear.easeNone}))
+								.setTween(TweenMax.to(".value_op_2", 0.5, {autoAlpha: 1, ease: Linear.easeNone, delay: 1.5}))
 								.addTo(controller)													 
 	new ScrollMagic.Scene({triggerElement: ".first_section"})
-								.setTween(TweenMax.to(".value_op_3", 8, {autoAlpha: 1, ease: Linear.easeNone}))
+								.setTween(TweenMax.to(".value_op_3", 0.5, {autoAlpha: 1, ease: Linear.easeNone, delay: 2}))
 								.addTo(controller)	
 	new ScrollMagic.Scene({triggerElement: ".first_section"})
-						  .setTween(TweenMax.from(".grey_circle", 1, {bottom: "100", ease: Linear.easeNone}))
+						  .setTween(TweenMax.to(".grey_circle", 0.5, {autoAlpha: 1, ease: Linear.easeNone, delay: 2}))
 						  .addTo(controller) 									
 	new ScrollMagic.Scene({triggerElement: ".first_section"})
-						  .setTween(TweenMax.from(".grey_value_title", 1, {bottom: "100", ease: Linear.easeNone}))
+						  .setTween(TweenMax.to(".grey_value_title", 0.5, {autoAlpha: 1, ease: Linear.easeNone, delay: 2}))
 						  .addTo(controller) 														  
 
 

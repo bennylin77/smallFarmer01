@@ -331,70 +331,72 @@ header{
     color: #FFF;
 }
 header .intro-text{
-  padding-top:100px;
-  padding-bottom:50px
-}
-
-header .intro-text .intro-lead-in{
-  font-family:"Droid Serif","Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-style:italic;
-  font-size:22px;
-  line-height:22px;
-  margin-bottom:25px
-}
-
-header .intro-text .intro-heading{
-  font-family:Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
-  text-transform:uppercase;
-  font-weight:700;
-  font-size:50px;
-  line-height:50px;
-  margin-bottom:25px
-}
-
-@media (min-width:768px){
-  header .intro-text{
     padding-top: 300px;
     padding-bottom: 300px
-  }
-
-  header .intro-text .intro-lead-in{
+}
+header .intro-text .intro-lead-in{
     font-family:"Droid Serif","Helvetica Neue",Helvetica,Arial,sans-serif;
     font-style:italic;
     font-size:40px;
     line-height:40px;
     margin-bottom:25px
-  }
-
-  header .intro-text .intro-heading{
+}
+header .intro-text .intro-heading{
     font-family:Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
     text-transform:uppercase;
     font-weight:700;
     font-size:75px;
     line-height:75px;
     margin-bottom:50px
-  }
-  
-  header .intro-text .intro-about{
+}
+header .intro-text .intro-about{
     color: #536132;
     font-size: 20px;
-    line-height: 23px;
-    letter-spacing: 4px;    
+    line-height: 20px;
+    letter-spacing: 2px;    
     margin-bottom: 50px;
     margin: 0 auto;
-    padding: 12px 70px;      
-    background: rgba(235, 225, 226, 0.6);
+    padding: 12px 55px;      
+    background: rgba(235, 225, 226, 1);
     border-radius: 24px;
-  }  
-  .intro-about:hover, .intro-about:focus{
+}  
+.intro-about:hover, .intro-about:focus{
     text-decoration: none;
     opacity: 0.8;
-  }    
-
+}    
+@media (max-width:768px){
+  header .intro-text{
+    padding-top:100px;
+    padding-bottom:50px
+  } 
+  header .intro-text .intro-lead-in{
+    font-family:"Droid Serif","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-style:italic;
+    font-size:22px;
+    line-height:22px;
+    margin-bottom:25px
+  } 
+  header .intro-text .intro-heading{
+    font-family:Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    text-transform:uppercase;
+    font-weight:700;
+    font-size:40px;
+    line-height:40px;
+    margin-bottom:25px
+  }  
+  header .intro-text .intro-about{
+      font-size: 16px;
+      line-height: 16px;
+      letter-spacing: 2px;    
+      margin-bottom: 50px;
+      margin: 0 auto;
+      padding: 10px 45px;      
+      border-radius: 24px;
+  }
 }
 
 section{
-  padding:100px 0
+  padding:150px 0
 }
 
 section h2.section-heading{
@@ -415,15 +417,16 @@ section h3.section-subheading{
   position: relative;  
 }
 .value_title{
+  font-weight: bold;
   position: relative;  
 }
 .value_op{
-  margin-top: 40px;
+  margin-top: 30px;
   height: 40px;
   visibility: hidden;  
 }
 .value_op_eq{
-  margin-top: 50px;
+  margin-top: 35px;
   height: 35px;  
   visibility: hidden;  
 }
@@ -431,10 +434,29 @@ section h3.section-subheading{
   position: relative;
   height: 100px;    
 }
-@media (min-width:768px){
-  section{
-    padding:150px 0
+@media (max-width:1450px){
+  .value_circle{
+    position: relative;
+    height: 80px;    
   }
+  .value_title{
+    font-size: 16px;
+  }  
+}
+@media (max-width:991px){
+  section{
+    padding:100px 0
+  }
+  .value_explanation{
+    margin-bottom: 60px;
+  }
+  .value_circle{
+    position: relative;
+    height: 100px;    
+  } 
+  .value_title{
+    font-size: 18px;
+  }    
 }
 
 .videoWrapper {
