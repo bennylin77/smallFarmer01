@@ -101,5 +101,5 @@ Rails.application.routes.draw do
   get    'main/surveyFarmer'
   get    'main/tempIndex'
     
-  root to: "main#under" 
+  root to: "main#tempIndex" 
 end
