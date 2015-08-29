@@ -1,10 +1,16 @@
 /*======================================= top navigation =======================================*/
 .menu{
-  background: rgba( 255, 255, 255, 0.8);
+  background: rgba( 255, 255, 255, 1);
   border-bottom: none;
-  /*box-shadow: 0px 15px 0px -14px #536132;*/
+  box-shadow: 0px 15px 0px -14px #536132;
   color: #f1f1f1 !important;  
 }
+
+.navbar-shrink{
+  background: rgba( 255, 255, 255, 0.8);
+  box-shadow: none;
+}
+
 .navbar .navbar-collapse {
 }
 .navbar-nav a:hover{
@@ -38,19 +44,11 @@ input.rounded:focus {
   width: 38px;
   vertical-align: middle;
 }
-.navbar-right>li>a.menu_right>.menu_right_icon{
-  height: 35px;
-  width: 35px;
-  font-size: 20px;  
-  text-align: center;
-  vertical-align: middle;  
-  line-height: 36px;
-  border-radius: 100px;  
-  background: rgba( 255, 255, 255, 0.75);   
-}
 .navbar-brand{
-  color: #e29874 !important;
-  font-size: 26px;
+}
+.navbar-brand img{
+  height: 30px; 
+  margin-top: -5px;
 }
 .mobile_menu_label{
   visibility: hidden;  

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default navbar-fixed-top menu">
+<nav class="navbar navbar-default navbar-fixed-top menu <%= navbarDefault %>">
 	<div class="container-fluid">
     	<div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" onmouseover="showCartsNotifications();" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -11,15 +11,15 @@
             <span class="icon-bar"></span>
           </button>
  		  <%=link_to root_url, class: 'navbar-brand' do%>
-			<%=image_tag 'smallfarmer01.png', style: 'height: 30px; margin-top: -5px;' %>
+		  	<%=image_tag 'smallfarmer01.png' %>
 		  <%end%>         
         </div>
         <div id="navbar" class="navbar-collapse collapse">    
-          <ul class="nav navbar-nav hidden-xs">
+          <ul class="nav navbar-nav">
             <li>
  		  		<%=link_to '本站水果', '/main/fruits', class: '', style: 'font-size: 17px; color: #536132;'%>
             </li>	            	
-            <li>
+            <li class="hidden-xs">
             	<%=link_to '合作農場', '/main/farms', class: '', style: 'font-size: 17px; color: #536132;'%>
             </li>
           </ul>
@@ -200,3 +200,6 @@ function showCartsNotifications(){
 	});						
 }
 </script>
+<style>
+
+</style>

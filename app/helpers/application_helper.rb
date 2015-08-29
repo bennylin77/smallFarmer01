@@ -35,6 +35,14 @@ module ApplicationHelper
     end
   end
   
+  def navbarDefault
+    if current_page?(controller: 'main', action: 'tempIndex') or
+       current_page?(root_url) or
+       current_page?(controller: 'products', action: 'show', id: params[:id] || 0 )    
+      "navbar-shrink".html_safe
+    end
+  end  
+  
   def deliveryEstimationColor(hash={})   
     daily_capacity = hash[:product].daily_capacity.to_i    
     unhandle = hash[:product].product_boxings.first.orders.joins(:invoice).where('invoices.confirmed_c = ? and called_smallfarmer_c = ?', true, false).sum(:quantity)        

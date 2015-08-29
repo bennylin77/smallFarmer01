@@ -14,21 +14,17 @@
 //= require jquery_ujs
 //= require jquery.turbolinks
 //= require bootstrap-sprockets
-
-//= require TweenMax.js
-//= require modernizr.custom.js
-//= require ScrollMagic.js
+//= require ScrollMagic/TweenMax.js
+//= require ScrollMagic/modernizr.custom.js
+//= require ScrollMagic/ScrollMagic.js
 //= require animation.gsap.js
-
 //= require jquery.twzipcode.js
 //= require intlTelInput.js
 //= require fileinput.js
 //= require fileinput_locale_zh-TW.js
 //= require toastr.js
 //= require toastr_options.js
-
 //= require moment
-//= require bootstrap-datetimepicker
 //= require moment/zh-tw
-
+//= require bootstrap-datetimepicker
 //= require_tree .
