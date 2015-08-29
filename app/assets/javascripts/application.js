@@ -17,7 +17,7 @@
 //= require ScrollMagic/TweenMax.js
 //= require ScrollMagic/modernizr.custom.js
 //= require ScrollMagic/ScrollMagic.js
-//= require animation.gsap.js
+//= require ScrollMagic/animation.gsap.js
 //= require jquery.twzipcode.js
 //= require intlTelInput.js
 //= require fileinput.js
