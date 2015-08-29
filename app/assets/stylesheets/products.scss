@@ -9,10 +9,15 @@
 }
 @media (max-width: 1750px) {
   .product_cover_parallax_parent {
-    height: 500px;
+    /*height: 580px;*/
   }  
 }
 @media (max-width: 1500px) {
+  .product_cover_parallax_parent {
+    height: 570px;
+  }    
+}
+@media (max-width: 991px) {
   .product_cover_parallax_parent {
     height: 450px;
   }    
