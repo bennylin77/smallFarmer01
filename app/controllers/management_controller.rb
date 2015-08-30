@@ -129,14 +129,20 @@ class ManagementController < ApplicationController
         if delivered_all
           notify( order.invoice.user, { category: GLOBAL_VAR['NOTIFICATION_PROMOTION'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_REVIEW'], 
                                         invoice_id: order.invoice.id}) 
-          System.sendReviewNotification(order.invoice).deliver   
+          System.sendReviewNotification(order.invoice).deliver  
+          
+          invoice = order.invoice
+          discount = 0 
+          invoice.invoice_coupon_lists.each do |i_c_l|
+            discount = discount + i_c_l.amount
+          end            
           data = { username: Rails.configuration.mitake_username, 
                    password: Rails.configuration.mitake_password,
-                   dstaddr: params[:phone_no].gsub(/^\+886/, '0'),
+                   dstaddr: invoice.user.phone_no.gsub(/^\+886/, '0'),
                    encoding: 'UTF8',
-                   smbody: '您的訂單已交付完畢，立刻評價獲得 4% 回饋金'  
+                   smbody: '您的訂單已交付完畢，立刻評價獲得 '+((invoice.amount-discount)*0.04).round.to_s+'元 回饋金'  
                    }                                   
-          #result = RestClient.get( Rails.configuration.mitake_sm_send_get_url, params: data)                                                              
+          result = RestClient.get( Rails.configuration.mitake_sm_send_get_url, params: data)                                                              
         end
       end    
                

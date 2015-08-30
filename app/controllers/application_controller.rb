@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   
   #before_filter :ensure_signup_complete, only: [:new, :create, :edit, :update, :destroy]
     
-  [:Company, :Product].each do |model|
+  [:Company, :Product, :User].each do |model|
     class_eval %Q{
       def #{model}CheckUser(id)
        unless #{model}.where(id: id).first == nil      
