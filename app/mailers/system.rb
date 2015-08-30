@@ -14,7 +14,10 @@ class System < ActionMailer::Base
   def sendNewOrder(order)
     @order = order
     subject = '【出貨通知】'+@order.product_boxing.product.name+' '+@order.quantity.to_s+'箱'
-    mail( to: @order.product_boxing.product.company.user.email, subject: subject)  
+    mail( to: @order.product_boxing.product.company.user.email, subject: subject) do |format|
+      format.html { render layout: 'company_email' }
+      format.text
+    end    
   end
   
   def sendNewComment(comment)
