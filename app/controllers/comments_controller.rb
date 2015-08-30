@@ -1,7 +1,9 @@
 class CommentsController < ApplicationController
   before_filter :authenticate_user!, except: [:show] 
   
+  before_action only: [:delete] { |c| c.CommentCheckUser(params[:id])}              
   before_action :set_comment, only: [:delete, :postSub]
+  before_action only: [:deleteSub] { |c| c.SubCommentCheckUser(params[:id])}                
   before_action :set_sub_comment, only: [:deleteSub]  
   before_action :set_product, only: [:post, :show]
   
@@ -51,10 +53,8 @@ class CommentsController < ApplicationController
   end
   
   def delete
-    if @comment.user == current_user
-      @comment.destroy
-      render json: {success: true, message: '刪除成功'} 
-    end       
+    @comment.destroy
+    render json: {success: true, message: '刪除成功'} 
   end
   
   def postSub
@@ -78,10 +78,8 @@ class CommentsController < ApplicationController
   end
 
   def deleteSub
-    if @sub_comment.user == current_user
-      @sub_comment.destroy
-      render json: {success: true, message: '刪除成功'} 
-    end       
+    @sub_comment.destroy
+    render json: {success: true, message: '刪除成功'} 
   end
 
   private

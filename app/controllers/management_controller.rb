@@ -140,9 +140,10 @@ class ManagementController < ApplicationController
                    password: Rails.configuration.mitake_password,
                    dstaddr: invoice.user.phone_no.gsub(/^\+886/, '0'),
                    encoding: 'UTF8',
-                   smbody: '您的訂單已交付完畢，立刻評價獲得 '+((invoice.amount-discount)*0.04).round.to_s+'元 回饋金'  
+                   smbody: '您的小農訂單已送達，評價獲得'+((invoice.amount-discount)*0.04).round.to_s+'元回饋'+Rails.configuration.app_domain+'/notifications?category=3'                     
+                   #smbody: '您的小農訂單已送達，評價獲得'+((invoice.amount-discount)*0.04).round.to_s+'元回饋'+'www.smallfarmer01.com/notifications?category=3'
                    }                                   
-          result = RestClient.get( Rails.configuration.mitake_sm_send_get_url, params: data)                                                              
+          #result = RestClient.get( Rails.configuration.mitake_sm_send_get_url, params: data)                                                              
         end
       end    
                

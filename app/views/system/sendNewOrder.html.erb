@@ -1,3 +1,4 @@
+<div class="content" style="color: #3e3a39"> 
 <p>親愛的 <%=@order.product_boxing.product.company.user.last_name%> <%=@order.product_boxing.product.company.user.first_name%>，您好！</p>	
 <p>您有一筆新的出貨，出貨編號：<%=@order.id %></p>
 <p>以下是出貨明細：</p>
@@ -24,6 +25,7 @@
 </table>
 <br>
 <br>
-<div style="text-align:center; font-size: 18px;">
-	<%=link_to '進入後台處理此出貨', Rails.configuration.smallfarmer01_host+'/orders/index?called_smallfarmer_c=false', style: 'padding: 15px 16px; color: #ffffff; background: #DE562C; '%>
+<div style="text-align:center; font-size: 15px;">
+	<%=link_to '進入後台處理此出貨', Rails.configuration.smallfarmer01_host+'/orders/index?called_smallfarmer_c=false', style: 'padding: 10px 8px; color: #ffffff; background: #DE562C; box-shadow: 3px 3px rgb(209, 209, 200); text-decoration: none;'%>
 </div>	
+</div>

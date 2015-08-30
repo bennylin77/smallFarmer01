@@ -1,4 +1,6 @@
 class CartsController < ApplicationController
+  
+  before_action only: [:destroy, :updateCart] { |c| c.CartCheckUser(params[:id])}              
   before_action :set_cart, only: [:destroy, :updateCart]
 
   def addCart

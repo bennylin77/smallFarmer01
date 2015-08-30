@@ -110,8 +110,8 @@
 		<td><%= @invoice.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
 	</tr>	
 </table>		
-<div style="text-align: left; color: #DE562C; font-size: 18px;">
->> 您可到小農1號查看您訂單的最新情況	
+<div style="text-align:left; font-size: 18px; margin-top: 10px;">
+	<%=link_to '>> 您可到小農1號查看您訂單的最新情況', root_url, style: 'color: #DE562C;' %>	
 </div>	
 
 

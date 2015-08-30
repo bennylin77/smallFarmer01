@@ -1,0 +1,4 @@
+<p>親愛的 <%=@invoice.user.last_name%> <%=@invoice.user.first_name%>，您好！</p>	
+<p>您的支持與鼓勵將帶給農夫更多的信心，也是農夫進步的動力！</p>
+<p>立即評價訂單編號：<%=@invoice.id%>，獲得<%= ((@invoice.amount-@discount)*0.04).round.to_s%>元回饋金</p>
+<p>小農1號上的消費回饋金沒有期限，可以無限期累積喔！</p>

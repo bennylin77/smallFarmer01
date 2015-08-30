@@ -1,7 +1,8 @@
 class InvoicesController < ApplicationController
   before_filter :authenticate_user!, except: [:allpayNotify, :allpayPaymentInfoNotify]   
   skip_before_action :verify_authenticity_token, only: [:allpayNotify, :allpayPaymentInfoNotify]
-  
+
+  before_action only: [:finished, :cancel] { |c| c.InvoiceCheckUser(params[:id])}              
   before_action :set_invoice, only: [:allpayCredit, :allpayATM, :allpayCVS, :finished, :cancel]
   before_action :paid?, only: [:allpayCredit, :allpayATM, :allpayCVS]
   before_action :expired?, only: [:allpayCredit, :allpayATM, :allpayCVS]   

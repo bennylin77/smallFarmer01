@@ -43,7 +43,10 @@ class System < ActionMailer::Base
       @discount = @discount + i_c_l.amount
     end      
     subject = '您的訂單已交付完畢, 立刻評價獲得 '+((@invoice.amount-@discount)*0.04).round.to_s+'元 回饋金'        
-    mail( to: @invoice.user.email, subject: subject)      
+    mail( to: @invoice.user.email, subject: subject) do |format|
+      format.html { render layout: 'user_email' }
+      format.text
+    end      
   end
   
 end
