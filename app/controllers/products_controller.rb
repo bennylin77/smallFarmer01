@@ -2,7 +2,7 @@ class ProductsController < ApplicationController
   layout "companies", only: [:index, :edit, :new, :create, :update, :preview, :available]  
   before_filter :authenticate_user!, except: [:show] 
   
-  before_action only: [:edit, :update, :preview, :destroy, :productImagesUpload, :productImagesDelete] { |c| c.ProductCheckUser(params[:id])}      
+  before_action only: [:edit, :update, :preview, :destroy, :productImagesUpload, :productImagesDelete, :available, :productCoverUpload, :productCoverDelete] { |c| c.ProductCheckUser(params[:id])}      
   before_action :set_product, only: [:show, :edit, :update, :preview, :destroy, :productImagesUpload, :productImagesDelete, :available, :productCoverUpload, :productCoverDelete]
   before_action :available?, only: [:show]
   before_action :delete?, only: [:show]  
@@ -25,21 +25,7 @@ class ProductsController < ApplicationController
     product.update_columns(short_URL: url.short_url)             
     redirect_to edit_product_path(product)
   end
-=begin
-  def create
-    @product = Product.new(product_params)
-    @product.company = current_user.companies.first
-    if @product.save      
-      #params[:product_image].each do |p|
-      #  p_i = ProductImage.create(image: p )
-      #  p_i.product = @product
-      #  p_i.save!      
-      #end    
-      flash[:notice]='成功新增水果'
-    end
-    render :new    
-  end
-=end
+
   def edit
   end
 

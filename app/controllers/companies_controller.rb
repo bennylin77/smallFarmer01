@@ -1,8 +1,8 @@
 class CompaniesController < ApplicationController
   before_filter :authenticate_user!, except: [:show]   
  
-  before_action only: [:edit, :update, :preview, :companyImagesUpload, :companyImagesDelete] { |c| c.CompanyCheckUser(params[:id])}  
-  before_action :set_company, only: [:show, :edit, :update, :preview, :destroy, :companyImagesUpload, :companyImagesDelete, :companyCoverUpload, :companyCoverDelete]
+  before_action only: [:edit, :update, :preview, :companyImagesUpload, :companyImagesDelete, :companyCoverUpload, :companyCoverDelete] { |c| c.CompanyCheckUser(params[:id])}  
+  before_action :set_company, only: [:show, :edit, :update, :preview, :companyImagesUpload, :companyImagesDelete, :companyCoverUpload, :companyCoverDelete]
 
 
   def show
@@ -76,11 +76,7 @@ class CompaniesController < ApplicationController
       render json: {error: '刪除失敗'}           
     end    
   end  
-=begin
-  def destroy
-    @company.destroy
-  end
-=end
+
   private
     def set_company
       @company = Company.find(params[:id])

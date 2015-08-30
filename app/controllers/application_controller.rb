@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
   
   def emptyCarts?
     if current_user.carts.size == 0
-      flash['alert'] = '購物車內沒有水果喔!'
+      flash['alert'] = '購物車內沒有商品喔!'
       redirect_to root_url
     end
   end
