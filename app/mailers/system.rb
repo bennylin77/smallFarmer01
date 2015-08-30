@@ -2,13 +2,13 @@
 class System < ActionMailer::Base
   default from: "smallFarmer01 小農1號 <no-reply@smallfarmer01.com>"
   helper ApplicationHelper  
-
+=begin
   def sendConfirmation(user)
     @user = user
     subject = "簡訊驗證碼"
     mail( to: @user.email, subject: subject)
   end  
-  
+=end  
   def sendNewOrder(order)
     @order = order
     subject = '【出貨通知】'+@order.product_boxing.product.name+' '+@order.quantity.to_s+'箱'

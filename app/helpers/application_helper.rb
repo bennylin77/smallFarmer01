@@ -36,9 +36,9 @@ module ApplicationHelper
   end
   
   def navbarDefault
-    if current_page?(controller: 'main', action: 'tempIndex') or
+    if current_page?('/main/tempIndex') or
        current_page?(root_url) or
-       current_page?(controller: 'products', action: 'show', id: params[:id] || 0 )    
+       current_page?('/products/'+(params[:id] || 0).to_s)    
       "navbar-shrink".html_safe
     end
   end  
