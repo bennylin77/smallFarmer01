@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   
   #before_filter :ensure_signup_complete, only: [:new, :create, :edit, :update, :destroy]
     
-  [:Company, :Product].each do |model|
+  [:Company, :Product, :User, :Bill, :Notification, :Order, :Cart, :Comment, :SubComment, :Invoice].each do |model|
     class_eval %Q{
       def #{model}CheckUser(id)
        unless #{model}.where(id: id).first == nil      
@@ -19,7 +19,47 @@ class ApplicationController < ActionController::Base
            if #{model}.find(id).company.user != current_user
               flash["error"]="您沒有權限"
               redirect_to root_url          
-           end            
+           end  
+         when 'User'  
+           if #{model}.find(id) != current_user
+              flash["error"]="您沒有權限"
+              redirect_to root_url          
+           end    
+         when 'Bill'  
+           if #{model}.find(id).company.user != current_user
+              flash["error"]="您沒有權限"
+              redirect_to root_url          
+           end      
+         when 'Notification'  
+           if #{model}.find(id).user != current_user
+              flash["error"]="您沒有權限"
+              redirect_to root_url          
+           end   
+         when 'Order'
+           if #{model}.find(id).product_boxing.product.company.user != current_user
+              flash["error"]="您沒有權限"
+              redirect_to root_url          
+           end  
+         when 'Invoice'  
+           if #{model}.find(id).user != current_user
+              flash["error"]="您沒有權限"
+              redirect_to root_url          
+           end             
+         when 'Cart'   
+           if #{model}.find(id).user != current_user
+              flash["error"]="您沒有權限"
+              redirect_to root_url          
+           end  
+         when 'Comment'  
+           if #{model}.find(id).user != current_user
+              flash["error"]="您沒有權限"
+              redirect_to root_url          
+           end  
+         when 'SubCommentCheckUser'  
+           if #{model}.find(id).user != current_user
+              flash["error"]="您沒有權限"
+              redirect_to root_url          
+           end                                                                              
          end     
        else
         flash["error"]="項目不存在"
@@ -31,7 +71,7 @@ class ApplicationController < ActionController::Base
   
   def emptyCarts?
     if current_user.carts.size == 0
-      flash['alert'] = '購物車內沒有水果喔!'
+      flash['alert'] = '購物車內沒有商品喔!'
       redirect_to root_url
     end
   end

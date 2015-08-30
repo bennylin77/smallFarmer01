@@ -1,6 +1,7 @@
 class OrdersController < ApplicationController  
   before_filter :authenticate_user!
   
+  before_action only: [:confirm] { |c| c.OrderCheckUser(params[:id])}            
   before_action :set_order, only: [:confirm]
   
   def index    

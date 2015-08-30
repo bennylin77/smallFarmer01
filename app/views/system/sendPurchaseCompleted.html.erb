@@ -1,13 +1,122 @@
-<% discount = 0 %>
-<% @invoice.invoice_coupon_lists.each do |i_c_l|%>
-	<%discount = discount + i_c_l.amount%>
-<%end%>						
-本次消費: <%=@invoice.amount.to_i%>元，使用回饋金: <%=discount.to_i%>元，
-總計: <%=(@invoice.amount - discount).to_i  %>元，付款方式為
-<%if @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>	
-	線上刷卡 <%=image_tag 'allPay.png', class: 'img-responsive', size: '80x80', style: 'display: inline-block'%>	
-<%elsif @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD']%>	
-	ATM櫃員機 <%=image_tag 'allPay.png', class: 'img-responsive', size: '80x80', style: 'display: inline-block'%> 		
-<%elsif @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>	
-	超商代碼 <%=image_tag 'allPay.png', class: 'img-responsive', size: '80x80', style: 'display: inline-block'%>	
-<%end%>		
+<div class="content" style="color: #3e3a39"> 
+<p>親愛的 <%=@invoice.user.last_name%> <%=@invoice.user.first_name%>，您好！</p>	
+<p>您的訂單編號：<%=@invoice.id %>，已付款成功，正在等待農夫處理中。</p>
+<p>謝謝您在小農1號購買水果，提醒農夫盡快出貨，以下是您的訂單明細：</p>
+<table border="1" cellpadding="0" cellspacing="0">
+	<tr>
+		<th style="min-width: 60px;">訂單編號</th>
+		<th style="min-width: 75px;">金額</th>
+		<th style="min-width: 75px;">付款</th>
+		<th style="min-width: 70px;">獲得回饋</th>
+		<th style="min-width: 75px;">購買項目</th>
+		<th style="min-width: 60px;">訂單日期</th>
+	</tr>
+	<tr>
+		<td><%=@invoice.id %></td>
+		<td>
+			<dl>
+		 		<dt>購買金額</dt>
+				<dt>
+					<%= @invoice.amount.to_i %>元
+					<%if @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>	
+					<div><small><ins>含超商手續費</ins></small></div>	
+					<%end%>					
+				</dt>
+				<dt>回饋金使用</dt>
+				<dt>
+			    	<% discount = 0 %>
+			    	<% @invoice.invoice_coupon_lists.each do |i_c_l|%>
+			    		<%discount = discount + i_c_l.amount%>
+			    	<%end%>
+			    	<%=discount.to_i%>元			  	
+				</dt>  
+				<dt>付款金額</dt>
+				<dt>
+					<mark><%= (@invoice.amount-discount).to_i %>元</mark>			
+				</dt>   
+			</dl>  			
+		</td>
+		<td>
+			<dl>
+				<dt>付款方式</dt>
+					<%if @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>
+					<dt>線上刷卡</dt> 
+		   			<%elsif @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM']%>		
+				  	<dt>ATM櫃員機</dt> 			  						  
+		   			<%elsif @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>		
+					<dt>超商代碼</dt> 
+					<%end%>								 
+				<dt>付款狀態</dt>			
+				  	<dt>已付款</dt> 		  		  	
+				<dt>付款編號</dt>
+				  	<dt><%= @invoice.allpay_merchant_trade_no %></dt>			  	
+				<dt>付款日期</dt>
+				  	<dt><%= @invoice.paid_at.strftime("%Y-%m-%d %H:%M:%S") %></dt>		
+				<%if @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>
+		   		<%elsif @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM']%>		
+				<dt>繳費銀行代碼</dt>
+					<dt><%=showBlank @invoice.allpay_bank_code%></dt>
+				<dt>繳費虛擬帳號</dt>
+				  <dt><%=showBlank @invoice.allpay_v_account%></dt>  	   		
+		   		<%elsif @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>		
+				<dt>超商繳費代碼</dt>
+				  <dt><%=showBlank @invoice.allpay_payment_no%></dt> 			
+				<%end%>				  	  	
+			</dl>			
+		</td>
+		<td><%= ((@invoice.amount-discount)*GLOBAL_VAR['COUPON_FEE']).round%>元</td>
+		<td>			
+			<table border="1" cellpadding="0" cellspacing="0">     
+			<tr>	
+			    <td>名稱</td>
+				<td style="min-width: 30px;">數量</td>   
+				<td style="min-width: 40px;">金額</td> 	
+				<td>配送項目</td>						 		    		    			           
+		  	</tr>      		      	
+	    	<%@invoice.orders.each do |o|%>      	
+	        <tr>
+	          <td>
+				<%if o.product_boxing.product.product_images.first %>
+					<div class="text-center">
+					<%= image_tag o.product_boxing.product.cover.url, style: 'width: 40px; height: 40px;' %>			
+			    	</div>
+			    <%end%> 	
+	    		<div class="text-center"><%= o.product_boxing.product.name%></div>           	
+	          </td>         
+	          <td>
+	          <div><%= o.quantity%>箱</div> 
+	          </td>
+	          <td><%= o.price.to_i + o.shipping_rates.to_i %>元</td>     
+	          <td>
+	          <table border="1" cellpadding="0" cellspacing="0"> 
+	          	<tr>	
+			    	<td style="min-width: 70px;">收件人</td>	         		
+	          	</tr>
+				<% o.shipments.each do |s| %>
+				<tr>         
+		          	<td><%receiver_address = s.receiver_address %>   
+						<div><%=receiver_address.last_name %> <%=receiver_address.first_name %></div>
+	 					<div><%=receiver_address.postal %><%=receiver_address.county %><%=receiver_address.district %><%=receiver_address.address %></div>
+	 					<div><%=receiver_address.phone_no.gsub(/^\+886/, '0') %></div>	          		        
+		          	</td>            
+	          	</tr>
+	          	<%end%>
+	          	</table> 
+	          </td>	                                            
+	        </tr>
+	    	<%end%>	        
+	      	</table> 				
+		</td>
+		<td><%= @invoice.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+	</tr>	
+</table>		
+<div style="text-align:left; font-size: 18px; margin-top: 10px;">
+	<%=link_to '>> 您可到小農1號查看您訂單的最新情況', root_url, style: 'color: #DE562C;' %>	
+</div>	
+
+
+
+
+
+
+</div>

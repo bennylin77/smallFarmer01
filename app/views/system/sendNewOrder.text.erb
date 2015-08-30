@@ -1,0 +1,7 @@
+<p>親愛的 <%=@order.product_boxing.product.company.user.last_name%> <%=@order.product_boxing.product.company.user.first_name%>，您好！</p>	
+<p>您有一筆新的出貨，出貨編號：<%=@order.id %></p>
+<p>以下是出貨明細：</p>
+<p>
+<%= @order.product_boxing.product.name%>
+<%= @order.quantity %>箱 (<%="%g" % @order.product_boxing.quantity%><%= Hash[unitOptions].rassoc(@order.product_boxing.product.unit).first %>/箱)
+</p>

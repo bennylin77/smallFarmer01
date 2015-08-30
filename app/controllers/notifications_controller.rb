@@ -1,6 +1,7 @@
 class NotificationsController < ApplicationController
   before_filter :authenticate_user!
   
+  before_action only: [:read, :review] { |c| c.NotificationCheckUser(params[:id]) }            
   before_action :set_notification, only: [:read, :review]
 
 

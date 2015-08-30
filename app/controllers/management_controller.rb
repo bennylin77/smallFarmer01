@@ -1,14 +1,12 @@
 class ManagementController < ApplicationController
   before_filter :authenticate_user!
+  before_action :managementCheckUser
   
   before_action :set_order, only: []
   before_action :set_company, only: [:activateCompany, :updateBankAccount, :updateBankCode]
   before_action :set_user, only: [:blockUser, :confirmPhoneNo]
   before_action :set_product, only: [:setCertification, :setSweetDegree]
   
-  def index
-    
-  end
 #======================# invoice #======================# 
   def invoices 
     @invoices = Invoice.all.paginate(page: params[:page], per_page: 60).order('id DESC')     
@@ -95,7 +93,7 @@ class ManagementController < ApplicationController
           s.save! 
         end  
       end 
-      
+      #bills
       company = order.product_boxing.product.company   
       bill = company.bills.where("end_at >= ?", Time.now).first
       if bill.blank?
@@ -118,10 +116,7 @@ class ManagementController < ApplicationController
       end
       bill.orders << order
       bill.save!       
-     
-
-
-      #
+      #review
       if order.review_at.blank? and order.invoice.notifications.where(category: GLOBAL_VAR['NOTIFICATION_PROMOTION'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_REVIEW']).count == 0
         delivered_all = true          
         order.invoice.orders.each do |i_o|
@@ -134,15 +129,20 @@ class ManagementController < ApplicationController
         if delivered_all
           notify( order.invoice.user, { category: GLOBAL_VAR['NOTIFICATION_PROMOTION'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_REVIEW'], 
                                         invoice_id: order.invoice.id}) 
-
-          System.sendReviewNotification(order.invoice).deliver   
+          System.sendReviewNotification(order.invoice).deliver  
+          
+          invoice = order.invoice
+          discount = 0 
+          invoice.invoice_coupon_lists.each do |i_c_l|
+            discount = discount + i_c_l.amount
+          end            
           data = { username: Rails.configuration.mitake_username, 
                    password: Rails.configuration.mitake_password,
-                   dstaddr: params[:phone_no].gsub(/^\+886/, '0'),
+                   dstaddr: invoice.user.phone_no.gsub(/^\+886/, '0'),
                    encoding: 'UTF8',
-                   smbody: '您的訂單已交付完畢，立刻評價獲得 4% 回饋金'  
-                   } 
-                                      
+                   smbody: '您的小農訂單已送達，評價獲得'+((invoice.amount-discount)*0.04).round.to_s+'元回饋'+Rails.configuration.app_domain+'/notifications?category=3'                     
+                   #smbody: '您的小農訂單已送達，評價獲得'+((invoice.amount-discount)*0.04).round.to_s+'元回饋'+'www.smallfarmer01.com/notifications?category=3'
+                   }                                   
           #result = RestClient.get( Rails.configuration.mitake_sm_send_get_url, params: data)                                                              
         end
       end    
@@ -282,6 +282,17 @@ class ManagementController < ApplicationController
   end
   
 private   
+  
+  def managementCheckUser
+    unless current_user.email == 'bennylin77@gmail.com' or
+           current_user.email == 'tony7066@gmail.com' or
+           current_user.email == 'b97a01134@ntu.edu.tw' or
+           current_user.email == 'kais900202@hotmail.com' or
+           current_user.email == '96206024@nccu.edu.tw'
+      flash["error"]="您沒有權限"
+      redirect_to root_url         
+    end  
+  end
   
   def set_order
     @order = Order.find(params[:id])

@@ -1,14 +1,13 @@
 class UsersController < ApplicationController
   before_filter :authenticate_user!
-  
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+
+  before_action only: [ :edit, :update] { |c| c.UserCheckUser(params[:id])}        
+  before_action :set_user, only: [:show, :edit, :update]
 
   def show
-    # authorize! :read, @user
   end
 
   def edit
-    # authorize! :update, @user
   end
 
   def update
@@ -89,14 +88,6 @@ class UsersController < ApplicationController
     end        
   end    
 =end
-  def destroy
-    # authorize! :delete, @user
-    @user.destroy
-    respond_to do |format|
-      format.html { redirect_to root_url }
-      format.json { head :no_content }
-    end
-  end
   
   private
     def set_user

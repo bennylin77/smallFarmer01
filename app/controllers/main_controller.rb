@@ -8,6 +8,9 @@ class MainController < ApplicationController
   def privacyPolicy    
   end
   
+  def returnPolicy    
+  end
+  
   def search
     @products = Product.all
   end
