@@ -1,9 +1,9 @@
 <%if user_signed_in?%> 
 <div class="row comment_post">
 	<div class="col-sm-offset-1 col-xs-1"><%= image_tag current_user.avatar.url, class: 'img-circle' %></div>
-	<div class="col-xs-10 col-sm-8 ">
-	  	<div class="talkbubble"><textarea class="form-control comment_textarea" rows="2" placeholder='想說什麼...' id="post_content"></textarea></div>
-	  	<button class="btn btn-default pull-right comment_button" id="post_button" onclick="postComment()" data-loading-text="傳送中...">送出</button>
+	<div class="col-xs-10 col-sm-9 ">
+	  	<div class="comment_msg"><textarea class="form-control comment_textarea" rows="2" placeholder='想說什麼...' id="post_content"></textarea></div>
+	  	<button class="btn btn-default pull-right comment_button" id="post_button" onclick="postComment()" data-loading-text="傳送中..." style="margin-top: 5px;">送出</button>
 	</div>
 </div>	
 <%else%>
@@ -11,11 +11,9 @@
 	<%= form_tag  '/comments/post', method: 'get' do %>
 		<%= hidden_field_tag  :id,  product.id  %>	
 	  	<div class="col-sm-offset-1 col-xs-1"><%= image_tag 'default_avatar.png', class: 'img-circle' %></div>		    
-	  	<div class="col-xs-10 col-sm-8 ">
-	  		<div class="talkbubble">
-	  			<textarea name="content" class="form-control comment_textarea" rows="2" placeholder='想說什麼...' id="post_content"></textarea>
-	  		</div>
-	  		<%= submit_tag '送出',  class: "btn btn-default pull-right comment_button"  %>
+	  	<div class="col-xs-10 col-sm-9 ">
+	  		<div class="comment_msg"><textarea name="content" class="form-control comment_textarea" rows="2" placeholder='想說什麼...' id="post_content"></textarea></div>
+	  		<%= submit_tag '送出',  class: "btn btn-default pull-right comment_button", style: "margin-top: 5px;"  %>
 	  	</div>
 	<% end %>
 </div>		
@@ -90,7 +88,7 @@ function addComment(comment, sub_comments)
 		     	  '</div>');//+
 				  //'<div class="col-sm-9 ">'+comment.user_last_name+' '+moment(comment.created_at, "YYYY-MM-DD HH:mm:ss" ).fromNow()+'<div class="comment_msg">'+comment.content+'</div>'+
 				  //'</div>');		
-	var $op_container =$("<div>", {class: 'col-xs-10 col-sm-8 comment_op'}); 	
+	var $op_container =$("<div>", {class: 'col-xs-10 col-sm-9 comment_op'}); 	
 	$op_container.append(comment.email+' '+moment(comment.created_at, "YYYY-MM-DD HH:mm:ss" ).fromNow());		  
 	if(comment.user_id == current_user.id)			  
 	{			  		  
@@ -111,13 +109,13 @@ function addComment(comment, sub_comments)
 			$row_post_sub_comment.append('<div class="col-xs-1 col-xs-offset-1 col-sm-offset-2 col-sm-offset-2" style="margin-top: 0px;">'+
 										 '<img src="'+current_user.avatar_url+'" onerror="this.src=\''+default_avatar+'\'" alt="missing" style="width: 43px; height: 43px" class="img-circle">'+
 										 '</div>'+				
-	  									 '<div class="col-xs-9 col-sm-7" ><div class="talkbubble"><textarea class="form-control comment_textarea" rows="1" placeholder="回應..." id="post_sub_content_'+comment.id.toString()+'"></textarea></div>'+		
-	  							 		 '<button class="btn btn-default pull-right comment_button" id="post_sub_button_'+comment.id.toString()+'" onclick="postSubComment('+comment.id.toString()+')">送出</button></div>');	  	
+	  									 '<div class="col-xs-9 col-sm-8" ><div class="comment_msg"><textarea class="form-control comment_textarea" rows="1" placeholder="回應..." id="post_sub_content_'+comment.id.toString()+'"></textarea></div>'+		
+	  							 		 '<button class="btn btn-default pull-right comment_button" id="post_sub_button_'+comment.id.toString()+'" onclick="postSubComment('+comment.id.toString()+')" style="margin-top: 5px;">送出</button></div>');	  	
 	}
 	if(sub_comments.length==0 && current_user.id!=-1)
 	{
 		var $row_reply_but = $("<div>", {class: "row"}); 
-		$row_reply_but.append('<div class="col-xs-11 col-sm-10"><span onclick="$(\'#post_sub_comment_'+comment.id.toString()+'\').show();" style="cursor: pointer" class="pull-right comment_reply">回應</span></div>')	  
+		$row_reply_but.append('<div class="col-xs-11 col-sm-11"><span onclick="$(\'#post_sub_comment_'+comment.id.toString()+'\').show();" style="cursor: pointer" class="pull-right comment_reply">回應</span></div>')	  
 		$container.append($row_reply_but);			
 		$row_post_sub_comment.hide();	
 	}
@@ -129,7 +127,7 @@ function addComment(comment, sub_comments)
 				     	  '</div>');
 						  //'<div class="col-sm-7">'+l.user_last_name+' '+moment(l.created_at, "YYYY-MM-DD HH:mm:ss" ).fromNow()+'<div class="comment_msg">'+l.content+'</div>'+
 						  //'</div>');
-			var $sub_op_container =$("<div>", {class: 'col-xs-9 col-sm-7 comment_op'}); 
+			var $sub_op_container =$("<div>", {class: 'col-xs-9 col-sm-8 comment_op'}); 
 			$sub_op_container.append(l.email+' '+moment(l.created_at, "YYYY-MM-DD HH:mm:ss" ).fromNow());		  									  		
 			if(l.user_id == current_user.id)			  
 			{			  		  

@@ -27,65 +27,34 @@
 	  <li class="active"><%= @product.name %></li>		  
 	</ol>	
 	<div class="row">
-		<div class="hidden-xs col-md-12 col-lg-offset-1 col-lg-10 product_farm_words">		
-				<%= image_tag @product.company.user.avatar.url, class: 'img-circle product_farm_words_avatar' %>		
-				<%= link_to @product.company do%>
-				<div class="product_farm_words_text">	
-				<%= truncate( @product.company.description, length: 122, omission: '... more') %>
-				</div>
-				<%end%>
-		</div>				
-		<div class="visible-xs-block col-xs-12 product_farm_words">		
-			<div class="row">
-				<div class="col-xs-12 text-center">					
-				<%= image_tag @product.company.user.avatar.url, class: 'img-circle product_farm_words_avatar', style: '' %>		
-				</div>
-				<%= link_to @product.company do%>				
-				<div class="col-xs-12 product_farm_words_text">	
-				<%= truncate( @product.company.description, length: 122, omission: '... more') %>
-				</div>
-				<%end%>				
+		<div class="row">		
+			<div class="col-lg-offset-1 col-lg-10">
+				<div class="hidden-xs col-md-12 col-lg-offset-1 col-lg-10 product_farm_words">		
+						<%= image_tag @product.company.user.avatar.url, class: 'img-circle product_farm_words_avatar' %>		
+						<%= link_to @product.company do%>
+						<div class="product_farm_words_text">	
+						<%= truncate( @product.company.description, length: 122, omission: '... more') %>
+						</div>
+						<%end%>
+				</div>				
+				<div class="visible-xs-block col-xs-12 product_farm_words">		
+					<div class="row">
+						<div class="col-xs-12 text-center">					
+						<%= image_tag @product.company.user.avatar.url, class: 'img-circle product_farm_words_avatar', style: '' %>		
+						</div>
+						<%= link_to @product.company do%>				
+						<div class="col-xs-12 product_farm_words_text">	
+						<%= truncate( @product.company.description, length: 122, omission: '... more') %>
+						</div>
+						<%end%>				
+					</div>
+				</div>	
 			</div>
-		</div>			
+		</div>							
 	</div>	
 	<div class="row product_carousel_add_to_cart_container">
 		<div class="col-md-7 col-lg-offset-1 col-lg-6">		
-			<div id="carousel-example-generic" class="product_carousel carousel slide" data-ride="carousel" data-interval="4000" data-pause="hover" style="margin: 10px auto; ">
-			  <ol class="product_carousel-indicators carousel-indicators">
-				<% @product.product_images.each_with_index do |p, i|%> 
-					<%if i==0%>
-			    	<li data-target="#carousel-example-generic" data-slide-to="<%=i%>" class="active"></li>
-				    <%else%>
-			    	<li data-target="#carousel-example-generic" data-slide-to="<%=i%>"></li>    
-				    <%end%>
-				<%end%>  		 	     
-			  </ol>
-			  <div class="product_carousel-inner carousel-inner" role="listbox">
-				<% @product.product_images.each_with_index do |p, i|%>
-					<%if i==0%>
-					    <div class="product_item item active">
-					      <div class="product_carousel_img">	
-					      <%=image_tag p.image.url, class: '' %>
-					      </div>
-					    </div>
-				    <%else%>
-					    <div class="product_item item">
-					      <div class="product_carousel_img">	
-					      <%=image_tag p.image.url, class: '' %>
-					      </div>
-					    </div>	    
-				    <%end%>
-				<%end%>  	   
-			  </div>
-			  <a class="left product_carousel-control carousel-control hidden-xs" href="#carousel-example-generic" role="button" data-slide="prev">
-			    <span class="glyphicon glyphicon-menu-left icon-prev" aria-hidden="true"></span>
-			    <span class="sr-only">前一張</span>
-			  </a>
-			  <a class="right product_carousel-control carousel-control hidden-xs" href="#carousel-example-generic" role="button" data-slide="next">
-			    <span class="glyphicon glyphicon-menu-right icon-next" aria-hidden="true"></span>
-			    <span class="sr-only">下一張</span>
-			  </a>
-			</div>					
+			<%= render partial: "products/product_carousel" %>								
 		</div>
 		<div class="col-md-5 col-lg-4">
 			<div class="row" style="margin-top: 20px;">			
@@ -134,19 +103,25 @@
 			</div>						
 				<%elsif p.quantity%>
 			<div class="row" style="margin-top: 22px;">	
-				<div class="hidden-xs hidden-sm col-md-offset-1 col-md-10 product_promote">								
+				<div class="hidden-xs hidden-sm col-md-offset-1 col-md-10">								
+					<div class="product_promote">
 					<span style="color: #536132;"><%= p.quantity %>箱以上，每箱便宜<span style="font-size: 130%"><%= @original_price - p.price.to_i  %></span>元</span>
 					<span style="font-size: 80%;">＊企業團體購買，請聯絡客服人員</span>				
+					</div>
 				</div>			
 				<div class="hidden-md hidden-lg col-sm-offset-2 col-sm-8 product_promote text-center">								
+					<div class="product_promote">
 					<span style="color: #536132;"><%= p.quantity %>箱以上，每箱便宜<span style="font-size: 130%"><%= @original_price - p.price.to_i  %></span>元</span>
 					<span style="font-size: 80%;">＊企業團體購買，請聯絡客服人員</span>				
+					</div>
 				</div>						
 			</div>	
 				<%else%>	
 			<div class="row" style="margin-top: 22px;">				
-				<div class="col-sm-offset-2 col-sm-8  col-md-offset-1 col-md-10 product_promote text-center">								
+				<div class="col-sm-offset-2 col-sm-8  col-md-offset-1 col-md-10 text-center">								
+					<div class="product_promote">
 					<span style="font-size: 80%;">＊企業團體購買，請聯絡客服人員</span>				
+					</div>
 				</div>					
 			</div>	
 				<%end%>								
@@ -223,12 +198,12 @@
 	<div class="row" style="font-size: 16px;">
 		<div class="col-md-7 col-lg-offset-1 col-lg-6" style="margin-top: 40px; margin-bottom: 40px;">
 			<div class="row" style="margin-bottom: 50px;">		
-				<div class="col-lg-offset-1 col-lg-10">
+				<div class="col-sm-offset-1 col-sm-10">
 					<div class="section_title">關於<%= @product.name %></div>
 				</div>					
 			</div>
 			<div class="row" style="margin-bottom: 20px;">		
-				<div class="col-lg-offset-1 col-lg-10">
+				<div class="col-sm-offset-1 col-sm-10">
 					<div class="section_sub_title">基本規格</div>
 				</div>					
 			</div>	
@@ -273,21 +248,28 @@
 				</div>								
 			</div>				
 			<div class="row" style="margin-bottom: 20px; margin-top: 30px;">		
-				<div class="col-lg-offset-1 col-lg-10">
+				<div class="col-sm-offset-1 col-sm-10">
 					<div class="section_sub_title">商品介紹</div>
 				</div>					
-			</div>			
+			</div>						
 			<div class="row">		
 				<div class="col-sm-offset-1 col-sm-10">
 				<%= simple_format( @product.description, {class: 'product_description'}, wrapper_tag: "div")%>												
 				</div>								
-			</div>									
+			</div>	
+			<div class="row">		
+				<div class="col-sm-offset-1 col-sm-10" style="margin-top: 40px;">
+					<div style="border-top: 1px solid #a8bb7f;"></div>
+				</div>					
+			</div>											
 			<%= render partial: "products/product_images" %>	
 			<div class="row">		
-				<div class="col-lg-offset-1 col-lg-10" style="margin-top: 80px; border-top: 1px solid #a8bb7f;"></div>					
+				<div class="col-sm-offset-1 col-sm-10" style="margin-top: 40px;">
+					<div style="border-top: 1px solid #a8bb7f;"></div>
+				</div>					
 			</div>					
 			<div class="row" style="margin-top: 40px; margin-bottom: 40px;">		
-				<div class="col-lg-offset-1 col-lg-10">			
+				<div class="col-sm-offset-1 col-sm-10">			
 					<div class="section_title">留言</div>	
 				</div>					
 			</div>										
@@ -322,7 +304,9 @@
 				</div>					
 			</div>	
 			<div class="row">		
-				<div class="col-lg-offset-1 col-lg-10" style="margin-top: 50px; border-top: 1px solid #a8bb7f;"></div>					
+				<div class="col-lg-offset-1 col-lg-10" style="margin-top: 40px;">
+					<div style="border-top: 1px solid #a8bb7f;"></div>
+				</div>					
 			</div>				
 			<div class="row" style="margin-bottom: 40px; margin-top: 50px;">		
 				<div class="col-lg-offset-1 col-lg-10">
@@ -333,11 +317,13 @@
 		</div>		
 	</div>			
 	<div class="row">
-		<div class="col-md-6 col-lg-offset-1 col-lg-6" style="margin-bottom: 20px;">		
-						
+		<div class="col-md-12 col-lg-offset-1 col-lg-10">		
+			<div class="row" style="margin-bottom: 20px; margin-top: 40px;">					
+			<div class="col-lg-offset-1 col-lg-10"><div style="border-top: 1px solid #a8bb7f;"></div></div>
+			</div>						
 		</div>		
 	</div>	
-	<div class="row" style="margin-top: 40px; border-top: 1px solid #a8bb7f;">
+	<div class="row" style="margin-top: 40px;">
 		<div class="col-md-12 col-lg-offset-1 col-lg-10">
 			<div class="row" style="margin-bottom: 20px; margin-top: 40px">		
 				<div class="col-lg-offset-1 col-lg-10">

@@ -1,5 +1,5 @@
 .product_cover_parallax_parent {
-  height: 650px;
+  height: 620px;
   overflow: hidden;
 }
 .product_cover_parallax_parent > * {
@@ -26,11 +26,11 @@
   border: 1px solid #a8bb7f;
   background: none; 
   border-radius: 40px;
-  min-height: 90px;
+  min-height: 80px;
 }
 .product_farm_words_avatar{
-  height: 90px; 
-  width: 90px;
+  height: 80px; 
+  width: 80px;
   position: absolute;
 }
 .product_farm_words_text
@@ -141,11 +141,10 @@
 }
 .product_carousel
 { 
-  margin-bottom: 30px !important;  
-  width: 90% !important;  
+  width: 100% !important;  
 }
 .product_carousel-inner{
-  border-radius: 10px !important;    
+  border-radius: 7px !important;    
 }
 .product_item img
 {  
@@ -177,120 +176,98 @@
     margin-right: -70px; color: black;
   }     
 }
-@media (max-width: 1550px) {
- .product_carousel{
-    width: 640px !important;  
- }
+@media (max-width: 1600px) {
   .product_item img {
-    height: 480px !important;  
+    height: 476px !important;  
  } 
 }
-@media (max-width: 1300px) {
-  .product_carousel{
-    width: 570px !important;   
-   }
+@media (max-width: 1400px) {
   .product_item img{  
-    height: 427.5px !important;  
+    height: 413px !important;  
   }
 }
 @media (max-width: 992px) {
   .product_carousel_add_to_cart_container{
     margin-top: 25px;
-  }  
-  .product_carousel{
-    width: 700px !important;   
-  }     
+  }    
   .product_item img {
-    height: 525px !important;    
+    height: 472.5px !important;    
   }  
 } 
-@media (max-width: 768px) {
-  .product_carousel{
-    width: 100% !important;    
-  }     
+@media (max-width: 768px) {  
   .product_item img {
-    height: 400px !important;    
+    height: 551px !important;    
   }  
 }
-@media (max-width: 480px) {
-  .product_carousel{
-    //width: 100% !important;    
-  }     
+@media (max-width: 580px) {  
   .product_item img {
-    height: 300px !important;    
+    height: 408.75px !important;    
+  }  
+}
+@media (max-width: 480px) {  
+  .product_item img {
+    height: 320.75px !important;    
   }  
 }
 /*======================================= product image =======================================*/
-.product_image_container{ 
-  
-}
 .product_image_eq{
-  width: 320px;
-  height: 240px;  
+  width: 100%;
+  height: 250px;
 }
+.product_image_container_right{padding-right: 2px;}
+.product_image_container_left{padding-left: 2px;}
 @media (max-width: 1700px) { 
-  .product_image_eq{
-    width: 290px;
+.product_image_eq{
     height: 217.5px;  
   }
 }
 @media (max-width: 1560px) { 
-  .product_image_eq{
-    width: 250px;
+.product_image_eq{
     height: 187.5px;  
   }  
 }
 @media (max-width: 1360px) { 
-  .product_image_eq{
-    width: 225px;
+.product_image_eq{
     height: 168.75px;  
   }     
 }
 @media (max-width: 970px) { 
-  .product_image_eq{
-    width: 270px;
+.product_image_eq{
     height: 217.5px;  
   }   
 }
-@media (max-width: 750px) {  
-  .product_image_eq{
-    width: 100%;
+@media (max-width: 768px) {  
+.product_image_eq{
     height: 270px;  
   }   
 }
 @media (max-width: 640px) {  
-  .product_image_eq{
-    width: 100%;
+.product_image_eq{
     height: 237.5px;  
   }   
 }
 @media (max-width: 530px) {  
-  .product_image_eq{
-    width: 100%;
+.product_image_eq{
     height: 187.5px;   
   }   
 }
 @media (max-width: 480px) { 
-  .product_image_eq{
-    width: 100%;
+.product_image_eq{
     height: 168.5px;  
   }   
 }
 @media (max-width: 414px) { 
-  .product_image_eq{
-    width: 100%;
+.product_image_eq{
     height: 144px; 
   }    
 }
 @media (max-width: 375px) { 
-  .product_image_eq{
-    width: 100%;
+.product_image_eq{
     height: 129px;
   }   
 }
 @media (max-width: 320px) { 
-  .product_image_eq{
-    width: 100%;
+.product_image_eq{
     height: 100px; 
   }   
 }
@@ -316,6 +293,17 @@
 .mfp-with-zoom.mfp-removing.mfp-bg {
   opacity: 0;
 }
+/*
+.product_image_container { overflow: hidden; }
+.product_image_container a { overflow: hidden; }
+.product_image_container a img { 
+    transition: all 0.5s; 
+    -moz-transition: all 0.5s; 
+    -webkit-transition: all 0.5s; 
+    -o-transition: all 0.5s; 
+}
+.product_image_container a.zoom:hover img { transform: scale(1.2); -ms-transform: scale(1.2); -webkit-transform: scale(1.2); -o-transform: scale(1.2); -moz-transform: scale(1.2); }
+*/
 /*======================================= cash flow =======================================*/
 .farmer_get_layer{  
   text-align: center;
