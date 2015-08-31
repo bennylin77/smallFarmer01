@@ -294,6 +294,28 @@
     height: 100px; 
   }   
 }
+.mfp-with-zoom .mfp-container,
+.mfp-with-zoom.mfp-bg {
+  opacity: 0;
+  -webkit-backface-visibility: hidden;
+  /* ideally, transition speed should match zoom duration */
+  -webkit-transition: all 0.3s ease-out; 
+  -moz-transition: all 0.3s ease-out; 
+  -o-transition: all 0.3s ease-out; 
+  transition: all 0.3s ease-out;
+}
+
+.mfp-with-zoom.mfp-ready .mfp-container {
+    opacity: 1;
+}
+.mfp-with-zoom.mfp-ready.mfp-bg {
+    opacity: 0.8;
+}
+
+.mfp-with-zoom.mfp-removing .mfp-container, 
+.mfp-with-zoom.mfp-removing.mfp-bg {
+  opacity: 0;
+}
 /*======================================= cash flow =======================================*/
 .farmer_get_layer{  
   text-align: center;
@@ -352,18 +374,21 @@
 .review_title{
   display: inline-block;
   font-size: 18px;
-  width: 90px;
+  width: 80px;
   text-align: right;
   margin-right: 5px;
 }
-.review_block_bar{
+.review_block_bar{ 
   display: inline-block; 
-  width: 300px;  
+  width: 200px;  
+  height: 30px;
 }
 @media (max-width: 1405px) {
-  .review_block_bar{
-    width: 200px;  
-  }
+  .review_title{
+    font-size: 16px;
+    width: 90px;
+    margin-right: 5px;
+  }  
 }
 .review_block_bar_inner{
   display: inline-block; 
@@ -417,7 +442,6 @@
 .shipment_review_fast{
   color: #6dcd48;
 } 
-
 @media (max-width: 480px) {
   .review_title{
     font-size: 16px !important; 
@@ -496,13 +520,13 @@
     font-size: 16px;   
   }
 }
-@media (max-width: 1407px) {
+@media (max-width: 1418px) {
   .review_feedback_avatar{
     height: 26px;
     width: 26px;  
   }  
   .review_feedback_name{
-    font-size: 13px;
+    font-size: 14px;
   }  
   .review_feedback_option{
     height: 15px;
@@ -511,4 +535,23 @@
   .review_feedback_option_text{
     font-size: 14px;   
   }  
+}
+.shipment_review_container img{
+  margin-top: 30px;
+  width: 280px;
+}
+@media (max-width: 1200px) {
+  .shipment_review_container img{
+    width: 250px;
+  }    
+}
+@media (max-width: 991px) {
+  .shipment_review_container img{
+    width: 250px;
+  }    
+}
+@media (max-width: 767px) {
+  .shipment_review_container img{
+    width: 230px;
+  }    
 }

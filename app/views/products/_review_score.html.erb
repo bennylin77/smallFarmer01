@@ -2,7 +2,7 @@
 	<div class="col-lg-offset-1 col-lg-11">	
 		<ul class="review_score">
 			<li>
-				<div class="review_title">超好吃</div>	
+				<div class="review_title">超好吃</div>					
 				<div class="review_block_bar">
 				<div class="review_block1_bar review_block_bar_inner review_delicious_bg"></div>	
 				<div class="review_block1_number review_block_number review_delicious" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_at IS NOT NULL and review_score = ? ', @product.id, GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count %>'>				
@@ -10,24 +10,24 @@
 				</div>
 			</li>
 			<li>
-				<div class="review_title">好吃</div>
-				<div class="review_block_bar">					
+				<div class="review_title">好吃</div>													
+				<div class="review_block_bar">	
 				<div class="review_block2_bar review_block_bar_inner review_tasty_bg"></div>	
 				<div class="review_block2_number review_block_number review_tasty" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_at IS NOT NULL and review_score = ? ', @product.id, GLOBAL_VAR['ORDER_REVIEW_TASTY']).count %>'>
 				</div>					
 				</div>			
 			</li>
 			<li>
-				<div class="review_title">普通</div>	
-				<div class="review_block_bar">									
+				<div class="review_title">普通</div>																		
+				<div class="review_block_bar">	
 				<div class="review_block3_bar review_block_bar_inner review_common_bg"></div>	
 				<div class="review_block3_number review_block_number review_common" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_at IS NOT NULL and review_score = ? ', @product.id, GLOBAL_VAR['ORDER_REVIEW_COMMON']).count %>'>
 				</div>					
 				</div>
 			</li>	
 			<li>
-				<div class="review_title">不太好吃</div>	
-				<div class="review_block_bar">									
+				<div class="review_title">不太好吃</div>																			
+				<div class="review_block_bar">
 				<div class="review_block4_bar review_block_bar_inner review_unappealing_bg"></div>	
 				<div class="review_block4_number review_block_number review_unappealing" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_at IS NOT NULL and review_score = ? ', @product.id, GLOBAL_VAR['ORDER_REVIEW_UNAPPEALING']).count %>'>
 				</div>					
@@ -48,7 +48,7 @@ $('.review_tasty').html(tasty_count);
 $('.review_common').html(common_count);
 $('.review_unappealing').html(unappealing_count);
 var controller = new ScrollMagic.Controller();
-new ScrollMagic.Scene({triggerElement: ".review_score"})
+scene = new ScrollMagic.Scene({triggerElement: ".review_score"})
 		.addTo(controller)
 		.on('start', function(e){
 			$('.review_block1_bar').animate({"width": $('.review_block_bar').width()*0.8*(delicious_count/max_count)}, 800)
@@ -61,5 +61,8 @@ new ScrollMagic.Scene({triggerElement: ".review_score"})
 			$('.review_block3_bar').animate({"width": 0}, 0)
 			$('.review_block4_bar').animate({"width": 0}, 0)							
 		})
+$( window ).resize(function() {
+  //scene.progress(0.7);
+});		
 </script>
 	

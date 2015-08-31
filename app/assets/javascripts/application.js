@@ -27,4 +27,5 @@
 //= require moment
 //= require moment/zh-tw
 //= require bootstrap-datetimepicker
+//= require magnific-popup
 //= require_tree .

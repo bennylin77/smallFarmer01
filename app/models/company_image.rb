@@ -2,7 +2,7 @@ class CompanyImage < ActiveRecord::Base
   belongs_to :company
   
   has_attached_file :image, 
-                    styles: { original: "800"},
+                    styles: { original: "800", medium: "400"},
                     default_url: "/images/:style/missing.png"  
   validates_attachment :image, 
                        content_type: { content_type: /\Aimage\/.*\Z/, message: "照片格式錯誤" }, 
