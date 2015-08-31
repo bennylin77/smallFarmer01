@@ -48,7 +48,7 @@
 			</div>
 		</div>			
 	</div>	
-	<div class="row" style="margin-top: 60px;">
+	<div class="row product_carousel_add_to_cart_container">
 		<div class="col-md-7 col-lg-offset-1 col-lg-6">		
 			<div id="carousel-example-generic" class="product_carousel carousel slide" data-ride="carousel" data-interval="4000" data-pause="hover" style="margin: 10px auto; ">
 			  <ol class="product_carousel-indicators carousel-indicators">
@@ -79,11 +79,11 @@
 			  </div>
 			  <a class="left product_carousel-control carousel-control hidden-xs" href="#carousel-example-generic" role="button" data-slide="prev">
 			    <span class="glyphicon glyphicon-menu-left icon-prev" aria-hidden="true"></span>
-			    <span class="sr-only">Previous</span>
+			    <span class="sr-only">前一張</span>
 			  </a>
 			  <a class="right product_carousel-control carousel-control hidden-xs" href="#carousel-example-generic" role="button" data-slide="next">
 			    <span class="glyphicon glyphicon-menu-right icon-next" aria-hidden="true"></span>
-			    <span class="sr-only">Next</span>
+			    <span class="sr-only">下一張</span>
 			  </a>
 			</div>					
 		</div>
@@ -96,7 +96,7 @@
 		      	</div>
 		      </div>	      	
 		      <div class="hidden-md hidden-lg col-xs-12 text-center">    	
-		        <div class="product_name"><%if @product.released_at%><%if @product.released_at > Time.now %>【預購】<%end%><%end%><%= @product.name %><%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%></div>
+		        <div class="product_name"><%if @product.released_at%><%if @product.released_at > Time.now %>【預購】<%end%><%end%><%= @product.name %></div>
 		        <div class="product_excellent"><span class="product_excellent_no" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL ', @product.id, GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count+Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL ', @product.id, GLOBAL_VAR['ORDER_REVIEW_TASTY']).count %>'> </span><span class="product_excellent_text">人說好吃</span></div>		      
 		      </div>		      		      
 		    </div>	
@@ -234,40 +234,42 @@
 			</div>	
 			<div class="row" style="">		
 				<div class="col-sm-offset-1 col-sm-10">
-				<table class="table	product_spec">
-					<tr>
-						<th>產地</th>
-						<td>
-							<%=@product.company.county %><%=@product.company.district%>
-						</td>
-						<th>檢驗標章</th>
-						<td class="text-center">
-							<%if @product.GAP_c%><%=image_tag 'gap.png', class: '', style: 'height: 55px; width: 55px;'  %><%end%>		      
-							<%if @product.TAP_c%><%=image_tag 'tap.png', class: '', style: 'height: 50px; width: 50px;'  %><%end%>		      		      
-							<%if @product.OTAP_c%><%=image_tag 'otap.png', class: '', style: 'height: 50px; width: 50px;'  %><%end%>		      		      
-							<%if @product.UTAP_c%><%=image_tag 'utap.png', class: '', style: 'height: 50px; width: 50px;'  %><%end%>	
-							<%if @product.pesticide_qualified_c%><%=image_tag 'pesticide_qualified.png', class: '', style: 'height: 50px; width: 50px;'  %><%end%>	
-							<%if @product.pesticide_zero_c%><%=image_tag 'pesticide_zero.png', class: '', style: 'height: 50px; width: 50px;'  %><%end%>							
-							<%if !@product.GAP_c and !@product.TAP_c and !@product.OTAP_c and
-								 !@product.UTAP_c and !@product.pesticide_qualified_c and 
-								 !@product.pesticide_zero_c%>尚未提供<%end%>
-						</td>					
-					</tr>					
-					<tr>
-						<th>內容量</th>
-						<td>
-							每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%><%if @product.unit == GLOBAL_VAR['UNIT_CATTY'] or @product.unit == GLOBAL_VAR['UNIT_KG'] %><small> ±10%</small><%end%> 
-						</td>
-						<th>甜度</th>
-						<td class="text-center">
-							<%unless @product.sweet_degree.blank?%><%=image_tag 'sweet_degree/'+@product.sweet_degree.to_s+'.png', class: 'product_sweet_degree', style: '' %><%else%>尚未提供<%end%>
-						</td>
-					</tr>			
-					<tr>
-						<th>保存方式</th>
-						<td colspan="3"><%= @product.preservation %></td>
-					</tr>		
-				</table>	
+					<div class="table-responsive">					
+						<table class="table	product_spec">
+							<tr>
+								<th>產地</th>
+								<td>
+									<%=@product.company.county %><%=@product.company.district%>
+								</td>
+								<th>檢驗標章</th>
+								<td class="text-center">
+									<%if @product.GAP_c%><%=image_tag 'gap.png', class: '', style: 'height: 55px; width: 55px;'  %><%end%>		      
+									<%if @product.TAP_c%><%=image_tag 'tap.png', class: '', style: 'height: 50px; width: 50px;'  %><%end%>		      		      
+									<%if @product.OTAP_c%><%=image_tag 'otap.png', class: '', style: 'height: 50px; width: 50px;'  %><%end%>		      		      
+									<%if @product.UTAP_c%><%=image_tag 'utap.png', class: '', style: 'height: 50px; width: 50px;'  %><%end%>	
+									<%if @product.pesticide_qualified_c%><%=image_tag 'pesticide_qualified.png', class: '', style: 'height: 50px; width: 50px;'  %><%end%>	
+									<%if @product.pesticide_zero_c%><%=image_tag 'pesticide_zero.png', class: '', style: 'height: 50px; width: 50px;'  %><%end%>							
+									<%if !@product.GAP_c and !@product.TAP_c and !@product.OTAP_c and
+										 !@product.UTAP_c and !@product.pesticide_qualified_c and 
+										 !@product.pesticide_zero_c%>尚未提供<%end%>
+								</td>					
+							</tr>					
+							<tr>
+								<th>內容量</th>
+								<td>
+									每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%><%if @product.unit == GLOBAL_VAR['UNIT_CATTY'] or @product.unit == GLOBAL_VAR['UNIT_KG'] %><small> ±10%</small><%end%> 
+								</td>
+								<th>甜度</th>
+								<td class="text-center">
+									<%unless @product.sweet_degree.blank?%><%=image_tag 'sweet_degree/'+@product.sweet_degree.to_s+'.png', class: 'product_sweet_degree', style: '' %><%else%>尚未提供<%end%>
+								</td>
+							</tr>			
+							<tr>
+								<th>保存方式</th>
+								<td colspan="3"><%= @product.preservation %></td>
+							</tr>		
+						</table>				
+					</div>
 				</div>								
 			</div>				
 			<div class="row" style="margin-bottom: 20px; margin-top: 30px;">		
