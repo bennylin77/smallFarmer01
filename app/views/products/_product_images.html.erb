@@ -33,7 +33,7 @@
 	</div>			
 </div>
 <%@product.product_images.offset(4).each do |i|%>
-	<%= link_to i.image.url, i.image.url, style: 'visibility: hidden'%>		
+	<%= link_to i.image.url, i.image.url, style: 'visibility: hidden; display: none;'%>		
 <%end%>	
 </div>
 <script>

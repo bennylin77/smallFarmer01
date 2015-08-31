@@ -112,14 +112,17 @@
 }
 .product_spec th{
   vertical-align: middle !important;  
-  min-width: 87px;
   height: 50px;
+  min-width: 72px;
   background: #d6cfcb;
-  padding-left: 15px !important; 
+  text-align: center;
 }
 .product_spec td{
   vertical-align: middle !important;  
   background: #e7e4e2;
+}
+.product_spec td img{
+  margin: 0px 2px;
 }
 .product_description{
   font-size: 14px;
