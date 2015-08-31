@@ -27,10 +27,14 @@
 		<div class="product_image_container">
 		<%=link_to @product.product_images.fourth.image.url, class: 'zoom' do %>			
 			<%=image_tag @product.product_images.fourth.image.url, class:'product_image_eq'%>		
+			<span class="overlay"><i class="glyphicon glyphicon-fullscreen"> 更多照片</i></span>
 		<%end%>	
 		</div>
 	</div>			
 </div>
+<%@product.product_images.offset(4).each do |i|%>
+	<%= link_to i.image.url, i.image.url, style: 'visibility: hidden'%>		
+<%end%>	
 </div>
 <script>
 
