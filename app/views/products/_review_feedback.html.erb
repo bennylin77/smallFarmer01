@@ -5,7 +5,6 @@
 	<div class="review_feedback_name"><%=o.invoice.user.email.gsub(/@.*$/, '')%></div> 
 	<div class="review_feedback_date">
 		<%=time_ago_in_words o.review_at%>之前
-		<span class="hidden-xs">的購物評價</span>
 	</div>
 	<div class="review_feedback_option <%= reviewBg o.review_score.to_i %> hidden-xs"></div>
 	<div class="review_feedback_option_text <%= reviewText o.review_score.to_i %>">

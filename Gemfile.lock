@@ -103,6 +103,7 @@ GEM
     jwt (1.2.1)
     launchy (2.4.3)
       addressable (~> 2.3)
+    magnific-popup-rails (0.9.9.1)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     mime-types (2.4.3)
@@ -234,6 +235,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   jquery-turbolinks
+  magnific-popup-rails
   momentjs-rails (>= 2.9.0)
   mysql2
   omniauth
