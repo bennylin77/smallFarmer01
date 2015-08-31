@@ -103,19 +103,25 @@
 			</div>						
 				<%elsif p.quantity%>
 			<div class="row" style="margin-top: 22px;">	
-				<div class="hidden-xs hidden-sm col-md-offset-1 col-md-10 product_promote">								
+				<div class="hidden-xs hidden-sm col-md-offset-1 col-md-10">								
+					<div class="product_promote">
 					<span style="color: #536132;"><%= p.quantity %>箱以上，每箱便宜<span style="font-size: 130%"><%= @original_price - p.price.to_i  %></span>元</span>
 					<span style="font-size: 80%;">＊企業團體購買，請聯絡客服人員</span>				
+					</div>
 				</div>			
 				<div class="hidden-md hidden-lg col-sm-offset-2 col-sm-8 product_promote text-center">								
+					<div class="product_promote">
 					<span style="color: #536132;"><%= p.quantity %>箱以上，每箱便宜<span style="font-size: 130%"><%= @original_price - p.price.to_i  %></span>元</span>
 					<span style="font-size: 80%;">＊企業團體購買，請聯絡客服人員</span>				
+					</div>
 				</div>						
 			</div>	
 				<%else%>	
 			<div class="row" style="margin-top: 22px;">				
-				<div class="col-sm-offset-2 col-sm-8  col-md-offset-1 col-md-10 product_promote text-center">								
+				<div class="col-sm-offset-2 col-sm-8  col-md-offset-1 col-md-10 text-center">								
+					<div class="product_promote">
 					<span style="font-size: 80%;">＊企業團體購買，請聯絡客服人員</span>				
+					</div>
 				</div>					
 			</div>	
 				<%end%>								
@@ -192,12 +198,12 @@
 	<div class="row" style="font-size: 16px;">
 		<div class="col-md-7 col-lg-offset-1 col-lg-6" style="margin-top: 40px; margin-bottom: 40px;">
 			<div class="row" style="margin-bottom: 50px;">		
-				<div class="col-lg-offset-1 col-lg-10">
+				<div class="col-sm-offset-1 col-sm-10">
 					<div class="section_title">關於<%= @product.name %></div>
 				</div>					
 			</div>
 			<div class="row" style="margin-bottom: 20px;">		
-				<div class="col-lg-offset-1 col-lg-10">
+				<div class="col-sm-offset-1 col-sm-10">
 					<div class="section_sub_title">基本規格</div>
 				</div>					
 			</div>	
@@ -242,7 +248,7 @@
 				</div>								
 			</div>				
 			<div class="row" style="margin-bottom: 20px; margin-top: 30px;">		
-				<div class="col-lg-offset-1 col-lg-10">
+				<div class="col-sm-offset-1 col-sm-10">
 					<div class="section_sub_title">商品介紹</div>
 				</div>					
 			</div>						
@@ -252,18 +258,18 @@
 				</div>								
 			</div>	
 			<div class="row">		
-				<div class="col-lg-offset-1 col-lg-10" style="margin-top: 40px;">
+				<div class="col-sm-offset-1 col-sm-10" style="margin-top: 40px;">
 					<div style="border-top: 1px solid #a8bb7f;"></div>
 				</div>					
 			</div>											
 			<%= render partial: "products/product_images" %>	
 			<div class="row">		
-				<div class="col-lg-offset-1 col-lg-10" style="margin-top: 40px;">
+				<div class="col-sm-offset-1 col-sm-10" style="margin-top: 40px;">
 					<div style="border-top: 1px solid #a8bb7f;"></div>
 				</div>					
 			</div>					
 			<div class="row" style="margin-top: 40px; margin-bottom: 40px;">		
-				<div class="col-lg-offset-1 col-lg-10">			
+				<div class="col-sm-offset-1 col-sm-10">			
 					<div class="section_title">留言</div>	
 				</div>					
 			</div>										
@@ -298,7 +304,9 @@
 				</div>					
 			</div>	
 			<div class="row">		
-				<div class="col-lg-offset-1 col-lg-10" style="margin-top: 50px; border-top: 1px solid #a8bb7f;"></div>					
+				<div class="col-lg-offset-1 col-lg-10" style="margin-top: 40px;">
+					<div style="border-top: 1px solid #a8bb7f;"></div>
+				</div>					
 			</div>				
 			<div class="row" style="margin-bottom: 40px; margin-top: 50px;">		
 				<div class="col-lg-offset-1 col-lg-10">
@@ -309,11 +317,13 @@
 		</div>		
 	</div>			
 	<div class="row">
-		<div class="col-md-6 col-lg-offset-1 col-lg-6" style="margin-bottom: 20px;">		
-						
+		<div class="col-md-12 col-lg-offset-1 col-lg-10">		
+			<div class="row" style="margin-bottom: 20px; margin-top: 40px;">					
+			<div class="col-lg-offset-1 col-lg-10"><div style="border-top: 1px solid #a8bb7f;"></div></div>
+			</div>						
 		</div>		
 	</div>	
-	<div class="row" style="margin-top: 40px; border-top: 1px solid #a8bb7f;">
+	<div class="row" style="margin-top: 40px;">
 		<div class="col-md-12 col-lg-offset-1 col-lg-10">
 			<div class="row" style="margin-bottom: 20px; margin-top: 40px">		
 				<div class="col-lg-offset-1 col-lg-10">
