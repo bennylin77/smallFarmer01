@@ -1,0 +1,40 @@
+<div class="row">		
+<div class="col-lg-offset-1 col-lg-10">
+<div id="carousel-example-generic" class="product_carousel carousel slide" data-ride="carousel" data-interval="4000" data-pause="hover" style="margin: 10px auto; ">
+	<ol class="product_carousel-indicators carousel-indicators">
+		<% @product.product_images.each_with_index do |p, i|%> 
+			<%if i==0%>
+				<li data-target="#carousel-example-generic" data-slide-to="<%=i%>" class="active"></li>
+			<%else%>
+			    <li data-target="#carousel-example-generic" data-slide-to="<%=i%>"></li>    
+			<%end%>
+		<%end%>  		 	     
+	</ol>
+	<div class="product_carousel-inner carousel-inner" role="listbox">
+				<% @product.product_images.each_with_index do |p, i|%>
+					<%if i==0%>
+					    <div class="product_item item active">
+					      <div class="product_carousel_img">	
+					      <%=image_tag p.image.url, class: '' %>
+					      </div>
+					    </div>
+				    <%else%>
+					    <div class="product_item item">
+					      <div class="product_carousel_img">	
+					      <%=image_tag p.image.url, class: '' %>
+					      </div>
+					    </div>	    
+				    <%end%>
+				<%end%>  	   
+	</div>
+	<a class="left product_carousel-control carousel-control hidden-xs" href="#carousel-example-generic" role="button" data-slide="prev">
+		<span class="glyphicon glyphicon-menu-left icon-prev" aria-hidden="true"></span>
+		<span class="sr-only">前一張</span>
+	</a>
+	<a class="right product_carousel-control carousel-control hidden-xs" href="#carousel-example-generic" role="button" data-slide="next">
+		<span class="glyphicon glyphicon-menu-right icon-next" aria-hidden="true"></span>
+		<span class="sr-only">下一張</span>
+	</a>
+</div>	
+</div>
+</div>
