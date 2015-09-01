@@ -5,7 +5,7 @@ class ManagementController < ApplicationController
   before_action :set_order, only: []
   before_action :set_company, only: [:activateCompany, :updateBankAccount, :updateBankCode]
   before_action :set_user, only: [:blockUser, :confirmPhoneNo]
-  before_action :set_product, only: [:setCertification, :setSweetDegree]
+  before_action :set_product, only: [:setProduct]
   
 #======================# invoice #======================# 
   def invoices 
@@ -183,64 +183,65 @@ class ManagementController < ApplicationController
     @products = Product.all.paginate(page: params[:page], per_page: 60).order('id DESC')             
   end
   
-  def setCertification    
-    params[:val] = params[:val] == 'true' ? true : false                      
+  def setProduct    
     case params[:kind]
     when 'GAP'
+      params[:val] = params[:val] == 'true' ? true : false  
+      @product.update_columns(GAP_c: params[:val])
       if params[:val]
-        @product.update_columns(GAP_c: params[:val])
         render json: {success: true, message: '商品編號 '+@product.id.to_s+' 吉園圃已認證'}    
       else
-        @product.update_columns(GAP_c: params[:val])
         render json: {success: true, message: '商品編號 '+@product.id.to_s+' 吉園圃已停用'}          
       end  
     when 'TAP'
+      params[:val] = params[:val] == 'true' ? true : false 
+      @product.update_columns(TAP_c: params[:val]) 
       if params[:val]
-        @product.update_columns(TAP_c: params[:val])
         render json: {success: true, message: '商品編號 '+@product.id.to_s+' TAP已認證'}    
       else
-        @product.update_columns(TAP_c: params[:val])
         render json: {success: true, message: '商品編號 '+@product.id.to_s+' TAP已停用'}          
       end 
     when 'OTAP'
+      params[:val] = params[:val] == 'true' ? true : false  
+      @product.update_columns(OTAP_c: params[:val])
       if params[:val]
-        @product.update_columns(OTAP_c: params[:val])
         render json: {success: true, message: '商品編號 '+@product.id.to_s+' OTAP已認證'}    
       else
-        @product.update_columns(OTAP_c: params[:val])
         render json: {success: true, message: '商品編號 '+@product.id.to_s+' OTAP已停用'}          
       end 
     when 'UTAP'
+      params[:val] = params[:val] == 'true' ? true : false 
+      @product.update_columns(UTAP_c: params[:val]) 
       if params[:val]
-        @product.update_columns(UTAP_c: params[:val])
         render json: {success: true, message: '商品編號 '+@product.id.to_s+' UTAP已認證'}    
       else
-        @product.update_columns(UTAP_c: params[:val])
         render json: {success: true, message: '商品編號 '+@product.id.to_s+' UTAP已停用'}          
       end   
     when 'pesticide_qualified'
+      params[:val] = params[:val] == 'true' ? true : false  
+      @product.update_columns(pesticide_qualified_c: params[:val])
       if params[:val]
-        @product.update_columns(pesticide_qualified_c: params[:val])
         render json: {success: true, message: '商品編號 '+@product.id.to_s+' 藥檢合格已認證'}    
       else
-        @product.update_columns(pesticide_qualified_c: params[:val])
         render json: {success: true, message: '商品編號 '+@product.id.to_s+' 藥檢合格已停用'}          
       end  
     when 'pesticide_zero'
+      params[:val] = params[:val] == 'true' ? true : false
+      @product.update_columns(pesticide_zero_c: params[:val])  
       if params[:val]
-        @product.update_columns(pesticide_zero_c: params[:val])
         render json: {success: true, message: '商品編號 '+@product.id.to_s+' 農藥零檢出已認證'}    
       else
-        @product.update_columns(pesticide_zero_c: params[:val])
         render json: {success: true, message: '商品編號 '+@product.id.to_s+' 農藥零檢出已停用'}          
-      end                              
+      end   
+    when 'sweet_degree'  
+      @product.update_columns(sweet_degree: params[:val])  
+      render json: {success: true, message: '水果編號 '+@product.id.to_s+' 甜度已變更為'+@product.sweet_degree.to_s}                       
+    when 'priority'  
+      @product.update_columns(priority: params[:val])  
+      render json: {success: true, message: '水果編號 '+@product.id.to_s+' 優先權已變更為'+@product.priority.to_s}      
     end   
-  end  
-        
-  def setSweetDegree
-    @product.update_columns(sweet_degree: params[:val])
-    render json: {success: true, message: '水果編號 '+@product.id.to_s+' 甜度已變更為'+@product.sweet_degree.to_s}     
-  end
+  end          
+
 
 #======================# user #======================#     
   def users

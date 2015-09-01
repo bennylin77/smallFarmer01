@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150826063958) do
+ActiveRecord::Schema.define(version: 20150901033128) do
 
   create_table "addresses", force: true do |t|
     t.integer  "user_id"
@@ -102,6 +102,7 @@ ActiveRecord::Schema.define(version: 20150826063958) do
     t.datetime "updated_at"
     t.boolean  "accept_the_terms_of_use_c",  default: false, null: false
     t.datetime "accept_the_terms_of_use_at"
+    t.integer  "priority",                   default: 0,     null: false
   end
 
   add_index "companies", ["user_id"], name: "index_companies_on_user_id", using: :btree
@@ -179,6 +180,7 @@ ActiveRecord::Schema.define(version: 20150826063958) do
     t.string   "receipt_country"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "coupon_code"
   end
 
   add_index "invoices", ["user_id"], name: "index_invoices_on_user_id", using: :btree
@@ -296,6 +298,7 @@ ActiveRecord::Schema.define(version: 20150826063958) do
     t.string   "short_URL"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "priority",              default: 0,     null: false
   end
 
   add_index "products", ["company_id"], name: "index_products_on_company_id", using: :btree
