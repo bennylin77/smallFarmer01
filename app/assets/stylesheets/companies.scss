@@ -308,24 +308,24 @@
 }
 /*================================ index =================================*/
 .farm_index_container{
-  margin-top: 45px;
+  margin-top: 49px;
 }
 .farm_index_container a{
   color: #433E3C;
-  font-size: 22px;  
+  font-size: 21px;  
 }
 .farm_index_container a:hover{
   text-decoration: none;
 }
 .farm_index_image_container{
-  width: 400px;
+  width: 375px;
   margin: 0 auto; 
   position: relative
 }
 .farm_index_avatar{
   position: absolute;
   right: -20px; 
-  top: 230px;
+  top: 220px;
   width: 87px;
   height: 87px;  
   z-index: 1;    
@@ -333,8 +333,8 @@
   background-color: #ffffff;
 }
 .farm_index_cover{
-  width: 400px;
-  height: 300px;    
+  width: 375px;
+  height: 281px;    
   z-index: -1;
 }
 .farm_index_delicious_container{
@@ -344,7 +344,7 @@
   margin-right: auto;
   left: 0;
   right: 0;
-  top: 254px;
+  top: 239px;
   width: 400px;
   z-index: 0;  
 }
@@ -378,7 +378,7 @@
     height: 258.5px;  
   }
   .farm_index_delicious_container{
-    top: 220px;
+    top: 224px;
     width: 345px;
   }
 }
@@ -400,7 +400,7 @@
     height: 198.7px;  
   }
   .farm_index_delicious_container{
-    top: 160px;
+    top: 162px;
     width: 265px;
   }
 }
