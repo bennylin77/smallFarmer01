@@ -286,7 +286,7 @@ private
   
   def managementCheckUser
     unless current_user.email == 'bennylin77@gmail.com' or
-           current_user.email == 'tony7066@gmail.com' or
+           current_user.email == 'tony7066@yahoo.com.tw' or
            current_user.email == 'b97a01134@ntu.edu.tw' or
            current_user.email == 'kais900202@hotmail.com' or
            current_user.email == '96206024@nccu.edu.tw'
