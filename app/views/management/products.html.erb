@@ -36,9 +36,9 @@
     <td><%= product.id %></td>  	
     <td>
 	    <%= link_to product do%>
-			<%if product.product_images.first %>
+			<%if product.cover.url %>
 				<div class="text-center">
-					<%= image_tag product.product_images.first.image.url, class: 'img-circle backend_fruits_img' %>			
+					<%= image_tag product.cover.url, class: 'img-circle backend_fruits_img' %>			
 			    </div>
 			<%end%> 	
 	    	<div class="text-center"><%= product.name%></div>           	
