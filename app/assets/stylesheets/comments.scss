@@ -2,8 +2,8 @@
   margin-top: 20px;  
 }
 .comment_post img{
-  height: 50px;
-  width: 50px;
+  height: 45px;
+  width: 45px;
 }
 
 .talkbubble_right {
@@ -97,6 +97,30 @@
   -moz-box-shadow: none;
   box-shadow: none;  
 }
+
+.comment_msg_post{
+  font-size: 15px;
+  background: #F4F4F2;
+  padding: 5px 10px;
+  color: #000000;  
+}
+.comment_msg_post textarea{
+  border-radius: inherit !important;  
+  position: inherit !important;
+  background: inherit !important; 
+  margin: 0 !important;
+  border: none !important;
+  resize: none !important;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;     
+}
+.comment_msg_post textarea:focus{
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;  
+}
+
 .comment_sub_row{
   margin-top: 20px;  
 }
@@ -119,10 +143,10 @@
 @media (max-width: 500px) {
   .comment_op{
     margin-left: 25px;
-  }
-  .talkbubble {
-    margin-left: 30px;
   }  
+  .comment_msg_post{
+    margin-left: 25px;    
+  }
 }
 @media (max-width: 320px) {
   .comment_row img{

@@ -180,7 +180,6 @@ ActiveRecord::Schema.define(version: 20150901033128) do
     t.string   "receipt_country"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "coupon_code"
   end
 
   add_index "invoices", ["user_id"], name: "index_invoices_on_user_id", using: :btree
