@@ -41,11 +41,16 @@ class CartsController < ApplicationController
           price = c.quantity*p.price+c.quantity*shippingRates(cold_chain: p.product_boxing.product.cold_chain, size: p.product_boxing.size)
           break  
         end  
-      end
+      end     
+      if c.product_boxing.product.released_at
+        if c.product_boxing.product.released_at > Time.now 
+          name ='【預購】'+ c.product_boxing.product.name
+        end
+      end           
       carts << 
       {
         id: c.product_boxing.product.id,  
-        name: c.product_boxing.product.name,
+        name: name,
         quantity: c.quantity, 
         price: price.to_i,
         cart_id: c.id,
