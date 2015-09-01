@@ -22,6 +22,11 @@
     height: 450px;
   }    
 }
+@media (max-width: 768px) {
+  .product_cover_parallax_parent {
+    height: 390px;
+  }    
+}
 .product_farm_words{
   border: 1px solid #a8bb7f;
   background: none; 
@@ -108,12 +113,12 @@
   background: #afb3ad !important;    
 }
 .product_spec {
-  font-size: 14px;
+  font-size: 15px;
 }
 .product_spec th{
   vertical-align: middle !important;  
   height: 50px;
-  min-width: 72px;
+  min-width: 76px;
   background: #d6cfcb;
   text-align: center;
 }
