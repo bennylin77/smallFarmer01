@@ -14,15 +14,13 @@
 				<% @product.product_images.each_with_index do |p, i|%>
 					<%if i==0%>
 					    <div class="product_item item active">
-					      <div class="product_carousel_img">	
-					      <%=image_tag p.image.url, class: '' %>
-					      </div>
+					    	<div class="product_carousel_img" style="background-image: url('<%=p.image.url%>')">	
+					      	</div>
 					    </div>
 				    <%else%>
 					    <div class="product_item item">
-					      <div class="product_carousel_img">	
-					      <%=image_tag p.image.url, class: '' %>
-					      </div>
+					    	<div class="product_carousel_img" style="background-image: url('<%=p.image.url%>')">	
+					      	</div>
 					    </div>	    
 				    <%end%>
 				<%end%>  	   
