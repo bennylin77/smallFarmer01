@@ -44,7 +44,7 @@ class CartsController < ApplicationController
       end     
       if c.product_boxing.product.released_at
         if c.product_boxing.product.released_at > Time.now 
-          name ='【預購】'+ c.product_boxing.product.name
+          name ='[預購]'+ c.product_boxing.product.name
         end
       end           
       carts << 

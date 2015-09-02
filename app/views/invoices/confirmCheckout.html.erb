@@ -19,7 +19,7 @@
 				<%= link_to product_path(product) do%>
 					<%if product.released_at%>
 						<%if product.released_at > Time.now %>
-						【預購】
+						[預購]
 						<%end%>
 					<%end%>
 					<%= product.name%>
