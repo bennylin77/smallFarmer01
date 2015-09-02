@@ -1,4 +1,4 @@
-<% companies.where(activated_c: true).each_slice(4) do |c|%> 
+<% companies.where(activated_c: true).order(priority: :desc).each_slice(4) do |c|%> 
 	<div class="row">
 		<% c.each_with_index do |cc, index|%>
 			<div class="col-sm-6 col-lg-3 farm_index_container text-center">					
