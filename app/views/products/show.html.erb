@@ -130,18 +130,16 @@
 				<% inventory = @product.inventory - Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', @product.product_boxings.first.id, false, Time.now ).sum(:quantity) %>		
 			<%end%>			
 			<%if @product.released_at%>
-			<div class="row" style="margin-top: 30px;">								
-				<div class="hidden-xs hidden-sm col-md-offset-1 col-md-10">						
-					<%if @product.released_at > Time.now %>
+				<%if @product.released_at > Time.now %>
+				<div class="row" style="margin-top: 30px;">								
+					<div class="hidden-xs hidden-sm col-md-offset-1 col-md-10">						
 						<div class='product_released_at pull-right'>預計<%= @product.released_at.strftime("%Y-%m-%d") %>起陸續出貨</div> 
-					<%end%>
-				</div>			
-				<div class="hidden-md hidden-lg col-xs-12 text-center">
-					<%if @product.released_at > Time.now %>
+					</div>			
+					<div class="hidden-md hidden-lg col-xs-12 text-center">
 						<div class='product_released_at'>預計<%= @product.released_at.strftime("%Y-%m-%d") %>起陸續出貨</div> 
-				    <%end%>
-				</div>				
-			</div>	
+					</div>				
+				</div>	
+				<%end%>
 			<%end%>				
 			<div class="row" style="margin-top: 30px;">								
 				<div class="hidden-xs hidden-sm col-sm-11">								  				      
