@@ -8,8 +8,8 @@
 						<span class="product_index_delicious_sum" data-count="<%= pp.product_boxings.first.orders.where('review_at IS NOT NULL and review_score = ? ', GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count + pp.product_boxings.first.orders.where('review_at IS NOT NULL and review_score = ? ', GLOBAL_VAR['ORDER_REVIEW_TASTY']).count %>">0</span>人說好吃
 					</div>					
 				</div>
+				<div class="product_index_company_name"><%= pp.company.name%></div>				
 				<div class="product_index_name"><%if pp.released_at > Time.now %>[預購]<%end%><%= pp.name%><%= "%g" % pp.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(pp.unit).first %></div>
-				<div class="product_index_company_name"><%= pp.company.name%></div>
 				<div class="product_index_fruits_icons">
 					<%if pp.GAP_c%><%=image_tag 'gap.png', class: '', style: 'height: 45px; width: 45px;'  %><%end%>		      
 					<%if pp.TAP_c%><%=image_tag 'tap.png', class: '', style: 'height: 40px; width: 40px;'  %><%end%>		      		      
