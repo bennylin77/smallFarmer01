@@ -1,0 +1,96 @@
+<%if @company.company_images.size!=0%>
+	<div class="company_image_container_gallery">
+	<%if @company.company_images.size>=5%>
+		<div class="row" style="margin-top: 40px; margin-bottom: 4px;">	
+			<div class="col-xs-6 company_image_container_right">
+				<div class="company_image_upper_container_outter">
+					<%=link_to @company.company_images.first.image.url, class: 'zoom' do %>
+					<div class="company_image_upper_container" style="background-image: url('<%=@company.company_images.first.image.url%>')">	
+					</div>
+					<%end%>
+				</div>
+			</div>
+			<div class="col-xs-6 company_image_container_left">
+				<div class="company_image_upper_container_outter">			
+					<%=link_to @company.company_images.second.image.url, class: 'zoom' do %>
+					<div class="company_image_upper_container" style="background-image: url('<%=@company.company_images.second.image.url%>')">	
+					</div>
+					<%end%>	
+				</div>				
+			</div>		
+		</div>
+		<div class="row" style="">			
+			<div class="col-xs-4 company_image_container_down_right">
+				<div class="company_image_container_outter">					
+					<%=link_to @company.company_images.third.image.url, class: 'zoom' do %>
+					<div class="company_image_container" style="background-image: url('<%=@company.company_images.third.image.url%>')">	
+					</div>
+					<%end%>	
+				</div>					
+			</div>
+			<div class="col-xs-4 company_image_container_down_center">
+				<div class="company_image_container_outter">								
+					<%=link_to @company.company_images.fourth.image.url, class: 'zoom' do %>
+					<div class="company_image_container" style="background-image: url('<%=@company.company_images.fourth.image.url%>')">	
+					</div>
+					<%end%>	
+				</div>					
+			</div>			
+			<div class="col-xs-4 company_image_container_down_left">
+				<div class="company_image_container_outter">								
+					<%=link_to @company.company_images.fifth.image.url, class: 'zoom' do %>
+					<div class="company_image_container" style="background-image: url('<%=@company.company_images.fifth.image.url%>')">	
+						<span class="overlay"><i class="glyphicon glyphicon-fullscreen"> 更多照片</i></span>		
+					</div>
+					<%end%>	
+				</div>					
+			</div>			
+		</div>
+		<%@company.company_images.offset(5).each do |i|%>
+			<%= link_to i.image.url, i.image.url, style: 'visibility: hidden; display: none;'%>		
+		<%end%>	
+	<%else%>
+		<div class="row" style="margin-top: 40px;">			
+			<div class="col-sm-12 col-sm-10 company_image_container_center_right">
+				<div class="company_image_container_outter">					
+					<%=link_to @company.company_images.first.image.url, class: 'zoom' do %>
+					<div class="company_image_container" style="background-image: url('<%=@company.company_images.first.image.url%>')">	
+					</div>
+					<%end%>	
+				</div>					
+			</div>		
+		</div>
+		<%@company.company_images.offset(1).each do |i|%>
+			<%= link_to i.image.url, i.image.url, style: 'visibility: hidden; display: none;'%>		
+		<%end%>	
+	<%end%>
+	</div>
+<%end%>	
+<script>
+
+$('.company_image_container_gallery').each(function() { // the containers for all your galleries
+    $(this).magnificPopup({
+        delegate: 'a', // the selector for gallery item
+        type: 'image',
+        gallery: {
+          enabled: true
+        },
+		mainClass: 'mfp-with-zoom', // this class is for CSS animation below
+	    /*zoom: {
+	    	enabled: true, // By default it's false, so don't forget to enable it
+	
+	    	duration: 300, // duration of the effect, in milliseconds
+	    	easing: 'ease-in-out', // CSS transition easing function 
+	
+	    // The "opener" function should return the element from which popup will be zoomed in
+	    // and to which popup will be scaled down
+	    // By defailt it looks for an image tag:
+	    	opener: function(openerElement) {
+	      // openerElement is the element on which popup was initialized, in this case its <a> tag
+	      // you don't need to add "opener" option if this code matches your needs, it's defailt one.
+	      	return openerElement.is('img') ? openerElement : openerElement.find('img');
+	    	}
+	  	}   */         
+    });
+});
+</script>
