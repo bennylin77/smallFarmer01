@@ -3,8 +3,7 @@
 		<% p.each_with_index do |pp, index|%>
 			<div class="col-sm-6 col-lg-3 product_index_container text-center">					
 			<%= link_to pp do%>
-				<div class="product_index_image_container">
-					<%= image_tag pp.cover.url, class: 'img-circle product_index_cover'%>			
+				<div class="product_index_image_container" style="background-image: url('<%=pp.cover.url%>')">		
 					<div class="product_index_delicious_container">
 						<span class="product_index_delicious_sum" data-count="<%= pp.product_boxings.first.orders.where('review_at IS NOT NULL and review_score = ? ', GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count + pp.product_boxings.first.orders.where('review_at IS NOT NULL and review_score = ? ', GLOBAL_VAR['ORDER_REVIEW_TASTY']).count %>">0</span>人說好吃
 					</div>					
@@ -18,7 +17,7 @@
 					<%if pp.UTAP_c%><%=image_tag 'utap.png', class: '', style: 'height: 45px; width: 45px;'  %><%end%>				    	
 					<%if pp.pesticide_qualified_c%><%=image_tag 'pesticide_qualified.png', class: '', style: 'height: 50px; width: 50px;'  %><%end%>	
 					<%if pp.pesticide_zero_c%><%=image_tag 'pesticide_zero.png', class: '', style: 'height: 50px; width: 50px;'  %><%end%>						
-					<%unless pp.sweet_degree.blank?%><%=image_tag 'sweet_degree/'+pp.sweet_degree.to_s+'.png', class: '', style: 'height: 38px; width: 54px;' %><%end%>				    
+					<%unless pp.sweet_degree.blank?%><%=image_tag 'sweet_degree/'+pp.sweet_degree.to_s+'.png', class: '', style: 'height: 35px; width: 55px;' %><%end%>				    
 			    </div>					 			
 			<%end%>		 				
 			</div>	
