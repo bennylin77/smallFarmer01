@@ -23,7 +23,8 @@
   		</div>
   	</th> 	
 	<th>營運狀態</th>		
-	<th></th>							 		    
+	<th style="min-width: 118px;">排序</th>	
+	<th></th>									 		    
   </tr>
   <% @companies.each do |c| %>
   <tr id='company_container_<%=c.id %>'>
@@ -58,7 +59,10 @@
     			</div>
     		</div>
     	</div>
-  	</td>  	
+  	</td> 
+  	<td>
+		<%= text_field_tag 'company_'+c.id.to_s, c.priority, class: "form-control priority", placeholder: "", 'data-id'=> c.id %>
+  	</td>    	 	
   	<td>
   		<%=link_to '瀏覽', c, class: 'btn-default btn'%>
   	</td>
@@ -88,8 +92,8 @@
 		    $('a[data-toggle="'+tog+'"][data-title="'+sel+'"]').removeClass('notActive').addClass('active');
 			$.ajax({
 				type : 'GET',
-				url : '/management/activateCompany',
-				data : { id: id, activate: sel },
+				url : '/management/setCompany',
+				data : { id: id, val: sel, kind: 'activate' },
 				datatype : 'json',
 				success : function(data) {
 					if (data.success) {
@@ -107,8 +111,8 @@ function updateBankCode(id)
 {
 	$.ajax({
 			type : 'GET',
-			url : '/management/updateBankCode',
-			data : { id: id, val: $('#bank_code_'+id.toString()).val() },
+			url : '/management/setCompany',
+			data : { id: id, val: $('#bank_code_'+id.toString()).val(), kind: 'bank_code' },
 			datatype : 'json',
 			success : function(data) {
 				if (data.success) {
@@ -124,8 +128,8 @@ function updateBankAccount(id)
 {
 	$.ajax({
 			type : 'GET',
-			url : '/management/updateBankAccount',
-			data : { id: id, val: $('#bank_account_'+id.toString()).val() },
+			url : '/management/setCompany',
+			data : { id: id, val: $('#bank_account_'+id.toString()).val(), kind: 'bank_account' },
 			datatype : 'json',
 			success : function(data) {
 				if (data.success) {
@@ -136,5 +140,21 @@ function updateBankAccount(id)
 			}
 			});		
 }	
-	
+
+$( ".priority" ).change(function() {
+	  var id = $(this).data('id')  	  
+	  $.ajax({
+				type : 'GET',
+				url : '/management/setCompany',
+				data : { id: id, val: $(this).val(), kind: 'priority' },
+				datatype : 'json',
+				success : function(data) {
+					if (data.success) {
+						toastr['success'](data.message)		
+					} else {
+						toastr['warning'](data.message)
+					}
+				}
+			});		    
+	});		
 </script>

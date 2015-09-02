@@ -3,7 +3,7 @@ class ManagementController < ApplicationController
   before_action :managementCheckUser
   
   before_action :set_order, only: []
-  before_action :set_company, only: [:activateCompany, :updateBankAccount, :updateBankCode]
+  before_action :set_company, only: [:setCompany, :updateBankAccount, :updateBankCode]
   before_action :set_user, only: [:blockUser, :confirmPhoneNo]
   before_action :set_product, only: [:setProduct]
   
@@ -129,8 +129,7 @@ class ManagementController < ApplicationController
         if delivered_all
           notify( order.invoice.user, { category: GLOBAL_VAR['NOTIFICATION_PROMOTION'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_REVIEW'], 
                                         invoice_id: order.invoice.id}) 
-          System.sendReviewNotification(order.invoice).deliver  
-          
+          System.sendReviewNotification(order.invoice).deliver           
           invoice = order.invoice
           discount = 0 
           invoice.invoice_coupon_lists.each do |i_c_l|
@@ -143,12 +142,11 @@ class ManagementController < ApplicationController
                    smbody: '您的小農訂單已送達，評價獲得'+((invoice.amount-discount)*0.04).round.to_s+'元回饋'+Rails.configuration.app_domain+'/notifications?category=3'                     
                    #smbody: '您的小農訂單已送達，評價獲得'+((invoice.amount-discount)*0.04).round.to_s+'元回饋'+'www.smallfarmer01.com/notifications?category=3'
                    }                                   
-          #result = RestClient.get( Rails.configuration.mitake_sm_send_get_url, params: data)                                                              
+          result = RestClient.get( Rails.configuration.mitake_sm_send_get_url, params: data)                                                              
         end
       end    
                
-    end
-   
+    end   
     render json: {success: true}
   end  
 
@@ -158,25 +156,28 @@ class ManagementController < ApplicationController
     @companies = Company.where('activated_c = ?', params[:activated_c]).all.paginate(page: params[:page], per_page: 60).order('id DESC')     
   end  
   
-  def activateCompany
-    params[:activate] = params[:activate] == 'true' ? true : false                  
-    if params[:activate]
-      @company.update_columns(activated_c: params[:activate], activated_at: Time.now)
-      render json: {success: true, message: '農場編號 '+@company.id.to_s+' 改為營運'}    
-    else
-      @company.update_columns(activated_c: params[:activate])
-      render json: {success: true, message: '農場編號 '+@company.id.to_s+' 改為非營運'}          
-    end    
-  end
-
-  def updateBankCode
-    @company.update_columns(bank_code: params[:val])
-    render json: {success: true, message: '已更改農場編號 '+@company.id.to_s+' 的銀行代碼'}               
+  def setCompany
+    case params[:kind]
+    when 'activate'
+      params[:val] = params[:val] == 'true' ? true : false       
+      if params[:val]
+        @company.update_columns(activated_c: params[:val], activated_at: Time.now)
+        render json: {success: true, message: '農場編號 '+@company.id.to_s+' 改為營運'}    
+      else
+        @company.update_columns(activated_c: params[:val])
+        render json: {success: true, message: '農場編號 '+@company.id.to_s+' 改為非營運'}          
+      end  
+    when 'bank_code'
+      @company.update_columns(bank_code: params[:val])
+      render json: {success: true, message: '已更改農場編號 '+@company.id.to_s+' 的銀行代碼'}      
+    when 'bank_account'   
+      @company.update_columns(bank_account: params[:val])    
+      render json: {success: true, message: '已更改農場編號 '+@company.id.to_s+' 的匯款帳號'}          
+    when 'priority'  
+      @company.update_columns(priority: params[:val])  
+      render json: {success: true, message: '農場編號 '+@company.id.to_s+' 排序已變更為'+@company.priority.to_s}      
+    end   
   end 
-  def updateBankAccount
-    @company.update_columns(bank_account: params[:val])    
-    render json: {success: true, message: '已更改農場編號 '+@company.id.to_s+' 的匯款帳號'}               
-  end  
 
 #======================# product #======================#   
   def products
@@ -235,10 +236,10 @@ class ManagementController < ApplicationController
       end   
     when 'sweet_degree'  
       @product.update_columns(sweet_degree: params[:val])  
-      render json: {success: true, message: '水果編號 '+@product.id.to_s+' 甜度已變更為'+@product.sweet_degree.to_s}                       
+      render json: {success: true, message: '商品編號 '+@product.id.to_s+' 甜度已變更為'+@product.sweet_degree.to_s}                       
     when 'priority'  
       @product.update_columns(priority: params[:val])  
-      render json: {success: true, message: '水果編號 '+@product.id.to_s+' 優先權已變更為'+@product.priority.to_s}      
+      render json: {success: true, message: '商品編號 '+@product.id.to_s+' 排序已變更為'+@product.priority.to_s}      
     end   
   end          
 

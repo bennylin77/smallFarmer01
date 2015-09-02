@@ -53,6 +53,7 @@ Rails.application.routes.draw do
   post   'management/exportOrders'
   post   'management/uploadTracking'      
   get    'management/companies'  
+  get    'management/setCompany'   
   get    'management/activateCompany'  
   get    'management/updateBankCode'
   get    'management/updateBankAccount'
