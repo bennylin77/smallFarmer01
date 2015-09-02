@@ -221,91 +221,116 @@
     font-size: 14px;  
   }    
 }
-/*======================================= Carousel =======================================*/
-.farm_carousel
-{ 
-  margin-bottom: 30px !important;  
-  width: 420px !important;  
-  border-radius: 20px !important;  
+/*======================================= company image =======================================*/
+.company_image_container_outter{
+  width: 100%;
+  height: 0;
+  padding-bottom: 65% ; /* % of width, defines aspect ratio*/
+  position: relative;
+  margin: 0 auto;
 }
-.farm_carousel-inner{
-  border-radius: 20px !important;    
+.company_image_container{
+  width: 100%;
+  height: 0;
+  padding-bottom: 75% ; /* % of width, defines aspect ratio*/
+  position: relative;
+  margin: 0 auto;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;  
 }
-.farm_item img
-{  
-  width: 420px !important; 
-  height: 280px !important;    
+
+
+.company_image_upper_container_outter{
+  width: 100%;
+  height: 0;
+  padding-bottom: 70% ; /* % of width, defines aspect ratio*/
+  position: relative;
+  margin: 0 auto;
 }
-.farm_carousel-indicators li {
-  border: none;
-  width: 10px;
-  height: 10px;  
-  background-color: rgba( 100, 100, 100, 0.6);
+.company_image_upper_container{
+  width: 100%;
+  height: 0;
+  padding-bottom: 70% ; /* % of width, defines aspect ratio*/
+  position: relative;
+  margin: 0 auto;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;  
 }
-.farm_carousel-indicators .active {
-  background-color: rgba( 255, 255, 255, 0.6);
-  width: 10px;
-  height: 10px;    
+.company_image_container_right{ padding-left: 0px; padding-right: 2px; }
+.company_image_container_left{ padding-right: 0px; padding-left: 2px; }
+.company_image_container_down_right{ padding-left: 0px; padding-right: 2.67px; }
+.company_image_container_down_center{ padding: 0px 1.33px;}
+.company_image_container_down_left{ padding-right: 0px; padding-left: 2.67px; }
+@media (max-width: 1700px) { 
 }
-.farm_carousel-control {
-  &.left, &.right {
-    background: none;
-    position:absolute; 
-    @include reset-filter();
-  }
-  &.left{
-    margin-left: -45px; color: black;
-  }  
-  &.right{
-    margin-right: -45px; color: black;
-  }     
+@media (max-width: 1560px) {  
 }
-@media (max-width: 1500px) {
-   .farm_carousel{
-     width: 330px !important; 
-   }
-  .farm_item img{  
-    width: 330px !important; 
-    height: 220px !important;    
-  }
+@media (max-width: 1360px) {    
 }
-@media (max-width: 1280px) {
-   .farm_carousel{
-     width: 300px !important; 
-   }
-  .farm_item img{  
-    width: 300px !important; 
-    height: 200px !important;    
-  }
+@media (max-width: 970px) {    
 }
-@media (max-width: 1100px) {
-   .farm_carousel{
-     width: 320px !important; 
-   }
-  .farm_item img{  
-    width: 320px !important; 
-    height: 200px !important;  
-  }
+@media (max-width: 768px) {   
 }
-@media (max-width: 992px) {
-  .farm_carousel{
-    width: 500px !important;   
-    margin-top: 50px !important;  
-  }  
-  .farm_item img {
-    width: 100% !important;      
-    height: 300px !important;
-  }  
+@media (max-width: 640px) {  
 }
-@media (max-width: 480px) {
-  .farm_carousel{
-    width: 100% !important;    
-  }     
-  .farm_item img {
-    width: 100%;     
-    height: 200px;
-  }  
+@media (max-width: 530px) {   
 }
+@media (max-width: 480px) {  
+}
+@media (max-width: 414px) {    
+}
+@media (max-width: 375px) {   
+}
+@media (max-width: 320px) {  
+}
+.mfp-with-zoom .mfp-container,
+.mfp-with-zoom.mfp-bg {
+  opacity: 0;
+  -webkit-backface-visibility: hidden;
+  /* ideally, transition speed should match zoom duration */
+  -webkit-transition: all 0.3s ease-out; 
+  -moz-transition: all 0.3s ease-out; 
+  -o-transition: all 0.3s ease-out; 
+  transition: all 0.3s ease-out;
+}
+
+.mfp-with-zoom.mfp-ready .mfp-container {
+    opacity: 1;
+}
+.mfp-with-zoom.mfp-ready.mfp-bg {
+    opacity: 0.8;
+}
+
+.mfp-with-zoom.mfp-removing .mfp-container, 
+.mfp-with-zoom.mfp-removing.mfp-bg {
+  opacity: 0;
+}
+.company_image_container span.overlay { position: absolute; top: 0; right: 0; height: 100%; width: 100%; background-color: #000;
+    transition: opacity .25s ease-out;
+    -moz-transition: opacity .25s ease-out;
+    -webkit-transition: opacity .25s ease-out;
+    -o-transition: opacity .25s ease-out;
+    display: block; visibility: visible; opacity: 0.55; -moz-opacity: 0.55; -webkit-opacity: 0.55; filter: alpha(opacity=65); -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=65)";    
+}     
+.company_image_container span.overlay i{ position: absolute; top: 40%; left: 0%; width: 100%; font-size: 1em; color: #fff !important; text-align: center;
+    opacity: 1;
+    -moz-opacity: 1;
+    -webkit-opacity: 1;
+    filter: alpha(opacity=1);    
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=1)";
+}
+
+.company_image_container_outter, .company_image_upper_container_outter { overflow: hidden; }
+.company_image_container, .company_image_upper_container{ 
+    transition: all 0.5s; 
+    -moz-transition: all 0.5s; 
+    -webkit-transition: all 0.5s; 
+    -o-transition: all 0.5s; 
+}
+.company_image_container:hover, .company_image_upper_container:hover { transform: scale(1.2); -ms-transform: scale(1.2); -webkit-transform: scale(1.2); -o-transform: scale(1.2); -moz-transform: scale(1.2); }
+
 /*================================ index =================================*/
 .farm_index_container{
   margin-top: 55px;

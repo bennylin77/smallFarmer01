@@ -15,56 +15,42 @@
 	</ol>		
 	<div class="row" style="margin-bottom: 20px">
 		<h2 class="visible-xs-block text-center"><%=@company.name %></h2>
-	</div>				
+	</div>	
 	<div class="row">
-		<div class="col-xs-12 col-md-offset-1 col-md-4 vbottom">		
+		<div class="col-lg-offset-1 col-lg-10">	
+			<div class="row">		
+				<div class="hidden-xs col-md-12 col-lg-offset-1 col-lg-10 product_farm_words">		
+					<%= image_tag @company.user.avatar.url, class: 'img-circle product_farm_words_avatar' %>		
+					<%= link_to @company do%>
+						<div class="product_farm_words_text">	
+							<%= truncate( @company.words, length: 120, omission: '... more') %>
+						</div>
+					<%end%>
+				</div>				
+				<div class="visible-xs-block col-xs-12 product_farm_words">		
+					<div class="row">
+						<div class="col-xs-12 text-center">					
+							<%= image_tag @company.user.avatar.url, class: 'img-circle product_farm_words_avatar', style: '' %>		
+						</div>
+						<%= link_to @company do%>				
+							<div class="col-xs-12 product_farm_words_text">	
+							<%= truncate( @company.description, length: 120, omission: '... more') %>
+							</div>
+						<%end%>				
+					</div>
+				</div>	
+			</div>
+		</div>							
+	</div>					
+	<div class="row" style="margin-top: 50px;">
+		<div class="col-xs-12 col-md-4 col-lg-offset-1 col-lg-4 vbottom">		
 			<div class="farm_triangle">
 				<div class="farm_triangle_text"><%=@company.name %></div>
 			</div>		
 			<%= simple_format(@company.description, {class: 'farm_description'}, wrapper_tag: "div")%>			
-		</div>
-		<div class="col-md-2 hidden-sm hidden-xs vbottom text-center">
-			<%= image_tag @company.user.avatar.url, class: 'img-circle farm_user_img' %>
-		</div>				
-		<div class="col-xs-12 col-md-4 vbottom">
-			<div id="carousel-example-generic" class="farm_carousel carousel slide" data-ride="carousel" data-interval="5000" data-pause="hover" style="margin: 10px auto; ">
-			  <ol class="farm_carousel-indicators carousel-indicators">
-				<%@company.company_images.each_with_index do |c, i|%> 
-					<%if i==0%>
-			    	<li data-target="#carousel-example-generic" data-slide-to="<%=i%>" class="active"></li>
-				    <%else%>
-			    	<li data-target="#carousel-example-generic" data-slide-to="<%=i%>"></li>    
-				    <%end%>
-				<%end%>  		 	     
-			  </ol>
-			  <div class="farm_carousel-inner carousel-inner" role="listbox">
-				<%@company.company_images.each_with_index do |c, i|%>
-					<%if i==0%>
-					    <div class="farm_item item active">
-					      <%=image_tag c.image.url, class: '' %>
-					    </div>
-				    <%else%>
-					    <div class="farm_item item">
-					      <%=image_tag c.image.url, class: '' %>
-					    </div>	    
-				    <%end%>
-				<%end%>  	   
-			  </div>
-			  <a class="left farm_carousel-control carousel-control hidden-xs" href="#carousel-example-generic" role="button" data-slide="prev">
-			    <span class="glyphicon glyphicon-menu-left icon-prev" aria-hidden="true"></span>
-			    <span class="sr-only">Previous</span>
-			  </a>
-			  <a class="right farm_carousel-control carousel-control hidden-xs" href="#carousel-example-generic" role="button" data-slide="next">
-			    <span class="glyphicon glyphicon-menu-right icon-next" aria-hidden="true"></span>
-			    <span class="sr-only">Next</span>
-			  </a>
-			</div>	
-			<div  class="farm_words" >
-			<span class="farm_words_quote">“</span>
-			<%= simple_format(@company.words, {class: 'farm_words_content'}, wrapper_tag: "span")%>				
-			<span class="farm_words_quote">”</span>
-			</div>
-			<div class="farm_words_name">-- <%=@company.user.last_name+' '+@company.user.first_name  %></div>
+		</div>			
+		<div class="col-xs-12 col-md-offset-2 col-md-5 col-lg-offset-1 vbottom">
+			<%=render 'company_images' %>
 		</div>
 	</div>
 	<div class="row" style="margin-top: 30px;">
