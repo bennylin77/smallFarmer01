@@ -131,7 +131,7 @@
 			<%end%>			
 			<%if @product.released_at%>
 				<%if @product.released_at > Time.now %>
-				<div class="row" style="margin-top: 30px;">								
+				<div class="row" style="margin-top: 20px;">								
 					<div class="hidden-xs hidden-sm col-md-offset-1 col-md-10">						
 						<div class='product_released_at pull-right'>預計<%= @product.released_at.strftime("%Y-%m-%d") %>起陸續出貨</div> 
 					</div>			
@@ -141,7 +141,7 @@
 				</div>	
 				<%end%>
 			<%end%>				
-			<div class="row" style="margin-top: 30px;">								
+			<div class="row" style="margin-top: 20px;">								
 				<div class="hidden-xs hidden-sm col-sm-11">								  				      
 					<%if inventory == 0%>
 						<button type="button" class="cart_unavailable btn btn-default pull-right" autocomplete="off" disabled="disabled">已搶購完</button>			
