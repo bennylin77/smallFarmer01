@@ -165,6 +165,9 @@ class ManagementController < ApplicationController
         render json: {success: true, message: '農場編號 '+@company.id.to_s+' 改為營運'}    
       else
         @company.update_columns(activated_c: params[:val])
+        @company.products.each do |p|
+          p.update_columns(available_c: false)
+        end
         render json: {success: true, message: '農場編號 '+@company.id.to_s+' 改為非營運'}          
       end  
     when 'bank_code'
