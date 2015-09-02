@@ -64,6 +64,7 @@
 }
 .product_name
 {  
+  font-weight: bold;
   font-size: 21px;  
 }
 .product_excellent_no
@@ -75,12 +76,8 @@
 {
   font-size: 20px;    
 }
-.product_sweet_degree{
-  height: 40px; 
-  width: 60px;  
-}
 .product_price{
-  font-size: 18px;    
+  font-size: 17px;    
 }
 .product_promote{
   font-size: 18px;   
@@ -128,6 +125,10 @@
 }
 .product_spec td img{
   margin: 0px 2px;
+}
+.product_sweet_degree{
+  height: 40px; 
+  width: 60px;  
 }
 .product_description{
   font-size: 16px;
@@ -574,30 +575,31 @@
 }
 .product_index_container a{
   color: #433E3C;
-  font-size: 17px;  
+  font-size: 18px;  
 }
 .product_index_container a:hover{
   text-decoration: none;
 }
 .product_index_image_container{
-  width: 275px;
-  margin: 0 auto; 
-  position: relative
-}
-.product_index_cover{
-  width: 275px;
-  height: 265px;    
-  z-index: -1;
+  width: 70%;
+  height: 0;
+  padding-bottom: 65% ; /* % of width, defines aspect ratio*/
+  position: relative;
+  margin: 0 auto;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;      
 }
 .product_index_delicious_container{
   background: rgba(255, 255, 255, 0.7);
   position: absolute;
   margin-left: auto;
   margin-right: auto;
+  width: 100%;
   left: 0;
   right: 0;
   bottom: 0px;
-  width: 275px;
   z-index: 0;  
   padding: 3px 0px;
 }
@@ -621,46 +623,28 @@
 }
 @media (max-width: 1385px) {
   .product_index_container a{
-    font-size: 15px;  
+    font-size: 16px;
   }
   .product_index_image_container{
-    width: 215px;
-  }
-  .product_index_cover{
-    width: 215px;
-    height: 205px;    
+    
   }
   .product_index_delicious_container{
-    width: 215px;
   }
 }
 @media (max-width: 1190px) {
   .product_index_container a{
-    font-size: 17px;  
+    font-size: 18px; 
   }
   .product_index_image_container{
-    width: 265px;
-  }
-  .product_index_cover{
-    width: 265px;
-    height: 255px;    
   }
   .product_index_delicious_container{
-    width: 265px;
   }  
 }
 @media (max-width: 426px) {
   .product_index_container a{
-    font-size: 15px;  
   }
   .product_index_image_container{
-    width: 215px;
-  }
-  .product_index_cover{
-    width: 215px;
-    height: 205px;    
   }
   .product_index_delicious_container{
-    width: 215px;
   }
 }
