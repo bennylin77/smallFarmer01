@@ -1,35 +1,39 @@
 <div class="product_image_container_gallery">
 <div class="row" style="margin-top: 40px; margin-bottom: 6px;">	
 	<div class="col-xs-6 col-sm-offset-1 col-sm-5 product_image_container_right">
-		<div class="product_image_container">
-		<%=link_to @product.product_images.first.image.url, class: 'zoom' do %>
-			<%= image_tag @product.product_images.first.image.url, class:'product_image_eq'%>
-		<%end%>
+		<div class="product_image_container_outter">
+			<%=link_to @product.product_images.first.image.url, class: 'zoom' do %>
+			<div class="product_image_container" style="background-image: url('<%=@product.product_images.first.image.url%>')">	
+			</div>
+			<%end%>
 		</div>
 	</div>
 	<div class="col-xs-6 col-sm-5 product_image_container_left">
-		<div class="product_image_container">
-		<%=link_to @product.product_images.second.image.url, class: 'zoom' do %>		
-			<%=image_tag @product.product_images.second.image.url, class:'product_image_eq'%>		
-		<%end%>	
-		</div>
+		<div class="product_image_container_outter">			
+			<%=link_to @product.product_images.second.image.url, class: 'zoom' do %>
+			<div class="product_image_container" style="background-image: url('<%=@product.product_images.second.image.url%>')">	
+			</div>
+			<%end%>	
+		</div>				
 	</div>		
 </div>
 <div class="row" style="">			
 	<div class="col-xs-6 col-sm-offset-1 col-sm-5 product_image_container_right">
-		<div class="product_image_container">
-		<%=link_to @product.product_images.third.image.url, class: 'zoom' do %>	
-			<%=image_tag @product.product_images.third.image.url, class:'product_image_eq'%>		
-		<%end%>
-		</div>
+		<div class="product_image_container_outter">					
+			<%=link_to @product.product_images.third.image.url, class: 'zoom' do %>
+			<div class="product_image_container" style="background-image: url('<%=@product.product_images.third.image.url%>')">	
+			</div>
+			<%end%>	
+		</div>					
 	</div>	
 	<div class="col-xs-6 col-sm-5 product_image_container_left">
-		<div class="product_image_container">
-		<%=link_to @product.product_images.fourth.image.url, class: 'zoom' do %>			
-			<%=image_tag @product.product_images.fourth.image.url, class:'product_image_eq'%>		
-			<span class="overlay"><i class="glyphicon glyphicon-fullscreen"> 更多照片</i></span>
-		<%end%>	
-		</div>
+		<div class="product_image_container_outter">								
+			<%=link_to @product.product_images.fourth.image.url, class: 'zoom' do %>
+			<div class="product_image_container" style="background-image: url('<%=@product.product_images.fourth.image.url%>')">	
+				<span class="overlay"><i class="glyphicon glyphicon-fullscreen"> 更多照片</i></span>		
+			</div>
+			<%end%>	
+		</div>					
 	</div>			
 </div>
 <%@product.product_images.offset(4).each do |i|%>
