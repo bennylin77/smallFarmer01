@@ -24,7 +24,7 @@ class Company < ActiveRecord::Base
 
   validate  :companyImageMoreThan, on: :update 
   def companyImageMoreThan
-    if company_images.count < 5
+    if company_images.count < 4
       errors.add(:inventory, "請至少上傳4張農場照片")  
     end      
   end
