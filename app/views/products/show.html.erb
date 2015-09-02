@@ -25,33 +25,33 @@
 	  	</a>
 	  </li>
 	  <li class="active"><%= @product.name %></li>		  
-	</ol>	
+	</ol>			
 	<div class="row">
-		<div class="row">		
-			<div class="col-lg-offset-1 col-lg-10">
+		<div class="col-lg-offset-1 col-lg-10">	
+			<div class="row">		
 				<div class="hidden-xs col-md-12 col-lg-offset-1 col-lg-10 product_farm_words">		
-						<%= image_tag @product.company.user.avatar.url, class: 'img-circle product_farm_words_avatar' %>		
-						<%= link_to @product.company do%>
+					<%= image_tag @product.company.user.avatar.url, class: 'img-circle product_farm_words_avatar' %>		
+					<%= link_to @product.company do%>
 						<div class="product_farm_words_text">	
-						<%= truncate( @product.company.description, length: 122, omission: '... more') %>
+							<%= truncate( @product.company.description, length: 122, omission: '... more') %>
 						</div>
-						<%end%>
+					<%end%>
 				</div>				
 				<div class="visible-xs-block col-xs-12 product_farm_words">		
 					<div class="row">
 						<div class="col-xs-12 text-center">					
-						<%= image_tag @product.company.user.avatar.url, class: 'img-circle product_farm_words_avatar', style: '' %>		
+							<%= image_tag @product.company.user.avatar.url, class: 'img-circle product_farm_words_avatar', style: '' %>		
 						</div>
 						<%= link_to @product.company do%>				
-						<div class="col-xs-12 product_farm_words_text">	
-						<%= truncate( @product.company.description, length: 122, omission: '... more') %>
-						</div>
+							<div class="col-xs-12 product_farm_words_text">	
+							<%= truncate( @product.company.description, length: 122, omission: '... more') %>
+							</div>
 						<%end%>				
 					</div>
 				</div>	
 			</div>
 		</div>							
-	</div>	
+	</div>		
 	<div class="row product_carousel_add_to_cart_container">
 		<div class="col-md-7 col-lg-offset-1 col-lg-6">		
 			<%= render partial: "products/product_carousel" %>								
@@ -180,7 +180,7 @@
 				</div>					
 			</div>		
 		</div>
-	</div>		
+	</div>	
 	<div class="row" style="font-size: 16px;">
 		<div class="col-md-7 col-lg-offset-1 col-lg-6" style="margin-top: 40px; margin-bottom: 40px;">
 			<div class="row" style="margin-bottom: 50px;">		
