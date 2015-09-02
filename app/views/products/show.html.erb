@@ -126,35 +126,23 @@
 			</div>	
 				<%end%>								
 			<%end%>	
+			<%if @product.inventory%>
+				<% inventory = @product.inventory - Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', @product.product_boxings.first.id, false, Time.now ).sum(:quantity) %>		
+			<%end%>			
+			<%if @product.released_at%>
 			<div class="row" style="margin-top: 30px;">								
 				<div class="hidden-xs hidden-sm col-md-offset-1 col-md-10">						
-					<%if @product.inventory%>
-					<% inventory = @product.inventory - Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', @product.product_boxings.first.id, false, Time.now ).sum(:quantity) %>		
+					<%if @product.released_at > Time.now %>
+						<div class='product_released_at pull-right'>預計<%= @product.released_at.strftime("%Y-%m-%d") %>起陸續出貨</div> 
 					<%end%>
-					<%if @product.released_at%>
-						<%if @product.released_at > Time.now %>
-							<div class='product_released_at pull-right'>預計<%= @product.released_at.strftime("%Y-%m-%d") %>起陸續出貨</div> 
-					    <%end%>
-					<%end%>					
-					<!--					
-					unless inventory == 0 %>	
-					image_tag 'delivery_est_'+deliveryEstimationColor(product: @product)+'.png', class: 'pull-right',style: 'height: 50px;'%>
-					end%>
-					-->
 				</div>			
 				<div class="hidden-md hidden-lg col-xs-12 text-center">
-					<%if @product.released_at%>
-						<%if @product.released_at > Time.now %>
-							<div class='product_released_at'>預計<%= @product.released_at.strftime("%Y-%m-%d") %>起陸續出貨</div> 
-					    <%end%>
-					<%end%>						
-					<!--
-					unless inventory == 0 %>		
-					image_tag 'delivery_est_'+deliveryEstimationColor(product: @product)+'.png', class: '',style: 'height: 50px;'%>
-					end%>
-					-->
+					<%if @product.released_at > Time.now %>
+						<div class='product_released_at'>預計<%= @product.released_at.strftime("%Y-%m-%d") %>起陸續出貨</div> 
+				    <%end%>
 				</div>				
-			</div>				
+			</div>	
+			<%end%>				
 			<div class="row" style="margin-top: 30px;">								
 				<div class="hidden-xs hidden-sm col-sm-11">								  				      
 					<%if inventory == 0%>
