@@ -1,9 +1,9 @@
 <% content_for :show_fb do %>
     <meta property="og:url" content="<%=Rails.configuration.smallfarmer01_host%>/products/<%=@product.id%>" />
     <meta property="og:type" content="website" />  	
-  	<meta property="og:title" content="<%if @product.released_at%><%if @product.released_at > Time.now %><%end%>【預購】<%end%><%= @product.name %>" />
+  	<meta property="og:title" content="<%if @product.released_at%><%if @product.released_at > Time.now %><%end%>[預購]<%end%><%= @product.name %><%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%> pp.product_boxings.first.product_pricings.first.price.to_i + shippingRates(cold_chain: pp.cold_chain, size: pp.product_boxings.first.size) %>元(含運)" />
   	<meta property="og:description" content="<%= @product.description%>" />
-	<meta property="og:image" content="<%if @product.cover%><%= @product.cover.url(:medium)%><%end%>" />
+	<meta property="og:image" content="<%if @product.cover%><%= @product.cover.url()%><%end%>" />
 <% end %>
 <div class="container-fluid" style="margin-bottom: 50px;">
 	<div class="row" style="">
@@ -33,7 +33,7 @@
 					<%= image_tag @product.company.user.avatar.url, class: 'img-circle product_farm_words_avatar' %>		
 					<%= link_to @product.company do%>
 						<div class="product_farm_words_text">	
-							<%= truncate( @product.company.description, length: 122, omission: '... more') %>
+							<%= truncate( @product.company.words, length: 120, omission: '... more') %>
 						</div>
 					<%end%>
 				</div>				
