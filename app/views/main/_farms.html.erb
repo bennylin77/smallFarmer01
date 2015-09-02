@@ -3,13 +3,12 @@
 		<% c.each_with_index do |cc, index|%>
 			<div class="col-sm-6 col-lg-3 farm_index_container text-center">					
 			<%= link_to cc do%>
-				<div class="farm_index_image_container">
+				<div class="farm_index_image_container" style="background-image: url('<%=cc.cover.url%>')">
 				<%=image_tag cc.user.avatar.url, class: 'img-circle farm_index_avatar'%>					
-				<%=image_tag cc.cover.url(:medium), class: 'farm_index_cover'%>
-				</div>
 				<div class="farm_index_delicious_container">
 					<span class="farm_index_delicious_sum"><%= farmSumOfDeliciousAndTasty(cc)%></span>人說好吃
-				</div> 			    
+				</div> 						
+				</div>	    
 				<div class="farm_index_location"><%= cc.county %><%= cc.district %></div>
 				<div class="farm_index_name"><%= cc.name %></div>		
 			<%end%>		 				
