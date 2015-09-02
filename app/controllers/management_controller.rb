@@ -184,7 +184,7 @@ class ManagementController < ApplicationController
 
 #======================# product #======================#   
   def products
-    @products = Product.all.paginate(page: params[:page], per_page: 60).order('id DESC')             
+    @products = Product.all.paginate(page: params[:page], per_page: 60).order(priority: :desc)             
   end
   
   def setProduct    
