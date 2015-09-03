@@ -115,10 +115,10 @@ $(document).ready(function($) {
                 })
                 .addTo(controller);		
 
-	new ScrollMagic.Scene({triggerElement: ".farm_fruits_reviews"})
+	new ScrollMagic.Scene({triggerElement: ".product_index_delicious_sum"})
 		.addTo(controller)
 		.on('start', function(e){
-			$('.farm_fruits_excellent').each(function () {
+			$('.product_index_delicious_sum').each(function () {
 			  var $this = $(this);
 			  jQuery({ Counter: 0 }).animate({ Counter: $this.attr("data-count") }, {
 			    duration: 1000,

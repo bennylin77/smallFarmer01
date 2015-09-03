@@ -188,10 +188,13 @@
 var orders =  []
 var income_to_layer = 1;
 <%@invoice.orders.each do |o|%>    	    
-	orders.push({ farmer_get: <%= ((o.price.to_i + o.shipping_rates.to_i)-(o.price.to_i + o.shipping_rates.to_i)*(0.098)-o.shipping_rates.to_i).round %>,
+	orders.push({ farmer_get: <%= o.price.to_i-
+								  ((o.price.to_i + o.shipping_rates.to_i)*GLOBAL_VAR['COUPON_FEE']).round-
+								  ((o.price.to_i + o.shipping_rates.to_i)*GLOBAL_VAR['CASH_FLOW_FEE']).round-
+								  ((o.price.to_i + o.shipping_rates.to_i)*GLOBAL_VAR['ADMINISTRATION_FEE']).round%>,
 				  shipping_rates: <%= o.shipping_rates.to_i %>,
-				  cash_flow: <%= ((o.price.to_i + o.shipping_rates.to_i)*0.028).round %>,
-				  administration: <%= ((o.price.to_i + o.shipping_rates.to_i)*0.03).round %>		          
+				  cash_flow: <%= ((o.price.to_i + o.shipping_rates.to_i)*GLOBAL_VAR['CASH_FLOW_FEE']).round %>,
+				  administration: <%= ((o.price.to_i + o.shipping_rates.to_i)*GLOBAL_VAR['ADMINISTRATION_FEE']).round %>		          
 		       })
 <%end%>
 countTotalPrice()

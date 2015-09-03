@@ -77,19 +77,37 @@
 			<div class="row product_price" style="margin-top: 20px;">
 			<%@product.product_boxings.first.product_pricings.each do |p| %>
 				<%if p.quantity == 1%>	
-					<div class="hidden-xs hidden-sm col-md-6 text-left">							
+					<div class="hidden-xs hidden-sm col-md-4 text-left">							
 					    每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%>
 					</div>					   			
-					<div class="hidden-xs hidden-sm col-md-3 text-right">							
-						<%if p.price %><%= priceWithShipments(p) %><%end%>				
+					<div class="hidden-xs hidden-sm col-md-5 text-right">							
+						<%if p.price %>
+							<%if @product.discount!=1%>
+							<s><%= p.price.to_i + shippingRates(cold_chain: p.product_boxing.product.cold_chain, size: p.product_boxing.size) %></s> <span style="font-size:128%; color: #b12704"><%= priceWithShipments(p) %></span>
+							<%else%>
+							<%= priceWithShipments(p) %>
+							<%end%>
+						<%end%>				
 					</div>	
-					<div class="hidden-xs hidden-sm col-md-3">元<b>(含運)</b></div>														
+					<div class="hidden-xs hidden-sm col-md-3">
+						<%if @product.discount!=1%>
+							<span style="font-size:110%; color: #b12704">元(含運)</span>
+						<%else%>
+							元<b>(含運)</b>
+						<%end%>						
+					</div>														
 					<div class="col-xs-12 hidden-md hidden-lg text-center">
 					<%if p.price %>
-					<% @original_pricing = p%>
-					每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%>				
-					<%= priceWithShipments(p) %>								
-					元<b>(含運)</b>				
+						<% @original_pricing = p%>	
+						<%if @product.discount!=1%>
+							每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%>
+							<s><%= p.price.to_i + shippingRates(cold_chain: p.product_boxing.product.cold_chain, size: p.product_boxing.size) %></s> <span style="font-size:128%; color: #b12704"><%= priceWithShipments(p) %></span>
+							<span style="font-size:110%; color: #b12704">元(含運)</span>		
+						<%else%>
+							每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%>				
+							<%= priceWithShipments(p) %>								
+							元<b>(含運)</b>
+						<%end%>										
 					<%end%>
 					</div>											
 			</div>
