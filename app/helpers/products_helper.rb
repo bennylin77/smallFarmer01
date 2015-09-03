@@ -1,5 +1,9 @@
 module ProductsHelper
   
+  def priceWithShipments(pricing)
+    ((pricing.price.to_i + shippingRates(cold_chain: pricing.product_boxing.product.cold_chain, size: pricing.product_boxing.size))*pricing.product_boxing.product.discount).ceil  
+  end
+  
   def tempOptions
     [['常溫', GLOBAL_VAR['SHIPMENT_TEMP_NORMAL']], 
      ['冷藏', GLOBAL_VAR['SHIPMENT_TEMP_REFRIGERATION']],

@@ -28,10 +28,10 @@
 			<div class="col-sm-2 col-xs-12 check_out_product_list_text vmiddle">
 				<% product.product_boxings.first.product_pricings.each do |pp| %>
 					<%if pp.quantity == 1%>	
-						每箱<%= "%g" % product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %> <%= pp.price.to_i + shippingRates(cold_chain: product.cold_chain, size: pp.product_boxing.size)%>元
+						每箱<%= "%g" % product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %> <%= priceWithShipments(pp)%>元
 					<%elsif pp.quantity%>
 						<br>
-						<%= pp.quantity %>箱以上 每箱<%= pp.price.to_i + shippingRates(cold_chain: product.cold_chain, size: pp.product_boxing.size)%>元		
+						<%= pp.quantity %>箱以上 每箱<%= priceWithShipments(pp) %>元		
 					<%end%>
 				<%end%>  					
 			</div>			
@@ -192,23 +192,25 @@ var total_price = 0
 <%current_user.carts.each do |c| %>
 	var pricing_<%=c.id %> =  []
 	var shipping_rates_<%=c.id %> = <%= shippingRates(cold_chain: c.product_boxing.product.cold_chain, size: c.product_boxing.size)%>		
+	var discount_<%=c.id %> = <%= c.product_boxing.product.discount %>	
 	<%c.product_boxing.product_pricings.order('quantity desc').each do |p| %>
 		<% unless p.quantity.blank? %>		
 			pricing_<%=c.id %>.push({ price: <%= p.price.to_i %>, quantity: <%= p.quantity %>  })
 		<% end %>
 	<%end%>
 	$('.total_price_<%=c.id %>').data( "price", 0 );		
-	updatePrice(<%= c.quantity %>, pricing_<%=c.id %>, <%=c.id %>, shipping_rates_<%=c.id %>)		
+	updatePrice(<%= c.quantity %>, pricing_<%=c.id %>, <%=c.id %>, shipping_rates_<%=c.id %>, discount_<%=c.id %>)		
 <%end%>
-function updatePrice(quantity, pricing, id, shipping_rates){
+function updatePrice(quantity, pricing, id, shipping_rates, discount){
 	$.each(pricing, function( index, value ) {
 		if(quantity >= value.quantity)	
 		{
-			$('.total_price_'+id).html(quantity*(value.price+shipping_rates));
-			total_price =  total_price - $('.total_price_'+id ).data( "price") + quantity*(value.price+shipping_rates)
+			item_price = quantity*Math.ceil((value.price+shipping_rates)*discount)			
+			$('.total_price_'+id).html(item_price);
+			total_price =  total_price + item_price
 			$('.total_price').html(total_price)
 			$('.sum').html(total_price-<%= @coupon_using %>)
-			$('.total_price_'+id ).data( "price", quantity*(value.price+shipping_rates) );
+			$('.total_price_'+id ).data( "price", item_price );
 			return false;
 		}	
 	});	

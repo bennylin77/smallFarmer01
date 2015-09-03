@@ -6,7 +6,8 @@
 	<th>商品</th>
 	<th style="min-width: 120px;">狀態</th>  
 	<th style="min-width: 220px;">價錢</th>	
-	<th style="min-width: 100px;">甜度</th>			
+	<th style="min-width: 100px;">甜度</th>		
+	<th style="min-width: 100px;">折扣</th>			
 	<th style="min-width: 118px;">
 		<%=image_tag 'gap.png', class: '', style: 'height: 55px; width: 55px;'  %>		      
 		吉園圃
@@ -83,7 +84,9 @@
     </td> 
   	<td>
 		<%= select_tag "sweet_degree", options_for_select((10..20).step(1), product.sweet_degree), prompt: '請選擇', class: 'form-control sweet_degree', 'data-id'=> product.id %>  		
-  	</td>	    
+  	</td>	
+  	<td>
+		<%= select_tag "discount", options_for_select(discountPercentageOptions, product.discount), class: "form-control discount", 'data-id'=> product.id  %></td>	  	    
   	<td>
     	<div class="form-group">
     		<div class="col-sm-12">
@@ -220,6 +223,22 @@
 				}
 			});		    
 	});	
+	$( ".discount" ).change(function() {
+	  var id = $(this).data('id')  	  
+	  $.ajax({
+				type : 'GET',
+				url : '/management/setProduct',
+				data : { id: id, val: $(this).val(), kind: 'discount' },
+				datatype : 'json',
+				success : function(data) {
+					if (data.success) {
+						toastr['success'](data.message)		
+					} else {
+						toastr['warning'](data.message)
+					}
+				}
+			});		    
+	});		
 	$( ".priority" ).change(function() {
 	  var id = $(this).data('id')  	  
 	  $.ajax({

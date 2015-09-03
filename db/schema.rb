@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150901033128) do
+ActiveRecord::Schema.define(version: 20150903102023) do
 
   create_table "addresses", force: true do |t|
     t.integer  "user_id"
@@ -279,25 +279,26 @@ ActiveRecord::Schema.define(version: 20150901033128) do
     t.integer  "daily_capacity"
     t.datetime "released_at"
     t.integer  "unit"
-    t.boolean  "deleted_c",             default: false, null: false
+    t.boolean  "deleted_c",                        default: false, null: false
     t.datetime "deleted_at"
-    t.boolean  "available_c",           default: false, null: false
+    t.boolean  "available_c",                      default: false, null: false
     t.datetime "available_at"
     t.integer  "cold_chain"
     t.integer  "size"
     t.integer  "company_id"
     t.text     "preservation"
     t.integer  "sweet_degree"
-    t.boolean  "GAP_c",                 default: false, null: false
-    t.boolean  "TAP_c",                 default: false, null: false
-    t.boolean  "OTAP_c",                default: false, null: false
-    t.boolean  "UTAP_c",                default: false, null: false
-    t.boolean  "pesticide_zero_c",      default: false, null: false
-    t.boolean  "pesticide_qualified_c", default: false, null: false
+    t.boolean  "GAP_c",                            default: false, null: false
+    t.boolean  "TAP_c",                            default: false, null: false
+    t.boolean  "OTAP_c",                           default: false, null: false
+    t.boolean  "UTAP_c",                           default: false, null: false
+    t.boolean  "pesticide_zero_c",                 default: false, null: false
+    t.boolean  "pesticide_qualified_c",            default: false, null: false
     t.string   "short_URL"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "priority",              default: 0,     null: false
+    t.integer  "priority",                         default: 0,     null: false
+    t.float    "discount",              limit: 24, default: 1.0,   null: false
   end
 
   add_index "products", ["company_id"], name: "index_products_on_company_id", using: :btree
