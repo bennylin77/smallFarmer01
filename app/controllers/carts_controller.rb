@@ -1,17 +1,28 @@
 class CartsController < ApplicationController
-  
+  before_filter :authenticate_user!
   before_action only: [:destroy, :updateCart] { |c| c.CartCheckUser(params[:id])}              
   before_action :set_cart, only: [:destroy, :updateCart]
 
   def addCart
+    product = ProductBoxing.find(params[:id]).product
     cart = current_user.carts.where(product_boxing_id: params[:id]).first        
     unless cart.blank?
-      if cart.quantity + params[:quantity].to_i > 50
-        render json: {alert_class: 'warning', message: '購買數量超過50箱'}          
+      if cart.quantity + params[:quantity].to_i > 50      
+        if request.xhr?
+          render json: {alert_class: 'warning', message: '購買數量超過50箱'}             
+        else
+          flash[:warning] = '購買數量超過50箱'
+          redirect_to product       
+        end         
       else
         cart.quantity = cart.quantity + params[:quantity].to_i   
         cart.save!  
-        render json: {alert_class: 'success', message: '成功更新購物車'}                    
+        if request.xhr?
+          render json: {alert_class: 'success', message: '成功新增到購物車'}             
+        else
+          flash[:notice] = '成功新增到購物車'
+          redirect_to product       
+        end         
       end  
     else
       cart = Cart.new  
@@ -19,8 +30,13 @@ class CartsController < ApplicationController
       cart.user = current_user
       cart.quantity = params[:quantity]    
       cart.save!  
-      render json: {alert_class: 'success', message: '成功更新購物車'}                
-    end                       
+      if request.xhr?
+        render json: {alert_class: 'success', message: '成功新增到購物車'}             
+      else
+        flash[:notice] = '成功新增到購物車'
+        redirect_to product       
+      end        
+    end                         
   end
   
   def updateCart
