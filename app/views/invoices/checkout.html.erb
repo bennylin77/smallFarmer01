@@ -296,7 +296,7 @@ $('#coupons_using').change(function(){
 function updateQuantity(quantity, pricing, id, shipping_rates){	
 	var request = $.ajax({
 		url: "/carts/updateCart",
-		type: "POST",
+		type: "GET",
 		data: { id: id, quantity: quantity},
 		dataType: "json"
 	});

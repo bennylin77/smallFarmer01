@@ -27,8 +27,8 @@ Rails.application.routes.draw do
   
   get    'bills/index'
 
-  post   'carts/addCart'
-  post   'carts/updateCart'  
+  get    'carts/addCart'
+  get    'carts/updateCart'  
   get    'carts/showCarts'  
   
   get    'notifications/showNotifications'
