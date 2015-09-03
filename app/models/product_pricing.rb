@@ -17,7 +17,7 @@ class ProductPricing < ActiveRecord::Base
       if quantity > 1
         if !one.price.blank? and !price.blank?
           if one.price <= price
-            errors.add(:price, "促銷價錢需低於一般價錢")       
+            errors.add(:price, "'每箱'促銷價錢須低於一般價錢")       
           end
         end
       end
