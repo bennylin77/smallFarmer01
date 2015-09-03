@@ -77,19 +77,37 @@
 			<div class="row product_price" style="margin-top: 20px;">
 			<%@product.product_boxings.first.product_pricings.each do |p| %>
 				<%if p.quantity == 1%>	
-					<div class="hidden-xs hidden-sm col-md-6 text-left">							
+					<div class="hidden-xs hidden-sm col-md-4 text-left">							
 					    每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%>
 					</div>					   			
-					<div class="hidden-xs hidden-sm col-md-3 text-right">							
-						<%if p.price %><%= p.price.to_i + shippingRates(cold_chain: @product.cold_chain, size: p.product_boxing.size) %><%end%>				
+					<div class="hidden-xs hidden-sm col-md-5 text-right">							
+						<%if p.price %>
+							<%if @product.discount!=1%>
+							<s><%= p.price.to_i + shippingRates(cold_chain: p.product_boxing.product.cold_chain, size: p.product_boxing.size) %></s> <span style="font-size:128%; color: #b12704"><%= priceWithShipments(p) %></span>
+							<%else%>
+							<%= priceWithShipments(p) %>
+							<%end%>
+						<%end%>				
 					</div>	
-					<div class="hidden-xs hidden-sm col-md-3">元<b>(含運)</b></div>														
+					<div class="hidden-xs hidden-sm col-md-3">
+						<%if @product.discount!=1%>
+							<span style="font-size:110%; color: #b12704">元(含運)</span>
+						<%else%>
+							元<b>(含運)</b>
+						<%end%>						
+					</div>														
 					<div class="col-xs-12 hidden-md hidden-lg text-center">
 					<%if p.price %>
-					<% @original_price = p.price.to_i%>
-					每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%>				
-					<%= p.price.to_i + shippingRates(cold_chain: @product.cold_chain, size: p.product_boxing.size) %>								
-					元<b>(含運)</b>				
+						<% @original_pricing = p%>	
+						<%if @product.discount!=1%>
+							每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%>
+							<s><%= p.price.to_i + shippingRates(cold_chain: p.product_boxing.product.cold_chain, size: p.product_boxing.size) %></s> <span style="font-size:128%; color: #b12704"><%= priceWithShipments(p) %></span>
+							<span style="font-size:110%; color: #b12704">元(含運)</span>		
+						<%else%>
+							每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%>				
+							<%= priceWithShipments(p) %>								
+							元<b>(含運)</b>
+						<%end%>										
 					<%end%>
 					</div>											
 			</div>
@@ -105,13 +123,13 @@
 			<div class="row" style="margin-top: 22px;">	
 				<div class="hidden-xs hidden-sm col-md-11">								
 					<div class="product_promote">
-					<span style="color: #536132;"><%= p.quantity %>箱以上，每箱便宜<span style="font-size: 130%"><%= @original_price - p.price.to_i  %></span>元</span>
+					<span style="color: #536132;"><%= p.quantity %>箱以上，每箱便宜<span style="font-size: 130%"><%= priceWithShipments(@original_pricing) - priceWithShipments(p)  %></span>元</span>
 					<span style="font-size: 80%;">＊企業團體購買，請聯絡客服人員</span>				
 					</div>
 				</div>			
 				<div class="hidden-md hidden-lg col-sm-offset-2 col-sm-8 text-center">								
 					<div class="product_promote">
-					<span style="color: #536132;"><%= p.quantity %>箱以上，每箱便宜<span style="font-size: 130%"><%= @original_price - p.price.to_i  %></span>元</span>
+					<span style="color: #536132;"><%= p.quantity %>箱以上，每箱便宜<span style="font-size: 130%"><%= priceWithShipments(@original_pricing) - priceWithShipments(p)  %></span>元</span>
 					<span style="font-size: 80%;">＊企業團體購買，請聯絡客服人員</span>				
 					</div>
 				</div>						
@@ -429,6 +447,7 @@ $("#add_to_cart_form").submit( function(eventObj) {
 var pricing =  []
 var cash_flow_layer = 600;
 var shipping_rates = <%= shippingRates(cold_chain: @product.cold_chain, size: @product.product_boxings.first.size)%>;
+var discount = <%= @product.discount %>
 <%@product.product_boxings.first.product_pricings.order('quantity desc').each do |p| %>
 	<% unless p.quantity.blank? %>
 		pricing.push({ price: <%= p.price.to_i %>, quantity: <%= p.quantity %>  })
@@ -439,12 +458,12 @@ function countTotalPrice(q){
 	$.each(pricing, function( index, value ) {
 		if(q >= value.quantity)	
 		{		
-			total_price = q*value.price+q*shipping_rates
+			total_price = q*Math.ceil((value.price+shipping_rates)*discount)
 			total_shipping_rates = q*shipping_rates
-			total_cash_flow = Math.round((q*value.price+q*shipping_rates)*<%=GLOBAL_VAR['CASH_FLOW_FEE']%> )
-			total_coupon = Math.round((q*value.price+q*shipping_rates)*<%=GLOBAL_VAR['COUPON_FEE']%> )
-			total_administration = Math.round((q*value.price+q*shipping_rates)*<%=GLOBAL_VAR['ADMINISTRATION_FEE']%>  )
-			total_farmer_get = q*value.price - total_administration - total_coupon - total_cash_flow 
+			total_cash_flow = Math.round(total_price*<%=GLOBAL_VAR['CASH_FLOW_FEE']%> )
+			total_coupon = Math.round(total_price*<%=GLOBAL_VAR['COUPON_FEE']%> )
+			total_administration = Math.round(total_price*<%=GLOBAL_VAR['ADMINISTRATION_FEE']%>  )
+			total_farmer_get = total_price - total_shipping_rates - total_administration - total_coupon - total_cash_flow 
 			
 			$('.total_price').html( total_price ); $('.total_quantity').html(q); 
 			$('.total_farmer_get').html( total_farmer_get );	

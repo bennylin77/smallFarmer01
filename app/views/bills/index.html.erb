@@ -96,6 +96,6 @@
 
 <script>
 $( "#bill_select" ).change(function() {
-  alert( "Handler for .change() called." );
+  window.location.href = '<%= Rails.configuration.smallfarmer01_host+'/bills/index?id='%>'+$(this).val()
 });	
 </script>
