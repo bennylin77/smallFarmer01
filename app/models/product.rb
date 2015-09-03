@@ -20,7 +20,7 @@ class Product < ActiveRecord::Base
   validates :inventory, presence: { presence: true, message: '請填寫 本批數量' }, on: :update 
   validates :released_at, presence: { presence: true, message: '請填寫 出貨日期' }, on: :update 
   validates :cold_chain, presence: { presence: true, message: '請填寫 運送方式' }, on: :update   
-  validates :name, length: { maximum: 10, message: '名稱 最多10個字' }, on: :update                              
+  validates :name, length: { maximum: 12, message: '名稱 最多12個字' }, on: :update                              
     
   validates_associated :product_boxings, message: '填寫格式錯誤或不能為空'  
   
