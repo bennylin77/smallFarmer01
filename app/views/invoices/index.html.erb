@@ -15,8 +15,14 @@
   </tr>
   <%@invoices.each do |i| %>
   <tr>
- 	<td class="text-center" style="min-width: 90px;">	 
-	    <%if !i.paid_c%>
+ 	<td class="text-center" style="min-width: 90px;">	
+ 		<% available = true %>
+ 		<%i.orders.each do |o| %>
+ 			<%if !o.product_boxing.product.available_c or o.product_boxing.product.deleted_c%> 
+ 				<% available = false %>	
+ 			<%end%>
+ 		<%end%>	 
+	    <%if !i.paid_c and available%>
 			<%if i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>    	
 	    		<div class="btn_container"><%=link_to '線上付款', {controller: 'invoices', action: 'allpayCredit', id: i.id } ,class: 'btn btn-default edit_button' %></div>  
 			<%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM']%>    	
@@ -32,8 +38,10 @@
 					<b class="text-danger" style="font-size: 120%">尚未付款</b>
 				<%end%>
 			<%end%>	
-		<%else%>
+		<%elsif i.paid_c%>
 			<b style="font-size: 120%">已付款</b>	
+		<%else%>	
+			<b style="font-size: 120%"></b>			
 	    <%end%>	   	
     </td>  	
     <td><%= i.id %></td>  	
