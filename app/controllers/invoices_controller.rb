@@ -311,7 +311,17 @@ class InvoicesController < ApplicationController
     render :nothing    
   end
 
-  def allpayCredit   
+  def allpayCredit     
+    @invoice.orders.each do |o|        
+      unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', o.product_boxing.id, false, Time.now ).sum(:quantity)     
+      if o.product_boxing.product.inventory - unpaid - o.quantity < 0
+        flash[:warning] = o.product_boxing.product.name + '庫存剩'+(o.product_boxing.product.inventory - unpaid).to_s+'箱'
+        redirect_to root_url
+      elsif !o.product_boxing.product.available_c or o.product_boxing.product.deleted_c
+        flash[:warning] = o.product_boxing.product.name + '已下架'                  
+        redirect_to root_url
+      end 
+    end          
     if @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT'] 
       discount = 0 
       @invoice.invoice_coupon_lists.each do |i_c_l|
@@ -351,6 +361,16 @@ class InvoicesController < ApplicationController
   end
   
   def allpayATM
+    @invoice.orders.each do |o|        
+      unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', o.product_boxing.id, false, Time.now ).sum(:quantity)     
+      if o.product_boxing.product.inventory - unpaid - o.quantity < 0
+        flash[:warning] = o.product_boxing.product.name + '庫存剩'+(o.product_boxing.product.inventory - unpaid).to_s+'箱'
+        redirect_to root_url
+      elsif !o.product_boxing.product.available_c or o.product_boxing.product.deleted_c
+        flash[:warning] = o.product_boxing.product.name + '已下架'                  
+        redirect_to root_url
+      end 
+    end    
     if @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM']    
       discount = 0 
       @invoice.invoice_coupon_lists.each do |i_c_l|
@@ -391,6 +411,16 @@ class InvoicesController < ApplicationController
   end
 
   def allpayCVS
+    @invoice.orders.each do |o|        
+      unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', o.product_boxing.id, false, Time.now ).sum(:quantity)     
+      if o.product_boxing.product.inventory - unpaid - o.quantity < 0
+        flash[:warning] = o.product_boxing.product.name + '庫存剩'+(o.product_boxing.product.inventory - unpaid).to_s+'箱'
+        redirect_to root_url
+      elsif !o.product_boxing.product.available_c or o.product_boxing.product.deleted_c
+        flash[:warning] = o.product_boxing.product.name + '已下架'                  
+        redirect_to root_url
+      end 
+    end    
     if @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']      
       discount = 0 
       @invoice.invoice_coupon_lists.each do |i_c_l|

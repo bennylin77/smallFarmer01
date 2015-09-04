@@ -18,6 +18,7 @@ class Product < ActiveRecord::Base
   validates :description, presence: { presence: true, message: '請填寫 介紹' }, on: :update 
   validates :unit, presence: { presence: true, message: '請填寫 單位' }, on: :update   
   validates :inventory, presence: { presence: true, message: '請填寫 本批數量' }, on: :update 
+  validates :inventory, numericality: { less_than_or_equal_to: 999999, message: '請填寫 本批數量格式錯誤' }, on: :update
   validates :released_at, presence: { presence: true, message: '請填寫 出貨日期' }, on: :update 
   validates :cold_chain, presence: { presence: true, message: '請填寫 運送方式' }, on: :update   
   validates :name, length: { maximum: 12, message: '名稱 最多12個字' }, on: :update                              
@@ -37,10 +38,10 @@ class Product < ActiveRecord::Base
   def inventoryMoreThanUnpaid
     if inventory 
       if inventory <  Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', self.product_boxings.first.id, false, Time.now ).sum(:quantity)
-        errors.add(:inventory, "總庫存量不能低於尚未付款量")
+        errors.add(:inventory, "本批數量不能低於尚未付款量")
       end  
     else
-      errors.add(:inventory, "請填寫 總庫存量")  
+      errors.add(:inventory, "請填寫 本批數量")  
     end   
   end
   

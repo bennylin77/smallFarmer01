@@ -74,9 +74,9 @@
 				<div class="fb-share-button" data-href="<%=Rails.configuration.smallfarmer01_host%>/products/<%=@product.id%>" data-layout="button_count"></div>		      
 		      </div>
 		    </div>			    			    
-			<div class="row product_price" style="margin-top: 20px;">
 			<%@product.product_boxings.first.product_pricings.each do |p| %>
 				<%if p.quantity == 1%>	
+				<div class="row product_price" style="margin-top: 20px;">
 					<div class="hidden-xs hidden-sm col-md-4 text-left">							
 					    每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%>
 					</div>					   			
@@ -110,40 +110,41 @@
 						<%end%>										
 					<%end%>
 					</div>											
-			</div>
-			<div class="row product_price" style="margin-top: 10px;">
-				<div class="hidden-xs hidden-sm col-md-6 text-left">數量</div>					
-				<div class="hidden-md hidden-lg col-xs-3 text-right">數量</div>									
-				<div class="col-xs-6 col-md-offset-0 col-md-3">	
-					<%= select_tag  :quantity, options_for_select( (1..50).step(1).to_a), class: "form-control" %>				
-				</div>	  
-				<div class="col-xs-3 col-md-2">箱</div>	
-			</div>						
-				<%elsif p.quantity%>
-			<div class="row" style="margin-top: 22px;">	
-				<div class="hidden-xs hidden-sm col-md-11">								
-					<div class="product_promote">
-					<span style="color: #536132;"><%= p.quantity %>箱以上，每箱便宜<span style="font-size: 130%"><%= priceWithShipments(@original_pricing) - priceWithShipments(p)  %></span>元</span>
-					<span style="font-size: 80%;">＊企業團體購買，請聯絡客服人員</span>				
-					</div>
-				</div>			
-				<div class="hidden-md hidden-lg col-sm-offset-2 col-sm-8 text-center">								
-					<div class="product_promote">
-					<span style="color: #536132;"><%= p.quantity %>箱以上，每箱便宜<span style="font-size: 130%"><%= priceWithShipments(@original_pricing) - priceWithShipments(p)  %></span>元</span>
-					<span style="font-size: 80%;">＊企業團體購買，請聯絡客服人員</span>				
-					</div>
+				</div>
+				<div class="row product_price" style="margin-top: 10px;">
+					<div class="hidden-xs hidden-sm col-md-6 text-left">數量</div>					
+					<div class="hidden-md hidden-lg col-xs-3 text-right">數量</div>									
+					<div class="col-xs-6 col-md-offset-0 col-md-3">	
+						<%= select_tag  :quantity, options_for_select( (1..50).step(1).to_a), class: "form-control" %>				
+					</div>	  
+					<div class="col-xs-3 col-md-2">箱</div>	
 				</div>						
-			</div>	
+				<%elsif p.quantity%>
+				<div class="row" style="margin-top: 22px;">	
+					<div class="hidden-xs hidden-sm col-md-11">								
+						<div class="product_promote">
+						<span style="color: #536132;"><%= p.quantity %>箱以上，每箱便宜<span style="font-size: 130%"><%= priceWithShipments(@original_pricing) - priceWithShipments(p)  %></span>元</span>
+						<span style="font-size: 80%;">＊企業團體購買，請聯絡客服人員</span>				
+						</div>
+					</div>			
+					<div class="hidden-md hidden-lg col-sm-offset-2 col-sm-8 text-center">								
+						<div class="product_promote">
+						<span style="color: #536132;"><%= p.quantity %>箱以上，每箱便宜<span style="font-size: 130%"><%= priceWithShipments(@original_pricing) - priceWithShipments(p)  %></span>元</span>
+						<span style="font-size: 80%;">＊企業團體購買，請聯絡客服人員</span>				
+						</div>
+					</div>						
+				</div>	
 				<%else%>	
-			<div class="row" style="margin-top: 22px;">				
-				<div class="col-sm-offset-2 col-sm-8 col-md-offset-0 col-md-11 text-center">								
-					<div class="product_promote">
-					<span style="font-size: 80%;">＊企業團體購買，請聯絡客服人員</span>				
-					</div>
-				</div>					
-			</div>	
+				<div class="row" style="margin-top: 22px;">				
+					<div class="col-sm-offset-2 col-sm-8 col-md-offset-0 col-md-11 text-center">								
+						<div class="product_promote">
+						<span style="font-size: 80%;">＊企業團體購買，請聯絡客服人員</span>				
+						</div>
+					</div>					
+				</div>	
 				<%end%>								
 			<%end%>	
+			<% inventory = 0 %>
 			<%if @product.inventory%>
 				<% inventory = @product.inventory - Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', @product.product_boxings.first.id, false, Time.now ).sum(:quantity) %>		
 			<%end%>			
@@ -166,9 +167,9 @@
 					<%else%>
 						<%if user_signed_in?%>
 							<%=image_tag 'cart_icon.png', class: 'cart_icon_product_992', style: 'height: 35px; position: absolute; right: 62.5px; top: 5px; z-index: -1' %>			  													  																													
-							<button type="button" id="add_to_cart" class="add_to_cart btn btn-success pull-right" autocomplete="off">加入購物車</button>			
+							<button type="button" class="add_to_cart add_to_cart_action btn btn-success pull-right" autocomplete="off">加入購物車</button>			
 						<%else%>
-							<%= form_tag  '/carts/addCart', method: 'get', id: 'add_to_cart_form' do %>				  	
+							<%= form_tag  '/carts/addCart', method: 'get', class: 'add_to_cart_form' do %>				  	
 							  	<%= submit_tag '加入購物車',  class: "add_to_cart btn btn-success pull-right" %>
 							<% end %>							
 						<%end%>
@@ -193,13 +194,17 @@
 					</div>
 				</div>	
 				<div class="hidden-md hidden-lg col-xs-6">			  																	
-					<%if @product.inventory%>
-						<%if @product.inventory - Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', @product.product_boxings.first.id, false, Time.now ).sum(:quantity) == 0%>
-							<button type="button" class="cart_unavailable btn btn-default" autocomplete="off" disabled="disabled">已搶購完</button>			
-						<%else%>
+					<%if inventory == 0%>
+						<button type="button" class="cart_unavailable btn btn-default" autocomplete="off" disabled="disabled">已搶購完</button>			
+					<%else%>
+						<%if user_signed_in?%>
 							<%=image_tag 'cart_icon.png', class: 'cart_icon_product', style: 'height: 35px; position: absolute; left: 10%; top: 5px; z-index: -1' %>			  													  																												
-							<button type="button" class="add_to_cart btn btn-success" autocomplete="off">加入購物車</button>			
-						<%end%>	
+							<button type="button" class="add_to_cart add_to_cart_action btn btn-success" autocomplete="off">加入購物車</button>			
+						<%else%>
+							<%= form_tag  '/carts/addCart', method: 'get', class: 'add_to_cart_form' do %>				  	
+							  	<%= submit_tag '加入購物車',  class: "add_to_cart btn btn-success" %>
+							<% end %>							
+						<%end%>					
 					<%end%>	
 				</div>					
 			</div>		
@@ -375,7 +380,7 @@ new ScrollMagic.Scene({triggerElement: ".product_excellent"})
 			});					
 		});	
 // add cart
-$('#add_to_cart').click(function() {
+$('.add_to_cart_action').click(function() {
 	//var $btn = $(this).button('加入中...')	
 	var request = $.ajax({
 		url: "/carts/addCart",
@@ -432,15 +437,15 @@ $('#add_to_cart').click(function() {
 	});	
 
 });
-$("#add_to_cart_form").submit( function(eventObj) {
+$(".add_to_cart_form").submit( function(eventObj) {
       $('<input />').attr('type', 'hidden')
           .attr('name', "id")
           .attr('value', <%=@product.product_boxings.first.id%> )
-          .appendTo('#add_to_cart_form');
+          .appendTo('.add_to_cart_form');
       $('<input />').attr('type', 'hidden')
           .attr('name', "quantity")
           .attr('value', $('#quantity').val() )
-          .appendTo('#add_to_cart_form');          
+          .appendTo('.add_to_cart_form');          
       return true;
 });
 //total price
