@@ -260,30 +260,34 @@ class InvoicesController < ApplicationController
     if macValueOk? # we still need to check domain   
       if params[:RtnCode] == '1' # trade success or not
         invoice = Invoice.where(allpay_merchant_trade_no: params[:MerchantTradeNo]).first
-        discount = 0 
-        invoice.invoice_coupon_lists.each do |i_c_l|
-            discount = discount + i_c_l.amount
-        end           
-        if params[:TradeAmt].to_i == (invoice.amount - discount).to_i # amount right or not           
-          invoice.paid_at = params[:PaymentDate]
-          invoice.payment_charge_fee = params[:PaymentTypeChargeFee]      
-          invoice.allpay_trade_no = params[:TradeNo] 
-          invoice.paid_c = true
-          invoice.confirmed_c = true          
-          invoice.save!
-          invoice.orders.each do |o| 
-            o.product_boxing.product.inventory = o.product_boxing.product.inventory - o.quantity
-            o.product_boxing.product.save!              
-            System.sendNewOrder(o).deliver   
-            notify( o.product_boxing.product.company.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], 
-                                                             sub_category: GLOBAL_VAR['NOTIFICATION_SUB_NEW_ORDER'], 
-                                                             order_id: o.id})                          
-          end  
-          System.sendPurchaseCompleted(invoice).deliver   
-          notify( invoice.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], 
-                                  sub_category: GLOBAL_VAR['NOTIFICATION_SUB_PURCHASE_COMPLETED'], 
-                                  invoice_id: invoice.id})                                   
-        end        
+        if !invoice.paid_c      
+          discount = 0 
+          invoice.invoice_coupon_lists.each do |i_c_l|
+              discount = discount + i_c_l.amount
+          end           
+          if params[:TradeAmt].to_i == (invoice.amount - discount).to_i # amount right or not           
+            invoice.paid_at = params[:PaymentDate]
+            invoice.payment_charge_fee = params[:PaymentTypeChargeFee]      
+            invoice.allpay_trade_no = params[:TradeNo] 
+            invoice.paid_c = true
+            invoice.confirmed_c = true          
+            invoice.save!
+            invoice.orders.each do |o| 
+              o.product_boxing.product.inventory = o.product_boxing.product.inventory - o.quantity
+              o.product_boxing.product.save!              
+              System.sendNewOrder(o).deliver   
+              notify( o.product_boxing.product.company.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], 
+                                                               sub_category: GLOBAL_VAR['NOTIFICATION_SUB_NEW_ORDER'], 
+                                                               order_id: o.id})                          
+            end  
+            System.sendPurchaseCompleted(invoice).deliver   
+            notify( invoice.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], 
+                                    sub_category: GLOBAL_VAR['NOTIFICATION_SUB_PURCHASE_COMPLETED'], 
+                                    invoice_id: invoice.id})                                   
+          end 
+        end    
+      else 
+        #unsuccess handler          
       end
       render text: "1|OK"      
     else  
