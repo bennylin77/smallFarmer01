@@ -160,7 +160,7 @@ class ManagementController < ApplicationController
   def bills
     time_now = Time.zone.now
     if params[:begin_at]
-      @begin_at = params[:begin_at].to_time 
+      @begin_at = params[:begin_at].in_time_zone
     else  
       if time_now.day <= 15   
         @begin_at = Date.civil(time_now.year, time_now.month, 1).midnight    
