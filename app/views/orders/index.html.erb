@@ -27,7 +27,7 @@
   <tr>
     <td class="text-center">
     	<%if !o.called_smallfarmer_c%>
-    		<%= link_to '通知物流', {controller: 'orders', action: 'confirm', id: o}, data: { confirm: '出貨編號:'+o.id.to_s+' 您確定要通知物流? '+expressComingDate( checked_time: Time.now, words: true )+'物流會來取貨' }, class: 'btn btn-success add_button'%>
+    		<%= link_to '通知物流', {controller: 'orders', action: 'confirm', id: o}, data: { confirm: '出貨編號:'+o.id.to_s+' 您確定要通知物流? '+expressComingDate( checked_time: Time.zone.now, words: true )+'物流會來取貨' }, class: 'btn btn-success add_button'%>
     	<%end%>
     	<%if o.called_smallfarmer_c%>
     		物流取貨時間: <%=expressComingDate checked_time: o.called_smallfarmer_at, words: false %>     	

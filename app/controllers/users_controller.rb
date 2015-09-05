@@ -38,7 +38,7 @@ class UsersController < ApplicationController
     if request.patch? && params[:token] 
       if params[:token] == current_user.phone_no_confirmation_token
         current_user.phone_no = current_user.phone_no_for_confirmation
-        current_user.phone_no_confirmed_at = Time.now
+        current_user.phone_no_confirmed_at = Time.zone.now
         current_user.save!
         # important !!!!!!!!!!!!!!!!
         if current_user.coupons.where(kind: GLOBAL_VAR['COUPON_SIGN_UP']).first.blank?       

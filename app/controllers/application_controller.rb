@@ -118,7 +118,7 @@ class ApplicationController < ActionController::Base
   def notficationRead(hash)
     notification = Notification.where(hash).first
     notification.read_c = true
-    notification.read_at = Time.now
+    notification.read_at = Time.zone.now
     notification.save!
   end
  

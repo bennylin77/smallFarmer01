@@ -49,7 +49,7 @@ class ProductsController < ApplicationController
   
   def destroy
     @product.update_attribute(:deleted_c, true)   
-    @product.update_attribute(:deleted_at, Time.now)     
+    @product.update_attribute(:deleted_at, Time.zone.now)     
     flash[:notice] ='成功刪除商品編號'+@product.id.to_s        
     redirect_to products_url
   end
@@ -112,7 +112,7 @@ class ProductsController < ApplicationController
       @company = current_user.companies.first
       @company.valid?(false) 
       unless @company.errors.any?
-        @product.update(available_c: true, available_at: Time.now)
+        @product.update(available_c: true, available_at: Time.zone.now)
         unless @product.errors.any?
           flash[:success] ='成功上架商品'        
           redirect_to products_url

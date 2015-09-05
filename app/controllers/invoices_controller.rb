@@ -16,7 +16,7 @@ class InvoicesController < ApplicationController
   def create  
     #inventory AND available AND payment method
     current_user.carts.each do |c|        
-      unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', c.product_boxing.id, false, Time.now ).sum(:quantity)     
+      unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', c.product_boxing.id, false, Time.zone.now ).sum(:quantity)     
       if c.product_boxing.product.inventory - unpaid - c.quantity < 0
         flash[:warning] = c.product_boxing.product.name + '庫存剩'+(c.product_boxing.product.inventory - unpaid).to_s+'箱'
       elsif !c.product_boxing.product.available_c or c.product_boxing.product.deleted_c
@@ -94,7 +94,7 @@ class InvoicesController < ApplicationController
         invoice.payment_method = params[:payment_method]  
       end       
       # END 
-      invoice.allpay_expired_at = Time.now + 1.day                              
+      invoice.allpay_expired_at = Time.zone.now + 1.day                              
       current_user.carts.destroy_all   
       invoice.save!  
       
@@ -107,7 +107,7 @@ class InvoicesController < ApplicationController
         invoice.save!
         redirect_to  controller: 'invoices', action: 'allpayCVS', id: invoice.id                              
       elsif invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_NO_NEED']
-        invoice.paid_at = Time.now
+        invoice.paid_at = Time.zone.now
         invoice.paid_c = true
         invoice.confirmed_c = true          
         invoice.save!
@@ -136,7 +136,7 @@ class InvoicesController < ApplicationController
   def cancel      
     if !@invoice.paid_c
       @invoice.canceled_c = true
-      @invoice.canceled_at = Time.now
+      @invoice.canceled_at = Time.zone.now
       @invoice.save!      
       #Coupons
       @invoice.invoice_coupon_lists.each do |i_c_l|
@@ -202,7 +202,7 @@ class InvoicesController < ApplicationController
     ## inventory AND available AND payment method
     total_price = 0 
     current_user.carts.each do |c|        
-      unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', c.product_boxing.id, false, Time.now ).sum(:quantity)     
+      unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', c.product_boxing.id, false, Time.zone.now ).sum(:quantity)     
       if c.product_boxing.product.inventory - unpaid - c.quantity < 0
         current_user.errors.add('quantity_'+c.id.to_s, c.product_boxing.product.name + '庫存剩'+(c.product_boxing.product.inventory - unpaid).to_s+'箱')     
       elsif !c.product_boxing.product.available_c or c.product_boxing.product.deleted_c
@@ -317,7 +317,7 @@ class InvoicesController < ApplicationController
 
   def allpayCredit     
     @invoice.orders.each do |o|        
-      unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', o.product_boxing.id, false, Time.now ).sum(:quantity)     
+      unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', o.product_boxing.id, false, Time.zone.now ).sum(:quantity)     
       if o.product_boxing.product.inventory - unpaid - o.quantity < 0
         flash[:warning] = o.product_boxing.product.name + '庫存剩'+(o.product_boxing.product.inventory - unpaid).to_s+'箱'
         redirect_to root_url
@@ -337,7 +337,7 @@ class InvoicesController < ApplicationController
         item_name <<  '小農一號商品編號'+o.id.to_s+'x'+o.quantity.to_s+'箱'    
       end   
       item_name = item_name.join("#")    
-      merchant_trade_no = @invoice.id.to_s+'AT'+Time.now.strftime("%Y%m%d%H%M%S").to_s
+      merchant_trade_no = @invoice.id.to_s+'AT'+Time.zone.now.strftime("%Y%m%d%H%M%S").to_s
       @allpay_var = { MerchantID: Rails.configuration.allpay_merchant_id,
                       MerchantTradeNo: merchant_trade_no,
                       MerchantTradeDate: @invoice.created_at.strftime("%Y/%m/%d %H:%M:%S"), 
@@ -356,7 +356,7 @@ class InvoicesController < ApplicationController
       url_encode_downcase = CGI::escape("HashKey=" + Rails.configuration.allpay_hash_key + "&" + result + "&HashIV=" + Rails.configuration.allpay_hash_iv).downcase   
       @check_mac_value = Digest::MD5.hexdigest(url_encode_downcase).upcase     
       @invoice.allpay_merchant_trade_no = merchant_trade_no
-      @invoice.allpay_expired_at = Time.now + 1.day
+      @invoice.allpay_expired_at = Time.zone.now + 1.day
       @invoice.save!
     else  
         flash[:warning] = '訂單編號'+@invoice.id.to_s+' 付款方式不符合'
@@ -366,7 +366,7 @@ class InvoicesController < ApplicationController
   
   def allpayATM
     @invoice.orders.each do |o|        
-      unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', o.product_boxing.id, false, Time.now ).sum(:quantity)     
+      unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', o.product_boxing.id, false, Time.zone.now ).sum(:quantity)     
       if o.product_boxing.product.inventory - unpaid - o.quantity < 0
         flash[:warning] = o.product_boxing.product.name + '庫存剩'+(o.product_boxing.product.inventory - unpaid).to_s+'箱'
         redirect_to root_url
@@ -386,7 +386,7 @@ class InvoicesController < ApplicationController
         item_name << '小農一號商品編號'+o.id.to_s+'x'+o.quantity.to_s+'箱'          
       end   
       item_name = item_name.join("#")    
-      merchant_trade_no = @invoice.id.to_s+'AT'+Time.now.strftime("%Y%m%d%H%M%S").to_s
+      merchant_trade_no = @invoice.id.to_s+'AT'+Time.zone.now.strftime("%Y%m%d%H%M%S").to_s
       @allpay_var = { MerchantID: Rails.configuration.allpay_merchant_id,
                       MerchantTradeNo: merchant_trade_no,
                       MerchantTradeDate: @invoice.created_at.strftime("%Y/%m/%d %H:%M:%S"), 
@@ -416,7 +416,7 @@ class InvoicesController < ApplicationController
 
   def allpayCVS
     @invoice.orders.each do |o|        
-      unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', o.product_boxing.id, false, Time.now ).sum(:quantity)     
+      unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', o.product_boxing.id, false, Time.zone.now ).sum(:quantity)     
       if o.product_boxing.product.inventory - unpaid - o.quantity < 0
         flash[:warning] = o.product_boxing.product.name + '庫存剩'+(o.product_boxing.product.inventory - unpaid).to_s+'箱'
         redirect_to root_url
@@ -436,7 +436,7 @@ class InvoicesController < ApplicationController
         item_name << '小農一號商品編號'+o.id.to_s+'x'+o.quantity.to_s+'箱'          
       end   
       item_name = item_name.join("#")    
-      merchant_trade_no = @invoice.id.to_s+'AT'+Time.now.strftime("%Y%m%d%H%M%S").to_s
+      merchant_trade_no = @invoice.id.to_s+'AT'+Time.zone.now.strftime("%Y%m%d%H%M%S").to_s
       @allpay_var = { MerchantID: Rails.configuration.allpay_merchant_id,
                       MerchantTradeNo: merchant_trade_no,
                       MerchantTradeDate: @invoice.created_at.strftime("%Y/%m/%d %H:%M:%S"), 
@@ -481,7 +481,7 @@ class InvoicesController < ApplicationController
         if coupons_using_left > 0           
           expiration_coupons = available_coupons.where('kind <> ? ', GLOBAL_VAR['COUPON_CHECK_OUT'])
           expiration_coupons.order('id').each do |e_c|
-            unless ((Time.now - e_c.created_at).to_i / 1.day) > GLOBAL_VAR['COUPON_DURATION_OF_VALIDITY']                              
+            unless ((Time.zone.now - e_c.created_at).to_i / 1.day) > GLOBAL_VAR['COUPON_DURATION_OF_VALIDITY']                              
               if coupons_using_left - e_c.amount > 0
                 candidate_coupons.push({amount: e_c.amount, coupon: e_c})
                 coupons_using_left = coupons_using_left- e_c.amount               
@@ -538,12 +538,12 @@ class InvoicesController < ApplicationController
     end
     
     def expired?
-      if Time.now > @invoice.allpay_expired_at
+      if Time.zone.now > @invoice.allpay_expired_at
         @invoice.orders.each do |o|
-          unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', o.product_boxing.id, false, Time.now ).sum(:quantity)     
+          unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', o.product_boxing.id, false, Time.zone.now ).sum(:quantity)     
           if o.product_boxing.product.inventory - unpaid - o.quantity < 0
             @invoice.canceled_c = true
-            @invoice.canceled_at = Time.now
+            @invoice.canceled_at = Time.zone.now
             @invoice.save!        
             flash[:alert] = o.product_boxing.product.name + '庫存剩'+(o.product_boxing.product.inventory - unpaid).to_s+'箱 此訂單已取消且無法付款'          
             redirect_to controller: 'invoices', action: 'index'            

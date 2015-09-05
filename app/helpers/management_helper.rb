@@ -7,14 +7,14 @@ module ManagementHelper
   
   def billPeriodOptions
     options = []  
-    Time.now.year.downto(2015){ |i| 
-      if i!=Time.now.year
+    Time.zone.now.year.downto(2015){ |i| 
+      if i!=Time.zone.now.year
         12.downto(1){ |j| 
           options<<[ Date.civil( i, j, 16).midnight.strftime("%Y-%m-%d")+'~'+(( Date.civil(i, j, -1)+1 ).midnight-1).strftime("%Y-%m-%d"), Date.civil( i, j, 16).midnight.strftime('%Y-%m-%d %H:%M:%S')]        
           options<<[ Date.civil( i, j, 1).midnight.strftime("%Y-%m-%d")+'~'+(Date.civil(i, j, 16).midnight-1).strftime("%Y-%m-%d"), Date.civil( i, j, 1).midnight.strftime('%Y-%m-%d %H:%M:%S')]
         }
       else
-        Time.now.month.downto(1){ |j| 
+        Time.zone.now.month.downto(1){ |j| 
           options<<[ Date.civil( i, j, 16).midnight.strftime("%Y-%m-%d")+'~'+(( Date.civil(i, j, -1)+1 ).midnight-1).strftime("%Y-%m-%d"), Date.civil( i, j, 16).midnight.strftime('%Y-%m-%d %H:%M:%S')]        
           options<<[ Date.civil( i, j, 1).midnight.strftime("%Y-%m-%d")+'~'+(Date.civil(i, j, 16).midnight-1).strftime("%Y-%m-%d"), Date.civil( i, j, 1).midnight.strftime('%Y-%m-%d %H:%M:%S')]
         }        

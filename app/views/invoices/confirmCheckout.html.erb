@@ -18,7 +18,7 @@
 			<div class="col-sm-2 col-xs-12 check_out_product_list_title vmiddle">
 				<%= link_to product_path(product) do%>
 					<%if product.released_at%>
-						<%if product.released_at > Time.now %>
+						<%if product.released_at > Time.zone.now %>
 						[預購]
 						<%end%>
 					<%end%>
