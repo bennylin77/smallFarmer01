@@ -1,0 +1,36 @@
+<div class="row">
+	<div class="col-sm-offset-3 col-sm-6 col-xs-12">
+		<%=select_tag "bill_select", options_for_select(billPeriodOptions, @begin_at), class: 'form-control'%>
+	</div>
+</div>	
+<br>
+<div class="table-responsive">
+<table class="table table-bordered table-hover">
+  <tr>
+    <th style="min-width: 75px;">農場主</th>  			          	
+    <th style="min-width: 75px;">農場名稱</th>  			          	
+	<th style="min-width: 75px;">聯絡方式</th>	
+  </tr>
+  <% @bills.each do |b| %>
+  <tr onclick="window.location.href='<%= Rails.configuration.smallfarmer01_host%>/management/billShow?id=<%=b.id%>';">
+  	<td><%=b.company.user.last_name%> <%=b.company.user.first_name%></td>
+  	<td><%=b.company.name%></td>
+  	<td>
+		<%= b.company.postal%> <%= b.company.county%><%= b.company.district%><%= b.company.address%><br>
+		<%unless b.company.phone_no.blank?%><%= b.company.phone_no.gsub(/^\+886/, '0')  %><%end%>    		
+  	</td>  
+  </tr>
+  <%end%>  
+</table>
+</div>
+
+<style>
+.table-bordered tr {
+    cursor: pointer;
+}
+</style>
+<script>
+$( "#bill_select" ).change(function() {
+  window.location.href = '<%= Rails.configuration.smallfarmer01_host+'/management/bills?begin_at='%>'+$(this).val()
+});	
+</script>

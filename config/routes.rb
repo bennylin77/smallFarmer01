@@ -44,7 +44,9 @@ Rails.application.routes.draw do
   get    'main/showCartsNotifications'
   get    'main/privacyPolicy'
   get    'main/returnPolicy'  
-   
+
+  get    'management/bills'   
+  get    'management/billShow'     
   get    'management/invoices'
   get    'management/orders'  
   get    'management/callLogistics'

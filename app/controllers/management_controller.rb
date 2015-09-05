@@ -1,15 +1,21 @@
 class ManagementController < ApplicationController
   before_filter :authenticate_user!
   before_action :managementCheckUser
-  
+
+  before_action :set_bill, only: [:billShow]  
   before_action :set_order, only: []
   before_action :set_company, only: [:setCompany, :updateBankAccount, :updateBankCode]
   before_action :set_user, only: [:blockUser, :confirmPhoneNo]
   before_action :set_product, only: [:setProduct]
   
 #======================# invoice #======================# 
-  def invoices 
-    @invoices = Invoice.all.paginate(page: params[:page], per_page: 60).order('id DESC')     
+  def invoices
+    if params[:paid_c] 
+      @paid_c = params[:paid_c] 
+    else
+      @paid_c = true
+    end
+    @invoices = Invoice.where(paid_c: @paid_c).paginate(page: params[:page], per_page: 60).order('id DESC')       
   end
   
 #======================# order #======================#   
@@ -149,6 +155,24 @@ class ManagementController < ApplicationController
     end   
     render json: {success: true}
   end  
+#======================# bill #======================#   
+
+  def bills
+    if params[:begin_at]
+      @begin_at = params[:begin_at].to_time 
+    else  
+      if Time.now.day <= 15   
+        @begin_at = Date.civil(Time.now.year, Time.now.month, 1).midnight    
+      else 
+        @begin_at = Date.civil(Time.now.year, Time.now.month, 16).midnight 
+      end  
+    end
+    @bills = Bill.where(begin_at: @begin_at)  
+  end
+
+  def billShow
+  end
+
 
 #======================# company #======================#      
   def companies
@@ -316,6 +340,10 @@ private
   
   def set_product
     @product = Product.find(params[:id])
-  end      
+  end
+
+  def set_bill
+    @bill = Bill.find(params[:id])
+  end        
   
 end
