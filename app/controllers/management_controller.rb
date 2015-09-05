@@ -11,7 +11,7 @@ class ManagementController < ApplicationController
 #======================# invoice #======================# 
   def invoices
     if params[:paid_c] 
-      @paid_c = params[:paid_c] 
+      @paid_c = params[:paid_c] == 'true' ? true : false 
     else
       @paid_c = true
     end
