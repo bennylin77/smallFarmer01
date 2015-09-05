@@ -74,7 +74,8 @@
 	<div class="col-sm-offset-3 col-sm-6 col-xs-12">
 		<dl class="dl-horizontal">		  
 		  <dt style="font-size: 130%">總銷售金額<span style="font-size: 70%">(不含運)<span>:</dt> <dd style="font-size: 130%"><%= total_sales - shipping_rates %>元</dd>		  
-		  <!--<dt>總運費支出:</dt><dd><%=shipping_rates %>元(<%= (shipping_rates.to_f/total_sales).round(3)*100 %>%)</dd>-->		  
+		  <dt style="font-size: 130%">總銷售金額<span style="font-size: 70%">(含運)<span>:</dt> <dd style="font-size: 130%"><%= total_sales %>元</dd>		  		  
+		  <dt>總運費支出:</dt><dd><%=shipping_rates %>元(<%= (shipping_rates.to_f/total_sales).round(3)*100 %>%)</dd>		  
 		  <dt>總金流支出:</dt><dd><%=cash_flow %>元(<%=GLOBAL_VAR['CASH_FLOW_FEE']*100%>%)</dd>		  
 		  <dt>總回饋金支出:</dt><dd><%=coupon %>元(<%=GLOBAL_VAR['COUPON_FEE']*100%>%)</dd>		  
 		  <dt>總行政費支出:</dt><dd><%=administration %>元(<%=GLOBAL_VAR['ADMINISTRATION_FEE']*100%>%)</dd>
