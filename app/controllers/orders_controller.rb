@@ -13,7 +13,7 @@ class OrdersController < ApplicationController
   def confirm
     if !@order.called_smallfarmer_c
       @order.called_smallfarmer_c = true
-      @order.called_smallfarmer_at = Time.now
+      @order.called_smallfarmer_at = Time.zone.now
       @order.shipments.each do  |s|
         s.status = GLOBAL_VAR['ORDER_STATUS_CONFIRMED']   
         s.save!

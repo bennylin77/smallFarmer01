@@ -1,9 +1,9 @@
 <div class="row">
 	<div class="col-sm-offset-3 col-sm-6 col-xs-12">
 		<%=select_tag "bill_select", options_for_select(billPeriodOptions, @begin_at.strftime('%Y-%m-%d %H:%M:%S')), class: 'form-control'%>
-		<%= @begin_at.strftime('%Y-%m-%d %H:%M:%S')%>
-		<%= @begin_at%>
-		<%= Time.now%>
+		<%= @begin_at.in_time_zone('Taipei').strftime('%Y-%m-%d %H:%M:%S')%>
+		<%= @begin_at.in_time_zone('Taipei')%>
+		<%= Time.zone.now.in_time_zone('Taipei')%>
 	</div>
 </div>	
 <br>

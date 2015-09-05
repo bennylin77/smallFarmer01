@@ -35,7 +35,7 @@ class ManagementController < ApplicationController
       params[:selected_orders].each do |o|
         @orders << Order.find(o)
       end
-      time_str = Time.now.strftime("%Y%m%d%H%M")    
+      time_str = Time.zone.now.strftime("%Y%m%d%H%M")    
       respond_to do |format|
          format.xls{
           response.headers['Content-Type'] = 'application/vnd.ms-excel; charset="utf-8" '
@@ -67,7 +67,7 @@ class ManagementController < ApplicationController
     params[:orders].each do |o|
       order = Order.find(o)
       order.called_logistics_c = true
-      order.called_logistics_at = Time.now 
+      order.called_logistics_at = Time.zone.now 
       order.save!
       order.shipments.each do |s|
         s.status = GLOBAL_VAR['ORDER_STATUS_CALLED_LOGISTICS'] 
@@ -81,7 +81,7 @@ class ManagementController < ApplicationController
     params[:orders].each do |o|
       order = Order.find(o)
       order.problem_c = true
-      order.problem_at = Time.now 
+      order.problem_at = Time.zone.now 
       order.save!    
     end
     render json: {success: true}      
@@ -94,14 +94,14 @@ class ManagementController < ApplicationController
       order.shipments.each do |s|     
         if !s.delivered_c
           s.delivered_c = true
-          s.delivered_at = Time.now 
+          s.delivered_at = Time.zone.now 
           s.status = GLOBAL_VAR['ORDER_STATUS_DELIVERED'] 
           s.save! 
         end  
       end 
       #bills
       company = order.product_boxing.product.company   
-      bill = company.bills.where("end_at >= ?", Time.now).first
+      bill = company.bills.where("end_at >= ?", Time.zone.now).first
       if bill.blank?
 =begin        
         bill = Bill.new(title: '小農一號合作農場帳單表', user_first_name: company.user.first_name, user_last_name: company.user.last_name,
@@ -110,12 +110,12 @@ class ManagementController < ApplicationController
                         company_country: company.country, bank_code: company.bank_code, bank_account: company.bank_account)
 =end 
         bill = Bill.new
-        if Time.now.day <= 15          
-          bill.begin_at = Date.civil(Time.now.year, Time.now.month, 1).midnight
-          bill.end_at = Date.civil(Time.now.year, Time.now.month, 16).midnight-1
+        if Time.zone.now.day <= 15          
+          bill.begin_at = Date.civil(Time.zone.now.year, Time.zone.now.month, 1).midnight
+          bill.end_at = Date.civil(Time.zone.now.year, Time.zone.now.month, 16).midnight-1
         else
-          bill.begin_at = Date.civil(Time.now.year, Time.now.month, 16).midnight
-          bill.end_at = ( Date.civil(Time.now.year, Time.now.month, -1)+1 ).midnight-1    
+          bill.begin_at = Date.civil(Time.zone.now.year, Time.zone.now.month, 16).midnight
+          bill.end_at = ( Date.civil(Time.zone.now.year, Time.zone.now.month, -1)+1 ).midnight-1    
         end  
         bill.title = '小農一號合作農場帳單表'
         bill.company = company
@@ -158,13 +158,14 @@ class ManagementController < ApplicationController
 #======================# bill #======================#   
 
   def bills
+    time_now = Time.zone.now
     if params[:begin_at]
       @begin_at = params[:begin_at].to_time 
     else  
-      if Time.now.day <= 15   
-        @begin_at = Date.civil(Time.now.year, Time.now.month, 1).midnight    
+      if time_now.day <= 15   
+        @begin_at = Date.civil(time_now.year, time_now.month, 1).midnight    
       else 
-        @begin_at = Date.civil(Time.now.year, Time.now.month, 16).midnight 
+        @begin_at = Date.civil(time_now.year, time_now.month, 16).midnight 
       end  
     end
     @bills = Bill.where(begin_at: @begin_at)  
@@ -185,7 +186,7 @@ class ManagementController < ApplicationController
     when 'activate'
       params[:val] = params[:val] == 'true' ? true : false       
       if params[:val]
-        @company.update_columns(activated_c: params[:val], activated_at: Time.now)
+        @company.update_columns(activated_c: params[:val], activated_at: Time.zone.now)
         render json: {success: true, message: '農場編號 '+@company.id.to_s+' 改為營運'}    
       else
         @company.update_columns(activated_c: params[:val])
@@ -282,7 +283,7 @@ class ManagementController < ApplicationController
   def blockUser
     params[:block] = params[:block] == 'true' ? true : false                  
     if params[:block]
-      @user.update_columns(blocked_c: params[:block], blocked_at: Time.now)
+      @user.update_columns(blocked_c: params[:block], blocked_at: Time.zone.now)
       render json: {success: true, message: '使用者編號 '+@user.id.to_s+' 已停用'}    
     else
       @user.update_columns(blocked_c: params[:block])
@@ -293,7 +294,7 @@ class ManagementController < ApplicationController
   def confirmPhoneNo
     address = @user.addresses.first 
     if !address.phone_no.blank? and address.phone_no_confirmed_at.blank?
-      address.phone_no_confirmed_at = Time.now  
+      address.phone_no_confirmed_at = Time.zone.now  
       address.save!     
       # important !!!!!!!!!!!!!!!!
       if @user.coupons.where(kind: GLOBAL_VAR['COUPON_SIGN_UP']).first.blank?       

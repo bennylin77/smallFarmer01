@@ -15,7 +15,7 @@ class NotificationsController < ApplicationController
 
   def read
     @notification.read_c = true
-    @notification.read_at = Time.now
+    @notification.read_at = Time.zone.now
     @notification.save!
     render json: { success: true, unread_size: current_user.notifications.where(read_c: false).size }
   end
@@ -32,7 +32,7 @@ class NotificationsController < ApplicationController
         order.shipment_review_score = params[:shipment_review_scores][index].to_i
         order.review_score = params[:review_scores][index].to_i
         order.review_feedback = params[:review_feedbacks][index]
-        order.review_at = Time.now
+        order.review_at = Time.zone.now
         order.save!    
       end
       # important !!!!!!!!!!!!!!!!      
@@ -48,7 +48,7 @@ class NotificationsController < ApplicationController
       coupon.original_amount = ((invoice.amount - discount)*0.04).round
       coupon.save!
       @notification.read_c = true
-      @notification.read_at = Time.now
+      @notification.read_at = Time.zone.now
       @notification.save!
       render json: {type: 'success', message: '恭喜您獲得'+coupon.amount.to_i.to_s+'元 無期限回饋金'}            
     else   

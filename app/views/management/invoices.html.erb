@@ -79,7 +79,7 @@
 			<%else%>
 			<dt><abbr title="請於付款期限內付款, 超過付款期限, 有可能因為庫存不足, 訂單無法成立">付款期限</abbr></dt>
 			  	<dd>
-			  	<%if i.allpay_expired_at < Time.now%>	
+			  	<%if i.allpay_expired_at < Time.zone.now%>	
 				<div style="color: #b24d4b">
 				<%=i.allpay_expired_at.strftime("%Y-%m-%d %H:%M:%S")%>		  		
 				</div>
