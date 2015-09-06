@@ -11,6 +11,9 @@ Rails.application.routes.draw do
   get    'coupons/index'
   get    'coupons/showCoupons'
 
+  get    'companies/apply'
+  post   'companies/apply'
+  
   get    'invoices/index'
   post   'invoices/create'
   post   'invoices/confirmCheckout'  
