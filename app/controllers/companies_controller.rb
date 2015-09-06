@@ -28,6 +28,27 @@ class CompaniesController < ApplicationController
       render 'edit'
     end      
   end
+  
+  def apply
+    @company = current_user.companies.first
+    if request.post?
+      if @company.update(name: params[:company][:name], description: params[:company][:description],
+                         phone_no: params[:phone_no_full], postal: params[:company][:postal],
+                         county: params[:company][:county], district: params[:company][:district],
+                         address: params[:company][:address])
+        @company.applied_c = true
+        @company.applied_at = Time.zone.now 
+        @company.save!               
+        flash[:notice] = '成功申請上架，請靜候上架小幫手通知 感謝'
+        redirect_to root_url
+      else  
+        render 'apply', layout: 'application'
+      end   
+    else
+      @company = current_user.companies.first
+      render layout: 'application'  
+    end
+  end
 
   def companyCoverUpload
     if @company.cover.blank?      

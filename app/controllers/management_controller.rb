@@ -177,8 +177,13 @@ class ManagementController < ApplicationController
 
 #======================# company #======================#      
   def companies
-    params[:activated_c] = params[:activated_c] == 'true' ? true : false              
-    @companies = Company.where('activated_c = ?', params[:activated_c]).all.paginate(page: params[:page], per_page: 60).order(priority: :desc)    
+   params[:activated_c] = params[:activated_c] == 'true' ? true : false    
+   params[:applied_c] = params[:applied_c] == 'true' ? true : false              
+   if params[:applied_c]
+     @companies = Company.where('applied_c = ? and activated_c = ?', params[:applied_c], params[:activated_c]).all.paginate(page: params[:page], per_page: 60).order(priority: :desc)  
+   else 
+     @companies = Company.where('activated_c = ?', params[:activated_c]).all.paginate(page: params[:page], per_page: 60).order(priority: :desc)     
+   end  
   end  
   
   def setCompany

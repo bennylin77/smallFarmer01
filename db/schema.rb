@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150903102023) do
+ActiveRecord::Schema.define(version: 20150906065023) do
 
   create_table "addresses", force: true do |t|
     t.integer  "user_id"
@@ -103,6 +103,8 @@ ActiveRecord::Schema.define(version: 20150903102023) do
     t.boolean  "accept_the_terms_of_use_c",  default: false, null: false
     t.datetime "accept_the_terms_of_use_at"
     t.integer  "priority",                   default: 0,     null: false
+    t.boolean  "applied_c",                  default: false, null: false
+    t.datetime "applied_at"
   end
 
   add_index "companies", ["user_id"], name: "index_companies_on_user_id", using: :btree

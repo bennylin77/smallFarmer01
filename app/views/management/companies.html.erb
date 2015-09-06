@@ -5,7 +5,10 @@
   </li>
   <li role="presentation" <%= active( controller: 'management', action: 'companies', activated_c: false)%>>
 	<%= link_to "非營運", controller: 'management', action: 'companies', activated_c: false%>  	  	
-  </li>  
+  </li> 
+  <li role="presentation" <%= active( controller: 'management', action: 'companies', activated_c: false, applied_c: true)%>>
+	<%= link_to "申請且非營運", controller: 'management', action: 'companies', activated_c: false, applied_c: true%>  	  	
+  </li>     
 </ul>
 </div>
 <div class="row">

@@ -1,0 +1,100 @@
+<div class="container main_frontend">	
+<h3 class="text-center">
+	請填寫基本資料，上架小幫手會儘速和您聯絡喔
+</h3>
+
+<%= form_for(@company, url: { controller: 'companies', action: "apply"}, method: :post, html: {class: "form-horizontal", role: "form"}) do |f| %>
+	<div class="form-group">
+		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">農場名稱</label>
+		<div class="col-sm-10 col-md-6">
+			<%= f.text_field :name, placeholder: '農場名稱', class: "form-control" %>
+		</div>	
+	</div>
+	<div class="form-group">
+		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">農場介紹</label>
+		<div class="col-sm-10 col-md-6">
+			<%= f.text_area :description, placeholder: '農場介紹', class: "form-control", rows: '5' %>
+		</div>
+	</div>		
+	<div class="form-group">
+		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">聯絡電話</label>
+		<div class="col-sm-10 col-md-6">
+			<%= hidden_field_tag :phone_no_full%>				
+			<%= f.text_field :phone_no, class: "form-control" %>
+			<span id="valid-msg" class="hide">✓</span>
+			<span id="error-msg" class="hide">格式錯誤</span>			
+		</div>					
+	</div>						
+	<div class="form-group">
+		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">聯絡地址</label>
+		<div class="form-inline col-sm-10 col-md-6">
+			<span id="twzipcode"></span>
+			<%= f.text_field :address, class: "form-control" %>
+		</div>
+	</div>	  
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-md-offset-3 col-md-10">
+			<%= f.submit '儲存',  class: "btn btn-success add_button", style: 'margin-right: 5px;'  %>
+		</div>
+	</div>	
+<% end %>
+</div>
+
+
+<script>
+//================== twzipcode ==================//	
+$('#twzipcode').twzipcode({
+	zipcodeName: 'company[postal]',
+    countyName: 'company[county]',
+    districtName: 'company[district]',
+    zipcodeIntoDistrict: true,
+    css: ['form-control', 'form-control'], 
+    <%unless @company.county.blank?%>
+	countySel: '<%=@company.county%>',
+	districtSel: '<%=@company.district%>'
+	<%end%>    
+});
+//================== confirmation ==================//	
+var telInput = $("#company_phone_no");
+errorMsg = $("#error-msg"),
+validMsg = $("#valid-msg");
+// initialise plugin
+telInput.intlTelInput({
+	allowExtensions: true,
+    //autoFormat: false,
+    //autoHideDialCode: false,  
+    defaultCountry: "tw",
+    //ipinfoToken: "yolo",
+    //nationalMode: false,
+    //onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
+    //preferredCountries: ['cn', 'jp'],  
+    utilsScript: "<%=asset_path 'utils.js'%>"
+});
+// on blur: validate
+telInput.blur(function() {
+  if ($.trim(telInput.val())) {
+    if (telInput.intlTelInput("isValidNumber")  ) {
+      validMsg.removeClass("hide");
+    } else {
+      telInput.addClass("error");
+      errorMsg.removeClass("hide");
+      validMsg.addClass("hide");
+    }
+  }
+});
+// on keydown: reset
+telInput.keydown(function() {
+  telInput.removeClass("error");
+  errorMsg.addClass("hide");
+  validMsg.addClass("hide");
+});
+$("form").submit(function() {
+  $("#phone_no_full").val($("#company_phone_no").intlTelInput("getNumber"));
+});
+//================== error ==================//	
+<% @company.errors.messages.each do |index, value| %>
+	<%unless value.blank? %>
+		toastr['error']('<%=value.first%>')		
+	<%end%>	
+<% end %>
+</script>
