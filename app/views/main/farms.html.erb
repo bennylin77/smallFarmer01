@@ -1,5 +1,7 @@
 <div class="container-fluid main_frontend" style="padding-top: 40px;">
 	<br><br>
+	<%if user_signed_in? and current_user.companies.first.activated_c%>
+	<%else%>
 	<div class="row">
 		<div class="col-sm-offset-6 col-sm-6 col-lg-offset-9 col-lg-3">
 			<div style="width: 90%; position: relative; margin: 0 auto;">
@@ -7,5 +9,6 @@
 			</div>
 		</div>
 	</div>
+	<%end%>
 	<%= render partial: "farms", locals: { companies: @companies } %>
 </div>	
