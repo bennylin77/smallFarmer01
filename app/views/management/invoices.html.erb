@@ -101,7 +101,7 @@
 		</dl>
     </td>          
     <td>
-    	<%= ((i.amount-discount)*0.04).round%>元
+    	<%= ((i.amount-discount)*GLOBAL_VAR['COUPON_FEE']).round%>元
     </td>            
 	<td>
       <table class="table table-striped">     
@@ -129,7 +129,7 @@
           <td>
           <div><%= o.quantity%>箱</div> 
           (<%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %>/箱)</td>
-          <td><%= o.price.to_i+ o.quantity*o.shipping_rates %>元</td>     
+          <td><%= o.price.to_i + o.shipping_rates %>元</td>     
           <td>        	
 			<div class="text-center">在<%= o.created_at.strftime("%Y-%m-%d %H:%M:%S") %><br>建立出貨單</div>		
 			<%if o.called_smallfarmer_c%>
