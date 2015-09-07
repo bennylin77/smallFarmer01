@@ -67,6 +67,9 @@ Rails.application.routes.draw do
   get    'management/users'  
   get    'management/blockUser' 
   get    'management/confirmPhoneNo'
+  get    'management/coupons'
+  get    'management/giveCoupon'
+  post   'management/giveCoupon'  
                               
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
   #match '/users/:id/mobileSMSConfirmation' => 'users#mobileSMSConfirmation', via: [:get, :patch], :as => :mobileSMSConfirmation 
