@@ -109,7 +109,7 @@
 				<%end%>，付款狀態: <%if @invoice.paid_c%>已付款<%else%><span class="text-danger">尚未付款</span><%end%>																
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" style="margin-bottom: 30px;">
 				<div class="col-sm-offset-1 col-sm-11">	
 					<div class="pull-left" style="color: #B5841B; font-size: 18px; margin-top: 13px; margin-right: 10px;">
 					  <%if !@invoice.paid_c%>
@@ -126,8 +126,10 @@
 						</div>	
 					</div>								
 				</div>
-			</div>			
-			<div class="row"  style="margin-top: 30px; margin-bottom: 30px;">
+			</div>	
+			<%if discount==0 or discount!=0%>
+			<!--		
+			<div class="row"  style="margin-bottom: 30px;">
 				<div class="col-sm-offset-1 col-sm-11">	
 					<div class="farmer_get_layer_horizon">
 						<div class="farmer_get_inner_horizon">
@@ -160,7 +162,9 @@
 						<div style="width: 12px; margin: 10px auto;">您的回饋金</div>				
 					</div>	
 				</div>
-			</div>								
+			</div>	
+			-->
+			<%end%>							
 		</div>
 	</div>	
 	<div class="row" style="margin-top: 20px;">
@@ -177,12 +181,7 @@
 </div>			
 
 		
-
-
-
-
-
-
+<!--
 <script>
 //total price
 var orders =  []
@@ -223,4 +222,5 @@ function countTotalPrice(){
 			$('.total_administration').html( total_administration  );			
 			$('.total_coupon').html( total_coupon );	
 }
-</script>	
+</script>
+-->	

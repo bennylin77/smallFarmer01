@@ -173,7 +173,45 @@ class ManagementController < ApplicationController
 
   def billShow
   end
-
+#======================# coupon #======================#     
+  def coupons
+    @coupons = Coupon.all.paginate(page: params[:page], per_page: 60).order('id DESC')         
+  end
+  
+  def giveCoupon
+    if current_user.email == 'tony7066@yahoo.com.tw' or current_user.email == 'bennylin77@gmail.com'
+      if request.post?
+        if params[:code] === '9712030' 
+          if params[:amount] == params[:coupon_confirmation]           
+            unless params[:user_id].blank?
+              user = User.find(params[:user_id])
+              coupon = Coupon.new
+              coupon.user = user
+              coupon.kind = GLOBAL_VAR['COUPON_CHECK_OUT']
+              coupon.amount = params[:amount]
+              coupon.original_amount = params[:amount]
+              coupon.save!
+              flash['notice'] = user.last_name+' '+user.first_name+'增加'+coupon.amount.to_s+'元 消費回饋金'
+              redirect_to controller: 'management', action: 'coupons' 
+            else
+              flash['error'] = '找不到使用者'
+              redirect_to controller: 'management', action: 'giveCoupon'           
+            end
+          else  
+            flash['error'] = '回饋金數量不一致'
+            redirect_to controller: 'management', action: 'giveCoupon'
+          end  
+        else
+          flash['error'] = '發放密碼錯誤'
+          redirect_to controller: 'management', action: 'giveCoupon'        
+        end      
+      else    
+      end
+    else
+      flash['error'] = '你是誰我們很熟嗎？'
+      redirect_to controller: 'management', action: 'coupons'
+    end       
+  end
 
 #======================# company #======================#      
   def companies
@@ -318,6 +356,8 @@ class ManagementController < ApplicationController
     end      
     redirect_to controller: 'management', action: 'users'   
   end
+
+
   
 private   
   

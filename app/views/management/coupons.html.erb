@@ -1,0 +1,53 @@
+<div class="row">
+	<div class="col-sm-12">
+	<%=link_to '新增回饋金', {controller: 'management', action: 'giveCoupon'}, class: 'btn btn-default' %>
+	</div>
+</div>
+<br>
+<div class="table-responsive">
+<table class="table table-bordered table-hover">
+  <tr>
+    <th>回饋金編號</th>  	
+    <th>使用者</th>      
+    <th>建立日期</th>
+    <th>使用期限</th>    
+    <th>來源</th>    
+	<th>原始金額</th>
+	<th>剩餘金額</th>  
+	<th>使用明細</th>						 		           
+  </tr>
+  <% @coupons.each do |c| %>
+  <tr>
+    <td><%= c.id %></td>  	
+    <td><%= c.user.last_name %> <%= c.user.first_name %></td>      
+    <td><%= c.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+    <td><%= couponExpired(c)%></td>
+    <td><%= couponSource(c)%></td>
+    <td><%= c.original_amount.to_i%>元</td>    
+    <td><%= c.amount.to_i%>元</td> 	
+    <td>
+		<table class="table table-striped">     
+		<tr>
+		    <td>訂單編號</td>		
+		    <td>訂單日期</td>
+		    <td>使用金額</td>			    			    			    								           
+	  	</tr>
+	  	<%if c.invoice_coupon_lists.size != 0%> 		      	
+	    	<% c.invoice_coupon_lists.each.each do |i_c_l|%>      	
+	        <tr>	
+			    <td><%= i_c_l.invoice.id %></td>
+			    <td><%= i_c_l.invoice.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>	         				    
+			    <td><%= i_c_l.amount.to_i %>元</td>	         	
+	        </tr>
+	    	<%end%>	 
+	    <%else%>
+	        <tr>	
+			    <td>--</td><td>--</td><td>--</td>		        	        	       	
+	        </tr>	    
+	    <%end%>	       
+      </table>      	
+    </td> 
+  </tr>
+  <%end%>  
+</table>
+</div>
