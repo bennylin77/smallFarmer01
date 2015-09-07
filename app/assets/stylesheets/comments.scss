@@ -132,12 +132,10 @@
   box-shadow: 3px 3px rgb(209, 209, 200); 
   background: #f8f5f3;  
 }
-.comment_button:hover{
-}
 .comment_op{
   color: #536132;  
 }
-.comment_reply:hover{
+.no-touch .comment_reply:hover{
   opacity: 0.8;  
 }
 @media (max-width: 500px) {

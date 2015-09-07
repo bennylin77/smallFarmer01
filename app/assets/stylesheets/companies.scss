@@ -55,7 +55,7 @@
   position: relative;
   top: 0%;
 }
-
+/*
 .farm_fruits{
   text-align: center;
   margin-top: 30px;
@@ -67,15 +67,14 @@
   text-decoration: none; 
   opacity: 0.8;
 }
-.farm_fruits_container{
-  
+.farm_fruits_container{  
 }
 .farm_fruits_img{
   width: 150px;
   height: 150px;
   border: solid 1px #a8bb7f;
   padding: 3px;
-  background-clip: content-box; /* support: IE9+ */
+  background-clip: content-box;
   background-color: transparent;
 }
 .farm_fruits_name{
@@ -106,6 +105,7 @@
 .farm_fruits_icons img{ 
   margin-right: 5px;
 }
+*/
 @media (max-width: 1750px) {
   .farm_triangle {
     border-left: 275px solid transparent;
@@ -329,7 +329,7 @@
     -webkit-transition: all 0.5s; 
     -o-transition: all 0.5s; 
 }
-.company_image_container:hover, .company_image_upper_container:hover { transform: scale(1.2); -ms-transform: scale(1.2); -webkit-transform: scale(1.2); -o-transform: scale(1.2); -moz-transform: scale(1.2); }
+.no-touch .company_image_container:hover, .no-touch .company_image_upper_container:hover { transform: scale(1.2); -ms-transform: scale(1.2); -webkit-transform: scale(1.2); -o-transform: scale(1.2); -moz-transform: scale(1.2); }
 
 /*================================ index =================================*/
 .farm_index_container{
@@ -337,10 +337,8 @@
 }
 .farm_index_container a{
   color: #433E3C;
-  font-size: 21px;  
-}
-.farm_index_container a:hover{
-  text-decoration: none;
+  font-size: 21px;
+  text-decoration: none;  
 }
 .farm_index_image_container{
   width: 90%;

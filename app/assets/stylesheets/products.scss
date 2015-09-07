@@ -98,7 +98,7 @@
   padding: 7px 14px;
   box-shadow: 3px 3px rgb(209, 209, 200);    
 }
-.add_to_cart:hover{
+.no-touch .add_to_cart:hover{
   background: #6fc57b;
 }
 .cart_unavailable{
@@ -288,13 +288,13 @@
 }
 
 .product_image_container_outter { overflow: hidden; }
-.product_image_container{ 
+a.product_image_container{ 
     transition: all 0.5s; 
     -moz-transition: all 0.5s; 
     -webkit-transition: all 0.5s; 
     -o-transition: all 0.5s; 
 }
-.product_image_container:hover { transform: scale(1.2); -ms-transform: scale(1.2); -webkit-transform: scale(1.2); -o-transform: scale(1.2); -moz-transform: scale(1.2); }
+.no-touch .product_image_container:hover { transform: scale(1.2); -ms-transform: scale(1.2); -webkit-transform: scale(1.2); -o-transform: scale(1.2); -moz-transform: scale(1.2); }
 
 /*======================================= cash flow =======================================*/
 .farmer_get_layer{  
@@ -546,8 +546,6 @@
 .product_index_container a{
   color: #433E3C;
   font-size: 17px;  
-}
-.product_index_container a:hover{
   text-decoration: none;
 }
 .product_index_image_container{
