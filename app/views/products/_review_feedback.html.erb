@@ -2,7 +2,7 @@
 <div class="row" style="margin-top: 10px; margin-left: 10px;">			
 	<div class="col-lg-offset-1 col-lg-11">	
 	<%=image_tag o.invoice.user.avatar.url, class: 'review_feedback_avatar img-circle' %> 				
-	<div class="review_feedback_name"><%=o.invoice.user.email.gsub(/@.*$/, '')%></div> 
+	<div class="review_feedback_name"><%=o.invoice.user.email.gsub(/..@.*$/, '')%></div> 
 	<div class="review_feedback_date">
 		<%=time_ago_in_words o.review_at%>之前
 	</div>
