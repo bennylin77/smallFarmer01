@@ -28,4 +28,6 @@
 //= require moment/zh-tw
 //= require bootstrap-datetimepicker
 //= require magnific-popup
+//= require bootstrap-tagsinput.js
+//= require typeahead.js
 //= require_tree .

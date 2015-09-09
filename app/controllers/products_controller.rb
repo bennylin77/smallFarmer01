@@ -27,11 +27,25 @@ class ProductsController < ApplicationController
   end
 
   def edit
+    @keywords = ''
+    @product.keywords.each do |k|
+      @keywords = @keywords + ','+k.content
+    end
   end
 
   def update
-    @product.update(product_params)    
+    @product.update(product_params)  
+    @keywords = params[:keywords]  
     unless @product.errors.any?  
+      @product.keywords.clear
+      @keywords.split(",").each do |k|
+        keyword = Keyword.where(content: k).first
+        if keyword.blank?
+          keyword = Keyword.new(content: k)              
+        end
+        @product.keywords<<keyword 
+        @product.save!
+      end      
       flash[:notice] ='成功更改商品資料'
       redirect_to products_url      
     else  
