@@ -18,7 +18,7 @@
  	<td class="text-center" style="min-width: 90px;">	
  		<% available = true %>
  		<%i.orders.each do |o| %>
-      		<% unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', o.product_boxing.id, false, Time.zone.now ).sum(:quantity) %>    	
+      		<% unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? and invoices.id <> ? ', o.product_boxing.id, false, Time.zone.now, o.invoice.id ).sum(:quantity) %>    	
  			<%if o.product_boxing.product.inventory - unpaid - o.quantity < 0%>
  				<% available = false %>	
  			<%elsif !o.product_boxing.product.available_c or o.product_boxing.product.deleted_c%> 

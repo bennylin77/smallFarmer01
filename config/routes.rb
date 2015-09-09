@@ -39,6 +39,7 @@ Rails.application.routes.draw do
   
   #post   'users/mobileSMSConfirmationSend'
   
+  get    'main/keywords'
   get    'main/index'  
   get    'main/search'
   get    'main/fruits'

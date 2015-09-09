@@ -317,7 +317,7 @@ class InvoicesController < ApplicationController
 
   def allpayCredit     
     @invoice.orders.each do |o|        
-      unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', o.product_boxing.id, false, Time.zone.now ).sum(:quantity)     
+      unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? and invoices.id <> ? ', o.product_boxing.id, false, Time.zone.now, o.invoice.id ).sum(:quantity)     
       if o.product_boxing.product.inventory - unpaid - o.quantity < 0
         flash[:warning] = o.product_boxing.product.name + '庫存剩'+(o.product_boxing.product.inventory - unpaid).to_s+'箱'
         redirect_to root_url
@@ -366,7 +366,7 @@ class InvoicesController < ApplicationController
   
   def allpayATM
     @invoice.orders.each do |o|        
-      unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', o.product_boxing.id, false, Time.zone.now ).sum(:quantity)     
+      unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? and invoices.id <> ? ', o.product_boxing.id, false, Time.zone.now, o.invoice.id ).sum(:quantity)     
       if o.product_boxing.product.inventory - unpaid - o.quantity < 0
         flash[:warning] = o.product_boxing.product.name + '庫存剩'+(o.product_boxing.product.inventory - unpaid).to_s+'箱'
         redirect_to root_url
@@ -416,7 +416,7 @@ class InvoicesController < ApplicationController
 
   def allpayCVS
     @invoice.orders.each do |o|        
-      unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', o.product_boxing.id, false, Time.zone.now ).sum(:quantity)     
+      unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? and invoices.id <> ? ', o.product_boxing.id, false, Time.zone.now, o.invoice.id ).sum(:quantity)     
       if o.product_boxing.product.inventory - unpaid - o.quantity < 0
         flash[:warning] = o.product_boxing.product.name + '庫存剩'+(o.product_boxing.product.inventory - unpaid).to_s+'箱'
         redirect_to root_url

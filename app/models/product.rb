@@ -3,6 +3,8 @@ class Product < ActiveRecord::Base
   has_many   :product_images, dependent: :destroy   
   has_many   :product_boxings, dependent: :destroy     
   has_many   :comments, dependent: :destroy   
+  has_many   :keyword_product_lists   
+  has_many   :keywords, through: :keyword_product_lists 
 
   has_attached_file :cover, 
                     styles: { original: "1024", medium: "500"},

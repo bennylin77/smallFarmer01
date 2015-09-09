@@ -2,6 +2,15 @@ class MainController < ApplicationController
   def index
   end
   
+  def keywords
+    keywords = Keyword.where('content LIKE ?', "%#{params[:query]}%")
+    result = []
+    keywords.each do |k|
+      result<<{ keyword: k.content, display: k.content+' (目前'+k.products.size.to_s+'項商品)' }
+    end   
+    render json: result
+  end
+  
   def tempIndex    
   end
   
