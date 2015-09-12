@@ -3,11 +3,15 @@ class MainController < ApplicationController
   end
   
   def keywords
+    result = []    
     keywords = Keyword.where('content LIKE ?', "%#{params[:query]}%")
-    result = []
     keywords.each do |k|
       result<<{ keyword: k.content, display: k.content+' (目前'+k.products.size.to_s+'項商品)' }
     end   
+    keywords = Product.where('name LIKE ?', "%#{params[:query]}%")
+    keywords.each do |k|
+      result<<{ keyword: k.name, display: k.name}
+    end      
     render json: result
   end
   
@@ -21,7 +25,21 @@ class MainController < ApplicationController
   end
   
   def search
-    @products = Product.all
+    @products = Product.where('name LIKE ?', "%#{params[:query]}%").where(available_c: true, deleted_c: false) + Product.joins(:keywords).where('keywords.content LIKE ?', "%#{params[:query]}%").where(available_c: true, deleted_c: false)
+    @products = @products.uniq.sort{|a,b| b.priority <=> a.priority }
+    #@products = Product.joins( keyword_product_lists: :keyword ).where('keywords.content LIKE ? or name LIKE ?', "%#{params[:query]}%, ")    
+    
+    #@products = Product.joins(product_boxing: {product: :company}).where('companies.id = ? and called_smallfarmer_c = ? and invoices.confirmed_c = 1', current_user.companies.first, params[:called_smallfarmer_c] ).all.paginate(page: params[:page], per_page: 30).order('id')    
+   
+
+    @query = params[:query]
+=begin    
+    result = []
+    keywords.each do |k|
+      result<<{ keyword: k.content, display: k.content+' (目前'+k.products.size.to_s+'項商品)' }
+    end   
+    render json: result
+=end        
   end
     
   def farms  
@@ -29,7 +47,7 @@ class MainController < ApplicationController
   end
   
   def fruits   
-    @products = Product.all.where(deleted_c: false)  
+    @products = Product.all.where(available_c: true, deleted_c: false).order(priority: :desc)
   end
   
   def marketing   
