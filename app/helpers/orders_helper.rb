@@ -79,13 +79,13 @@ module OrdersHelper
                        hash[:checked_time].day, 15, 30, 00)       
     if t_15_30 >= hash[:checked_time] 
        if hash[:words]       
-        '明天 '+(hash[:checked_time]+1.day).to_date.to_s+' '
+        ' '+(hash[:checked_time]+1.day).to_date.to_s+' '
        else 
         (hash[:checked_time]+1.day).to_date.to_s
        end         
     else
        if hash[:words]
-        '後天 '+(hash[:checked_time]+2.day).to_date.to_s+' '  
+        ' '+(hash[:checked_time]+2.day).to_date.to_s+' '  
        else 
         (hash[:checked_time]+2.day).to_date.to_s
        end 

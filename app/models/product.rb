@@ -56,5 +56,5 @@ class Product < ActiveRecord::Base
       end 
     end
   end   
-   
+    
 end

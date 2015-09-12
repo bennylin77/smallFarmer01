@@ -1,4 +1,4 @@
-<% products.where(available_c: true, deleted_c: false).order(priority: :desc).each_slice(4) do |p|%> 
+<% products.each_slice(4) do |p|%> 
 	<div class="row">
 		<% p.each_with_index do |pp, index|%>
 			<div class="col-sm-6 col-lg-3 product_index_container text-center">					
