@@ -69,13 +69,13 @@
 				<%end%>								 
 			<dt>付款狀態</dt>			
 			  	<dd><%if i.paid_c%>已付款<%else%><div style="color: #b24d4b">尚未付款</div><%end%></dd> 		  	
-		    <%if i.paid_c%>	
-		    <dt>歐付寶編號</dt>
-		    	<dd><%= i.allpay_trade_no%></dd>		  	
 			<dt>付款編號</dt>
-			  	<dd><%= i.allpay_merchant_trade_no %></dd>			  	
+			  	<dd><%= i.allpay_merchant_trade_no %></dd>		    
+		    <%if i.paid_c%>	
 			<dt>付款日期</dt>
-			  	<dd><%= i.paid_at.strftime("%Y-%m-%d %H:%M:%S") %></dd>	
+			  	<dd><%= i.paid_at.strftime("%Y-%m-%d %H:%M:%S") %></dd>		    
+		    <dt>歐付寶編號</dt>
+		    	<dd><%= i.allpay_trade_no%></dd>		  			  		
 			<%else%>
 			<dt><abbr title="請於付款期限內付款, 超過付款期限, 有可能因為庫存不足, 訂單無法成立">付款期限</abbr></dt>
 			  	<dd>
