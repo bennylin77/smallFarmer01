@@ -259,7 +259,12 @@ class InvoicesController < ApplicationController
   def allpayNotify
     if macValueOk? # we still need to check domain   
       if params[:RtnCode] == '1' # trade success or not
-        invoice = Invoice.where(allpay_merchant_trade_no: params[:MerchantTradeNo]).first
+        
+        id = params[:MerchantTradeNo].gsub(/AT.*$/, '')       
+        #invoice = Invoice.where(allpay_merchant_trade_no: params[:MerchantTradeNo]).first
+        unless invoice ## for stupid user
+         invoice = Invoice.find(id)
+        end        
         if !invoice.paid_c      
           discount = 0 
           invoice.invoice_coupon_lists.each do |i_c_l|
