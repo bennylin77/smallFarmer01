@@ -109,6 +109,8 @@ Rails.application.routes.draw do
   get    'main/under'  
   get    'main/surveyFarmer'
   get    'main/tempIndex'
+
+  mount  Smallfarmer::API => '/'
     
   root to: "main#tempIndex" 
 end
