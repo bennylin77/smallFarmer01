@@ -12,15 +12,16 @@
 					</div>					
 				</div>
 				<div class="product_index_name"><%if pp.released_at > Time.zone.now %>[預購]<%end%><%= pp.name%><%= "%g" % pp.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(pp.unit).first %></div>				
-				<div class="product_index_company_name"><%= pp.company.name%></div>				
+				<div class="product_index_company_name"><%= pp.company.name%></div>
+				<div class="product_index_price"><%=number_with_delimiter( pp.product_boxings.first.product_pricings.first.price.to_i, delimiter: ',')%> 元</div>				
 				<div class="product_index_fruits_icons">
-					<%if pp.GAP_c%><%=image_tag 'gap.png', class: '', style: 'height: 45px; width: 45px;'  %><%end%>		      
-					<%if pp.TAP_c%><%=image_tag 'tap.png', class: '', style: 'height: 40px; width: 40px;'  %><%end%>		      		      
-					<%if pp.OTAP_c%><%=image_tag 'otap.png', class: '', style: 'height: 40px; width: 40px;'  %><%end%>		      		      
-					<%if pp.UTAP_c%><%=image_tag 'utap.png', class: '', style: 'height: 40px; width: 40px;'  %><%end%>				    	
-					<%if pp.pesticide_qualified_c%><%=image_tag 'pesticide_qualified.png', class: '', style: 'height: 45px; width: 45px;'  %><%end%>	
-					<%if pp.pesticide_zero_c%><%=image_tag 'pesticide_zero.png', class: '', style: 'height: 45px; width: 45px;'  %><%end%>						
-					<%unless pp.sweet_degree.blank?%><%=image_tag 'sweet_degree/'+pp.sweet_degree.to_s+'.png', class: '', style: 'height: 35px; width: 55px;' %><%end%>				    
+					<%if pp.GAP_c%><%=image_tag 'gap.png', class: '', style: 'height: 42px; width: 42px;'  %><%end%>		      
+					<%if pp.TAP_c%><%=image_tag 'tap.png', class: '', style: 'height: 38px; width: 38px;'  %><%end%>		      		      
+					<%if pp.OTAP_c%><%=image_tag 'otap.png', class: '', style: 'height: 38px; width: 38px;'  %><%end%>		      		      
+					<%if pp.UTAP_c%><%=image_tag 'utap.png', class: '', style: 'height: 38px; width: 38px;'  %><%end%>				    	
+					<%if pp.pesticide_qualified_c%><%=image_tag 'pesticide_qualified.png', class: '', style: 'height: 40px; width: 40px;'  %><%end%>	
+					<%if pp.pesticide_zero_c%><%=image_tag 'pesticide_zero.png', class: '', style: 'height: 40px; width: 40px;'  %><%end%>						
+					<%unless pp.sweet_degree.blank?%><%=image_tag 'sweet_degree/'+pp.sweet_degree.to_s+'.png', class: '', style: 'height: 30px; width: 50px;' %><%end%>				    
 			    </div>					 			
 			<%end%>		 				
 			</div>	
