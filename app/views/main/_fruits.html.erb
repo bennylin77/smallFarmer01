@@ -12,7 +12,14 @@
 					</div>					
 				</div>
 				<div class="product_index_name"><%if pp.released_at > Time.zone.now %>[預購]<%end%><%= pp.name%><%= "%g" % pp.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(pp.unit).first %></div>				
-				<div class="product_index_company_name"><%= pp.company.name%> | <span class="product_index_price"><%=number_with_delimiter( priceWithShipments( pp.product_boxings.first.product_pricings.first ), delimiter: ',')%> <span style="font-size: 80%">元(含運)</span></span></div>
+				<div class="product_index_company_name"><%= pp.company.name%> |				
+					<% pricing = pp.product_boxings.first.product_pricings.first %>
+					<%if pp.discount!=1%>
+						<s><small><%= pricing.price.to_i + shippingRates(cold_chain: pricing.product_boxing.product.cold_chain, size: pricing.product_boxing.size) %></small></s> <span class="product_index_price"><%=number_with_delimiter( priceWithShipments( pricing ), delimiter: ',')%> <span style="font-size: 80%">元(含運)</span></span>					
+					<%else%>
+						<span class="product_index_price"><%=number_with_delimiter( priceWithShipments( pp.product_boxings.first.product_pricings.first ), delimiter: ',')%> <span style="font-size: 80%">元(含運)</span></span>
+					<%end%>				
+				</div>
 				<div class="product_index_fruits_icons">
 					<%if pp.GAP_c%><%=image_tag 'gap.png', class: '', style: 'height: 42px; width: 42px;'  %><%end%>		      
 					<%if pp.TAP_c%><%=image_tag 'tap.png', class: '', style: 'height: 38px; width: 38px;'  %><%end%>		      		      
