@@ -94,7 +94,7 @@
 							<%if @product.discount!=1%>
 							<s><%= p.price.to_i + shippingRates(cold_chain: p.product_boxing.product.cold_chain, size: p.product_boxing.size) %></s> <span style="font-size:128%; color: #b12704"><%= priceWithShipments(p) %></span>
 							<%else%>
-							<%= priceWithShipments(p) %>
+							<span style="font-size:128%; color: #b12704"><%= priceWithShipments(p) %></span>
 							<%end%>
 						<%end%>				
 					</div>	
