@@ -15,6 +15,21 @@
 		  <%end%>         
         </div>
         <div id="navbar" class="navbar-collapse collapse">   
+		  <ul class="nav navbar-nav text-nav">
+            <li>
+ 		  		<%=link_to '/main/fruits' do%>
+ 		  		產地鮮果
+ 		  		<%end%>
+            </li>
+            <li class="li-divider">
+            	<span>|</span>
+            </li>          	
+            <li>
+            	<%=link_to '/main/farms' do%>
+            	合作農場
+            	<%end%>
+            </li>
+          </ul>          
           <form class="navbar-form navbar-left hidden-xs" role="search" action="/main/search" method="get">
             <div class="form-group">
             	<input type="text" class="form-control rounded typeahead search_term" name="query" placeholder="找產地鮮果？" value="<%= @query %>">
@@ -23,15 +38,7 @@
     	  </form>     	    
           <form class="navbar-form hidden-sm hidden-md hidden-lg" role="search" action="/main/search" method="get">
             <input type="text" class="form-control rounded" name="query" placeholder="找產地鮮果？" value="<%= @query %>">
-    	  </form>        	       	 
-          <ul class="nav navbar-nav">
-            <li>
- 		  		<%=link_to '產地鮮果', '/main/fruits', class: '', style: 'font-size: 17px; color: #536132;'%>
-            </li>	            	
-            <li>
-            	<%=link_to '合作農場', '/main/farms', class: '', style: 'font-size: 17px; color: #536132;'%>
-            </li>
-          </ul>  	               	      	      	      	
+    	  </form>        	       	  	               	      	      	      	
           <ul class="nav navbar-nav navbar-right">
 			<%if user_signed_in?%>          	
 	            <li>

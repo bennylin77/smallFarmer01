@@ -32,3 +32,4 @@ gem 'bootstrap3-datetimepicker-rails', '~> 4.14.30'
 gem 'magnific-popup-rails'
 gem 'grape'
 gem "hashie-forbidden_attributes"
+gem 'doorkeeper'

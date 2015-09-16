@@ -1,15 +1,19 @@
 <header>
 	<div class="container">
-        <div class="intro-text">
-        	<div class="intro-lead-in">歡迎光臨！</div>
-            <div class="intro-heading">一起享用甜美多汁的產地直送鮮果</div>
-            <a href="#services" class="page-scroll intro-about hidden-xs hidden-sm">關於小農1號</a>
-    		<div class="hidden-md hidden-lg" style="background: rgba(235, 225, 226, 0.8); border-radius: 10px; width: 230px; margin: 20px auto; color: #000000; padding: 15px;">
-    			<%=image_tag 'index/IBM.png', style: 'width: 90px'%>
-    			<div class="ibm_text">*全館9折優惠</div>
-    			<div class="ibm_text">(優惠期間:9/4-9/21)</div>
-    		</div>
+		<div class="row">
+	        <div class="intro-text">
+	        	<div class="intro-lead-in">歡迎光臨！</div>
+	            <div class="intro-heading">一起享用甜美多汁的產地直送鮮果</div>
+	            <a href="#services" class="page-scroll intro-about hidden-xs hidden-sm">關於小農1號</a>
+	    		<div class="hidden-md hidden-lg" style="background: rgba(235, 225, 226, 0.8); border-radius: 10px; width: 230px; margin: 20px auto; color: #000000; padding: 15px;">
+	    			<%=image_tag 'index/IBM.png', style: 'width: 90px'%>
+	    			<div class="ibm_text">*全館9折優惠</div>
+	    			<div class="ibm_text">(優惠期間:9/4-9/21)</div>
+	    		</div>
+	    	</div>
     	</div>
+    	
+    	
     	<div class="ibm_container hidden-xs hidden-sm">
     		<%=image_tag 'index/IBM.png'%>
     		<div class="ibm_text">慶中秋賀佳節</div>
@@ -18,47 +22,6 @@
     	</div>	
     </div>
 </header>
-<!-- Services Section -->
-    <section id="services" class="first_section">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2 class="section-heading">小農1號特別在哪裡？</h2>
-                    <h3 class="section-subheading text-muted">我們堅持三大價值，帶給農夫和消費者平等公正的水果交易平台</h3>
-                </div>
-            </div>
-            <div class="row text-center">
-                <div class="col-md-2 col-lg-offset-2 col-lg-1">
-                    <%=image_tag 'index/green_circle.png', class: 'yellow_circle value_circle'%>
-                    <h4 class="yellow_value_title value_title">公開透明</h4>
-                    <p class="value_explanation text-muted yellow_value_description">公開每筆交易的金額流向，您將不再多花冤枉錢。</p>
-                </div>
-                <div class="col-md-1 hidden-sm hidden-xs">
-                    <%=image_tag 'index/plus.png', class: "value_op value_op_1"%>
-                </div>                
-                <div class="col-md-2 col-lg-1">
-                    <%=image_tag 'index/yellow_circle.png', class: 'green_circle value_circle'%>
-                    <h4 class="green_value_title value_title">回饋互助</h4>
-                    <p class="value_explanation text-muted green_value_description">每筆交易農夫會將消費金額的4%，回饋給您。</p>
-                </div>    
-                <div class="col-md-1 hidden-sm hidden-xs">
-                    <%=image_tag 'index/plus.png', class: "value_op value_op_2"%>
-                </div>                  
-                <div class="col-md-2 col-lg-1">
-                    <%=image_tag 'index/red_circle.png', class: 'red_circle value_circle'%>
-                    <h4 class="red_value_title value_title">公正評價</h4>
-                    <p class="value_explanation text-muted red_value_description">好吃？只有您說的算！</p>
-                </div>  
-                <div class="col-md-2 hidden-sm hidden-xs">
-                    <%=image_tag 'index/equal.png', class: "value_op_eq value_op_3"%>
-                </div>                                                                            	
-                <div class="col-md-2 col-lg-1">
-                    <%=image_tag 'index/grey.png', class: 'grey_circle value_circle', style:'visibility: hidden;'%>
-                    <h4 class="grey_value_title value_title" style="visibility: hidden;">平等互惠</h4>
-                </div>
-            </div>
-        </div>
-    </section>
 <!-- Services Section -->    
     <section class="second_section" style="background: #f8f8f8">
         <div class="container">
@@ -109,9 +72,50 @@
                 </div>
             </div>
         </div>
-    </section>     
+    </section>  
+<!-- Services Section -->
+    <section id="services" class="first_section">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">小農1號特別在哪裡？</h2>
+                    <h3 class="section-subheading text-muted">我們堅持三大價值，帶給農夫和消費者平等公正的水果交易平台</h3>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-2 col-lg-offset-2 col-lg-1">
+                    <%=image_tag 'index/green_circle.png', class: 'yellow_circle value_circle'%>
+                    <h4 class="yellow_value_title value_title">公開透明</h4>
+                    <p class="value_explanation text-muted yellow_value_description">公開每筆交易的金額流向，您將不再多花冤枉錢。</p>
+                </div>
+                <div class="col-md-1 hidden-sm hidden-xs">
+                    <%=image_tag 'index/plus.png', class: "value_op value_op_1"%>
+                </div>                
+                <div class="col-md-2 col-lg-1">
+                    <%=image_tag 'index/yellow_circle.png', class: 'green_circle value_circle'%>
+                    <h4 class="green_value_title value_title">回饋互助</h4>
+                    <p class="value_explanation text-muted green_value_description">每筆交易農夫會將消費金額的4%，回饋給您。</p>
+                </div>    
+                <div class="col-md-1 hidden-sm hidden-xs">
+                    <%=image_tag 'index/plus.png', class: "value_op value_op_2"%>
+                </div>                  
+                <div class="col-md-2 col-lg-1">
+                    <%=image_tag 'index/red_circle.png', class: 'red_circle value_circle'%>
+                    <h4 class="red_value_title value_title">公正評價</h4>
+                    <p class="value_explanation text-muted red_value_description">好吃？只有您說的算！</p>
+                </div>  
+                <div class="col-md-2 hidden-sm hidden-xs">
+                    <%=image_tag 'index/equal.png', class: "value_op_eq value_op_3"%>
+                </div>                                                                            	
+                <div class="col-md-2 col-lg-1">
+                    <%=image_tag 'index/grey.png', class: 'grey_circle value_circle', style:'visibility: hidden;'%>
+                    <h4 class="grey_value_title value_title" style="visibility: hidden;">平等互惠</h4>
+                </div>
+            </div>
+        </div>
+    </section>       
 <!-- Services Section -->    
-    <section style="background: #ffffff" class="last_section">
+    <section style="background: #f8f8f8" class="last_section">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 col-lg-offset-2 col-lg-8 text-center">

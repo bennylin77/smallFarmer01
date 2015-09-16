@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+
   get    'comments/post'  
   post   'comments/post'
   post   'comments/delete'
@@ -110,7 +111,8 @@ Rails.application.routes.draw do
   get    'main/surveyFarmer'
   get    'main/tempIndex'
 
-  mount  Smallfarmer::API => '/'
+  mount  Smallfarmer::ORDER_API => '/'    
+  mount  Smallfarmer::ACCOUNT_API => '/'  
     
   root to: "main#tempIndex" 
 end

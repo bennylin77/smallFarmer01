@@ -82,8 +82,35 @@ class User < ActiveRecord::Base
 
   def active_for_authentication?
     super && !self.blocked_c
-  end           
-private
+  end     
+  
+#========================  token ======================#
+  before_save :ensure_authentication_token 
+   
+  def ensure_authentication_token
+    self.authentication_token ||= generate_authentication_token
+    self.authentication_token_expires_at = Time.zone.now + 10#3.months
+  end
+
+  def reset_authentication_token
+    self.authentication_token = generate_authentication_token
+    self.authentication_token_expires_at = Time.zone.now + 30#3.months    
+    save(validate: false)
+  end
+
+  def expired?
+    Time.zone.now >= self.authentication_token_expires_at
+  end
+
+  private
+  
+  def generate_authentication_token
+    loop do
+      token = Devise.friendly_token
+      break token unless User.where(authentication_token: token).first
+    end
+  end  
+#========================  token ======================# 
   def setUserAddress
     companies.create(activated_c: false)
     #notifications.create(category: GLOBAL_VAR['NOTIFICATION_PROMOTION'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_VERIFY'], 
