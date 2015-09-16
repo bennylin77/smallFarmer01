@@ -14,7 +14,27 @@
 .navbar .navbar-collapse {
 }
 .no-touch .navbar-nav a:hover{
-  opacity: 0.8;  
+  opacity: 0.7;  
+  text-decoration: underline;
+}
+.text-nav li{
+  font-size: 18px;
+  color: #536132; 
+}
+.text-nav .li-divider{
+  font-size: 18px;
+  color: #536132; 
+}
+@media (max-width: 1084px) {
+  .text-nav .li-divider{
+    display: none;
+  }
+}
+.text-nav .li-divider span{
+  display: block; 
+  position: relative; 
+  padding: 15px 3px; 
+  line-height: 20px;
 }
 .navbar-form{
   border-top: none;
@@ -134,7 +154,7 @@ input.rounded:focus {
   border-left: 18px solid transparent;
   content: '';
 }
-@media (max-width: 1065px) {
+@media (max-width: 1083px) {
   .menu{
     background: #ffffff;
     border-bottom: none;
