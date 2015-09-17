@@ -12,7 +12,16 @@ module Smallfarmer
     desc "Return Orders"      
     post :index do
       params[:called_smallfarmer_c] = params[:called_smallfarmer_c] == 'true' ? true : false    
-      { orders: Order.joins(product_boxing: {product: :company}, invoice: {} ).where('companies.id = ? and called_smallfarmer_c = ? and invoices.confirmed_c = 1', current_user.companies.first, params[:called_smallfarmer_c] ).all.order('id') }              
+      orders = []
+      Order.joins(product_boxing: {product: :company}, invoice: {} ).where('companies.id = ? and called_smallfarmer_c = ? and invoices.confirmed_c = 1', current_user.companies.first, params[:called_smallfarmer_c] ).all.order('id').each do |o|
+         orders << {
+           order: o,
+           product_boxing: o.product_boxing,
+           product: o.product_boxing.product,
+           product_cover: Rails.configuration.smallfarmer01_host+o.product_boxing.product.cover.url  
+         }
+      end   
+      { orders: orders }              
     end
 
     desc "Confirm order"
