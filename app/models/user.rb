@@ -89,12 +89,12 @@ class User < ActiveRecord::Base
    
   def ensure_authentication_token
     self.authentication_token ||= generate_authentication_token
-    self.authentication_token_expires_at = Time.zone.now + 10#3.months
+    self.authentication_token_expires_at = Time.zone.now + 6.months
   end
 
   def reset_authentication_token
     self.authentication_token = generate_authentication_token
-    self.authentication_token_expires_at = Time.zone.now + 30#3.months    
+    self.authentication_token_expires_at = Time.zone.now + 6.months    
     save(validate: false)
   end
 
