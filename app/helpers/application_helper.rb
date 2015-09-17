@@ -37,7 +37,7 @@ module ApplicationHelper
   
   def navbarDefault
     if current_page?('/main/tempIndex') or
-       current_page?(Rails.configuration.smallfarmer01_host)
+       current_page?(Rails.configuration.smallfarmer01_host) or
        current_page?( root_url ) or
        current_page?('/products/'+(params[:id] || 0).to_s)    
       "navbar-shrink".html_safe

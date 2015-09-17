@@ -1,18 +1,30 @@
 <header>
 	<div class="container">
-		<div class="row">
-	        <div class="intro-text">
+		<div class="row intro-text">
+	        <div class="col-md-12">
 	        	<div class="intro-lead-in">歡迎光臨！</div>
 	            <div class="intro-heading">一起享用甜美多汁的產地直送鮮果</div>
-	            <a href="#services" class="page-scroll intro-about hidden-xs hidden-sm">關於小農1號</a>
+	            <!--<a href="#services" class="page-scroll intro-about hidden-xs hidden-sm">關於小農1號</a>
 	    		<div class="hidden-md hidden-lg" style="background: rgba(235, 225, 226, 0.8); border-radius: 10px; width: 230px; margin: 20px auto; color: #000000; padding: 15px;">
 	    			<%=image_tag 'index/IBM.png', style: 'width: 90px'%>
 	    			<div class="ibm_text">*全館9折優惠</div>
 	    			<div class="ibm_text">(優惠期間:9/4-9/21)</div>
 	    		</div>
+	    		-->
 	    	</div>
     	</div>
-    	
+    	<div class="row intro-nav text-center">
+        	<div class="col-md-offset-2 col-md-4 col-sm-6">
+            	<%=link_to '/main/fruits', class: 'intro-nav-button' do%>
+ 		  			找鮮果
+ 		  		<%end%>
+            </div>    	
+        	<div class="col-md-4 col-sm-6">
+            	<%=link_to '/main/farms', class: 'intro-nav-button' do%>
+            		找小農
+            	<%end%>        		
+            </div>    	
+    	</div>	
     	
     	<div class="ibm_container hidden-xs hidden-sm">
     		<%=image_tag 'index/IBM.png'%>
@@ -23,7 +35,7 @@
     </div>
 </header>
 <!-- Services Section -->    
-    <section class="second_section" style="background: #f8f8f8">
+    <section class="second_section" style="background: #ffffff">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 col-lg-offset-2 col-lg-8 text-center">
@@ -32,48 +44,31 @@
                 </div>
             </div>
         </div>
-    </section>      
+    </section>     
 <!-- Services Section -->    
-    <section class="third_section fruit_section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 col-lg-offset-2 col-lg-8 text-center">
-                    <%= link_to 'https://www.smallfarmer01.com/products/29' do%>
+    <section class="fruit_section" style="background: #f8f8f8">
+        <div class="container-fluid">
+            <div class="row text-center">
+                <div class="col-sm-6 fruit_section_image" style="background-image: url(<%=asset_path 'index/first.jpg'%>); background-attachment: scroll; background-position: center center; background-size: cover;">
+                    <%= link_to 'https://www.smallfarmer01.com/main/search?query=%E6%A2%A8' do%>
 					<div class="index_fruits_category index_fruits_category_1">
 						<div class="index_fruits_category_s">台中東勢/后里</div>
 						<div class="index_fruits_category_l">梨</div>
 					</div>
-					<%end%>
+					<%end%>                    		
                 </div>
-            </div>
-        </div>
-    </section>     
-<!-- Services Section -->    
-    <section class="second_section" style="background: #f8f8f8">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 col-lg-offset-2 col-lg-8 text-center">
-                	<h2>以及</h2>
-                </div>
-            </div>
-        </div>
-    </section>        
- <!-- Services Section -->    
-    <section class="fifth_section fruit_section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 col-lg-offset-2 col-lg-8 text-center">
-                    <%= link_to 'https://www.smallfarmer01.com/products/19' do%>
+                <div class="col-sm-6 fruit_section_image" style="background-image: url(<%=asset_path 'index/third.jpg'%>); background-attachment: scroll; background-position: center center; background-size: cover;">
+                    <%= link_to 'https://www.smallfarmer01.com/main/search?query=%E8%8A%92%E6%9E%9C%E4%B9%BE' do%>
 					<div class="index_fruits_category index_fruits_category_2 index_fruits_category_2">
 						<div class="index_fruits_category_s">台南大內</div>
-						<div class="index_fruits_category_l">凱特芒果</div>
+						<div class="index_fruits_category_l">凱特芒果乾</div>
 					</div>
-					<%end%>
-                </div>
+					<%end%>                    		
+                </div>                
             </div>
         </div>
-    </section>  
-<!-- Services Section -->
+    </section>       
+    <!--Services Section -->
     <section id="services" class="first_section">
         <div class="container-fluid">
             <div class="row">
@@ -197,11 +192,11 @@ $(document).ready(function($) {
 						  .setTween(TweenMax.to(".grey_value_title", 0.5, {autoAlpha: 1, ease: Linear.easeNone, delay: 1.4}))
 						  .addTo(controller) 	
 						  
-	new ScrollMagic.Scene({triggerElement: ".third_section"})
+	new ScrollMagic.Scene({triggerElement: ".fruit_section"})
 						  .setTween(TweenMax.to(".index_fruits_category_1", 1, {autoAlpha: 1, ease: Linear.easeNone}))
 						  .addTo(controller)
 						  
-	new ScrollMagic.Scene({triggerElement: ".fifth_section"})
+	new ScrollMagic.Scene({triggerElement: ".fruit_section"})
 						  .setTween(TweenMax.to(".index_fruits_category_2", 1, {autoAlpha: 1, ease: Linear.easeNone}))
 						  .addTo(controller)						  						  
 						  													  

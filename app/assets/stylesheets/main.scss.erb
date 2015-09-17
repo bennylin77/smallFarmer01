@@ -3,29 +3,28 @@
   background: rgba( 255, 255, 255, 1);
   //border-bottom: none;
   //box-shadow: 0px 15px 0px -14px #536132;
-  //color: #f1f1f1 !important;  
+  color: #536132 !important;  
 }
 
 .navbar-shrink{
-  background: rgba( 255, 255, 255, 0.8);
+  background: rgba( 255, 255, 255, 0.7);
   box-shadow: none;
 }
 
 .navbar .navbar-collapse {
 }
 .no-touch .navbar-nav a:hover{
-  opacity: 0.7;  
-  text-decoration: underline;
+  color: #323A1E !important; 
 }
-.text-nav li{
+.text-nav li a{
   font-size: 18px;
-  color: #536132; 
+  color: #536132 !important; 
 }
 .text-nav .li-divider{
-  font-size: 18px;
-  color: #536132; 
+  font-size: 15px;
+  color: #536132 !important; 
 }
-@media (max-width: 1084px) {
+@media (max-width: 1095px) {
   .text-nav .li-divider{
     display: none;
   }
@@ -33,7 +32,7 @@
 .text-nav .li-divider span{
   display: block; 
   position: relative; 
-  padding: 15px 3px; 
+  padding: 15px 2px; 
   line-height: 20px;
 }
 .navbar-form{
@@ -69,7 +68,8 @@ input.rounded:focus {
   padding-right: 10px;
 }
 .navbar-right>li>a.menu_right {
-    padding: 7px 7px;
+  padding: 7px 7px;
+  color: #536132 !important; 
 }
 .navbar-right>li>a.menu_right:focus, .navbar-right>li>a.menu_right:active{
   background: none !important;
@@ -154,7 +154,7 @@ input.rounded:focus {
   border-left: 18px solid transparent;
   content: '';
 }
-@media (max-width: 1083px) {
+@media (max-width: 1094px) {
   .menu{
     background: #ffffff;
     border-bottom: none;
@@ -369,8 +369,8 @@ header{
     color: #FFF;
 }
 header .intro-text{
-    padding-top: 280px;
-    padding-bottom: 280px
+    padding-top: 250px;
+    //padding-bottom: 280px
 }
 header .intro-text .intro-lead-in{
     font-style:italic;
@@ -383,27 +383,32 @@ header .intro-text .intro-heading{
     font-weight:700;
     font-size: 60px;
     line-height:60px;
-    margin-bottom:50px;
+    margin-bottom: 70px;
 }
-header .intro-text .intro-about{
-    color: #536132;
-    font-size: 20px;
-    line-height: 20px;
-    letter-spacing: 2px;    
-    margin-bottom: 50px;
-    margin: 0 auto;
-    padding: 12px 55px;      
-    background: rgba(235, 225, 226, 1);
-    border-radius: 24px;
-}  
-.no-touch .intro-about:hover, .intro-about:focus{
+.intro-nav{
+  padding-bottom: 260px  
+}
+.intro-nav-button{
+    color: #ffffff;
+    font-size: 26px;
+    line-height: 26px;
+    letter-spacing: 5px;    
+    padding: 12px 60px;      
+    //background: rgba(235, 225, 226, 0.8);
+    border: 3px solid #ffffff;
+    border-radius: 5px;
+} 
+.no-touch .intro-nav-button:hover, .intro-nav-button:focus{
     text-decoration: none;
-    opacity: 0.8;
-}    
+    color: #ffffff;
+    //background: #4fb040;
+    border: 3px solid #4fb040;
+}  
+
+ 
 @media (max-width:768px){
   header .intro-text{
     padding-top:100px;
-    padding-bottom:50px
   } 
   header .intro-text .intro-lead-in{
     font-style:italic;
@@ -418,14 +423,15 @@ header .intro-text .intro-about{
     line-height:40px;
     margin-bottom:25px
   }  
-  header .intro-text .intro-about{
+  .intro-nav{
+    padding-bottom: 100px  
+  }  
+  .intro-nav-button{
       font-size: 16px;
-      line-height: 16px;
+      line-height: 60px;
       letter-spacing: 2px;    
-      margin-bottom: 50px;
-      margin: 0 auto;
+      margin-top: 50px;
       padding: 10px 45px;      
-      border-radius: 24px;
   }
 }
 
@@ -433,7 +439,7 @@ header .intro-text .intro-about{
   padding: 150px 0
 }
 .second_section{
-  padding: 100px 0
+  padding: 180px 0
 }
 .second_section h2{
   font-size: 40px;
@@ -444,8 +450,9 @@ header .intro-text .intro-about{
   font-style:italic;
   font-weight:400;
 }
+
+
 .third_section{
-    padding: 280px 0;  
     background-image: url(<%=asset_path 'index/first.jpg'%>);
     background-attachment: scroll;
     background-position: center center;
@@ -459,16 +466,22 @@ header .intro-text .intro-about{
 }
 .fruit_section .index_fruits_category{
     background: rgba(0, 0, 0, 0.3); 
-    width: 500px;  
-    padding: 70px 0px;  
+    width: 300px;  
+    padding: 20px 0px;  
     margin: 0 auto;
     visibility: hidden;
 }
 .index_fruits_category_s{
-  font-size: 35px;  
+  font-size: 20px;  
 }
 .index_fruits_category_l{
-  font-size: 60px;
+  font-size: 45px;
+}
+.fruit_section_image{
+  padding: 180px 0px;
+}
+.no-touch .fruit_section_image:hover{
+  opacity: 0.8;
 }
 @media (max-width:768px){
   .fruit_section .index_fruits_category{
@@ -476,11 +489,14 @@ header .intro-text .intro-about{
       padding: 50px 0px;  
       visibility: hidden;
   }
+  .fruit_section_image{
+    padding: 150px 0px;
+  }  
   .index_fruits_category_s{
-    font-size: 30px;  
+    font-size: 25px;  
   }
   .index_fruits_category_l{
-    font-size: 55px;
+    font-size: 40px;
   }  
 }
 /*
