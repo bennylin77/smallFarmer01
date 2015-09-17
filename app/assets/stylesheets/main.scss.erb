@@ -361,16 +361,16 @@ input.rounded:focus {
 
 
 header{
-    background-image: url(<%=asset_path 'fruits3.jpg'%>);
+    height: 100vh;    
+    background-image: url(<%=asset_path 'index/first_fruit.jpg'%>);
     background-attachment: scroll;
-    background-position: center center;
+    background-position: center center;   
     background-size: cover;
     text-align: center;
     color: #FFF;
 }
 header .intro-text{
-    padding-top: 250px;
-    //padding-bottom: 280px
+    margin-top: 28%;
 }
 header .intro-text .intro-lead-in{
     font-style:italic;
@@ -386,47 +386,54 @@ header .intro-text .intro-heading{
     margin-bottom: 70px;
 }
 .intro-nav{
-  padding-bottom: 260px  
 }
-.intro-nav-button{
+.intro-nav-button_1{
     color: #ffffff;
-    font-size: 26px;
-    line-height: 26px;
+    font-size: 23px;
+    line-height: 23px;
     letter-spacing: 5px;    
-    padding: 12px 60px;      
-    //background: rgba(235, 225, 226, 0.8);
-    border: 3px solid #ffffff;
+    padding: 15px 60px;      
+    background: rgba(234, 89, 24, 0.75);
     border-radius: 5px;
 } 
-.no-touch .intro-nav-button:hover, .intro-nav-button:focus{
+.intro-nav-button_2{
+    color: #ffffff;
+    font-size: 23px;
+    line-height: 23px;
+    letter-spacing: 5px;    
+    padding: 15px 60px;      
+    background: rgba(88, 210, 62, 0.75);
+    border-radius: 5px;
+} 
+.no-touch .intro-nav-button_1:hover, .intro-nav-button_1:focus{
     text-decoration: none;
     color: #ffffff;
-    //background: #4fb040;
-    border: 3px solid #4fb040;
+    background: rgba(234, 89, 24, 0.95);
 }  
-
+.no-touch .intro-nav-button_2:hover, .intro-nav-button_2:focus{
+    text-decoration: none;
+    color: #ffffff;
+    background: rgba(88, 210, 62, 0.95);
+}  
  
 @media (max-width:768px){
   header .intro-text{
-    padding-top:100px;
+    margin-top: 50%;
   } 
   header .intro-text .intro-lead-in{
     font-style:italic;
-    font-size:22px;
-    line-height:22px;
-    margin-bottom:25px
+    font-size: 27px;
+    line-height: 27px;
+    margin-bottom: 27px
   } 
   header .intro-text .intro-heading{
     text-transform:uppercase;
     font-weight:700;
-    font-size:40px;
+    font-size: 40px;
     line-height:40px;
     margin-bottom:25px
   }  
-  .intro-nav{
-    padding-bottom: 100px  
-  }  
-  .intro-nav-button{
+  .intro-nav-button_1, .intro-nav-button_2{
       font-size: 16px;
       line-height: 60px;
       letter-spacing: 2px;    
@@ -465,7 +472,7 @@ header .intro-text .intro-heading{
     text-decoration: none;     
 }
 .fruit_section .index_fruits_category{
-    background: rgba(0, 0, 0, 0.3); 
+    background: rgba(150, 150, 150, 0.3); 
     width: 300px;  
     padding: 20px 0px;  
     margin: 0 auto;
