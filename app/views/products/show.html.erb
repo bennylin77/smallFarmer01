@@ -240,8 +240,24 @@
 								<td>
 									<%=@product.company.county %><%=@product.company.district%>
 								</td>
-								<th>檢驗標章</th>
+								<th>甜度</th>
 								<td class="text-center">
+									<%unless @product.sweet_degree.blank?%><%=image_tag 'sweet_degree/'+@product.sweet_degree.to_s+'.png', class: 'product_sweet_degree', style: '' %><%else%>尚未提供<%end%>
+								</td>								
+							</tr>					
+							<tr>
+								<th>內容量</th>
+								<td>
+									每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%><%if @product.unit == GLOBAL_VAR['UNIT_CATTY'] or @product.unit == GLOBAL_VAR['UNIT_KG'] %><small> ±10%</small><%end%> 
+								</td>
+								<th>平均售價</th>
+								<td>
+									<%=number_with_delimiter( (priceWithShipments( @product.product_boxings.first.product_pricings.first )/@product.product_boxings.first.quantity).round(1), delimiter: ',')%> <span style="font-size: 80%">元/<%= Hash[unitOptions].rassoc(@product.unit).first %>(含運)
+								</td>								
+							</tr>
+							<tr>
+								<th>檢驗標章</th>
+								<td colspan="3" class="text-center">
 									<%if @product.GAP_c%><%=image_tag 'gap.png', class: '', style: 'height: 55px; width: 55px;'  %><%end%>		      
 									<%if @product.TAP_c%><%=image_tag 'tap.png', class: '', style: 'height: 50px; width: 50px;'  %><%end%>		      		      
 									<%if @product.OTAP_c%><%=image_tag 'otap.png', class: '', style: 'height: 50px; width: 50px;'  %><%end%>		      		      
@@ -251,18 +267,8 @@
 									<%if !@product.GAP_c and !@product.TAP_c and !@product.OTAP_c and
 										 !@product.UTAP_c and !@product.pesticide_qualified_c and 
 										 !@product.pesticide_zero_c%>尚未提供<%end%>
-								</td>					
-							</tr>					
-							<tr>
-								<th>內容量</th>
-								<td>
-									每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%><%if @product.unit == GLOBAL_VAR['UNIT_CATTY'] or @product.unit == GLOBAL_VAR['UNIT_KG'] %><small> ±10%</small><%end%> 
 								</td>
-								<th>甜度</th>
-								<td class="text-center">
-									<%unless @product.sweet_degree.blank?%><%=image_tag 'sweet_degree/'+@product.sweet_degree.to_s+'.png', class: 'product_sweet_degree', style: '' %><%else%>尚未提供<%end%>
-								</td>
-							</tr>			
+							</tr>										
 							<tr>
 								<th>保存方式</th>
 								<td colspan="3"><%= @product.preservation %></td>
