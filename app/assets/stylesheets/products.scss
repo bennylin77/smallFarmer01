@@ -559,6 +559,28 @@
   background-position: center center;
   background-size: cover;      
 }
+.product_index_sold_out_container{
+  background: rgba(255, 255, 255, 0.7);
+  position: absolute;
+  //margin-left: auto;
+  //margin-right: auto;  
+  width: 80%;
+  //left: 0;
+  right: -8%;
+  top: 3%;
+  z-index: 0;  
+  padding: 0px; 
+  padding-top: 5%;
+  padding-bottom: 2%;
+  border-radius: 0px;
+  -webkit-transform: rotate(25deg); /**safari, chrome**/
+  -moz-transform: rotate(25deg); /**firefox**/
+  transform: rotate(25deg); /**other browsers**/  
+}
+.product_index_sold_out{
+  font-size: 120%;  
+  color: rgba(70, 70, 70, 1);
+}
 .product_index_delicious_container{
   background: rgba(255, 255, 255, 0.7);
   position: absolute;

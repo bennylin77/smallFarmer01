@@ -280,12 +280,16 @@ class InvoicesController < ApplicationController
             invoice.save!
             invoice.orders.each do |o| 
               o.product_boxing.product.inventory = o.product_boxing.product.inventory - o.quantity
-              o.product_boxing.product.save!              
+              o.product_boxing.product.save!                                   
+            end    
+            #prevent wrong email address so loop again         
+            invoice.orders.each do |o| 
               System.sendNewOrder(o).deliver   
               notify( o.product_boxing.product.company.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], 
                                                                sub_category: GLOBAL_VAR['NOTIFICATION_SUB_NEW_ORDER'], 
-                                                               order_id: o.id})                          
-            end  
+                                                               order_id: o.id})       
+              pushAndroidNotification(title: '您有新的訂單', message: o.product_boxing.product.name+' '+o.quantity.to_s+'箱', user: o.product_boxing.product.company.user)    
+            end       
             System.sendPurchaseCompleted(invoice).deliver   
             notify( invoice.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], 
                                     sub_category: GLOBAL_VAR['NOTIFICATION_SUB_PURCHASE_COMPLETED'], 

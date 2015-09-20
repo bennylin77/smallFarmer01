@@ -33,3 +33,4 @@ gem 'magnific-popup-rails'
 gem 'grape'
 gem "hashie-forbidden_attributes"
 gem 'doorkeeper'
+gem 'rpush'

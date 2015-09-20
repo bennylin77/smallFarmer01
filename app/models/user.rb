@@ -9,7 +9,8 @@ class User < ActiveRecord::Base
   has_many :carts, dependent: :destroy  
   has_many :notifications, dependent: :destroy    
   has_many :coupons
-  has_many :invoices   
+  has_many :invoices  
+  has_many :user_devices    
   
   accepts_nested_attributes_for :addresses  
   accepts_nested_attributes_for :invoices         
@@ -85,12 +86,12 @@ class User < ActiveRecord::Base
   end     
   
 #========================  token ======================#
-  before_save :ensure_authentication_token 
+  #before_save :ensure_authentication_token 
    
-  def ensure_authentication_token
-    self.authentication_token ||= generate_authentication_token
-    self.authentication_token_expires_at = Time.zone.now + 6.months
-  end
+  #def ensure_authentication_token
+  #  self.authentication_token ||= generate_authentication_token
+  #  self.authentication_token_expires_at = Time.zone.now + 6.months
+  #end
 
   def reset_authentication_token
     self.authentication_token = generate_authentication_token

@@ -122,4 +122,17 @@ class ApplicationController < ActionController::Base
     notification.save!
   end
  
+  def pushAndroidNotification(hash)
+    registration_ids = []
+    hash[:user].user_devices.each do |u_d|
+      registration_ids << u_d.registration_id  
+    end        
+    unless registration_ids.blank?   
+      n = Rpush::Gcm::Notification.new
+      n.app = Rpush::Gcm::App.find_by_name("android_app")
+      n.registration_ids = registration_ids
+      n.data = { title: hash[:title], message: hash[:message] }
+      n.save!   
+    end    
+  end
 end

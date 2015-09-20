@@ -113,6 +113,8 @@ Rails.application.routes.draw do
 
   mount  Smallfarmer::ORDER_API => '/'    
   mount  Smallfarmer::ACCOUNT_API => '/'  
+  mount  Smallfarmer::USER_API => '/'    
+  mount  Smallfarmer::USER_DEVICE_API => '/'  
     
   root to: "main#tempIndex" 
 end

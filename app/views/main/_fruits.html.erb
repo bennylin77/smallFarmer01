@@ -1,9 +1,15 @@
 <% products.each_slice(4) do |p|%> 
 	<div class="row">
 		<% p.each_with_index do |pp, index|%>
+		<% inventory = pp.inventory - Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', pp.product_boxings.first.id, false, Time.zone.now ).sum(:quantity) %>		
 			<div class="col-sm-6 col-lg-3 product_index_container text-center">					
 			<%= link_to pp do%>
 				<div class="product_index_image_container" style="background-image: url('<%=pp.cover.url%>')">		
+					<%if inventory==0%>
+					<div class="product_index_sold_out_container">
+						<span class="product_index_sold_out">已搶購完</span>
+					</div>
+					<%end%>
 					<div class="product_index_delicious_container">
 						<!--
 						<span class="product_index_delicious_sum" data-count="<%= pp.product_boxings.first.orders.where('review_at IS NOT NULL and review_score = ? ', GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count + pp.product_boxings.first.orders.where('review_at IS NOT NULL and review_score = ? ', GLOBAL_VAR['ORDER_REVIEW_TASTY']).count %>">0</span>人說好吃
