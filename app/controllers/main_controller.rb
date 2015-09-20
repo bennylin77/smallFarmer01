@@ -15,7 +15,16 @@ class MainController < ApplicationController
     render json: result
   end
   
-  def tempIndex    
+  def tempIndex       
+    if !Rpush::Gcm::App.find_by_name("android_app")
+      app = Rpush::Gcm::App.new
+      app.name = "android_app"
+      app.auth_key = Rails.configuration.android_API_key
+      app.connections = 1
+      app.save!
+    end
+    
+    
   end
   
   def privacyPolicy    

@@ -13,18 +13,26 @@ module Smallfarmer
     post :index do
       params[:called_smallfarmer_c] = params[:called_smallfarmer_c] == 'true' ? true : false    
       orders = []
-      Order.joins(product_boxing: {product: :company}, invoice: {} ).where('companies.id = ? and called_smallfarmer_c = ? and invoices.confirmed_c = 1', current_user.companies.first, params[:called_smallfarmer_c] ).all.order('id').each do |o|
-         orders << {
-           order: o,
-           product_boxing: o.product_boxing,
-           product: o.product_boxing.product,
-           product_cover: Rails.configuration.smallfarmer01_host+o.product_boxing.product.cover.url  
-         }
+      Order.joins(product_boxing: {product: :company}, invoice: {} ).where('companies.id = ? and called_smallfarmer_c = ? and invoices.confirmed_c = 1', current_user.companies.first, params[:called_smallfarmer_c] ).all.order('id').each do |o|         
+        shipments = []
+        o.shipments.each do |s|
+          shipments << {shipment: s, receiver_address: s.receiver_address }
+        end    
+        orders << {
+          order: o,
+          product_boxing: o.product_boxing,
+          product: o.product_boxing.product,
+          product_cover: Rails.configuration.smallfarmer01_host+o.product_boxing.product.cover.url,  
+          shipments: shipments
+        }
       end   
       { orders: orders }              
     end
 
     desc "Confirm order"
+    params do
+      requires :order_id, type: Integer, desc: "Order id"
+    end       
     post :confirm do
       order = Order.find(params[:order_id])     
       if order.product_boxing.product.company.user == current_user 

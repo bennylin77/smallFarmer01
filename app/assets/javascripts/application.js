@@ -30,4 +30,5 @@
 //= require magnific-popup
 //= require bootstrap-tagsinput.js
 //= require typeahead.js
+//= require parallax.js
 //= require_tree .
