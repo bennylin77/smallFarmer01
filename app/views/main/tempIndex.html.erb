@@ -40,7 +40,7 @@
             <div class="row">
                 <div class="col-md-12 col-lg-offset-2 col-lg-8 text-center">
                     <h2 class="section-heading">小農1號熱情推薦</h2>
-					<h3 class="section-subheading text-muted">我們走遍全國大小鄉鎮，找到台灣最美好的滋味</h3>			
+					<h3 class="section-subheading text-muted" style="margin-bottom: 0px;">我們走遍全國大小鄉鎮，找到台灣最美好的滋味</h3>			
                 </div>
             </div>
         </div>
@@ -111,17 +111,21 @@
     </section>       
 <!-- Services Section -->    
     <section style="background: #f8f8f8" class="last_section">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-md-12 col-lg-offset-2 col-lg-8 text-center">
+                <div class="col-md-12 text-center">
                     <h2 class="section-heading">我們的帥氣農夫</h2>
                     <h3 class="section-subheading text-muted">沒錯！很帥，重點是他種的東西超好吃</h3>
-					<div class="videoWrapper">
-					<iframe id="video" width="560" height="315" src="https://www.youtube.com/embed/GWdLIkoTGOQ" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-lg-offset-2 col-lg-8 text-center" style="padding: 0px;">
+					<div class="video_container">
+						<div id="player"></div>
                 	</div>
                 </div>
             </div>
-        </div>
+        </div>        
     </section>  
 <!-- Services Section -->    
     <section style="background: #ffffff" class="last_section">
@@ -134,7 +138,7 @@
             </div>
             <%= render partial: "about" %>	
         </div>
-    </section>                     
+    </section>    
 <script>
 var controller;
 $(document).ready(function($) {
@@ -339,3 +343,27 @@ $(document).ready(function($) {
 	}
 }
 </style>
+<script>     
+      // 2. This code loads the IFrame Player API code asynchronously.
+      var tag = document.createElement('script');
+      tag.src = "http://www.youtube.com/player_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      // 3. This function creates an <iframe> (and YouTube player)
+      //    after the API code downloads.
+      var player;
+      function onYouTubePlayerAPIReady() {
+        player = new YT.Player('player', {
+          playerVars: { 'autoplay': 1, 'controls': 0,'autohide':1,'wmode':'opaque', 'showinfo': 0, 'modestbranding': 1 },
+          videoId: 'GWdLIkoTGOQ',
+          events: {
+            'onReady': onPlayerReady}
+        });
+      }
+
+      // 4. The API will call this function when the video player is ready.
+      function onPlayerReady(event) {
+        event.target.mute();
+      }
+</script>
