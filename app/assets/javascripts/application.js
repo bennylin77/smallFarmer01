@@ -31,4 +31,12 @@
 //= require bootstrap-tagsinput.js
 //= require typeahead.js
 //= require parallax.js
+//= require device.js
+//= require YTPlayer/jquery.mb.YTPlayer.src.js
+//= require YTPlayer/dep/jquery.mb.browser.js
+//= require YTPlayer/dep/jquery.mb.CSSAnimate.js
+//= require YTPlayer/dep/jquery.mb.simpleSlider.js
+//= require YTPlayer/dep/jquery.mb.storage.js
+
+
 //= require_tree .
