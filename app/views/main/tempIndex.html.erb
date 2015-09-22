@@ -25,13 +25,6 @@
             	<%end%>        		
             </div>    	
     	</div>	
-    	
-    	<div class="ibm_container hidden-xs hidden-sm">
-    		<%=image_tag 'index/IBM.png'%>
-    		<div class="ibm_text">慶中秋賀佳節</div>
-    		<div class="ibm_text">*全館9折優惠</div>
-    		<div class="ibm_text">(優惠期間:9/4-9/21)</div>
-    	</div>	
     </div>
 </header>
 <!-- Services Section -->    
@@ -108,27 +101,29 @@
                 </div>
             </div>
         </div>
-    </section>       
-<!-- Services Section -->    
-    <section style="background: #f8f8f8" class="last_section">
-        <div class="container-fluid">
+    </section>    
+    <section class="farmer_video_before_section" style="background: #f8f8f8">
+    	<div class="container">     
             <div class="row">
                 <div class="col-md-12 text-center">
                     <h2 class="section-heading">我們的帥氣農夫</h2>
                     <h3 class="section-subheading text-muted">沒錯！很帥，重點是他種的東西超好吃</h3>
                 </div>
-            </div>
+            </div>       
+		</div>		
+    </section>              
+<!-- Services Section -->       
+    <section class="farmer_video_section" style="background: #f8f8f8">
+    	<div class="container-fluid"> 		 		
             <div class="row">
-                <div class="col-md-12 col-lg-offset-2 col-lg-8 text-center" style="padding: 0px;">
-					<div class="video_container">
-						<div id="player"></div>
-                	</div>
-                </div>
-            </div>
-        </div>        
+                <div class="col-lg-12 text-center farmer_video_container">
+   				<a id="bgndVideo" class="player" data-property="{videoURL:'https://www.youtube.com/watch?v=GWdLIkoTGOQ',containment:'.farmer_video_container',autoPlay:true, mute:true, startAt:0, opacity:1}"></a>
+				</div>
+			</div>
+		</div>		
     </section>  
 <!-- Services Section -->    
-    <section style="background: #ffffff" class="last_section">
+    <section style="background: #ffffff" class="team_section">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12 col-lg-offset-2 col-lg-8 text-center">
@@ -306,43 +301,21 @@ $(document).ready(function($) {
 })( window );
 })();
 
+//video
+        if (!device.tablet() && !device.mobile()) {
+            $(".player").mb_YTPlayer();
+        } else {
+            //jQuery will add the default background to the preferred class 
+            $('.big-background, .small-background-section').addClass(
+                'big-background-default-image');
+        }
+
+
 					  						  						     
 });    
 </script>
-<style>
-.ibm_container{
-	position: absolute; color: black; 
-    right: 40px; top: 65%;
-    background: rgba(235, 225, 226, 0.8); height: 200px; 
-    width: 200px; border-radius: 100px;   
-}  
-.ibm_container img{
-	height: 47px;
-    margin-top: 35px;	
-	margin-bottom: 10px;    
-}
-.ibm_text{
-	font-size: 14px;	
-	line-height: 24px;	
-}
-@media (max-width:1450px){
-	.ibm_container{
-		position: absolute; color: black; 
-	    right: 40px; top: 70%;
-	    background: rgba(235, 225, 226, 0.8); height: 180px; 
-	    width: 180px; border-radius: 100px;   
-	}  
-	.ibm_container img{
-		height: 30px;
-	    margin-top: 35px;	
-		margin-bottom: 10px;    
-	}
-	.ibm_text{
-		font-size: 13px;	
-		line-height: 20px;	
-	}
-}
-</style>
+
+<!--
 <script>     
       // 2. This code loads the IFrame Player API code asynchronously.
       var tag = document.createElement('script');
@@ -367,3 +340,4 @@ $(document).ready(function($) {
         event.target.mute();
       }
 </script>
+-->
