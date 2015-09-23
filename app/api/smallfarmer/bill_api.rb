@@ -23,7 +23,17 @@ module Smallfarmer
       if bill.company.user == current_user 
         orders = []
         bill.orders.each do |o|
-          orders << o
+          shipments = []
+          o.shipments.each do |s|
+            shipments << {shipment: s, receiver_address: s.receiver_address }
+          end             
+          orders << {
+            order: o,
+            product_boxing: o.product_boxing,
+            product: o.product_boxing.product,
+            product_cover: Rails.configuration.smallfarmer01_host+o.product_boxing.product.cover.url,  
+            shipments: shipments
+          }    
         end
         { bill: bill, orders: orders }   
       else

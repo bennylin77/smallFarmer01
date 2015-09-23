@@ -173,16 +173,15 @@
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="col-sm-2 control-label">聯絡電話
-			<span class="glyphicon glyphicon-phone" aria-hidden="true"></span> or
-			<span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span>				
+		<label class="col-sm-2 control-label">行動電話
+			<span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
 		</label>
 		<div class="col-sm-8">
 			<%= hidden_field_tag :receiver_phone_no_full%>				
 			<%= text_field_tag :receiver_phone_no, @receiver_phone_no, class: "form-control" %>
 			<span id="receiver_valid-msg" class="hide">✓</span>
 			<span id="receiver_error-msg" class="hide">格式錯誤</span>
-			例: 0912 345 678 或 02 2222 8888			
+			例: 0912 345 678			
 		</div>		
 	</div>		
 	<div class="form-group">

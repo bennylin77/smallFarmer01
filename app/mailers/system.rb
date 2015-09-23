@@ -42,7 +42,7 @@ class System < ActionMailer::Base
     @invoice.invoice_coupon_lists.each do |i_c_l|
       @discount = @discount + i_c_l.amount
     end      
-    subject = '您的訂單已交付完畢, 立刻評價獲得 '+((@invoice.amount-@discount)*0.04).round.to_s+'元 回饋金'        
+    subject = '您的訂單已交付完畢, 立刻評價獲得 '+((@invoice.amount-@discount)*GLOBAL_VAR['COUPON_FEE']).round.to_s+'元 回饋金'        
     mail( to: @invoice.user.email, subject: subject) do |format|
       format.html { render layout: 'user_email' }
       format.text

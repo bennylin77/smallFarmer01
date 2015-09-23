@@ -89,16 +89,22 @@ class ManagementController < ApplicationController
   
   def delivered 
     params[:orders].each do |o|          
-      order = Order.find(o)
-      
-      order.shipments.each do |s|     
+      order = Order.find(o)     
+      order.shipments.each do |s|  
         if !s.delivered_c
           s.delivered_c = true
           s.delivered_at = Time.zone.now 
           s.status = GLOBAL_VAR['ORDER_STATUS_DELIVERED'] 
           s.save! 
+          data = { username: Rails.configuration.mitake_username, 
+               password: Rails.configuration.mitake_password,
+               dstaddr:  s.receiver_address.phone_no.gsub(/^\+886/, '0'),
+               encoding: 'UTF8',
+               smbody: '小農1號提醒：如商品有異，請於到貨起48小時內聯絡0287326786。如為農民出貨瑕疵，我們將提供退款/補寄保障※請詳退換貨政策'                     
+          }                                   
+          result = RestClient.get( Rails.configuration.mitake_sm_send_get_url, params: data)           
         end  
-      end 
+      end        
       #bills
       company = order.product_boxing.product.company   
       bill = company.bills.where("end_at >= ?", Time.zone.now).first
@@ -145,10 +151,9 @@ class ManagementController < ApplicationController
                    password: Rails.configuration.mitake_password,
                    dstaddr: invoice.user.phone_no.gsub(/^\+886/, '0'),
                    encoding: 'UTF8',
-                   smbody: '您的小農訂單已送達，評價獲得'+((invoice.amount-discount)*0.04).round.to_s+'元回饋'+Rails.configuration.app_domain+'/notifications?category=3'                     
-                   #smbody: '您的小農訂單已送達，評價獲得'+((invoice.amount-discount)*0.04).round.to_s+'元回饋'+'www.smallfarmer01.com/notifications?category=3'
+                   smbody: '您小農商品已送達，評價獲得'+((invoice.amount-discount)*GLOBAL_VAR['COUPON_FEE']).round.to_s+'元回饋金'+Rails.configuration.app_domain+'/notifications?category=3'                
                    }                                   
-          result = RestClient.get( Rails.configuration.mitake_sm_send_get_url, params: data)                                                              
+          result = RestClient.get( Rails.configuration.mitake_sm_send_get_url, params: data)                                                                     
         end
       end    
                
