@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150918155927) do
+ActiveRecord::Schema.define(version: 20150924130615) do
 
   create_table "addresses", force: true do |t|
     t.integer  "user_id"
@@ -319,6 +319,7 @@ ActiveRecord::Schema.define(version: 20150918155927) do
     t.datetime "updated_at"
     t.integer  "priority",                         default: 0,     null: false
     t.float    "discount",              limit: 24, default: 1.0,   null: false
+    t.integer  "shipping_time",                    default: 0,     null: false
   end
 
   add_index "products", ["company_id"], name: "index_products_on_company_id", using: :btree

@@ -167,8 +167,38 @@
 						<div class='product_released_at'>預計<%= @product.released_at.strftime("%Y-%m-%d") %>起陸續出貨</div> 
 					</div>				
 				</div>	
+				<%else%>
+					<%if @product.shipping_time != 0%>
+					<div class="row" style="margin-top: 20px;">								
+						<div class="hidden-xs hidden-sm col-md-offset-1 col-md-10">						
+							<div class='product_shipping_time_container pull-right'>
+								<%=render partial: "products/shipping_time", locals: { product: @product}%>
+							</div> 
+						</div>			
+						<div class="hidden-md hidden-lg col-xs-12 text-center">
+							<div class='product_shipping_time_container'>
+								<%=render partial: "products/shipping_time", locals: { product: @product}%>
+							</div> 
+						</div>				
+					</div>	
+					<%end%>					
 				<%end%>
-			<%end%>				
+			<%else%>
+				<%if @product.shipping_time != 0%>
+				<div class="row" style="margin-top: 20px;">								
+					<div class="hidden-xs hidden-sm col-md-offset-1 col-md-10">						
+						<div class='product_shipping_time_container pull-right'>
+							<%=render partial: "products/shipping_time", locals: { product: @product}%>
+						</div> 
+					</div>			
+					<div class="hidden-md hidden-lg col-xs-12 text-center">
+						<div class='product_shipping_time_container'>
+							<%=render partial: "products/shipping_time", locals: { product: @product}%>
+						</div> 
+					</div>				
+				</div>	
+				<%end%>						
+			<%end%>								
 			<div class="row" style="margin-top: 20px;">								
 				<div class="hidden-xs hidden-sm col-sm-11">								  				      
 					<%if inventory == 0%>
