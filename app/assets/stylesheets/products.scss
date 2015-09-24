@@ -91,6 +91,51 @@
   font-size: 17px;   
   color: #e26131; 
 }
+.product_shipping_time_container{
+}
+.product_shipping_time_text{
+  display: inline-block;
+  top: 10px;
+  color: #e26131;  
+  margin-right: 13px;
+  font-size: 17px;
+  vertical-align:bottom;
+}
+.product_shipping_time_weekdays{
+  display: inline-block; 
+    vertical-align:bottom;
+ 
+}
+.product_shipping_time_weekdays ul{
+  list-style: none; 
+  margin: 0;
+  padding: 0;
+}
+.product_shipping_time_weekdays li{
+  display: inline-block;
+  width: 20px;
+}
+.product_shipping_time_day{
+  text-align: center;
+}
+.product_shipping_time_circle{
+  margin: 0 auto;
+  background: #e26131;
+  border-radius: 8px;
+  width: 13px;
+  height: 13px;
+  margin-top: 3px;
+  border: 1px solid #e26131; 
+}
+.product_shipping_time_circle_empty{
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 8px;
+  width: 13px;
+  height: 13px;
+  margin-top: 3px;
+  border: 1px solid #000000; 
+}
 .add_to_cart{
   border: none;
   border-radius: 0;

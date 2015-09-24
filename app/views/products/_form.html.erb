@@ -85,7 +85,33 @@
 				<%= f.text_field :released_at, value: @product.released_at.strftime("%Y-%m-%d %H:%M"), class: "form-control", placeholder: '出貨日期'%>				
 			<%end%>			
 		</div>					
-	</div>		
+	</div>
+	<div class="form-group">
+		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">每週配送日</label>								
+		<div class="col-sm-10 col-md-8">		
+			<label class="checkbox-inline">
+				<%= check_box_tag 'shipping_time_1', 1, (1&@product.shipping_time) != 0%>ㄧ
+			</label>
+			<label class="checkbox-inline">
+				<%= check_box_tag 'shipping_time_2', 2, (2&@product.shipping_time) != 0%>二
+			</label>
+			<label class="checkbox-inline">
+				<%= check_box_tag 'shipping_time_4', 4, (4&@product.shipping_time) != 0%>三
+			</label>
+			<label class="checkbox-inline">
+				<%= check_box_tag 'shipping_time_8', 8, (8&@product.shipping_time) != 0%>四
+			</label>
+			<label class="checkbox-inline">
+				<%= check_box_tag 'shipping_time_16', 16, (16&@product.shipping_time) != 0%>五
+			</label>
+			<label class="checkbox-inline">
+				<%= check_box_tag 'shipping_time_32', 32, (32&@product.shipping_time) != 0%>六
+			</label>
+			<label class="checkbox-inline">
+				<%= check_box_tag 'shipping_time_64', 64, (64&@product.shipping_time) != 0%>日
+			</label>																		
+		</div>					
+	</div>				
 	<div class="form-group">
 		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">本批數量</label>
 		<div class="col-sm-5 col-md-2">
@@ -214,9 +240,9 @@ var citynames = new Bloodhound({
 citynames.initialize();
 $('#keywords').tagsinput({
   typeaheadjs: {  	
-    displayKey: 'display',
-    valueKey: 'keyword',
-    source: citynames.ttAdapter()
+  	displayKey: 'display',
+  	valueKey: 'keyword',
+  	source: citynames.ttAdapter()
   }
 });
 </script>

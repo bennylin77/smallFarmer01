@@ -31,11 +31,18 @@ class ProductsController < ApplicationController
     @product.keywords.each do |k|
       @keywords = @keywords + ','+k.content
     end
+    @shipping_time_1 = @product.shipping_time & 1; @shipping_time_2 = params[:shipping_time_2]; @shipping_time_4 = params[:shipping_time_4];
+    @shipping_time_8 = @product.shipping_time & 8; @shipping_time_16 = params[:shipping_time_16]; @shipping_time_32 = params[:shipping_time_32];
+    @shipping_time_64 = params[:shipping_time_64]; 
+    
   end
 
   def update
     @product.update(product_params)  
-    @keywords = params[:keywords]  
+    @keywords = params[:keywords]     
+    @product.shipping_time = params[:shipping_time_1].to_i | params[:shipping_time_2].to_i | params[:shipping_time_4].to_i |
+                             params[:shipping_time_8].to_i | params[:shipping_time_16].to_i | params[:shipping_time_32].to_i |
+                             params[:shipping_time_64].to_i     
     unless @product.errors.any?  
       @product.keywords.clear
       @keywords.split(",").each do |k|
@@ -44,8 +51,8 @@ class ProductsController < ApplicationController
           keyword = Keyword.new(content: k)              
         end
         @product.keywords<<keyword 
-        @product.save!
-      end      
+      end    
+      @product.save!
       flash[:notice] ='成功更改商品資料'
       redirect_to products_url      
     else  

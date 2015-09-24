@@ -1,0 +1,14 @@
+<div class="product_shipping_time_text">
+	每週配送日
+</div>
+<div class="product_shipping_time_weekdays">
+	<ul>
+		<li><div class="product_shipping_time_day">ㄧ</div><div class="product_shipping_time_circle <%if (1 & @product.shipping_time)==0%>product_shipping_time_circle_empty<%end%>"></div></li>
+		<li><div class="product_shipping_time_day">二</div><div class="product_shipping_time_circle <%if (2 & @product.shipping_time)==0%>product_shipping_time_circle_empty<%end%>"></div></li>
+		<li><div class="product_shipping_time_day">三</div><div class="product_shipping_time_circle <%if (4 & @product.shipping_time)==0%>product_shipping_time_circle_empty<%end%>"></div></li>
+		<li><div class="product_shipping_time_day">四</div><div class="product_shipping_time_circle <%if (8 & @product.shipping_time)==0%>product_shipping_time_circle_empty<%end%>"></div></li>
+		<li><div class="product_shipping_time_day">五</div><div class="product_shipping_time_circle <%if (16 & @product.shipping_time)==0%>product_shipping_time_circle_empty<%end%>"></div></li>
+		<li><div class="product_shipping_time_day">六</div><div class="product_shipping_time_circle <%if (32 & @product.shipping_time)==0%>product_shipping_time_circle_empty<%end%>"></div></li>
+		<li><div class="product_shipping_time_day">日</div><div class="product_shipping_time_circle <%if (64 & @product.shipping_time)==0%>product_shipping_time_circle_empty<%end%>"></div></li>
+	</ul>	
+</div>
