@@ -44,8 +44,8 @@ class NotificationsController < ApplicationController
       coupon.user = current_user
       coupon.invoice = invoice      
       coupon.kind = GLOBAL_VAR['COUPON_CHECK_OUT']
-      coupon.amount = ((invoice.amount - discount)*0.04).round
-      coupon.original_amount = ((invoice.amount - discount)*0.04).round
+      coupon.amount = ((invoice.amount - discount)*GLOBAL_VAR['COUPON_FEE']).round
+      coupon.original_amount = ((invoice.amount - discount)*GLOBAL_VAR['COUPON_FEE']).round
       coupon.save!
       @notification.read_c = true
       @notification.read_at = Time.zone.now
