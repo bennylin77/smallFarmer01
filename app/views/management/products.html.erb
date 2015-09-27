@@ -29,7 +29,8 @@
 	</th>
 	<th style="min-width: 118px;">
 		<%=image_tag 'pesticide_zero.png', class: '', style: 'height: 55px; width: 55px;'  %>		      				
-	</th>							 		            
+	</th>	
+	<th style="min-width: 118px;">上架</th>							 		            
 	<th style="min-width: 118px;">排序</th>							 		    						 		            
   </tr>
   <% @products.each do |product| %>
@@ -164,7 +165,20 @@
     			</div>
     		</div>
     	</div>
-  	</td>  	  	
+  	</td>  	
+ 	<td>
+    	<div class="form-group">
+    		<div class="col-sm-12">
+    			<div class="input-group">
+    				<div id="" class="radioBtn btn-group">
+    					<a class="btn btn-primary btn-sm <%if product.available_c%>active<%else%>notActive<%end%>" data-toggle="available_<%=product.id %>" data-id="<%=product.id %>" data-title="true" data-kind="available" style="border: none;">是</a>
+    					<a class="btn btn-primary btn-sm <%if product.available_c%>notActive<%else%>active<%end%>" data-toggle="available_<%=product.id %>" data-id="<%=product.id %>" data-title="false" data-kind="available" style="border: none;">否</a>
+    					<input type="hidden" name="available_<%=product.id %>" id="available_<%=product.id %>" value="<%=product.available_c%>">
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+  	</td> 	  	
   	<td>
 		<%= text_field_tag 'product_'+product.id.to_s, product.priority, class: "form-control priority", placeholder: "", 'data-id'=> product.id %>
   	</td>  	  	 	 

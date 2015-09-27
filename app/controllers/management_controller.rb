@@ -319,7 +319,15 @@ class ManagementController < ApplicationController
     when 'discount'
       @product.update_columns(discount: params[:val])  
       render json: {success: true, message: '商品編號 '+@product.id.to_s+' 折扣已變更為'+(@product.discount*100).to_s+'折'}          
-    end   
+    when 'available'
+      params[:val] = params[:val] == 'true' ? true : false
+      @product.update_columns(available_c: params[:val])  
+      if params[:val]
+        render json: {success: true, message: '商品編號 '+@product.id.to_s+' 上架'}    
+      else
+        render json: {success: true, message: '商品編號 '+@product.id.to_s+' 下架'}          
+      end         
+    end    
   end          
 
 
