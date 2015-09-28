@@ -56,9 +56,10 @@
       <table class="table table-striped">     
 		<tr>
 			<td style="min-width: 70px;">配送編號</td>							
-		    <td style="min-width: 70px;">收件人</td>
-		    <td style="min-width: 70px;">數量</td>			    
-		    <th>狀態</th>								    			           
+		    <td style="width: 200px;">收件人</td>
+		    <td style="min-width: 20px;">數量</td>			    
+		    <td class="text-center">狀態</th>	
+		    <th>處理備註</th>							    			           
 	  	</tr>  
 		<%o.shipments.each do |s|%>		
 		<tr>
@@ -78,7 +79,10 @@
 			<div class="text-center">&darr;</div>	
 			<%end%>
 			<div class="text-center" id="status_<%=o.id%>"><%= Hash[orderCompanyStatusOptions].rassoc(s.status).first%></div>         								
-		  </td>          	                                          
+		  </td>     
+		  	<td>
+				<%= text_area_tag 'shipment_'+s.id.to_s, s.processing_note, class: "form-control shipment", placeholder: "", 'data-id'=> s.id %>
+		  	</td>   		       	                                          
         </tr>	  	
 	  	<%end%>	  	
 	  </table>
@@ -212,4 +216,21 @@ $("#problem").click(function(){
 			}
 		});	
 });		
+
+$( ".shipment" ).change(function() {
+	  var id = $(this).data('id')  	  
+	  $.ajax({
+				type : 'GET',
+				url : '/management/setShipment',
+				data : { id: id, val: $(this).val(), kind: 'processing_note' },
+				datatype : 'json',
+				success : function(data) {
+					if (data.success) {
+						toastr['success'](data.message)		
+					} else {
+						toastr['warning'](data.message)
+					}
+				}
+			});		    
+	});	
 </script>

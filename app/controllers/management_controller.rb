@@ -3,7 +3,8 @@ class ManagementController < ApplicationController
   before_action :managementCheckUser
 
   before_action :set_bill, only: [:billShow]  
-  before_action :set_order, only: []
+  before_action :set_shipment, only: [:setShipment]  
+  before_action :set_order, only: [:setOrder]
   before_action :set_company, only: [:setCompany, :updateBankAccount, :updateBankCode]
   before_action :set_user, only: [:blockUser, :confirmPhoneNo]
   before_action :set_product, only: [:setProduct]
@@ -28,6 +29,18 @@ class ManagementController < ApplicationController
     @orders = Order.joins(:invoice).where('called_smallfarmer_c = ? and called_logistics_c = ? and invoices.confirmed_c = 1', 
                                     params[:called_smallfarmer_c], params[:called_logistics_c]).all.paginate(page: params[:page], per_page: 30).order('id DESC')    
   end
+
+  def setShipment
+    case params[:kind] 
+    when 'processing_note'
+      @shipment.update_columns(processing_note: params[:val])
+      render json: {success: true, message: '已更改配送編號 '+@shipment.id.to_s+' 的處理備註'}      
+    end   
+  end 
+
+
+
+
   
   def exportOrders  
     unless params[:selected_orders].blank?
@@ -384,6 +397,10 @@ private
       redirect_to root_url         
     end  
   end
+  
+  def set_shipment
+    @shipment = Shipment.find(params[:id])
+  end    
   
   def set_order
     @order = Order.find(params[:id])

@@ -155,9 +155,10 @@ class InvoicesController < ApplicationController
   
   def checkout   
     unless params[:user].blank?
-      current_user.assign_attributes(user_params)  
-    end
-                 
+      @user = current_user.assign_attributes(user_params) 
+    else
+      @user = current_user  
+    end             
     if params[:receiver_first_name] and params[:receiver_last_name] and params[:receiver_phone_no] and
        params[:receiver_postal] and params[:receiver_county] and params[:receiver_district] and params[:receiver_address]
       @receiver_first_name = params[:receiver_first_name]    
@@ -168,13 +169,14 @@ class InvoicesController < ApplicationController
       @receiver_district = params[:receiver_district]
       @receiver_address = params[:receiver_address]         
     elsif current_user.addresses.first 
-      @receiver_first_name = current_user.addresses.first.first_name   
-      @receiver_last_name = current_user.addresses.first.last_name
-      @receiver_phone_no = current_user.addresses.first.phone_no
-      @receiver_postal = current_user.addresses.first.postal
-      @receiver_county = current_user.addresses.first.county
-      @receiver_district = current_user.addresses.first.district
-      @receiver_address = current_user.addresses.first.address 
+      @receivers = []
+      @receivers << { first_name: current_user.addresses.first.first_name,   
+                      last_name: current_user.addresses.first.last_name,
+                      phone_no: current_user.addresses.first.phone_no,
+                      postal: current_user.addresses.first.postal,
+                      county: current_user.addresses.first.county,
+                      district: current_user.addresses.first.district,
+                      address: current_user.addresses.first.address} 
     else   
     end    
     ##                     

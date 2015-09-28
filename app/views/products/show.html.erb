@@ -61,12 +61,7 @@
 			<div class="row" style="margin-top: 20px;">			
 		      <div class="hidden-xs hidden-sm col-md-12">        
 		        <div class="" style="">
-		        	<div class="product_name text-left"><%if @product.released_at%><%if @product.released_at > Time.zone.now %>[預購]<%end%><%end%><%= @product.name %><%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%></div>
-		        	<div class="product_excellent text-left">
-		        		<span class="product_excellent_no" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL', @product.id, GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count+Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL ', @product.id, GLOBAL_VAR['ORDER_REVIEW_TASTY']).count %>'>0</span>
-		        		<span class="product_excellent_text"> 人說好吃</span>
-		        		<span><%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and invoices.confirmed_c = ? and review_at IS NULL', @product.id, true).count%>人未評</span>
-		        	</div>		      
+		        	<div class="product_name text-left"><%if @product.released_at%><%if @product.released_at > Time.zone.now %>[預購]<%end%><%end%><%= @product.name %><%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%></div>	      
 		      	</div>
 		      </div>	      	
 		      <div class="hidden-md hidden-lg col-xs-12 text-center">    	
@@ -79,7 +74,12 @@
 		      </div>		      		      
 		    </div>	
 			<div class="row hidden-xs hidden-sm ">
-		      <div class="col-md-offset-9 col-md-3 text-left" style="margin-top: 15px;">
+		      <div class="col-md-8 product_excellent text-left">
+		        		<span class="product_excellent_no" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL', @product.id, GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count+Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL ', @product.id, GLOBAL_VAR['ORDER_REVIEW_TASTY']).count %>'>0</span>
+		        		<span class="product_excellent_text"> 人說好吃</span>
+		        		<span><%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and invoices.confirmed_c = ? and review_at IS NULL', @product.id, true).count%>人未評</span>
+		      </div>					
+		      <div class="col-md-3 text-right" style="margin-top: 20px;">
 				<div class="fb-share-button" data-href="<%=Rails.configuration.smallfarmer01_host%>/products/<%=@product.id%>" data-layout="button_count"></div>		      
 		      </div>
 		    </div>			    			    
@@ -295,9 +295,13 @@
 							</tr>
 							<tr>
 								<th>平均售價</th>
-								<td colspan="3">
+								<td>
 									<%=number_with_delimiter( (priceWithShipments( @product.product_boxings.first.product_pricings.first )/@product.product_boxings.first.quantity).round(1), delimiter: ',')%> <span style="font-size: 80%">元/<%= Hash[unitOptions].rassoc(@product.unit).first %>(含運)
-								</td>																
+								</td>	
+								<th>禮盒包裝</th>
+								<td class="text-center">
+									<%if @product.product_boxings.first.gift_wrapping_available_c%>提供<%else%>未提供<%end%> 
+								</td>																							
 							</tr>										
 							<tr>
 								<th>保存方式</th>

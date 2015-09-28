@@ -40,7 +40,13 @@ class CartsController < ApplicationController
   end
   
   def updateCart
-    @cart.quantity = params[:quantity].to_i
+    case params[:kind]
+    when 'quantity'      
+      @cart.quantity = params[:val].to_i
+    when 'gift_wrapping'
+      params[:val] = params[:val] == 'true' ? true : false       
+      @cart.gift_wrapping_c = params[:val]     
+    end
     if @cart.save     
       render json: {alert_class: 'success', message: '成功更新購物車'}        
     else
