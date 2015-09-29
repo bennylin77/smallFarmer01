@@ -1,15 +1,15 @@
 <div class="container main_frontend">
 	<ul class="nav nav-tabs main_backend-tabs">
-		<li <%= active( controller: 'notifications', action: 'index', category: 'all' )%> >
+		<li <%= active( '/notifications?category=all' )%> <%= active( '/notifications?category=all&page='+params[:page].to_s )%>>
 			<%= link_to "全部", controller: 'notifications', action: 'index', category: 'all'%>
 		</li>
-		<li <%= active( controller: 'notifications', action: 'index', category: GLOBAL_VAR['NOTIFICATION_PRODUCT'] )%>>
+		<li <%= active( '/notifications?category='+GLOBAL_VAR['NOTIFICATION_PRODUCT'].to_s )%> <%= active( '/notifications?category='+GLOBAL_VAR['NOTIFICATION_PRODUCT'].to_s+'&page='+params[:page].to_s )%>>
 			<%= link_to "訂單", controller: 'notifications', action: 'index', category: GLOBAL_VAR['NOTIFICATION_PRODUCT']%>  	
 		</li>			
-		<li <%= active( controller: 'notifications', action: 'index', category: GLOBAL_VAR['NOTIFICATION_PROMOTION'] )%>>
+		<li <%= active( '/notifications?category='+GLOBAL_VAR['NOTIFICATION_PROMOTION'].to_s )%> <%= active( '/notifications?category='+GLOBAL_VAR['NOTIFICATION_PROMOTION'].to_s+'&page='+params[:page].to_s )%>>
 			<%= link_to "回饋金", controller: 'notifications', action: 'index', category: GLOBAL_VAR['NOTIFICATION_PROMOTION']%>  	
 		</li>		
-		<li <%= active( controller: 'notifications', action: 'index', category: GLOBAL_VAR['NOTIFICATION_COMMENT'] )%>>
+		<li <%= active( '/notifications?category='+GLOBAL_VAR['NOTIFICATION_COMMENT'].to_s )%> <%= active( '/notifications?category='+GLOBAL_VAR['NOTIFICATION_COMMENT'].to_s+'&page='+params[:page].to_s )%>>
 			<%= link_to "留言", controller: 'notifications', action: 'index', category: GLOBAL_VAR['NOTIFICATION_COMMENT']%>  	
 		</li>
 		<!--
@@ -25,14 +25,14 @@
 				<div style="border-right: 3px solid #a8bb7f; padding-right: 20px; ">	
 				<div class="notification_category"><%= Hash[categoryOptions].rassoc(notification.category).first%></div>
 				<div class="notification_category_date"><%= time_ago_in_words notification.created_at%>之前</div>						
-				<%if !notification.read_c%><div class='text-danger' style="font-size: 100%" id="notification_unread_<%=notification.id%>">未讀</div><%end%>				
+				<%if !notification.read_c%><div class='text-danger' style="font-size: 100%" id="notification_unread_<%=notification.id%>">您未讀訊息</div><%end%>				
 				</div>
 			</div>
 			<div class="col-xs-12 vmiddle text-left hidden-md hidden-lg" style="margin-bottom: 20px;">	
 				<div style="border-left: 3px solid #a8bb7f; padding-left: 10px; ">	
 				<div class="notification_category"><%= Hash[categoryOptions].rassoc(notification.category).first%></div>
 				<div class="notification_category_date"><%= time_ago_in_words notification.created_at%>之前</div>						
-				<%if !notification.read_c%><div class='text-danger' style="font-size: 100%" id="notification_unread_<%=notification.id%>">未讀</div><%end%>				
+				<%if !notification.read_c%><div class='text-danger' style="font-size: 100%" id="notification_unread_<%=notification.id%>">您未讀訊息</div><%end%>				
 				</div>
 			</div>			
 			<%if notification.sub_category == GLOBAL_VAR['NOTIFICATION_SUB_NONE']%>
@@ -54,6 +54,9 @@
 			<%end%>	
 		</div>	
 		<%end%>
+		<div class="notification_pagination">
+		<%= will_paginate @notifications, renderer: BootstrapPagination::Rails %>
+		</div>
 	</div>	
 </div>
 <script>

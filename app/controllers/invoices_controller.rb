@@ -34,10 +34,10 @@ class InvoicesController < ApplicationController
       else
          address = Address.new
       end     
-      address.update( first_name: params[:receiver_first_name], last_name: params[:receiver_last_name],
-                      phone_no: params[:receiver_phone_no], postal: params[:receiver_postal],
-                      county: params[:receiver_county], district: params[:receiver_district],
-                      address: params[:receiver_address], user: current_user)      
+      #address.update( first_name: params[:receivers][0][:first_name], last_name: params[:receivers][0][:last_name],
+      #                phone_no: params[:receivers][0][:phone_no], postal: params[:receivers][0][:postal],
+      #                county: params[:receivers][0][:county], district: params[:receivers][0][:district],
+      #                address: params[:receivers][0][:address], user: current_user)      
       invoice =  Invoice.new
       invoice.user = current_user
       invoice.save! 
@@ -47,24 +47,31 @@ class InvoicesController < ApplicationController
         order.invoice = invoice 
         order.product_boxing = c.product_boxing
         order.quantity = c.quantity
+        order.gift_wrapping_c = c.gift_wrapping_c
         order.cold_chain = c.product_boxing.product.cold_chain
         order.size = c.product_boxing.size        
         order.shipping_rates = order.quantity*shippingRates(cold_chain: c.product_boxing.product.cold_chain, size: c.product_boxing.size)        
         c.product_boxing.product_pricings.order('quantity desc').each do |p|
           if c.quantity >= p.quantity 
             order.price = order.quantity*(((p.price + shippingRates(cold_chain: c.product_boxing.product.cold_chain, size: c.product_boxing.size))*c.product_boxing.product.discount).ceil) - order.shipping_rates
+            if order.gift_wrapping_c
+              order.price = order.price + order.quantity*GLOBAL_VAR['GIFT_WRAPPING_FEE']
+            end            
             break  
           end  
         end
         order.save!      
-        receiver_address = ReceiverAddress.new
-        receiver_address.update( first_name: params[:receiver_first_name], last_name: params[:receiver_last_name],
-                                 phone_no: params[:receiver_phone_no], postal: params[:receiver_postal],
-                                 county: params[:receiver_county], district: params[:receiver_district],
-                                 address: params[:receiver_address])            
-        shipment = Shipment.new
-        shipment.update( quantity: order.quantity, status: GLOBAL_VAR['ORDER_STATUS_UNCONFIRMED'],            
-                         order: order, receiver_address: receiver_address )
+        #receiver
+        params[:receivers].each do |key, value|  
+          receiver_address = ReceiverAddress.new      
+          receiver_address.update( first_name: value['first_name'], last_name: value['last_name'],
+                                   phone_no: value['phone_no'], postal: value['postal'],
+                                   county: value['county'], district: value['district'],
+                                   address: value['address'])            
+          shipment = Shipment.new
+          shipment.update( quantity: order.quantity, status: GLOBAL_VAR['ORDER_STATUS_UNCONFIRMED'],            
+                           order: order, receiver_address: receiver_address )    
+        end               
         invoice.amount = invoice.amount + order.price + order.shipping_rates
       end      
       #Coupons AND payment method
@@ -154,25 +161,25 @@ class InvoicesController < ApplicationController
   end
   
   def checkout   
-    unless params[:user].blank?
-      @user = current_user.assign_attributes(user_params) 
-    else
-      @user = current_user  
-    end             
-    if params[:receiver_first_name] and params[:receiver_last_name] and params[:receiver_phone_no] and
-       params[:receiver_postal] and params[:receiver_county] and params[:receiver_district] and params[:receiver_address]
-      @receiver_first_name = params[:receiver_first_name]    
-      @receiver_last_name = params[:receiver_last_name]
-      @receiver_phone_no = params[:receiver_phone_no]
-      @receiver_postal = params[:receiver_postal]
-      @receiver_county = params[:receiver_county]
-      @receiver_district = params[:receiver_district]
-      @receiver_address = params[:receiver_address]         
+    @user = current_user
+    if !params[:user].blank?
+      @user.assign_attributes(user_params) 
+    end     
+    @receivers = []            
+    if params[:receivers]
+      params[:receivers].each do |key, value|  
+            @receivers << { first_name: value['first_name'],   
+                            last_name: value['last_name'],
+                            phone_no: value['phone_no'],
+                            postal: value['postal'],
+                            county: value['county'],
+                            district: value['district'],
+                            address: value['address']}     
+      end                          
     elsif current_user.addresses.first 
-      @receivers = []
-      @receivers << { first_name: current_user.addresses.first.first_name,   
-                      last_name: current_user.addresses.first.last_name,
-                      phone_no: current_user.addresses.first.phone_no,
+      @receivers << { first_name: current_user.first_name,   
+                      last_name: current_user.last_name,
+                      phone_no: current_user.phone_no,
                       postal: current_user.addresses.first.postal,
                       county: current_user.addresses.first.county,
                       district: current_user.addresses.first.district,
@@ -187,20 +194,47 @@ class InvoicesController < ApplicationController
   
   def confirmCheckout
     ## Assign attribute   
-    params[:user][:phone_no] = params[:phone_no_full]
-    current_user.update_attributes(user_params)  
+    params[:user][:phone_no] = params[:user][:phone_no_full]
+    current_user.assign_attributes(user_params)  
+    @user = current_user
     ##      
     @coupon_using = params[:coupons_using].to_i
     @payment_method = params[:payment_method]
     @agree = params[:agree]
-    ##
-    @receiver_first_name = params[:receiver_first_name]    
-    @receiver_last_name = params[:receiver_last_name]
-    @receiver_phone_no = params[:receiver_phone_no_full]
-    @receiver_postal = params[:receiver_postal]
-    @receiver_county = params[:receiver_county]
-    @receiver_district = params[:receiver_district]
-    @receiver_address = params[:receiver_address]
+    ## receivers
+    @receivers = []
+    params[:receivers].each do |key, value|  
+      value['phone_no'] = value['phone_no_full']
+      @receivers << { first_name: value['first_name'],   
+                      last_name: value['last_name'],
+                      phone_no: value['phone_no'],
+                      postal: value['postal'],
+                      county: value['county'],
+                      district: value['district'],
+                      address: value['address']} 
+      if value['last_name'].blank?  
+        current_user.errors.add(:receiver_last_name, "請填寫 收件人資訊-姓")
+      end    
+      if value['first_name'].blank?  
+        current_user.errors.add(:receiver_first_name, "請填寫 收件人資訊-名")
+      end    
+      if value['phone_no'].blank?  
+        current_user.errors.add(:receiver_phone_no, "請填寫 收件人資訊-聯絡電話")
+      end
+      if value['postal'].blank?  
+        current_user.errors.add(:receiver_postal, "請填寫 收件人資訊-郵遞區號")
+      end    
+      if value['county'].blank?  
+        current_user.errors.add(:receiver_county, "請填寫 收件人資訊-縣市")
+      end        
+      if value['district'].blank?  
+        current_user.errors.add(:receiver_district, "請填寫 收件人資訊-鄉鎮市區")
+      end        
+      if value['address'].blank?  
+        current_user.errors.add(:receiver_address, "請填寫 收件人資訊-詳細地址")
+      end                                       
+    end
+    
     ## inventory AND available AND payment method
     total_price = 0 
     current_user.carts.each do |c|        
@@ -213,6 +247,9 @@ class InvoicesController < ApplicationController
       c.product_boxing.product_pricings.order('quantity desc').each do |p|
         if c.quantity >= p.quantity 
           total_price = total_price + c.quantity*(((p.price + shippingRates(cold_chain: c.product_boxing.product.cold_chain, size: c.product_boxing.size))*c.product_boxing.product.discount).ceil)
+          if c.gift_wrapping_c
+            total_price = total_price + c.quantity*GLOBAL_VAR['GIFT_WRAPPING_FEE']
+          end
         break  
         end  
       end
@@ -225,27 +262,7 @@ class InvoicesController < ApplicationController
     if current_user.phone_no.blank?    
       current_user.errors.add(:phone_no, "請填寫 訂購人資訊-行動電話")
     end    
-    if @receiver_last_name.blank?  
-      current_user.errors.add(:receiver_last_name, "請填寫 收件人資訊-姓")
-    end    
-    if @receiver_first_name.blank?  
-      current_user.errors.add(:receiver_first_name, "請填寫 收件人資訊-名")
-    end    
-    if @receiver_phone_no.blank?  
-      current_user.errors.add(:receiver_phone_no, "請填寫 收件人資訊-聯絡電話")
-    end
-    if @receiver_postal.blank?  
-      current_user.errors.add(:receiver_postal, "請填寫 收件人資訊-郵遞區號")
-    end    
-    if @receiver_county.blank?  
-      current_user.errors.add(:receiver_county, "請填寫 收件人資訊-縣市")
-    end        
-    if @receiver_district.blank?  
-      current_user.errors.add(:receiver_district, "請填寫 收件人資訊-鄉鎮市區")
-    end        
-    if @receiver_address.blank?  
-      current_user.errors.add(:receiver_address, "請填寫 收件人資訊-詳細地址")
-    end       
+        
     # Others                    
     if @agree.blank?    
       current_user.errors.add(:agree, "請勾選 小農1號 電子商務約定條款")

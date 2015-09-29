@@ -9,7 +9,7 @@
 	<%@user.carts.each_with_index do |c, index| %>
 		<% product = c.product_boxing.product%>	
 		<div class="row check_out_product_list cart_<%=c.id%> text-center" style="margin-top: 30px; margin-bottom: 30px;">	
-			<div class="col-sm-2 col-xs-12 vmiddle">
+			<div class="col-sm-1 col-xs-12 vmiddle">
 				<%= image_tag product.cover.url(:medium), class: 'img-circle farm_fruits_img'%>						
 			</div>	
 			<div class="col-sm-2 col-xs-12 check_out_product_list_title vmiddle">
@@ -32,11 +32,16 @@
 					<%end%>				
 				<%end%>  					
 			</div>			
-			<div class="col-sm-2 col-xs-12 form-group form-inline check_out_product_list_text vmiddle">
+			<div class="col-sm-2 col-xs-12 form-inline check_out_product_list_text vmiddle">
 				<%= select_tag  'quantity_'+c.id.to_s, options_for_select( (1..50).step(1).to_a, c.quantity.to_s), class: "form-control quantity", 'data-id'=>c.id.to_s %>箱				
 			</div>
-			<div class="col-sm-2 col-xs-12 form-group vmiddle">
-				<%= select_tag  'gift_wrapping_'+c.id.to_s, options_for_select([ ["禮盒裝 +"+GLOBAL_VAR['GIFT_WRAPPING_FEE'].to_s+"元", true], ["非禮盒裝", false] ], c.gift_wrapping_c), class: "form-control gift_wrapping", 'data-id'=>c.id.to_s %>							
+			<div class="col-sm-2 col-xs-12 vmiddle">
+				<%if c.product_boxing.gift_wrapping_available_c%>
+				<%= select_tag  'gift_wrapping_'+c.id.to_s, options_for_select([ ["禮盒裝 +"+GLOBAL_VAR['GIFT_WRAPPING_FEE'].to_s+"元/箱", true], ["非禮盒裝", false] ], c.gift_wrapping_c), class: "form-control gift_wrapping", 'data-id'=>c.id.to_s %>							
+				<%else%>
+				未提供禮盒裝
+				<%= hidden_field_tag  'gift_wrapping_'+c.id.to_s, c.gift_wrapping_c, 'data-id'=>c.id.to_s %>											
+				<%end%>
 			</div>			
 			<div class="col-sm-1 col-xs-12 check_out_product_list_text vmiddle">
 				<span id="item_total_price_<%=c.id%>" data-value='0' ></span>元		
@@ -113,10 +118,7 @@
 				<div class="col-sm-2 col-xs-1">元</div>							
 			</div>	
 		</div>	
-	</div>	
-
-
-<!--			
+	</div>			
 	<div class="row" style="margin-top: 30px; margin-bottom: 30px;">
 		<div class="col-sm-12">
 			<div class="section_title">訂購人資訊</div>
@@ -136,13 +138,12 @@
 		<span class="glyphicon glyphicon-phone" aria-hidden="true"></span>			
 		</label>
 		<div class="col-sm-8 form-inline">
-			<%= hidden_field_tag :phone_no_full%>				
-			<%if current_user.phone_no_confirmed_at.blank?%>
-				<%= u.text_field :phone_no, class: "form-control" %>
-				<span id="valid-msg" class="hide">✓</span>
-				<span id="error-msg" class="hide">格式錯誤</span>			
+			<%= hidden_field_tag 'user[phone_no_full]'%>
+			<%if @user.phone_no_confirmed_at.blank?%>
+				<%= u.text_field :phone_no, value: @user.phone_no.gsub(/^\+886/, '0'), class: "form-control" %>
+				<span id="error_msg" class="hide">格式錯誤</span>			
 			<%else%>
-				<%= u.text_field :phone_no, value: current_user.phone_no.gsub(/^\+886/, '0'), class: "form-control", readonly: true %>			
+				<%= u.text_field :phone_no, value: @user.phone_no.gsub(/^\+886/, '0'), class: "form-control", readonly: true %>			
 			<%end%>	
 			例: 0912 345 678
 		</div>		
@@ -157,13 +158,14 @@
 		<div class="col-sm-12">
 			<div>
 				<div class="section_title" style="display: inline-block">收件人資訊</div>
-				
+				<!--
 				<div class="checkbox" style="display: inline-block; margin-left: 20px;">
   					<label>
 				 	<%= check_box_tag 'same_as_user', true, @same_as_user == 'true'%>
 				 	同訂購人資訊
 				  </label>
-				</div>							
+				</div>	
+				-->						
 			</div>
 			<div class="section_underline"></div>			
 		</div>					
@@ -182,9 +184,8 @@
 		</label>
 		<div class="col-sm-8 form-inline">
 			<%= hidden_field_tag 'receivers['+i.to_s+'][phone_no_full]'%>				
-			<%= text_field_tag 'receivers['+i.to_s+'][receiver_phone_no]', r[:phone_no], class: "form-control" %>
-			<span id="receiver_valid-msg" class="hide">✓</span>
-			<span id="receiver_error-msg" class="hide">格式錯誤</span>
+			<%= text_field_tag 'receivers['+i.to_s+'][phone_no]', r[:phone_no].gsub(/^\+886/, '0'), class: "form-control" %>
+			<span id="receiver_error_msg_<%=i %>" class="hide">格式錯誤</span>
 			例: 0912 345 678			
 		</div>		
 	</div>		
@@ -192,11 +193,10 @@
 		<label class="col-sm-2 control-label">聯絡地址</label>
 		<div class="form-inline col-sm-7">
 			<span id="twzipcode_receiver_<%=i.to_s%>"></span>
-			<%= text_field_tag 'receivers['+i.to_s+'][receiver_address]', r[:address], {class: "form-control"} %>
+			<%= text_field_tag 'receivers['+i.to_s+'][address]', r[:address], {class: "form-control"} %>
 		</div>
 	</div>	
 	<%end%>
--->	
 	<div class="form-group">
 		<label class="col-sm-2 control-label"></label>
 		<div class="form-inline col-sm-6">
@@ -222,13 +222,14 @@
 
 <script>
 //====================== error ======================//
-<% current_user.errors.messages.each do |index, value| %>
+<% @user.errors.messages.each do |index, value| %>
 	<%unless value.blank? %>
 		toastr["error"]('<%=value.first%>')	
 	<%end%>	
 <% end %>
 
 //====================== same_as_user ======================//
+/*
 $('#same_as_user').change(function() {
    if ( this.checked )
    {
@@ -237,7 +238,7 @@ $('#same_as_user').change(function() {
    		$('#receiver_phone_no').val($('#user_phone_no').val())	 	
    }
 });
-
+*/
 
 
 
@@ -249,38 +250,16 @@ $('#same_as_user').change(function() {
 
 //====================== price ======================//
 //pay method
-<% unless @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS'].to_s%> 
-	$('.extra_cash_flow_fee').hide()
-<%end%>	
 $('input[type=radio][name=payment_method]').change(function(){
-  if (this.value == '<%=GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>') {
+  if ($("input[name='payment_method']:checked").val() == '<%=GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>') {
     $('.extra_cash_flow_fee').show()
   }else{
     $('.extra_cash_flow_fee').hide()
   }
 });
-//init
-var pricings = []
-var shipping_rates = []
-var discounts = []
-<%current_user.carts.each do |c| %>
-	shipping_rates.push({ id: <%=c.id %>, shipping_rate: <%= shippingRates(cold_chain: c.product_boxing.product.cold_chain, size: c.product_boxing.size)%>})	
-	discounts.push({ id: <%=c.id %>, discount: <%= c.product_boxing.product.discount %>})
-	pricing = new Array()
-	<%c.product_boxing.product_pricings.order('quantity desc').each do |p| %>
-		<% unless p.quantity.blank? %>
-		pricing.push({ price: <%= p.price.to_i %>, quantity: <%= p.quantity %> })
-		<% end %>
-	<%end%>
-	pricings.push({ id: <%=c.id %>, pricing: pricing})
-<%end%>
-updatePrice()	
-$('#coupons_using').trigger("change")				
-
-
 //coupons
 $('#coupons_using').change(function(){		
-	$('.check_out_pay_method .radio').show();	
+	$('.check_out_pay_method .radio').show();
 	if( !$.isNumeric( $(this).val()) ){
 		toastr["error"]('回饋金應填入數字')
 		$(this).val(0)		
@@ -289,19 +268,24 @@ $('#coupons_using').change(function(){
 		toastr["error"]('填入回饋金超出持有範圍')
 		$(this).val(0)	
 	}
-	else if( total_price-$('#coupons_using').val() < 0 ){	
+	else if( $('#total_price').data( "value")-$('#coupons_using').val() < 0 ){	
 		toastr["error"]('填入回饋金超出小計')
 		$(this).val(0)			
 	}
 	else{
-		if( total_price-$('#coupons_using').val() == 0 )
+		if(  $('#total_price').data( "value")-$('#coupons_using').val() == 0 )
 		{
 			$('.check_out_pay_method .radio').hide();	
-			$('input[name="payment_method"]').prop('checked', false);				
+			$('input[name="payment_method"]').prop('checked', false);
+			$('.extra_cash_flow_fee').hide()				
+		}
+		else
+		{
+			$('.check_out_pay_method .radio').show();			
 		}
 		sum = $('#total_price').data( "value") - $('#coupons_using').val()
 		$('#sum').data("value", sum)
-		$('#sum').html(sum)						
+		$('#sum').html(sum)	
 	}						
 });	
 //gift wrapping
@@ -351,24 +335,24 @@ $('.destroy').click(function(){
 		dataType: "json"
 	});
 	request.done(function( message ) {
-		
-pricings = []
-shipping_rates = []
-discounts = []		
-		
-		
+		var removed_index 
+	    $.each(pricings, function( i, v ) {	
+			if(v.id == id )
+			{	
+				removed_index = i ;			
+				return false; 
+			}
+		});		
+		pricings.splice(removed_index, 1);
+		shipping_rates.splice(removed_index, 1);
+		discounts.splice(removed_index, 1);		
 	    showCarts();
 	   	updatePrice();	    
 	    $(".cart_"+id.toString()).remove();
 	});
 	request.fail(function( jqXHR, textStatus ) {
 	});	
-
-
-
-
 })
-
 //price
 function updatePrice(){
 	var total_price = 0
@@ -379,7 +363,7 @@ function updatePrice(){
 			{
 				item_price = quantity*Math.ceil((vv.price+shipping_rates[i].shipping_rate)*discounts[i].discount)		
 				if( $('#gift_wrapping_'+v.id).val() == 'true' ) 	
-					item_price = item_price + <%= GLOBAL_VAR['GIFT_WRAPPING_FEE']%>
+					item_price = item_price + quantity*<%= GLOBAL_VAR['GIFT_WRAPPING_FEE']%>
 				$('#item_total_price_'+v.id).html( item_price);				
 				$('#item_total_price_'+v.id).data( "value", item_price);
 				total_price = total_price + item_price	
@@ -392,6 +376,24 @@ function updatePrice(){
 	$('#sum').html( total_price-$('#coupons_using').val())
 	$('#sum').data( "value", total_price-$('#coupons_using').val())
 }
+//init
+var pricings = []
+var shipping_rates = []
+var discounts = []
+<%current_user.carts.each do |c| %>
+	shipping_rates.push({ id: <%=c.id %>, shipping_rate: <%= shippingRates(cold_chain: c.product_boxing.product.cold_chain, size: c.product_boxing.size)%>})	
+	discounts.push({ id: <%=c.id %>, discount: <%= c.product_boxing.product.discount %>})
+	pricing = new Array()
+	<%c.product_boxing.product_pricings.order('quantity desc').each do |p| %>
+		<% unless p.quantity.blank? %>
+		pricing.push({ price: <%= p.price.to_i %>, quantity: <%= p.quantity %> })
+		<% end %>
+	<%end%>
+	pricings.push({ id: <%=c.id %>, pricing: pricing})
+<%end%>
+$('input[type=radio][name=payment_method]').trigger("change")	
+updatePrice()	
+$('#coupons_using').trigger("change")				
 
 
 
@@ -406,81 +408,75 @@ function updatePrice(){
 
 
 
-//====================== Taiwan address ======================//
-$('#twzipcode_receiver').twzipcode({
-	zipcodeName: 'receiver_postal',
-    countyName: 'receiver_county',
-    districtName: 'receiver_district',
-    zipcodeIntoDistrict: true,
-    css: ['form-control', 'form-control'], 
-    <%unless @receiver_county.blank?%>
-	countySel: '<%=@receiver_county%>',
-	districtSel: '<%=@receiver_district%>'
-	<%end%>    
-});
 
-//====================== phone ======================//
-var telInput = $("#user_phone_no");
-errorMsg = $("#error-msg"),
-validMsg = $("#valid-msg");
-// initialise plugin
+//====================== user phone ======================//
+telInput = $("#user_phone_no");
+errorMsg = $("#error_msg"),
 telInput.intlTelInput({
 	autoPlaceholder: false,    
     defaultCountry: "tw",
     numberType: "MOBILE", 
     utilsScript: "<%=asset_path 'utils.js'%>"
 });
-// on blur: validate
 telInput.blur(function() {
   if ($.trim(telInput.val())) {
     if (telInput.intlTelInput("isValidNumber") && intlTelInputUtils.numberType.MOBILE == telInput.intlTelInput("getNumberType") ) {
-      validMsg.removeClass("hide");
     } else {
       telInput.addClass("error");
       errorMsg.removeClass("hide");
-      validMsg.addClass("hide");
     }
   }
 });
-// on keydown: reset
 telInput.keydown(function() {
   telInput.removeClass("error");
   errorMsg.addClass("hide");
-  validMsg.addClass("hide");
 });
-///////////receiver
-var receiver_telInput = $("#receiver_phone_no");
-receiver_errorMsg = $("#receiver_error-msg"),
-receiver_validMsg = $("#receiver_valid-msg");
+
+//====================== receiver address ======================//
+<% @receivers.each_with_index do |r, i| %>
+$('#twzipcode_receiver_<%=i %>').twzipcode({
+	zipcodeName: 'receivers[<%= i%>]postal',
+    countyName: 'receivers[<%= i%>]county',
+    districtName: 'receivers[<%= i%>]district',
+    zipcodeIntoDistrict: true,
+    css: ['form-control', 'form-control'], 
+    <%unless r[:county].blank?%>
+	countySel: '<%=r[:county]%>',
+	districtSel: '<%=r[:district]%>'
+	<%end%>    
+});
+//====================== receiver phone ======================//
+receiver_telInput_<%=i %> = $("#receivers_<%=i %>_phone_no");
+receiver_errorMsg_<%=i %> = $("#receiver_error_msg_<%=i %>"),
 // initialise plugin
-receiver_telInput.intlTelInput({
+receiver_telInput_<%=i %>.intlTelInput({
 	autoPlaceholder: false,    
     defaultCountry: "tw",
+    numberType: "MOBILE",     
     utilsScript: "<%=asset_path 'utils.js'%>"
 });
 // on blur: validate
-receiver_telInput.blur(function() {
-  if ($.trim(receiver_telInput.val())) {
-    if (receiver_telInput.intlTelInput("isValidNumber") ) {
-      receiver_validMsg.removeClass("hide");
+receiver_telInput_<%=i %>.blur(function() {
+  if ($.trim(receiver_telInput_<%=i %>.val())) {
+    if (receiver_telInput_<%=i %>.intlTelInput("isValidNumber") ) {
     } else {
-      receiver_telInput.addClass("error");
-      receiver_errorMsg.removeClass("hide");
-      receiver_validMsg.addClass("hide");
+      receiver_telInput_<%=i %>.addClass("error");
+      receiver_errorMsg_<%=i %>.removeClass("hide");
     }
   }
 });
 // on keydown: reset
-receiver_telInput.keydown(function() {
-  receiver_telInput.removeClass("error");
-  receiver_errorMsg.addClass("hide");
-  receiver_validMsg.addClass("hide");
+receiver_telInput_<%=i %>.keydown(function() {
+  receiver_telInput_<%=i %>.removeClass("error");
+  receiver_errorMsg_<%=i %>.addClass("hide");
 });
+
+<%end%>
 //====================== form submit ======================//
 $("form").submit(function() {
-  $("#phone_no_full").val($("#user_phone_no").intlTelInput("getNumber"));	
-  
-  
-  $("#phone_no_full").val($("phone_no").intlTelInput("getNumber"));
+  $("#user_phone_no_full").val($("#user_phone_no").intlTelInput("getNumber"));	
+  <% @receivers.each_with_index do |r, i| %>
+  $("#receivers_<%=i %>_phone_no_full").val($("#receivers_<%=i %>_phone_no").intlTelInput("getNumber"));
+  <%end%>
 });
 </script>

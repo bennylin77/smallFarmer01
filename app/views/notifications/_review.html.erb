@@ -15,7 +15,7 @@
 			<%if o.review_at.blank?%>		    		       
 			<div class="input-group input_group_<%= o.id %> notification_review_radioBtn">
 				<label class="radio-inline">
-				  <input type="radio" name="review_score_<%= o.id %>" id="review_score_<%= o.id %>" value="<%= GLOBAL_VAR['ORDER_REVIEW_DELICIOUS'] %>"><span class="review_delicious">超好吃</span>
+				  <input type="radio" name="review_score_<%= o.id %>" id="review_score_<%= o.id %>" value="<%= GLOBAL_VAR['ORDER_REVIEW_DELICIOUS'] %>" checked="checked"><span class="review_delicious">超好吃</span>
 				</label>
 				<label class="radio-inline">
 				  <input type="radio" name="review_score_<%= o.id %>" id="review_score_<%= o.id %>" value="<%= GLOBAL_VAR['ORDER_REVIEW_TASTY'] %>"><span class="review_tasty">好吃</span>
@@ -29,7 +29,7 @@
 		    </div>	 
 			<div class="input-group input_group_<%= o.id %> notification_review_radioBtn">
 				<label class="radio-inline">
-				  <input type="radio" name="shipment_review_score_<%= o.id %>" id="shipment_review_score_<%= o.id %>" value="<%= GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_FAST'] %>"> 寄送快
+				  <input type="radio" name="shipment_review_score_<%= o.id %>" id="shipment_review_score_<%= o.id %>" value="<%= GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_FAST'] %>" checked="checked"> 寄送快
 				</label>
 				<label class="radio-inline">
 				  <input type="radio" name="shipment_review_score_<%= o.id %>" id="shipment_review_score_<%= o.id %>" value="<%= GLOBAL_VAR['ORDER_SHIPMENT_REVIEW_COMMON'] %>"> 寄送普通

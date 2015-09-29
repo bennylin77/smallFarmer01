@@ -36,3 +36,22 @@
 .notification_review_show{
   font-size: 16px;
 }
+//========================pagination========================//
+.notification_pagination > .pagination > li >span,
+.notification_pagination > .pagination > li >a{
+  background: none;
+  margin-right: 10px;
+  margin-top: 7px;  
+  color: #526031;
+  border: 1px solid #526031; 
+}
+.no-touch .notification_pagination > .pagination > li >span:hover,
+.no-touch .notification_pagination > .pagination > li >a:hover{
+  background: #ffffff;
+}
+.notification_pagination > .pagination > li >span{
+  background: #ffffff;
+}
+.notification_pagination > .pagination > li.disabled >span{
+  background: none;
+}

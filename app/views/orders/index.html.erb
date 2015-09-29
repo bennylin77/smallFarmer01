@@ -1,9 +1,11 @@
 <div class="row">
 	<div class="col-sm-12">
 		<ul class="main_backend-sub-tabs">
-		  <li role="presentation" <%= active( controller: 'orders', action: 'index', called_smallfarmer_c: false)%>>
+		  <li role="presentation" <%= active( '/orders/index?called_smallfarmer_c=false')%> <%= active( '/orders/index?called_smallfarmer_c=false&page='+params[:page].to_s)%>>
 			<%= link_to "尚未通知", controller: 'orders', action: 'index', called_smallfarmer_c: false%>  	
-		  </li><li role="presentation" <%= active( controller: 'orders', action: 'index', called_smallfarmer_c: true)%>><%= link_to "已通知", controller: 'orders', action: 'index', called_smallfarmer_c: true%></li>
+		  </li><li role="presentation" <%= active( '/orders/index?called_smallfarmer_c=true')%>  <%= active( '/orders/index?called_smallfarmer_c=true&page='+params[:page].to_s)%> >
+		  	<%= link_to "已通知", controller: 'orders', action: 'index', called_smallfarmer_c: true%>
+		  </li>
 		</ul>
 	</div>
 </div>
@@ -78,6 +80,7 @@
   <%end%>  
 </table>
 </div>
+<div class="backend_pagination">
 <%= will_paginate @orders, renderer: BootstrapPagination::Rails %>
-
+</div>
 
