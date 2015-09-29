@@ -3,7 +3,8 @@ class ManagementController < ApplicationController
   before_action :managementCheckUser
 
   before_action :set_bill, only: [:billShow]  
-  before_action :set_order, only: []
+  before_action :set_shipment, only: [:setShipment]  
+  before_action :set_order, only: [:setOrder]
   before_action :set_company, only: [:setCompany, :updateBankAccount, :updateBankCode]
   before_action :set_user, only: [:blockUser, :confirmPhoneNo]
   before_action :set_product, only: [:setProduct]
@@ -26,8 +27,16 @@ class ManagementController < ApplicationController
     @called_logistics_c = params[:called_logistics_c]
       
     @orders = Order.joins(:invoice).where('called_smallfarmer_c = ? and called_logistics_c = ? and invoices.confirmed_c = 1', 
-                                    params[:called_smallfarmer_c], params[:called_logistics_c]).all.paginate(page: params[:page], per_page: 30).order('id DESC')    
+                                    params[:called_smallfarmer_c], params[:called_logistics_c]).all.paginate(page: params[:page], per_page: 20).order('id DESC')    
   end
+
+  def setShipment
+    case params[:kind] 
+    when 'processing_note'
+      @shipment.update_columns(processing_note: params[:val])
+      render json: {success: true, message: '已更改配送編號 '+@shipment.id.to_s+' 的處理備註'}      
+    end   
+  end 
   
   def exportOrders  
     unless params[:selected_orders].blank?
@@ -159,7 +168,11 @@ class ManagementController < ApplicationController
                
     end   
     render json: {success: true}
-  end  
+  end   
+#======================# shipment #======================#   
+  
+  
+  
 #======================# bill #======================#   
 
   def bills
@@ -319,7 +332,15 @@ class ManagementController < ApplicationController
     when 'discount'
       @product.update_columns(discount: params[:val])  
       render json: {success: true, message: '商品編號 '+@product.id.to_s+' 折扣已變更為'+(@product.discount*100).to_s+'折'}          
-    end   
+    when 'available'
+      params[:val] = params[:val] == 'true' ? true : false
+      @product.update_columns(available_c: params[:val])  
+      if params[:val]
+        render json: {success: true, message: '商品編號 '+@product.id.to_s+' 上架'}    
+      else
+        render json: {success: true, message: '商品編號 '+@product.id.to_s+' 下架'}          
+      end         
+    end    
   end          
 
 
@@ -376,6 +397,10 @@ private
       redirect_to root_url         
     end  
   end
+  
+  def set_shipment
+    @shipment = Shipment.find(params[:id])
+  end    
   
   def set_order
     @order = Order.find(params[:id])

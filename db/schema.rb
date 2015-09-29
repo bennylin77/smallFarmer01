@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150924130615) do
+ActiveRecord::Schema.define(version: 20150927101521) do
 
   create_table "addresses", force: true do |t|
     t.integer  "user_id"
@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 20150924130615) do
     t.integer  "product_boxing_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "gift_wrapping_c",   default: false, null: false
   end
 
   add_index "carts", ["product_boxing_id"], name: "index_carts_on_product_boxing_id", using: :btree
@@ -250,6 +251,7 @@ ActiveRecord::Schema.define(version: 20150924130615) do
     t.datetime "problem_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "gift_wrapping_c",                  default: false, null: false
   end
 
   add_index "orders", ["bill_id"], name: "index_orders_on_bill_id", using: :btree
@@ -257,11 +259,12 @@ ActiveRecord::Schema.define(version: 20150924130615) do
   add_index "orders", ["product_boxing_id"], name: "index_orders_on_product_boxing_id", using: :btree
 
   create_table "product_boxings", force: true do |t|
-    t.float    "quantity",   limit: 24
+    t.float    "quantity",                  limit: 24
     t.integer  "size"
     t.integer  "product_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "gift_wrapping_available_c",            default: false, null: false
   end
 
   add_index "product_boxings", ["product_id"], name: "index_product_boxings_on_product_id", using: :btree
@@ -410,6 +413,7 @@ ActiveRecord::Schema.define(version: 20150924130615) do
     t.integer  "delivery_interval"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "processing_note"
   end
 
   add_index "shipments", ["order_id"], name: "index_shipments_on_order_id", using: :btree

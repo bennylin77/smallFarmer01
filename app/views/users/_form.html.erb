@@ -24,7 +24,6 @@
 			<%= hidden_field_tag :phone_no_full%>				
 			<%if @user.phone_no_confirmed_at.blank?%>
 				<%= f.text_field :phone_no, class: "form-control" %>
-				<span id="valid-msg" class="hide">✓</span>
 				<span id="error-msg" class="hide">格式錯誤</span>			
 			<%else%>
 				<%= f.text_field :phone_no, class: "form-control", readonly: true %>			
@@ -41,7 +40,16 @@
 			已驗證
 		<%end%>-->			
 		</div>				
-	</div>						
+	</div>		
+	<%= f.fields_for :addresses do |a| %>		
+ 	<div class="form-group">
+		<label class="col-sm-offset-1 col-sm-2 control-label">聯絡地址</label>
+		<div class="col-sm-7 form-inline">
+			<span id="twzipcode"></span>	
+			<%= a.text_field :address, {class: "form-control"} %>					
+		</div>
+	</div>			
+	<%end%>					
 	<div class="form-group">
 		<div class="col-sm-offset-3 col-sm-10">
 			<%= f.submit '儲存',  class: "btn btn-success add_button"  %>
@@ -69,9 +77,8 @@ $("#user_avatar").fileinput({showCaption: false,
     						 language: "zh-TW"								 
 						    });	
 //================== confirmation ==================//	
-var telInput = $("#user_phone_no");
+telInput = $("#user_phone_no");
 errorMsg = $("#error-msg"),
-validMsg = $("#valid-msg");
 // initialise plugin
 telInput.intlTelInput({
 	//allowExtensions: true,
@@ -91,11 +98,9 @@ telInput.blur(function() {
   if ($.trim(telInput.val())) {
   	$('#confirmation_btn').attr('href', '/users/<%=@user.id.to_s%>/mobileSMSConfirmation?phone_no='+escape(telInput.val()) );
     if (telInput.intlTelInput("isValidNumber") && intlTelInputUtils.numberType.MOBILE == telInput.intlTelInput("getNumberType") ) {
-      validMsg.removeClass("hide");
     } else {
       telInput.addClass("error");
       errorMsg.removeClass("hide");
-      validMsg.addClass("hide");
     }
   }
 });
@@ -103,8 +108,21 @@ telInput.blur(function() {
 telInput.keydown(function() {
   telInput.removeClass("error");
   errorMsg.addClass("hide");
-  validMsg.addClass("hide");
 });
+// tw address
+$('#twzipcode').twzipcode({
+	zipcodeName: 'user[addresses_attributes][0][postal]',
+    countyName: 'user[addresses_attributes][0][county]',
+    districtName: 'user[addresses_attributes][0][district]',
+    zipcodeIntoDistrict: true,
+    css: ['form-control', 'form-control'], 
+    <%unless @user.addresses.first.blank?%>
+	countySel: '<%=@user.addresses.first.county%>',
+	districtSel: '<%=@user.addresses.first.district%>'
+	<%end%>    
+});
+
+
 $("form").submit(function() {
   $("#phone_no_full").val($("#user_phone_no").intlTelInput("getNumber"));
 });

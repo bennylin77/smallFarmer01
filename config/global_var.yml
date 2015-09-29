@@ -40,6 +40,7 @@ defaults: &defaults
   ADMINISTRATION_FEE: 0.04    
   SALES_TAX: 0.0075  
   ALLPAY_CVS_FEE: 30
+  GIFT_WRAPPING_FEE: 50
   
   TRANSFER_FEE: 15
         
