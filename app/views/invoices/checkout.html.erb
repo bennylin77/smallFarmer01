@@ -35,6 +35,7 @@
 			<div class="col-sm-2 col-xs-12 form-inline check_out_product_list_text vmiddle">
 				<%= select_tag  'quantity_'+c.id.to_s, options_for_select( (1..50).step(1).to_a, c.quantity.to_s), class: "form-control quantity", 'data-id'=>c.id.to_s %>箱				
 			</div>
+			<!--
 			<div class="col-sm-2 col-xs-12 vmiddle">
 				<%if c.product_boxing.gift_wrapping_available_c%>
 				<%= select_tag  'gift_wrapping_'+c.id.to_s, options_for_select([ ["禮盒裝 +"+GLOBAL_VAR['GIFT_WRAPPING_FEE'].to_s+"元/箱", true], ["非禮盒裝", false] ], c.gift_wrapping_c), class: "form-control gift_wrapping", 'data-id'=>c.id.to_s %>							
@@ -42,7 +43,8 @@
 				未提供禮盒裝
 				<%= hidden_field_tag  'gift_wrapping_'+c.id.to_s, c.gift_wrapping_c, 'data-id'=>c.id.to_s %>											
 				<%end%>
-			</div>			
+			</div>
+			-->			
 			<div class="col-sm-1 col-xs-12 check_out_product_list_text vmiddle">
 				<span id="item_total_price_<%=c.id%>" data-value='0' ></span>元		
 			</div>

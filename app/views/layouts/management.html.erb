@@ -19,6 +19,7 @@
           <ul class="nav navbar-nav hidden-xs">
             <li><%= link_to '訂單列表', {controller: 'management', action: 'invoices', paid_c: true}, style: "font-size: 17px; color: #536132;" %></li>
             <li><%= link_to '出貨單列表', {controller: 'management', action: 'orders', called_smallfarmer_c: false, called_logistics_c: false}, style: "font-size: 17px; color: #536132;" %></li>            
+            <li><%= link_to '配送單列表', {controller: 'management', action: 'shipments'}, style: "font-size: 17px; color: #536132;" %></li>                                    
             <li><%= link_to '帳單列表', {controller: 'management', action: 'bills'}, style: "font-size: 17px; color: #536132;" %></li>                        
             <li><%= link_to '回饋金列表', {controller: 'management', action: 'coupons'}, style: "font-size: 17px; color: #536132;" %></li>                                    
             <li><%= link_to '農場列表', {controller: 'management', action: 'companies', activated_c: true}, style: "font-size: 17px; color: #536132;" %></li>

@@ -18,7 +18,7 @@
 	</div>		
 	<ol class="breadcrumb hidden-xs" style="margin-top: 20px;">
 	  <li><%= link_to '首頁', root_url %></li>
-	  <li><%= link_to '合作農場', controller: 'main', action: 'farms'%></li>
+	  <li><%= link_to '合作小農', controller: 'main', action: 'farms'%></li>
 	  <li>
 	  	<a href="/companies/<%=@product.company.id %>">
 	  		<%unless @product.company.county.blank?%>
@@ -299,13 +299,14 @@
 							</tr>
 							<tr>
 								<th>平均售價</th>
-								<td>
+								<td colspan="3">
 									<%=number_with_delimiter( (priceWithShipments( @product.product_boxings.first.product_pricings.first )/@product.product_boxings.first.quantity).round(1), delimiter: ',')%> <span style="font-size: 80%">元/<%= Hash[unitOptions].rassoc(@product.unit).first %>(含運)
 								</td>	
+								<!--
 								<th>禮盒包裝</th>
 								<td class="text-center">
 									<%if @product.product_boxings.first.gift_wrapping_available_c%>提供<%else%>未提供<%end%> 
-								</td>																							
+								</td>-->																							
 							</tr>										
 							<tr>
 								<th>保存方式</th>
