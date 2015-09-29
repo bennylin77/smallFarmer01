@@ -140,7 +140,10 @@
 		<div class="col-sm-8 form-inline">
 			<%= hidden_field_tag 'user[phone_no_full]'%>
 			<%if @user.phone_no_confirmed_at.blank?%>
-				<%= u.text_field :phone_no, value: @user.phone_no.gsub(/^\+886/, '0'), class: "form-control" %>
+				<%if @user.phone_no%>
+					<% phone_no = @user.phone_no.gsub(/^\+886/, '0')%>
+				<%end%>	
+				<%= u.text_field :phone_no, value: phone_no, class: "form-control" %>			
 				<span id="error_msg" class="hide">格式錯誤</span>			
 			<%else%>
 				<%= u.text_field :phone_no, value: @user.phone_no.gsub(/^\+886/, '0'), class: "form-control", readonly: true %>			
@@ -158,14 +161,12 @@
 		<div class="col-sm-12">
 			<div>
 				<div class="section_title" style="display: inline-block">收件人資訊</div>
-				<!--
 				<div class="checkbox" style="display: inline-block; margin-left: 20px;">
   					<label>
-				 	<%= check_box_tag 'same_as_user', true, @same_as_user == 'true'%>
+				 	<%= check_box_tag 'same_as_user'%>
 				 	同訂購人資訊
 				  </label>
-				</div>	
-				-->						
+				</div>				
 			</div>
 			<div class="section_underline"></div>			
 		</div>					
@@ -183,8 +184,11 @@
 			<span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
 		</label>
 		<div class="col-sm-8 form-inline">
-			<%= hidden_field_tag 'receivers['+i.to_s+'][phone_no_full]'%>				
-			<%= text_field_tag 'receivers['+i.to_s+'][phone_no]', r[:phone_no].gsub(/^\+886/, '0'), class: "form-control" %>
+			<%= hidden_field_tag 'receivers['+i.to_s+'][phone_no_full]'%>
+			<%if r[:phone_no]%>
+				<% phone_no = r[:phone_no].gsub(/^\+886/, '0')%>
+			<%end%>				
+			<%= text_field_tag 'receivers['+i.to_s+'][phone_no]', phone_no, class: "form-control" %>
 			<span id="receiver_error_msg_<%=i %>" class="hide">格式錯誤</span>
 			例: 0912 345 678			
 		</div>		
@@ -229,16 +233,14 @@
 <% end %>
 
 //====================== same_as_user ======================//
-/*
 $('#same_as_user').change(function() {
    if ( this.checked )
    {
-   		$('#receiver_last_name').val($('#user_last_name').val())	
-   		$('#receiver_first_name').val($('#user_first_name').val())	  		
-   		$('#receiver_phone_no').val($('#user_phone_no').val())	 	
+   		$('#receivers_0_last_name').val($('#user_last_name').val())	
+   		$('#receivers_0_first_name').val($('#user_first_name').val())	  		
+   		$('#receivers_0_phone_no').val($('#user_phone_no').val())	 	
    }
 });
-*/
 
 
 

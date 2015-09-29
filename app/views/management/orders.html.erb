@@ -1,13 +1,16 @@
 <div class="row">
 <ul class="nav nav-tabs pull-left">
-  <li role="presentation" <%= active( controller: 'management', action: 'orders', called_smallfarmer_c: false, called_logistics_c: false)%>>
-	<%= link_to "農夫尚未處理", controller: 'management', action: 'orders', called_smallfarmer_c: false, called_logistics_c: false%>  	
+  <li role="presentation" <%= active( '/management/orders?called_logistics_c=false&called_smallfarmer_c=false')%>
+  						  <%= active( '/management/orders?called_logistics_c=false&called_smallfarmer_c=false&page='+params[:page].to_s)%>>
+	<%= link_to "廠商尚未處理", controller: 'management', action: 'orders', called_smallfarmer_c: false, called_logistics_c: false%>  	
   </li>
-  <li role="presentation" <%= active( controller: 'management', action: 'orders', called_smallfarmer_c: true, called_logistics_c: false)%>>
-	<%= link_to "尚未通知物流", controller: 'management', action: 'orders', called_smallfarmer_c: true, called_logistics_c: false%>  	  	
+  <li role="presentation" <%= active( '/management/orders?called_logistics_c=false&called_smallfarmer_c=true')%>
+  						  <%= active( '/management/orders?called_logistics_c=false&called_smallfarmer_c=true&page='+params[:page].to_s)%>>
+	<%= link_to "後台尚未通知物流", controller: 'management', action: 'orders', called_smallfarmer_c: true, called_logistics_c: false%>  	  	
   </li>
-  <li role="presentation" <%= active( controller: 'management', action: 'orders', called_smallfarmer_c: true, called_logistics_c: true)%>>
-	<%= link_to "已處理", controller: 'management', action: 'orders', called_smallfarmer_c: true, called_logistics_c: true%>  	  	
+  <li role="presentation" <%= active( '/management/orders?called_logistics_c=true&called_smallfarmer_c=true')%>
+  						  <%= active( '/management/orders?called_logistics_c=true&called_smallfarmer_c=true&page='+params[:page].to_s)%>>	
+	<%= link_to "後台已通知物流", controller: 'management', action: 'orders', called_smallfarmer_c: true, called_logistics_c: true%>  	  	
   </li>   
 </ul>
 <div class='btn btn-default pull-right' id='problem' style='margin-right: 10px;'>退換貨糾紛</div>
@@ -50,7 +53,7 @@
     		<div class="text-center"><%= o.product_boxing.product.name%></div>           	
         <%end%>   	
     </td>       
-	<td><%= o.quantity %>箱 (<%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %>/箱)</td>      
+	<td><%if o.gift_wrapping_c%><span class="text-danger">禮盒裝</span><%end%><%= o.quantity %>箱 (<%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %>/箱)</td>      
     <td><%= o.price.to_i + o.shipping_rates.to_i %>元(含運)</td>    	      
 	<td>
       <table class="table table-striped">     

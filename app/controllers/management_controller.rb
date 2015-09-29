@@ -27,7 +27,7 @@ class ManagementController < ApplicationController
     @called_logistics_c = params[:called_logistics_c]
       
     @orders = Order.joins(:invoice).where('called_smallfarmer_c = ? and called_logistics_c = ? and invoices.confirmed_c = 1', 
-                                    params[:called_smallfarmer_c], params[:called_logistics_c]).all.paginate(page: params[:page], per_page: 30).order('id DESC')    
+                                    params[:called_smallfarmer_c], params[:called_logistics_c]).all.paginate(page: params[:page], per_page: 20).order('id DESC')    
   end
 
   def setShipment
@@ -37,10 +37,6 @@ class ManagementController < ApplicationController
       render json: {success: true, message: '已更改配送編號 '+@shipment.id.to_s+' 的處理備註'}      
     end   
   end 
-
-
-
-
   
   def exportOrders  
     unless params[:selected_orders].blank?
@@ -172,7 +168,11 @@ class ManagementController < ApplicationController
                
     end   
     render json: {success: true}
-  end  
+  end   
+#======================# shipment #======================#   
+  
+  
+  
 #======================# bill #======================#   
 
   def bills

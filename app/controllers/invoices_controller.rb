@@ -184,7 +184,14 @@ class InvoicesController < ApplicationController
                       county: current_user.addresses.first.county,
                       district: current_user.addresses.first.district,
                       address: current_user.addresses.first.address} 
-    else   
+    else 
+      @receivers << { first_name: "",   
+                      last_name: "",
+                      phone_no: "",
+                      postal: "",
+                      county: "",
+                      district: "",
+                      address: ""}  
     end    
     ##                     
     @coupon_using = params[:coupons_using]
@@ -219,7 +226,7 @@ class InvoicesController < ApplicationController
         current_user.errors.add(:receiver_first_name, "請填寫 收件人資訊-名")
       end    
       if value['phone_no'].blank?  
-        current_user.errors.add(:receiver_phone_no, "請填寫 收件人資訊-聯絡電話")
+        current_user.errors.add(:receiver_phone_no, "請填寫 收件人資訊-行動電話")
       end
       if value['postal'].blank?  
         current_user.errors.add(:receiver_postal, "請填寫 收件人資訊-郵遞區號")

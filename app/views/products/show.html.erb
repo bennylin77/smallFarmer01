@@ -6,6 +6,10 @@
 	<meta property="og:image" content="<%if @product.cover%><%=Rails.configuration.smallfarmer01_host%><%= @product.cover.url()%><%end%>" />
 	<meta name="description" content="<%= @product.description%>" />
 <% end %>
+<% inventory = 0 %>
+<%if @product.inventory%>
+	<% inventory = @product.inventory - Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', @product.product_boxings.first.id, false, Time.zone.now ).sum(:quantity) %>		
+<%end%>	
 <div class="container-fluid" style="margin-bottom: 50px;">
 	<div class="row" style="">
 		<div id="parallax1" class="product_cover_parallax_parent">
@@ -123,8 +127,12 @@
 				<div class="row product_price" style="margin-top: 10px;">
 					<div class="hidden-xs hidden-sm col-md-6 text-left">數量</div>					
 					<div class="hidden-md hidden-lg col-xs-3 text-right">數量</div>									
-					<div class="col-xs-6 col-md-offset-0 col-md-3">	
-						<%= select_tag  :quantity, options_for_select( (1..50).step(1).to_a), class: "form-control" %>				
+					<div class="col-xs-6 col-md-offset-0 col-md-3">					
+						<%max_quantity = 50%>
+						<%if inventory < max_quantity %>	
+							<% max_quantity = inventory %>
+						<%end%>
+						<%= select_tag  :quantity, options_for_select( (1..max_quantity).step(1).to_a), class: "form-control" %>				
 					</div>	  
 					<div class="col-xs-3 col-md-2">箱</div>	
 				</div>						
@@ -152,10 +160,6 @@
 					</div>					
 				</div>	
 				<%end%>								
-			<%end%>	
-			<% inventory = 0 %>
-			<%if @product.inventory%>
-				<% inventory = @product.inventory - Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', @product.product_boxings.first.id, false, Time.zone.now ).sum(:quantity) %>		
 			<%end%>			
 			<%if @product.released_at%>
 				<%if @product.released_at > Time.zone.now %>

@@ -39,8 +39,9 @@ class Product < ActiveRecord::Base
      
   def inventoryMoreThanUnpaid
     if inventory 
-      if inventory <  Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', self.product_boxings.first.id, false, Time.zone.now ).sum(:quantity)
-        errors.add(:inventory, "本批數量不能低於尚未付款量")
+      unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', self.product_boxings.first.id, false, Time.zone.now ).sum(:quantity)
+      if inventory <  unpaid
+        errors.add(:inventory, "本批數量不能低於尚未付款量 "+unpaid.to_s+"箱")
       end  
     else
       errors.add(:inventory, "請填寫 本批數量")  
