@@ -24,5 +24,24 @@ module Smallfarmer
       end           
       { id: current_user.id }              
     end 
+    
+    desc "Show user"
+    params do
+      requires :user_id, type: Integer, desc: "User id"
+    end        
+    post :show do
+      if params[:user_id] == params[:id].to_i
+        user = current_user
+      else  
+        user = User.select("id, email, last_name, first_name, phone_no, avatar_file_name, avatar_content_type, avatar_file_size, avatar_updated_at").find(params[:user_id])
+      end     
+      user_avatar = ""
+      if !user.avatar.blank?
+        user_avatar = Rails.configuration.smallfarmer01_host + user.avatar.url
+      end
+      { user: user, user_avatar: user_avatar }   
+    end    
+    
+       
   end
 end       
