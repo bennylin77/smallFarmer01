@@ -29,14 +29,6 @@ class ManagementController < ApplicationController
     @orders = Order.joins(:invoice).where('called_smallfarmer_c = ? and called_logistics_c = ? and invoices.confirmed_c = 1', 
                                     params[:called_smallfarmer_c], params[:called_logistics_c]).all.paginate(page: params[:page], per_page: 20).order('id DESC')    
   end
-
-  def setShipment
-    case params[:kind] 
-    when 'processing_note'
-      @shipment.update_columns(processing_note: params[:val])
-      render json: {success: true, message: '已更改配送編號 '+@shipment.id.to_s+' 的處理備註'}      
-    end   
-  end 
   
   def exportOrders  
     unless params[:selected_orders].blank?
@@ -95,52 +87,64 @@ class ManagementController < ApplicationController
     end
     render json: {success: true}      
   end
+   
+#======================# shipment #======================#   
+  def shipments
+    params[:delivered_c] = params[:delivered_c] == 'true' ? true : false    
+    @delivered_c = params[:delivered_c]      
+    @shipments = Shipment.joins(:order).where('orders.called_smallfarmer_c = ? and orders.called_logistics_c = ? and delivered_c = ?', 
+                                               true, true, params[:delivered_c]).all.paginate(page: params[:page], per_page: 20).order('id DESC') 
+  end
+  
+  def setShipment
+    case params[:kind] 
+    when 'processing_note'
+      @shipment.update_columns(processing_note: params[:val])
+      render json: {success: true, message: '已更改配送編號 '+@shipment.id.to_s+' 的處理備註'}      
+    end   
+  end   
   
   def delivered 
-    params[:orders].each do |o|          
-      order = Order.find(o)     
-      order.shipments.each do |s|  
-        if !s.delivered_c
-          s.delivered_c = true
-          s.delivered_at = Time.zone.now 
-          s.status = GLOBAL_VAR['ORDER_STATUS_DELIVERED'] 
-          s.save! 
-          data = { username: Rails.configuration.mitake_username, 
-               password: Rails.configuration.mitake_password,
-               dstaddr:  s.receiver_address.phone_no.gsub(/^\+886/, '0'),
-               encoding: 'UTF8',
-               smbody: '小農1號提醒：如商品有異，請於到貨起48小時內聯絡0287326786。如為農民出貨瑕疵，我們將提供退款/補寄保障※請詳退換貨政策'                     
-          }                                   
-          result = RestClient.get( Rails.configuration.mitake_sm_send_get_url, params: data)           
-        end  
-      end        
-      #bills
-      company = order.product_boxing.product.company   
-      bill = company.bills.where("end_at >= ?", Time.zone.now).first
-      if bill.blank?
-=begin        
-        bill = Bill.new(title: '小農一號合作農場帳單表', user_first_name: company.user.first_name, user_last_name: company.user.last_name,
-                        company_name: company.name , company_phone_no: company.phone_no, company_postal: company.postal,
-                        company_county: company.county, company_district: company.district, company_address: company.address,
-                        company_country: company.country, bank_code: company.bank_code, bank_account: company.bank_account)
-=end 
-        bill = Bill.new
-        if Time.zone.now.day <= 15          
-          bill.begin_at = Date.civil(Time.zone.now.year, Time.zone.now.month, 1).midnight
-          bill.end_at = Date.civil(Time.zone.now.year, Time.zone.now.month, 16).midnight-1
-        else
-          bill.begin_at = Date.civil(Time.zone.now.year, Time.zone.now.month, 16).midnight
-          bill.end_at = ( Date.civil(Time.zone.now.year, Time.zone.now.month, -1)+1 ).midnight-1    
-        end  
-        bill.title = '小農一號合作農場帳單表'
-        bill.company = company
-      end
-      bill.orders << order
-      bill.save!       
+    params[:shipments].each do |s|          
+      #not delivered  
+      s = Shipment.find(s)
+      if !s.delivered_c
+        s.delivered_c = true
+        s.delivered_at = Time.zone.now 
+        s.status = GLOBAL_VAR['ORDER_STATUS_DELIVERED'] 
+        s.save! 
+        #sms for notification 
+        data = { username: Rails.configuration.mitake_username, 
+                 password: Rails.configuration.mitake_password,
+                 dstaddr:  s.receiver_address.phone_no.gsub(/^\+886/, '0'),
+                 encoding: 'UTF8',
+                 smbody: '小農1號提醒：如商品有異，請於到貨起48小時內聯絡0287326786。如為農民出貨瑕疵，我們將提供退款/補寄保障※請詳退換貨政策'                     
+        }                                   
+        result = RestClient.get( Rails.configuration.mitake_sm_send_get_url, params: data)           
+            
+        #bills
+        company = s.order.product_boxing.product.company   
+        bill = company.bills.where("end_at >= ?", Time.zone.now).first
+        if bill.blank?
+          bill = Bill.new
+          if Time.zone.now.day <= 15          
+            bill.begin_at = Date.civil(Time.zone.now.year, Time.zone.now.month, 1).midnight
+            bill.end_at = Date.civil(Time.zone.now.year, Time.zone.now.month, 16).midnight-1
+          else
+            bill.begin_at = Date.civil(Time.zone.now.year, Time.zone.now.month, 16).midnight
+            bill.end_at = ( Date.civil(Time.zone.now.year, Time.zone.now.month, -1)+1 ).midnight-1    
+          end  
+          bill.title = '小農一號合作農場帳單表'
+          bill.company = company
+        end
+        bill.orders << s.order
+        bill.save!          
+      end   
+          
       #review
-      if order.review_at.blank? and order.invoice.notifications.where(category: GLOBAL_VAR['NOTIFICATION_PROMOTION'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_REVIEW']).count == 0
+      if s.order.review_at.blank? and s.order.invoice.notifications.where(category: GLOBAL_VAR['NOTIFICATION_PROMOTION'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_REVIEW']).count == 0
         delivered_all = true          
-        order.invoice.orders.each do |i_o|
+        s.order.invoice.orders.each do |i_o|
           i_o.shipments.each do |ss| 
             if !ss.delivered_c
               delivered_all = false       
@@ -148,10 +152,10 @@ class ManagementController < ApplicationController
           end
         end      
         if delivered_all
-          notify( order.invoice.user, { category: GLOBAL_VAR['NOTIFICATION_PROMOTION'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_REVIEW'], 
-                                        invoice_id: order.invoice.id}) 
-          System.sendReviewNotification(order.invoice).deliver           
-          invoice = order.invoice
+          notify( s.order.invoice.user, { category: GLOBAL_VAR['NOTIFICATION_PROMOTION'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_REVIEW'], 
+                                          invoice_id: s.order.invoice.id}) 
+          System.sendReviewNotification( s.order.invoice ).deliver           
+          invoice = s.order.invoice
           discount = 0 
           invoice.invoice_coupon_lists.each do |i_c_l|
             discount = discount + i_c_l.amount
@@ -168,10 +172,7 @@ class ManagementController < ApplicationController
                
     end   
     render json: {success: true}
-  end   
-#======================# shipment #======================#   
-  
-  
+  end    
   
 #======================# bill #======================#   
 

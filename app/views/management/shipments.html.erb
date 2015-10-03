@@ -1,0 +1,138 @@
+<div class="row">
+<ul class="nav nav-tabs pull-left">
+  <li role="presentation" <%= active( '/management/shipments?delivered_c=false')%>
+  						  <%= active( '/management/shipments?delivered_c=false&page='+params[:page].to_s)%>>
+	<%= link_to "尚未交付", controller: 'management', action: 'shipments', delivered_c: false%>  	  	
+  </li>  
+  <li role="presentation" <%= active( '/management/shipments?delivered_c=true')%>
+  						  <%= active( '/management/shipments?delivered_c=true&page='+params[:page].to_s)%>>
+	<%= link_to "已交付", controller: 'management', action: 'shipments', delivered_c: true%>  	
+  </li>  
+</ul>
+
+<%unless @delivered_c %>
+	<div class='btn btn-default pull-right' id='delivered' style='margin-right: 10px;'>已交付</div>
+<%end%>
+</div>
+
+
+<div class="row">
+<div class="table-responsive">
+<table class="table table-bordered table-hover">
+  <tr> 	
+    <th style="min-width: 75px;">出貨編號</th>  			          	
+	<th>品項</th>  
+	<th style="min-width: 75px;">配送編號</th> 
+	<td style="width: 200px;">收件人</td>
+	<td style="min-width: 20px;">數量</td>
+	<td class="text-center">狀態</th>
+	<th>處理備註</th> 
+    <th>退換貨糾紛</th>      
+	<th>
+	<label class="checkbox-inline">	
+		<%= check_box_tag 'shipment_all'%>全選
+	</label>	
+	</th>        
+  </tr>
+  <% @shipments.each do |s| %>
+  <tr id='shipment_container_<%=s.id %>'>
+  	<% order = s.order%>
+    <td><%= order.id %></td>  
+ 	<td>
+        <%= link_to order.product_boxing.product do%>
+			<%if order.product_boxing.product.product_images.first %>
+				<div class="text-center">
+				<%= image_tag order.product_boxing.product.product_images.first.image.url, class: 'img-circle backend_fruits_img' %>			
+		        </div>
+		    <%end%> 	
+    		<div class="text-center"><%= order.product_boxing.product.name%></div>           	
+        <%end%>   	
+    </td>      
+    <td><%= s.id%></td> 
+    <td>  
+    	<%receiver_address = s.receiver_address %>
+        <div><%=receiver_address.last_name %> <%=receiver_address.first_name %></div>
+ 		<div><%=receiver_address.postal %><%=receiver_address.county %><%=receiver_address.district %><%=receiver_address.address %></div>
+ 		<div><%=receiver_address.phone_no.gsub(/^\+886/, '0') %></div>         	
+    </td>
+    <td><%if order.gift_wrapping_c%><span class="text-danger">禮盒裝</span><%end%><%=s.quantity%>箱</td> 			      		            
+	<td>
+		<div class="text-center"><%= order.created_at.strftime("%Y-%m-%d %H:%M:%S") %><br>建立出貨單</div>					
+		<div class="text-center">&darr;</div>				
+		<%if order.called_smallfarmer_c%>
+			<div class="text-center">在<%= order.called_smallfarmer_at.strftime("%Y-%m-%d %H:%M:%S")%><br>通知物流</div>
+			<div class="text-center">&darr;</div>	
+		<%end%>
+		<div class="text-center" id="status_<%=s.id%>"><%= Hash[orderCompanyStatusOptions].rassoc(s.status).first%></div>         								
+	</td>     
+	<td>
+		<%= text_area_tag 'shipment_'+s.id.to_s, s.processing_note, class: "form-control shipment", placeholder: "", 'data-id'=> s.id %>
+	</td>   		       	                                                
+	<td>
+	  	<%if order.problem_c%><span class="glyphicon glyphicon-alert" aria-hidden="true"></span><%end%>		
+	</td>	        	        	                              
+    <td>
+		<label class="checkbox-inline" id='order_check_box_container_<%=s.id %>'>
+			<%= check_box_tag 'shipments[]', s.id, false, class: 'shipment_idv'%>
+		</label>   
+    </td>			     
+  </tr>
+  <%end%>  
+</table>
+</div>
+</div>
+<%= will_paginate @shipments, renderer: BootstrapPagination::Rails %>
+<script>
+$('#shipment_all').change(function() {
+   if ( this.checked )
+   	$('.shipment_idv').prop('checked', true);
+   else
+   	$('.shipment_idv').prop('checked', false);
+});
+
+$("#delivered").click(function(){			
+	var shipments = []
+	$('input[name="shipments[]"]').each(function() {
+		if($(this).prop('checked') == true)
+			shipments.push($(this).val()); 
+	});				
+	$.ajax({
+			type : 'GET',
+			url : '/management/delivered',
+			data : {
+				shipments: shipments 
+			},
+			datatype : 'json',
+			success : function(data) {
+				if (data.success) {
+					toastr['success']('成功將選取配送單改為已交付')
+					$.each(shipments, function( index, value ) {
+						$('#status_'+value).html('已交付');
+						$('#shipment_container_'+value).remove();
+						//$('#order_check_box_container_'+value).remove();											
+					});
+				} else {
+					toastr['warning'](data.message)
+				}
+			}
+		});	
+});	
+
+$( ".shipment" ).change(function() {
+	  var id = $(this).data('id')  	  
+	  $.ajax({
+				type : 'GET',
+				url : '/management/setShipment',
+				data : { id: id, val: $(this).val(), kind: 'processing_note' },
+				datatype : 'json',
+				success : function(data) {
+					if (data.success) {
+						toastr['success'](data.message)		
+					} else {
+						toastr['warning'](data.message)
+					}
+				}
+			});		    
+});	
+
+</script>

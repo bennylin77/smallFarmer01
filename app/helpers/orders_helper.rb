@@ -76,7 +76,7 @@ module OrdersHelper
       
   def expressComingDate(hash={})    
     t_15_30 = Time.new(hash[:checked_time].year, hash[:checked_time].month, 
-                       hash[:checked_time].day, 15, 30, 00)       
+                       hash[:checked_time].day, 15, 30, 00, Time.zone.now.utc_offset)       
     if t_15_30 >= hash[:checked_time] 
        if hash[:words]       
         ' '+(hash[:checked_time]+1.day).to_date.to_s+' '
