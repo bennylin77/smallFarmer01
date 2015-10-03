@@ -19,9 +19,6 @@
 		<%=submit_tag '匯出出貨單', class: 'btn btn-default pull-right', style: 'margin-right: 10px;' %>	
 	<%end%>
 	<div class='btn btn-default pull-right' id='call_logistics' style='margin-right: 10px;'>轉換為已處理</div>
-<%elsif  @called_smallfarmer_c and @called_logistics_c %>
-	<div class='btn btn-default pull-right' id='delivered' style='margin-right: 10px;'>已交付</div>
-	<input id="tracing_file" type="file" class="form-control" style='margin-right: 10px;'>
 <%end%>
 </div>
 <div class="row">
@@ -112,7 +109,7 @@ $('#order_all').change(function() {
    	$('.order_idv').prop('checked', false);
 });
 
-<%if current_page?(controller: 'management', action: 'orders', called_smallfarmer_c: true, called_logistics_c: false)%>
+<%if @called_smallfarmer_c and !@called_logistics_c%>
 $("#call_logistics").click(function(){			
 	var orders = []
 	$('input[name="orders[]"]').each(function() {
@@ -148,33 +145,7 @@ $('#export_orders').submit(function() {
 	});		
 	return true; // return false to cancel form action
 });
-<%else%>	
-$("#delivered").click(function(){			
-	var orders = []
-	$('input[name="orders[]"]').each(function() {
-		if($(this).prop('checked') == true)
-			orders.push($(this).val()); 
-	});				
-	$.ajax({
-			type : 'GET',
-			url : '/management/delivered',
-			data : {
-				orders: orders 
-			},
-			datatype : 'json',
-			success : function(data) {
-				if (data.success) {
-					toastr['success']('成功將選取出貨單改為已交付')
-					$.each(orders, function( index, value ) {
-						$('#status_'+value).html('已交付');
-						//$('#order_check_box_container_'+value).remove();											
-					});
-				} else {
-					toastr['warning'](data.message)
-				}
-			}
-		});	
-});	
+
 $("#tracing_file").fileinput({showCaption: false,
 			   				   showRemove: false,
 			   				   showPreview: false,
@@ -189,7 +160,6 @@ $("#tracing_file").fileinput({showCaption: false,
 						       maxFileCount: 1,							           							   
 							   overwriteInitial: true							 
 							   });	
-
 <%end%>	
 
 
