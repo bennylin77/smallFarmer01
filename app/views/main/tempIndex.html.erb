@@ -1,4 +1,5 @@
-<header class="parallax-window" data-parallax="scroll" data-speed="0" data-image-src="<%=image_url 'index/first_fruit.jpg'%>">
+<header class="parallax-window farmer_video_container">
+	<div class="pattern"></div> 
 	<div class="container">
 		<div class="row intro-text">
 	        <div class="col-md-12">
@@ -11,6 +12,7 @@
 	    			<div class="ibm_text">(優惠期間:9/4-9/21)</div>
 	    		</div>
 	    		-->
+   				<a id="bgndVideo" class="player" data-property="{videoURL:'https://youtu.be/U9BU3881Ezo',containment:'.farmer_video_container',autoPlay:true, mute:true, startAt:0, opacity:1, showControls:false}"></a>	    		
 	    	</div>
     	</div>
     	<div class="row intro-nav text-center">
@@ -42,22 +44,36 @@
     <section class="fruit_section" style="background: #f8f8f8">
         <div class="container-fluid">
             <div class="row text-center">
-                <div class="col-sm-6 fruit_section_image" style="background-image: url(<%=asset_path 'index/first.jpg'%>); background-attachment: scroll; background-position: center center; background-size: cover;">
-                    <%= link_to 'https://www.smallfarmer01.com/main/search?query=%E6%A2%A8' do%>
+                <div class="col-sm-4 fruit_section_container_1">
+                    <div class="fruit_section_image" style="background-image: url(<%=asset_path 'index/2015_10_3_2.jpg'%>);">
+                    <%= link_to 'https://www.smallfarmer01.com/main/search?query=%E7%81%AB%E9%BE%8D%E6%9E%9C' do%>
 					<div class="index_fruits_category index_fruits_category_1">
-						<div class="index_fruits_category_s">台中東勢/后里</div>
-						<div class="index_fruits_category_l">梨</div>
+						<div class="index_fruits_category_s">台南大社</div>
+						<div class="index_fruits_category_l">火龍果</div>
 					</div>
-					<%end%>                    		
+					<%end%>
+					</div>                    		
                 </div>
-                <div class="col-sm-6 fruit_section_image" style="background-image: url(<%=asset_path 'index/third.jpg'%>); background-attachment: scroll; background-position: center center; background-size: cover;">
+                <div class="col-sm-4 fruit_section_container_2">
+                    <div class="fruit_section_image" style="background-image: url(<%=asset_path 'index/2015_10_3_3.jpg'%>); ">                    
                     <%= link_to 'https://www.smallfarmer01.com/main/search?query=%E8%8A%92%E6%9E%9C%E4%B9%BE' do%>
 					<div class="index_fruits_category index_fruits_category_2 index_fruits_category_2">
 						<div class="index_fruits_category_s">台南大內</div>
 						<div class="index_fruits_category_l">凱特芒果乾</div>
 					</div>
-					<%end%>                    		
-                </div>                
+					<%end%>    
+					</div>					                		
+                </div>    
+                <div class="col-sm-4 fruit_section_container_3">
+                	<div class="fruit_section_image" style="background-image: url(<%=asset_path 'index/2015_10_3_1.jpg'%>); ">                    
+                    <%= link_to 'https://www.smallfarmer01.com/main/search?query=%E7%8F%8D%E7%8F%A0%E8%8A%AD%E6%A8%82' do%>
+					<div class="index_fruits_category index_fruits_category_2 index_fruits_category_2">
+						<div class="index_fruits_category_s">台南大內</div>
+						<div class="index_fruits_category_l">珍珠芭樂</div>
+					</div>
+					<%end%>  
+					</div>                  		
+                </div>                            
             </div>
         </div>
     </section>       
@@ -101,29 +117,9 @@
                 </div>
             </div>
         </div>
-    </section>    
-    <section class="farmer_video_before_section" style="background: #f8f8f8">
-    	<div class="container">     
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <h2 class="section-heading">我們的帥氣農夫</h2>
-                    <h3 class="section-subheading text-muted">沒錯！很帥，重點是他種的東西超好吃</h3>
-                </div>
-            </div>       
-		</div>		
-    </section>              
-<!-- Services Section -->       
-    <section class="farmer_video_section" style="background: #f8f8f8">
-    	<div class="container-fluid"> 		 		
-            <div class="row">
-                <div class="col-lg-12 text-center farmer_video_container">
-   				<a id="bgndVideo" class="player" data-property="{videoURL:'https://www.youtube.com/watch?v=GWdLIkoTGOQ',containment:'.farmer_video_container',autoPlay:true, mute:true, startAt:0, opacity:1}"></a>
-				</div>
-			</div>
-		</div>		
-    </section>  
+    </section>     
 <!-- Services Section -->    
-    <section style="background: #ffffff" class="team_section">
+    <section style="background: #F1F1F1" class="team_section">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12 col-lg-offset-2 col-lg-8 text-center">
@@ -204,11 +200,11 @@ $(document).ready(function($) {
 						  .addTo(controller) 	
 						  
 	new ScrollMagic.Scene({triggerElement: ".fruit_section"})
-						  .setTween(TweenMax.to(".index_fruits_category_1", 1, {autoAlpha: 1, ease: Linear.easeNone}))
+						  .setTween(TweenMax.to(".index_fruits_category", 0.6, {autoAlpha: 1, ease: Linear.easeNone}))
 						  .addTo(controller)
 						  
 	new ScrollMagic.Scene({triggerElement: ".fruit_section"})
-						  .setTween(TweenMax.to(".index_fruits_category_2", 1, {autoAlpha: 1, ease: Linear.easeNone}))
+						  .setTween(TweenMax.to(".index_fruits_category", 0.6, {autoAlpha: 1, ease: Linear.easeNone}))
 						  .addTo(controller)						  						  
 						  													  
 

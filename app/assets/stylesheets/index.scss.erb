@@ -1,0 +1,302 @@
+/*======================================= temp index =======================================*/
+.pattern {
+    background-image: url(<%=asset_path 'pattern.png'%>);  
+    background-repeat: repeat;
+    background-attachment:scroll;
+    width:100%;
+    height:100%;
+    position:absolute;
+    top:0;
+    left:0
+}
+.farmer_video_section{  
+  height: 80vh;   
+}
+.farmer_video_container{
+  background-image: url(<%=asset_path 'pattern.png'%>);  
+  background-repeat: repeat;
+  background-attachment:scroll;  
+  height: 80vh;    
+}
+header{
+    height: 80vh;    
+    //background-image: url(<%=asset_path 'index/first_fruit.jpg'%>);
+    //background-attachment: scroll;
+    //background-position: center center;   
+    //background-size: cover;
+    text-align: center;
+    color: #FFF;
+}
+header .intro-text{
+    margin-top: 30vh;
+}
+header .intro-text .intro-lead-in{
+    font-style:italic;
+    font-size:40px;
+    line-height:40px;
+    margin-bottom:25px;
+}
+header .intro-text .intro-heading{
+    text-transform:uppercase;
+    font-weight:700;
+    font-size: 60px;
+    line-height:60px;
+    margin-bottom: 70px;
+}
+.intro-nav{
+}
+.intro-nav-button_1{
+    color: #ffffff;
+    font-size: 20px;
+    line-height: 20px;
+    letter-spacing: 3px;    
+    padding: 15px 60px;      
+    background: rgba(234, 89, 24, 0.75);
+    border-radius: 0px;
+} 
+.intro-nav-button_2{
+    color: #ffffff;
+    font-size: 20px;
+    line-height: 20px;
+    letter-spacing: 3px;    
+    padding: 15px 60px;      
+    background: rgba(88, 210, 62, 0.75);
+    border-radius: 0px;
+} 
+.no-touch .intro-nav-button_1:hover, .intro-nav-button_1:focus{
+    text-decoration: none;
+    color: #ffffff;
+    background: rgba(234, 89, 24, 1);
+}  
+.no-touch .intro-nav-button_2:hover, .intro-nav-button_2:focus{
+    text-decoration: none;
+    color: #ffffff;
+    background: rgba(88, 210, 62, 1);
+}  
+ 
+@media (max-width:768px){
+  header .intro-text{
+    margin-top: 40%;
+  } 
+  header .intro-text .intro-lead-in{
+    font-style:italic;
+    font-size: 27px;
+    line-height: 27px;
+    margin-bottom: 27px
+  } 
+  header .intro-text .intro-heading{
+    text-transform:uppercase;
+    font-weight:700;
+    font-size: 40px;
+    line-height:40px;
+    margin-bottom:25px
+  }  
+  .intro-nav-button_1, .intro-nav-button_2{
+      font-size: 16px;
+      line-height: 60px;
+      letter-spacing: 2px;    
+      margin-top: 50px;
+      padding: 10px 45px;      
+  }
+}
+
+section h2.section-heading{
+  font-size:40px;
+  margin-top:0;
+  margin-bottom:15px
+}
+
+section h3.section-subheading{
+  font-size: 20px;
+  text-transform: none;
+  //font-style:italic;
+  font-weight:400;
+  margin-bottom:75px
+}
+
+
+.first_section{
+  padding: 150px 0
+}
+.second_section{
+  padding: 100px 0
+}
+
+
+//===========fruits
+.fruit_section_container_1{
+  padding-left: 0px;
+  padding-right: 8px;	
+}
+.fruit_section_container_2{
+  padding-left: 8px;
+  padding-right: 8px;	
+}
+.fruit_section_container_3{
+  padding-left: 8px;
+  padding-right: 0px;	
+}
+
+.fruit_section_image{
+  padding: 180px 0px;
+  width:100%;
+  background-attachment: scroll; 
+  background-position: center center;
+  background-size: cover;  
+}
+
+
+.no-touch .fruit_section_image:hover{
+  //opacity: 0.8;
+}
+
+.fruit_section a{
+    color: #FFF;
+    text-decoration: none;     
+}
+.fruit_section .index_fruits_category{
+    background: rgba(150, 150, 150, 0.3); 
+    width: 230px;  
+    padding: 10px 0px;  
+    margin: 0 auto;
+    visibility: hidden;
+    font-weight: bold;
+    border-radius: 10px;
+}
+.index_fruits_category{
+  
+}
+.index_fruits_category_s{
+  font-size: 25px;  
+  margin-bottom: 10px;
+}
+.index_fruits_category_l{
+  font-size: 45px;
+}
+
+@media (max-width:768px){
+  .fruit_section_container_1, .fruit_section_container_2, .fruit_section_container_3{
+  	padding-left: 0px;
+	padding-right: 0px;	
+	margin-bottom: 60px;
+  }
+
+  .fruit_section .index_fruits_category{
+      width: 300px;  
+      padding: 50px 0px;  
+      visibility: hidden;
+  }
+  .fruit_section_image{
+    padding: 150px 0px;
+  }  
+  .index_fruits_category_s{
+    font-size: 25px;  
+  }
+  .index_fruits_category_l{
+    font-size: 40px;
+  }  
+  
+  
+}
+
+
+
+
+
+
+//=================values
+.value_explanation{
+  position: relative;  
+}
+.value_title{
+  font-weight: bold;
+  position: relative;  
+}
+.value_op{
+  margin-top: 30px;
+  height: 40px;
+  visibility: hidden;  
+}
+.value_op_eq{
+  margin-top: 35px;
+  height: 35px;  
+  visibility: hidden;  
+}
+.value_circle{
+  position: relative;
+  height: 100px;    
+}
+@media (max-width:1450px){
+  .value_circle{
+    position: relative;
+    height: 80px;    
+  }
+  .value_title{
+    font-size: 16px;
+  }  
+}
+@media (max-width:991px){
+  .first_section, .last_section{
+    padding:100px 0
+  }
+  .value_explanation{
+    margin-bottom: 60px;
+  }
+  .value_circle{
+    position: relative;
+    height: 100px;    
+  } 
+  .value_title{
+    font-size: 18px;
+  }    
+}
+
+//=================team
+.team_section{
+    padding: 150px 0px;  
+}
+.team_about{
+  font-size: 1.5em;
+  margin-bottom: 60px;
+} 
+.team_about_avatar{
+  width: 50%;
+  height: 50%;
+  -webkit-box-shadow: 1px 2px 6px 3px rgba(199,197,199,1);
+  -moz-box-shadow: 1px 2px 6px 3px rgba(199,197,199,1);
+  box-shadow: 1px 2px 6px 3px rgba(199,197,199,1);
+  padding: 2%; 
+  background-clip: content-box; 
+  margin-bottom: 20px;
+}
+.team_about_ch_name span{
+  padding-bottom: 5px;
+  border-bottom: 1px solid #000000;
+}
+.team_about_ch_name{
+  margin-bottom: 10px;
+}
+.team_about_en_name{
+  font-size: 80%;
+  margin-bottom: 10px; 
+}
+.team_about_title{
+  font-size: 90%;
+  margin-bottom: 5px;   
+}
+.team_about_description{
+  font-size: 65%;
+  color: #8E8E8E;
+}
+@media (max-width:1450px){
+  .team_about_avatar{
+    width: 75%;
+    height: 75%;
+  }
+}
+@media (max-width:1200px){
+  .team_about_avatar{
+    width: 60%;
+    height: 60%;
+  }
+}
