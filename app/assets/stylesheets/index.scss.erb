@@ -9,18 +9,22 @@
     top:0;
     left:0
 }
-.farmer_video_section{  
-  height: 80vh;   
-}
 .farmer_video_container{
-  background-image: url(<%=asset_path 'pattern.png'%>);  
-  background-repeat: repeat;
-  background-attachment:scroll;  
+  background-image: url(<%=asset_path 'index/default_index.jpg'%>);  
+  background-attachment: scroll;
+  background-position: center center;   
+  background-size: cover;
   height: 80vh;    
 }
+.farmer_video_container_default_image{
+    background-image: url(<%=asset_path 'index/default_index.jpg'%>);
+    background-attachment: scroll;
+    background-position: center center;   
+    background-size: cover;
+  	height: 100vh;      
+}
 header{
-    height: 80vh;    
-    //background-image: url(<%=asset_path 'index/first_fruit.jpg'%>);
+    //background-image: url(<%=asset_path 'index/default_index.jpg'%>);
     //background-attachment: scroll;
     //background-position: center center;   
     //background-size: cover;

@@ -1,5 +1,5 @@
-<header class="parallax-window farmer_video_container">
-	<div class="pattern"></div> 
+<header class="farmer_video_container">
+	<!--<div class="pattern"></div>--> 
 	<div class="container">
 		<div class="row intro-text">
 	        <div class="col-md-12">
@@ -12,7 +12,7 @@
 	    			<div class="ibm_text">(優惠期間:9/4-9/21)</div>
 	    		</div>
 	    		-->
-   				<a id="bgndVideo" class="player" data-property="{videoURL:'https://youtu.be/U9BU3881Ezo',containment:'.farmer_video_container',autoPlay:true, mute:true, startAt:0, opacity:1, showControls:false}"></a>	    		
+   				<a class="player" data-property="{videoURL:'https://youtu.be/U9BU3881Ezo',containment:'.farmer_video_container',autoPlay:true, mute:true, startAt:0, opacity:1, showControls:false}"></a>	    		
 	    	</div>
     	</div>
     	<div class="row intro-nav text-center">
@@ -302,8 +302,9 @@ $(document).ready(function($) {
             $(".player").mb_YTPlayer();
         } else {
             //jQuery will add the default background to the preferred class 
-            $('.farmer_video_section').hide();
-            $('.farmer_video_before_section').hide();
+            $('.farmer_video_container').addClass(
+               'farmer_video_container_default_image');
+            $('.pattern').remove();
        }
 
 
