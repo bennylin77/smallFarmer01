@@ -203,6 +203,7 @@ ActiveRecord::Schema.define(version: 20150927101521) do
     t.integer  "search_count", default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "description"
   end
 
   create_table "notifications", force: true do |t|
