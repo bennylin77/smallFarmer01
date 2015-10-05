@@ -296,8 +296,12 @@ class InvoicesController < ApplicationController
           invoice.invoice_coupon_lists.each do |i_c_l|
               discount = discount + i_c_l.amount
           end           
-          if params[:TradeAmt].to_i == (invoice.amount - discount).to_i # amount right or not           
-            invoice.paid_at = params[:PaymentDate]
+          if params[:TradeAmt].to_i == (invoice.amount - discount).to_i # amount right or not                    
+            payment_date = params[:PaymentDate].to_time
+            payment_date = Time.new( payment_date.year, payment_date.month, 
+                                     payment_date.day,  payment_date.hour, 
+                                     payment_date.min,  payment_date.sec, Time.zone.now.utc_offset)                      
+            invoice.paid_at = payment_date
             invoice.payment_charge_fee = params[:PaymentTypeChargeFee]      
             invoice.allpay_trade_no = params[:TradeNo] 
             invoice.paid_c = true
@@ -337,17 +341,24 @@ class InvoicesController < ApplicationController
         invoice.allpay_trade_no = params[:TradeNo] 
         invoice.allpay_bank_code = params[:BankCode] 
         invoice.allpay_v_account = params[:vAccount] 
-        invoice.allpay_expired_at = params[:ExpireDate].to_time + 1.day - 1              
+        expire_date = params[:ExpireDate].to_time
+        expire_date = Time.new( expire_date.year, expire_date.month, 
+                      expire_date.day, 00, 00, 00, Time.zone.now.utc_offset)    
+        invoice.allpay_expired_at = expire_date + 1.day - 1              
         invoice.save!           
       elsif params[:RtnCode] == '10100073'   
         invoice = Invoice.where(allpay_merchant_trade_no: params[:MerchantTradeNo]).first
         invoice.allpay_trade_no = params[:TradeNo] 
-        invoice.allpay_expired_at = params[:ExpireDate]  
+        expire_date = params[:ExpireDate].to_time
+        expire_date = Time.new( expire_date.year, expire_date.month, 
+                                expire_date.day,  expire_date.hour, 
+                                expire_date.min,  expire_date.sec, Time.zone.now.utc_offset)          
+        invoice.allpay_expired_at = expire_date 
         invoice.allpay_payment_no = params[:PaymentNo]              
         invoice.save!               
       end
     end 
-    render :nothing    
+    render nothing: true   
   end
 
   def allpayCredit     
