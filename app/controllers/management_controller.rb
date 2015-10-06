@@ -77,16 +77,24 @@ class ManagementController < ApplicationController
     end
     render json: {success: true}
   end
-  
-  def problem
-    params[:orders].each do |o|
-      order = Order.find(o)
-      order.problem_c = true
-      order.problem_at = Time.zone.now 
-      order.save!    
-    end
-    render json: {success: true}      
-  end
+
+  def setOrder   
+    case params[:kind]
+    when 'problem'
+      params[:val] = params[:val] == 'true' ? true : false  
+      if params[:val]
+        @order.update_columns(problem_c: params[:val], problem_at: Time.zone.now)
+        render json: {success: true, message: '出貨單編號 '+@order.id.to_s+' 改為退換貨糾紛', problem_at: @order.problem_at.strftime("%Y-%m-%d %H:%M:%S")}    
+      else
+        @order.update_columns(problem_c: params[:val], problem_at: nil )        
+        render json: {success: true, message: '出貨單編號 '+@order.id.to_s+' 無退換貨糾紛'}          
+      end            
+    end    
+  end      
+   
+   
+   
+   
    
 #======================# shipment #======================#   
   def shipments
