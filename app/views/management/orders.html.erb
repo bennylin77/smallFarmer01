@@ -13,7 +13,6 @@
 	<%= link_to "後台已通知物流", controller: 'management', action: 'orders', called_smallfarmer_c: true, called_logistics_c: true%>  	  	
   </li>   
 </ul>
-<div class='btn btn-default pull-right' id='problem' style='margin-right: 10px;'>退換貨糾紛</div>
 <%if @called_smallfarmer_c and !@called_logistics_c %>
 	<%= form_tag('/management/exportOrders.xls', id: 'export_orders') do -%>
 		<%=submit_tag '匯出出貨單', class: 'btn btn-default pull-right', style: 'margin-right: 10px;' %>	
@@ -30,7 +29,7 @@
 	<th style="min-width: 120px;">出貨數量</th>	
 	<th style="min-width: 110px;">金額</th>	
     <th>配送明細</th>   
-    <th>退換貨糾紛</th>      
+	<th style="min-width: 118px;">退換貨糾紛</th>							 		               
 	<th>
 	<label class="checkbox-inline">	
 		<%= check_box_tag 'order_all'%>全選
@@ -88,7 +87,18 @@
 	  </table>
 	</td> 	        
 	<td>
-	  	<%if o.problem_c%><span class="glyphicon glyphicon-alert" aria-hidden="true"></span><%end%>		
+    	<div class="form-group">
+    		<div class="col-sm-12">
+    			<div class="input-group">
+    				<div id="" class="radioBtn btn-group">
+    					<a class="btn btn-primary btn-sm <%if o.problem_c%>active<%else%>notActive<%end%>" data-toggle="problem_<%=o.id %>" data-id="<%=o.id %>" data-title="true" data-kind="problem" style="border: none;">是</a>
+    					<a class="btn btn-primary btn-sm <%if o.problem_c%>notActive<%else%>active<%end%>" data-toggle="problem_<%=o.id %>" data-id="<%=o.id %>" data-title="false" data-kind="problem" style="border: none;">否</a>
+    					<input type="hidden" name="problem_<%= o.id %>" id="problem_<%=o.id %>" value="<%= o.problem_c%>">
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    	<div id="problem_datetime_<%=o.id %>"><%if o.problem_c%><%= o.problem_at.strftime("%Y-%m-%d %H:%M:%S")%><%end%></div>
 	</td>	        	        	                              
     <td>
 		<label class="checkbox-inline" id='order_check_box_container_<%=o.id %>'>
@@ -101,6 +111,12 @@
 </div>
 </div>
 <%= will_paginate @orders, renderer: BootstrapPagination::Rails %>
+<style>
+.radioBtn .notActive{
+    color: #3276b1;
+    background-color: #fff;
+}
+</style>
 <script>
 $('#order_all').change(function() {
    if ( this.checked )
@@ -162,34 +178,6 @@ $("#tracing_file").fileinput({showCaption: false,
 							   });	
 <%end%>	
 
-
-$("#problem").click(function(){			
-	var orders = []
-	$('input[name="orders[]"]').each(function() {
-		if($(this).prop('checked') == true)
-			orders.push($(this).val()); 
-	});				
-	$.ajax({
-			type : 'GET',
-			url : '/management/problem',
-			data : {
-				orders: orders 
-			},
-			datatype : 'json',
-			success : function(data) {
-				if (data.success) {
-					toastr['success']('已將出貨單改為有退換貨糾紛')
-					$.each(orders, function( index, value ) {
-						//$('#status_'+value).html('已交付');
-						//$('#order_check_box_container_'+value).remove();											
-					});
-				} else {
-					toastr['warning'](data.message)
-				}
-			}
-		});	
-});		
-
 $( ".shipment" ).change(function() {
 	  var id = $(this).data('id')  	  
 	  $.ajax({
@@ -206,4 +194,38 @@ $( ".shipment" ).change(function() {
 				}
 			});		    
 	});	
+	
+	
+	$('.radioBtn a').on('click', function(){
+		var sel = $(this).data('title');
+		var tog = $(this).data('toggle');	 
+		var id = $(this).data('id')   
+		var kind = $(this).data('kind') 		
+		if(sel.toString()!=$('#'+tog).val() )
+		{
+		    $('a[data-toggle="'+tog+'"]').not('[data-title="'+sel+'"]').removeClass('active').addClass('notActive');
+		    $('a[data-toggle="'+tog+'"][data-title="'+sel+'"]').removeClass('notActive').addClass('active');
+			$.ajax({
+				type : 'GET',
+				url : '/management/setOrder',
+				data : { id: id, val: sel, kind: kind },
+				datatype : 'json',
+				success : function(data) {
+					if (data.success) {
+						toastr['success'](data.message)		
+						$('#'+tog).val(sel.toString()) 	
+						if(kind == 'problem' & sel) 
+							$('#problem_datetime_'+id).html(data.problem_at)
+						else
+							$('#problem_datetime_'+id).html('')
+													
+					} else {
+						toastr['warning'](data.message)
+					}
+				}
+			});	
+		}	
+	})	
+	
+	
 </script>
