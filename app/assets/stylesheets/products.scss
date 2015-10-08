@@ -622,7 +622,7 @@
   transform: rotate(25deg); /**other browsers**/  
 }
 .product_index_sold_out{
-  font-size: 120%;  
+  font-size: 110%;  
   color: rgba(70, 70, 70, 1);
 }
 .product_index_delicious_container{
@@ -638,9 +638,13 @@
   padding: 3px 0px;
 }
 .product_index_delicious_sum{
-  font-size: 160%;  
+  font-size: 150%;  
   color: #DE562C;
 }
+.product_index_delicious_word{
+  font-size: 90%;   
+}
+
 .product_index_name{
   margin-top: 6px;
   font-size: 110%;    
@@ -665,7 +669,7 @@
 }
 @media (max-width: 1385px) {
   .product_index_container a{
-    font-size: 16px;
+    font-size: 15px;
   }
   .product_index_image_container{
     
@@ -681,6 +685,15 @@
   }
   .product_index_delicious_container{
   }  
+}
+@media (max-width: 890px) {
+  .product_index_container a{
+    font-size: 15px;    
+  }
+  .product_index_image_container{
+  }
+  .product_index_delicious_container{
+  }
 }
 @media (max-width: 426px) {
   .product_index_container a{

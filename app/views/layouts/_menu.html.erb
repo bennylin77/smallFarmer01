@@ -198,25 +198,69 @@ function showCartsNotifications(){
 			 $('.carts_notifications_badge').html('');	
 	});						
 }
+//==================================typeahead=================================//
 
-var keywords = new Bloodhound({
+var keyword_results = new Bloodhound({
   datumTokenizer: Bloodhound.tokenizers.obj.whitespace('keyword'),
   queryTokenizer: Bloodhound.tokenizers.whitespace,
   remote: {
-    url: '/main/keywords?query=%QUERY',
+    url: '/main/typeaheadSource?query=%QUERY&kind=0',
     wildcard: '%QUERY'
   }
 });
-keywords.initialize();
-$('.search_term').typeahead(null, {
-  display: 'keyword',
-  source: keywords,
-  limit: 5,
-  templates: {
-        suggestion: function (keyword) {
-            return '<p>' + keyword.display + '</p>';
-        }
+var product_results = new Bloodhound({
+  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('product'),
+  queryTokenizer: Bloodhound.tokenizers.whitespace,
+  remote: {
+    url: '/main/typeaheadSource?query=%QUERY&kind=1',
+    wildcard: '%QUERY'
   }
 });
+var company_results = new Bloodhound({
+  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('company'),
+  queryTokenizer: Bloodhound.tokenizers.whitespace,
+  remote: {
+    url: '/main/typeaheadSource?query=%QUERY&kind=2',
+    wildcard: '%QUERY'
+  }
+});
+keyword_results.initialize();
+product_results.initialize();
+company_results.initialize();
+$('.search_term').typeahead(null, 
+  {
+  name: 'keywords',
+  display: 'content',
+  source: keyword_results,
+  limit: 5,
+  templates: {
+  		header: '<p class="text-primary">關鍵字</p>',
+        suggestion: function (keyword) {
+            return '<p>' + keyword.content + '(目前共' + keyword.size + '項商品)</p>';
+        }
+  }},
+  {
+  name: 'products',  	
+  display: 'product_name',
+  source: product_results,
+  limit: 5,
+  templates: {
+  		header: '<p class="text-primary">商品</p>',
+        suggestion: function (product) {
+            return '<p>' + product.product_name + ' '+product.company_name +'</p>';
+        }
+  }},
+  {
+  name: 'companies',  	
+  display: 'name',
+  source: company_results,
+  limit: 5,
+  templates: {
+  		header: '<p class="text-primary">小農</p>',
+        suggestion: function (company) {
+            return '<p>' + company.name +'</p>';
+        }
+  }}  
+  );
 
 </script>

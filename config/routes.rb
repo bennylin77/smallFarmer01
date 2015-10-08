@@ -40,7 +40,7 @@ Rails.application.routes.draw do
   
   #post   'users/mobileSMSConfirmationSend'
   
-  get    'main/keywords'
+  get    'main/typeaheadSource'
   get    'main/index'  
   get    'main/search'
   get    'main/fruits'
@@ -75,6 +75,10 @@ Rails.application.routes.draw do
   get    'management/coupons'
   get    'management/giveCoupon'
   post   'management/giveCoupon'  
+  get    'management/keywords' 
+  get    'management/keywordEdit'
+  post   'management/updateKeyword'
+     
                               
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
   #match '/users/:id/mobileSMSConfirmation' => 'users#mobileSMSConfirmation', via: [:get, :patch], :as => :mobileSMSConfirmation 
@@ -91,6 +95,8 @@ Rails.application.routes.draw do
   match '/products/:id/productImagesDelete' => 'products#productImagesDelete', via: [:post], :as => :productImagesDelete
   match '/products/:id/available' => 'products#available', via: [:get], as: :available
   match '/orders/:id/confirm' => 'orders#confirm', via: [:get], as: :confirm
+  match '/management/:id/keywordCoverUpload' => 'management#keywordCoverUpload', via: [:post], :as => :keywordCoverUpload
+  match '/management/:id/keywordCoverDelete' => 'management#keywordCoverDelete', via: [:post], :as => :keywordCoverDelete 
 
   match '/notifications/:id/read' => 'notifications#read', via: [:get], as: :read
  

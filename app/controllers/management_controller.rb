@@ -8,7 +8,7 @@ class ManagementController < ApplicationController
   before_action :set_company, only: [:setCompany, :updateBankAccount, :updateBankCode]
   before_action :set_user, only: [:blockUser, :confirmPhoneNo]
   before_action :set_product, only: [:setProduct]
-  
+  before_action :set_keyword, only: [:keywordEdit, :keywordCoverUpload, :keywordCoverDelete, :updateKeyword]  
 #======================# invoice #======================# 
   def invoices
     if params[:paid_c] 
@@ -392,7 +392,46 @@ class ManagementController < ApplicationController
     redirect_to controller: 'management', action: 'users'   
   end
 
+#======================# keyword #======================#     
+  def keywords
+    @keywords = Keyword.all.paginate(page: params[:page], per_page: 60).order('id DESC')         
+  end
+  
+  def keywordEdit
+  end
 
+  def updateKeyword
+    if @keyword.update_columns(kind: params[:keyword][:kind], description: params[:keyword][:description])
+      flash[:notice] ='成功更改農場資料'
+      redirect_to controller: 'management', action: 'keywordEdit', id: @keyword.id     
+    else
+      render '/management/keywordEdit'    
+    end    
+  end  
+  
+  def keywordCoverUpload
+    if @keyword.cover.blank?      
+      @keyword.update_attribute(:cover, params[:keyword][:cover])
+      render json: { initialPreview: [
+                        "<img src='"+@keyword.cover.url+"' class='file-preview-image'>",
+                     ],
+                     initialPreviewConfig: [{
+                        url: "/management/"+@keyword.id.to_s+"/keywordCoverDelete"
+                     }]
+                   }              
+    else
+      render json: { error: '只能上傳一張封面。如要更新封面，請先刪除舊的封面。' }      
+    end  
+  end
+  
+  def keywordCoverDelete
+    if @keyword.update_attribute(:cover, nil)  
+      render json: {success: '刪除成功'}     
+    else
+      render json: {error: '刪除失敗'}           
+    end   
+  end  
+  
   
 private   
   
@@ -430,5 +469,9 @@ private
   def set_bill
     @bill = Bill.find(params[:id])
   end        
+
+  def set_keyword
+    @keyword = Keyword.find(params[:id])
+  end 
   
 end

@@ -1,0 +1,33 @@
+<br>
+<div class="table-responsive">
+<table class="table table-bordered table-hover">
+  <tr>
+    <th>關鍵字編號</th>  	
+    <th>關鍵字</th>   
+    <th>種類</th>    
+    <th>產品數</th>    
+    <th>搜尋次數</th>
+    <th>描述</th>         
+    <th>封面</th>            
+    <th>建立日期</th>					 		           
+  </tr>
+  <% @keywords.each do |k| %>
+  <tr onclick="window.location.href='<%= Rails.configuration.smallfarmer01_host%>/management/keywordEdit?id=<%=k.id%>';">
+    <td><%= k.id %></td>  	
+    <td><%= k.content %></td>    
+    <td><%= Hash[keywordKindOptions].rassoc(k.kind).first %></td>   
+    <td><%= k.keyword_product_lists.size%></td> 
+    <td><%= k.search_count %></td>      
+    <td><%= k.description %></td> 
+    <td><%= image_tag k.cover.url, style: 'width: 100px;' %></td>              
+    <td><%= k.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>	
+  </tr>
+  <%end%>  
+</table>
+</div>
+<%= will_paginate @keywords, renderer: BootstrapPagination::Rails %>
+<style>
+.table-bordered tr {
+    cursor: pointer;
+}
+</style>
