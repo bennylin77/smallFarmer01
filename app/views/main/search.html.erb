@@ -1,19 +1,37 @@
-<div class="container-fluid">
-	<div class="row">
-        <div class="col-sm-3 col-lg-2 sidebar">
-			<%=image_tag 'mongo_1.png', class: 'search_intro_fruit_img', style: 'width:100px;' %>
-			<div class="search_intro_fruit_title">芒果</div>
-			<div class="search_intro_fruit_summary">
-				本站共30項芒果
-				<br>
-				<span class="farm_fruits_excellent_text">總共 </span><span class="farm_fruits_excellent">23764</span><span class="farm_fruits_excellent_text"> 人說非吃不可</span>		
-			</div>
-			<%= simple_format("芒果因具有速生、早產、高產，果實風味獨特、營養豐富，經濟效益高等特點，使得芒果生產不斷得到發展。目前已成為繼葡萄、柑橙、香蕉、蘋果之後的世界第五大水果。\n芒果肉含有豐富的維生素A、維生素C和維生素D，亦有醣類、繕食纖維、葉酸、鈣、磷、鐵、鉀、鎂等微量元素。芒果具有可抑制腦細胞死亡的效果，食用冷凍芒果，有助於讓使用過度的大腦得到舒緩。中醫學認為，具有清熱作用、味甘、酸，性涼，有益胃止嘔、生津解渴及止暈眩等功效，甚至可治胃熱煩渴、嘔吐不適及暈車、暈船等症，只需以芒果核煎水一大碗，入茶飲用，就有退熱之效。芒果不利腎臟，患有急性或慢性腎炎的病人應忌食芒果。芒果含多酚、磷等礦物質，能避免體內自由基過多，傷害細胞，造成身體老化，適量食用，能補充許多抗氧化的營養素，延緩老化現象。",
-			{class: 'search_intro_fruit_description text-left'}, wrapper_tag: "div") %>	
-                	    
-        </div>
-        <div class="col-sm-9 col-lg-10 main_backend">
-			<%= render partial: "fruits", locals: { products: @products } %>			
-    	</div>
-	</div>
-</div>
+<%if @keyword%>
+	<%= render partial: "keyword", locals: { keyword: @keyword, products: @products } %>
+<%elsif @all%>
+	<div class="container-fluid main_frontend" style="padding-top: 40px;"><br>
+		<% @all.each_slice(4) do |a|%> 
+			<div class="row">
+				<% a.each_with_index do |aa, index|%>
+					<%if aa.class.name == 'Product'%>
+						<%=render partial: "fruit", locals: { fruit: aa, index: index, slice: 4 } %>
+					<%elsif aa.class.name == 'Company'%>
+						<%=render partial: "farm", locals: { farm: aa, index: index, slice: 4 } %>					
+					<%end%>				
+				<%end%>	
+			</div>			
+		<%end%>				
+	</div>			
+<%end%>
+<script>
+var controller = new ScrollMagic.Controller({globalSceneOptions: {triggerHook: "onEnter"}});
+new ScrollMagic.Scene({triggerElement: ".product_index_delicious_sum"})
+		.addTo(controller)
+		.on('start', function(e){
+			$('.product_index_delicious_sum').each(function () {
+			  var $this = $(this);
+			  jQuery({ Counter: 0 }).animate({ Counter: $this.attr("data-count") }, {
+			    duration: 1000,
+			    easing: 'swing',
+			    step: function () {
+			      $this.text(Math.floor(this.Counter));
+			    },
+			  	complete: function() {
+			  		$this.html($this.attr("data-count"));
+			  	}		    
+			  });
+			});					
+		});	
+</script>

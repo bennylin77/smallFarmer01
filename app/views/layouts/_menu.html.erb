@@ -32,12 +32,12 @@
           </ul>          
           <form class="navbar-form navbar-left hidden-xs" role="search" action="/main/search" method="get">
             <div class="form-group">
-            	<input type="text" class="form-control rounded typeahead search_term" name="query" placeholder="找產地鮮果？" value="<%= @query %>">
+            	<input type="text" class="form-control rounded typeahead search_term" name="query" placeholder="找關鍵字、鮮果、小農？" value="<%= @query %>">
     	  	</div>
     		<button type="submit" class="btn btn-default menu_search_button" style=""><%=image_tag 'logo_leaf_21x25.png'%></button> 		    	  	
     	  </form>     	    
           <form class="navbar-form hidden-sm hidden-md hidden-lg" role="search" action="/main/search" method="get">
-            <input type="text" class="form-control rounded" name="query" placeholder="找產地鮮果？" value="<%= @query %>">
+            <input type="text" class="form-control rounded" name="query" placeholder="找關鍵字、鮮果、小農？" value="<%= @query %>">
     	  </form>        	       	  	               	      	      	      	
           <ul class="nav navbar-nav navbar-right">
 			<%if user_signed_in?%>          	
@@ -234,9 +234,9 @@ $('.search_term').typeahead(null,
   source: keyword_results,
   limit: 5,
   templates: {
-  		header: '<p class="text-primary">關鍵字</p>',
+  		header: '<p class="tt-header">關鍵字</p>',
         suggestion: function (keyword) {
-            return '<p>' + keyword.content + '(目前共' + keyword.size + '項商品)</p>';
+            return '<p><span class="target">' + keyword.content + '</span><span class="description">目前共' + keyword.size + '項商品</span></p>';
         }
   }},
   {
@@ -245,9 +245,9 @@ $('.search_term').typeahead(null,
   source: product_results,
   limit: 5,
   templates: {
-  		header: '<p class="text-primary">商品</p>',
+  		header: '<p class="tt-header">商品</p>',
         suggestion: function (product) {
-            return '<p>' + product.product_name + ' '+product.company_name +'</p>';
+            return '<p><span class="target">' + product.product_name + '</span><span class="description">' + product.company_name +'</span></p>';
         }
   }},
   {
@@ -256,9 +256,9 @@ $('.search_term').typeahead(null,
   source: company_results,
   limit: 5,
   templates: {
-  		header: '<p class="text-primary">小農</p>',
+  		header: '<p class="tt-header">小農</p>',
         suggestion: function (company) {
-            return '<p>' + company.name +'</p>';
+            return '<p><span class="target">' + company.name +'</span></p>';
         }
   }}  
   );

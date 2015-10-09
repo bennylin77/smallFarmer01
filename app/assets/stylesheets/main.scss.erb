@@ -280,23 +280,52 @@ input.rounded:focus {
 .breadcrumb>.active a {color: #536132 !important; text-decoration: underline;}
 .breadcrumb>li+li:before {color: #433E3C; content: "\003E\00a0";}
 /*======================================= Search =======================================*/
-.search_intro_fruit_img{
-  margin-top: 100px;
-  height: 100px;
-  width: 180px;
+.keyword_cover{
+  width: 70%;
 }
-.search_intro_fruit_title{
+.keyword_content{
+  margin-top: 15px;  
+  font-size: 25px;
+  letter-spacing: 4px;
+}
+.keyword_summary{
   margin-top: 10px;  
-  font-size: 40px;
-  letter-spacing: 10px;
+  font-size: 18px;
 }
-.search_intro_fruit_summary{
-  margin-top: 10px;  
-  font-size: 18px;  
+.keyword_statistics{
+  font-size: 80%;  
+  color: #737373;
 }
-.search_intro_fruit_description{
+.keyword_delicious_sum{ 
+  font-size: 150%;
+  color: #DE562C;
+}
+
+.keyword_description{
   margin-top: 17px;
-  font-size: 14px;
+  font-size: 15px;
+}
+@media (max-width: 992px) {
+  .keyword_content{
+    font-size: 20px;
+    letter-spacing: 4px;
+  }
+  .keyword_summary{
+    font-size: 16px;
+  }  
+}
+
+@media (max-width: 768px) {
+  .keyword_cover{
+    width: 50%;
+  }  
+  .keyword_content{
+    font-size: 25px;
+    letter-spacing: 4px;
+  }
+  .keyword_summary{
+    font-size: 17px;
+  }  
 }
 
 /*======================================= login/register =======================================*/

@@ -1,0 +1,14 @@
+<div class="container-fluid main_frontend" style="padding-top: 40px;">
+<% products.each_slice(4) do |p|%> 
+	<div class="row">
+		<% p.each_with_index do |pp, index|%>
+			<%= render partial: "fruit", locals: { fruit: pp, index: index, slice: 4 } %>			
+		<%end%>	
+	</div>			
+<%end%>	
+
+
+
+
+
+</div>		

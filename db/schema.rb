@@ -199,8 +199,8 @@ ActiveRecord::Schema.define(version: 20151006091551) do
 
   create_table "keywords", force: true do |t|
     t.string   "content"
-    t.integer  "kind",               default: 0, null: false
-    t.integer  "search_count",       default: 0, null: false
+    t.integer  "kind",               default: 0,     null: false
+    t.integer  "search_count",       default: 0,     null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "cover_file_name"
@@ -208,6 +208,8 @@ ActiveRecord::Schema.define(version: 20151006091551) do
     t.integer  "cover_file_size"
     t.datetime "cover_updated_at"
     t.text     "description"
+    t.boolean  "available_c",        default: false, null: false
+    t.datetime "available_at"
   end
 
   create_table "notifications", force: true do |t|

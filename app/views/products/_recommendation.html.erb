@@ -1,40 +1,7 @@
 <%Product.where(available_c: true, deleted_c: false).order("RAND()").limit(3).each_slice(3) do |p|%> 
 	<div class="row">
 		<% p.each_with_index do |pp, index|%>
-		<% inventory = pp.inventory - Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', pp.product_boxings.first.id, false, Time.zone.now ).sum(:quantity) %>					
-			<div class="col-sm-offset-1 col-sm-3 product_index_container text-center">					
-			<%= link_to pp do%>
-				<div class="product_index_image_container" style="background-image: url('<%=pp.cover.url%>')">		
-					<%if inventory==0%>
-					<div class="product_index_sold_out_container">
-						<span class="product_index_sold_out">已搶購完</span>
-					</div>
-					<%end%>					
-					<div class="product_index_delicious_container">
-						<!--<span class="product_index_delicious_sum" data-count="<%= pp.product_boxings.first.orders.where('review_at IS NOT NULL and review_score = ? ', GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count + pp.product_boxings.first.orders.where('review_at IS NOT NULL and review_score = ? ', GLOBAL_VAR['ORDER_REVIEW_TASTY']).count %>">0</span>人說好吃-->
-						<span class="product_index_delicious_sum" data-count="<%= Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ?', pp.product_boxings.first.id, true ).sum(:quantity) %>">0</span> 箱已賣出						
-					</div>					
-				</div>
-				<div class="product_index_name"><%if pp.released_at > Time.zone.now %>[預購]<%end%><%= pp.name%><%= "%g" % pp.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(pp.unit).first %></div>				
-				<div class="product_index_company_name"><%= pp.company.name%> |				
-					<% pricing = pp.product_boxings.first.product_pricings.first %>
-					<%if pp.discount!=1%>
-						<s><small><%= ((pricing.price.to_i + shippingRates(cold_chain: pricing.product_boxing.product.cold_chain, size: pricing.product_boxing.size))/pp.product_boxings.first.quantity).round(1) %></small></s> <span class="product_index_price"><%=number_with_delimiter( (priceWithShipments( pricing )/pp.product_boxings.first.quantity).round(1), delimiter: ',')%> <span style="font-size: 80%">元/<%= Hash[unitOptions].rassoc(pp.unit).first %>(含運)</span></span>					
-					<%else%>
-						<span class="product_index_price"><%=number_with_delimiter( (priceWithShipments( pp.product_boxings.first.product_pricings.first )/pp.product_boxings.first.quantity).round(1), delimiter: ',')%> <span style="font-size: 80%">元/<%= Hash[unitOptions].rassoc(pp.unit).first %>(含運)</span></span>
-					<%end%>				
-				</div>
-				<div class="product_index_fruits_icons">
-					<%if pp.GAP_c%><%=image_tag 'gap.png', class: '', style: 'height: 42px; width: 42px;'  %><%end%>		      
-					<%if pp.TAP_c%><%=image_tag 'tap.png', class: '', style: 'height: 38px; width: 38px;'  %><%end%>		      		      
-					<%if pp.OTAP_c%><%=image_tag 'otap.png', class: '', style: 'height: 38px; width: 38px;'  %><%end%>		      		      
-					<%if pp.UTAP_c%><%=image_tag 'utap.png', class: '', style: 'height: 38px; width: 38px;'  %><%end%>				    	
-					<%if pp.pesticide_qualified_c%><%=image_tag 'pesticide_qualified.png', class: '', style: 'height: 40px; width: 40px;'  %><%end%>	
-					<%if pp.pesticide_zero_c%><%=image_tag 'pesticide_zero.png', class: '', style: 'height: 40px; width: 40px;'  %><%end%>						
-					<%unless pp.sweet_degree.blank?%><%=image_tag 'sweet_degree/'+pp.sweet_degree.to_s+'.png', class: '', style: 'height: 30px; width: 50px;' %><%end%>				    
-			    </div>			
-			<%end%>		 				
-			</div>	
+			<%= render partial: "/main/fruit", locals: { fruit: pp, index: index, slice: 3 } %>			
 		<%end%>	
 	</div>		
 <%end%>

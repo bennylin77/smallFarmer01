@@ -75,16 +75,37 @@ body{
      -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
           box-shadow: 0 5px 10px rgba(0,0,0,.2);
 }
-
+.tt-header{
+  padding: 3px 20px;  
+  line-height: 24px; 
+  background-color: #F4F4F4; 
+  color: #292F33;  
+}
 .tt-suggestion {
-  padding: 3px 20px;
-  line-height: 24px;
+  padding: 0px 20px;
+  line-height: 20px;
+  cursor: pointer;
 }
 .tt-suggestion.tt-cursor {
   color: #fff;
-  background-color: #0097cf;
-
+  background-color: #FCEEEA;
+}
+.tt-suggestion:hover {
+  cursor: pointer;
+  color: #fff;
+  background-color: #FCEEEA;
 }
 .tt-suggestion p {
   margin: 0;
+}
+.tt-suggestion span.target{
+  color: #292F33;
+  font-weight: bold;
+  display: block;
+  font-size: 16px;
+}
+.tt-suggestion span.description{
+  font-size: 14px;  
+  color: #8F8F8F;
+  display: block;  
 }

@@ -6,6 +6,7 @@ class MainController < ApplicationController
     result = []        
     case params[:kind]    
     when '0'
+      params[:query] = params[:query].gsub(/^\#{1}/, '') 
       keywords = Keyword.where('content LIKE ?', "%#{params[:query]}%").limit(5)
       keywords.each do |k|
         result<<{ content: '#'+k.content, size: k.products.size }
@@ -43,19 +44,21 @@ class MainController < ApplicationController
   end
   
   def search
-    @products = Product.where('name LIKE ?', "%#{params[:query]}%").where(available_c: true, deleted_c: false) + Product.joins(:keywords).where('keywords.content LIKE ?', "%#{params[:query]}%").where(available_c: true, deleted_c: false)
-    @products = @products.uniq.sort{|a,b| b.priority <=> a.priority }
+    @query = params[:query] 
+    if params[:query] =~ /^\#{1}/    
+      params[:query] = params[:query].gsub(/^\#{1}/, '') 
+      @keyword = Keyword.where('content = ?', params[:query]).first
+      @products = Product.joins(:keywords).where('keywords.content = ?', params[:query]).where(available_c: true, deleted_c: false)
+    else
+      products  = Product.where('name LIKE ?', "%#{params[:query]}%").where( available_c: true, deleted_c: false) 
+      companies = Company.where('name LIKE ?', "%#{params[:query]}%").where( activated_c: true) 
+      @all = ( products + companies ).uniq.sort{|a,b| b.priority <=> a.priority }      
+      
+  
+        
+      
+    end
     
-   
-
-    @query = params[:query]
-=begin    
-    result = []
-    keywords.each do |k|
-      result<<{ keyword: k.content, display: k.content+' (目前'+k.products.size.to_s+'項商品)' }
-    end   
-    render json: result
-=end        
   end
     
   def farms  
