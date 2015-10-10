@@ -58,7 +58,13 @@
 			<div style="background-image: url('<%=@company.cover.url%>'); background-size: cover; background-position: center center;"></div>
 		</div>	
 	</div>	
-	<%= render partial: "/main/fruits", locals: { products: @company.products.where(available_c: true, deleted_c: false) } %>
+	<% @company.products.where(available_c: true, deleted_c: false).each_slice(4) do |p|%> 
+		<div class="row">
+			<% p.each_with_index do |pp, index|%>
+				<%= render partial: "/main/fruit", locals: { fruit: pp, index: index, slice: 4 } %>
+			<%end%>	
+		</div>			
+	<%end%>		
 </div>
 <script>
 $(document).ready(function($) {

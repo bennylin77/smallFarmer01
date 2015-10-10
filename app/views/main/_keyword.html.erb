@@ -1,7 +1,7 @@
 <div class="container-fluid">
 	<div class="row">
         <div class="col-sm-3 col-lg-2 sidebar text-center">
-			<%=image_tag 'mongo_1.png', class: 'keyword_cover'%>
+			<img src="<%=keyword.cover.url%>" class= 'keyword_cover'>
 			<div class="keyword_content">#<%= keyword.content %></div>
 			<div class="keyword_summary">
 				<% count = 0%>

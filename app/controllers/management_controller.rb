@@ -401,7 +401,10 @@ class ManagementController < ApplicationController
   end
 
   def updateKeyword
-    if @keyword.update_columns(kind: params[:keyword][:kind], description: params[:keyword][:description])
+    params[:keyword][:available_c] = params[:keyword][:available_c] == 'true' ? true : false  
+    if @keyword.update_columns(kind: params[:keyword][:kind], 
+                               description: params[:keyword][:description],
+                               available_c: params[:keyword][:available_c] )
       flash[:notice] ='成功更改農場資料'
       redirect_to controller: 'management', action: 'keywordEdit', id: @keyword.id     
     else
