@@ -1,0 +1,48 @@
+<div class="container-fluid">
+	<div class="row">
+        <div class="col-sm-3 col-lg-2 sidebar text-center">
+			<%=image_tag 'mongo_1.png', class: 'keyword_cover'%>
+			<div class="keyword_content">#<%= keyword.content %></div>
+			<div class="keyword_summary">
+				<% count = 0%>
+				<% products.each do |p| %>
+				<% count = count + Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ?', p.product_boxings.first.id, true ).sum(:quantity) %>
+				<%end%>
+				<div class="keyword_statistics">本站共<%= keyword.products.size %>項 #<%= keyword.content %> 商品</div>
+				<div>總共賣出 <span class="keyword_delicious_sum" data-count="<%= count %>"></span> 箱</div>		
+			</div>
+			<%= simple_format(keyword.description,
+			{class: 'keyword_description text-left'}, wrapper_tag: "div") %>	    	    
+        </div>
+        <div class="col-sm-9 col-lg-10 main_backend" style="border-left: 1px solid #E7E7E7; min-height: 600px;">
+			<% @products.each_slice(4) do |p|%> 
+				<div class="row">
+					<% p.each_with_index do |pp, index|%>
+						<%= render partial: "fruit", locals: { fruit: pp, index: index, slice: 4 } %>
+					<%end%>	
+				</div>			
+			<%end%>	
+    	</div>
+	</div>
+</div>
+<script>
+
+var controller = new ScrollMagic.Controller({globalSceneOptions: {triggerHook: "onEnter"}});
+new ScrollMagic.Scene({triggerElement: ".keyword_delicious_sum"})
+		.addTo(controller)
+		.on('start', function(e){
+			$('.keyword_delicious_sum').each(function () {
+			  var $this = $(this);
+			  jQuery({ Counter: 0 }).animate({ Counter: $this.attr("data-count") }, {
+			    duration: 1000,
+			    easing: 'swing',
+			    step: function () {
+			      $this.text(Math.floor(this.Counter));
+			    },
+			  	complete: function() {
+			  		$this.html($this.attr("data-count"));
+			  	}		    
+			  });
+			});					
+		});	
+</script>

@@ -17,14 +17,15 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">   
           <ul class="nav navbar-nav hidden-xs">
-            <li><%= link_to '訂單列表', {controller: 'management', action: 'invoices', paid_c: true}, style: "font-size: 17px; color: #536132;" %></li>
-            <li><%= link_to '出貨單列表', {controller: 'management', action: 'orders', called_smallfarmer_c: false, called_logistics_c: false}, style: "font-size: 17px; color: #536132;" %></li>            
-            <li><%= link_to '配送單列表', {controller: 'management', action: 'shipments', delivered_c: false}, style: "font-size: 17px; color: #536132;" %></li>                                    
-            <li><%= link_to '帳單列表', {controller: 'management', action: 'bills'}, style: "font-size: 17px; color: #536132;" %></li>                        
-            <li><%= link_to '回饋金列表', {controller: 'management', action: 'coupons'}, style: "font-size: 17px; color: #536132;" %></li>                                    
-            <li><%= link_to '農場列表', {controller: 'management', action: 'companies', activated_c: true}, style: "font-size: 17px; color: #536132;" %></li>
-            <li><%= link_to '商品列表', {controller: 'management', action: 'products'}, style: "font-size: 17px; color: #536132;" %></li>            
-            <li><%= link_to '使用者列表', {controller: 'management', action: 'users'}, style: "font-size: 17px; color: #536132;" %></li>          
+            <li><%= link_to '訂單', {controller: 'management', action: 'invoices', paid_c: true}, style: "font-size: 17px; color: #536132;" %></li>
+            <li><%= link_to '出貨單', {controller: 'management', action: 'orders', called_smallfarmer_c: false, called_logistics_c: false}, style: "font-size: 17px; color: #536132;" %></li>            
+            <li><%= link_to '配送單', {controller: 'management', action: 'shipments', delivered_c: false}, style: "font-size: 17px; color: #536132;" %></li>                                    
+            <li><%= link_to '帳單', {controller: 'management', action: 'bills'}, style: "font-size: 17px; color: #536132;" %></li>                        
+            <li><%= link_to '回饋金', {controller: 'management', action: 'coupons'}, style: "font-size: 17px; color: #536132;" %></li>                                    
+            <li><%= link_to '農場', {controller: 'management', action: 'companies', activated_c: true}, style: "font-size: 17px; color: #536132;" %></li>
+            <li><%= link_to '商品', {controller: 'management', action: 'products'}, style: "font-size: 17px; color: #536132;" %></li>            
+            <li><%= link_to '使用者', {controller: 'management', action: 'users'}, style: "font-size: 17px; color: #536132;" %></li>          
+            <li><%= link_to '關鍵字', {controller: 'management', action: 'keywords'}, style: "font-size: 17px; color: #536132;" %></li>                   
           </ul>        	 	      	      	
           <ul class="nav navbar-nav navbar-right">
 			<%if user_signed_in?%>          	
@@ -33,9 +34,6 @@
 		            <span class='mobile_menu_label'><%if current_user.last_name%><%=current_user.last_name+' '+current_user.first_name%><%end%></span>					
 					</a>			
 				</li>      
-			<%else%>	
-				<li><%= link_to "註冊", new_user_registration_path %></li>
-				<li><%= link_to "登入", new_user_session_path %></li>
 			<%end%>					       
           </ul>
         </div>

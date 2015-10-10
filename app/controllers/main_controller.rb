@@ -2,17 +2,27 @@ class MainController < ApplicationController
   def index
   end
   
-  def keywords
-    result = []    
-    keywords = Keyword.where('content LIKE ?', "%#{params[:query]}%")
-    keywords.each do |k|
-      result<<{ keyword: k.content, display: k.content+' (目前'+k.products.size.to_s+'項商品)' }
-    end   
-    keywords = Product.where('name LIKE ?', "%#{params[:query]}%")
-    keywords.each do |k|
-      result<<{ keyword: k.name, display: k.name}
-    end      
-    render json: result
+  def typeaheadSource
+    result = []        
+    case params[:kind]    
+    when '0'
+      params[:query] = params[:query].gsub(/^\#{1}/, '') 
+      keywords = Keyword.where('content LIKE ?', "%#{params[:query]}%").limit(5)
+      keywords.each do |k|
+        result<<{ content: '#'+k.content, size: k.products.size }
+      end    
+    when '1'   
+      products = Product.where('name LIKE ?', "%#{params[:query]}%").limit(5)
+      products.each do |p|
+        result<<{ product_name: p.name, company_name: p.company.name}
+      end       
+    when '2'   
+      companies = Company.where('name LIKE ?', "%#{params[:query]}%").limit(5)
+      companies.each do |c|
+        result<<{ name: c.name}
+      end       
+    end
+    render json: result   
   end
   
   def tempIndex       
@@ -34,21 +44,21 @@ class MainController < ApplicationController
   end
   
   def search
-    @products = Product.where('name LIKE ?', "%#{params[:query]}%").where(available_c: true, deleted_c: false) + Product.joins(:keywords).where('keywords.content LIKE ?', "%#{params[:query]}%").where(available_c: true, deleted_c: false)
-    @products = @products.uniq.sort{|a,b| b.priority <=> a.priority }
-    #@products = Product.joins( keyword_product_lists: :keyword ).where('keywords.content LIKE ? or name LIKE ?', "%#{params[:query]}%, ")    
+    @query = params[:query] 
+    if params[:query] =~ /^\#{1}/    
+      params[:query] = params[:query].gsub(/^\#{1}/, '') 
+      @keyword = Keyword.where('content = ?', params[:query]).first
+      @products = Product.joins(:keywords).where('keywords.content = ?', params[:query]).where(available_c: true, deleted_c: false)
+    else
+      products  = Product.where('name LIKE ?', "%#{params[:query]}%").where( available_c: true, deleted_c: false) 
+      companies = Company.where('name LIKE ?', "%#{params[:query]}%").where( activated_c: true) 
+      @all = ( products + companies ).uniq.sort{|a,b| b.priority <=> a.priority }      
+      
+  
+        
+      
+    end
     
-    #@products = Product.joins(product_boxing: {product: :company}).where('companies.id = ? and called_smallfarmer_c = ? and invoices.confirmed_c = 1', current_user.companies.first, params[:called_smallfarmer_c] ).all.paginate(page: params[:page], per_page: 30).order('id')    
-   
-
-    @query = params[:query]
-=begin    
-    result = []
-    keywords.each do |k|
-      result<<{ keyword: k.content, display: k.content+' (目前'+k.products.size.to_s+'項商品)' }
-    end   
-    render json: result
-=end        
   end
     
   def farms  

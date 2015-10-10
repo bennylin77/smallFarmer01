@@ -78,6 +78,10 @@ defaults: &defaults
   OS_ANDROID: 0
   OS_IOS: 1
   
+  KEYWORD_UNDEFINED: 0
+  KEYWORD_FRUITS: 1  
+  
+  
 development:
   <<: *defaults
 

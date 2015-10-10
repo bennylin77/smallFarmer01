@@ -10,5 +10,11 @@
 		</div>
 	</div>
 	<%end%>
-	<%= render partial: "farms", locals: { companies: @companies } %>
+	<% @companies.where(activated_c: true).order(priority: :desc).each_slice(4) do |c|%> 
+		<div class="row">
+			<% c.each_with_index do |cc, index|%>	
+				<%= render partial: "farm", locals: { farm: cc, index: index, slice: 4 } %>
+			<%end%>	
+		</div>		
+	<%end%>						
 </div>	
