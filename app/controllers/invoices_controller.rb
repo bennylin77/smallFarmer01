@@ -153,9 +153,9 @@ class InvoicesController < ApplicationController
         coupon.save!
         i_c_l.destroy
       end      
-      flash[:notice] = '訂單編號'+@invoice.id.to_s+' 已取消'    
+      flash[:notice] = '訂單編號'+@invoice.id.to_s+' 已刪除'    
     else  
-      flash[:warning] = '訂單編號'+@invoice.id.to_s+' 已付款無法取消'      
+      flash[:warning] = '訂單編號'+@invoice.id.to_s+' 已付款無法刪除'      
     end
     redirect_to controller: :invoices, action: :index  
   end

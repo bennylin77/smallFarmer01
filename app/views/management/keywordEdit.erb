@@ -4,7 +4,21 @@
 		<div class="col-sm-10 col-md-7">
 			<label class="control-label pull-left"><%= @keyword.content %></label>
 		</div>
-	</div>	
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label vmiddle">禮盒包裝</label>
+		<div class="col-sm-5 col-md-2 vmiddle">
+			<label class="radio-inline">
+		  		<%= f.radio_button :available_c, "true"%>合法		
+			</label>
+			<label class="radio-inline">
+		 	 	<%= f.radio_button :available_c, "false"%>不合法
+			</label>			
+		</div>
+	</div>
+	
+		
 	<div class="form-group">
 		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">種類</label>
 		<div class="col-sm-10 col-md-7">	

@@ -48,15 +48,14 @@ class MainController < ApplicationController
     if params[:query] =~ /^\#{1}/    
       params[:query] = params[:query].gsub(/^\#{1}/, '') 
       @keyword = Keyword.where('content = ?', params[:query]).first
+      if @keyword
+        @keyword.update_columns(search_count: @keyword.search_count+1)
+      end
       @products = Product.joins(:keywords).where('keywords.content = ?', params[:query]).where(available_c: true, deleted_c: false)
     else
       products  = Product.where('name LIKE ?', "%#{params[:query]}%").where( available_c: true, deleted_c: false) 
       companies = Company.where('name LIKE ?', "%#{params[:query]}%").where( activated_c: true) 
       @all = ( products + companies ).uniq.sort{|a,b| b.priority <=> a.priority }      
-      
-  
-        
-      
     end
     
   end
