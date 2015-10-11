@@ -7,9 +7,9 @@ class MainController < ApplicationController
     case params[:kind]    
     when '0'
       params[:query] = params[:query].gsub(/^\#{1}/, '') 
-      keywords = Keyword.where('content LIKE ?', "%#{params[:query]}%").limit(5)
+      keywords = Keyword.where('content LIKE ? and available_c = ?', "%#{params[:query]}%", true).limit(5)
       keywords.each do |k|
-        result<<{ content: '#'+k.content, size: k.products.size }
+        result<<{ id: k.id, content: k.content, size: k.products.size }
       end    
     when '1'   
       products = Product.where('name LIKE ?', "%#{params[:query]}%").limit(5)
@@ -46,7 +46,6 @@ class MainController < ApplicationController
   def search
     @query = params[:query] 
     if params[:query] =~ /^\#{1}/    
-      params[:query] = params[:query].gsub(/^\#{1}/, '') 
       @keyword = Keyword.where('content = ?', params[:query]).first
       if @keyword
         @keyword.update_columns(search_count: @keyword.search_count+1)

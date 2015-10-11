@@ -183,6 +183,16 @@
 		<%= text_field_tag 'product_'+product.id.to_s, product.priority, class: "form-control priority", placeholder: "", 'data-id'=> product.id %>
   	</td>  	  	 	 
   </tr>
+  <tr>
+    <td colspan="6"> 
+    	<% keywords = ''%>	
+	    <% product.keywords.each do |k| %>
+	      <% keywords = keywords + ','+k.content %>
+	    <% end %>    	
+    	<% keywords%>
+		<%= text_field_tag 'keywords_'+product.id.to_s, keywords, "data-role" => "tagsinput", class: 'keywords', "data-id" => product.id %>				    	   	   
+    </td>  	  
+  </tr>    
   <%end%>  
 </table>
 </div>
@@ -268,5 +278,72 @@
 					}
 				}
 			});		    
+	});	
+	
+	
+	var keyword_results = new Bloodhound({
+			datumTokenizer: Bloodhound.tokenizers.obj.whitespace('keyword'),
+			queryTokenizer: Bloodhound.tokenizers.whitespace,
+			remote: {
+			    url: '/main/typeaheadSource?query=%QUERY&kind=0',
+			    wildcard: '%QUERY'
+			  }
+			});
+	keyword_results.initialize();
+	$('.keywords').tagsinput({
+		confirmKeys: [13, 32], 
+		typeaheadjs: {  	
+				name: 'keywords',
+				valueKey: 'content',		
+				displayKey: 'content',	
+			  	source: keyword_results.ttAdapter(),
+				limit: 5,
+				templates: {
+			  		header: '<p class="tt-header">關鍵字</p>',
+			        suggestion: function (keyword) {
+			            return '<p><span class="target">' + keyword.content + '</span><span class="description">目前共' + keyword.size + '項商品</span></p>';
+			        }
+				  }
+			  }
+			});
+	$('.keywords').on('beforeItemAdd', function(event) {
+		var patt = new RegExp("^\#{1}");
+		if( patt.exec(event.item) == null )
+		{
+			event.cancel = true
+			$(this).tagsinput('add', '#'+event.item );
+		}	 			 
+	});    
+	$('.keywords').on('itemAdded', function(event) {	 	
+		var id = $(this).data('id')  	  
+		$.ajax({	async: false,
+					type : 'GET',
+					url : '/management/setProduct',
+					data : { id: id, val: $(this).val(), kind: 'keyword' },
+					datatype : 'json',
+					success : function(data) {
+						if (data.success) {
+							toastr['success'](data.message)		
+						} else {
+							toastr['warning'](data.message)
+						}
+					}
+				});			 
+	}); 	
+	$('input').on('itemRemoved', function(event) {
+		var id = $(this).data('id')  	  
+		$.ajax({	async: false,
+					type : 'GET',
+					url : '/management/setProduct',
+					data : { id: id, val: $(this).val(), kind: 'keyword' },
+					datatype : 'json',
+					success : function(data) {
+						if (data.success) {
+							toastr['success'](data.message)		
+						} else {
+							toastr['warning'](data.message)
+						}
+					}
+				});	
 	});	
 </script>

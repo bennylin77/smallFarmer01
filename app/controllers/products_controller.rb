@@ -46,6 +46,9 @@ class ProductsController < ApplicationController
     unless @product.errors.any?  
       @product.keywords.clear
       @keywords.split(",").each do |k|
+        unless k =~ /^\#{1}/ 
+          k = '#' + k
+        end
         keyword = Keyword.where(content: k).first
         if keyword.blank?
           keyword = Keyword.new(content: k)              

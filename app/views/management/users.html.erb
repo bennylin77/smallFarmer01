@@ -6,6 +6,7 @@
 	<th>姓名</th>
 	<th>行動電話</th>  
 	<th>Email</th>		
+	<th>建立日期</th>	
 	<th>停用</th>
 	<th></th>								 		            
   </tr>
@@ -18,6 +19,7 @@
     </td> 
     <td><%unless u.phone_no.blank?%><%= u.phone_no.gsub(/^\+886/, '0') %><%else%>--<%end%></td> 
     <td><%= u.email %></td>   
+    <td><%= u.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>       
   	<td>
     	<div class="form-group">
     		<div class="col-sm-12">
