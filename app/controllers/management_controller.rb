@@ -348,7 +348,21 @@ class ManagementController < ApplicationController
         render json: {success: true, message: '商品編號 '+@product.id.to_s+' 上架'}    
       else
         render json: {success: true, message: '商品編號 '+@product.id.to_s+' 下架'}          
-      end         
+      end      
+    when 'keyword'  
+      @product.keywords.clear
+      params[:val].split(",").each do |k|
+        unless k =~ /^\#{1}/ 
+          k = '#' + k
+        end
+        keyword = Keyword.where(content: k).first
+        if keyword.blank?
+          keyword = Keyword.new(content: k)              
+        end
+        @product.keywords<<keyword 
+      end    
+      @product.save!  
+      render json: {success: true, message: '商品編號 '+@product.id.to_s+' 關鍵字已變動'}                       
     end    
   end          
 

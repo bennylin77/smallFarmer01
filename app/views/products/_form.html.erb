@@ -6,7 +6,7 @@
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">關鍵字<br><small>(例: 番茄 小番茄 玉女蕃茄)</small></label>
+		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">關鍵字<br><small>(例: #番茄 #小番茄 #玉女蕃茄)</small></label>
 		<div class="col-sm-10 col-md-7">
 			<%= text_field_tag :keywords, @keywords,"data-role" => "tagsinput"%>				
 		</div>
@@ -241,20 +241,37 @@ $('#product_released_at').datetimepicker({
 
 
 
-var citynames = new Bloodhound({
+var keyword_results = new Bloodhound({
   datumTokenizer: Bloodhound.tokenizers.obj.whitespace('keyword'),
   queryTokenizer: Bloodhound.tokenizers.whitespace,
   remote: {
-    url: '/main/keywords?query=%QUERY',
+    url: '/main/typeaheadSource?query=%QUERY&kind=0',
     wildcard: '%QUERY'
   }
 });
-citynames.initialize();
+keyword_results.initialize();
 $('#keywords').tagsinput({
+  confirmKeys: [13, 32], 
   typeaheadjs: {  	
-  	displayKey: 'display',
-  	valueKey: 'keyword',
-  	source: citynames.ttAdapter()
+	name: 'keywords',
+	valueKey: 'content',		
+	displayKey: 'content',	
+  	source: keyword_results.ttAdapter(),
+	limit: 5,
+	templates: {
+  		header: '<p class="tt-header">關鍵字</p>',
+        suggestion: function (keyword) {
+            return '<p><span class="target">' + keyword.content + '</span><span class="description">目前共' + keyword.size + '項商品</span></p>';
+        }
+	  }
   }
+});
+$('#keywords').on('beforeItemAdd', function(event) {
+  var patt = new RegExp("^\#{1}");
+  if( patt.exec(event.item) == null )
+  {
+  	event.cancel = true
+  	$('#keywords').tagsinput('add', '#'+event.item );
+  }	  
 });
 </script>

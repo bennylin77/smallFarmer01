@@ -2,13 +2,13 @@
 	<div class="row">
         <div class="col-sm-3 col-lg-2 sidebar text-center">
 			<img src="<%=keyword.cover.url%>" class= 'keyword_cover'>
-			<div class="keyword_content">#<%= keyword.content %></div>
+			<div class="keyword_content"><%= keyword.content %></div>
 			<div class="keyword_summary">
 				<% count = 0%>
 				<% products.each do |p| %>
 				<% count = count + Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ?', p.product_boxings.first.id, true ).sum(:quantity) %>
 				<%end%>
-				<div class="keyword_statistics">本站共<%= keyword.products.size %>項 #<%= keyword.content %> 商品</div>
+				<div class="keyword_statistics">本站共<%= keyword.products.size %>項 <%= keyword.content %> 商品</div>
 				<div>總共賣出 <span class="keyword_delicious_sum" data-count="<%= count %>"></span> 箱</div>		
 			</div>
 			<%= simple_format(keyword.description,
