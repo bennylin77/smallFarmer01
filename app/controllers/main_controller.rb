@@ -52,9 +52,14 @@ class MainController < ApplicationController
       end
       @products = Product.joins(:keywords).where('keywords.content = ?', params[:query]).where(available_c: true, deleted_c: false)
     else
-      products  = Product.where('name LIKE ?', "%#{params[:query]}%").where( available_c: true, deleted_c: false) 
-      companies = Company.where('name LIKE ?', "%#{params[:query]}%").where( activated_c: true) 
-      @all = ( products + companies ).uniq.sort{|a,b| b.priority <=> a.priority }      
+      @keyword = Keyword.where('content = ?', params[:query]).first
+      if @keyword.blank?
+        products  = Product.where('name LIKE ?', "%#{params[:query]}%").where( available_c: true, deleted_c: false) 
+        companies = Company.where('name LIKE ?', "%#{params[:query]}%").where( activated_c: true) 
+        @all = ( products + companies ).uniq.sort{|a,b| b.priority <=> a.priority }      
+      else
+        @products = Product.joins(:keywords).where('keywords.content = ?', params[:query]).where(available_c: true, deleted_c: false)       
+      end  
     end
     
   end
