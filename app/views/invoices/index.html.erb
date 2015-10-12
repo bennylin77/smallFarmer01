@@ -7,8 +7,7 @@
 	<th>付款</th>				
 	<th style="min-width: 118px;">
 		<%= image_tag 'coupons_icon.png', class: '', style: 'width: 25px; height: 25px;' %>
-		獲得回饋金<br> 
-		<abbr title="獲得回饋金為'付款金額'x4%, 並採取四捨五入"><small>付款金額x4%</small></abbr>
+		獲得回饋金
 	</th>	          
 	<th>購買項目</th>
     <th>訂單日期</th>	 	        
@@ -121,7 +120,7 @@
     </td>         
     <td>
     	<%= ((i.amount-discount)*GLOBAL_VAR['COUPON_FEE']).round%>元
-    	<div><small><em>-商品送達，評完好吃度即可獲得-</em></small></div>
+    	<div><small><em>-商品送達，評價完即可獲得-</em></small></div>
     </td>         
     <td>
       <table class="table table-striped">     
@@ -156,7 +155,7 @@
 			<% o.shipments.each do |s| %>
 			<tr>
 	          	<td>        	
-					<div class="text-center"><%= o.created_at.strftime("%Y-%m-%d %H:%M:%S") %><br>建立出貨單</div>		
+					<div class="text-center"><%= o.created_at.strftime("%Y-%m-%d %H:%M:%S") %><br>建立<%if o.preorder_c%><span class="text-danger">預購</span><%end%>出貨單</div>		
 					<div class="text-center">&darr;</div>					
 					<%if o.called_smallfarmer_c%>							
 					<div class="text-center"><%= o.called_smallfarmer_at.strftime("%Y-%m-%d %H:%M:%S")%><br>農夫已處理</div>					

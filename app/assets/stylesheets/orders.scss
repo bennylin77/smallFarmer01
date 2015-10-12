@@ -5,6 +5,9 @@
   width: 60px;
   height: 60px;
 }
+.check_out_product_list_condition{
+  font-size: 28px;
+}
 .check_out_product_list_title a, .check_out_product_list_title{
   font-size: 18px;
   color: #433E3C;    
@@ -22,6 +25,9 @@
   box-shadow: 3px 3px rgb(209, 209, 200);     
 }
 @media (max-width: 768px) {  
+  .check_out_product_list_condition{
+    margin-bottom: 20px;
+  }  
   .check_out_product_list{
     padding-bottom: 20px; 
     border-bottom: 1px solid #afb3ad;  
