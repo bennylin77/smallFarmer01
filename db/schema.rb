@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20150927101521) do
+=======
+ActiveRecord::Schema.define(version: 20151012082013) do
+>>>>>>> a5d2c4485d93e901b24a89c98045042598d0f688
 
   create_table "addresses", force: true do |t|
     t.integer  "user_id"
@@ -258,6 +262,7 @@ ActiveRecord::Schema.define(version: 20150927101521) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "gift_wrapping_c",                  default: false, null: false
+    t.boolean  "preorder_c",                       default: false, null: false
   end
 
   add_index "orders", ["bill_id"], name: "index_orders_on_bill_id", using: :btree

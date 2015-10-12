@@ -43,7 +43,10 @@ class InvoicesController < ApplicationController
       invoice.save! 
       #Orders       
       current_user.carts.each do |c|
-        order = Order.new
+        order = Order.new        
+        if c.product_boxing.product.released_at > Time.zone.now        
+          order.preorder_c = true
+        end
         order.invoice = invoice 
         order.product_boxing = c.product_boxing
         order.quantity = c.quantity
