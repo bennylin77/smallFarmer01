@@ -203,6 +203,12 @@ ActiveRecord::Schema.define(version: 20150927101521) do
     t.integer  "search_count", default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "cover_file_name"
+    t.string   "cover_content_type"
+    t.integer  "cover_file_size"
+    t.datetime "cover_updated_at"
+    t.text     "description"
+    t.boolean  "available_c",        default: true, null: false
   end
 
   create_table "notifications", force: true do |t|
