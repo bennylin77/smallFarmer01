@@ -52,7 +52,7 @@ class MainController < ApplicationController
       end
       @products = Product.joins(:keywords).where('keywords.content = ?', params[:query]).where(available_c: true, deleted_c: false)
     else
-      @keyword = Keyword.where('content = ?', params[:query]).first
+      @keyword = Keyword.where('content = ?', '#'+params[:query]).first
       if @keyword.blank?
         products  = Product.where('name LIKE ?', "%#{params[:query]}%").where( available_c: true, deleted_c: false) 
         companies = Company.where('name LIKE ?', "%#{params[:query]}%").where( activated_c: true) 
