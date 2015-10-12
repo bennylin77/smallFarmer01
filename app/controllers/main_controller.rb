@@ -58,7 +58,7 @@ class MainController < ApplicationController
         companies = Company.where('name LIKE ?', "%#{params[:query]}%").where( activated_c: true) 
         @all = ( products + companies ).uniq.sort{|a,b| b.priority <=> a.priority }      
       else
-        @products = Product.joins(:keywords).where('keywords.content = ?', params[:query]).where(available_c: true, deleted_c: false)       
+        @products = Product.joins(:keywords).where('keywords.content = ?', '#'+params[:query]).where(available_c: true, deleted_c: false)       
       end  
     end
     
