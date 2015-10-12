@@ -2,11 +2,12 @@
 <div class="table-responsive">
 <table class="table table-bordered table-hover">
   <tr>
-    <th>使用者編號</th>  	
+    <th style="min-width: 100px">使用者編號</th>  	
 	<th>姓名</th>
 	<th>行動電話</th>  
-	<th>Email</th>		
-	<th>建立日期</th>	
+	<th>Email</th>	
+	<th style="min-width: 150px">登入資訊</th>			
+	<th style="min-width: 150px">建立日期</th>	
 	<th>停用</th>
 	<th></th>								 		            
   </tr>
@@ -14,11 +15,27 @@
   <tr id='user_container_<%=u.id %>'>
     <td><%= u.id %></td>  	
     <td>
-    	<%= image_tag u.avatar.url, class: 'img-circle', style: 'height: 50px; width: 50px;' %>
+    	<%= image_tag u.avatar.url, class: 'img-circle', style: 'height: 50px; width: 50px;' %><br>
     	<%= u.last_name%><%= u.first_name%>
     </td> 
     <td><%unless u.phone_no.blank?%><%= u.phone_no.gsub(/^\+886/, '0') %><%else%>--<%end%></td> 
     <td><%= u.email %></td>   
+  	<td>
+  		<dl>
+   		<dt>登入次數</dt><dd><%= u.sign_in_count %></dd> 		  			
+   		<dt>現在登入IP</dt><dd><%= u.current_sign_in_ip %></dd> 		
+  		<dt>現在登入時間</dt>
+  			<%if u.current_sign_in_at%>
+  			<dd><%= u.current_sign_in_at.strftime("%Y-%m-%d %H:%M:%S") %></dd> 
+  			<%end%>
+   		<dt>上次登入IP</dt> 
+   		<dd><%= u.last_sign_in_ip %></dd>		
+  		<dt>上次登入時間</dt>
+  			<%if u.last_sign_in_at%>
+  			<dd><%= u.last_sign_in_at.strftime("%Y-%m-%d %H:%M:%S") %></dd> 
+  			<%end%> 		
+  		</dl>
+  	</td>      
     <td><%= u.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>       
   	<td>
     	<div class="form-group">
