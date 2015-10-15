@@ -65,6 +65,9 @@ class MainController < ApplicationController
     
   end
     
+  def serviceIntro
+  end  
+    
   def farms  
     @companies = Company.all       
   end
