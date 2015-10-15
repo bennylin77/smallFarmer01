@@ -6,13 +6,14 @@ module ProductsHelper
   
   def tempOptions
     [['常溫', GLOBAL_VAR['SHIPMENT_TEMP_NORMAL']], 
-     ['冷藏', GLOBAL_VAR['SHIPMENT_TEMP_REFRIGERATION']],
-     ['冷凍', GLOBAL_VAR['SHIPMENT_TEMP_FREEZING']]]
+     ['冷藏 (+'+GLOBAL_VAR['SHIPPING_RATES_COLD_CHAIN'].to_s+'元)', GLOBAL_VAR['SHIPMENT_TEMP_REFRIGERATION']],
+     ['冷凍 (+'+GLOBAL_VAR['SHIPPING_RATES_COLD_CHAIN'].to_s+'元)', GLOBAL_VAR['SHIPMENT_TEMP_FREEZING']]]
   end  
 
   def boxSizeOptions
-    [['小等於90公分', GLOBAL_VAR['BOX_SIZE_FIRST']], 
-     ['91公分~120公分', GLOBAL_VAR['BOX_SIZE_SECOND']]]
+    [['A+B+C = 60公分以下 ('+GLOBAL_VAR['SHIPPING_RATES_FIRST'].to_s+'元)', GLOBAL_VAR['BOX_SIZE_FIRST']], 
+     ['A+B+C = 61公分~90公分 ('+GLOBAL_VAR['SHIPPING_RATES_SECOND'].to_s+'元)', GLOBAL_VAR['BOX_SIZE_SECOND']], 
+     ['A+B+C = 91公分~120公分 ('+GLOBAL_VAR['SHIPPING_RATES_THIRD'].to_s+'元)', GLOBAL_VAR['BOX_SIZE_THIRD']]]
   end
   
   def unitOptions

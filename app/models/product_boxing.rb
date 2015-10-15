@@ -6,7 +6,7 @@ class ProductBoxing < ActiveRecord::Base
     
   accepts_nested_attributes_for :product_pricings  
   validates :quantity, presence: { presence: true, message: '請填寫 每箱數量' }, on: :update 
-  validates :size, presence: { presence: true, message: '請填寫 包裝材積大小' }, on: :update 
+  validates :size, presence: { presence: true, message: '請填寫 箱子尺寸' }, on: :update 
   
   validates_associated :product_pricings, message: '填寫格式錯誤或不能為空'   
   validate  :associatedProductPricings  
