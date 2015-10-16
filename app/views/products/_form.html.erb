@@ -1,7 +1,7 @@
 <%= form_for(@product, html: {class: "form-horizontal", role: "form", multipart: true}) do |f| %>
 	<div class="form-group">
 		<div class="col-sm-offset-0 col-md-offset-2 col-sm-12 col-md-8">
-			<h3 class="page-header text-muted">基本資料</h3>
+			<h3 class="page-header text-muted">商品資料</h3>
 		</div>
 	</div>
 	<div class="form-group">
@@ -28,10 +28,6 @@
 			<%= f.text_area :preservation, placeholder: '商品如何保存，食用方式和時機', class: "form-control" %>
 		</div>
 	</div>		
-	
-	
-	
-	
 	<div class="form-group">
 		<div class="col-sm-offset-0 col-md-offset-2 col-sm-12 col-md-8">
 			<h3 class="page-header text-muted">包裝價格</h3>
@@ -41,7 +37,7 @@
 		<div class="form-group">
 			<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label vmiddle">箱子尺寸</label>
 			<div class="col-sm-5 col-md-4 vmiddle">
-				<%= g.select :size, options_for_select(boxSizeOptions, @product.product_boxings.first.size), {prompt: '請選擇箱子尺寸'}, class: "form-control" %>		
+				<%= g.select :size, options_for_select(boxSizeOptions, @product.product_boxings.first.size), {prompt: '請選擇箱子尺寸'}, onchange: 'finalPrice()', class: "form-control" %>		
 			</div>
 			<div class="col-sm-4 col-md-3 vmiddle">
 				<%= image_tag 'box_size.png', class: 'img-responsive'%>
@@ -50,7 +46,7 @@
 		<div class="form-group"> 
 			<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">運送方式</label>
 			<div class="col-sm-5 col-md-4">
-		  		<%=f.select :cold_chain, options_for_select(tempOptions, @product.cold_chain), {prompt: '請選擇運送方式'}, class: "form-control" %>	
+		  		<%=f.select :cold_chain, options_for_select(tempOptions, @product.cold_chain), {prompt: '請選擇運送方式'}, onchange: 'finalPrice()', class: "form-control" %>	
 			</div>	
 		</div> 			
 		<div class="form-group">
@@ -62,7 +58,7 @@
 		<div class="form-group">
 			<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">每箱</label>				
 			<div class="col-sm-5 col-md-4">
-				<%= g.text_field :quantity, placeholder: '數量', class: "form-control" %>				
+				<%= g.text_field :quantity, placeholder: '數量', class: "form-control"%>				
 			</div>
 			<div class="col-sm-5 col-md-3">
 				<%= f.select :unit, options_for_select(unitOptions, @product.unit), {prompt: '請選擇單位'}, class: "form-control" %>		
@@ -74,10 +70,10 @@
 			<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">每箱賣</label>				
 			<div class="col-sm-5 col-md-4">
 				<%= h.hidden_field :quantity, class: "form-control" %>				
-				<%= h.number_field :price, class: "form-control" %>	
+				<%= h.number_field :price, class: "form-control", onchange: 'finalPrice()' %>	
 			</div>				
 			<div class="col-sm-5 col-md-4">		
-				<label class="control-label">元 + 運費140元 = 最終售價 480元</label>			
+				<label class="control-label">元 + 運費 <span class="shipping_fee">xx</span>元 = 最終售價 <span class="final_price">xx</span>元</label>			
 			</div>						
 		</div>	
 			<%else%>
@@ -90,7 +86,7 @@
 			<div class="form-group text-danger">
 				<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">促銷</label>								
 				<div class="col-sm-5 col-md-4">
-					<%= h.number_field :quantity, class: "form-control" %>
+					<%= h.number_field :quantity, class: "form-control", onchange: 'finalPrice()' %>
 				</div>	
 				<div class="col-sm-5 col-md-3">		
 					<label class="control-label">箱以上(含)</label>				
@@ -99,10 +95,10 @@
 			<div class="form-group text-danger">	
 				<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">每箱賣</label>				
 				<div class="col-sm-5 col-md-4">
-					<%= h.number_field :price, class: "form-control" %>
+					<%= h.number_field :price, class: "form-control", onchange: 'finalPrice()' %>
 				</div>		
 				<div class="col-sm-5 col-md-4">		
-					<label class="control-label">元 + 運費140元 = 最終售價 380元</label>				
+					<label class="control-label">元 + 運費 <span class="bargain_shipping_fee">xx</span>元 = 最終售價 <span class="bargain_final_price">xx</span>元</label>				
 				</div>					
 			</div>			
 			<%end%>	
@@ -278,9 +274,7 @@ $('#product_released_at').datetimepicker({
             vertical: 'bottom'
     }
 });    
-
-
-
+// keyword
 var keyword_results = new Bloodhound({
   datumTokenizer: Bloodhound.tokenizers.obj.whitespace('keyword'),
   queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -314,4 +308,37 @@ $('#keywords').on('beforeItemAdd', function(event) {
   	$('#keywords').tagsinput('add', '#'+event.item );
   }	  
 });
+//shipping fee
+function finalPrice(){
+	box_size = $('#product_product_boxings_attributes_0_size').val()
+	cold_chain = $('#product_cold_chain').val()
+	original_price = $('#product_product_boxings_attributes_0_product_pricings_attributes_0_price').val()
+	promote_price = $('#product_product_boxings_attributes_0_product_pricings_attributes_1_price').val()
+	promote_quantity = $('#product_product_boxings_attributes_0_product_pricings_attributes_1_quantity').val()
+    if( box_size && cold_chain ){
+    	$('.shipping_fee').html(shippingRates( box_size, cold_chain, 1))
+    	if( original_price ){
+    		$('.final_price').html( parseInt(original_price) + shippingRates( box_size, cold_chain, 1))
+    	}else
+    		$('.final_price').html('xx')	    		
+    	if( promote_quantity ) 
+    	{
+    		$('.bargain_shipping_fee').html(shippingRates( box_size, cold_chain, promote_quantity))
+    		if(promote_price)
+    			$('.bargain_final_price').html( parseInt(promote_price) + shippingRates( box_size, cold_chain, promote_quantity))
+    		else	
+    			$('.bargain_final_price').html('xx')	    		    	
+    	}else{
+	   		$('.bargain_shipping_fee').html('xx')		  	 	
+    		$('.bargain_final_price').html('xx')	    		    	    		
+    	}   
+    }	
+	else{
+		$('.shipping_fee').html('xx')		
+	   	$('.final_price').html('xx')	
+	   	$('.bargain_shipping_fee').html('xx')		
+	   	$('.bargain_final_price').html('xx')    	
+	}	
+} 
+finalPrice()
 </script>

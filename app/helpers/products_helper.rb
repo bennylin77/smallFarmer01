@@ -1,9 +1,29 @@
 module ProductsHelper
   
   def priceWithShipments(pricing)
-    ((pricing.price.to_i + shippingRates(cold_chain: pricing.product_boxing.product.cold_chain, size: pricing.product_boxing.size))*pricing.product_boxing.product.discount).ceil  
+    ((pricing.price.to_i + shippingRates(cold_chain: pricing.product_boxing.product.cold_chain, box_size: pricing.product_boxing.size, quantity: pricing.quantity))*pricing.product_boxing.product.discount).ceil  
   end
-  
+
+  def shippingRates(hash={})
+    shipping_rates = 0
+    case hash[:box_size]
+    when GLOBAL_VAR['BOX_SIZE_FIRST']
+      if hash[:quantity] == 1     
+        shipping_rates = (hash[:cold_chain] != GLOBAL_VAR['SHIPMENT_TEMP_NORMAL']) ? (GLOBAL_VAR['SHIPPING_RATES_FIRST'] + GLOBAL_VAR['SHIPPING_RATES_COLD_CHAIN']):GLOBAL_VAR['SHIPPING_RATES_FIRST'];
+      else
+        shipping_rates = (hash[:cold_chain] != GLOBAL_VAR['SHIPMENT_TEMP_NORMAL']) ? (GLOBAL_VAR['BARGAIN_SHIPPING_RATES_FIRST'] + GLOBAL_VAR['SHIPPING_RATES_COLD_CHAIN']):GLOBAL_VAR['BARGAIN_SHIPPING_RATES_FIRST'];                  
+      end  
+    when GLOBAL_VAR['BOX_SIZE_SECOND']
+      if hash[:quantity] == 1     
+        shipping_rates = (hash[:cold_chain] != GLOBAL_VAR['SHIPMENT_TEMP_NORMAL']) ? (GLOBAL_VAR['SHIPPING_RATES_SECOND'] + GLOBAL_VAR['SHIPPING_RATES_COLD_CHAIN']):GLOBAL_VAR['SHIPPING_RATES_SECOND'];
+      else
+        shipping_rates = (hash[:cold_chain] != GLOBAL_VAR['SHIPMENT_TEMP_NORMAL']) ? (GLOBAL_VAR['BARGAIN_SHIPPING_RATES_SECOND'] + GLOBAL_VAR['SHIPPING_RATES_COLD_CHAIN']):GLOBAL_VAR['BARGAIN_SHIPPING_RATES_SECOND'];                  
+      end 
+    when GLOBAL_VAR['BOX_SIZE_THIRD']
+        shipping_rates = (hash[:cold_chain] != GLOBAL_VAR['SHIPMENT_TEMP_NORMAL']) ? (GLOBAL_VAR['SHIPPING_RATES_THIRD'] + GLOBAL_VAR['SHIPPING_RATES_COLD_CHAIN']):GLOBAL_VAR['SHIPPING_RATES_THIRD'];
+    end
+  end
+    
   def tempOptions
     [['常溫', GLOBAL_VAR['SHIPMENT_TEMP_NORMAL']], 
      ['冷藏 (+'+GLOBAL_VAR['SHIPPING_RATES_COLD_CHAIN'].to_s+'元)', GLOBAL_VAR['SHIPMENT_TEMP_REFRIGERATION']],
@@ -11,9 +31,9 @@ module ProductsHelper
   end  
 
   def boxSizeOptions
-    [['A+B+C = 60公分以下 ('+GLOBAL_VAR['SHIPPING_RATES_FIRST'].to_s+'元)', GLOBAL_VAR['BOX_SIZE_FIRST']], 
-     ['A+B+C = 61公分~90公分 ('+GLOBAL_VAR['SHIPPING_RATES_SECOND'].to_s+'元)', GLOBAL_VAR['BOX_SIZE_SECOND']], 
-     ['A+B+C = 91公分~120公分 ('+GLOBAL_VAR['SHIPPING_RATES_THIRD'].to_s+'元)', GLOBAL_VAR['BOX_SIZE_THIRD']]]
+    [['A+B+C = 60公分以下 (一箱'+GLOBAL_VAR['SHIPPING_RATES_FIRST'].to_s+'元，兩箱以上每箱'+GLOBAL_VAR['BARGAIN_SHIPPING_RATES_FIRST'].to_s+'元)', GLOBAL_VAR['BOX_SIZE_FIRST']], 
+     ['A+B+C = 61公分~90公分 (一箱'+GLOBAL_VAR['SHIPPING_RATES_SECOND'].to_s+'元，兩箱以上每箱'+GLOBAL_VAR['BARGAIN_SHIPPING_RATES_SECOND'].to_s+'元)', GLOBAL_VAR['BOX_SIZE_SECOND']], 
+     ['A+B+C = 91公分~120公分 (一箱'+GLOBAL_VAR['SHIPPING_RATES_THIRD'].to_s+'元，兩箱以上無折扣)', GLOBAL_VAR['BOX_SIZE_THIRD']]]
   end
   
   def unitOptions

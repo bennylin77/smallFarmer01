@@ -60,27 +60,7 @@
     <td>
 		<%if product.product_boxings.first.quantity%><div style="margin-bottom: 5px;">每箱<%= "%g" % product.product_boxings.first.quantity %><%end%><%if product.unit%><%= Hash[unitOptions].rassoc(product.unit).first %></div><%end%>
 		<table>
-		<%product.product_boxings.first.product_pricings.each do |p| %>
-			<%if p.quantity == 1%>	
-				<tr>
-			        <%if product.product_boxings.first.quantity%>
-			        <td>每箱<%= "%g" % product.product_boxings.first.quantity %><%end%><%if product.unit%><%= Hash[unitOptions].rassoc(product.unit).first %></td>
-			        <%end%>					
-					<td>賣<%= p.price.to_i %>元&nbsp;</td>
-					<%if !product.cold_chain.blank? and !p.product_boxing.size.blank?%>
-					<td>(含運<%= p.price.to_i + shippingRates(cold_chain: product.cold_chain, size: p.product_boxing.size)%>元) </td>
-					<%end%>
-				</tr>
-			<%elsif p.quantity%>
-				<tr>
-					<td><%= p.quantity %>箱以上(含)&nbsp;</td>
-					<td>每箱賣<%= p.price.to_i %>元&nbsp;</td> 
-					<%if !product.cold_chain.blank? and !p.product_boxing.size.blank?%>										
-					<td>(含運<%=  p.price.to_i + shippingRates(cold_chain: product.cold_chain, size: p.product_boxing.size)%>元) </td>		
-					<%end%>
-				</tr>
-			<%end%>
-		<%end%>   
+		   
 		</table>       	
     </td> 
   	<td>

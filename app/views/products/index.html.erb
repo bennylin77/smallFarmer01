@@ -10,8 +10,8 @@
       <th></th>     	
       <th style="min-width: 75px;">商品編號</th>  	
       <th>品項</th>
-      <th style="min-width: 120px;">狀態</th>        
-      <th style="min-width: 280px;">價錢</th>
+      <th style="min-width: 120px;">出貨庫存</th>        
+      <th style="min-width: 280px;">包裝價格</th>
       <th>縮網址</th>        
       <th>建立日期</th>           
     </tr>
@@ -42,36 +42,43 @@
 	        <%end%>   	
 	    </td> 
 		<td>
-	        <div>出貨日期 <%= product.released_at.blank? ? '--' : product.released_at.strftime("%Y-%m-%d %H:%M") %></div>	          			
-	        <div>本批數量 <%= product.inventory.to_i %>箱</div>	          
-	        <div>
-	        尚未付款
-			<%= Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', product.product_boxings.first.id, false, Time.zone.now ).sum(:quantity)%>
-        	箱
-        	</div>
-        	<div>已出貨 <%= product.product_boxings.first.orders.where(called_smallfarmer_c: true).sum(:quantity) %> 箱</div>
+			<dl>
+			  <dt>出貨日期</dt><dd><%= product.released_at.blank? ? '--' : product.released_at.strftime("%Y-%m-%d %H:%M") %></dd>
+			  <dt>本批數量</dt><dd><%= product.inventory.to_i %>箱</dd>
+			  <dt>尚未付款</dt><dd><%= Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', product.product_boxings.first.id, false, Time.zone.now ).sum(:quantity)%>箱</dd>
+			  <dt>已出貨</dt><dd><%= product.product_boxings.first.orders.where(called_smallfarmer_c: true).sum(:quantity) %>箱</dd>			
+			</dl>	
         </td>	            	
         <td>
-		<table>
+		<table class="table">
+			<tr>
+				<td>商品<span class="text-danger"><%= Hash[discountPercentageOptions].rassoc(product.discount).first %></span></td>
+			</tr>
 		<%product.product_boxings.first.product_pricings.each do |p| %>
 			<%if p.quantity == 1%>	
 				<tr>
 			        <%if product.product_boxings.first.quantity%>
-			        <td>每箱<%= "%g" % product.product_boxings.first.quantity %><%end%><%if product.unit%><%= Hash[unitOptions].rassoc(product.unit).first %></td>
+			        <td>每箱<%= "%g" % product.product_boxings.first.quantity %><%if product.unit%><%= Hash[unitOptions].rassoc(product.unit).first %><%end%></td>
 			        <%end%>					
-					<td>賣<%= p.price.to_i %>元&nbsp;</td>
-					<%if !product.cold_chain.blank? and !p.product_boxing.size.blank?%>
-					<td>(含運<%= p.price.to_i + shippingRates(cold_chain: product.cold_chain, size: p.product_boxing.size)%>元) </td>
-					<%end%>
 				</tr>
-			<%elsif p.quantity%>
 				<tr>
+			        <td style="min-width: 120px;">每箱賣<%= p.price.to_i %>元&nbsp;</td>
+					<%if !product.cold_chain.blank? and !p.product_boxing.size.blank?%>
+					<td style="min-width: 90px;">運費<%=shippingRates(box_size: p.product_boxing.size ,quantity: p.quantity, cold_chain: product.cold_chain) %>元&nbsp;</td>
+					<td style="min-width: 120px;">最終售價<%=priceWithShipments(p) %>元 </td>
+					<%end%>
+				</tr>				
+			<%elsif p.quantity%>
+				<tr class="text-danger">
 					<td><%= p.quantity %>箱以上(含)&nbsp;</td>
-					<td>每箱賣<%= p.price.to_i %>元&nbsp;</td> 
-					<%if !product.cold_chain.blank? and !p.product_boxing.size.blank?%>					
-					<td>(含運<%=p.price.to_i + shippingRates(cold_chain: product.cold_chain, size: p.product_boxing.size)%>元) </td>	
-					<%end%>				
 				</tr>
+				<tr class="text-danger">
+			        <td>每箱賣<%= p.price.to_i %>元&nbsp;</td>
+					<%if !product.cold_chain.blank? and !p.product_boxing.size.blank?%>
+					<td>運費<%=shippingRates(box_size: p.product_boxing.size ,quantity: p.quantity, cold_chain: product.cold_chain) %>元&nbsp;</td>
+					<td>最終售價<%=priceWithShipments(p) %>元 </td>
+					<%end%>
+				</tr>					
 			<%end%>
 		<%end%>   
 		</table>     	    	
