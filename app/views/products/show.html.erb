@@ -96,7 +96,7 @@
 					<div class="hidden-xs hidden-sm col-md-5 text-right">							
 						<%if p.price %>
 							<%if @product.discount!=1%>
-							<s><%= p.price.to_i + shippingRates(cold_chain: p.product_boxing.product.cold_chain, size: p.product_boxing.size) %></s> <span style="font-size:128%; color: #b12704"><%= priceWithShipments(p) %></span>
+							<s><%= p.price.to_i + shippingRates(cold_chain: p.product_boxing.product.cold_chain, box_size: p.product_boxing.size, quantity: p.quantity) %></s> <span style="font-size:128%; color: #b12704"><%= priceWithShipments(p) %></span>
 							<%else%>
 							<span style="font-size:128%; color: #b12704"><%= priceWithShipments(p) %></span>
 							<%end%>
@@ -114,7 +114,7 @@
 						<% @original_pricing = p%>	
 						<%if @product.discount!=1%>
 							每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%>
-							<s><%= p.price.to_i + shippingRates(cold_chain: p.product_boxing.product.cold_chain, size: p.product_boxing.size) %></s> <span style="font-size:128%; color: #b12704"><%= priceWithShipments(p) %></span>
+							<s><%= p.price.to_i + shippingRates(cold_chain: p.product_boxing.product.cold_chain, box_size: p.product_boxing.size, quantity: p.quantity) %></s> <span style="font-size:128%; color: #b12704"><%= priceWithShipments(p) %></span>
 							<span style="font-size:110%; color: #b12704">元(含運)</span>		
 						<%else%>
 							每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%>				
@@ -505,7 +505,6 @@ $(".add_to_cart_form").submit( function(eventObj) {
 //total price
 var pricing =  []
 var cash_flow_layer = 600;
-var shipping_rates = <%= shippingRates(cold_chain: @product.cold_chain, size: @product.product_boxings.first.size)%>;
 var discount = <%= @product.discount %>
 <%@product.product_boxings.first.product_pricings.order('quantity desc').each do |p| %>
 	<% unless p.quantity.blank? %>
