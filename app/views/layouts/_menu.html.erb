@@ -80,13 +80,13 @@
 	            	</a>
 	            </li>
 				<li><a href="/invoices/index" class="menu_right">					
-					<%= image_tag current_user.avatar.url, class: 'img-circle', style: '' %>
+					<%= image_tag current_user.avatar.url, class: 'img-circle', style: 'border: 2px solid #a7a7a7' %>
 		            <span class='mobile_menu_label'><%if current_user.last_name%><%=current_user.last_name+' '+current_user.first_name%><%end%></span>					
 					</a>			
 				</li> 
 	            <%if current_user.companies.first.activated_c%>
 	            <li><a href="/orders/index?called_smallfarmer_c=false" class="menu_right">
-					<%= image_tag 'farm_icon.png', class: '', style: 'height: 34px; width: 38px' %>	            	
+					<%= image_tag 'farm_icon.png', class: '', style: '' %>	            	
 		            <span class='mobile_menu_label'>管理農場</span>	            	
 	            	</a>
 	            </li>	
