@@ -57,13 +57,8 @@ class CartsController < ApplicationController
   def showCarts
     carts = Array.new
     price = 0
-    current_user.carts.each do |c|
-      c.product_boxing.product_pricings.order('quantity desc').each do |p|
-        if c.quantity >= p.quantity 
-          price = c.quantity*((p.price+shippingRates(cold_chain: p.product_boxing.product.cold_chain, size: p.product_boxing.size))*p.product_boxing.product.discount).ceil
-          break  
-        end  
-      end     
+    current_user.carts.each do |c|  
+      price = priceWithShippingRates(product_boxing: c.product_boxing, quantity: c.quantity )  
       name = c.product_boxing.product.name
       if c.product_boxing.product.released_at
         if c.product_boxing.product.released_at > Time.zone.now 

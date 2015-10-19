@@ -1,7 +1,18 @@
 module ProductsHelper
   
-  def priceWithShipments(pricing)
-    ((pricing.price.to_i + shippingRates(cold_chain: pricing.product_boxing.product.cold_chain, box_size: pricing.product_boxing.size, quantity: pricing.quantity))*pricing.product_boxing.product.discount).ceil  
+  def priceWithShippingRates(hash={})
+    price = 0     
+    hash[:product_boxing].product_pricings.order('quantity desc').each do |p|
+      if hash[:quantity] >= p.quantity     
+        shipping_rate_quantity = 1
+        if p.quantity != 1   
+          shipping_rate_quantity = p.quantity
+        end
+        price = hash[:quantity]*((p.price + shippingRates(cold_chain: hash[:product_boxing].product.cold_chain, box_size: hash[:product_boxing].size, quantity: shipping_rate_quantity))*hash[:product_boxing].product.discount).ceil     
+        break  
+      end  
+    end      
+    price
   end
 
   def shippingRates(hash={})

@@ -65,7 +65,10 @@
 			        <td style="min-width: 120px;">每箱賣<%= p.price.to_i %>元&nbsp;</td>
 					<%if !product.cold_chain.blank? and !p.product_boxing.size.blank?%>
 					<td style="min-width: 90px;">運費<%=shippingRates(box_size: p.product_boxing.size ,quantity: p.quantity, cold_chain: product.cold_chain) %>元&nbsp;</td>
-					<td style="min-width: 120px;">最終售價<%=priceWithShipments(p) %>元 </td>
+					<td style="min-width: 120px;">最終售價
+						<%if product.discount!=1%><s><small><%= p.price.to_i + shippingRates(cold_chain: p.product_boxing.product.cold_chain, box_size: p.product_boxing.size, quantity: p.quantity )%></small></s><%end%>
+						<%=priceWithShippingRates(product_boxing: p.product_boxing, quantity: p.quantity) %>元 
+					</td>
 					<%end%>
 				</tr>				
 			<%elsif p.quantity%>
@@ -76,7 +79,10 @@
 			        <td>每箱賣<%= p.price.to_i %>元&nbsp;</td>
 					<%if !product.cold_chain.blank? and !p.product_boxing.size.blank?%>
 					<td>運費<%=shippingRates(box_size: p.product_boxing.size ,quantity: p.quantity, cold_chain: product.cold_chain) %>元&nbsp;</td>
-					<td>最終售價<%=priceWithShipments(p) %>元 </td>
+					<td>最終售價
+						<%if product.discount!=1%><s><small><%= p.price.to_i + shippingRates(cold_chain: p.product_boxing.product.cold_chain, box_size: p.product_boxing.size, quantity: p.quantity )%></small></s><%end%>
+						<%= priceWithShippingRates(product_boxing: p.product_boxing, quantity: p.quantity)/p.quantity %>元 
+					</td>
 					<%end%>
 				</tr>					
 			<%end%>

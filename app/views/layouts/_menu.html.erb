@@ -49,7 +49,14 @@
 	            	</a>
 	            </li>
 	           	<li>
-	           		<a class="dropdown-toggle menu_right" onmouseover="showCarts();" href="#" data-toggle="dropdown" aria-expanded="false">
+					<%= form_tag('/invoices/checkout', class: 'checkout_form') do -%>
+		           		<a href="javascript:void(0)" class="menu_right menu_cart_collapse" onclick="$('.checkout_form').submit();" >
+							<%= image_tag 'cart_icon.png', class: '', style: '' %>	            	
+			            	<span class='mobile_menu_label'>購物車</span>
+							<span class="badge badge-danger carts_badge"><%=carts%></span>		            	
+			            </a>
+					<% end -%>		           		
+	           		<a class="dropdown-toggle menu_right menu_cart_no_collapse" onmouseover="showCarts();" href="#" data-toggle="dropdown" aria-expanded="false">
 						<%= image_tag 'cart_icon.png', class: 'menu_cart_icon', style: '' %>	            	
 		            	<span class='mobile_menu_label'>購物車<span class="caret"></span></span>
 						<span class="badge badge-danger carts_badge"><%=carts%></span>		            	
@@ -64,7 +71,7 @@
 						<%= form_tag('/invoices/checkout') do -%>
 						<button class="btn btn-priamry green_btn center-block menu_checkout_button" type="submit" style="padding: 5px 20px;">結帳</button>
 						<% end -%>		            	
-		            </div>	                 
+		            </div>               
 	          	</li>
 	            <li><a href="/notifications?category=all" class="menu_right">
 					<%= image_tag 'notification_icon.png', class: '', style: '' %>	            	
@@ -198,6 +205,13 @@ function showCartsNotifications(){
 			 $('.carts_notifications_badge').html('');	
 	});						
 }
+
+$('.navbar-right').on('show.bs.dropdown', function(e){
+	$(this).find('.dropdown-menu').first().stop(true, true).slideDown();
+});
+$('.navbar-right').on('hide.bs.dropdown', function(e){
+    $(this).find('.dropdown-menu').first().stop(true, true).slideUp();
+});	
 //==================================typeahead=================================//
 
 var keyword_results = new Bloodhound({
