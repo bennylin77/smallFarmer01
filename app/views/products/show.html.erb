@@ -196,8 +196,8 @@
 						<button type="button" class="cart_unavailable btn btn-default pull-right" autocomplete="off" disabled="disabled">已搶購完</button>			
 					<%else%>
 						<%if user_signed_in?%>
-							<%=image_tag 'cart_icon.png', class: 'cart_icon_product_992', style: 'height: 35px; position: absolute; right: 62.5px; top: 5px; z-index: -1' %>			  													  																													
-							<button type="button" class="add_to_cart add_to_cart_action btn orange_btn pull-right" autocomplete="off">加入購物車</button>			
+								<%=image_tag 'cart_icon.png', class: 'cart_icon_product_992', style: 'height: 35px; position: absolute; right: 62.5px; top: 5px; z-index: -1' %>	
+								<button type="button" class="add_to_cart add_to_cart_action btn orange_btn pull-right" autocomplete="off">加入購物車</button>			
 						<%else%>
 							<%= form_tag  '/carts/addCart', method: 'get', class: 'add_to_cart_form' do %>				  	
 							  	<%= submit_tag '加入購物車',  class: "add_to_cart btn orange_btn pull-right" %>
@@ -226,12 +226,12 @@
 					回饋金約			  				
 					</div>
 				</div>	-->
-				<div class="hidden-md hidden-lg col-xs-6">			  																	
+				<div class="hidden-md hidden-lg col-xs-12 text-center">			  																	
 					<%if inventory == 0%>
 						<button type="button" class="cart_unavailable btn btn-default" autocomplete="off" disabled="disabled">已搶購完</button>			
 					<%else%>
 						<%if user_signed_in?%>
-							<%=image_tag 'cart_icon.png', class: 'cart_icon_product', style: 'height: 35px; position: absolute; left: 10%; top: 5px; z-index: -1' %>			  													  																												
+							<%=image_tag 'cart_icon.png', class: 'cart_icon_product', style: 'height: 35px; position: absolute; top: 5px; z-index: -1' %>			  													  																												
 							<button type="button" class="add_to_cart add_to_cart_action btn orange_btn" autocomplete="off">加入購物車</button>			
 						<%else%>
 							<%= form_tag  '/carts/addCart', method: 'get', class: 'add_to_cart_form' do %>				  	
@@ -435,48 +435,44 @@ $('.add_to_cart_action').click(function() {
 	request.done(function( message ) {
 		if(message.alert_class != 'success')
 			toastr[message.alert_class](message.message)
-	    //$btn.button('reset')		
-	    /*    
-	    if( $(window).width() > 1094)
-	    	var cart = $('.menu_cart_icon');
-	    else
+	    //$btn.button('reset')		 
+	    if( $(window).width() < 1094)
+	    {
 	    	var cart = $('.navbar-toggle');
-	    	
-	    if( $(window).width() >= 992)
-	    	var imgtodrag =  $('.cart_icon_product_992')   	
-	   	else		    	
-	    	var imgtodrag =  $('.cart_icon_product')
-	    
-	    if (imgtodrag) {
-            var imgclone = imgtodrag.clone().offset({
-                top: imgtodrag.offset().top,
-                left: imgtodrag.offset().left
-            }).css({
-                	'opacity': '0.5',
-                    'position': 'absolute',
-                    'height': '150px',
-                    'width': '150px',
-                    'z-index': '10000'
-            }).appendTo($('body')).animate({
-                'top': cart.offset().top + 10,
-                'left': cart.offset().left + 10,
-                'width': 75,
-                'height': 75
-            }, 1000);
-	    	
-	        imgclone.animate({
-                'width': 0,
-                'height': 0
-            }, function () {
-                $(this).detach()
-            });
-	      }	    
-	    */
-	    showCarts();
- 		if( $( window ).width() > 1094 )
- 			$( ".menu_cart_no_collapse" ).trigger( "click" );	
-    	//setTimeout(function(){ $('.cart-dropdown-menu').dropdown('toggle'); }, 1000); 		
- 		    
+	    	if( $(window).width() < 977) 
+	    		var imgtodrag =  $('.cart_icon_product');	    	
+	    	else
+	    		var imgtodrag =  $('.cart_icon_product_992');
+	    		
+	    		
+		    if (imgtodrag) {
+	            var imgclone = imgtodrag.clone().offset({
+	                top: imgtodrag.offset().top,
+	                left: imgtodrag.offset().left
+	            }).css({
+	                	'opacity': '0.5',
+	                    'position': 'absolute',
+	                    'height': '150px',
+	                    'width': '150px',
+	                    'z-index': '10000'
+	            }).appendTo($('body')).animate({
+	                'top': cart.offset().top + 10,
+	                'left': cart.offset().left + 10,
+	                'width': 75,
+	                'height': 75
+	            }, 1000);
+		    	
+		        imgclone.animate({
+	                'width': 0,
+	                'height': 0
+	            }, function () {
+	                $(this).detach()
+	            });
+		      }	    
+		}
+		else  
+			$( ".menu_cart_no_collapse" ).trigger( "click" )		    
+	    showCarts(); 		    
 	});
 	request.fail(function( jqXHR, textStatus ) {
 	});	
