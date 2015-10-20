@@ -108,9 +108,9 @@
 				<%if @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>	
 					線上刷卡 <%=image_tag 'allPay.png', class: 'img-responsive', size: '50x50', style: 'display: inline-block'%>	
 				<%elsif @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_TCAT_COD']%>	
-					ATM櫃員機 <%=image_tag 'allPay.png', class: 'img-responsive', size: '50x50', style: 'display: inline-block'%> 		
+					ATM轉帳 <%=image_tag 'allPay.png', class: 'img-responsive', size: '50x50', style: 'display: inline-block'%> 		
 				<%elsif @invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>	
-					超商代碼 <%=image_tag 'allPay.png', class: 'img-responsive', size: '50x50', style: 'display: inline-block'%>			
+					超商繳款 <%=image_tag 'allPay.png', class: 'img-responsive', size: '50x50', style: 'display: inline-block'%>			
 				<%end%>，付款狀態: <%if @invoice.paid_c%>已付款<%else%><span class="text-danger">尚未付款</span><%end%>																
 				</div>
 			</div>

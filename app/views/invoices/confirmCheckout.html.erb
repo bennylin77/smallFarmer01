@@ -54,7 +54,7 @@
 		</div>					
 	</div>	
 	<div class="row">
-		<div class="col-sm-offset-3 col-sm-2 col-xs-offset-1 col-xs-5 check_out_pay_method">			
+		<div class="col-sm-offset-3 col-sm-2 col-xs-offset-1 col-xs-6 check_out_pay_method">			
 		<%if @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT'].to_s%>		
 			<label>
 				 <div class="check_out_pay_method_text">
@@ -65,14 +65,14 @@
 		<%elsif @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM'].to_s%>				
 			<label>
 				 <div class="check_out_pay_method_text">
-				 	ATM櫃員機
+				 	ATM轉帳
 		  			<%=image_tag 'allPay.png', class: 'img-responsive'%>					 	
 				 </div>
 			</label>
 		<%elsif @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS'].to_s%>				
 			<label>
 				 <div class="check_out_pay_method_text">
-				 	超商代碼<span style="color: #b24d4b; font-size: 90%;"> +30元</span>
+				 	超商繳款<span style="color: #b24d4b; font-size: 80%;"> +<%= GLOBAL_VAR['ALLPAY_CVS_FEE']%>元</span>
 		  			<%=image_tag 'allPay.png', class: 'img-responsive'%>					 	
 				 </div>
 			</label>							 			 

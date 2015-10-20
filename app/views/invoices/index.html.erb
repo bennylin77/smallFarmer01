@@ -82,9 +82,9 @@
 				<%if i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>
 				<dd>線上刷卡</dd> 
 	   			<%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM']%>		
-			  	<dd>ATM櫃員機</dd> 			  						  
+			  	<dd>ATM轉帳</dd> 			  						  
 	   			<%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>		
-				<dd>超商代碼</dd> 
+				<dd>超商繳款</dd> 
 				<%end%>								 
 			<dt>付款狀態</dt>			
 			  	<dd><%if i.paid_c%>已付款<%else%><div style="color: #b24d4b">尚未付款</div><%end%></dd> 		  	
@@ -107,12 +107,12 @@
 			<%end%>	
 			<%if i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>
 	   		<%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM']%>		
-			<dt>繳費銀行代碼</dt>
+			<dt>轉帳銀行代碼</dt>
 				<dd><%=showBlank i.allpay_bank_code%></dd>
-			<dt>繳費虛擬帳號</dt>
+			<dt>轉帳虛擬帳號</dt>
 			  <dd><%=showBlank i.allpay_v_account%></dd>  	   		
 	   		<%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>		
-			<dt>超商繳費代碼</dt>
+			<dt>超商繳款代碼</dt>
 			  <dd><%=showBlank i.allpay_payment_no%></dd> 			
 			<%end%>				  	  	
 		</dl>
