@@ -28,10 +28,11 @@
   }    
 }
 .product_farm_words{
-  border: 1px solid #a8bb7f;
+  border: 1px solid #E7E7E7;
   background: none; 
   border-radius: 40px;
   min-height: 80px;
+
 }
 .product_farm_words_avatar{
   height: 80px; 
@@ -45,7 +46,7 @@
   padding: 15px 20px;
   left: 100px;
   font-size: 15px;
-  color: #433E3C;
+  color: #777;
 }
 @media (max-width: 767px) {
   .product_farm_words{
@@ -70,7 +71,7 @@
 }
 .product_excellent_no
 {
-  color: #ff8b63;
+  color: #FF5600;
   font-size: 33px;  
 }
 .product_excellent_text
@@ -84,8 +85,8 @@
   font-size: 18px;   
   padding-top: 3px;
   padding-bottom: 3px;   
-  border-top: 1px solid #a8bb7f;
-  border-bottom: 1px solid #a8bb7f;  
+  border-top: 1px solid #E7E7E7;
+  border-bottom: 1px solid #E7E7E7;  
 }
 .product_released_at{
   font-size: 17px;   
@@ -118,12 +119,12 @@
 }
 .product_shipping_time_circle{
   margin: 0 auto;
-  background: #e26131;
+  background: #FF5600;
   border-radius: 8px;
   width: 13px;
   height: 13px;
   margin-top: 3px;
-  border: 1px solid #e26131; 
+  border: 1px solid #FF5600; 
 }
 .product_shipping_time_circle_empty{
   margin: 0 auto;
@@ -132,17 +133,10 @@
   width: 13px;
   height: 13px;
   margin-top: 3px;
-  border: 1px solid #000000; 
+  border: 1px solid #A7A7A7; 
 }
 .add_to_cart{
-  border: none;
-  border-radius: 0;
   font-size: 20px;
-  padding: 7px 14px;
-  box-shadow: 3px 3px rgb(209, 209, 200);    
-}
-.no-touch .add_to_cart:hover{
-  background: #6fc57b;
 }
 .cart_unavailable{
   border: none;
@@ -166,6 +160,7 @@
 .product_spec td{
   vertical-align: middle !important;  
   background: #e7e4e2;
+  color: #565A5C;
 }
 .product_spec td img{
   margin: 0px 2px;
@@ -423,7 +418,7 @@
   font-size: 18px;   
 }
 .review_delicious_bg{
-  background: #ff8b63; 
+  background: #FF5600; 
 }
 .review_tasty_bg{
   background: #f69609; 
@@ -435,7 +430,7 @@
   background: #be6f06; 
 }
 .review_delicious{
-  color: #ff8b63;
+  color: #FF5600;
 }
 .review_tasty{
   color: #f69609;

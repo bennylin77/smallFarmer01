@@ -135,7 +135,7 @@
 				<div class="row" style="margin-top: 22px;">	
 					<div class="col-sm-offset-2 col-sm-8 col-md-offset-0 col-md-11 text-center">								
 						<div class="product_promote">
-						<span style="color: #536132;"><%= p.quantity %>箱以上，每箱便宜<span style="font-size: 130%"><%= priceWithShippingRates( product_boxing: p.product_boxing, quantity: 1 ) - priceWithShippingRates( product_boxing: p.product_boxing, quantity: p.quantity )/p.quantity %></span>元</span>
+						<span style=""><%= p.quantity %>箱以上，每箱便宜<span style="font-size: 130%; color: #FF5600"><%= priceWithShippingRates( product_boxing: p.product_boxing, quantity: 1 ) - priceWithShippingRates( product_boxing: p.product_boxing, quantity: p.quantity )/p.quantity %>元</span></span>
 						</div>
 					</div>								
 				</div>	
@@ -197,10 +197,10 @@
 					<%else%>
 						<%if user_signed_in?%>
 							<%=image_tag 'cart_icon.png', class: 'cart_icon_product_992', style: 'height: 35px; position: absolute; right: 62.5px; top: 5px; z-index: -1' %>			  													  																													
-							<button type="button" class="add_to_cart add_to_cart_action btn btn-success pull-right" autocomplete="off">加入購物車</button>			
+							<button type="button" class="add_to_cart add_to_cart_action btn orange_btn pull-right" autocomplete="off">加入購物車</button>			
 						<%else%>
 							<%= form_tag  '/carts/addCart', method: 'get', class: 'add_to_cart_form' do %>				  	
-							  	<%= submit_tag '加入購物車',  class: "add_to_cart btn btn-success pull-right" %>
+							  	<%= submit_tag '加入購物車',  class: "add_to_cart btn orange_btn pull-right" %>
 							<% end %>							
 						<%end%>
 					<%end%>		
@@ -232,10 +232,10 @@
 					<%else%>
 						<%if user_signed_in?%>
 							<%=image_tag 'cart_icon.png', class: 'cart_icon_product', style: 'height: 35px; position: absolute; left: 10%; top: 5px; z-index: -1' %>			  													  																												
-							<button type="button" class="add_to_cart add_to_cart_action btn btn-success" autocomplete="off">加入購物車</button>			
+							<button type="button" class="add_to_cart add_to_cart_action btn orange_btn" autocomplete="off">加入購物車</button>			
 						<%else%>
 							<%= form_tag  '/carts/addCart', method: 'get', class: 'add_to_cart_form' do %>				  	
-							  	<%= submit_tag '加入購物車',  class: "add_to_cart btn btn-success" %>
+							  	<%= submit_tag '加入購物車',  class: "add_to_cart btn orange_btn" %>
 							<% end %>							
 						<%end%>					
 					<%end%>	
@@ -318,13 +318,13 @@
 			</div>	
 			<div class="row">		
 				<div class="col-sm-offset-1 col-sm-10" style="margin-top: 40px;">
-					<div style="border-top: 1px solid #a8bb7f;"></div>
+					<div style="border-top: 1px solid #e7e7e7;"></div>
 				</div>					
 			</div>											
 			<%= render partial: "products/product_images" %>	
 			<div class="row">		
 				<div class="col-sm-offset-1 col-sm-10" style="margin-top: 40px;">
-					<div style="border-top: 1px solid #a8bb7f;"></div>
+					<div style="border-top: 1px solid #e7e7e7;"></div>
 				</div>					
 			</div>					
 			<div class="row" style="margin-top: 40px; margin-bottom: 40px;">		
@@ -364,7 +364,7 @@
 			</div>	
 			<div class="row">		
 				<div class="col-lg-11" style="margin-top: 40px;">
-					<div style="border-top: 1px solid #a8bb7f;"></div>
+					<div style="border-top: 1px solid #e7e7e7;"></div>
 				</div>					
 			</div>				
 			<div class="row" style="margin-bottom: 40px; margin-top: 50px;">		
@@ -378,7 +378,7 @@
 	<div class="row">
 		<div class="col-md-12 col-lg-offset-1 col-lg-10">		
 			<div class="row" style="margin-bottom: 20px; margin-top: 40px;">					
-			<div class="col-lg-offset-1 col-lg-10"><div style="border-top: 1px solid #a8bb7f;"></div></div>
+			<div class="col-lg-offset-1 col-lg-10"><div style="border-top: 1px solid #e7e7e7;"></div></div>
 			</div>						
 		</div>		
 	</div>	
