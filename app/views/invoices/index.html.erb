@@ -5,10 +5,9 @@
     <th style="min-width: 75px;">訂單編號</th>  	
     <th style="min-width: 100px;">金額</th>
 	<th>付款</th>				
-	<th style="min-width: 118px;">
-		<%= image_tag 'coupons_icon.png', class: '', style: 'width: 25px; height: 25px;' %>
+	<!--<th style="min-width: 118px;">
 		獲得回饋金
-	</th>	          
+	</th>-->	          
 	<th>購買項目</th>
     <th>訂單日期</th>	 	        
   </tr>
@@ -26,22 +25,22 @@
  		<%end%>	 
 	    <%if !i.paid_c and available%>
 			<%if i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>    	
-	    		<div class="btn_container"><%=link_to '線上付款', {controller: 'invoices', action: 'allpayCredit', id: i.id } ,class: 'btn btn-default edit_button' %></div>  
-				<%= link_to '刪除', {controller: :invoices, action: :cancel, id: i.id}, data: { confirm: '您確定要刪除訂單編號 '+i.id.to_s+' (注意: 此動作將無法回復)?' }, class: 'btn btn-danger delete_button' %>		
+	    		<div class="btn_container"><%=link_to '線上付款', {controller: 'invoices', action: 'allpayCredit', id: i.id } ,class: 'btn orange_btn' %></div>  
+				<%= link_to '刪除', {controller: :invoices, action: :cancel, id: i.id}, data: { confirm: '您確定要刪除訂單編號 '+i.id.to_s+' (注意: 此動作將無法回復)?' }, class: 'btn dark_gray_btn' %>		
 			<%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM']%>    	
 		    	<%if Time.zone.now > i.allpay_expired_at or i.allpay_v_account.blank?  %>
-		    		<div class="btn_container"><%=link_to '重新取得繳費帳號', {controller: 'invoices', action: 'allpayATM', id: i.id } ,class: 'btn btn-default edit_button' %></div>  				
+		    		<div class="btn_container"><%=link_to '重新取得繳費帳號', {controller: 'invoices', action: 'allpayATM', id: i.id } ,class: 'btn orange_btn' %></div>  				
 			    	<%if Time.zone.now > i.allpay_expired_at + 2.day %>
-						<%= link_to '刪除', {controller: :invoices, action: :cancel, id: i.id}, data: { confirm: '您確定要刪除訂單編號 '+i.id.to_s+' (注意: 此動作將無法回復)?' }, class: 'btn btn-danger delete_button' %>		
+						<%= link_to '刪除', {controller: :invoices, action: :cancel, id: i.id}, data: { confirm: '您確定要刪除訂單編號 '+i.id.to_s+' (注意: 此動作將無法回復)?' }, class: 'btn dark_gray_btn' %>		
 					<%end%>
 				<%else%>
 					<b class="text-danger" style="font-size: 120%">尚未付款</b>
 				<%end%>
 			<%elsif i.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>    	   		
 		    	<%if Time.zone.now > i.allpay_expired_at or i.allpay_payment_no.blank? %>
-		    		<div class="btn_container"><%=link_to '重新取得繳費代碼', {controller: 'invoices', action: 'allpayCVS', id: i.id } ,class: 'btn btn-default edit_button' %></div>  				
+		    		<div class="btn_container"><%=link_to '重新取得繳費代碼', {controller: 'invoices', action: 'allpayCVS', id: i.id } ,class: 'btn orange_btn' %></div>  				
 			    	<%if Time.zone.now > i.allpay_expired_at + 2.day %>
-						<%= link_to '刪除', {controller: :invoices, action: :cancel, id: i.id}, data: { confirm: '您確定要刪除訂單編號 '+i.id.to_s+' (注意: 此動作將無法回復)?' }, class: 'btn btn-danger delete_button' %>		
+						<%= link_to '刪除', {controller: :invoices, action: :cancel, id: i.id}, data: { confirm: '您確定要刪除訂單編號 '+i.id.to_s+' (注意: 此動作將無法回復)?' }, class: 'btn dark_gray_btn' %>		
 					<%end%>				
 				<%else%>
 					<b class="text-danger" style="font-size: 120%">尚未付款</b>
@@ -118,10 +117,10 @@
 			<%end%>				  	  	
 		</dl>
     </td>         
-    <td>
+    <!--<td>
     	<%= ((i.amount-discount)*GLOBAL_VAR['COUPON_FEE']).round%>元
     	<div><small><em>-商品送達，評價完即可獲得-</em></small></div>
-    </td>         
+    </td>-->         
     <td>
       <table class="table table-striped">     
 		<tr>	

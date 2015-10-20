@@ -10,7 +10,7 @@
 		訂單編號 <%=@invoice.id %>
 		</div>
 	</div>	
-	<div class="row" style="border: 1px solid #526031">
+	<div class="row" style="border: 1px solid #DCE0E0">
 		<div class="col-sm-12">	
 			<div class="row" style="margin-top: 30px;">
 				<div class="col-sm-offset-1 col-sm-10 check_out_product_list_text">	
@@ -97,7 +97,7 @@
 				</div>											
 			</div>				
 			<%end%>								
-			<div class="row check_out_product_list_text">
+			<div class="row check_out_product_list_text" style="margin-bottom: 50px;">
 				<div class="col-sm-offset-1 col-sm-11">	
 		    	<% discount = 0 %>
 		    	<% @invoice.invoice_coupon_lists.each do |i_c_l|%>
@@ -114,6 +114,7 @@
 				<%end%>，付款狀態: <%if @invoice.paid_c%>已付款<%else%><span class="text-danger">尚未付款</span><%end%>																
 				</div>
 			</div>
+			<!--
 			<div class="row" style="margin-bottom: 30px;">
 				<div class="col-sm-offset-1 col-sm-11">	
 					<div class="pull-left" style="color: #B5841B; font-size: 18px; margin-top: 13px; margin-right: 10px;">
@@ -132,6 +133,7 @@
 					</div>								
 				</div>
 			</div>	
+			-->
 			<%if discount==0 or discount!=0%>
 			<!--		
 			<div class="row"  style="margin-bottom: 30px;">
@@ -174,7 +176,7 @@
 	</div>	
 	<div class="row" style="margin-top: 20px;">
 		<div class="col-sm-offset-10 col-sm-2">	
-			<%= link_to '查看訂單狀態', {controller: 'invoices', action: 'index'}, class: 'btn btn-default edit_button' %>			 		
+			<%= link_to '查看訂單狀態', {controller: 'invoices', action: 'index'}, class: 'btn light_gray_btn', style: 'font-size: 20px;' %>			 		
 		</div>
 	</div>		
 	<div class="row" style="margin-top: 40px; margin-bottom: 30px; ">		

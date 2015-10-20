@@ -36,6 +36,9 @@ body{
   width: 100% !important;
 }
 /*====================== btn ============================*/
+.backend_btn{
+  font-size: 16px;
+}
 .green_btn{
   color: #ffffff;
   border: none;
@@ -49,7 +52,7 @@ body{
   opacity: 0.8;
 }
 .orange_btn{
-  color: #ffffff;
+  color: #ffffff !important;
   border: none;
   background: #FF5600;
   padding: 7px 14px 5px !important; 
@@ -60,17 +63,29 @@ body{
   color: #ffffff;  
   background: #FF7833;
 }
-.light_gray_btn{
-  color: #53595b;
+.dark_gray_btn{
+  color: #ffffff !important;
   border: none;
-  background: #edf0ed;
+  background: #808280;
   padding: 7px 14px 5px !important; 
   border-radius: 0px;
-  border-bottom: 2px solid #D5D8D5; 
+  border-bottom: 2px solid #666866; 
+}
+.no-touch .dark_gray_btn:hover{
+  color: #ffffff !important;
+  background: #A6A8A6;
+}
+.light_gray_btn{
+  color: #686868 !important;
+  border: none;
+  background: #ECECEC;
+  padding: 7px 14px 5px !important; 
+  border-radius: 0px;
+  border-bottom: 2px solid #A6A6A6; 
 }
 .no-touch .light_gray_btn:hover{
-  color: #53595b;  
-  background: #F1F3F1;
+  color: #686868;  
+  background: #DDDDDD;
 }
 /*====================== typeahead ============================*/
 .tt-query {
