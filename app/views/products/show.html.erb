@@ -511,7 +511,7 @@ function countTotalPrice(q){
 			total_cash_flow = Math.round(total_price*<%=GLOBAL_VAR['CASH_FLOW_FEE']%> )
 			total_coupon = Math.round(total_price*<%=GLOBAL_VAR['COUPON_FEE']%> )
 			total_administration = Math.round(total_price*<%=GLOBAL_VAR['ADMINISTRATION_FEE']%>  )
-			total_farmer_get = total_price - total_shipping_rates - total_administration - total_coupon - total_cash_flow 
+			total_farmer_get = total_price - total_shipping_rates //- total_administration - total_coupon - total_cash_flow 
 			
 			$('.total_price').html( total_price ); $('.total_quantity').html(q); 
 			$('.total_farmer_get').html( total_farmer_get );	
