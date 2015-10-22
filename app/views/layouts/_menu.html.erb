@@ -11,13 +11,19 @@
             <span class="icon-bar"></span>
           </button>
  		  <%=link_to root_url, class: 'navbar-brand' do%>
-		  	<%=image_tag 'smallfarmer01.png' %>
-		  <%end%>         
+		  	<%=image_tag 'smallfarmer01.png', class: 'smallfarmer01-brand' %>
+		  	<%=image_tag 'logo.png', class: 'logo-brand' %>
+		  <%end%>     
+          <form class="navbar-form collapsed  no_collapse_point" role="search" action="/main/search" method="get">
+            <div class="form-group">
+            <input type="text" class="form-control rounded typeahead" name="query" placeholder="找關鍵字、商品、小農？" value="<%= @query %>">
+    	  	</div>
+    	  </form>  		      
         </div>
         
         
         <div id="navbar" class="navbar-collapse collapse">   
-		  <ul class="nav navbar-nav text-nav text-center">
+		  <ul class="nav navbar-nav text-nav">
             <li>
  		  		<%=link_to '/main/fruits' do%>
  		  		<%= image_tag 'menu/prime_icon.png', class: 'text-nav_img' %>	            	
@@ -48,41 +54,39 @@
  		  		<div class="text-nav_text">根莖瓜果</div>
             	<%end%>
             </li>                                               
-          </ul>   
-         
-                 
-          <form class="navbar-form navbar-left hidden-xs" role="search" action="/main/search" method="get">
+          </ul>                   
+          <form class="navbar-form navbar-left collapse_point" role="search" action="/main/search" method="get">
             <div class="form-group">
             <input type="text" class="form-control rounded typeahead search_term" name="query" placeholder="找關鍵字、商品、小農？" value="<%= @query %>">
     	  	</div>
     		<button type="submit" class="btn btn-default menu_search_button" style=""><%=image_tag 'logo_leaf_21x25.png'%></button> 		    	  	
     	  </form>     	      
-    	  
+    	  <!--
           <form class="navbar-form hidden-sm hidden-md hidden-lg" role="search" action="/main/search" method="get">
             <input type="text" class="form-control rounded" name="query" placeholder="找關鍵字、商品、小農？" value="<%= @query %>">
     	  </form>      
-  	               	      	      	      	
+  	          -->     	      	      	      	
           <ul class="nav navbar-nav navbar-right">
 			<%if user_signed_in?%>          	
 	            <li>
 	            	<a href="/coupons/index" class="menu_right">
 					<%= image_tag 'coupons_icon.png', class: '', style: '' %>	            	
-			        <span class='mobile_menu_label'>回饋金</span>
+			        <span class='mobile_menu_label no_collapse_point'>回饋金</span>
 					<span class="badge badge-orange" style="font-size: 10px; border-radius: 0px; height: 13px; line-height: 13px; padding: 0px 3px; "><%=coupons %></span>		            				        	            	
 	            	<!--<span class="menu_coupons"><%=coupons %></span>-->            	
 	            	</a>
 	            </li>
 	           	<li>
 					<%= form_tag('/invoices/checkout', class: 'checkout_form') do -%>
-		           		<a href="javascript:void(0)" class="menu_right menu_cart_collapse" onclick="$('.checkout_form').submit();" >
+		           		<a href="javascript:void(0)" class="menu_right no_collapse_point" onclick="$('.checkout_form').submit();" >
 							<%= image_tag 'cart_icon.png', class: '', style: '' %>	            	
 			            	<span class='mobile_menu_label'>購物車</span>
 							<span class="badge badge-orange carts_badge"><%=carts%></span>		            	
 			            </a>
 					<% end -%>		           		
-	           		<a class="dropdown-toggle menu_right menu_cart_no_collapse" onmouseover="showCarts();" href="#" data-toggle="dropdown" aria-expanded="false">
+	           		<a class="dropdown-toggle menu_right collapse_point" onmouseover="showCarts();" href="#" data-toggle="dropdown" aria-expanded="false">
 						<%= image_tag 'cart_icon.png', class: 'menu_cart_icon', style: '' %>	            	
-		            	<span class='mobile_menu_label'>購物車<span class="caret"></span></span>
+		            	<span class='mobile_menu_label no_collapse_point'>購物車<span class="caret"></span></span>
 						<span class="badge badge-orange carts_badge"><%=carts%></span>		            	
 		            	<span class="sr-only">Toggle Dropdown</span>
 		            </a>
@@ -99,19 +103,19 @@
 	          	</li>
 	            <li><a href="/notifications?category=all" class="menu_right">
 					<%= image_tag 'notification_icon.png', class: '', style: '' %>	            	
-		            <span class='mobile_menu_label'>訊息中心</span>	            	
+		            <span class='mobile_menu_label no_collapse_point'>訊息中心</span>	            	
 	            	<span class="badge badge-orange notifications_badge"><%=notifications%></span>
 	            	</a>
 	            </li>
 				<li><a href="/invoices/index" class="menu_right">					
 					<%= image_tag current_user.avatar.url, class: 'img-circle', style: 'border: 2px solid #a7a7a7' %>
-		            <span class='mobile_menu_label'><%if current_user.last_name%><%=current_user.last_name+' '+current_user.first_name%><%end%></span>					
+		            <span class='mobile_menu_label no_collapse_point'><%if current_user.last_name%><%=current_user.last_name+' '+current_user.first_name%><%end%></span>					
 					</a>			
 				</li> 
 	            <%if current_user.companies.first.activated_c%>
 	            <li><a href="/orders/index?called_smallfarmer_c=false" class="menu_right">
 					<%= image_tag 'farm_icon.png', class: '', style: '' %>	            	
-		            <span class='mobile_menu_label'>管理農場</span>	            	
+		            <span class='mobile_menu_label no_collapse_point'>管理農場</span>	            	
 	            	</a>
 	            </li>	
 	            <%end%>			    
@@ -265,7 +269,10 @@ var company_results = new Bloodhound({
 keyword_results.initialize();
 product_results.initialize();
 company_results.initialize();
-$('.search_term').typeahead(null, 
+$('.search_term').typeahead({  
+  classNames: {
+    menu: 'collapse_point tt-menu'
+  }},
   {
   name: 'keywords',
   display: 'content',
