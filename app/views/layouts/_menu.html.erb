@@ -67,15 +67,16 @@
     	  </form>      
   	          -->     	      	      	      	
           <ul class="nav navbar-nav navbar-right">
-			<%if user_signed_in?%>          	
+			<%if user_signed_in?%>     
+				<!--     	
 	            <li>
 	            	<a href="/coupons/index" class="menu_right">
 					<%= image_tag 'coupons_icon.png', class: '', style: '' %>	            	
 			        <span class='mobile_menu_label no_collapse_point'>回饋金</span>
 					<span class="badge badge-orange" style="font-size: 10px; border-radius: 0px; height: 13px; line-height: 13px; padding: 0px 3px; "><%=coupons %></span>		            				        	            	
-	            	<!--<span class="menu_coupons"><%=coupons %></span>-->            	
+	            	<span class="menu_coupons"><%=coupons %></span>           	
 	            	</a>
-	            </li>
+	            </li>--> 
 	           	<li>
 					<%= form_tag('/invoices/checkout', class: 'checkout_form') do -%>
 		           		<a href="javascript:void(0)" class="menu_right no_collapse_point" onclick="$('.checkout_form').submit();" >
