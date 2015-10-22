@@ -26,7 +26,7 @@ module ApplicationHelper
        current_page?(Rails.configuration.smallfarmer01_host) or
        current_page?( root_url )
        #current_page?('/products/'+(params[:id] || 0).to_s)    
-      "navbar-shrink".html_safe
+      "navbar-opacity".html_safe
     end
   end  
   

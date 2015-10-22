@@ -1,10 +1,10 @@
 <nav class="navbar navbar-default navbar-fixed-top service_intro_nav navbar-second">
   <div class="container">
 	<ul class="nav navbar-nav ">
-        <li><a href="#section_benefit">上架好處</a></li>
-        <li><a href="#section_what_can_be_sold">能賣什麼</a></li>
-        <li><a href="#section_cash_flow">金流和物流</a></li>
-        <li><a href="#section_service">提供服務</a></li>
+        <li class="page-scroll"><a href="#section_benefit">上架好處</a></li>
+        <li class="page-scroll"><a href="#section_what_can_be_sold">能賣什麼</a></li>
+        <li class="page-scroll"><a href="#section_cash_flow">金流和物流</a></li>
+        <li class="page-scroll"><a href="#section_service">提供服務</a></li>
         <li><a href="/companies/apply" style="padding: 0px 0px;"><p class="navbar-btn farm_apply_button btn orange_btn">立刻申請上架</p></a></li>
      </ul>
   </div>
@@ -288,3 +288,14 @@
       position: relative; 
   }
 </style>
+<script>
+$(function() {
+    $('body').on('click', '.page-scroll a', function(event) {
+        var $anchor = $(this);
+        $('html, body').stop().animate({
+            scrollTop: $($anchor.attr('href')).offset().top
+        }, 1000);
+        event.preventDefault();
+    });
+});    
+</script>

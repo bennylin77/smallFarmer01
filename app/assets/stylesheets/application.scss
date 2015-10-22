@@ -1,7 +1,10 @@
-$grid-float-breakpoint: 1095px;
+$grid-float-breakpoint: 1170px;
+$font-family-sans-serif: 'Microsoft YaHei', sans-serif;
+
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import 'bootstrap-datetimepicker';
+@import "menu";
 @import "main";
 @import "index";
 @import "backend";
@@ -9,13 +12,13 @@ $grid-float-breakpoint: 1095px;
 @import "comments";
 @import "products";
 @import "scaffolds";
-@import "intlTelInput";
-@import "fileinput";
-@import "toastr.min";
 @import "basic";
 @import "orders";
 @import "invoices";
 @import "notifications";
+@import "intlTelInput";
+@import "fileinput";
+@import "toastr.min";
 @import "magnific-popup";
 @import "bootstrap-tagsinput";
 @import "jquery.mb.YTPlayer";
