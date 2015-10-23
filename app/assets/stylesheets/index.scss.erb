@@ -26,11 +26,17 @@
     left:0
 }
 .farmer_video_container{
+  margin-top: 50px;
   background-image: url(<%=asset_path 'index/default_index.jpg'%>);  
   background-attachment: scroll;
   background-position: center center;   
   background-size: cover;
-  height: 80vh;    
+  height: 70vh;    
+}
+@media (max-width: 1195px) {
+  .farmer_video_container{
+    margin-top: 50px;  
+  }
 }
 .farmer_video_container_default_image{
     background-image: url(<%=asset_path 'index/default_index.jpg'%>);
@@ -48,7 +54,7 @@ header{
     color: #FFF;
 }
 header .intro-text{
-    margin-top: 30vh;
+    margin-top: 20vh;
 }
 header .intro-text .intro-lead-in{
     font-style:italic;
@@ -136,10 +142,10 @@ section h3.section-subheading{
 
 
 .first_section{
-  padding: 150px 0
+  padding: 100px 0
 }
 .second_section{
-  padding: 100px 0
+  padding: 50px 0
 }
 
 
@@ -322,7 +328,7 @@ section h3.section-subheading{
 }
 /*======================================= serviceIntro =======================================*/
 .service_intro_nav{
-  top: 100px;
+  top: 50px;
   background: #ffffff;
   z-index: 1000;
 }

@@ -1,25 +1,22 @@
 .product_cover_parallax_parent {
-  height: 550px;
+  height: 500px;
   overflow: hidden;
+  margin-top: 100px;   
 }
 .product_cover_parallax_parent > * {
   height:  200%;
   position: relative;
   top: 0%;
 }
-@media (max-width: 1750px) {
+@media (max-width: 1344px) {
   .product_cover_parallax_parent {
-    /*height: 580px;*/
-  }  
-}
-@media (max-width: 1500px) {
-  .product_cover_parallax_parent {
-    height: 500px;
+    height: 350px;
   }    
 }
-@media (max-width: 991px) {
+@media (max-width: 1195px) {
   .product_cover_parallax_parent {
     height: 400px;
+    margin-top: 50px; 
   }    
 }
 @media (max-width: 768px) {

@@ -12,8 +12,7 @@
 }
 .text-nav li a{
   text-align: center;  
-  font-size: 16px;
-  color: #A7A7A7 !important; 
+  color: #777 !important; 
 }
 .no-touch .text-nav li a:hover{
   background: #EFEFEF !important;   
@@ -23,12 +22,13 @@
 }
 .text-nav .text-nav_text{
   margin-top: 10px;
+  font-size: 16px;  
 }
 .navbar-form{
   margin-top: 30px;
 }
 input.rounded {
-  //border-radius: 17px; 
+  border-radius: 17px; 
   box-shadow: none !important;  
 }
 input.rounded:focus {
@@ -106,19 +106,26 @@ input.rounded:focus {
 
 
 .navbar-shrink .navbar-brand{
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    transition: all .3s;  
     margin-top: 0px;  
     height: 52px;   
   }  
 .navbar-shrink .navbar-brand img{
     height: 24px; 
   } 
-.navbar-shrink .text-nav .text-nav_img{
-    width: 30px;
-    display: inline-block;
+.navbar-shrink .text-nav .text-nav_img{  
+    width: 22px;
+    vertical-align: middle;   
+    display: inline-block; 
   }
 .navbar-shrink .text-nav .text-nav_text{
-    margin-top: 5px;
-    display: inline-block;
+    line-height: 16px;  
+    font-size: 16px;
+    margin-top: 0px;
+    vertical-align: middle;    
+    display: inline-block; 
   }     
 .navbar-shrink .navbar-form{
     margin: 8px 0px;
@@ -128,12 +135,12 @@ input.rounded:focus {
     margin-top: 0px;
 }  
 
-@media (min-width: 1175px) {
+@media (min-width: 1195px) {
   .no_collapse_point{
     display: none !important;
   }  
 }
-@media (max-width: 1175px) {
+@media (max-width: 1195px) {
 
   .collapse_point{
     display: none !important;
@@ -148,7 +155,6 @@ input.rounded:focus {
   } 
   .text-nav li a{
     text-align: left;      
-    font-size: 18px;
   }
   .navbar-shrink .text-nav .text-nav_img, 
   .text-nav .text-nav_img{
@@ -157,9 +163,10 @@ input.rounded:focus {
   }
   .navbar-shrink .text-nav .text-nav_text, 
   .text-nav .text-nav_text{
+    font-size: 18px;    
     height: 25px;
     line-height: 25px;
-    margin-top: 5px;
+    margin-top: 0px;
     margin-left: 10px;
     display: inline-block;
     vertical-align: middle;
