@@ -1,4 +1,4 @@
-<%= link_to new_product_path, class: 'btn btn-success add_button' do %>
+<%= link_to new_product_path, class: 'btn orange_btn backend_btn' do %>
 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 新增商品
 <% end %> 
@@ -21,12 +21,12 @@
       <tr>
         <td class="text-center">
         	<%if product.available_c%>
-        		<div class="btn_container"><%= link_to '下架', {controller: 'products', action: 'available', id: product}, class: 'btn btn-default edit_button', style: 'margin-right: 5px;' %></div>
+        		<div class="btn_container"><%= link_to '下架', {controller: 'products', action: 'available', id: product}, class: 'btn light_gray_btn backend_btn', style: 'margin-right: 5px;' %></div>
         	<%else%>
-        		<div class="btn_container"><%= link_to '上架', {controller: 'products', action: 'available', id: product}, class: 'btn btn-success add_button', style: 'margin-right: 5px;'  %></div>
+        		<div class="btn_container"><%= link_to '上架', {controller: 'products', action: 'available', id: product}, class: 'btn orange_btn backend_btn', style: 'margin-right: 5px;'  %></div>
         	<%end%>
-        	<div class="btn_container"><%= link_to '編輯', edit_product_path(product), class: 'btn btn-default edit_button', style: 'margin-right: 5px;'%></div>
-        	<div class="btn_container"><%= link_to '刪除', product, method: :delete, data: { confirm: '您確定要刪除水果編號 '+product.id.to_s+' 的水果 (注意: 此動作將無法回復)?' }, class: 'btn btn-danger delete_button', style: 'margin-right: 5px;' %></div>
+        	<div class="btn_container"><%= link_to '編輯', edit_product_path(product), class: 'btn light_gray_btn backend_btn', style: 'margin-right: 5px;'%></div>
+        	<div class="btn_container"><%= link_to '刪除', product, method: :delete, data: { confirm: '您確定要刪除水果編號 '+product.id.to_s+' 的水果 (注意: 此動作將無法回復)?' }, class: 'btn dark_gray_btn backend_btn', style: 'margin-right: 5px;' %></div>
         </td>       	
         <td>
         	<%= product.id %>

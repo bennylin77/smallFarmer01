@@ -436,7 +436,7 @@ $('.add_to_cart_action').click(function() {
 		if(message.alert_class != 'success')
 			toastr[message.alert_class](message.message)
 	    //$btn.button('reset')		 
-	    if( $(window).width() < 1094)
+	    if( $(window).width() < 1195)
 	    {
 	    	var cart = $('.navbar-toggle');
 	    	if( $(window).width() < 977) 
@@ -471,7 +471,7 @@ $('.add_to_cart_action').click(function() {
 		      }	    
 		}
 		else  
-			$( ".menu_cart_no_collapse" ).trigger( "click" )		    
+			$( ".cart_menu_click" ).trigger( "click" )		    
 	    showCarts(); 		    
 	});
 	request.fail(function( jqXHR, textStatus ) {
