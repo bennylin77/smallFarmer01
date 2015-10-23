@@ -1,7 +1,7 @@
 <%= form_for(@product, html: {class: "form-horizontal", role: "form", multipart: true}) do |f| %>
 	<div class="form-group">
 		<div class="col-sm-offset-0 col-md-offset-2 col-sm-12 col-md-8">
-			<h3 class="page-header text-muted">商品資料</h3>
+			<h3 class="page-header text-muted" style="margin-top: 0px;">商品資料</h3>
 		</div>
 	</div>
 	<div class="form-group">
@@ -286,6 +286,7 @@ var keyword_results = new Bloodhound({
 keyword_results.initialize();
 $('#keywords').tagsinput({
   confirmKeys: [13, 32], 
+  tagClass: 'label tag_label',  
   typeaheadjs: {  	
 	name: 'keywords',
 	valueKey: 'content',		
