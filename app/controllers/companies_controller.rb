@@ -38,6 +38,9 @@ class CompaniesController < ApplicationController
                                  address: params[:company][:address], applied_c: true, applied_at: Time.zone.now)            
         flash[:notice] = '成功申請上架，我們會盡快和您聯絡 謝謝'
         redirect_to root_url
+        
+        
+        
       else  
         render 'apply', layout: 'application'
       end   

@@ -6,31 +6,31 @@
 	    <div class="panel-body">    
 			<%= form_for(@company, url: { controller: 'companies', action: "apply"}, method: :post, html: {class: "form-horizontal", role: "form"}) do |f| %>
 				<div class="form-group">
-					<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">您的姓名</label>
+					<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">您的姓名*</label>
 					<div class="col-sm-10 col-md-6">
-					<label class="control-label"><%= current_user.last_name %> <%= current_user.first_name %></label>	
+					<label class="control-label"><%= current_user.last_name %> <%= current_user.first_name %> <small><%=link_to '修改', edit_user_path(current_user)%></small></label>	
 					</div>	
 				</div>	
 				<div class="form-group">
-					<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">您的Email</label>
+					<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">您的Email*</label>
 					<div class="col-sm-10 col-md-6">
-					<label class="control-label"><%= current_user.email %></label>	
+					<label class="control-label"><%= current_user.email %> <small><%=link_to '修改', edit_user_path(current_user)%></small></label>	
 					</div>	
 				</div>		
 				<div class="form-group">
-					<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">農場名稱</label>
+					<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">農場名稱*</label>
 					<div class="col-sm-10 col-md-6">
 						<%= f.text_field :name, placeholder: '農場名稱', class: "form-control" %>
 					</div>	
 				</div>
 				<div class="form-group">
-					<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">農場介紹<br><span class="text-muted"><small>介紹您的農場及販賣的農產品</small></span></label>
+					<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">農場介紹*<br><span class="text-muted"><small>介紹您的農場及販賣的農產品</small></span></label>
 					<div class="col-sm-10 col-md-6">
 						<%= f.text_area :description, placeholder: '農場介紹', class: "form-control", rows: '5' %>
 					</div>
 				</div>		
 				<div class="form-group">
-					<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">農場電話</label>
+					<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">農場電話*</label>
 					<div class="col-sm-10 col-md-6">
 						<%= hidden_field_tag :phone_no_full%>				
 						<%= f.text_field :phone_no, class: "form-control" %>
@@ -39,7 +39,7 @@
 					</div>					
 				</div>						
 				<div class="form-group">
-					<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">農場地址</label>
+					<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">農場地址*</label>
 					<div class="form-inline col-sm-10 col-md-6">
 						<span id="twzipcode"></span>
 						<%= f.text_field :address, class: "form-control" %>
@@ -53,7 +53,7 @@
 			  	</div> 	
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-md-offset-3 col-md-10">
-						<%= f.submit '送出',  class: "btn btn-success add_button", style: 'margin-right: 5px;'  %>
+						<%= f.submit '送出',  class: "btn orange_btn backend_btn", style: 'margin-right: 5px;'  %>
 					</div>
 				</div>	
 			<% end %>
@@ -67,10 +67,10 @@ $("#company_image").fileinput({showCaption: false,
 			   				   showRemove: false,
 							   allowedFileTypes: ["image"],
 							   previewFileType: "image",
-							   browseClass: "btn btn-default edit_button",
+							   browseClass: "btn light_gray_btn backend_btn",
 							   browseLabel: " 選取照片",
 							   browseIcon: '<i class="glyphicon glyphicon-plus"></i>',
-							   uploadClass: "btn btn-default edit_button",
+							   uploadClass: "btn light_gray_btn backend_btn",
 							   uploadLabel: " 上傳",
 							   uploadIcon: '<i class="glyphicon glyphicon-upload"></i>',					 				
 						       uploadUrl: "/companies/<%=@company.id %>/companyImagesUpload", // server upload action
