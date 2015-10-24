@@ -31,23 +31,33 @@ class CompaniesController < ApplicationController
   
   def apply
     @company = current_user.companies.first
-    if request.post?
-      if @company.update_columns(name: params[:company][:name], description: params[:company][:description],
-                                 phone_no: params[:phone_no_full], postal: params[:company][:postal],
-                                 county: params[:company][:county], district: params[:company][:district],
-                                 address: params[:company][:address], applied_c: true, applied_at: Time.zone.now)            
-        flash[:notice] = '成功申請上架，我們會盡快和您聯絡 謝謝'
-        redirect_to root_url
-        
-        
-        
-      else  
-        render 'apply', layout: 'application'
-      end   
+    if !@company.applied_c
+      if request.post?   
+        @company.assign_attributes(name: params[:company][:name], description: params[:company][:description],
+                                   phone_no: params[:phone_no_full], postal: params[:company][:postal],
+                                   county: params[:company][:county], district: params[:company][:district],
+                                   address: params[:company][:address])        
+        unless params[:company][:name].blank? or params[:company][:description].blank? or params[:phone_no_full].blank? or
+               params[:company][:county].blank? or params[:company][:district].blank? or params[:company][:address].blank?
+         
+          @company.update_columns(name: params[:company][:name], description: params[:company][:description],
+                                   phone_no: params[:phone_no_full], postal: params[:company][:postal],
+                                   county: params[:company][:county], district: params[:company][:district],
+                                   address: params[:company][:address], applied_c: true, applied_at: Time.zone.now)            
+          flash[:notice] = '成功申請上架，我們會盡快和您聯絡 謝謝'
+          redirect_to root_url 
+        else  
+          flash.now[:error] = '有些欄位沒填到喔！'
+          render 'apply', layout: 'application'
+        end   
+      else
+        @company = current_user.companies.first
+        render layout: 'application'  
+      end
     else
-      @company = current_user.companies.first
-      render layout: 'application'  
-    end
+      flash[:warning] = '您已申請過了'
+      redirect_to root_url
+    end    
   end
 
   def companyCoverUpload
