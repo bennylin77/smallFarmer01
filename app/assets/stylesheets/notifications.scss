@@ -21,37 +21,15 @@
   padding-top: 20px; 
   padding-bottom: 20px; 
   min-height: 120px; 
-  border-bottom: 1px solid #526031;
+  border-bottom: 1px solid #E7E7E7;
 }
 .notification_unread{
-  background: #FAFAF8;
+  background: #F8F8F8;
 }
-
-
-
 .notification_review_radioBtn{
   margin-bottom: 10px;
   margin-left: 20px;
 }
 .notification_review_show{
   font-size: 16px;
-}
-//========================pagination========================//
-.notification_pagination > .pagination > li >span,
-.notification_pagination > .pagination > li >a{
-  background: none;
-  margin-right: 10px;
-  margin-top: 7px;  
-  color: #526031;
-  border: 1px solid #526031; 
-}
-.no-touch .notification_pagination > .pagination > li >span:hover,
-.no-touch .notification_pagination > .pagination > li >a:hover{
-  background: #ffffff;
-}
-.notification_pagination > .pagination > li >span{
-  background: #ffffff;
-}
-.notification_pagination > .pagination > li.disabled >span{
-  background: none;
 }

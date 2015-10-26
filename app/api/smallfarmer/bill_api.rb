@@ -32,7 +32,8 @@ module Smallfarmer
             product_boxing: o.product_boxing,
             product: o.product_boxing.product,
             product_cover: Rails.configuration.smallfarmer01_host+o.product_boxing.product.cover.url,  
-            shipments: shipments
+            shipments: shipments,
+            invoice: o.invoice
           }    
         end
         { bill: bill, orders: orders }   

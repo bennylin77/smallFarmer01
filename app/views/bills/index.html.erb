@@ -55,7 +55,7 @@
     	<dl class="dl-horizontal">
     		<dt>付款方式</dt>
     	<%if o.invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>
-			<dd>線上刷卡</dd>
+			<dd style="width: 90px;">線上刷卡</dd>
 	   	<%elsif o.invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM']%>		
 			<dd>ATM轉帳</dd>		  						  
 	   	<%elsif o.invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>		
@@ -71,9 +71,10 @@
     		<dt class="text-danger">金流手續費<small><%=GLOBAL_VAR['CASH_FLOW_FEE']*100%>%</small><dt>	      
     		<dd class="text-danger">- <%= cash_flow_idv %>元</dd>     		
 			<%end%>	
-			<dt><dt><dd>-------</dd> 
+			<dt><dt><dd>＿＿＿＿＿</dd> 
     		<dt>應收金額<dt>	      
-    		<dd><%= o.price.to_i - cash_flow_idv %>元</dd>     		
+    		<dd><%= o.price.to_i - cash_flow_idv %>元</dd> 
+    	</dl>	    		
     </td>    	      	
 	<td>
       <table class="table table-striped">     

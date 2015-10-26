@@ -35,6 +35,7 @@ class NotificationsController < ApplicationController
         order.review_at = Time.zone.now
         order.save!    
       end
+=begin      
       # important !!!!!!!!!!!!!!!!      
       discount = 0 
       invoice.invoice_coupon_lists.each do |i_c_l|
@@ -47,12 +48,13 @@ class NotificationsController < ApplicationController
       coupon.amount = ((invoice.amount - discount)*GLOBAL_VAR['COUPON_FEE']).round
       coupon.original_amount = ((invoice.amount - discount)*GLOBAL_VAR['COUPON_FEE']).round
       coupon.save!
+=end      
       @notification.read_c = true
       @notification.read_at = Time.zone.now
       @notification.save!
-      render json: {type: 'success', message: '恭喜您獲得'+coupon.amount.to_i.to_s+'元 無期限回饋金'}            
+      render json: {type: 'success', message: '感謝您的評價'}            
     else   
-      render json: {type: 'warning', message: '您已評論過'}      
+      render json: {type: 'warning', message: '您已評價過'}      
     end   
      
   end

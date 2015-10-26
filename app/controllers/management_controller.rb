@@ -167,7 +167,8 @@ class ManagementController < ApplicationController
           discount = 0 
           invoice.invoice_coupon_lists.each do |i_c_l|
             discount = discount + i_c_l.amount
-          end            
+          end 
+=begin                               
           data = { username: Rails.configuration.mitake_username, 
                    password: Rails.configuration.mitake_password,
                    dstaddr: invoice.user.phone_no.gsub(/^\+886/, '0'),
@@ -175,6 +176,7 @@ class ManagementController < ApplicationController
                    smbody: '您小農商品已送達，評價獲得'+((invoice.amount-discount)*GLOBAL_VAR['COUPON_FEE']).round.to_s+'元回饋金'+Rails.configuration.app_domain+'/notifications?category=3'                
                    }                                   
           result = RestClient.get( Rails.configuration.mitake_sm_send_get_url, params: data)                                                                     
+=end        
         end
       end    
                

@@ -17,11 +17,13 @@
 	<th>訂購人</th>
 	<th style="min-width: 100px;">金額</th>  	
 	<th>付款</th>
+	<!--
 	<th style="min-width: 118px;">
 		<%= image_tag 'coupons_icon.png', class: '', style: 'width: 25px; height: 25px;' %>
 		獲得回饋金<br> 
 		<abbr title="獲得回饋金為'總計'x4%, 並採取四捨五入"><small>總計x4%</small></abbr>
-	</th>				 	
+	</th>
+	-->				 	
 	<th>購買項目</th> 								 		            
   </tr>
   <% @invoices.each do |i| %>
@@ -99,10 +101,12 @@
 			  <dd><%=showBlank i.allpay_payment_no%></dd> 			
 			<%end%>				  	  	
 		</dl>
-    </td>          
+    </td>  
+    <!--        
     <td>
     	<%= ((i.amount-discount)*GLOBAL_VAR['COUPON_FEE']).round%>元
-    </td>            
+    </td>
+    -->            
 	<td>
       <table class="table table-striped">     
 		<tr>	
@@ -161,4 +165,6 @@
 </table>
 </div>
 </div>
+<div class="backend_pagination">
 <%= will_paginate @invoices, renderer: BootstrapPagination::Rails %>
+</div>

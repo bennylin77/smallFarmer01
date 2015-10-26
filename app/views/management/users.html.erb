@@ -16,7 +16,7 @@
     <td><%= u.id %></td>  	
     <td>
     	<%= image_tag u.avatar.url, class: 'img-circle', style: 'height: 50px; width: 50px;' %><br>
-    	<%= u.last_name%><%= u.first_name%>
+    	<%= u.last_name%> <%= u.first_name%>
     </td> 
     <td><%unless u.phone_no.blank?%><%= u.phone_no.gsub(/^\+886/, '0') %><%else%>--<%end%></td> 
     <td><%= u.email %></td>   

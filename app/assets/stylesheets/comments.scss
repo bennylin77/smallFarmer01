@@ -124,16 +124,11 @@
 .comment_sub_row{
   margin-top: 20px;  
 }
-.comment_button{
-  border: none;
-  border-radius: 0;
-  font-size: 16px;
-  padding: 4px 10px;
-  box-shadow: 3px 3px rgb(209, 209, 200); 
-  background: #f8f5f3;  
-}
 .comment_op{
-  color: #536132;  
+  color: #777;  
+}
+.comment_reply{
+  color: #777; 
 }
 .no-touch .comment_reply:hover{
   opacity: 0.8;  
