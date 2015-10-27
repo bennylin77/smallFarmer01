@@ -51,9 +51,11 @@
         </td>	            	
         <td>
 		<table class="table">
+			<%if product.discount!= 1%>
 			<tr>
 				<td>商品<span class="text-danger"><%= Hash[discountPercentageOptions].rassoc(product.discount).first %></span></td>
 			</tr>
+			<%end%>
 		<%product.product_boxings.first.product_pricings.each do |p| %>
 			<%if p.quantity == 1%>	
 				<tr>
