@@ -1,14 +1,14 @@
-<div class="container-fluid main_frontend" style="padding-top: 70px;">
-	<br><br>
+<div class="container-fluid main_frontend">
+	<br>
 	<%if user_signed_in? and current_user.companies.first.activated_c%>
 	<%else%>
-	<div class="row">
-		<div class="col-sm-offset-6 col-sm-6 col-lg-offset-9 col-lg-3">
-			<div style="width: 90%; position: relative; margin: 0 auto;">
-			<%=link_to '申請上架', '/companies/apply', class: 'add_button btn btn-success pull-right' %>
-			</div>
+	<div class="row text-center" style="margin-top: 20px;">	
+		<div class="col-xs-offset-2 col-xs-8 col-sm-offset-4 col-sm-4 col-lg-offset-5 col-lg-2">
+			<a href="/companies/apply" class="btn orange_btn backend_btn center-block">
+				申請免費上架
+			</a>
 		</div>
-	</div>
+	</div>	
 	<%end%>
 	<% @companies.where(activated_c: true).order(priority: :desc).each_slice(4) do |c|%> 
 		<div class="row">
