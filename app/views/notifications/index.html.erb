@@ -1,4 +1,4 @@
-<div class="container main_frontend">
+<div class="container" style="margin-top: 130px;">
 	<ul class="nav nav-tabs main_backend-tabs">
 		<li <%= active( '/notifications?category=all' )%> <%= active( '/notifications?category=all&page='+params[:page].to_s )%>>
 			<%= link_to "全部", controller: 'notifications', action: 'index', category: 'all'%>
