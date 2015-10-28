@@ -1,8 +1,8 @@
 class CompaniesController < ApplicationController
   before_filter :authenticate_user!, except: [:show]   
  
-  before_action only: [:edit, :update, :preview, :companyImagesUpload, :companyImagesDelete, :companyCoverUpload, :companyCoverDelete] { |c| c.CompanyCheckUser(params[:id])}  
-  before_action :set_company, only: [:show, :edit, :update, :preview, :companyImagesUpload, :companyImagesDelete, :companyCoverUpload, :companyCoverDelete]
+  before_action only: [:edit, :update, :preview, :acceptTerms, :companyImagesUpload, :companyImagesDelete, :companyCoverUpload, :companyCoverDelete] { |c| c.CompanyCheckUser(params[:id])}  
+  before_action :set_company, only: [:show, :edit, :update, :preview, :acceptTerms, :companyImagesUpload, :companyImagesDelete, :companyCoverUpload, :companyCoverDelete]
 
 
   def show
@@ -58,6 +58,11 @@ class CompaniesController < ApplicationController
       flash[:warning] = '您已申請過了'
       redirect_to root_url
     end    
+  end
+  
+  def acceptTerms
+    @company.update_attributes( accept_the_terms_of_use_c: true, accept_the_terms_of_use_at: Time.zone.now)
+    render json: { success: '您已同意線上農場條款，並順利開通農場。' }          
   end
 
   def companyCoverUpload

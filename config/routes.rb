@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
   get    'companies/apply'
   post   'companies/apply'
+  post   'companies/acceptTerms'  
   
   get    'invoices/index'
   post   'invoices/create'
