@@ -61,7 +61,7 @@ class CompaniesController < ApplicationController
   end
   
   def acceptTerms
-    @company.update_attributes( accept_the_terms_of_use_c: true, accept_the_terms_of_use_at: Time.zone.now)
+    @company.update_columns( accept_the_terms_of_use_c: true, accept_the_terms_of_use_at: Time.zone.now)
     render json: { success: '您已同意線上農場條款，並順利開通農場。' }          
   end
 
