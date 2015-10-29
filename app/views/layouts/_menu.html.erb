@@ -31,19 +31,19 @@
             </li>       	
             -->
             <li>
-            	<%=link_to '/main/farms' do%>
+            	<%=link_to '/main/products?kind='+GLOBAL_VAR['KEYWORD_FRUITS'].to_s do%>
  		  		<%= image_tag 'menu/fruits_icon.png', class: 'text-nav_img' %>	            	
  		  		<div class="text-nav_text">產地鮮果</div>
             	<%end%>
             </li>
             <li>
-            	<%=link_to '/main/farms' do%>
+            	<%=link_to '/main/products?kind='+GLOBAL_VAR['KEYWORD_GRAINS'].to_s do%>
  		  		<%= image_tag 'menu/grains_icon.png', class: 'text-nav_img' %>	            	
  		  		<div class="text-nav_text">米麵雜糧</div>
             	<%end%>
             </li>
             <li>
-            	<%=link_to '/main/farms' do%>
+            	<%=link_to '/main/products?kind='+GLOBAL_VAR['KEYWORD_PROCESSED'].to_s do%>
  		  		<%= image_tag 'menu/jams_icon.png', class: 'text-nav_img' %>	            	
  		  		<div class="text-nav_text">小農手作</div>
             	<%end%>
