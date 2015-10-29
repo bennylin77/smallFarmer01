@@ -36,6 +36,9 @@ class MainController < ApplicationController
     
     
   end
+
+  def productPolicy    
+  end
   
   def privacyPolicy    
   end
