@@ -53,6 +53,7 @@ Rails.application.routes.draw do
   get    'main/returnPolicy'  
   get    'main/productPolicy'
   get    'main/serviceIntro'
+  get    'main/instructions'
 
   get    'management/bills'   
   get    'management/billShow'     

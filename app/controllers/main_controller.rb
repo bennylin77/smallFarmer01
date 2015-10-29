@@ -81,7 +81,7 @@ class MainController < ApplicationController
     #@products = Product.all.where(available_c: true, deleted_c: false).order(priority: :desc)
   end
   
-  def marketing   
+  def instructions  
   end
   
   def fb
