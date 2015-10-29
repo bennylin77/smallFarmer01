@@ -28,13 +28,18 @@ class CommentsController < ApplicationController
   def show       
     comments = Array.new
     @product.comments.order('id desc').each do |c|
-      comment = { id: c.id, content: c.content, user_id: c.user.id, created_at: c.created_at.strftime("%Y-%m-%d %H:%M:%S"),
-                  user_last_name: c.user.last_name, user_avatar_url: c.user.avatar.url, email: c.user.email.gsub(/..@.*$/, '')}
+      comment = { id: c.id, 
+                  content: ERB::Util.html_escape(c.content), 
+                  user_id: c.user.id, 
+                  created_at: c.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+                  user_last_name: c.user.last_name, 
+                  user_avatar_url: c.user.avatar.url, 
+                  email: c.user.email.gsub(/..@.*$/, '')}
       sub_comments = Array.new            
       c.sub_comments.each do |s_c|
         sub_comments << {
           id: s_c.id,
-          content: s_c.content, 
+          content: ApplicationController.helpers.sanitize(s_c.content), 
           user_id: s_c.user.id, 
           user_last_name: s_c.user.last_name, 
           user_avatar_url: s_c.user.avatar.url, 

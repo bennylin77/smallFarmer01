@@ -20,7 +20,7 @@
 		</div>
 	</div>		
 	<div class="form-group">
-		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">聯絡電話</label>
+		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">農場電話</label>
 		<div class="col-sm-10 col-md-6">
 			<%= hidden_field_tag :phone_no_full%>				
 			<%= f.text_field :phone_no, class: "form-control" %>
@@ -29,7 +29,7 @@
 		</div>					
 	</div>						
 	<div class="form-group">
-		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">聯絡地址</label>
+		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">農場地址</label>
 		<div class="form-inline col-sm-10 col-md-6">
 			<span id="twzipcode"></span>
 			<%= f.text_field :address, class: "form-control" %>
@@ -37,7 +37,7 @@
 	</div>	  
 	<div class="form-group">
 		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">農場封面</label>		
-		<div class="col-sm-10 col-md-6">
+		<div class="col-sm-9">
     	<%= f.file_field :cover, class: "form-control",  accept: "image/*" %>
   		</div>
   	</div>  
@@ -50,7 +50,7 @@
 
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-md-offset-3 col-md-10">
-			<%= f.submit '儲存',  class: "btn btn-success add_button", style: 'margin-right: 5px;'  %>
+			<%= f.submit '儲存',  class: "btn orange_btn backend_btn", style: 'margin-right: 5px;'  %>
 			<!--<%= f.submit '預覽', formaction: "/companies/preview/"+@company.id.to_s, class: "btn btn-default edit_button"%>-->					
 		</div>
 	</div>	
@@ -63,10 +63,10 @@ $("#company_cover").fileinput({showCaption: false,
 			   				   showRemove: false,
 							   allowedFileTypes: ["image"],
 							   previewFileType: "image",
-							   browseClass: "btn btn-default edit_button",
+							   browseClass: "btn light_gray_btn backend_btn",
 							   browseLabel: " 選取照片",
 							   browseIcon: '<i class="glyphicon glyphicon-plus"></i>',
-							   uploadClass: "btn btn-default edit_button",
+							   uploadClass: "btn light_gray_btn backend_btn",
 							   uploadLabel: " 上傳",
 							   uploadIcon: '<i class="glyphicon glyphicon-upload"></i>',
 						       uploadUrl: "/companies/<%=@company.id %>/companyCoverUpload", // server upload action
@@ -92,10 +92,10 @@ $("#company_image").fileinput({showCaption: false,
 			   				   showRemove: false,
 							   allowedFileTypes: ["image"],
 							   previewFileType: "image",
-							   browseClass: "btn btn-default edit_button",
+							   browseClass: "btn light_gray_btn backend_btn",
 							   browseLabel: " 選取照片",
 							   browseIcon: '<i class="glyphicon glyphicon-plus"></i>',
-							   uploadClass: "btn btn-default edit_button",
+							   uploadClass: "btn light_gray_btn backend_btn",
 							   uploadLabel: " 上傳",
 							   uploadIcon: '<i class="glyphicon glyphicon-upload"></i>',					 				
 						       uploadUrl: "/companies/<%=@company.id %>/companyImagesUpload", // server upload action

@@ -8,11 +8,14 @@
 			<%end%>				
 		</div>	
 		<div class="col-sm-2 vmiddle text-center hidden-xs">
-			<%= image_tag order.invoice.user.avatar.url, class: 'img-circle', size: '70x70' %>
+			<%= image_tag order.invoice.user.avatar.url, class: 'img-circle', size: '80x80', style: 'border: solid 4px #a7a7a7;' %>
 			<div><%= order.invoice.user.last_name %> <%= order.invoice.user.first_name %></div>			
 		</div>	
-		<div class="col-sm-6 col-xs-7 vmiddle text-left">
-			<%=link_to '您的商品有新訂單 '+order.quantity.to_s+'箱 ('+("%g" % order.product_boxing.quantity)+Hash[unitOptions].rassoc(order.product_boxing.product.unit).first+'/箱)', '/orders/index?called_smallfarmer_c=false', class: 'notification_link notification_text', id: notification.id%>
+		<div class="col-sm-6 vmiddle text-left hidden-xs">
+			<%=link_to '新訂單 '+order.quantity.to_s+'箱 ('+("%g" % order.product_boxing.quantity)+Hash[unitOptions].rassoc(order.product_boxing.product.unit).first+'/箱)', '/orders/index?called_smallfarmer_c=false', class: 'notification_link notification_text', id: notification.id%>
+		</div>			
+		<div class="col-xs-12 vmiddle text-center hidden-sm hidden-md hidden-lg">
+			<%=link_to '新訂單 '+order.quantity.to_s+'箱 ('+("%g" % order.product_boxing.quantity)+Hash[unitOptions].rassoc(order.product_boxing.product.unit).first+'/箱)', '/orders/index?called_smallfarmer_c=false', class: 'notification_link notification_text', id: notification.id%>
 		</div>						
 	</div>
 </div>

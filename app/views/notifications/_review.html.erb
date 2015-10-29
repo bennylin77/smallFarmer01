@@ -63,7 +63,7 @@
 	<%if notification.invoice.orders.first.review_at.blank?%>
 	<div class="row notification_button_<%= notification.id %>" style="margin-bottom: 15px;">	
 		<div class="col-sm-11 vmiddle">
-			<button class="btn btn-success pull-right add_button" id="post_button" onclick="sendReview(<%= notification.id %>, <%=notification.invoice.id%>, <%=notification.invoice.orders.pluck(:id)%>)" data-loading-text="傳送中...">送出獲得4%回饋金</button>		
+			<button class="btn orange_btn pull-right" id="post_button" onclick="sendReview(<%= notification.id %>, <%=notification.invoice.id%>, <%=notification.invoice.orders.pluck(:id)%>)" data-loading-text="傳送中...">送出</button>		
 		</div>
 	</div>
 	<%end%>			

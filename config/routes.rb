@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
   get    'companies/apply'
   post   'companies/apply'
+  post   'companies/acceptTerms'  
   
   get    'invoices/index'
   post   'invoices/create'
@@ -43,12 +44,14 @@ Rails.application.routes.draw do
   get    'main/typeaheadSource'
   get    'main/index'  
   get    'main/search'
-  get    'main/fruits'
+  get    'main/products'
   get    'main/farms' 
+  get    'main/about'   
   get    'main/getFruitsAndFarms'  
   get    'main/showCartsNotifications'
   get    'main/privacyPolicy'
   get    'main/returnPolicy'  
+  get    'main/serviceIntro'
 
   get    'management/bills'   
   get    'management/billShow'     

@@ -9,7 +9,7 @@
 			    <%end%>
 			<% end %>
 			<%= link_to '/invoices/index?page='+page.to_s, class: 'notification_link', id: notification.id do%>
-			<div style="font-size: 15px;">訂單編號 <%=notification.invoice.id%> 付款成功</div>		
+			<div style="font-size: 20px;">訂單編號 <%=notification.invoice.id%> 付款成功</div>		
 			<table class="table table-bordered text-left">
 			  <tr>		
 			    <td>
@@ -74,10 +74,12 @@
 						<%end%>				  	  	
 					</dl>						
 				</td>
+				<!--
 				<td>
 			    	<%= ((notification.invoice.amount-discount)*0.04).round%>元
 			    	<div><small><em>-商品送達，評完好吃度即可獲得-</em></small></div>					
-				</td>						      		  			  
+				</td>	
+				-->					      		  			  
 			  </tr>			  	
 			</table>
 			<%end%>				

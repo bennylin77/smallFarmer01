@@ -36,6 +36,6 @@
 //= require YTPlayer/dep/jquery.mb.CSSAnimate.js
 //= require YTPlayer/dep/jquery.mb.simpleSlider.js
 //= require YTPlayer/dep/jquery.mb.storage.js
-
+//= require smallfarmer.js
 
 //= require_tree .

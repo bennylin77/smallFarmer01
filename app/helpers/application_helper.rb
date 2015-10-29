@@ -21,26 +21,13 @@ module ApplicationHelper
     quantity == 0 ? "" : quantity             
   end
   
-  def shippingRates(hash={})
-    shipping_rates = 0
-    case hash[:size]
-    when GLOBAL_VAR['BOX_SIZE_FIRST']
-      shipping_rates = GLOBAL_VAR['SHIPPING_RATES_FIRST'] 
-      shipping_rates = shipping_rates + (hash[:cold_chain] != GLOBAL_VAR['SHIPMENT_TEMP_NORMAL'] ? GLOBAL_VAR['SHIPPING_RATES_COLD_CHAIN'] : 0)  
-    when GLOBAL_VAR['BOX_SIZE_SECOND']
-      shipping_rates = GLOBAL_VAR['SHIPPING_RATES_SECOND']   
-      shipping_rates = shipping_rates + (hash[:cold_chain] != GLOBAL_VAR['SHIPMENT_TEMP_NORMAL'] ? GLOBAL_VAR['SHIPPING_RATES_COLD_CHAIN'] : 0)      
-    when GLOBAL_VAR['BOX_SIZE_THIRD']
-      shipping_rates = GLOBAL_VAR['SHIPPING_RATES_THIRD']       
-    end
-  end
-  
   def navbarDefault
     if current_page?('/main/tempIndex') or
        current_page?(Rails.configuration.smallfarmer01_host) or
-       current_page?( root_url ) or
-       current_page?('/products/'+(params[:id] || 0).to_s)    
-      "navbar-shrink".html_safe
+       current_page?( root_url ) or 
+       current_page?('/main/serviceIntro') 
+       #current_page?('/products/'+(params[:id] || 0).to_s)    
+      "navbar-opacity navbar-shrink".html_safe
     end
   end  
   

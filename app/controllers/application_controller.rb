@@ -75,18 +75,39 @@ class ApplicationController < ActionController::Base
       redirect_to root_url
     end
   end
+
+  def priceWithShippingRates(hash={})
+    price = 0     
+    hash[:product_boxing].product_pricings.order('quantity desc').each do |p|
+      if hash[:quantity] >= p.quantity     
+        shipping_rate_quantity = 1
+        if p.quantity != 1   
+          shipping_rate_quantity = p.quantity
+        end
+        price = hash[:quantity]*((p.price + shippingRates(cold_chain: hash[:product_boxing].product.cold_chain, box_size: hash[:product_boxing].size, quantity: shipping_rate_quantity))*hash[:product_boxing].product.discount).ceil     
+        break  
+      end  
+    end      
+    price
+  end
   
   def shippingRates(hash={})
     shipping_rates = 0
-    case hash[:size]
+    case hash[:box_size]
     when GLOBAL_VAR['BOX_SIZE_FIRST']
-      shipping_rates = GLOBAL_VAR['SHIPPING_RATES_FIRST'] 
-      shipping_rates = shipping_rates + (hash[:cold_chain] != GLOBAL_VAR['SHIPMENT_TEMP_NORMAL'] ? GLOBAL_VAR['SHIPPING_RATES_COLD_CHAIN'] : 0)  
+      if hash[:quantity] == 1     
+        shipping_rates = (hash[:cold_chain] != GLOBAL_VAR['SHIPMENT_TEMP_NORMAL']) ? (GLOBAL_VAR['SHIPPING_RATES_FIRST'] + GLOBAL_VAR['SHIPPING_RATES_COLD_CHAIN']):GLOBAL_VAR['SHIPPING_RATES_FIRST'];
+      else
+        shipping_rates = (hash[:cold_chain] != GLOBAL_VAR['SHIPMENT_TEMP_NORMAL']) ? (GLOBAL_VAR['BARGAIN_SHIPPING_RATES_FIRST'] + GLOBAL_VAR['SHIPPING_RATES_COLD_CHAIN']):GLOBAL_VAR['BARGAIN_SHIPPING_RATES_FIRST'];                  
+      end  
     when GLOBAL_VAR['BOX_SIZE_SECOND']
-      shipping_rates = GLOBAL_VAR['SHIPPING_RATES_SECOND']   
-      shipping_rates = shipping_rates + (hash[:cold_chain] != GLOBAL_VAR['SHIPMENT_TEMP_NORMAL'] ? GLOBAL_VAR['SHIPPING_RATES_COLD_CHAIN'] : 0)      
+      if hash[:quantity] == 1     
+        shipping_rates = (hash[:cold_chain] != GLOBAL_VAR['SHIPMENT_TEMP_NORMAL']) ? (GLOBAL_VAR['SHIPPING_RATES_SECOND'] + GLOBAL_VAR['SHIPPING_RATES_COLD_CHAIN']):GLOBAL_VAR['SHIPPING_RATES_SECOND'];
+      else
+        shipping_rates = (hash[:cold_chain] != GLOBAL_VAR['SHIPMENT_TEMP_NORMAL']) ? (GLOBAL_VAR['BARGAIN_SHIPPING_RATES_SECOND'] + GLOBAL_VAR['SHIPPING_RATES_COLD_CHAIN']):GLOBAL_VAR['BARGAIN_SHIPPING_RATES_SECOND'];                  
+      end 
     when GLOBAL_VAR['BOX_SIZE_THIRD']
-      shipping_rates = GLOBAL_VAR['SHIPPING_RATES_THIRD']       
+        shipping_rates = (hash[:cold_chain] != GLOBAL_VAR['SHIPMENT_TEMP_NORMAL']) ? (GLOBAL_VAR['SHIPPING_RATES_THIRD'] + GLOBAL_VAR['SHIPPING_RATES_COLD_CHAIN']):GLOBAL_VAR['SHIPPING_RATES_THIRD'];
     end
   end  
   

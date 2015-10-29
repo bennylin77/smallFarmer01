@@ -25,10 +25,10 @@
 			<div class="col-sm-2 col-xs-12 check_out_product_list_text vmiddle">
 				<% product.product_boxings.first.product_pricings.each do |pp| %>
 					<%if pp.quantity == 1%>	
-						每箱<%= "%g" % product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %> <%= priceWithShipments(pp)%>元
+						每箱<%= "%g" % product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %> <%= priceWithShippingRates(product_boxing: pp.product_boxing, quantity: pp.quantity)%>元
 					<%elsif pp.quantity%>
 						<br>
-						<%= pp.quantity %>箱以上 每箱<%= priceWithShipments(pp) %>元		
+						<%= pp.quantity %>箱以上，每箱<%= priceWithShippingRates(product_boxing: pp.product_boxing, quantity: pp.quantity)/3 %>元		
 					<%end%>
 				<%end%>  					
 			</div>			
@@ -54,7 +54,7 @@
 		</div>					
 	</div>	
 	<div class="row">
-		<div class="col-sm-offset-3 col-sm-2 col-xs-offset-1 col-xs-5 check_out_pay_method">			
+		<div class="col-sm-offset-3 col-sm-2 col-xs-offset-1 col-xs-6 check_out_pay_method">			
 		<%if @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT'].to_s%>		
 			<label>
 				 <div class="check_out_pay_method_text">
@@ -65,14 +65,14 @@
 		<%elsif @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM'].to_s%>				
 			<label>
 				 <div class="check_out_pay_method_text">
-				 	ATM櫃員機
+				 	ATM轉帳
 		  			<%=image_tag 'allPay.png', class: 'img-responsive'%>					 	
 				 </div>
 			</label>
 		<%elsif @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS'].to_s%>				
 			<label>
 				 <div class="check_out_pay_method_text">
-				 	超商代碼<span style="color: #b24d4b; font-size: 90%;"> +30元</span>
+				 	超商繳款<span style="color: #b24d4b; font-size: 80%;"> +<%= GLOBAL_VAR['ALLPAY_CVS_FEE']%>元</span>
 		  			<%=image_tag 'allPay.png', class: 'img-responsive'%>					 	
 				 </div>
 			</label>							 			 
@@ -184,8 +184,8 @@
 	<%= check_box_tag 'agree', true, @agree == 'true', style: 'display: none'%>   	
 	<div class="row" style="margin-top: 20px;">
 		<div class="col-sm-offset-2 col-sm-6 col-xs-offset-1">   
-		<%= u.submit '修改',  class: "btn btn-default edit_button", style: 'font-size: 20px; padding: 6px 25px;'%>
-		<%= u.submit '確認交易', formaction: "/invoices/create", class: "btn btn-success add_button", style: 'margin-left: 10px; font-size: 20px; padding: 6px 25px;'%>			
+		<%= u.submit '修改',  class: "btn light_gray_btn", style: 'font-size: 20px; padding: 6px 25px;'%>
+		<%= u.submit '確認交易', formaction: "/invoices/create", class: "btn orange_btn", style: 'margin-left: 10px; font-size: 20px; padding: 6px 25px;'%>			
 		</div>
 	</div>		
 <%end-%>	
@@ -195,12 +195,12 @@
 
 <script>
 //init
+var products = [] 
+var boxings = []
 var pricings = []
-var shipping_rates = []
-var discounts = []
 <%@user.carts.each do |c| %>
-	shipping_rates.push({ id: <%=c.id %>, shipping_rate: <%= shippingRates(cold_chain: c.product_boxing.product.cold_chain, size: c.product_boxing.size)%>})	
-	discounts.push({ id: <%=c.id %>, discount: <%= c.product_boxing.product.discount %>})
+	products.push({ id: <%=c.id %>, discount: <%= c.product_boxing.product.discount %>, cold_chain: <%= c.product_boxing.product.cold_chain %>})
+	boxings.push({ id: <%=c.id %>, size: <%= c.product_boxing.size %>})
 	pricing = new Array()
 	<%c.product_boxing.product_pricings.order('quantity desc').each do |p| %>
 		<% unless p.quantity.blank? %>
@@ -218,7 +218,10 @@ function updatePrice(){
 			quantity = $('#quantity_'+v.id).data( "value")
 			if(quantity >= vv.quantity)	
 			{
-				item_price = quantity*Math.ceil((vv.price+shipping_rates[i].shipping_rate)*discounts[i].discount)		
+				shipping_rate_quantity = 1
+				if( vv.quantity!=1 )
+					shipping_rate_quantity = vv.quantity 				
+				item_price = quantity*Math.ceil((vv.price+shippingRates( boxings[i].size, products[i].cold_chain, shipping_rate_quantity))*products[i].discount)		
 				if( $('#gift_wrapping_'+v.id).data("value") ) 	
 					item_price = item_price + quantity*<%= GLOBAL_VAR['GIFT_WRAPPING_FEE']%>
 				$('#item_total_price_'+v.id).html( item_price);				

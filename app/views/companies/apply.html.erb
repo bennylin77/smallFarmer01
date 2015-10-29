@@ -1,47 +1,97 @@
 <div class="container main_frontend">	
-<h3 class="text-center">
-	請填寫基本資料，上架小幫手會儘速和您聯絡喔
-</h3>
-
-<%= form_for(@company, url: { controller: 'companies', action: "apply"}, method: :post, html: {class: "form-horizontal", role: "form"}) do |f| %>
-	<div class="form-group">
-		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">農場名稱</label>
-		<div class="col-sm-10 col-md-6">
-			<%= f.text_field :name, placeholder: '農場名稱', class: "form-control" %>
-		</div>	
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="text-center">我也要在小農1號免費上架</h3>
+		</div>
+	    <div class="panel-body">    
+			<%= form_for(@company, url: { controller: 'companies', action: "apply"}, method: :post, html: {class: "form-horizontal", role: "form"}) do |f| %>
+				<div class="form-group">
+					<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">您的姓名*</label>
+					<div class="col-sm-10 col-md-6">
+					<label class="control-label"><%= current_user.last_name %> <%= current_user.first_name %> <small><%=link_to '修改', edit_user_path(current_user)%></small></label>	
+					</div>	
+				</div>	
+				<div class="form-group">
+					<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">您的Email*</label>
+					<div class="col-sm-10 col-md-6">
+					<label class="control-label"><%= current_user.email %> <small><%=link_to '修改', edit_user_path(current_user)%></small></label>	
+					</div>	
+				</div>		
+				<div class="form-group">
+					<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">農場名稱*</label>
+					<div class="col-sm-10 col-md-6">
+						<%= f.text_field :name, placeholder: '農場名稱', class: "form-control" %>
+					</div>	
+				</div>
+				<div class="form-group">
+					<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">農場介紹*<br><span class="text-muted"><small>介紹您的農場及販賣的農產品</small></span></label>
+					<div class="col-sm-10 col-md-6">
+						<%= f.text_area :description, placeholder: '農場介紹', class: "form-control", rows: '5' %>
+					</div>
+				</div>		
+				<div class="form-group">
+					<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">農場電話*</label>
+					<div class="col-sm-10 col-md-6">
+						<%= hidden_field_tag :phone_no_full%>				
+						<%= f.text_field :phone_no, class: "form-control" %>
+						<span id="valid-msg" class="hide">✓</span>
+						<span id="error-msg" class="hide">格式錯誤</span>			
+					</div>					
+				</div>						
+				<div class="form-group">
+					<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">農場地址*</label>
+					<div class="form-inline col-sm-10 col-md-6">
+						<span id="twzipcode"></span>
+						<%= f.text_field :address, class: "form-control" %>
+					</div>
+				</div>	  
+				<div class="form-group">
+					<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">農場照片<br><span class="text-muted"><small>最多5張，請提供您的農場照片，以利加速審查</small></span></label>		
+					<div class="col-sm-9">
+					<input id="company_image" name="company_image[]" type="file" multiple class="file-loading form-control">
+			  		</div>
+			  	</div> 	
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-md-offset-3 col-md-10">
+						<%= f.submit '送出',  class: "btn orange_btn backend_btn", style: 'margin-right: 5px;'  %>
+					</div>
+				</div>	
+			<% end %>
+	    </div>
 	</div>
-	<div class="form-group">
-		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">農場介紹</label>
-		<div class="col-sm-10 col-md-6">
-			<%= f.text_area :description, placeholder: '農場介紹', class: "form-control", rows: '5' %>
-		</div>
-	</div>		
-	<div class="form-group">
-		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">聯絡電話</label>
-		<div class="col-sm-10 col-md-6">
-			<%= hidden_field_tag :phone_no_full%>				
-			<%= f.text_field :phone_no, class: "form-control" %>
-			<span id="valid-msg" class="hide">✓</span>
-			<span id="error-msg" class="hide">格式錯誤</span>			
-		</div>					
-	</div>						
-	<div class="form-group">
-		<label class="col-sm-offset-0 col-sm-2 col-md-offset-1 control-label">聯絡地址</label>
-		<div class="form-inline col-sm-10 col-md-6">
-			<span id="twzipcode"></span>
-			<%= f.text_field :address, class: "form-control" %>
-		</div>
-	</div>	  
-	<div class="form-group">
-		<div class="col-sm-offset-2 col-md-offset-3 col-md-10">
-			<%= f.submit '儲存',  class: "btn btn-success add_button", style: 'margin-right: 5px;'  %>
-		</div>
-	</div>	
-<% end %>
 </div>
 
 
 <script>
+$("#company_image").fileinput({showCaption: false,    
+			   				   showRemove: false,
+							   allowedFileTypes: ["image"],
+							   previewFileType: "image",
+							   browseClass: "btn light_gray_btn backend_btn",
+							   browseLabel: " 選取照片",
+							   browseIcon: '<i class="glyphicon glyphicon-plus"></i>',
+							   uploadClass: "btn light_gray_btn backend_btn",
+							   uploadLabel: " 上傳",
+							   uploadIcon: '<i class="glyphicon glyphicon-upload"></i>',					 				
+						       uploadUrl: "/companies/<%=@company.id %>/companyImagesUpload", // server upload action
+						       uploadAsync: true,
+						       maxFileCount: 5,
+							   initialPreview: [
+									<% @company.company_images.each do |c_i|%>
+									'<%= image_tag c_i.image.url, class: 'file-preview-image' %>',
+									<%end%>
+							   ],
+							   initialPreviewConfig: [
+									<% @company.company_images.each do |c_i|%>		
+								    {
+								        url: "/companies/<%=@company.id %>/companyImagesDelete", // server delete action 
+								        key: <%=c_i.id %>
+								    },
+									<%end%>		    
+							   ],		        							   
+								overwriteInitial: false,	
+    							language: "zh-TW"				        
+						       });
 //================== twzipcode ==================//	
 $('#twzipcode').twzipcode({
 	zipcodeName: 'company[postal]',
@@ -57,7 +107,7 @@ $('#twzipcode').twzipcode({
 //================== confirmation ==================//	
 var telInput = $("#company_phone_no");
 errorMsg = $("#error-msg"),
-validMsg = $("#valid-msg");
+//validMsg = $("#valid-msg");
 // initialise plugin
 telInput.intlTelInput({
 	allowExtensions: true,
@@ -74,11 +124,11 @@ telInput.intlTelInput({
 telInput.blur(function() {
   if ($.trim(telInput.val())) {
     if (telInput.intlTelInput("isValidNumber")  ) {
-      validMsg.removeClass("hide");
+      //validMsg.removeClass("hide");
     } else {
       telInput.addClass("error");
       errorMsg.removeClass("hide");
-      validMsg.addClass("hide");
+      //validMsg.addClass("hide");
     }
   }
 });
@@ -86,7 +136,7 @@ telInput.blur(function() {
 telInput.keydown(function() {
   telInput.removeClass("error");
   errorMsg.addClass("hide");
-  validMsg.addClass("hide");
+  //validMsg.addClass("hide");
 });
 $("form").submit(function() {
   $("#phone_no_full").val($("#company_phone_no").intlTelInput("getNumber"));

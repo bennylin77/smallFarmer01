@@ -1,8 +1,5 @@
 body{
-  font-family: Heiti TC, Microsoft YaHei, sans-serif; 
   background: #ffffff;
-  /*background-image: url(<%= asset_path 'paper_texture.png'%>);*/
-  /*color: #605856;*/
   color: #433E3C;
 }
 .vbottom {
@@ -19,7 +16,7 @@ body{
     border: none;
 }
 .section_title{
-  border-left: 8px solid #589145;
+  border-left: 8px solid #FF5600;
   padding-left: 10px;
   padding-top: 1.5px;
   padding-bottom: 1.5px;
@@ -28,11 +25,18 @@ body{
 }
 .section_underline{
   padding-bottom: 10px; 
-  border-bottom: 1px solid #536132;  
+  border-bottom: 1px solid #e7e7e7;  
 }
 .section_sub_title{
   font-size: 22px;
   margin-left: 10px;
+}
+.bootstrap-tagsinput {
+  width: 100% !important;
+}
+/*====================== btn ============================*/
+.backend_btn{
+  font-size: 16px;
 }
 .green_btn{
   color: #ffffff;
@@ -46,9 +50,41 @@ body{
   background: #64bb71;  
   opacity: 0.8;
 }
-
-.bootstrap-tagsinput {
-  width: 100% !important;
+.orange_btn{
+  color: #ffffff !important;
+  border: none;
+  background: #FF5600;
+  padding: 7px 14px 5px !important; 
+  border-radius: 0px;
+  border-bottom: 2px solid #CC4500; 
+}
+.no-touch .orange_btn:hover{
+  color: #ffffff;  
+  background: #FF7833;
+}
+.dark_gray_btn{
+  color: #ffffff !important;
+  border: none;
+  background: #808280;
+  padding: 7px 14px 5px !important; 
+  border-radius: 0px;
+  border-bottom: 2px solid #666866; 
+}
+.no-touch .dark_gray_btn:hover{
+  color: #ffffff !important;
+  background: #A6A8A6;
+}
+.light_gray_btn{
+  color: #686868 !important;
+  border: none;
+  background: #ECECEC;
+  padding: 7px 14px 5px !important; 
+  border-radius: 0px;
+  border-bottom: 2px solid #A6A6A6; 
+}
+.no-touch .light_gray_btn:hover{
+  color: #686868;  
+  background: #DDDDDD;
 }
 /*====================== typeahead ============================*/
 .tt-query {
@@ -88,12 +124,12 @@ body{
 }
 .tt-suggestion.tt-cursor {
   color: #fff;
-  background-color: #FCEEEA;
+  background-color: rgba(255, 86, 0, 0.2);
 }
-.tt-suggestion:hover {
+.no-touch .tt-suggestion:hover {
   cursor: pointer;
   color: #fff;
-  background-color: #FCEEEA;
+  background-color: rgba(255, 86, 0, 0.2);
 }
 .tt-suggestion p {
   margin: 0;

@@ -1,40 +1,42 @@
 <header class="farmer_video_container">
-	<!--<div class="pattern"></div>--> 
+	<!--<div class="pattern"></div>-->
 	<div class="container">
 		<div class="row intro-text">
 	        <div class="col-md-12">
-	        	<div class="intro-lead-in">歡迎光臨！</div>
-	            <div class="intro-heading">一起享用甜美多汁的產地直送鮮果</div>
+	        	<!--<div class="intro-lead-in">歡迎光臨！</div>-->
+	            <div class="intro-heading">讓我們一起，從源頭找回安心</div>
+	            <!--
 	    		<div class="hidden-sm hidden-md hidden-lg promote_middle" style="background: #eeefe9; border-radius: 0px; width: 150px; margin: 0px auto; color: #000000; padding: 10px;">
    					<a href="https://www.smallfarmer01.com/main/fruits">			   		
 			   		<div style="color: #3e2008; margin-top: 0px; font-size: 20px;">開幕特惠</div>
 			   		<div style="color: #f7500a; margin-top: 0px; font-size: 25px;">9折</div>   
 			   		<div style="color: #3e2008; margin-top: 0px; font-size: 14px;">10/10~10/31</div> 
 			   		</a>
-	    		</div>
+	    		</div>-->
    				<a class="player" data-property="{videoURL:'https://youtu.be/M8R2Y13jadA',containment:'.farmer_video_container',autoPlay:true, mute:true, startAt:0, opacity:1, showControls:false}"></a>	    		
 	    	</div>
     	</div>
     	<div class="row intro-nav text-center">
         	<div class="col-md-offset-2 col-md-4 col-sm-6">
-            	<%=link_to '/main/fruits', class: 'intro-nav-button_1' do%>
- 		  			找鮮果
+            	<%=link_to '/main/fruits', class: 'intro-nav-button_2' do%>
+ 		  			找安心農產
  		  		<%end%>
             </div>    	
         	<div class="col-md-4 col-sm-6">
-            	<%=link_to '/main/farms', class: 'intro-nav-button_2' do%>
-            		找小農
+            	<%=link_to '/main/serviceIntro', class: 'intro-nav-button_1' do%>
+            		免費上架
             	<%end%>        		
             </div>    	
     	</div>	
     </div>
+    <!--
    	<div class="hidden-xs promote_right_corner">
    		<a href="https://www.smallfarmer01.com/main/fruits">
    		<div style="color: #3e2008; margin-top: 25px; font-size: 20px;">開幕特惠</div>
    		<div style="color: #f7500a; margin-top: 0px; font-size: 40px;">9折</div>   
    		<div style="color: #3e2008; margin-top: 0px; font-size: 14px;">10/10~10/31</div> 		
 		</a>
-	</div>
+	</div>-->
 </header>
 <!-- Services Section -->    
     <section class="second_section" style="background: #ffffff">
@@ -42,7 +44,7 @@
             <div class="row">
                 <div class="col-md-12 col-lg-offset-2 col-lg-8 text-center">
                     <h2 class="section-heading">小農1號熱情推薦</h2>
-					<h3 class="section-subheading text-muted" style="margin-bottom: 0px;">我們走遍全國大小鄉鎮，找到台灣最美好的滋味</h3>			
+					<h3 class="section-subheading text-muted" style="margin-bottom: 0px;">我們走遍全國大小鄉鎮，找到台灣最安心和美好的滋味</h3>			
                 </div>
             </div>
         </div>
@@ -90,14 +92,14 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <h2 class="section-heading">小農1號特別在哪裡？</h2>
-                    <h3 class="section-subheading text-muted">我們堅持三大價值，帶給農夫和消費者平等公正的水果交易平台</h3>
+                    <h3 class="section-subheading text-muted">我們堅持三大價值，帶給農夫和消費者平等互惠的水果交易平台</h3>
                 </div>
             </div>
             <div class="row text-center">
                 <div class="col-md-2 col-lg-offset-2 col-lg-1">
                     <%=image_tag 'index/green_circle.png', class: 'yellow_circle value_circle'%>
                     <h4 class="yellow_value_title value_title">公開透明</h4>
-                    <p class="value_explanation text-muted yellow_value_description">公開每筆交易的金額流向，您將不再多花冤枉錢。</p>
+                    <p class="value_explanation text-muted yellow_value_description">真實揭露生產者、生產地、檢驗標章等資訊。</p>
                 </div>
                 <div class="col-md-1 hidden-sm hidden-xs">
                     <%=image_tag 'index/plus.png', class: "value_op value_op_1"%>
@@ -105,7 +107,7 @@
                 <div class="col-md-2 col-lg-1">
                     <%=image_tag 'index/yellow_circle.png', class: 'green_circle value_circle'%>
                     <h4 class="green_value_title value_title">回饋互助</h4>
-                    <p class="value_explanation text-muted green_value_description">每筆交易農夫會將消費金額的3%，回饋給您。</p>
+                    <p class="value_explanation text-muted green_value_description">小農用心種植，小農之友支持，形成良好循環，讓台灣更好。</p>
                 </div>    
                 <div class="col-md-1 hidden-sm hidden-xs">
                     <%=image_tag 'index/plus.png', class: "value_op value_op_2"%>
@@ -113,7 +115,7 @@
                 <div class="col-md-2 col-lg-1">
                     <%=image_tag 'index/red_circle.png', class: 'red_circle value_circle'%>
                     <h4 class="red_value_title value_title">公正評價</h4>
-                    <p class="value_explanation text-muted red_value_description">好吃？只有您說的算！</p>
+                    <p class="value_explanation text-muted red_value_description">沒有過多的銷售術語─產品品質到底好不好？ 您來評定！</p>
                 </div>  
                 <div class="col-md-2 hidden-sm hidden-xs">
                     <%=image_tag 'index/equal.png', class: "value_op_eq value_op_3"%>
@@ -125,29 +127,21 @@
             </div>
         </div>
     </section>     
-<!-- Services Section -->    
-    <section style="background: #F1F1F1" class="team_section">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12 col-lg-offset-2 col-lg-8 text-center">
-                    <h2 class="section-heading">關於小農1號團隊</h2>
-                    <h3 class="section-subheading text-muted">我們是一群結合法律、資訊和行銷背景的青年</h3>
-                </div>
-            </div>
-            <%= render partial: "about" %>	
-        </div>
-    </section>    
+<!-- about_apply Section -->    
+	<%= render partial: "about_apply" %>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
 <script>
 var controller;
 $(document).ready(function($) {
-	
-    $('a.page-scroll').bind('click', function(event) {
-        var $anchor = $(this);
-        $('html, body').stop().animate({
-            scrollTop: $($anchor.attr('href')).offset().top
-        }, 1500);
-        event.preventDefault();
-    });	
 	
 	var windowHeight;
 	// function to be used to retrieve variable
@@ -214,96 +208,6 @@ $(document).ready(function($) {
 						  .setTween(TweenMax.to(".index_fruits_category", 0.6, {autoAlpha: 1, ease: Linear.easeNone}))
 						  .addTo(controller)						  						  
 						  													  
-
-//cbp
-	var cbpAnimatedHeader = (function() {
-	var docElem = document.documentElement,
-		header = document.querySelector( '.menu' ),
-		didScroll = false,
-		changeHeaderOn = 300;
-	function init() {
-		window.addEventListener( 'scroll', function( event ) {
-			if( !didScroll ) {
-				didScroll = true;
-				setTimeout( scrollPage, 250 );
-			}
-		}, false );
-	}
-	function scrollPage() {
-		var sy = scrollY();
-		if ( sy >= changeHeaderOn ) {
-			classie.remove( header, 'navbar-shrink' );
-		}
-		else {
-			classie.add( header, 'navbar-shrink' );
-		}
-		didScroll = false;
-	}
-	function scrollY() {
-		return window.pageYOffset || docElem.scrollTop;
-	}
-	init();
-//classie
-	( function( window ) {	
-	'use strict';	
-	// class helper functions from bonzo https://github.com/ded/bonzo	
-	function classReg( className ) {
-	  return new RegExp("(^|\\s+)" + className + "(\\s+|$)");
-	}
-	// classList support for class management
-	// altho to be fair, the api sucks because it won't accept multiple classes at once
-	var hasClass, addClass, removeClass;	
-	if ( 'classList' in document.documentElement ) {
-	  hasClass = function( elem, c ) {
-	    return elem.classList.contains( c );
-	  };
-	  addClass = function( elem, c ) {
-	    elem.classList.add( c );
-	  };
-	  removeClass = function( elem, c ) {
-	    elem.classList.remove( c );
-	  };
-	}
-	else {
-	  hasClass = function( elem, c ) {
-	    return classReg( c ).test( elem.className );
-	  };
-	  addClass = function( elem, c ) {
-	    if ( !hasClass( elem, c ) ) {
-	      elem.className = elem.className + ' ' + c;
-	    }
-	  };
-	  removeClass = function( elem, c ) {
-	    elem.className = elem.className.replace( classReg( c ), ' ' );
-	  };
-	}	
-	function toggleClass( elem, c ) {
-	  var fn = hasClass( elem, c ) ? removeClass : addClass;
-	  fn( elem, c );
-	}	
-	var classie = {
-	  // full names
-	  hasClass: hasClass,
-	  addClass: addClass,
-	  removeClass: removeClass,
-	  toggleClass: toggleClass,
-	  // short names
-	  has: hasClass,
-	  add: addClass,
-	  remove: removeClass,
-	  toggle: toggleClass
-	};	
-	// transport
-	if ( typeof define === 'function' && define.amd ) {
-	  // AMD
-	  define( classie );
-	} else {
-	  // browser global
-	  window.classie = classie;
-	}
-})( window );
-})();
-
 //video
         if (!device.tablet() && !device.mobile()) {
             $(".player").mb_YTPlayer();

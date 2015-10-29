@@ -1,7 +1,5 @@
-<div class="container-fluid main_frontend">
-	<div class="row hidden-xs" style="margin-top: 20px;">
-		<div class="col-sm-12"></div>
-	</div>	
+<div class="container main_frontend">
+	<div class="row" style="margin-top: 60px;"><div class="col-xs-12"></div></div>		
 	<div class="row">
 		<div class="col-sm-offset-3 col-sm-6 col-lg-offset-4 col-lg-4">
 		<%- if devise_mapping.omniauthable? %>
@@ -64,7 +62,7 @@
 		  	</div>    	
 			<div class="form-group" style="margin-top: 30px;">
 				<div class="col-sm-12">
-		    	<%= f.submit "註冊", class: "btn btn-success add_button btn-block" %>
+		    	<%= f.submit "註冊", class: "btn orange_btn btn-block", style: 'font-size: 16px;' %>
 		  		</div>
 		  	</div> 
 		<% end %>

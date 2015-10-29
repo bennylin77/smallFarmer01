@@ -29,7 +29,7 @@
   <tr>
     <td class="text-center">
     	<%if !o.called_smallfarmer_c%>
-    		<%= link_to '通知物流', {controller: 'orders', action: 'confirm', id: o}, data: { confirm: '出貨編號:'+o.id.to_s+' 您確定要通知物流? '+expressComingDate( checked_time: Time.zone.now, words: true )+'物流會來取貨' }, class: 'btn btn-success add_button'%>
+    		<%= link_to '通知物流', {controller: 'orders', action: 'confirm', id: o}, data: { confirm: '出貨編號:'+o.id.to_s+' 您確定要通知物流? '+expressComingDate( checked_time: Time.zone.now, words: true )+'物流會來取貨' }, class: 'btn orange_btn backend_btn'%>
     	<%end%>
     	<%if o.called_smallfarmer_c%>
     		物流取貨時間: <%=expressComingDate checked_time: o.called_smallfarmer_at, words: false %>     	
@@ -61,6 +61,13 @@
           	<%receiver_address = s.receiver_address %>
           	<div><%=receiver_address.last_name %> <%=receiver_address.first_name %></div>
  			<div><%=receiver_address.postal %><%=receiver_address.county %><%=receiver_address.district %><%=receiver_address.address %></div>
+ 			<div>
+	      		<%if receiver_address.phone_no.blank?%>
+	      		--
+	          	<%else%>
+	          	<%= receiver_address.phone_no.gsub(/^\+886/, '0') %>		          	
+	          	<%end%> 			
+ 			</div>         
           </td>
           <td><%=s.quantity%>箱</td> 			      		            
 		  <td>

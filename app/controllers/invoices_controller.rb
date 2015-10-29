@@ -53,16 +53,11 @@ class InvoicesController < ApplicationController
         order.gift_wrapping_c = c.gift_wrapping_c
         order.cold_chain = c.product_boxing.product.cold_chain
         order.size = c.product_boxing.size        
-        order.shipping_rates = order.quantity*shippingRates(cold_chain: c.product_boxing.product.cold_chain, size: c.product_boxing.size)        
-        c.product_boxing.product_pricings.order('quantity desc').each do |p|
-          if c.quantity >= p.quantity 
-            order.price = order.quantity*(((p.price + shippingRates(cold_chain: c.product_boxing.product.cold_chain, size: c.product_boxing.size))*c.product_boxing.product.discount).ceil) - order.shipping_rates
-            if order.gift_wrapping_c
-              order.price = order.price + order.quantity*GLOBAL_VAR['GIFT_WRAPPING_FEE']
-            end            
-            break  
-          end  
-        end
+        order.shipping_rates = order.quantity*shippingRates(cold_chain: c.product_boxing.product.cold_chain, box_size: c.product_boxing.size, quantity: order.quantity)        
+        order.price = priceWithShippingRates(product_boxing: c.product_boxing, quantity: c.quantity ) - order.shipping_rates 
+        if order.gift_wrapping_c
+          order.price = order.price + order.quantity*GLOBAL_VAR['GIFT_WRAPPING_FEE']
+        end            
         order.save!      
         #receiver
         params[:receivers].each do |key, value|  
@@ -254,14 +249,9 @@ class InvoicesController < ApplicationController
       elsif !c.product_boxing.product.available_c or c.product_boxing.product.deleted_c
         current_user.errors.add('quantity_'+c.id.to_s, c.product_boxing.product.name + '已下架')             
       end  
-      c.product_boxing.product_pricings.order('quantity desc').each do |p|
-        if c.quantity >= p.quantity 
-          total_price = total_price + c.quantity*(((p.price + shippingRates(cold_chain: c.product_boxing.product.cold_chain, size: c.product_boxing.size))*c.product_boxing.product.discount).ceil)
-          if c.gift_wrapping_c
-            total_price = total_price + c.quantity*GLOBAL_VAR['GIFT_WRAPPING_FEE']
-          end
-        break  
-        end  
+      total_price = total_price + priceWithShippingRates(product_boxing: c.product_boxing, quantity: c.quantity )
+      if c.gift_wrapping_c
+        total_price = total_price + c.quantity*GLOBAL_VAR['GIFT_WRAPPING_FEE']
       end
     end   
     final_total_price = total_price - @coupon_using    

@@ -1,18 +1,28 @@
 <div class="container-fluid footer">
 	<div class="row">
 		<ul class="list-inline text-center">
-  			<li><a href="https://www.facebook.com/pages/%E5%B0%8F%E8%BE%B21%E8%99%9F%E7%B7%9A%E4%B8%8A%E6%B0%B4%E6%9E%9C%E5%B9%B3%E5%8F%B0/963828033679792">粉絲專頁</a></li>  
+  			<li><%=link_to '關於小農', '/main/about' %></li>  
   			<li>|</li>
   			<li><%=link_to '隱私權', '/main/privacyPolicy' %></li>  
-  			<li>|</li> 
+  			<li>|</li>
   			<li><%=link_to '退換貨政策', '/main/returnPolicy' %></li> 
   			<li>|</li>
-  			<li><%=link_to '申請上架', '/companies/apply' %></li>  											  			 											
+  			<li><%=link_to '申請免費上架', '/main/serviceIntro' %></li> 
 		</ul>
 	</div>	
 	<div class="row">
-		<p class="text-center footer_service">客服專線：(02)8732-6786 (週一至週五 AM 9:30~PM 5:30) <span class="hidden-sm hidden-md hidden-lg"><br></span>客服信箱：sf.inc@smallfarmer01.com</p>
+		<p class="text-center footer_service">客服 <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> : (02)8732-6786 (非假日 AM 9:30~PM 5:30) 
+												  <span class="hidden-sm hidden-md hidden-lg"><br></span>
+												  <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> : sf.inc@smallfarmer01.com
+		</p>
 	</div>		
+	<div class="row">
+		<ul class="list-inline text-center footer_social_media">
+  			<li><a href="https://www.facebook.com/pages/%E5%B0%8F%E8%BE%B21%E8%99%9F%E7%B7%9A%E4%B8%8A%E6%B0%B4%E6%9E%9C%E5%B9%B3%E5%8F%B0/963828033679792"><%=image_tag 'social_media/facebook.svg'%></a></li> 
+  			<li><a href="https://www.youtube.com/channel/UCzCKSxjUcOJwh-otfHhk1zQ"><%=image_tag 'social_media/youtube.svg'%></a></li>   		
+  			<li><a href="https://instagram.com/smallfarmer_inc/"><%=image_tag 'social_media/instagram.svg'%></a></li>   		
+  		</ul> 
+	</div>	
 	<div class="row">
 		<p class="text-center footer_copyright">Copyright © 2015 SmallFarmer Inc. All rights reserved.</p>
 	</div>	

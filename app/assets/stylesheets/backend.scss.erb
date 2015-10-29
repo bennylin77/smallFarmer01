@@ -1,9 +1,15 @@
 .main_backend {
-  margin-top: 52px;  
+  margin-top: 110px;  
   padding: 10px 20px;
   padding-left: 0px;
 }
-@media (max-width: 768px) {
+@media (max-width: 1195px) {
+  .main_backend {
+    margin-top: 70px;     
+    padding: 0px 20px;     
+  }
+}
+@media (max-width: 767px) {
   .main_backend {
     margin-top: 5px;     
     padding: 0px 20px;     
@@ -12,7 +18,7 @@
 
 /*======================================= Sidebar navigation =======================================*/
 .sidebar {
-    margin-top: 52px;
+    margin-top: 110px;  
     left: 0;
     padding: 70px 30px;
     overflow-x: hidden;
@@ -25,8 +31,7 @@
 .sidebar_user_img{
   height: 110px;
   width: 110px;
-  border: solid 1px #526031;
-  padding: 3px;
+  border: solid 4px #a7a7a7;
   background-clip: content-box; /* support: IE9+ */
   background-color: transparent;  
 }
@@ -35,7 +40,7 @@
   font-size: 23px;
   margin-top: 18px;
   text-align: center;
-  color: #433E3C;  
+  color: #565A5C;  
 }
 .description-sidebar{
   margin: 0;
@@ -70,22 +75,29 @@
   margin: 0 auto;  
   max-width: 110px;
   padding: 5px 10px;
-  color:  #526031;  
-  border: solid 1px #526031; 
+  color:  #565A5C;   
+  border: solid 1px #565A5C; 
 }
 .no-touch .nav-sidebar > li > a:hover {
-  opacity: 0.8
+  color: #ff5600;
+  border: solid 1px #ff5600;
+  background: none;
 }
 .nav-sidebar > .active > a,
 .no-touch .nav-sidebar > .active > a:hover,
-.nav-sidebar > .active > a:focus {
-  color: #64bb71;
-  border: solid 1px #64bb71;
+.nav-sidebar > .active > a:focus, 
+.nav-sidebar > .active > a:active{
+  color: #ff5600;
+  border: solid 1px #ff5600;
 }
-
-@media (max-width: 768px) {
+@media (max-width: 1195px) {
   .sidebar {
-    margin-top: 52px;
+    margin-top: 60px;  
+  }
+}
+@media (max-width: 767px) {
+  .sidebar {
+    margin-top: 60px;
     left: 0;
     padding: 20px 30px;
     overflow-x: hidden;
@@ -102,32 +114,34 @@
 }
 /*======================================= Center =======================================*/
 .main_backend-tabs{
-    border-bottom: 1px solid #526031;
+    border-bottom: 1px solid #ff5600;
 }
 .main_backend-tabs > li > a, 
 .no-touch .main_backend-tabs > li > a:hover, 
 .main_backend-tabs > li > a:focus{
-    color: #526031;  
+    color: #565A5C;   
     background: inherit;     
     border-bottom: none;     
 }
 .no-touch .main_backend-tabs > li > a:hover, 
 .main_backend-tabs > li > a:focus{
-    opacity: 0.8;    
+    color: #ff5600;  
+    border: 1px solid #ffffff;  
+    border-bottom: 1px solid #ff5600;        
 }
 .main_backend-tabs > li.active > a, 
 .no-touch .main_backend-tabs > li.active > a:hover, 
 .main_backend-tabs > li.active > a:focus{
-    color: #526031;
+    color: #ff5600;
     background: inherit; 
-    border: 1px solid #526031;   
-    border-bottom: 1px solid #f1f0ec; 
+    border: 1px solid #ff5600;   
+    border-bottom: 1px solid #ffffff; 
 }
 
 .main_backend-tab-content {
     min-height: 500px;
     padding: 40px 18px;
-    border: 1px solid #526031;
+    border: 1px solid #ff5600;
     border-top: 0;
     border-bottom-right-radius: 4px;
     border-bottom-left-radius: 4px;
@@ -162,9 +176,9 @@
 .main_backend-sub-tabs > li > a:focus{
     padding: 5px 24px;
     border-radius: 0px;
-    color: #688919;  
+    color: #ff5600;  
     background: inherit;     
-    border: 1px solid #688919;  
+    border: 1px solid #ff5600;  
     text-decoration: none;          
 }
 .no-touch .main_backend-sub-tabs > li > a:hover, 
@@ -175,8 +189,8 @@
 .no-touch .main_backend-sub-tabs > li.active > a:hover, 
 .main_backend-sub-tabs > li.active > a:focus{
     color: #ffffff;
-    background: #688919; 
-    border: 1px solid #688919;   
+    background: #ff5600; 
+    border: 1px solid #ff5600;   
 }
 
 /*======================================= component =======================================*/
@@ -217,8 +231,6 @@
 .backend_fruits_img{
   width: 60px;
   height: 60px;
-  border: 1px solid #526031;
-  padding: 3px;
   background-clip: content-box; /* support: IE9+ */
   background-color: transparent;  
 }
@@ -227,16 +239,25 @@
   background: none;
   margin-right: 10px;
   margin-top: 7px;  
-  color: #526031;
-  border: 1px solid #526031; 
+  color: #565A5C; ;
+  border: 1px solid #565A5C; ; 
 }
 .no-touch .backend_pagination > .pagination > li >span:hover,
 .no-touch .backend_pagination > .pagination > li >a:hover{
-  background: #ffffff;
+  background: none;
+  color: #ff5600;
+  border: 1px solid #ff5600;     
 }
 .backend_pagination > .pagination > li >span{
-  background: #ffffff;
+  background: none;
+  color: #ff5600;
+  border: 1px solid #ff5600;  
 }
 .backend_pagination > .pagination > li.disabled >span{
+  color: #565A5C; ;  
   background: none;
+  border: 1px solid #565A5C; ;   
+}
+.tag_label{
+  background: #ff5600;
 }

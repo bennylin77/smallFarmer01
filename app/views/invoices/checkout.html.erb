@@ -25,10 +25,10 @@
 			<div class="col-sm-2 col-xs-12 check_out_product_list_text vmiddle">
 				<% product.product_boxings.first.product_pricings.each do |pp| %>
 					<%if pp.quantity == 1%>	
-						每箱<%= "%g" % product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %> <%= priceWithShipments(pp) %>元
+						每箱<%= "%g" % product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %> <%= priceWithShippingRates(product_boxing: pp.product_boxing, quantity: pp.quantity) %>元
 					<%elsif pp.quantity%>
 						<br>
-						<%= pp.quantity %>箱以上 每箱<%= priceWithShipments(pp) %>元		
+						<%= pp.quantity %>箱以上，每箱<%= priceWithShippingRates(product_boxing: pp.product_boxing, quantity: pp.quantity)/3 %>元		
 					<%end%>				
 				<%end%>  					
 			</div>			
@@ -50,7 +50,7 @@
 			</div>
 			<div class="col-sm-1 col-xs-12 vmiddle">
 	       		<span class="glyphicon glyphicon-remove hidden-xs destroy" aria-hidden="true" data-id='<%=c.id %>' style="cursor: pointer"></span>        							
-	       		<span class="btn btn-danger check_out_delete_button hidden-sm hidden-md hidden-lg destroy" aria-hidden="true" data-id='<%=c.id %>' style="cursor: pointer">刪除</span>        							       			
+	       		<span class="btn dark_gray_btn hidden-sm hidden-md hidden-lg destroy" aria-hidden="true" data-id='<%=c.id %>' style="cursor: pointer; font-size: 11px; margin-top: 5px;">刪除</span>        							       			
 			</div>											
 		</div>		
 	<%end%>
@@ -77,7 +77,7 @@
 			<label>
 				 <%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM'].to_s %>
 				 <div class="check_out_pay_method_text"> 
-				 ATM櫃員機
+				 ATM轉帳
 		  		 <%=image_tag 'allPay.png', class: 'img-responsive'%>					 	
 				 </div>	
 			</label>				 			 
@@ -88,7 +88,7 @@
 			<label>
 				 <%= radio_button_tag 'payment_method', GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS'], @payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS'].to_s %>
 				 <div class="check_out_pay_method_text"> 
-				 超商代碼<span style="color: #b24d4b; font-size: 90%;"> +<%= GLOBAL_VAR['ALLPAY_CVS_FEE']%>元</span>
+				 超商繳款<span style="color: #b24d4b; font-size: 80%;"> +<%= GLOBAL_VAR['ALLPAY_CVS_FEE']%>元</span>
 		  		 <%=image_tag 'allPay.png', class: 'img-responsive'%>					 	
 				 </div>	
 			</label>				 			 
@@ -105,7 +105,7 @@
 			<div class="row" style="margin-top: 10px;">
 				<div class="col-sm-offset-1 col-sm-5 col-xs-offset-1 col-xs-4">
 					使用回饋金<br>
-					(餘額: <%=coupons %>元)								
+					<span class="text-muted" style="font-size: 90%">餘額: <%=coupons %>元</span>							
 				</div>		
 				<div class="col-sm-4 col-xs-5" style="text-align: right">		
 					<%= text_field_tag :coupons_using, @coupon_using || 0, class: "form-control" %>					
@@ -150,7 +150,7 @@
 			<%else%>
 				<%= u.text_field :phone_no, value: @user.phone_no.gsub(/^\+886/, '0'), class: "form-control", readonly: true %>			
 			<%end%>	
-			例: 0912 345 678
+			<span class="hidden-sm hidden-md hidden-lg"><br></span>例: 0912 345 678
 		</div>		
 	</div>		
 	<div class="form-group">
@@ -192,7 +192,7 @@
 			<%end%>				
 			<%= text_field_tag 'receivers['+i.to_s+'][phone_no]', phone_no, class: "form-control" %>
 			<span id="receiver_error_msg_<%=i %>" class="hide">格式錯誤</span>
-			例: 0912 345 678			
+			<span class="hidden-sm hidden-md hidden-lg"><br></span>例: 0912 345 678			
 		</div>		
 	</div>		
 	<div class="form-group">
@@ -220,7 +220,7 @@
 	</div>					
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-8">   
-		<button class="btn btn-success add_button" type="submit" style="font-size: 20px; padding: 6px 25px;">下一步</button>			 
+		<button class="btn orange_btn" type="submit" style="font-size: 20px; padding: 6px 25px;">下一步</button>			 
 		</div>
 	</div>
 <%end%>		
@@ -348,8 +348,10 @@ $('.destroy').click(function(){
 			}
 		});		
 		pricings.splice(removed_index, 1);
-		shipping_rates.splice(removed_index, 1);
-		discounts.splice(removed_index, 1);		
+		products.splice(removed_index, 1);
+		boxings.splice(removed_index, 1);
+		//shipping_rates.splice(removed_index, 1);
+		//discounts.splice(removed_index, 1);		
 	    showCarts();
 	   	updatePrice();	    
 	    $(".cart_"+id.toString()).remove();
@@ -365,7 +367,10 @@ function updatePrice(){
 			quantity = $('#quantity_'+v.id).val()
 			if(quantity >= vv.quantity)	
 			{
-				item_price = quantity*Math.ceil((vv.price+shipping_rates[i].shipping_rate)*discounts[i].discount)		
+				shipping_rate_quantity = 1
+				if( vv.quantity!=1 )
+					shipping_rate_quantity = vv.quantity 				
+				item_price = quantity*Math.ceil((vv.price+shippingRates( boxings[i].size, products[i].cold_chain, shipping_rate_quantity))*products[i].discount)		
 				if( $('#gift_wrapping_'+v.id).val() == 'true' ) 	
 					item_price = item_price + quantity*<%= GLOBAL_VAR['GIFT_WRAPPING_FEE']%>
 				$('#item_total_price_'+v.id).html( item_price);				
@@ -381,12 +386,12 @@ function updatePrice(){
 	$('#sum').data( "value", total_price-$('#coupons_using').val())
 }
 //init
+var products = [] 
+var boxings = []
 var pricings = []
-var shipping_rates = []
-var discounts = []
-<%current_user.carts.each do |c| %>
-	shipping_rates.push({ id: <%=c.id %>, shipping_rate: <%= shippingRates(cold_chain: c.product_boxing.product.cold_chain, size: c.product_boxing.size)%>})	
-	discounts.push({ id: <%=c.id %>, discount: <%= c.product_boxing.product.discount %>})
+<%@user.carts.each do |c| %>
+	products.push({ id: <%=c.id %>, discount: <%= c.product_boxing.product.discount %>, cold_chain: <%= c.product_boxing.product.cold_chain %>})
+	boxings.push({ id: <%=c.id %>, size: <%= c.product_boxing.size %>})
 	pricing = new Array()
 	<%c.product_boxing.product_pricings.order('quantity desc').each do |p| %>
 		<% unless p.quantity.blank? %>

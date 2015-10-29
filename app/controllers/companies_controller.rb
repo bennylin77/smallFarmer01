@@ -1,8 +1,8 @@
 class CompaniesController < ApplicationController
   before_filter :authenticate_user!, except: [:show]   
  
-  before_action only: [:edit, :update, :preview, :companyImagesUpload, :companyImagesDelete, :companyCoverUpload, :companyCoverDelete] { |c| c.CompanyCheckUser(params[:id])}  
-  before_action :set_company, only: [:show, :edit, :update, :preview, :companyImagesUpload, :companyImagesDelete, :companyCoverUpload, :companyCoverDelete]
+  before_action only: [:edit, :update, :preview, :acceptTerms, :companyImagesUpload, :companyImagesDelete, :companyCoverUpload, :companyCoverDelete] { |c| c.CompanyCheckUser(params[:id])}  
+  before_action :set_company, only: [:show, :edit, :update, :preview, :acceptTerms, :companyImagesUpload, :companyImagesDelete, :companyCoverUpload, :companyCoverDelete]
 
 
   def show
@@ -31,23 +31,38 @@ class CompaniesController < ApplicationController
   
   def apply
     @company = current_user.companies.first
-    if request.post?
-      if @company.update(name: params[:company][:name], description: params[:company][:description],
-                         phone_no: params[:phone_no_full], postal: params[:company][:postal],
-                         county: params[:company][:county], district: params[:company][:district],
-                         address: params[:company][:address])
-        @company.applied_c = true
-        @company.applied_at = Time.zone.now 
-        @company.save!               
-        flash[:notice] = '成功申請上架，請靜候上架小幫手通知 感謝'
-        redirect_to root_url
-      else  
-        render 'apply', layout: 'application'
-      end   
+    if !@company.applied_c
+      if request.post?   
+        @company.assign_attributes(name: params[:company][:name], description: params[:company][:description],
+                                   phone_no: params[:phone_no_full], postal: params[:company][:postal],
+                                   county: params[:company][:county], district: params[:company][:district],
+                                   address: params[:company][:address])        
+        unless params[:company][:name].blank? or params[:company][:description].blank? or params[:phone_no_full].blank? or
+               params[:company][:county].blank? or params[:company][:district].blank? or params[:company][:address].blank?
+         
+          @company.update_columns(name: params[:company][:name], description: params[:company][:description],
+                                   phone_no: params[:phone_no_full], postal: params[:company][:postal],
+                                   county: params[:company][:county], district: params[:company][:district],
+                                   address: params[:company][:address], applied_c: true, applied_at: Time.zone.now)            
+          flash[:notice] = '成功申請上架，我們會盡快和您聯絡 謝謝'
+          redirect_to root_url 
+        else  
+          flash.now[:error] = '有些欄位沒填到喔！'
+          render 'apply', layout: 'application'
+        end   
+      else
+        @company = current_user.companies.first
+        render layout: 'application'  
+      end
     else
-      @company = current_user.companies.first
-      render layout: 'application'  
-    end
+      flash[:warning] = '您已申請過了'
+      redirect_to root_url
+    end    
+  end
+  
+  def acceptTerms
+    @company.update_attributes( accept_the_terms_of_use_c: true, accept_the_terms_of_use_at: Time.zone.now)
+    render json: { success: '您已同意線上農場條款，並順利開通農場。' }          
   end
 
   def companyCoverUpload
