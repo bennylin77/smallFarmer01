@@ -6,7 +6,7 @@
 			<div class="row">
 				<% a.each_with_index do |aa, index|%>
 					<%if aa.class.name == 'Product'%>
-						<%=render partial: "fruit", locals: { fruit: aa, index: index, slice: 4 } %>
+						<%=render partial: "product", locals: { product: aa, index: index, slice: 4 } %>
 					<%elsif aa.class.name == 'Company'%>
 						<%=render partial: "farm", locals: { farm: aa, index: index, slice: 4 } %>					
 					<%end%>				
