@@ -67,29 +67,56 @@ header .intro-text .intro-heading{
     font-weight:700;
     font-size: 50px;
     line-height: 50px;
-    margin-bottom: 75px;
+    margin-bottom: 70px;
 }
-.intro-nav{
+.no-touch .intro-nav a:hover, .intro-nav a:focus, .intro-nav a:active{
+  text-decoration: none;
 }
 .intro-nav-button_1{
+    position: relative;
     color: #ffffff;
-    border: 2px solid #ffffff;
+    //border: 2px solid #ffffff;
+    height: 50px;
+    width: 185px;
     font-size: 17px;
-    line-height: 17px;
+    line-height: 50px;
     letter-spacing: 3px;    
-    padding: 10px 50px;      
-    background: none;
     border-radius: 0px;  
-   /*
-    color: #ffffff;
-    font-size: 17px;
-    line-height: 17px;
-    letter-spacing: 3px;    
-    padding: 10px 50px;      
-    background: rgba(255, 86, 0, 0.75);
-    border-radius: 0px;
-   */ 
+    margin: 0 auto;
 } 
+.intro-nav-button_1>.l1, .intro-nav-button_1>.l2, .intro-nav-button_1>.l3, .intro-nav-button_1>.l4 {
+  position: absolute;
+  background: transparent;
+  width: 0px;
+  height: 0px;
+  background-color: #ffffff;
+}
+.intro-nav-button_1 .l1 {
+  left: 0;
+  bottom: 0;
+  height: 185px;
+  width: 2px;
+}
+.intro-nav-button_1 .l2 {
+  top: 0;
+  left: 0;
+  width: 185px;
+  height: 2px;
+}
+.intro-nav-button_1 .l3 {
+  right: 0;
+  top: 0;
+  height: 185px;
+  width: 2px;
+}
+.intro-nav-button_1 .l4 {
+  bottom: 0;
+  right: 0;
+  width: 185px;
+  height: 2px;
+ 
+}
+/*
 .intro-nav-button_2{
     color: #ffffff;
     font-size: 17px;
@@ -99,17 +126,17 @@ header .intro-text .intro-heading{
     background: rgba(88, 210, 62, 0.75);
     border-radius: 0px;
 } 
+*/
 .no-touch .intro-nav-button_1:hover, .intro-nav-button_1:focus{
-    text-decoration: none;
     color: #ffffff;
     background: rgba(234, 89, 24, 1);
 }  
+/*
 .no-touch .intro-nav-button_2:hover, .intro-nav-button_2:focus{
-    text-decoration: none;
     color: #ffffff;
     background: rgba(88, 210, 62, 1);
 }  
- 
+*/ 
 @media (max-width:768px){
   header .intro-text{
     margin-top: 40%;
@@ -127,20 +154,22 @@ header .intro-text .intro-heading{
     line-height:35px;
     margin-bottom:25px
   }  
+  /*
   .intro-nav-button_1{
       font-size: 16px;
       line-height: 60px;
       letter-spacing: 2px;    
       margin-top: 50px;
       padding: 10px 54px;      
-  }
+  }*/
+  /*
   .intro-nav-button_2{
       font-size: 16px;
       line-height: 60px;
       letter-spacing: 2px;    
       margin-top: 50px;
       padding: 10px 45px;      
-  }  
+  } */ 
 }
 
 section h2.section-heading{
