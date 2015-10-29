@@ -36,7 +36,15 @@
     	<%= image_tag c.user.avatar.url, class: 'img-circle', style: 'height: 50px; width: 50px;' %>
     	<%= c.user.last_name%><%= c.user.first_name%>
     </td>     	
-    <td><%= c.name%></td>    
+    <td><%= c.name%><br>
+    	<small class="text-muted">
+    	<%if c.accept_the_terms_of_use_c%>
+    	已接受條款<br><%= c.accept_the_terms_of_use_at.strftime("%Y-%m-%d %H:%M:%S")%>   	
+    	<%else%>
+    	<span class="text-danger">尚未同意條款</span>
+    	<%end%>
+    	</small>
+    </td>    
     <td>
     	<%= c.postal%> <%= c.county%><%= c.district%><%= c.address%><br>
 		<%unless c.phone_no.blank?%><%= c.phone_no.gsub(/^\+886/, '0')  %><%end%>    
