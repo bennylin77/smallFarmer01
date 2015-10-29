@@ -73,7 +73,7 @@ class MainController < ApplicationController
   end
   
   def products   
-    @products = Product.joins(:keywords).where('keywords.kind = ?', params[:kind]).where(available_c: true, deleted_c: false).distinct       
+    @products = Product.joins(:keywords).where('keywords.kind = ?', params[:kind]).where(available_c: true, deleted_c: false).distinct.order(priority: :desc)       
     
     #@products = Product.all.where(available_c: true, deleted_c: false).order(priority: :desc)
   end
