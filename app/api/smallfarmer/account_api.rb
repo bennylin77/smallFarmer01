@@ -14,7 +14,9 @@ module Smallfarmer
         user = User.find_for_authentication(email: params[:email])         
         if user && user.valid_password?(params[:password])
           # expired?
-          if user.expired? or user.authentication_token.blank?
+          if user.authentication_token.blank?
+            user.reset_authentication_token
+          elsif user.expired?
             user.reset_authentication_token
           end  
           # device

@@ -4,7 +4,9 @@
 		<div class="row intro-text">
 	        <div class="col-md-12">
 	        	<!--<div class="intro-lead-in">歡迎光臨！</div>-->
-	            <div class="intro-heading">讓我們一起，從源頭找回安心</div>
+	            <div class="intro-heading">
+	            	讓我們一起，從源頭找回安心           
+	            </div>
 	            <!--
 	    		<div class="hidden-sm hidden-md hidden-lg promote_middle" style="background: #eeefe9; border-radius: 0px; width: 150px; margin: 0px auto; color: #000000; padding: 10px;">
    					<a href="https://www.smallfarmer01.com/main/fruits">			   		
@@ -24,9 +26,15 @@
  		  		<%end%>
             </div>-->    	
         	<div class="col-sm-offset-3 col-sm-6 col-md-offset-4 col-md-4">
-            	<%=link_to '/main/serviceIntro', class: 'intro-nav-button_1' do%>
+            	<%=link_to '/main/serviceIntro' do%>
+            	<div class="intro-nav-button_1">
             		免費上架
-            	<%end%>        		
+            	  <span class="l1"></span>
+				  <span class="l2"></span>
+				  <span class="l3"></span>
+				  <span class="l4"></span>
+				</div> 	 
+            	<%end%>    
             </div>    	
     	</div>	
     </div>
@@ -52,7 +60,7 @@
     </section>     
 <!-- Services Section -->    
     <section class="fruit_section" style="background: #f8f8f8">
-        <div class="container-fluid">
+        <div class="container">
             <div class="row text-center">
                 <div class="col-sm-4 fruit_section_container_1">
                     <div class="fruit_section_image" style="background-image: url(<%=asset_path 'index/2015_10_3_2.jpg'%>);">
@@ -155,8 +163,19 @@ $(document).ready(function($) {
 	});		
 	// init controller
 	controller = new ScrollMagic.Controller({globalSceneOptions: {triggerHook: 0.5}});    
+    //border
     
-    
+	var tween = new TimelineLite();
+	tween.fromTo(".l1", 1, {height:0, ease: Linear.easeNone}, {height:50, ease: Linear.easeNone})
+		 .fromTo(".l2", 4, {width:0, ease: Linear.easeNone}, {width:185, ease: Linear.easeNone})
+	  	 .fromTo(".l3", 1, {height:0, ease: Linear.easeNone}, {height:50, ease: Linear.easeNone})
+	  	 .fromTo(".l4", 1, {width:0, ease: Linear.easeNone}, {width:185, ease: Linear.easeNone})
+	
+	tween.timeScale(5) //play faster     
+	new ScrollMagic.Scene({triggerElement: ".farmer_video_container"})
+						  .setTween(tween)
+						  .addTo(controller) 
+    //circle
 	new ScrollMagic.Scene({triggerElement: ".first_section"})
 						  .setTween(TweenMax.from(".yellow_circle", 0.6, {top: "100", ease: Linear.easeNone}))
 						  .addTo(controller) 
