@@ -12,11 +12,11 @@
             <span class="icon-bar"></span>
           </button>
  		  <%=link_to root_url, class: 'navbar-brand' do%>
-			<%=image_tag 'smallfarmer01.png', style: 'height: 30px; margin-top: -5px;' %>
+			<%=image_tag 'smallfarmer01.png'%>
 		  <%end%>        
         </div>
         <div id="navbar" class="navbar-collapse collapse">   
-          <ul class="nav navbar-nav hidden-xs">
+          <ul class="nav navbar-nav text-nav" style="margin-top: 20px;">
             <li><%= link_to '訂單', {controller: 'management', action: 'invoices', paid_c: true}, style: "font-size: 17px; color: #536132;" %></li>
             <li><%= link_to '出貨單', {controller: 'management', action: 'orders', called_smallfarmer_c: false, called_logistics_c: false}, style: "font-size: 17px; color: #536132;" %></li>            
             <li><%= link_to '配送單', {controller: 'management', action: 'shipments', delivered_c: false}, style: "font-size: 17px; color: #536132;" %></li>                                    

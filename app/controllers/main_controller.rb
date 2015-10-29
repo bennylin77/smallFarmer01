@@ -72,7 +72,7 @@ class MainController < ApplicationController
     @companies = Company.all       
   end
   
-  def fruits   
+  def products   
     @products = Product.all.where(available_c: true, deleted_c: false).order(priority: :desc)
   end
   

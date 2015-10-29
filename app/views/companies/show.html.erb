@@ -61,7 +61,7 @@
 	<% @company.products.where(available_c: true, deleted_c: false).each_slice(4) do |p|%> 
 		<div class="row">
 			<% p.each_with_index do |pp, index|%>
-				<%= render partial: "/main/fruit", locals: { fruit: pp, index: index, slice: 4 } %>
+				<%= render partial: "/main/product", locals: { product: pp, index: index, slice: 4 } %>
 			<%end%>	
 		</div>			
 	<%end%>		

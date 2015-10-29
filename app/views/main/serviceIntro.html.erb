@@ -91,7 +91,7 @@
 			<div class="service_intro_benefit_title">7</div>
 			<div class="service_intro_benefit_content text-left">
 				<div class="service_intro_benefit_bold">訂單、帳款一目了然</div>
-				<div class="service_intro_benefit_thin">我們體諒小農農忙時的辛勞，讓您不再為了整理訂單跟記帳煩惱。</div>
+				<div class="service_intro_benefit_thin">我們體諒小農種植時的辛勞，讓您不再為了整理訂單跟記帳煩惱。</div>
 			</div>
 		</div>
 		<div class="col-sm-6 text-center">
@@ -125,7 +125,7 @@
 		<div class="col-sm-4 text-center">
 			<div class="what_can_be_sold_title">符合小農1號產品販售政策的農產品</div>
 			<%=image_tag 'index/what_can_be_sold_3.png', class: "what_can_be_sold_img" %>
-			<div class="what_can_be_sold_content">按這邊看完整小農1號產品販售政策</div>						
+			<div class="what_can_be_sold_content"><%= link_to  '按這邊看完整小農1號產品販售政策', '',style: 'color: #808080; text-decoration: underline'%></div>						
 		</div>				
 	</div>		
 	<div id="section_cash_flow"></div>			
@@ -146,14 +146,14 @@
 			</div>
 			</div>
 			<div class="text-center">
-			<div class="service_intro_benefit_title service_intro_cash_flow_sub_title">1</div>
+			<div class="service_intro_benefit_title service_intro_cash_flow_sub_title">2</div>
 			<div class="service_intro_benefit_content text-left">
 				<div class="service_intro_benefit_bold service_intro_cash_flow_sub_bold">ATM轉帳付款</div>
 				<div class="service_intro_benefit_thin service_intro_cash_flow_sub_thin">以商品售價收取<%= (GLOBAL_VAR['CASH_FLOW_FEE']*100).to_i%>%金流處理費。</div>
 			</div>
 			</div>			
 			<div class="text-center">
-			<div class="service_intro_benefit_title service_intro_cash_flow_sub_title">2</div>
+			<div class="service_intro_benefit_title service_intro_cash_flow_sub_title">3</div>
 			<div class="service_intro_benefit_content text-left">
 				<div class="service_intro_benefit_bold service_intro_cash_flow_sub_bold">超商代碼付款</div>
 				<div class="service_intro_benefit_thin service_intro_cash_flow_sub_thin">超商代碼手續費<%= GLOBAL_VAR['ALLPAY_CVS_FEE']%>元由買家負擔。</div>

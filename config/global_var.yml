@@ -84,7 +84,10 @@ defaults: &defaults
   
   KEYWORD_UNDEFINED: 0
   KEYWORD_FRUITS: 1  
-  
+  KEYWORD_VEGETABLES: 2    
+  KEYWORD_GRAINS: 3  
+  KEYWORD_PROCESSED: 4  
+     
   
 development:
   <<: *defaults

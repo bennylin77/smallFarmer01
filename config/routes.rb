@@ -44,7 +44,7 @@ Rails.application.routes.draw do
   get    'main/typeaheadSource'
   get    'main/index'  
   get    'main/search'
-  get    'main/fruits'
+  get    'main/products'
   get    'main/farms' 
   get    'main/about'   
   get    'main/getFruitsAndFarms'  
