@@ -46,6 +46,12 @@ module ProductsHelper
      ['A+B+C = 61公分~90公分 (一箱'+GLOBAL_VAR['SHIPPING_RATES_SECOND'].to_s+'元，兩箱以上每箱'+GLOBAL_VAR['BARGAIN_SHIPPING_RATES_SECOND'].to_s+'元)', GLOBAL_VAR['BOX_SIZE_SECOND']], 
      ['A+B+C = 91公分~120公分 (一箱'+GLOBAL_VAR['SHIPPING_RATES_THIRD'].to_s+'元，兩箱以上無折扣)', GLOBAL_VAR['BOX_SIZE_THIRD']]]
   end
+
+  def boxSizeWithoutNotationOptions
+    [['60公分以下', GLOBAL_VAR['BOX_SIZE_FIRST']], 
+     ['61公分~90公分', GLOBAL_VAR['BOX_SIZE_SECOND']], 
+     ['91公分~120公分', GLOBAL_VAR['BOX_SIZE_THIRD']]]
+  end
   
   def unitOptions
     [['台斤', GLOBAL_VAR['UNIT_CATTY']], 

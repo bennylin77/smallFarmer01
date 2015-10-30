@@ -24,24 +24,63 @@
       </Row>
     <% @orders.each do |o|%>
       <%o.shipments.each do |s|%>
-      	  <%for i in 1..(s.quantity)%>
-	      <Row>
-	        <Cell><Data ss:Type="String"><%= s.id%>_<%= i%></Data></Cell>     	
-	        <Cell><Data ss:Type="String"><%= o.cold_chain.to_i%></Data></Cell>
-			<Cell><Data ss:Type="String">N</Data></Cell>    
-			<Cell><Data ss:Type="String"><%= s.receiver_address.last_name %><%=s.receiver_address.first_name %></Data></Cell>
-	        <Cell><Data ss:Type="String"><%= s.receiver_address.phone_no.gsub(/^\+886/, '0') %></Data></Cell>
-	        <Cell><Data ss:Type="String"><%= s.receiver_address.phone_no.gsub(/^\+886/, '0') %></Data></Cell>
-	        <Cell><Data ss:Type="String"><%= s.receiver_address.postal %><%= s.receiver_address.county %><%= s.receiver_address.district %><%= s.receiver_address.address %></Data></Cell>    
-			<Cell><Data ss:Type="String"><%= o.product_boxing.product.company.name%></Data></Cell>
-			<Cell><Data ss:Type="String"><%= o.product_boxing.product.company.phone_no.gsub(/^\+886/, '0')%></Data></Cell>
-			<Cell><Data ss:Type="String"><%= o.product_boxing.product.company.phone_no.gsub(/^\+886/, '0')%></Data></Cell>
-			<Cell><Data ss:Type="String"><%= o.product_boxing.product.company.postal %><%= o.product_boxing.product.company.county %><%= o.product_boxing.product.company.district %><%= o.product_boxing.product.company.address %></Data></Cell>    
-			<Cell><Data ss:Type="String">4</Data></Cell>    
-			<Cell><Data ss:Type="String"><%= o.product_boxing.product.name%></Data></Cell>
-			<Cell><Data ss:Type="String"></Data></Cell>	 
-		  </Row>	
-		  <%end%>   
+			<%if o.size != GLOBAL_VAR['BOX_SIZE_THIRD']%>
+	      	  <%for i in 1..(s.quantity / 2 )%>
+		      <Row>
+		        <Cell><Data ss:Type="String"><%= s.id%>_<%= i%></Data></Cell>     	
+		        <Cell><Data ss:Type="String"><%= o.cold_chain.to_i%></Data></Cell>
+				<Cell><Data ss:Type="String">N</Data></Cell>    
+				<Cell><Data ss:Type="String"><%= s.receiver_address.last_name %><%=s.receiver_address.first_name %></Data></Cell>
+		        <Cell><Data ss:Type="String"><%= s.receiver_address.phone_no.gsub(/^\+886/, '0') %></Data></Cell>
+		        <Cell><Data ss:Type="String"><%= s.receiver_address.phone_no.gsub(/^\+886/, '0') %></Data></Cell>
+		        <Cell><Data ss:Type="String"><%= s.receiver_address.postal %><%= s.receiver_address.county %><%= s.receiver_address.district %><%= s.receiver_address.address %></Data></Cell>    
+				<Cell><Data ss:Type="String"><%= o.product_boxing.product.company.name%></Data></Cell>
+				<Cell><Data ss:Type="String"><%= o.product_boxing.product.company.phone_no.gsub(/^\+886/, '0')%></Data></Cell>
+				<Cell><Data ss:Type="String"><%= o.product_boxing.product.company.phone_no.gsub(/^\+886/, '0')%></Data></Cell>
+				<Cell><Data ss:Type="String"><%= o.product_boxing.product.company.postal %><%= o.product_boxing.product.company.county %><%= o.product_boxing.product.company.district %><%= o.product_boxing.product.company.address %></Data></Cell>    
+				<Cell><Data ss:Type="String">4</Data></Cell>    
+				<Cell><Data ss:Type="String"><%= o.product_boxing.product.name%><%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %></Data></Cell>
+				<Cell><Data ss:Type="String">2箱綁在一起</Data></Cell>	 
+			  </Row>	
+			  <%end%>  
+			  <%if ( s.quantity % 2 ) == 1%>	
+		      <Row>
+		        <Cell><Data ss:Type="String"><%= s.id%>_<%= ( s.quantity / 2 )+1%></Data></Cell>     	
+		        <Cell><Data ss:Type="String"><%= o.cold_chain.to_i%></Data></Cell>
+				<Cell><Data ss:Type="String">N</Data></Cell>    
+				<Cell><Data ss:Type="String"><%= s.receiver_address.last_name %><%=s.receiver_address.first_name %></Data></Cell>
+		        <Cell><Data ss:Type="String"><%= s.receiver_address.phone_no.gsub(/^\+886/, '0') %></Data></Cell>
+		        <Cell><Data ss:Type="String"><%= s.receiver_address.phone_no.gsub(/^\+886/, '0') %></Data></Cell>
+		        <Cell><Data ss:Type="String"><%= s.receiver_address.postal %><%= s.receiver_address.county %><%= s.receiver_address.district %><%= s.receiver_address.address %></Data></Cell>    
+				<Cell><Data ss:Type="String"><%= o.product_boxing.product.company.name%></Data></Cell>
+				<Cell><Data ss:Type="String"><%= o.product_boxing.product.company.phone_no.gsub(/^\+886/, '0')%></Data></Cell>
+				<Cell><Data ss:Type="String"><%= o.product_boxing.product.company.phone_no.gsub(/^\+886/, '0')%></Data></Cell>
+				<Cell><Data ss:Type="String"><%= o.product_boxing.product.company.postal %><%= o.product_boxing.product.company.county %><%= o.product_boxing.product.company.district %><%= o.product_boxing.product.company.address %></Data></Cell>    
+				<Cell><Data ss:Type="String">4</Data></Cell>    
+				<Cell><Data ss:Type="String"><%= o.product_boxing.product.name%><%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %></Data></Cell>
+				<Cell><Data ss:Type="String">1箱單獨</Data></Cell>	 
+			  </Row>	
+			  <%end%>		  				
+    		<%else%>
+	      	  <%for i in 1..s.quantity%>
+		      <Row>
+		        <Cell><Data ss:Type="String"><%= s.id%>_<%= i%></Data></Cell>     	
+		        <Cell><Data ss:Type="String"><%= o.cold_chain.to_i%></Data></Cell>
+				<Cell><Data ss:Type="String">N</Data></Cell>    
+				<Cell><Data ss:Type="String"><%= s.receiver_address.last_name %><%=s.receiver_address.first_name %></Data></Cell>
+		        <Cell><Data ss:Type="String"><%= s.receiver_address.phone_no.gsub(/^\+886/, '0') %></Data></Cell>
+		        <Cell><Data ss:Type="String"><%= s.receiver_address.phone_no.gsub(/^\+886/, '0') %></Data></Cell>
+		        <Cell><Data ss:Type="String"><%= s.receiver_address.postal %><%= s.receiver_address.county %><%= s.receiver_address.district %><%= s.receiver_address.address %></Data></Cell>    
+				<Cell><Data ss:Type="String"><%= o.product_boxing.product.company.name%></Data></Cell>
+				<Cell><Data ss:Type="String"><%= o.product_boxing.product.company.phone_no.gsub(/^\+886/, '0')%></Data></Cell>
+				<Cell><Data ss:Type="String"><%= o.product_boxing.product.company.phone_no.gsub(/^\+886/, '0')%></Data></Cell>
+				<Cell><Data ss:Type="String"><%= o.product_boxing.product.company.postal %><%= o.product_boxing.product.company.county %><%= o.product_boxing.product.company.district %><%= o.product_boxing.product.company.address %></Data></Cell>    
+				<Cell><Data ss:Type="String">4</Data></Cell>    
+				<Cell><Data ss:Type="String"><%= o.product_boxing.product.name%><%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %></Data></Cell>
+				<Cell><Data ss:Type="String">1箱單獨</Data></Cell>	 
+			  </Row>	
+			  <%end%> 		
+    		<%end%>
       <%end%>	
     <% end %>
     </Table>

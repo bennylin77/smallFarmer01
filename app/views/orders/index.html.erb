@@ -13,7 +13,7 @@
 <div class="table-responsive">
 <table class="table table-bordered table-hover">
   <tr>
-	<th>
+	<th style="min-width: 220px;">
 		<ul>
 		  <li>15:30以前通知，<span class="text-danger">隔</span>天物流車會到農場登記地址取貨</li>
 		  <li>15:30以後通知，<span class="text-danger">後</span>天物流車會到農場登記地址取貨</li>		  
@@ -21,7 +21,7 @@
 	</th>   	
     <th style="min-width: 75px;">出貨編號</th>  			          	
 	<th>品項</th>  
-	<th style="min-width: 120px;">出貨數量</th>	
+	<th style="min-width: 75px;">出貨數量</th>	
 	<th style="min-width: 110px;">金額</th>	
     <th>配送明細</th>            
   </tr>
@@ -43,20 +43,39 @@
 				<%= image_tag o.product_boxing.product.cover.url(:medium), class: 'img-circle backend_fruits_img' %>			
 		        </div>
 		    <%end%> 	
-    		<div class="text-center"><%= o.product_boxing.product.name%></div>           	
+    		<div class="text-center"><%= o.product_boxing.product.name%><%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %></div>           	
         <%end%>   	
     </td>    
-    <td><%if o.gift_wrapping_c%><span class="text-danger">禮盒裝</span><%end%><%= o.quantity %>箱 (<%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %>/箱)</td>      
+    <td>
+    	<%if o.gift_wrapping_c%><span class="text-danger">禮盒裝</span><%end%>
+		<span class="text-danger"><%= o.quantity %>箱</span>
+    </td>      
     <td><%= o.price.to_i + o.shipping_rates.to_i %>元(含運)</td>    	      
 	<td>
       <table class="table table-striped">     
-		<tr>				
-		    <td style="min-width: 70px;">收件人</td>
-		    <td style="min-width: 70px;">數量</td>			    
-		    <th>狀態</th>								    			           
+		<tr>
+			<td style="min-width: 185px;">內容物</td>				
+		    <td style="min-width: 170px;">收件人</td>
+		    <td style="min-width: 170px;">狀態</td>								    			           
 	  	</tr>  
 		<%o.shipments.each do |s|%>
 		<tr>
+		  <td>
+		  	<ul class="list-unstyled">
+		  	  <%if o.size != GLOBAL_VAR['BOX_SIZE_THIRD']%>
+	      	  	<%for i in 1..(s.quantity / 2 )%>
+					<li><strong class="text-danger"><%= s.id%>_<%= i%></strong> <small class="text-muted">2箱<%= Hash[boxSizeWithoutNotationOptions].rassoc(o.size).first%>綁一起</small></li>
+				<%end%>  
+			  	<%if ( s.quantity % 2 ) == 1%>	
+					<li><strong class="text-danger"><%= s.id%>_<%= ( s.quantity / 2 )+1%></strong> <small class="text-muted">1箱<%= Hash[boxSizeWithoutNotationOptions].rassoc(o.size).first%></small></li>	  	
+			  	<%end%>			  	
+		  	  <%else%>
+	      	  	<%for i in 1..s.quantity%>
+					<li><strong class="text-danger"><%= s.id%>_<%= i%></strong> <small class="text-muted">1箱<%= Hash[boxSizeWithoutNotationOptions].rassoc(o.size).first%></small></li>
+				<%end%> 		  	  
+		  	  <%end%>	
+		  	</ul> 	  	
+		  </td>		
           <td>  
           	<%receiver_address = s.receiver_address %>
           	<div><%=receiver_address.last_name %> <%=receiver_address.first_name %></div>
@@ -68,8 +87,7 @@
 	          	<%= receiver_address.phone_no.gsub(/^\+886/, '0') %>		          	
 	          	<%end%> 			
  			</div>         
-          </td>
-          <td><%=s.quantity%>箱</td> 			      		            
+          </td>			      		            
 		  <td>
 			<div class="text-center"><%= o.created_at.strftime("%Y-%m-%d %H:%M:%S") %><br>建立出貨單</div>					
 			<div class="text-center">&darr;</div>				
