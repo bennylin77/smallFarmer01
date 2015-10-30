@@ -77,7 +77,7 @@
 				<Cell><Data ss:Type="String"><%= o.product_boxing.product.company.postal %><%= o.product_boxing.product.company.county %><%= o.product_boxing.product.company.district %><%= o.product_boxing.product.company.address %></Data></Cell>    
 				<Cell><Data ss:Type="String">4</Data></Cell>    
 				<Cell><Data ss:Type="String"><%= o.product_boxing.product.name%><%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %></Data></Cell>
-				<Cell><Data ss:Type="String">1箱單獨</Data></Cell>	 
+				<Cell><Data ss:Type="String"></Data></Cell>	 
 			  </Row>	
 			  <%end%> 		
     		<%end%>
