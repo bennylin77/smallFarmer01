@@ -57,15 +57,13 @@
 	<td>
       <table class="table table-striped">     
 		<tr>
-			<td style="min-width: 70px;">配送編號</td>	
-			<td style="min-width: 250px;">內容物</td>								
+			<td style="min-width: 185px;">內容物</td>								
 		    <td style="width: 200px;">收件人</td>
 		    <td class="text-center">狀態</th>	
-		    <th>處理備註</th>							    			           
+		    <td>處理備註</td>							    			           
 	  	</tr>  
 		<%o.shipments.each do |s|%>		
 		<tr>
-		  <td><%= s.id%></td>
 		  <td>
 		  	<ul class="list-unstyled">
 		  	  <%if o.size != GLOBAL_VAR['BOX_SIZE_THIRD']%>
@@ -88,7 +86,6 @@
  			<div><%=receiver_address.postal %><%=receiver_address.county %><%=receiver_address.district %><%=receiver_address.address %></div>
  		  	<div><%=receiver_address.phone_no.gsub(/^\+886/, '0') %></div>         	
           </td>
-          <td><%=s.quantity%>箱</td> 			      		            
 		  <td>
 			<div class="text-center"><%= o.created_at.strftime("%Y-%m-%d %H:%M:%S") %><br>建立<%if o.preorder_c%><span class="text-danger">預購</span><%end%>出貨單</div>					
 			<div class="text-center">&darr;</div>				
