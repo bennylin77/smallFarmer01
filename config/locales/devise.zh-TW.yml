@@ -3,7 +3,7 @@ zh-TW:
   devise:
     confirmations:
       confirmed: "已成功認證您的電子信箱"
-      send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
+      send_instructions: "認證連結已寄到您的電子信箱，請收信並進行認證"
       send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes."
     failure:
       already_authenticated: "您已經登入"

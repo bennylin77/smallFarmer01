@@ -46,10 +46,10 @@
 				<%= image_tag o.product_boxing.product.product_images.first.image.url, class: 'img-circle backend_fruits_img' %>			
 		        </div>
 		    <%end%> 	
-    		<div class="text-center"><%= o.product_boxing.product.name%></div>           	
+    		<div class="text-center"><%= o.product_boxing.product.name%><%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %></div>           	
         <%end%>   	
     </td>       
-	<td><%if o.gift_wrapping_c%><span class="text-danger">禮盒裝</span><%end%><%= o.quantity %>箱 (<%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %>/箱)</td>      
+	<td><%if o.gift_wrapping_c%><span class="text-danger">禮盒裝</span><%end%><%= o.quantity %>箱</td>      
     <td><%= o.price.to_i + o.shipping_rates.to_i %>元(含運)</td>    	      
 	<td>
       <table class="table table-striped">     

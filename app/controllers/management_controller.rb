@@ -33,9 +33,14 @@ class ManagementController < ApplicationController
   def exportOrders  
     unless params[:selected_orders].blank?
       @orders = []
+      
       params[:selected_orders].each do |o|
         @orders << Order.find(o)
       end
+      
+      
+      
+      
       time_str = Time.zone.now.strftime("%Y%m%d%H%M")    
       respond_to do |format|
          format.xls{
