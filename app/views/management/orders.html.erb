@@ -49,20 +49,39 @@
     		<div class="text-center"><%= o.product_boxing.product.name%><%="%g" % o.product_boxing.quantity%><%= Hash[unitOptions].rassoc(o.product_boxing.product.unit).first %></div>           	
         <%end%>   	
     </td>       
-	<td><%if o.gift_wrapping_c%><span class="text-danger">禮盒裝</span><%end%><%= o.quantity %>箱</td>      
+    <td>
+    	<%if o.gift_wrapping_c%><span class="text-danger">禮盒裝</span><%end%>
+		<span class="text-danger"><%= o.quantity %>箱</span>
+    </td>     
     <td><%= o.price.to_i + o.shipping_rates.to_i %>元(含運)</td>    	      
 	<td>
       <table class="table table-striped">     
 		<tr>
-			<td style="min-width: 70px;">配送編號</td>							
+			<td style="min-width: 70px;">配送編號</td>	
+			<td style="min-width: 250px;">內容物</td>								
 		    <td style="width: 200px;">收件人</td>
-		    <td style="min-width: 20px;">數量</td>			    
 		    <td class="text-center">狀態</th>	
 		    <th>處理備註</th>							    			           
 	  	</tr>  
 		<%o.shipments.each do |s|%>		
 		<tr>
-		  <td><%= s.id%></td>				
+		  <td><%= s.id%></td>
+		  <td>
+		  	<ul class="list-unstyled">
+		  	  <%if o.size != GLOBAL_VAR['BOX_SIZE_THIRD']%>
+	      	     <%for i in 1..(s.quantity / 2 )%>
+				   	<li><strong class="text-danger"><%= s.id%>_<%= i%></strong> <small class="text-muted">2箱<%= Hash[boxSizeWithoutNotationOptions].rassoc(o.size).first%>綁一起</small></li>
+				  <%end%>  
+			  	  <%if ( s.quantity % 2 ) == 1%>	
+					<li><strong class="text-danger"><%= s.id%>_<%= ( s.quantity / 2 )+1%></strong> <small class="text-muted">1箱<%= Hash[boxSizeWithoutNotationOptions].rassoc(o.size).first%></small></li>	  	
+			  	  <%end%>	
+			  <%else%>			  	
+		      	  <%for i in 1..s.quantity%>
+					<li><strong class="text-danger"><%= s.id%>_<%= i%></strong> <small class="text-muted">1箱<%= Hash[boxSizeWithoutNotationOptions].rassoc(o.size).first%></small></li>
+				  <%end%> 
+			  <%end%>
+		  	</ul> 		  			  	
+		  </td>				
           <td>  
           	<%receiver_address = s.receiver_address %>
           	<div><%=receiver_address.last_name %> <%=receiver_address.first_name %></div>

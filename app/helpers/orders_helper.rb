@@ -91,19 +91,25 @@ module OrdersHelper
        end 
     end
   end   
-  
+=begin  
   def shipmentNo(shipment)
     box_size = shipment.order.size.to_i
     result = ''
     case box_size
     when GLOBAL_VAR['BOX_SIZE_FIRST']
-      for i in 0..(shipment.quantity / 2 )
-        result = result + shipment.id.to_s + '_'+(i+1).to_s+'<br>'
+      for i in 1..( shipment.quantity / 2 )
+        result = result + shipment.id.to_s + '_'+ i.to_s+'<br>'
       end
+      if ( shipment.quantity % 2 ) == 1
+        result = result + shipment.id.to_s + '_'+(( shipment.quantity / 2 )+1).to_s+'<br>'   
+      end     
     when GLOBAL_VAR['BOX_SIZE_SECOND']
-      for i in 0..(shipment.quantity / 2 )
-        result = result + shipment.id.to_s + '_'+(i+1).to_s+'<br>'
+      for i in 1..( shipment.quantity / 2 )
+        result = result + shipment.id.to_s + '_'+ i.to_s+'<br>'
       end
+      if ( shipment.quantity % 2 ) == 1
+        result = result + shipment.id.to_s + '_'+(( shipment.quantity / 2 )+1).to_s+'<br>'   
+      end         
     when GLOBAL_VAR['BOX_SIZE_THIRD']
       for i in 1..shipment.quantity
         result = result + shipment.id.to_s + '_'+(i).to_s+'<br>'
@@ -111,5 +117,5 @@ module OrdersHelper
     end  
     result.html_safe     
   end  
-   
+=end   
 end

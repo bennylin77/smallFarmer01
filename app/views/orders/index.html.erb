@@ -21,7 +21,7 @@
 	</th>   	
     <th style="min-width: 75px;">出貨編號</th>  			          	
 	<th>品項</th>  
-	<th style="min-width: 120px;">出貨</th>	
+	<th style="min-width: 120px;">出貨數量</th>	
 	<th style="min-width: 110px;">金額</th>	
     <th>配送明細</th>            
   </tr>
@@ -48,28 +48,33 @@
     </td>    
     <td>
     	<%if o.gift_wrapping_c%><span class="text-danger">禮盒裝</span><%end%>
-    	<dl>
-		  <dt>數量</dt>
-		  <dd class="text-danger"><%= o.quantity %>箱</dd>
-		  <dt>運送方式</dt>
-		  <dd><%= Hash[tempOptions].rassoc(o.cold_chain).first%>運送</dd>
-		  <dt>材積</dt>
-		  <dd><%= Hash[boxSizeWithoutNotationOptions].rassoc(o.size).first%></dd>		  		  
-		</dl>
+		<span class="text-danger"><%= o.quantity %>箱</span>
     </td>      
     <td><%= o.price.to_i + o.shipping_rates.to_i %>元(含運)</td>    	      
 	<td>
       <table class="table table-striped">     
 		<tr>
-			<td style="min-width: 90px;">物流編號</td>				
+			<td style="min-width: 250px;">內容物</td>				
 		    <td style="min-width: 70px;">收件人</td>
-		    <td style="min-width: 70px;">數量</td>			    
 		    <th>狀態</th>								    			           
 	  	</tr>  
 		<%o.shipments.each do |s|%>
 		<tr>
 		  <td>
-		  	<%= shipmentNo s%>
+		  	<ul class="list-unstyled">
+		  	  <%if o.size != GLOBAL_VAR['BOX_SIZE_THIRD']%>
+	      	  	<%for i in 1..(s.quantity / 2 )%>
+					<li><strong class="text-danger"><%= s.id%>_<%= i%></strong> <small class="text-muted">2箱<%= Hash[boxSizeWithoutNotationOptions].rassoc(o.size).first%>綁一起</small></li>
+				<%end%>  
+			  	<%if ( s.quantity % 2 ) == 1%>	
+					<li><strong class="text-danger"><%= s.id%>_<%= ( s.quantity / 2 )+1%></strong> <small class="text-muted">1箱<%= Hash[boxSizeWithoutNotationOptions].rassoc(o.size).first%></small></li>	  	
+			  	<%end%>			  	
+		  	  <%else%>
+	      	  	<%for i in 1..s.quantity%>
+					<li><strong class="text-danger"><%= s.id%>_<%= i%></strong> <small class="text-muted">1箱<%= Hash[boxSizeWithoutNotationOptions].rassoc(o.size).first%></small></li>
+				<%end%> 		  	  
+		  	  <%end%>	
+		  	</ul> 	  	
 		  </td>		
           <td>  
           	<%receiver_address = s.receiver_address %>
@@ -82,8 +87,7 @@
 	          	<%= receiver_address.phone_no.gsub(/^\+886/, '0') %>		          	
 	          	<%end%> 			
  			</div>         
-          </td>
-          <td><%=s.quantity%>箱</td> 			      		            
+          </td>			      		            
 		  <td>
 			<div class="text-center"><%= o.created_at.strftime("%Y-%m-%d %H:%M:%S") %><br>建立出貨單</div>					
 			<div class="text-center">&darr;</div>				
