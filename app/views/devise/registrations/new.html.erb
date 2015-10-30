@@ -21,11 +21,14 @@
 	<div class="row">
 		<div class="col-sm-offset-3 col-sm-6 col-lg-offset-4 col-lg-4">	
 			<div class="text-center" style="font-size: 26px;">註冊新帳號</div>
-			<p class="text-center">您已經擁有小農1號的帳號? 請按此 
+			<p class="text-center">已有小農1號的帳號? 請按此 
 			<%- if controller_name != 'sessions' %>
-			  <%= link_to "登入", new_session_path(resource_name) %><br />
-			<% end -%>
-			</p>			
+			  <%= link_to "登入", new_session_path(resource_name) %>
+			<% end -%> 或
+			<%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
+  			  <%= link_to "重寄認證連結", new_confirmation_path(resource_name) %><br />
+			<% end -%>						
+			</p>	
 		</div>
 	</div>		
 	<div class="row">
