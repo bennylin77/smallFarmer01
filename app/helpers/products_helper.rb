@@ -56,6 +56,7 @@ module ProductsHelper
   def unitOptions
     [['台斤', GLOBAL_VAR['UNIT_CATTY']], 
      ['公斤', GLOBAL_VAR['UNIT_KG']],
+     ['毫升', GLOBAL_VAR['UNIT_ML']],
      ['顆', GLOBAL_VAR['UNIT_STAR']],
      ['包', GLOBAL_VAR['UNIT_BAO']],
      ['罐', GLOBAL_VAR['UNIT_CAN']]]
