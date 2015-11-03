@@ -9,7 +9,7 @@
 				<% count = count + Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ?', p.product_boxings.first.id, true ).sum(:quantity) %>
 				<%end%>
 				<div class="keyword_statistics">本站共<%= keyword.products.size %>項 <%= keyword.content %> 商品</div>
-				<div>總共賣出 <span class="keyword_delicious_sum" data-count="<%= count %>"></span> 箱</div>		
+				<!--<div>總共賣出 <span class="keyword_delicious_sum" data-count="<%= count %>"></span> 箱</div>-->		
 			</div>
 			<%= simple_format(keyword.description,
 			{class: 'keyword_description text-left'}, wrapper_tag: "div") %>	    	    

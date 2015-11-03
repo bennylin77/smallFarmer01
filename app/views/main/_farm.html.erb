@@ -7,9 +7,11 @@
 	<%= link_to farm do%>
 		<div class="farm_index_image_container" style="background-image: url('<%=farm.cover.url%>')">
 		<%=image_tag farm.user.avatar.url, class: 'img-circle farm_index_avatar'%>					
+		<!--
 		<div class="farm_index_delicious_container">
 			<span class="farm_index_delicious_sum"><%= farmSumOfDeliciousAndTasty(farm)%></span>人說好吃
-		</div> 						
+		</div> 	
+		-->					
 		</div>	 
 		<div class="farm_index_name"><%= farm.name %></div>						   
 		<div class="farm_index_location"><%= farm.county %><%= farm.district %></div>
