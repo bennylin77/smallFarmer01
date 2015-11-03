@@ -1,4 +1,7 @@
 <%if @keyword%>
+	<% content_for :title do %>
+	    <title><%= @keyword.content %></title>  
+	<% end %>
 	<%= render partial: "keyword", locals: { keyword: @keyword, products: @products } %>
 <%elsif @all%>
 	<div class="container-fluid main_frontend" style="padding-top: 40px;"><br>
