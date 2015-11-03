@@ -71,17 +71,21 @@
 		      <div class="hidden-md hidden-lg col-xs-12 text-center">    	
 		        <div class="product_name" itemprop="name"><%if @product.released_at%><%if @product.released_at > Time.zone.now %>[預購]<%end%><%end%><%= @product.name %></div>
 		        <div class="product_excellent">
+		        	<!--
 		        	<span class="product_excellent_no" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL ', @product.id, GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count+Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL ', @product.id, GLOBAL_VAR['ORDER_REVIEW_TASTY']).count %>'>0</span>
 		        	<span class="product_excellent_text">人說好吃</span>
 					<span><%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and invoices.confirmed_c = ? and review_at IS NULL', @product.id, true).count%>人未評</span>		        
+		        	-->
 		        </div>		      
 		      </div>		      		      
 		    </div>	
 			<div class="row hidden-xs hidden-sm ">
 		      <div class="col-md-8 product_excellent text-left">
-		        		<span class="product_excellent_no" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL', @product.id, GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count+Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL ', @product.id, GLOBAL_VAR['ORDER_REVIEW_TASTY']).count %>'>0</span>
-		        		<span class="product_excellent_text"> 人說好吃</span>
-		        		<span><%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and invoices.confirmed_c = ? and review_at IS NULL', @product.id, true).count%>人未評</span>
+		      		<!--
+		        	<span class="product_excellent_no" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL', @product.id, GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count+Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL ', @product.id, GLOBAL_VAR['ORDER_REVIEW_TASTY']).count %>'>0</span>
+		        	<span class="product_excellent_text"> 人說好吃</span>
+		        	<span><%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and invoices.confirmed_c = ? and review_at IS NULL', @product.id, true).count%>人未評</span>
+		     		-->
 		      </div>					
 		      <div class="col-md-3 text-right" style="margin-top: 20px;">
 				<div class="fb-share-button" data-href="<%=Rails.configuration.smallfarmer01_host%>/products/<%=@product.id%>" data-layout="button_count"></div>		      
