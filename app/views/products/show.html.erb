@@ -21,7 +21,7 @@
 	</div>		
 	<ol class="breadcrumb hidden-xs" style="margin-top: 20px;">
 	  <li><%= link_to '首頁', root_url %></li>
-	  <li><%= link_to '合作小農', controller: 'main', action: 'farms'%></li>
+	  <li><%= link_to '各地小農', controller: 'main', action: 'farms'%></li>
 	  <li>
 	  	<a href="/companies/<%=@product.company.id %>">
 	  		<%unless @product.company.county.blank?%>
@@ -550,4 +550,25 @@ function countTotalPrice(q){
 $('#quantity').change(function(){
    countTotalPrice($('#quantity').val())
 });	
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "item": {
+      "@id": "<%=Rails.configuration.smallfarmer01_host%>/main/farms",
+      "name": "各地小農"
+    }
+  },{
+    "@type": "ListItem",
+    "position": 2,
+    "item": {
+      "@id": "<%=Rails.configuration.smallfarmer01_host%>/companies/<%=@product.company.id %>",
+      "name": "<%=@product.company.name%>"
+    }
+  }]
+}
 </script>
