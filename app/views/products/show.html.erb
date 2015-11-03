@@ -10,7 +10,7 @@
 <%if @product.inventory%>
 	<% inventory = @product.inventory - Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', @product.product_boxings.first.id, false, Time.zone.now ).sum(:quantity) %>		
 <%end%>	
-<div class="container-fluid" style="margin-bottom: 50px;">
+<div class="container-fluid" itemscope itemtype="http://schema.org/Product" style="margin-bottom: 50px;">
 	<div class="row" style="">
 		<div id="parallax1" class="product_cover_parallax_parent">
 			<div style="background-image: url('<%=@product.cover.url%>'); background-size: cover; background-position: center center;"></div>
@@ -45,7 +45,7 @@
 				<div class="visible-xs-block col-xs-12 product_farm_words">		
 					<div class="row">
 						<div class="col-xs-12 text-center">					
-							<%= image_tag @product.company.user.avatar.url, class: 'img-circle product_farm_words_avatar', style: '' %>		
+							<%= image_tag @product.company.user.avatar.url, class: 'img-circle product_farm_words_avatar', style: '',  itemprop: "image" %>		
 						</div>
 						<%= link_to @product.company do%>				
 							<div class="col-xs-12 product_farm_words_text">	
@@ -69,7 +69,7 @@
 		      	</div>
 		      </div>	      	
 		      <div class="hidden-md hidden-lg col-xs-12 text-center">    	
-		        <div class="product_name"><%if @product.released_at%><%if @product.released_at > Time.zone.now %>[預購]<%end%><%end%><%= @product.name %></div>
+		        <div class="product_name" itemprop="name"><%if @product.released_at%><%if @product.released_at > Time.zone.now %>[預購]<%end%><%end%><%= @product.name %></div>
 		        <div class="product_excellent">
 		        	<span class="product_excellent_no" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL ', @product.id, GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count+Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL ', @product.id, GLOBAL_VAR['ORDER_REVIEW_TASTY']).count %>'>0</span>
 		        	<span class="product_excellent_text">人說好吃</span>
@@ -258,7 +258,7 @@
 			<div class="row" style="">		
 				<div class="col-sm-offset-1 col-sm-10">
 					<div class="table-responsive">					
-						<table class="table	product_spec">								
+						<table class="table	product_spec" itemprop="offers" itemscope itemtype="http://schema.org/Offer">								
 							<tr>
 								<th>內容量</th>
 								<td>
@@ -272,6 +272,8 @@
 							<tr>
 								<th>平均售價</th>
 								<td>
+									<meta itemprop="priceCurrency" content="TWD" />
+									<meta itemprop="price" content="<%= priceWithShippingRates( product_boxing: @product.product_boxings.first, quantity: 1 )%>" />									
 									<%=number_with_delimiter( (priceWithShippingRates( product_boxing: @product.product_boxings.first, quantity: 1 )/@product.product_boxings.first.quantity).round(1), delimiter: ',')%> <span style="font-size: 80%">元/<%= Hash[unitOptions].rassoc(@product.unit).first %>(含運)
 								</td>
 								<th>檢驗標章</th>
@@ -287,9 +289,9 @@
 										 !@product.pesticide_zero_c%>尚未提供<%end%>
 								</td>															
 							</tr>
-							<tr>
+							<tr itemprop="seller" itemscope itemtype="http://schema.org/Organization">
 								<th>農場名稱</th>
-								<td>
+								<td itemprop="name">
 									<%=@product.company.name %>
 								</td>
 								<th>聯絡方式</th>
@@ -313,7 +315,7 @@
 			</div>						
 			<div class="row">		
 				<div class="col-sm-offset-1 col-sm-10">
-				<%= simple_format( @product.description, {class: 'product_description'}, wrapper_tag: "div")%>												
+				<%= simple_format( @product.description, {class: 'product_description', itemprop: "description"}, wrapper_tag: "div")%>												
 				</div>								
 			</div>	
 			<div class="row">		

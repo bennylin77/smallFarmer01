@@ -14,6 +14,7 @@ defaults: &defaults
   UNIT_BAO: 3  
   UNIT_CAN: 4   
   UNIT_ML: 5    
+  UNIT_G: 6    
   
   PAYMENT_METHOD_NO_NEED: 0  
   PAYMENT_METHOD_ALLPAY_CREDIT: 1
