@@ -29,19 +29,30 @@ ga('send', 'pageview');
 <script type="application/ld+json">
 //google search
 {
-   "@context": "http://schema.org",
-   "@type": "Organization",
-   "url": "https://www.smallfarmer01.com",
-   "logo": "<%= image_url 'logo_600x600_text.jpg'%>"
-}
-</script>
-<script type="application/ld+json">
-//google search
-{
   "@context" : "http://schema.org",
   "@type" : "WebSite",
   "name" : "小農1號",
   "alternateName" : "smallFarmer",
   "url" : "https://www.smallfarmer01.com"
+}
+</script>
+<script type="application/ld+json">
+//google search
+{
+   "@context": "http://schema.org",
+   "@type": "Organization",
+   "name" : "小農1號",   
+   "url": "https://www.smallfarmer01.com",
+   "logo": "<%= image_url 'logo_600x600_text.jpg'%>",
+   "sameAs" : [
+    "http://www.facebook.com/smallfarmer01",
+    "http://instagram.com/smallfarmer_inc",
+    "https://www.youtube.com/channel/UCzCKSxjUcOJwh-otfHhk1zQ"
+  	],
+   "contactPoint" : [{
+    "@type" : "ContactPoint",
+    "telephone" : "+886-2-8732-6786",
+    "contactType" : "customer service"
+  	}]
 }
 </script>
