@@ -1,5 +1,9 @@
 <head>
-  <title>小農1號，從源頭找回安心</title>
+  <% if content_for? :title %>
+  	<%= yield :title %>
+  <%else%>
+  <title>小農1號，從源頭找回安心</title>  
+  <%end%>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">	  
