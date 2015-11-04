@@ -3,18 +3,9 @@
 	<div class="container">
 		<div class="row intro-text">
 	        <div class="col-md-12">
-	        	<!--<div class="intro-lead-in">歡迎光臨！</div>-->
 	            <div class="intro-heading">
 	            	讓我們一起，從源頭找回安心           
 	            </div>
-	            <!--
-	    		<div class="hidden-sm hidden-md hidden-lg promote_middle" style="background: #eeefe9; border-radius: 0px; width: 150px; margin: 0px auto; color: #000000; padding: 10px;">
-   					<a href="https://www.smallfarmer01.com/main/fruits">			   		
-			   		<div style="color: #3e2008; margin-top: 0px; font-size: 20px;">開幕特惠</div>
-			   		<div style="color: #f7500a; margin-top: 0px; font-size: 25px;">9折</div>   
-			   		<div style="color: #3e2008; margin-top: 0px; font-size: 14px;">10/10~10/31</div> 
-			   		</a>
-	    		</div>-->
    				<a class="player" data-property="{videoURL:'https://youtu.be/M8R2Y13jadA',containment:'.farmer_video_container',autoPlay:true, mute:true, startAt:0, opacity:1, showControls:false}"></a>	    		
 	    	</div>
     	</div>
@@ -38,14 +29,6 @@
             </div>    	
     	</div>	
     </div>
-    <!--
-   	<div class="hidden-xs promote_right_corner">
-   		<a href="https://www.smallfarmer01.com/main/fruits">
-   		<div style="color: #3e2008; margin-top: 25px; font-size: 20px;">開幕特惠</div>
-   		<div style="color: #f7500a; margin-top: 0px; font-size: 40px;">9折</div>   
-   		<div style="color: #3e2008; margin-top: 0px; font-size: 14px;">10/10~10/31</div> 		
-		</a>
-	</div>-->
 </header>
 <!-- Services Section -->    
     <section class="second_section" style="background: #ffffff">
@@ -59,13 +42,13 @@
         </div>
     </section>     
 <!-- Services Section -->    
-    <section class="fruit_section" style="background: #f8f8f8">
+    <section class="fruit_section">
         <div class="container">
             <div class="row text-center">
                 <div class="col-sm-4 fruit_section_container_1">
                     <div class="fruit_section_image" style="background-image: url(<%=asset_path 'index/2015_10_3_2.jpg'%>);">
                     <%= link_to 'https://www.smallfarmer01.com/main/search?query=%E7%81%AB%E9%BE%8D%E6%9E%9C' do%>
-					<div class="index_fruits_category index_fruits_category_1">
+					<div class="index_fruits_category">
 						<div class="index_fruits_category_s">台南大社</div>
 						<div class="index_fruits_category_l">火龍果</div>
 					</div>
@@ -75,7 +58,7 @@
                 <div class="col-sm-4 fruit_section_container_2">
                     <div class="fruit_section_image" style="background-image: url(<%=asset_path 'index/2015_10_3_3.jpg'%>); ">                    
                     <%= link_to 'https://www.smallfarmer01.com/main/search?query=%E8%8A%92%E6%9E%9C%E4%B9%BE' do%>
-					<div class="index_fruits_category index_fruits_category_2 index_fruits_category_2">
+					<div class="index_fruits_category">
 						<div class="index_fruits_category_s">台南大內</div>
 						<div class="index_fruits_category_l">凱特芒果乾</div>
 					</div>
@@ -85,7 +68,7 @@
                 <div class="col-sm-4 fruit_section_container_3">
                 	<div class="fruit_section_image" style="background-image: url(<%=asset_path 'index/2015_10_3_1.jpg'%>); ">                    
                     <%= link_to 'https://www.smallfarmer01.com/main/search?query=%E7%8F%8D%E7%8F%A0%E8%8A%AD%E6%A8%82' do%>
-					<div class="index_fruits_category index_fruits_category_2 index_fruits_category_2">
+					<div class="index_fruits_category">
 						<div class="index_fruits_category_s">台南大內</div>
 						<div class="index_fruits_category_l">珍珠芭樂</div>
 					</div>
@@ -93,8 +76,40 @@
 					</div>                  		
                 </div>                            
             </div>
+            
+            
+			<div class="row text-center" style="margin-top: 20px;">
+                <div class="col-sm-6 fruit_section_container_1">
+                    <div class="fruit_section_image" style="background-image: url(<%=asset_path 'index/2015_11_3_4.jpg'%>);">
+                    <%= link_to 'https://www.smallfarmer01.com/products/64' do%>
+					<div class="index_fruits_category">
+						<div class="index_fruits_category_s">雲林斗六</div>
+						<div class="index_fruits_category_l">帝王柑</div>
+					</div>
+					<%end%>
+					</div>                    		
+                </div>
+                <div class="col-sm-6 fruit_section_container_3">
+                    <div class="fruit_section_image" style="background-image: url(<%=asset_path 'index/2015_11_3_5.jpg'%>); ">                    
+                    <%= link_to 'https://www.smallfarmer01.com/products/61' do%>
+					<div class="index_fruits_category">
+						<div class="index_fruits_category_s">嘉義太保</div>
+						<div class="index_fruits_category_l">有機木瓜</div>
+					</div>
+					<%end%>    
+					</div>					                		
+                </div>                              
+            </div>            
+            
+            
         </div>
-    </section>       
+    </section>     
+    
+    
+    
+    
+    
+      
     <!--Services Section -->
     <section id="services" class="first_section">
         <div class="container-fluid">
@@ -108,7 +123,7 @@
                 <div class="col-md-2 col-lg-offset-2 col-lg-1">
                     <%=image_tag 'index/green_circle.png', class: 'yellow_circle value_circle'%>
                     <h4 class="yellow_value_title value_title">公開透明</h4>
-                    <p class="value_explanation text-muted yellow_value_description">真實揭露生產者、生產地、檢驗標章等資訊。</p>
+                    <p class="value_explanation text-muted yellow_value_description">真實揭露生產者、生產地、檢驗標章資訊。</p>
                 </div>
                 <div class="col-md-1 hidden-sm hidden-xs">
                     <%=image_tag 'index/plus.png', class: "value_op value_op_1"%>
@@ -116,7 +131,7 @@
                 <div class="col-md-2 col-lg-1">
                     <%=image_tag 'index/yellow_circle.png', class: 'green_circle value_circle'%>
                     <h4 class="green_value_title value_title">回饋互助</h4>
-                    <p class="value_explanation text-muted green_value_description">小農用心種植，小農之友支持，形成良好循環，讓台灣更好。</p>
+                    <p class="value_explanation text-muted green_value_description">小農用心種植，小農之友支持，形成良好循環。</p>
                 </div>    
                 <div class="col-md-1 hidden-sm hidden-xs">
                     <%=image_tag 'index/plus.png', class: "value_op value_op_2"%>
@@ -124,7 +139,7 @@
                 <div class="col-md-2 col-lg-1">
                     <%=image_tag 'index/red_circle.png', class: 'red_circle value_circle'%>
                     <h4 class="red_value_title value_title">公正評價</h4>
-                    <p class="value_explanation text-muted red_value_description">沒有過多的銷售術語─產品品質到底好不好？ 您來評定！</p>
+                    <p class="value_explanation text-muted red_value_description">產品品質到底好不好？ 您來評定！</p>
                 </div>  
                 <div class="col-md-2 hidden-sm hidden-xs">
                     <%=image_tag 'index/equal.png', class: "value_op_eq value_op_3"%>
@@ -223,10 +238,7 @@ $(document).ready(function($) {
 	new ScrollMagic.Scene({triggerElement: ".fruit_section"})
 						  .setTween(TweenMax.to(".index_fruits_category", 0.6, {autoAlpha: 1, ease: Linear.easeNone}))
 						  .addTo(controller)
-						  
-	new ScrollMagic.Scene({triggerElement: ".fruit_section"})
-						  .setTween(TweenMax.to(".index_fruits_category", 0.6, {autoAlpha: 1, ease: Linear.easeNone}))
-						  .addTo(controller)						  						  
+									  						  
 						  													  
 //video
         if (!device.tablet() && !device.mobile()) {
