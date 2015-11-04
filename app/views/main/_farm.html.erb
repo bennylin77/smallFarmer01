@@ -5,7 +5,7 @@
 <div class="col-sm-offset-1 col-sm-3 farm_index_container text-center">					
 <%end%>	
 	<%= link_to farm do%>
-		<div class="farm_index_image_container" style="background-image: url('<%=farm.cover.url%>')">
+		<div class="farm_index_image_container" style="background-image: url('<%=farm.cover.url(:medium)%>')">
 		<%=image_tag farm.user.avatar.url, class: 'img-circle farm_index_avatar'%>					
 		<!--
 		<div class="farm_index_delicious_container">
