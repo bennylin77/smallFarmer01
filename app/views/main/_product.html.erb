@@ -6,7 +6,7 @@
 <div class="col-sm-offset-1 col-sm-3 product_index_container text-center">					
 <%end%>				
 <%= link_to product do%>
-	<div class="product_index_image_container" style="background-image: url('<%=product.cover.url%>')">		
+	<div class="product_index_image_container" style="background-image: url('<%=product.cover.url(:medium)%>')">		
 		<%if inventory==0%>
 		<div class="product_index_sold_out_container">
 			<span class="product_index_sold_out">已搶購完</span>
