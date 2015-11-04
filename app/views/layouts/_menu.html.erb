@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default navbar-fixed-top menu <%= navbarDefault %>">
 	<div class="container-fluid">
     	<div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" onmouseover="showCartsNotifications();" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <button type="button" class="navbar-toggle collapsed" <%if user_signed_in?%> onmouseover="showCartsNotifications();" <%end%> data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
 			<%if user_signed_in?%>          				
 			<span class="badge badge-toggle badge-orange carts_notifications_badge"><%= cartsAndNotifications %></span>		            	           
             <%end%>
