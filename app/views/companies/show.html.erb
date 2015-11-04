@@ -48,7 +48,7 @@
 	<div class="row" style="margin-top: 50px;">
 		<div class="col-xs-12 col-md-4 col-lg-offset-1 col-lg-4 vbottom">		
 			<div class="farm_triangle">
-				<div class="farm_triangle_text"><%=@company.name %></div>
+				<div class="farm_triangle_text"><%= truncate( @company.name, length: 12, omission: '...') %></div>
 			</div>		
 			<%= simple_format(@company.description, {class: 'farm_description'}, wrapper_tag: "div")%>			
 		</div>			
