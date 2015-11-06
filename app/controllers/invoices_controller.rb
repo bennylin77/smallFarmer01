@@ -122,7 +122,8 @@ class InvoicesController < ApplicationController
           System.sendNewOrder(o).deliver   
           notify( o.product_boxing.product.company.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], 
                                                            sub_category: GLOBAL_VAR['NOTIFICATION_SUB_NEW_ORDER'], 
-                                                           order_id: o.id})                        
+                                                           order_id: o.id})   
+          pushAndroidNotification(title: '您有新的訂單', message: o.product_boxing.product.name+' '+o.quantity.to_s+'箱', user: o.product_boxing.product.company.user)                                                                               
         end  
         System.sendPurchaseCompleted(invoice).deliver   
         notify( invoice.user, { category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], 
