@@ -15,6 +15,7 @@ defaults: &defaults
   UNIT_CAN: 4   
   UNIT_ML: 5    
   UNIT_G: 6    
+  UNIT_BOX: 7   
   
   PAYMENT_METHOD_NO_NEED: 0  
   PAYMENT_METHOD_ALLPAY_CREDIT: 1
