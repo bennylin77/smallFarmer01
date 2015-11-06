@@ -60,7 +60,8 @@ module ProductsHelper
      ['毫升', GLOBAL_VAR['UNIT_ML']],
      ['顆', GLOBAL_VAR['UNIT_STAR']],
      ['包', GLOBAL_VAR['UNIT_BAO']],
-     ['罐', GLOBAL_VAR['UNIT_CAN']]]
+     ['罐', GLOBAL_VAR['UNIT_CAN']],
+     ['盒', GLOBAL_VAR['UNIT_BOX']]]
   end
   
   def reviewBg(score)
