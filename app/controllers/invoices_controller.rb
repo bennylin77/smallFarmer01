@@ -202,7 +202,7 @@ class InvoicesController < ApplicationController
     ## Assign attribute   
     params[:user][:phone_no] = params[:user][:phone_no_full]
     current_user.assign_attributes(user_params)  
-    @user = current_user
+    @user = current_user     
     ##      
     @coupon_using = params[:coupons_using].to_i
     @payment_method = params[:payment_method]
@@ -259,7 +259,7 @@ class InvoicesController < ApplicationController
     if @payment_method.blank? and final_total_price!= 0 
       current_user.errors.add(:payment_method, "請選擇付款方式")
     end       
-    # Receiver
+    # buyer
     if current_user.phone_no.blank?    
       current_user.errors.add(:phone_no, "請填寫 訂購人資訊-行動電話")
     end    
