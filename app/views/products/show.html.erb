@@ -1,10 +1,10 @@
 <% content_for :title do %>
-    <title><%if @product.released_at%><%if @product.released_at > Time.zone.now %>[預購]<%end%><%end%><%= @product.name %><%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%></title>  
+    <title><%= @product.name %><%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%></title>  
 <% end %>
 <% content_for :show_fb do %>
     <meta property="og:url" content="<%=Rails.configuration.smallfarmer01_host%>/products/<%=@product.id%>" />
     <meta property="og:type" content="website" />  	
-  	<meta property="og:title" content="<%if @product.released_at%><%if @product.released_at > Time.zone.now %>[預購]<%end%><%end%><%= @product.name %><%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%> <%= priceWithShippingRates( product_boxing: @product.product_boxings.first, quantity: @product.product_boxings.first.product_pricings.first.quantity) %>元(含運) | <%=@product.company.name%> | 小農1號線上水果平台" />
+  	<meta property="og:title" content="<%= @product.name %><%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%> <%= priceWithShippingRates( product_boxing: @product.product_boxings.first, quantity: @product.product_boxings.first.product_pricings.first.quantity) %>元(含運) | <%=@product.company.name%> | 小農1號線上水果平台" />
   	<meta property="og:description" content="<%= @product.description%>" />
 	<meta property="og:image" content="<%if @product.cover%><%=Rails.configuration.smallfarmer01_host%><%= @product.cover.url()%><%end%>" />
 	<meta name="description" content="<%= @product.description%>" />
@@ -68,11 +68,11 @@
 			<div class="row" style="margin-top: 20px;">			
 		      <div class="hidden-xs hidden-sm col-md-12">        
 		        <div class="" style="">
-		        	<div class="product_name text-left"><%if @product.released_at%><%if @product.released_at > Time.zone.now %>[預購]<%end%><%end%><%= @product.name %><%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%></div>	      
+		        	<div class="product_name text-left"><%= @product.name %><%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%></div>	      
 		      	</div>
 		      </div>	      	
 		      <div class="hidden-md hidden-lg col-xs-12 text-center">    	
-		        <div class="product_name" itemprop="name"><%if @product.released_at%><%if @product.released_at > Time.zone.now %>[預購]<%end%><%end%><%= @product.name %></div>
+		        <div class="product_name" itemprop="name"><%= @product.name %><%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%></div>
 		        <div class="product_excellent">
 		        	<!--
 		        	<span class="product_excellent_no" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL ', @product.id, GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count+Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL ', @product.id, GLOBAL_VAR['ORDER_REVIEW_TASTY']).count %>'>0</span>
@@ -159,10 +159,10 @@
 				<%if @product.released_at > Time.zone.now %>
 				<div class="row" style="margin-top: 20px;">								
 					<div class="hidden-xs hidden-sm col-md-offset-1 col-md-10">						
-						<div class='product_released_at pull-right'>預計<%= @product.released_at.strftime("%Y-%m-%d") %>起陸續出貨</div> 
+						<div class='product_released_at pull-right'>[預購商品] <%= @product.released_at.strftime("%Y-%m-%d") %>起陸續出貨</div> 
 					</div>			
 					<div class="hidden-md hidden-lg col-xs-12 text-center">
-						<div class='product_released_at'>預計<%= @product.released_at.strftime("%Y-%m-%d") %>起陸續出貨</div> 
+						<div class='product_released_at'>[預購商品] <%= @product.released_at.strftime("%Y-%m-%d") %>起陸續出貨</div> 
 					</div>				
 				</div>	
 				<%else%>

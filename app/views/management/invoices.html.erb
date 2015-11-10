@@ -33,7 +33,7 @@
     <td>
     	<%= image_tag i.user.avatar.url, class: 'img-circle', style: 'height: 50px; width: 50px;' %>
     	<%= i.user.last_name%><%= i.user.first_name%><br>
-		<%= i.user.phone_no.gsub(/^\+886/, '0') %><br>
+		<%unless i.user.phone_no.blank?%><%= i.user.phone_no.gsub(/^\+886/, '0') %><%end%><br>
     	<%= i.user.email %>
     </td>   
 	<td>
