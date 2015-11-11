@@ -63,6 +63,11 @@ module ProductsHelper
      ['罐', GLOBAL_VAR['UNIT_CAN']],
      ['盒', GLOBAL_VAR['UNIT_BOX']]]
   end
+
+  def organicImageOptions
+    [['', GLOBAL_VAR['ORGANIC_NONE']],
+     ['certification/toaf.png', GLOBAL_VAR['ORGANIC_TOAF']]]
+  end
   
   def reviewBg(score)
     case score
