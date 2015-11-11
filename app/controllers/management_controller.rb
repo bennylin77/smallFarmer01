@@ -344,7 +344,10 @@ class ManagementController < ApplicationController
       render json: {success: true, message: '商品編號 '+@product.id.to_s+' 甜度已變更為'+@product.sweet_degree.to_s}                       
     when 'priority'  
       @product.update_columns(priority: params[:val])  
-      render json: {success: true, message: '商品編號 '+@product.id.to_s+' 排序已變更為'+@product.priority.to_s}      
+      render json: {success: true, message: '商品編號 '+@product.id.to_s+' 排序已變更為'+@product.priority.to_s}    
+    when 'organic'  
+      @product.update_columns(organic: params[:val])  
+      render json: {success: true, message: '商品編號 '+@product.id.to_s+' 有機已變更為'+@product.organic.to_s}          
     when 'discount'
       @product.update_columns(discount: params[:val])  
       render json: {success: true, message: '商品編號 '+@product.id.to_s+' 折扣已變更為'+(@product.discount*100).to_s+'折'}          

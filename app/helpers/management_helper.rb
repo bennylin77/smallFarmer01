@@ -4,6 +4,10 @@ module ManagementHelper
      ['95折', GLOBAL_VAR['DISCOUNT_FIVE_PERCENT']], 
      ['9折', GLOBAL_VAR['DISCOUNT_TEN_PERCENT']]]
   end  
+  def organicOptions
+    [['無', GLOBAL_VAR['ORGANIC_NONE']],
+     ['慈心有機轉型', GLOBAL_VAR['ORGANIC_TOAF']]]
+  end    
   
   def billPeriodOptions
     options = []  
