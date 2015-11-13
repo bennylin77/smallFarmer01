@@ -437,7 +437,7 @@ class InvoicesController < ApplicationController
                       ReturnURL: Rails.configuration.allpay_return_url,
                       PaymentInfoURL: Rails.configuration.allpay_payment_info_url,
                       ChoosePayment: "ATM",
-                      ExpireDate: 1,
+                      ExpireDate: 3,
                       ClientBackURL: Rails.configuration.smallfarmer01_host+'/invoices/finished?id='+@invoice.id.to_s}    
       #CheckMacValue
       result = @allpay_var.to_a.sort.map do |key, value|
@@ -488,7 +488,7 @@ class InvoicesController < ApplicationController
                       PaymentInfoURL: Rails.configuration.allpay_payment_info_url,
                       ChoosePayment: "CVS",
                       Desc_1: item_name,
-                      StoreExpireDate: 2160,
+                      StoreExpireDate: 4320,
                       ClientBackURL: Rails.configuration.smallfarmer01_host+'/invoices/finished?id='+@invoice.id.to_s}    
       #CheckMacValue
       result = @allpay_var.to_a.sort.map do |key, value|
