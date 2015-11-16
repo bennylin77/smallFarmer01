@@ -488,4 +488,6 @@ $("form").submit(function() {
   $("#receivers_<%=i %>_phone_no_full").val($("#receivers_<%=i %>_phone_no").intlTelInput("getNumber"));
   <%end%>
 });
+//====================== fb ======================//
+fbq('track', 'InitiateCheckout');	
 </script>
