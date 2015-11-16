@@ -23,9 +23,9 @@
 	<div class="product_index_company_name"><%= product.company.name%> |				
 		<% pricing = product.product_boxings.first.product_pricings.first %>
 		<%if product.discount!=1%>
-			<s><small><%= ((pricing.price.to_i + shippingRates(cold_chain: pricing.product_boxing.product.cold_chain, box_size: pricing.product_boxing.size, quantity: pricing.quantity ))/product.product_boxings.first.quantity).round(1) %></small></s> <span class="product_index_price"><%=number_with_delimiter( (priceWithShippingRates( product_boxing: pricing.product_boxing, quantity: pricing.quantity )/product.product_boxings.first.quantity).round(1), delimiter: ',')%> <span style="font-size: 80%">元/<%= Hash[unitOptions].rassoc(product.unit).first %>(含運)</span></span>					
+			<s><small><%= ((pricing.price.to_i + shippingRates(cold_chain: pricing.product_boxing.product.cold_chain, box_size: pricing.product_boxing.size, quantity: pricing.quantity ))/product.product_boxings.first.quantity).round(1) %></small></s> <span class="product_index_price"><%=number_with_delimiter( (priceWithShippingRates( product_boxing: pricing.product_boxing, quantity: pricing.quantity )/product.product_boxings.first.quantity).round(1), delimiter: ',')%> <span style="font-size: 80%">元/<%= Hash[unitOptions].rassoc(product.unit).first %></span></span>					
 		<%else%>
-			<span class="product_index_price"><%=number_with_delimiter( (priceWithShippingRates( product_boxing: product.product_boxings.first, quantity: pricing.quantity)/product.product_boxings.first.quantity).round(1), delimiter: ',')%> <span style="font-size: 80%">元/<%= Hash[unitOptions].rassoc(product.unit).first %>(含運)</span></span>
+			<span class="product_index_price"><%=number_with_delimiter( (priceWithShippingRates( product_boxing: product.product_boxings.first, quantity: pricing.quantity)/product.product_boxings.first.quantity).round(1), delimiter: ',')%> <span style="font-size: 80%">元/<%= Hash[unitOptions].rassoc(product.unit).first %></span></span>
 		<%end%>				
 	</div>
 	<!--
