@@ -1,0 +1,344 @@
+<%= form_for(@product, html: {class: "form-horizontal", role: "form", multipart: true}) do |f| %>
+	<div class="form-group">
+		<div class="col-sm-offset-0 col-lg-offset-2 col-sm-12 col-lg-8">
+			<h3 class="page-header text-muted" style="margin-top: 0px;">商品資料</h3>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-offset-0 col-sm-2 col-lg-offset-1 control-label">名稱</label>
+		<div class="col-sm-10 col-lg-7">
+			<%= f.text_field :name, placeholder: '限制12字內，勿含包裝斤數', class: "form-control" %>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-offset-0 col-sm-2 col-lg-offset-1 control-label">關鍵字</label>
+		<div class="col-sm-10 col-lg-7">
+			<%= text_field_tag :keywords, @keywords, "data-role" => "tagsinput", placeholder: '  例: #番茄 #小番茄 #玉女蕃茄'%>				
+		</div>
+	</div>	
+	<div class="form-group">
+		<label class="col-sm-offset-0 col-sm-2 col-lg-offset-1 control-label">介紹</label>
+		<div class="col-sm-10 col-lg-7">
+			<%= f.text_area :description, placeholder: '描述您的商品', class: "form-control", rows: '5' %>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-offset-0 col-sm-2 col-lg-offset-1 control-label">保存方式<br>賞味提醒</label>
+		<div class="col-sm-10 col-lg-7">
+			<%= f.text_area :preservation, placeholder: '商品如何保存，食用方式和時機', class: "form-control" %>
+		</div>
+	</div>			
+	<div class="form-group">
+		<div class="col-sm-offset-0 col-lg-offset-2 col-sm-12 col-lg-8">
+			<h3 class="page-header text-muted">包裝價格</h3>
+		</div>
+	</div>	
+	<div class="form-group">
+		<label class="col-sm-offset-0 col-sm-2 col-lg-offset-1 control-label">單位</label>
+		<div class="col-sm-10 col-lg-7">
+			<%= f.select :unit, options_for_select(unitOptions, @product.unit), {prompt: '請選擇單位'}, class: "form-control" %>	
+		</div>
+	</div>	
+	<div class="form-group">
+		<label class="col-sm-offset-0 col-sm-2 col-lg-offset-1 control-label">運送方式</label>
+		<div class="col-sm-10 col-lg-7">
+			<%=f.select :cold_chain, options_for_select(tempOptions, @product.cold_chain), {prompt: '請選擇運送方式'}, onchange: 'finalPrice()', class: "form-control" %>
+		</div>
+	</div>				  			
+
+
+
+<div class="form-group" style="margin-bottom: 0px;">
+	<label class="col-sm-offset-0 col-sm-2 col-lg-offset-1 control-label">包裝種類</label>
+	<div class="col-sm-10 col-lg-7">
+		<ul id="myTab" class="nav nav-tabs" style="">
+		  <li class="active product_boxing_li_1"><a href="#product_boxing_1" data-toggle="tab">10斤</a></li>
+		  <li class="product_boxing_li_2"><a href="#product_boxing_2" data-toggle="tab">20斤</a></li>
+		  <li id="add_li"><a href="#profile" data-toggle="tab" onclick='addProductBoxing()'><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a></li>
+		</ul>
+	</div>
+</div>	
+
+<div class="form-group">
+	<div class="col-sm-offset-2 col-sm-10 col-lg-offset-3 col-lg-7">
+<div id="myTabContent" class="tab-content" style="border: 1px solid #DDD; padding-top: 15px; border-top: none;">
+    <div class="tab-pane fade in active" id="product_boxing_1">
+
+		<div class="form-group">
+				<label class="col-sm-offset-0 col-sm-2 col-xs-12 control-label vmiddle">內含</label><!--
+			 --><div class="col-sm-5 col-xs-6 vmiddle">
+	
+				<input class="form-control" id="product_product_boxings_attributes_0_quantity" name="product[product_boxings_attributes][0][quantity]" placeholder="數量" value="10.0" type="text">
+				
+				</div><!--
+			 --><div class="col-sm-5 col-xs-6 vmiddle">
+				
+				<label class="control-label">斤</label>			
+			 	
+				</div>			
+		</div>     	
+    	
+		<div class="form-group">
+				<label class="col-sm-offset-0 col-sm-2 col-xs-12 control-label vmiddle">箱子尺寸</label><!--
+			--><div class="col-sm-5 col-xs-6 vmiddle">
+	
+				<select class="form-control" id="product_product_boxings_attributes_0_size" name="product[product_boxings_attributes][0][size]" onchange="finalPrice()"><option value="0">A+B+C = 60公分以下 (一箱70元，兩箱以上每箱50元)</option>
+				<option value="1">A+B+C = 61公分~90公分 (一箱90元，兩箱以上每箱65元)</option>
+				<option selected="selected" value="2">A+B+C = 91公分~120公分 (一箱130元，兩箱以上無折扣)</option></select>	
+				
+				</div><!--
+			--><div class="col-sm-5 col-xs-6 vmiddle">
+				<%= image_tag 'box_size.png', class: 'img-responsive'%>
+				</div>			
+		</div>	   
+		<div class="form-group">
+				<label class="col-sm-offset-0 col-sm-2 col-xs-12 control-label vmiddle">每箱賣</label><!--
+			 --><div class="col-sm-5 col-xs-6 vmiddle">
+	
+				<input class="form-control" id="product_product_boxings_attributes_0_product_pricings_attributes_0_price" name="product[product_boxings_attributes][0][product_pricings_attributes][0][price]" onchange="finalPrice()" value="200.0" type="number">				
+				
+				</div><!--
+			 --><div class="col-sm-5 col-xs-6 vmiddle">
+				
+				<label class="control-label">元 + 運費 <span class="shipping_fee">130</span>元 = <span class="final_price">330</span>元</label>		
+			 	
+				</div>			
+		</div>  
+		<div class="form-group hidden-xs">
+	    	<div class="col-sm-offset-2 col-sm-8 vmiddle">	
+				<h3 class="page-header text-muted"></h3>				
+			</div>			
+		</div>  		
+		<div class="form-group  text-danger">
+				<label class="col-sm-offset-0 col-sm-2 col-xs-12 control-label vmiddle">促銷</label><!--
+			 --><div class="col-sm-5 col-xs-6 vmiddle">	
+				<input class="form-control" id="product_product_boxings_attributes_0_product_pricings_attributes_1_quantity" name="product[product_boxings_attributes][0][product_pricings_attributes][1][quantity]" onchange="finalPrice()" value="3" type="number">						
+				</div><!--
+			 --><div class="col-sm-5 col-xs-6 vmiddle">
+				
+				<label class="control-label">箱以上(含)</label>			
+			 	
+				</div>			
+		</div>  
+
+		<div class="form-group text-danger">
+				<label class="col-sm-offset-0 col-sm-2 col-xs-12 control-label vmiddle">每箱賣</label><!--
+			 --><div class="col-sm-5 col-xs-6 vmiddle">
+	
+				<input class="form-control" id="product_product_boxings_attributes_0_product_pricings_attributes_1_price" name="product[product_boxings_attributes][0][product_pricings_attributes][1][price]" onchange="finalPrice()" value="100.0" type="number">				
+				
+				</div><!--
+			 --><div class="col-sm-5 col-xs-6 vmiddle">
+	
+					<label class="control-label">元 + 運費 <span class="bargain_shipping_fee">xx</span>元 = <span class="bargain_final_price">xx</span>元</label>							 	
+				</div>			
+		</div>  						        
+
+ 	       
+        
+        
+    </div>
+    <div class="tab-pane fade" id="product_boxing_2">
+        <p>這是包裝2</p>
+        
+        
+    </div>
+	</div>
+ </div>
+</div>
+
+<script>
+var count = 0;
+var obj;
+function addProductBoxing(){
+	var $li = $("<li>", {class: "123"});	
+	var $a = $("<a>", {'data-toggle': "tab", 'href': "#abc"+count}); 
+	$a.append(count); 
+	$li.append($a);
+	$( "#add_li" ).before($li);
+	var $div = $("<div>", {id: 'abc'+count, class: "tab-pane fade"});
+	$div.append('<p>'+count+'</p>');		
+	$( "#myTabContent" ).append($div);
+	count ++;	
+/*	
+	if (obj.data('bs.tabcollapse').$accordion.is(':visible') )
+	{
+		obj.data('bs.tabcollapse').showTabs()
+		obj.data('bs.tabcollapse').showAccordion()
+	}
+*/	
+}	
+
+/*
+obj = $('#myTab').tabCollapse({
+    tabsClass: 'hidden-xs',
+    accordionClass: 'visible-xs'
+});
+obj.data('bs.tabcollapse').checkState()*/
+</script>
+
+
+
+
+
+	
+	<!--
+	
+	<%= f.fields_for :product_boxings do |g| %>	
+		<div class="form-group">
+			<label class="col-sm-offset-0 col-sm-2 col-lg-offset-1 control-label vmiddle">箱子尺寸</label>
+			<div class="col-sm-5 col-lg-4 vmiddle">
+				<%= g.select :size, options_for_select(boxSizeOptions, @product.product_boxings.first.size), {prompt: '請選擇箱子尺寸'}, onchange: 'finalPrice()', class: "form-control" %>		
+			</div>
+			<div class="col-sm-4 col-lg-3 vmiddle">
+				<%= image_tag 'box_size.png', class: 'img-responsive'%>
+			</div>			
+		</div>				
+		<div class="form-group">
+			<div class="col-sm-offset-0 col-lg-offset-2 col-sm-12 col-lg-8">
+				<h5 class="page-header text-muted"></h5>
+			</div>
+		</div>	 
+		
+		<div class="form-group">
+			<label class="col-sm-offset-0 col-sm-2 col-lg-offset-1 control-label">每箱</label>				
+			<div class="col-sm-5 col-lg-4">
+				<%= g.text_field :quantity, placeholder: '數量', class: "form-control"%>				
+			</div>		
+		</div>															
+		<%= g.fields_for :product_pricings do |h| %>	
+			<%if h.object.quantity == 1%>
+		<div class="form-group">	
+			<label class="col-sm-offset-0 col-sm-2 col-lg-offset-1 control-label">每箱賣</label>				
+			<div class="col-sm-5 col-lg-4">
+				<%= h.hidden_field :quantity, class: "form-control" %>				
+				<%= h.number_field :price, class: "form-control", onchange: 'finalPrice()' %>	
+			</div>				
+			<div class="col-sm-5 col-lg-4">		
+				<label class="control-label">元 + 運費 <span class="shipping_fee">xx</span>元 = 最終售價 <span class="final_price">xx</span>元</label>			
+			</div>						
+		</div>	
+			<%else%>
+			
+		<div class="form-group">
+			<div class="col-sm-offset-0 col-lg-offset-2 col-sm-12 col-lg-8">
+				<h3 class="page-header text-muted"></h3>
+			</div>
+		</div>	 			
+			<div class="form-group text-danger">
+				<label class="col-sm-offset-0 col-sm-2 col-lg-offset-1 control-label">促銷</label>								
+				<div class="col-sm-5 col-lg-4">
+					<%= h.number_field :quantity, class: "form-control", onchange: 'finalPrice()' %>
+				</div>	
+				<div class="col-sm-5 col-lg-3">		
+					<label class="control-label">箱以上(含)</label>				
+				</div>	
+			</div>	
+			<div class="form-group text-danger">	
+				<label class="col-sm-offset-0 col-sm-2 col-lg-offset-1 control-label">每箱賣</label>				
+				<div class="col-sm-5 col-lg-4">
+					<%= h.number_field :price, class: "form-control", onchange: 'finalPrice()' %>
+				</div>		
+				<div class="col-sm-5 col-lg-4">		
+					<label class="control-label">元 + 運費 <span class="bargain_shipping_fee">xx</span>元 = 最終售價 <span class="bargain_final_price">xx</span>元</label>				
+				</div>					
+			</div>			
+			<%end%>	
+		<%end%>	 
+	<!--
+	<div class="form-group">
+		<label class="col-sm-offset-0 col-sm-2 col-lg-offset-1 control-label vmiddle">禮盒包裝</label>
+		<div class="col-sm-5 col-lg-2 vmiddle">
+			<label class="radio-inline">
+		  		<%= g.radio_button :gift_wrapping_available_c, "true"%>提供		
+			</label>
+			<label class="radio-inline">
+		 	 	<%= g.radio_button :gift_wrapping_available_c, "false"%>未
+		 	 	提供		
+			</label>			
+		</div>
+	</div>	
+	
+	<%end%>	
+	-->
+	
+	
+	
+	
+	
+	
+	<div class="form-group">
+		<div class="col-sm-offset-0 col-lg-offset-2 col-sm-12 col-lg-8">
+			<h3 class="page-header text-muted">出貨庫存</h3>
+		</div>
+	</div>	
+	<div class="form-group">
+		<label class="col-sm-offset-0 col-sm-2 col-lg-offset-1 control-label">出貨日期</label>								
+		<div class="col-sm-10 col-lg-7">		
+			<%if @product.released_at.blank?%>
+				<%= f.text_field :released_at, class: "form-control", placeholder: ''%>	
+			<%else%>
+				<%= f.text_field :released_at, value: @product.released_at.strftime("%Y-%m-%d %H:%M"), class: "form-control", placeholder: ''%>				
+			<%end%>			
+		</div>					
+	</div>
+	<div class="form-group">
+		<label class="col-sm-offset-0 col-sm-2 col-lg-offset-1 control-label">每週出貨日</label>								
+		<div class="col-sm-10 col-lg-7">		
+			<label class="checkbox-inline">
+				<%= check_box_tag 'shipping_time_1', 1, (1&@product.shipping_time) != 0%>ㄧ
+			</label>
+			<label class="checkbox-inline">
+				<%= check_box_tag 'shipping_time_2', 2, (2&@product.shipping_time) != 0%>二
+			</label>
+			<label class="checkbox-inline">
+				<%= check_box_tag 'shipping_time_4', 4, (4&@product.shipping_time) != 0%>三
+			</label>
+			<label class="checkbox-inline">
+				<%= check_box_tag 'shipping_time_8', 8, (8&@product.shipping_time) != 0%>四
+			</label>
+			<label class="checkbox-inline">
+				<%= check_box_tag 'shipping_time_16', 16, (16&@product.shipping_time) != 0%>五
+			</label>
+			<label class="checkbox-inline">
+				<%= check_box_tag 'shipping_time_32', 32, (32&@product.shipping_time) != 0%>六
+			</label>
+			<label class="checkbox-inline">
+				<%= check_box_tag 'shipping_time_64', 64, (64&@product.shipping_time) != 0%>日
+			</label>																		
+		</div>					
+	</div>				
+	<div class="form-group">
+		<label class="col-sm-offset-0 col-sm-2 col-lg-offset-1 control-label">本批數量</label>
+		<div class="col-sm-9 col-lg-6">
+			<%= f.number_field :inventory, placeholder: '這批可以賣多少量', class: "form-control" %>
+		</div>
+		<div class="col-sm-1 col-lg-1">
+			<label class="control-label">箱</label>	
+		</div>			
+	</div>				
+	<div class="form-group">
+		<div class="col-sm-offset-0 col-lg-offset-2 col-sm-12 col-lg-8">
+			<h3 class="page-header text-muted">封面&照片</h3>
+		</div>
+	</div>		
+	<div class="form-group">
+		<label class="col-sm-offset-0 col-sm-2 col-lg-offset-1 control-label">封面</label>		
+		<div class="col-sm-9">
+    	<%= f.file_field :cover, class: "form-control",  accept: "image/*" %>
+  		</div>
+  	</div>  		
+	<div class="form-group">
+		<label class="col-sm-offset-0 col-sm-2 col-lg-offset-1 control-label">照片</label>		
+		<div class="col-sm-9">
+			<input id="product_image" name="product_image[]" type="file" multiple class="file-loading">
+  		</div>
+  	</div> 	
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-lg-offset-3 col-lg-10">
+			<%= f.submit '儲存',  class: "btn orange_btn backend_btn", style: 'margin-right: 5px;'  %>
+			<!--<%= f.submit '預覽', formaction: "/products/preview/"+@product.id.to_s, class: "btn btn-default edit_button"%>-->							        
+		</div>
+	</div>
+<% end %>
+<%= render 'form_script' %>

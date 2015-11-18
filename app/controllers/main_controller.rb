@@ -53,7 +53,7 @@ class MainController < ApplicationController
       if @keyword
         @keyword.update_columns(search_count: @keyword.search_count+1)
       end
-      @products = Product.joins(:keywords).where('keywords.content = ?', params[:query]).where(available_c: true, deleted_c: false)
+      @products = Product.joins(:keywords).where('keywords.content = ?', params[:query]).where(available_c: true, deleted_c: false).order(priority: :desc) 
     else
       @keyword = Keyword.where('content = ?', '#'+params[:query]).first
       if @keyword.blank?
@@ -62,7 +62,7 @@ class MainController < ApplicationController
         @all = ( products + companies ).uniq.sort{|a,b| b.priority <=> a.priority }      
       else
         @keyword.update_columns(search_count: @keyword.search_count+1)        
-        @products = Product.joins(:keywords).where('keywords.content = ?', '#'+params[:query]).where(available_c: true, deleted_c: false)       
+        @products = Product.joins(:keywords).where('keywords.content = ?', '#'+params[:query]).where(available_c: true, deleted_c: false).order(priority: :desc)        
       end  
     end
     
