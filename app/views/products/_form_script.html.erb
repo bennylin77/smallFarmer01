@@ -1,0 +1,154 @@
+<script>
+<% @product.errors.messages.each do |index, value| %>
+	<%unless value.blank? %>
+		<%if index.to_s != 'product_boxings' and index.to_s != 'product_pricings' and 
+			 index.to_s != 'product_boxings.quantity' and index.to_s != 'product_boxings.price' and
+			 index.to_s != 'product_boxings.product_pricings' and index.to_s != 'product_boxings.product_pricings.price' and 
+			 index.to_s != 'product_pricings.price' %>
+			toastr['error']('<%=value.first%>')	
+		<%end%>
+	<%end%>	
+<% end %>
+$("#product_cover").fileinput({showCaption: false,
+			   				   showRemove: false,
+							   allowedFileTypes: ["image"],
+							   previewFileType: "image",
+							   browseClass: "btn light_gray_btn backend_btn",
+							   browseLabel: " 選取封面",
+							   browseIcon: '<i class="glyphicon glyphicon-plus"></i>',
+							   uploadClass: "btn light_gray_btn backend_btn",
+							   uploadLabel: " 上傳",
+							   uploadIcon: '<i class="glyphicon glyphicon-upload"></i>',
+						       uploadUrl: "/products/<%=@product.id %>/productCoverUpload", // server upload action
+						       uploadAsync: true,
+						       maxFileCount: 1,							   
+							   initialPreview: [
+							   		<%unless @product.cover.blank?%>
+							   		'<%= image_tag @product.cover.url, class: 'file-preview-image' %>'
+							   		<%end%>
+							   ],
+							   initialPreviewConfig: [
+									<%unless @product.cover.blank?%>	
+								    {
+								        url: "/products/<%=@product.id %>/productCoverDelete", // server delete action 
+								    }
+							   		<%end%>	    
+							   ],		        							   
+							   overwriteInitial: false,	
+    						   language: "zh-TW"								 
+							   });	
+$("#product_image").fileinput({
+		showCaption: false,    
+		showRemove: false,	
+		allowedFileTypes: ["image"],
+		previewFileType: "image",
+		browseClass: "btn light_gray_btn backend_btn",
+		browseLabel: " 選取照片",
+		browseIcon: '<i class="glyphicon glyphicon-plus"></i>',
+		uploadClass: "btn light_gray_btn backend_btn",
+		uploadLabel: " 上傳",
+		uploadIcon: '<i class="glyphicon glyphicon-upload"></i>',      
+        uploadUrl: "/products/<%=@product.id %>/productImagesUpload", // server upload action
+        uploadAsync: true,
+        maxFileCount: 5,
+		initialPreview: [
+			<% @product.product_images.each do |p_i|%>
+			'<%= image_tag p_i.image.url, class: 'file-preview-image' %>',
+			<%end%>
+		],
+		initialPreviewConfig: [
+			<% @product.product_images.each do |p_i|%>		
+		    {
+		        url: "/products/<%=@product.id %>/productImagesDelete", // server delete action 
+		        key: <%=p_i.id %>
+		    },
+			<%end%>		    
+		],		        							   
+		overwriteInitial: false,	
+    	language: "zh-TW"			        
+    });
+    
+$('#product_released_at').datetimepicker({
+	dayViewHeaderFormat: 'YYYY MMMM',	
+	locale: 'zh-TW',
+	format: 'YYYY-MM-DD HH:mm',
+	widgetPositioning: {
+            horizontal: 'auto',
+            vertical: 'bottom'
+    }
+});    
+// keyword
+var keyword_results = new Bloodhound({
+  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('keyword'),
+  queryTokenizer: Bloodhound.tokenizers.whitespace,
+  remote: {
+    url: '/main/typeaheadSource?query=%QUERY&kind=0',
+    wildcard: '%QUERY'
+  }
+});
+keyword_results.initialize();
+$('#keywords').tagsinput({
+  confirmKeys: [13, 32], 
+  tagClass: 'label tag_label',  
+  typeaheadjs: {  	
+	name: 'keywords',
+	valueKey: 'content',		
+	displayKey: 'content',	
+  	source: keyword_results.ttAdapter(),
+	limit: 5,
+	templates: {
+  		header: '<p class="tt-header">關鍵字</p>',
+        suggestion: function (keyword) {
+            return '<p><span class="target">' + keyword.content + '</span><span class="description">目前共' + keyword.size + '項商品</span></p>';
+        }
+	  }
+  }
+});
+$('#keywords').on('beforeItemAdd', function(event) {
+  var patt = new RegExp("^\#{1}");
+  if( patt.exec(event.item) == null )
+  {
+  	event.cancel = true
+  	$('#keywords').tagsinput('add', '#'+event.item );
+  }	  
+});
+//shipping fee
+function finalPrice(){
+	box_size = $('#product_product_boxings_attributes_0_size').val()
+	cold_chain = $('#product_cold_chain').val()
+	original_price = $('#product_product_boxings_attributes_0_product_pricings_attributes_0_price').val()
+	promote_price = $('#product_product_boxings_attributes_0_product_pricings_attributes_1_price').val()
+	promote_quantity = $('#product_product_boxings_attributes_0_product_pricings_attributes_1_quantity').val()
+    if( box_size && cold_chain ){
+    	$('.shipping_fee').html(shippingRates( box_size, cold_chain, 1))
+    	if( original_price ){
+    		$('.final_price').html( parseInt(original_price) + shippingRates( box_size, cold_chain, 1))
+    	}else
+    		$('.final_price').html('xx')	    		
+    	if( promote_quantity ) 
+    	{
+    		$('.bargain_shipping_fee').html(shippingRates( box_size, cold_chain, promote_quantity))
+    		if(promote_price)
+    			$('.bargain_final_price').html( parseInt(promote_price) + shippingRates( box_size, cold_chain, promote_quantity))
+    		else	
+    			$('.bargain_final_price').html('xx')	    		    	
+    	}else{
+	   		$('.bargain_shipping_fee').html('xx')		  	 	
+    		$('.bargain_final_price').html('xx')	    		    	    		
+    	}   
+    }	
+	else{
+		$('.shipping_fee').html('xx')		
+	   	$('.final_price').html('xx')	
+	   	$('.bargain_shipping_fee').html('xx')		
+	   	$('.bargain_final_price').html('xx')    	
+	}	
+} 
+finalPrice()
+
+
+
+
+
+
+</script>

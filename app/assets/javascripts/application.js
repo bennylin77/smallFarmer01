@@ -37,5 +37,5 @@
 //= require YTPlayer/dep/jquery.mb.simpleSlider.js
 //= require YTPlayer/dep/jquery.mb.storage.js
 //= require smallfarmer.js
-
+//= require bootstrap-tabcollapse.js
 //= require_tree .
