@@ -69,7 +69,6 @@
 
 <script>
 size_options = <%= Hash[boxSizeOptions].to_json.html_safe%>
-var count = 0;
 $('#product_boxing_tab').on('click', 'a', function(e) {
   e.preventDefault()
   if( $(this).attr('id') == 'add_product_boxing' ) 
@@ -78,11 +77,16 @@ $('#product_boxing_tab').on('click', 'a', function(e) {
   	$(this).tab('show')
 })
 
+
+<% @product.product_boxings.each do |p_b|%>
+	addProductBoxing(<%=p_b.id%>, <%=p_b.quantity || 'null'%>, <%=p_b.size || 'null'%>, <%=p_b.product_pricings.first.price || 'null'%>, <%=p_b.product_pricings.second.quantity || 'null' %>, <%=p_b.product_pricings.second.price || 'null'%>)			
+<% end %>
+
 function addProductBoxing(id, quantity, size, price, bargain_quantity, bargain_price){
 	//li
-	var $li = $("<li>", {class: "product_boxing_li_"+count});	
-	var $a = $("<a>", {'href': "#product_boxing_"+count}); 
-	var $span_quantity = $("<span>", {'class': "product_boxing_li_quantity_"+count}); 
+	var $li = $("<li>", {id: "product_boxing_li_"+id});	
+	var $a = $("<a>", {'href': "#product_boxing_"+id}); 
+	var $span_quantity = $("<span>", {'id': "product_boxing_li_quantity_"+id}); 
 	var $span_unit = $("<span>", {'class': "product_boxing_unit"}); 
 	$span_quantity.html(quantity)
 	$span_unit.html($('#product_unit option:selected').text())
@@ -91,13 +95,13 @@ function addProductBoxing(id, quantity, size, price, bargain_quantity, bargain_p
 	$li.append($a);
 	$( "#add_li" ).before($li);		
 	//content
-	var $main_div = $("<div>", {id: "product_boxing_"+count, class: "tab-pane fade"});
+	var $main_div = $("<div>", {id: "product_boxing_"+id, class: "tab-pane fade"});
 	//quantity
 	var $form_group = $("<div>", {class: "form-group"});
 	var $label_1 = $("<label>", {class: "col-sm-offset-0 col-sm-2 col-xs-12 control-label vmiddle"});
 	$label_1.html('內含')
 	var $col_1 = $("<div>", {class: "col-sm-5 col-xs-6 vmiddle"});
-	var $input = $("<input>", {class: "form-control", id: "product_product_boxings_attributes_"+id+"_quantity", name: "product[product_boxings_attributes]["+id+"][quantity]", placeholder: "數量", type: 'text', value: quantity});
+	var $input = $("<input>", {class: "form-control", id: "product_product_boxings_attributes_"+id+"_quantity", name: "product[product_boxings_attributes]["+id+"][quantity]", placeholder: "數量", type: 'text', value: quantity, onchange: 'changeQuantity('+id+')'});
 	var $col_2 = $("<div>", {class: "col-sm-5 col-xs-6 vmiddle"});
 	var $label_2 = $("<label>", {class: "control-label product_boxing_unit"});
 	$label_2.html($('#product_unit option:selected').text())	
@@ -178,7 +182,7 @@ function addProductBoxing(id, quantity, size, price, bargain_quantity, bargain_p
 	var $label_1 = $("<label>", {class: "col-sm-offset-0 col-sm-2 col-xs-12 control-label vmiddle"});
 	$label_1.html('每箱賣')
 	var $col_1 = $("<div>", {class: "col-sm-5 col-xs-6 vmiddle"});
-	var $input = $("<input>", {class: "form-control", id: "product_product_boxings_attributes_"+id+"_product_pricings_attributes_1_price", name: "product[product_boxings_attributes]["+id+"][product_pricings_attributes][1][price]", value: price, onchange: "finalPrice()", type:"number"});
+	var $input = $("<input>", {class: "form-control", id: "product_product_boxings_attributes_"+id+"_product_pricings_attributes_1_price", name: "product[product_boxings_attributes]["+id+"][product_pricings_attributes][1][price]", value: bargain_price, onchange: "finalPrice()", type:"number"});
 	var $col_2 = $("<div>", {class: "col-sm-5 col-xs-6 vmiddle"});
 	var $label_2 = $("<label>", {class: "control-label"});
 	$label_2.append('元 + 運費 <span class="bargain_shipping_fee_'+id+'"></span>元 = <span class="bargain_final_price'+id+'"></span>元')	
@@ -193,52 +197,18 @@ function addProductBoxing(id, quantity, size, price, bargain_quantity, bargain_p
 	//delete
 	var $form_group = $("<div>", {class: "form-group text-danger"});
 	var $col_1 = $("<div>", {class: "col-sm-offset-2 col-sm-8 vmiddle"});
-	$col_1.append('<div class="btn dark_gray_btn" onclick="alert(123)">刪除包裝</div>') 
+	$col_1.append('<div class="btn dark_gray_btn" onclick="delProductBoxing('+id+')">刪除包裝</div>') 
 	$form_group.append($col_1);	
 	$main_div.append($form_group);	
 	$( "#product_boxing_content" ).append($main_div);
 	//show
-	$a.tab('show');  
-	count ++;			
+	$a.tab('show');  		
+}
+function delProductBoxing(id){
+	$("#product_boxing_"+id).remove()
+	$("#product_boxing_li_"+id).remove()
 }
 
-/*add_product_boxing
-var count = 0;
-var obj;
-function addProductBoxing(){
-	
-	
-	
-	var $li = $("<li>", {class: "123"});	
-	var $a = $("<a>", {'data-toggle': "tab", 'href': "#abc"+count}); 
-	$a.append(count); 
-	$li.append($a);
-	$( "#add_li" ).before($li);
-	
-	var $div = $("<div>", {id: 'abc'+count, class: "tab-pane fade"});
-	$div.append('<p>'+count+'</p>');		
-	$( "#myTabContent" ).append($div);
-	count ++;	
-	
-	//$('#product_boxing_tab li.active').removeClass('active')
-	//$a.parent('li').addClass('active')	
-	//$a.tab('show');
-	
-/*	
-	if (obj.data('bs.tabcollapse').$accordion.is(':visible') )
-	{
-		obj.data('bs.tabcollapse').showTabs()
-		obj.data('bs.tabcollapse').showAccordion()
-	}
-
-}	
-*/
-/*
-obj = $('#myTab').tabCollapse({
-    tabsClass: 'hidden-xs',
-    accordionClass: 'visible-xs'
-});
-obj.data('bs.tabcollapse').checkState()*/
 </script>
 
 

@@ -118,6 +118,10 @@ function changeUnit(){
 	unit = $('#product_unit option:selected').text()
 	$('.product_boxing_unit').html(unit)
 }
+function changeQuantity(id){
+	
+	$('#product_boxing_li_quantity_'+id).html( $('#product_product_boxings_attributes_'+id+'_quantity').val() )
+}
 //shipping fee
 function finalPrice(){
 	box_size = $('#product_product_boxings_attributes_0_size').val()
