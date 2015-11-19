@@ -112,6 +112,12 @@ $('#keywords').on('beforeItemAdd', function(event) {
   	$('#keywords').tagsinput('add', '#'+event.item );
   }	  
 });
+
+
+function changeUnit(){
+	unit = $('#product_unit option:selected').text()
+	$('.product_boxing_unit').html(unit)
+}
 //shipping fee
 function finalPrice(){
 	box_size = $('#product_product_boxings_attributes_0_size').val()

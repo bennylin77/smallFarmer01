@@ -36,7 +36,7 @@
 	<div class="form-group">
 		<label class="col-sm-offset-0 col-sm-2 col-lg-offset-1 control-label">單位</label>
 		<div class="col-sm-10 col-lg-7">
-			<%= f.select :unit, options_for_select(unitOptions, @product.unit), {prompt: '請選擇單位'}, class: "form-control" %>	
+			<%= f.select :unit, options_for_select(unitOptions, @product.unit), {prompt: '請選擇單位'}, onchange: 'changeUnit()', class: "form-control" %>	
 		</div>
 	</div>	
 	<div class="form-group">
@@ -48,27 +48,35 @@
 
 
 
+
+
+
+
 <div class="form-group" style="margin-bottom: 0px;">
 	<label class="col-sm-offset-0 col-sm-2 col-lg-offset-1 control-label">包裝種類</label>
 	<div class="col-sm-10 col-lg-7">
-		<ul id="myTab" class="nav nav-tabs" style="">
-		  <li class="active product_boxing_li_1"><a href="#product_boxing_1" data-toggle="tab">10斤</a></li>
-		  <li class="product_boxing_li_2"><a href="#product_boxing_2" data-toggle="tab">20斤</a></li>
-		  <li id="add_li"><a href="#profile" data-toggle="tab" onclick='addProductBoxing()'><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a></li>
+		<ul id="product_boxing_tab" class="nav nav-tabs" style="">
+		  <li class="product_boxing_li_a active"><a href="#product_boxing_a"><span class="product_boxing_li_a_count">10</span><span class="product_boxing_li_unit">斤</span></a></li>
+		  <li class="product_boxing_li_b"><a href="#product_boxing_b"><span class="product_boxing_li_a_count">20</span><span class="product_boxing_li_unit">斤</span></a></li>
+		  <li id="add_li"><a id="add_product_boxing" href=""><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a></li>
 		</ul>
 	</div>
 </div>	
 
+
+
+
 <div class="form-group">
 	<div class="col-sm-offset-2 col-sm-10 col-lg-offset-3 col-lg-7">
-<div id="myTabContent" class="tab-content" style="border: 1px solid #DDD; padding-top: 15px; border-top: none;">
-    <div class="tab-pane fade in active" id="product_boxing_1">
+<div id="product_boxing_content" class="tab-content" style="border: 1px solid #DDD; padding-top: 15px; border-top: none;">
+    <div class="tab-pane fade in active" id="product_boxing_a">
 
 		<div class="form-group">
 				<label class="col-sm-offset-0 col-sm-2 col-xs-12 control-label vmiddle">內含</label><!--
 			 --><div class="col-sm-5 col-xs-6 vmiddle">
 	
-				<input class="form-control" id="product_product_boxings_attributes_0_quantity" name="product[product_boxings_attributes][0][quantity]" placeholder="數量" value="10.0" type="text">
+				<input class="form-control" id="product_product_boxings_attributes_0_
+				quantity" name="product[product_boxings_attributes][0][quantity]" placeholder="數量" value="10.0" type="text">
 				
 				</div><!--
 			 --><div class="col-sm-5 col-xs-6 vmiddle">
@@ -134,11 +142,15 @@
 				</div>			
 		</div>  						        
 
- 	       
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10 col-xs-12">
+				<div class="btn dark_gray_btn">刪除包裝</div>
+			</div>
+		</div> 	       
         
         
     </div>
-    <div class="tab-pane fade" id="product_boxing_2">
+    <div class="tab-pane fade" id="product_boxing_b">
         <p>這是包裝2</p>
         
         
@@ -148,27 +160,98 @@
 </div>
 
 <script>
+
+var count = 0;
+$('#product_boxing_tab').on('click', 'a', function(e) {
+  e.preventDefault()
+  if( $(this).attr('id') == 'add_product_boxing' ) 
+  	addProductBoxing()
+  else
+  	$(this).tab('show')
+})
+
+function addProductBoxing(id, quantity){
+	//li
+	var $li = $("<li>", {class: "product_boxing_li_"+count});	
+	var $a = $("<a>", {'href': "#product_boxing_"+count}); 
+	var $span_quantity = $("<span>", {'class': "product_boxing_li_quantity_"+count}); 
+	var $span_unit = $("<span>", {'class': "product_boxing_unit"}); 
+	$span_quantity.html(quantity)
+	$span_unit.html($('#product_unit option:selected').text())
+	$a.append($span_quantity); 
+	$a.append($span_unit); 
+	$li.append($a);
+	$( "#add_li" ).before($li);
+	
+	
+		
+	//content
+	var $main_div = $("<div>", {id: "product_boxing_"+count, class: "tab-pane fade"});
+	var $form_group = $("<div>", {class: "form-group"});
+	var $label_1 = $("<label>", {class: "col-sm-offset-0 col-sm-2 col-xs-12 control-label vmiddle"});
+	$label_1.html('內含')
+	var $col_1 = $("<div>", {class: "col-sm-5 col-xs-6 vmiddle"});
+	var $input = $("<input>", {class: "form-control", id: "product_product_boxings_attributes_"+id+"_quantity", name: "product[product_boxings_attributes]["+id+"][quantity]", placeholder: "數量", type: 'text', value: quantity});
+	var $col_2 = $("<div>", {class: "col-sm-5 col-xs-6 vmiddle"});
+	var $label_2 = $("<label>", {class: "control-label product_boxing_unit"});
+	$label_2.html($('#product_unit option:selected').text())
+	
+	$form_group.append($label_1);
+	$form_group.append('<!---->');
+	$col_1.append($input);
+	$form_group.append($col_1);	
+	$form_group.append('<!---->');	
+	$col_2.append($label_2);	
+	$form_group.append($col_2);		
+	$main_div.append($form_group);	
+	
+	
+	
+		
+	$( "#product_boxing_content" ).append($main_div);
+	
+	
+	
+	
+	
+	
+	
+	//show
+	$a.tab('show');  
+	count ++;			
+}
+
+/*add_product_boxing
 var count = 0;
 var obj;
 function addProductBoxing(){
+	
+	
+	
 	var $li = $("<li>", {class: "123"});	
 	var $a = $("<a>", {'data-toggle': "tab", 'href': "#abc"+count}); 
 	$a.append(count); 
 	$li.append($a);
 	$( "#add_li" ).before($li);
+	
 	var $div = $("<div>", {id: 'abc'+count, class: "tab-pane fade"});
 	$div.append('<p>'+count+'</p>');		
 	$( "#myTabContent" ).append($div);
 	count ++;	
+	
+	//$('#product_boxing_tab li.active').removeClass('active')
+	//$a.parent('li').addClass('active')	
+	//$a.tab('show');
+	
 /*	
 	if (obj.data('bs.tabcollapse').$accordion.is(':visible') )
 	{
 		obj.data('bs.tabcollapse').showTabs()
 		obj.data('bs.tabcollapse').showAccordion()
 	}
-*/	
-}	
 
+}	
+*/
 /*
 obj = $('#myTab').tabCollapse({
     tabsClass: 'hidden-xs',
