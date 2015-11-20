@@ -82,7 +82,7 @@ $('#product_boxing_tab').on('click', 'a', function(e) {
 	addProductBoxing(<%=p_b.id%>, <%=p_b.quantity || 'null'%>, <%=p_b.size || 'null'%>, <%=p_b.product_pricings.first.price || 'null'%>, <%=p_b.product_pricings.second.quantity || 'null' %>, <%=p_b.product_pricings.second.price || 'null'%>)			
 <% end %>
 
-function addProductBoxing(id, quantity, size, price, bargain_quantity, bargain_price){
+function addProductBoxing(id, quantity, size, price_id, price, bargain_price_id, bargain_quantity, bargain_price){
 	//li
 	var $li = $("<li>", {id: "product_boxing_li_"+id, 'data-id': id});	
 	var $a = $("<a>", {'href': "#product_boxing_"+id}); 
@@ -153,13 +153,15 @@ function addProductBoxing(id, quantity, size, price, bargain_quantity, bargain_p
 	$col_2.append($label_2);	
 	$form_group.append($col_2);		
 	$main_div.append($form_group);		
+	//id
+	var $input = $("<input>", { id: "product_product_boxings_attributes_"+id+"_product_pricings_attributes_0_id", name: "product[product_boxings_attributes]["+id+"][product_pricings_attributes][0][id]", value: price_id, type: "hidden"});	
+	$main_div.append($input);		
 	//line
 	var $form_group = $("<div>", {class: "form-group hidden-xs"});
 	var $col_1 = $("<div>", {class: "col-sm-offset-2 col-sm-8 vmiddle"});
 	$col_1.append('<h3 class="page-header text-muted"></h3>') 
 	$form_group.append($col_1);	
-	$main_div.append($form_group);	
-		
+	$main_div.append($form_group);			
 	//bargain quantity
 	var $form_group = $("<div>", {class: "form-group text-danger"});
 	var $label_1 = $("<label>", {class: "col-sm-offset-0 col-sm-2 col-xs-12 control-label vmiddle"});
@@ -194,6 +196,9 @@ function addProductBoxing(id, quantity, size, price, bargain_quantity, bargain_p
 	$col_2.append($label_2);	
 	$form_group.append($col_2);		
 	$main_div.append($form_group);		
+	//id
+	var $input = $("<input>", { id: "product_product_boxings_attributes_"+id+"_product_pricings_attributes_1_id", name: "product[product_boxings_attributes]["+id+"][product_pricings_attributes][1][id]", value: bargain_price_id, type: "hidden"});	
+	$main_div.append($input);		
 	//delete
 	var $form_group = $("<div>", {class: "form-group text-danger"});
 	var $col_1 = $("<div>", {class: "col-sm-offset-2 col-sm-8 vmiddle"});
