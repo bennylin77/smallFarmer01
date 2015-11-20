@@ -207,6 +207,8 @@ function addProductBoxing(id, quantity, size, price, bargain_quantity, bargain_p
 function delProductBoxing(id){
 	$("#product_boxing_"+id).remove()
 	$("#product_boxing_li_"+id).remove()
+	//show
+	$( "#product_boxing_tab li:last-child" ).prev().children().tab('show');  
 }
 
 </script>
