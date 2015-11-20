@@ -2,8 +2,8 @@ class ProductsController < ApplicationController
   layout "companies", only: [:index, :edit, :new, :create, :update, :preview, :available]  
   before_filter :authenticate_user!, except: [:show] 
   
-  before_action only: [:edit, :update, :preview, :destroy, :productImagesUpload, :productImagesDelete, :available, :productCoverUpload, :productCoverDelete] { |c| c.ProductCheckUser(params[:id])}      
-  before_action :set_product, only: [:show, :edit, :update, :preview, :destroy, :productImagesUpload, :productImagesDelete, :available, :productCoverUpload, :productCoverDelete]
+  before_action only: [:edit, :update, :preview, :destroy, :productImagesUpload, :productImagesDelete, :available, :productCoverUpload, :productCoverDelete, :productBoxingAdd, :productBoxingDelete] { |c| c.ProductCheckUser(params[:id])}      
+  before_action :set_product, only: [:show, :edit, :update, :preview, :destroy, :productImagesUpload, :productImagesDelete, :available, :productCoverUpload, :productCoverDelete, :productBoxingAdd, :productBoxingDelete]
   before_action :available?, only: [:show]
   before_action :delete?, only: [:show]  
 
@@ -76,6 +76,31 @@ class ProductsController < ApplicationController
     @product.update_attribute(:deleted_at, Time.zone.now)     
     flash[:notice] ='成功刪除商品編號'+@product.id.to_s        
     redirect_to products_url
+  end
+
+  def productBoxingAdd
+    if @product.product_boxings.size < 10
+      p_i = ProductImage.create(image: params[:product_image].first )
+      p_i.product = @product
+      p_i.save!  
+      render json: { initialPreview: [
+                        "<img src='"+p_i.image.url+"' class='file-preview-image'>",
+                     ],
+                     initialPreviewConfig: [{
+                        url: "/products/"+@product.id.to_s+"/productImagesDelete", key: p_i.id
+                     }]
+                   }
+    else
+      render json: { error: '上傳超過8張照片' }
+    end      
+  end
+
+  def productBoxingDelete
+    if @product.product_boxings.size > 1 and @product.product_boxings.where(id: params[:product_boxing_id]).first.update_attribute(:delete_c, true)   
+      render json: {success: '刪除成功'}     
+    else
+      render json: {error: '刪除失敗'}           
+    end     
   end
 
   def productCoverUpload

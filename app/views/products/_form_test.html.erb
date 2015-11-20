@@ -72,14 +72,28 @@ size_options = <%= Hash[boxSizeOptions].to_json.html_safe%>
 $('#product_boxing_tab').on('click', 'a', function(e) {
   e.preventDefault()
   if( $(this).attr('id') == 'add_product_boxing' ) 
+  {
+  	
+  	
+  	
+  	
+  	
   	addProductBoxing()
+  	
+  	
+  	
+  	
+  	
+  	
+  }
   else
   	$(this).tab('show')
 })
 
 
 <% @product.product_boxings.each do |p_b|%>
-	addProductBoxing(<%=p_b.id%>, <%=p_b.quantity || 'null'%>, <%=p_b.size || 'null'%>, <%=p_b.product_pricings.first.price || 'null'%>, <%=p_b.product_pricings.second.quantity || 'null' %>, <%=p_b.product_pricings.second.price || 'null'%>)			
+	addProductBoxing(<%=p_b.id%>, <%=p_b.quantity || 'null'%>, <%=p_b.size || 'null'%>, <%=p_b.product_pricings.first.id || 'null'%>, 
+					 <%=p_b.product_pricings.first.price || 'null'%>, <%=p_b.product_pricings.second.id || 'null'%>, <%=p_b.product_pricings.second.quantity || 'null' %>, <%=p_b.product_pricings.second.price || 'null'%>)			
 <% end %>
 
 function addProductBoxing(id, quantity, size, price_id, price, bargain_price_id, bargain_quantity, bargain_price){
@@ -136,6 +150,9 @@ function addProductBoxing(id, quantity, size, price_id, price, bargain_price_id,
 	$col_2.append(image);	
 	$form_group.append($col_2);		
 	$main_div.append($form_group);	
+	//id
+	var $input = $("<input>", { id: "product_product_boxings_attributes_"+id+"_id", name: "product[product_boxings_attributes]["+id+"][id]", value: id, type: "hidden"});	
+	$main_div.append($input);		
 	//price
 	var $form_group = $("<div>", {class: "form-group"});
 	var $label_1 = $("<label>", {class: "col-sm-offset-0 col-sm-2 col-xs-12 control-label vmiddle"});
