@@ -123,35 +123,51 @@ function changeQuantity(id){
 }
 //shipping fee
 function finalPrice(){
-	box_size = $('#product_product_boxings_attributes_0_size').val()
-	cold_chain = $('#product_cold_chain').val()
-	original_price = $('#product_product_boxings_attributes_0_product_pricings_attributes_0_price').val()
-	promote_price = $('#product_product_boxings_attributes_0_product_pricings_attributes_1_price').val()
-	promote_quantity = $('#product_product_boxings_attributes_0_product_pricings_attributes_1_quantity').val()
-    if( box_size && cold_chain ){
-    	$('.shipping_fee').html(shippingRates( box_size, cold_chain, 1))
-    	if( original_price ){
-    		$('.final_price').html( parseInt(original_price) + shippingRates( box_size, cold_chain, 1))
-    	}else
-    		$('.final_price').html('xx')	    		
-    	if( promote_quantity ) 
-    	{
-    		$('.bargain_shipping_fee').html(shippingRates( box_size, cold_chain, promote_quantity))
-    		if(promote_price)
-    			$('.bargain_final_price').html( parseInt(promote_price) + shippingRates( box_size, cold_chain, promote_quantity))
-    		else	
-    			$('.bargain_final_price').html('xx')	    		    	
-    	}else{
-	   		$('.bargain_shipping_fee').html('xx')		  	 	
-    		$('.bargain_final_price').html('xx')	    		    	    		
-    	}   
-    }	
-	else{
-		$('.shipping_fee').html('xx')		
-	   	$('.final_price').html('xx')	
-	   	$('.bargain_shipping_fee').html('xx')		
-	   	$('.bargain_final_price').html('xx')    	
-	}	
+	
+	$('#product_boxing_tab li').each(function(i)
+	{
+		if( $(this).attr('id') != 'add_li')
+		{		
+	   		var id = $(this).attr('data-id')
+	   	
+	   	
+			box_size = $('#product_product_boxings_attributes_'+id+'_size').val()			
+			cold_chain = $('#product_cold_chain').val()
+			original_price = $('#product_product_boxings_attributes_'+id+'_product_pricings_attributes_0_price').val()
+			bargain_price = $('#product_product_boxings_attributes_'+id+'_product_pricings_attributes_1_price').val()
+			bargain_quantity = $('#product_product_boxings_attributes_'+id+'_product_pricings_attributes_1_quantity').val()
+		    if( box_size && cold_chain ){
+		    	$('.shipping_fee_'+id).html(shippingRates( box_size, cold_chain, 1))
+		    	if( original_price ){
+		    		$('.final_price_'+id).html( parseInt(original_price) + shippingRates( box_size, cold_chain, 1))
+		    	}else
+		    		$('.final_price_'+id).html('xx')	    		
+		    	if( bargain_quantity ) 
+		    	{
+		    		$('.bargain_shipping_fee_'+id).html(shippingRates( box_size, cold_chain, bargain_quantity))
+		    		if(bargain_price)
+		    		{
+		    			$('.bargain_final_price_'+id).html( parseInt(bargain_price) + shippingRates( box_size, cold_chain, bargain_quantity))
+		    		}
+		    		else	
+		    			$('.bargain_final_price_'+id).html('xx')	    		    	
+		    	}else{
+			   		$('.bargain_shipping_fee_'+id).html('xx')		  	 	
+		    		$('.bargain_final_price_'+id).html('xx')	    		    	    		
+		    	}   
+		    }	
+			else{
+				$('.shipping_fee_'+id).html('xx')		
+			   	$('.final_price_'+id).html('xx')	
+			   	$('.bargain_shipping_fee_'+id).html('xx')		
+			   	$('.bargain_final_price_'+id).html('xx')    	
+			}		   	
+	   	
+	   	
+	   	
+	   	
+	   	}
+	});	
 } 
 finalPrice()
 

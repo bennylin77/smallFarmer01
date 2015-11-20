@@ -84,7 +84,7 @@ $('#product_boxing_tab').on('click', 'a', function(e) {
 
 function addProductBoxing(id, quantity, size, price, bargain_quantity, bargain_price){
 	//li
-	var $li = $("<li>", {id: "product_boxing_li_"+id});	
+	var $li = $("<li>", {id: "product_boxing_li_"+id, 'data-id': id});	
 	var $a = $("<a>", {'href': "#product_boxing_"+id}); 
 	var $span_quantity = $("<span>", {'id': "product_boxing_li_quantity_"+id}); 
 	var $span_unit = $("<span>", {'class': "product_boxing_unit"}); 
@@ -144,7 +144,7 @@ function addProductBoxing(id, quantity, size, price, bargain_quantity, bargain_p
 	var $input = $("<input>", {class: "form-control", id: "product_product_boxings_attributes_"+id+"_product_pricings_attributes_0_price", name: "product[product_boxings_attributes]["+id+"][product_pricings_attributes][0][price]", value: price, onchange: "finalPrice()", type:"number"});
 	var $col_2 = $("<div>", {class: "col-sm-5 col-xs-6 vmiddle"});
 	var $label_2 = $("<label>", {class: "control-label"});
-	$label_2.append('元 + 運費 <span class="shipping_fee_'+id+'"></span>元 = <span class="final_price'+id+'"></span>元')	
+	$label_2.append('元 + 運費 <span class="shipping_fee_'+id+'"></span>元 = <span class="final_price_'+id+'"></span>元')	
 	$form_group.append($label_1);
 	$form_group.append('<!---->');
 	$col_1.append($input);
@@ -185,7 +185,7 @@ function addProductBoxing(id, quantity, size, price, bargain_quantity, bargain_p
 	var $input = $("<input>", {class: "form-control", id: "product_product_boxings_attributes_"+id+"_product_pricings_attributes_1_price", name: "product[product_boxings_attributes]["+id+"][product_pricings_attributes][1][price]", value: bargain_price, onchange: "finalPrice()", type:"number"});
 	var $col_2 = $("<div>", {class: "col-sm-5 col-xs-6 vmiddle"});
 	var $label_2 = $("<label>", {class: "control-label"});
-	$label_2.append('元 + 運費 <span class="bargain_shipping_fee_'+id+'"></span>元 = <span class="bargain_final_price'+id+'"></span>元')	
+	$label_2.append('元 + 運費 <span class="bargain_shipping_fee_'+id+'"></span>元 = <span class="bargain_final_price_'+id+'"></span>元')	
 	$form_group.append($label_1);
 	$form_group.append('<!---->');
 	$col_1.append($input);
