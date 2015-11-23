@@ -1,5 +1,5 @@
 <% content_for :title do %>
-    <title><%= @product.name %><%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%></title>  
+    <title><%= @product.name %> | <%=@product.company.name%> | 小農1號線上水果平台</title>  
 <% end %>
 <% content_for :show_fb do %>
     <meta property="og:url" content="<%=Rails.configuration.smallfarmer01_host%>/products/<%=@product.id%>" />
@@ -68,7 +68,7 @@
 		</div>
 		<div class="col-sm-5">
 			<div class="row" style="margin-top: 20px;">			
-		      <div class="hidden-xs col-sm-12">        
+		      <div class="hidden-xs col-sm-offset-1 col-sm-11">        
 		        <div class="" style="">
 		        	<div class="product_name text-left"><%= @product.name %><%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%></div>	      
 		      	</div>

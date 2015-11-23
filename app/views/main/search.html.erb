@@ -1,6 +1,6 @@
 <%if @keyword%>
 	<% content_for :title do %>
-	    <title><%= @keyword.content %></title>  
+	    <title><%= @keyword.content %> | 小農1號線上水果平台</title>  
 	<% end %>
 	<%= render partial: "keyword", locals: { keyword: @keyword, products: @products } %>
 <%elsif @all%>
