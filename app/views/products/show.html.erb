@@ -13,7 +13,7 @@
 <%if @product.inventory%>
 	<% inventory = @product.inventory - Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', @product.product_boxings.first.id, false, Time.zone.now ).sum(:quantity) %>		
 <%end%>	
-<div class="container-fluid" itemscope itemtype="http://schema.org/Product" style="margin-bottom: 50px;">
+<div class="container-fluid" itemscope itemtype="http://schema.org/Product">
 	<div class="row" style="">
 		<div id="parallax1" class="product_cover_parallax_parent">
 			<div style="background-image: url('<%=@product.cover.url%>'); background-size: cover; background-position: center center;"></div>
@@ -36,68 +36,53 @@
 	  </li>
 	  <li class="active"><%= @product.name %></li>		  
 	</ol>			
-	<div class="row">
-		<div class="col-xs-12">	
-			<div class="row">		
-				<div class="hidden-xs col-sm-12 product_farm_words">		
-					<%= image_tag @product.company.user.avatar.url, class: 'img-circle product_farm_words_avatar' %>		
-					<%= link_to @product.company do%>
-						<div class="product_farm_words_text">	
-							<%= truncate( @product.company.words, length: 120, omission: '... more') %>
-						</div>
-					<%end%>
-				</div>				
-				<div class="visible-xs-block col-xs-12 product_farm_words">		
-					<div class="row">
-						<div class="col-xs-12 text-center">					
-							<%= image_tag @product.company.user.avatar.url, class: 'img-circle product_farm_words_avatar', style: '',  itemprop: "image" %>		
-						</div>
-						<%= link_to @product.company do%>				
-							<div class="col-xs-12 product_farm_words_text">	
-							<%= truncate( @product.company.description, length: 120, omission: '... more') %>
-							</div>
-						<%end%>				
-					</div>
-				</div>	
+	<div class="row">		
+		<div class="hidden-xs col-sm-12">	
+			<div class="product_farm_words"> 
+			<%= image_tag @product.company.user.avatar.url, class: 'img-circle product_farm_words_avatar' %>		
+			<%= link_to @product.company do%>
+				<div class="product_farm_words_text">	
+					<%= truncate( @product.company.words, length: 120, omission: '... more') %>
+				</div>
+			<%end%>
 			</div>
-		</div>							
-	</div>		
+		</div>			
+		<div class="hidden-sm hidden-md hidden-lg col-xs-12 product_farm_words text-center">		
+			<div>
+				<%= image_tag @product.company.user.avatar.url, class: 'img-circle product_farm_words_avatar', style: '',  itemprop: "image" %>		
+				<%= link_to @product.company do%>				
+					<div class="col-xs-12 product_farm_words_text">	
+						<%= truncate( @product.company.description, length: 120, omission: '... more') %>
+					</div>
+				<%end%>				
+			</div>
+		</div>	
+	</div>	
 	<div class="row product_carousel_add_to_cart_container">
-		<div class="col-sm-7">		
+		<div class="col-md-7">		
 			<%= render partial: "products/product_carousel" %>								
 		</div>
-		<div class="col-sm-5">
+		<div class="col-md-5">
 			<div class="row" style="margin-top: 20px;">			
-		      <div class="hidden-xs col-sm-offset-1 col-sm-11">        
+		      <div class="col-md-offset-1 col-md-11">        
 		        <div class="" style="">
-		        	<div class="product_name text-left"><%= @product.name %><%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%></div>	      
+		        	<div class="product_name text-left"><%= @product.name %></div>	      
 		      	</div>
-		      </div>	      	
-		      <div class="hidden-sm hidden-md hidden-lg col-xs-12 text-center">    	
-		        <div class="product_name" itemprop="name"><%= @product.name %><%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%></div>
-		        <div class="product_excellent">
-		        	<!--
-		        	<span class="product_excellent_no" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL ', @product.id, GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count+Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL ', @product.id, GLOBAL_VAR['ORDER_REVIEW_TASTY']).count %>'>0</span>
-		        	<span class="product_excellent_text">人說好吃</span>
-					<span><%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and invoices.confirmed_c = ? and review_at IS NULL', @product.id, true).count%>人未評</span>		        
-		        	-->
-		        </div>		      
-		      </div>		      		      
+		      </div>	      		      		      
 		    </div>	
-			<div class="row hidden-xs">
-		      <div class="col-sm-8 product_excellent text-left">
-		      		<!--
+			<div class="row">
+		      <div class="col-xs-offset-0 col-xs-8 col-md-offset-1 col-md-8 product_excellent text-left">
 		        	<span class="product_excellent_no" data-count='<%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL', @product.id, GLOBAL_VAR['ORDER_REVIEW_DELICIOUS']).count+Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_score = ? and review_at IS NOT NULL ', @product.id, GLOBAL_VAR['ORDER_REVIEW_TASTY']).count %>'>0</span>
 		        	<span class="product_excellent_text"> 人說好吃</span>
 		        	<span><%= Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and invoices.confirmed_c = ? and review_at IS NULL', @product.id, true).count%>人未評</span>
-		     		-->
 		      </div>					
-		      <div class="col-sm-3 text-right" style="margin-top: 20px;">
+		      <div class="col-xs-4 col-md-3 text-right" style="margin-top: 20px;">
 				<div class="fb-share-button" data-href="<%=Rails.configuration.smallfarmer01_host%>/products/<%=@product.id%>" data-layout="button_count"></div>		      
 		      </div>
 		    </div>			    			    
 			<%@product.product_boxings.first.product_pricings.each do |p| %>
 				<%if p.quantity == 1%>	
+				<!--
 				<div class="row product_price" style="margin-top: 20px;">
 					<div class="hidden-xs col-sm-4 text-left">							
 					    每箱 <%if @product.product_boxings.first.quantity%><%= "%g" % @product.product_boxings.first.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%>
@@ -128,21 +113,43 @@
 					<%end%>
 					</div>											
 				</div>
+				-->
 				<div class="row product_price" style="margin-top: 10px;">
-					<div class="hidden-xs col-sm-6 text-left">數量</div>					
-					<div class="hidden-sm hidden-md hidden-lg col-xs-3 text-right">數量</div>									
-					<div class="col-xs-6 col-sm-offset-0 col-sm-3">					
+					<div class="col-md-offset-1 col-md-11 text-left">選擇包裝</div>									
+				</div>
+				<div class="row" style="margin-top: 10px;">
+					<div class="col-md-offset-1 col-md-11">
+					<div class="btn-group product_btn_group" data-toggle="buttons">
+		                <label class="btn btn-default product_orange_btn">
+		                    <input type="radio" id="q156" name="quality[25]" value="1" /> 1台斤 200元
+		                </label> 
+		                <label class="btn btn-default product_orange_btn">
+		                    <input type="radio" id="q157" name="quality[25]" value="2" /> 3台斤 350元
+		                </label> 
+		                <label class="btn btn-default product_orange_btn">
+		                    <input type="radio" id="q158" name="quality[25]" value="3" /> 5台斤 500元
+		                </label> 
+		                <label class="btn btn-default product_orange_btn">
+		                    <input type="radio" id="q159" name="quality[25]" value="4" /> 7台斤 700元
+		                </label> 
+		                <label class="btn btn-default product_orange_btn active">
+		                    <input type="radio" id="q160" name="quality[25]" checked="checked" value="5" /> 10台斤 1000元
+		                </label>
+	            	</div>
+	            	</div>
+				</div>								
+				<div class="row product_price" style="margin-top: 10px;">
+					<div class="col-md-offset-1 col-md-11">					
 						<%max_quantity = 50%>
 						<%if inventory < max_quantity %>	
 							<% max_quantity = inventory %>
 						<%end%>
-						<%= select_tag  :quantity, options_for_select( (1..max_quantity).step(1).to_a), class: "form-control", style: 'height: 30px; padding: 3px 12px' %>				
+						<%= select_tag  :quantity, options_for_select( (1..max_quantity).map {|i| ['數量:  '+i.to_s+'箱', i] }   ), class: "form-control", style: 'height: 30px; padding: 3px 12px' %>				
 					</div>	  
-					<div class="col-xs-3 col-sm-2">箱</div>	
 				</div>						
 				<%elsif p.quantity%>
 				<div class="row" style="margin-top: 22px;">	
-					<div class="col-xs-offset-2 col-xs-8 col-sm-offset-0 col-sm-11 text-center">								
+					<div class="col-md-offset-1 col-md-11 text-center">								
 						<div class="product_promote">
 						<span style=""><%= p.quantity %>箱以上，每箱 <span style="font-size: 130%; color: #FF5600"><%= priceWithShippingRates( product_boxing: p.product_boxing, quantity: p.quantity )/p.quantity %>元</span></span>
 						</div>
@@ -150,7 +157,7 @@
 				</div>	
 				<%else%>	
 				<div class="row" style="margin-top: 22px;">	
-					<div class="col-xs-offset-2 col-xs-8 col-sm-offset-0 col-sm-11 text-center">								
+					<div class="col-md-offset-1 col-md-11">								
 						<div class="product_promote" style="border-bottom: none;">
 						</div>
 					</div>								
@@ -160,56 +167,43 @@
 			<%if @product.released_at%>
 				<%if @product.released_at > Time.zone.now %>
 				<div class="row" style="margin-top: 20px;">								
-					<div class="hidden-xs col-sm-offset-1 col-sm-10">						
-						<div class='product_released_at pull-right'>[預購商品] <%= @product.released_at.strftime("%Y-%m-%d") %>起陸續出貨</div> 
-					</div>			
-					<div class="hidden-sm hidden-md hidden-lg col-xs-12 text-center">
+					<div class="col-md-offset-1 col-md-11">						
 						<div class='product_released_at'>[預購商品] <%= @product.released_at.strftime("%Y-%m-%d") %>起陸續出貨</div> 
-					</div>				
+					</div>							
 				</div>	
 				<%else%>
 					<%if @product.shipping_time != 0%>
 					<div class="row" style="margin-top: 20px;">								
-						<div class="hidden-xs col-sm-offset-1 col-sm-10">						
+						<div class="col-md-offset-1 col-md-11">						
 							<div class='product_shipping_time_container pull-right'>
 								<%=render partial: "products/shipping_time", locals: { product: @product}%>
 							</div> 
-						</div>			
-						<div class="hidden-sm hidden-md hidden-lg col-xs-12 text-center">
-							<div class='product_shipping_time_container'>
-								<%=render partial: "products/shipping_time", locals: { product: @product}%>
-							</div> 
-						</div>				
+						</div>						
 					</div>	
 					<%end%>					
 				<%end%>
 			<%else%>
 				<%if @product.shipping_time != 0%>
 				<div class="row" style="margin-top: 20px;">								
-					<div class="hidden-xs col-sm-offset-1 col-sm-10">						
+					<div class="col-md-offset-1 col-md-11">						
 						<div class='product_shipping_time_container pull-right'>
 							<%=render partial: "products/shipping_time", locals: { product: @product}%>
 						</div> 
-					</div>			
-					<div class="hidden-sm hidden-md hidden-lg col-xs-12 text-center">
-						<div class='product_shipping_time_container'>
-							<%=render partial: "products/shipping_time", locals: { product: @product}%>
-						</div> 
-					</div>				
+					</div>						
 				</div>	
 				<%end%>						
 			<%end%>								
 			<div class="row" style="margin-top: 20px;">								
-				<div class="hidden-xs col-sm-11">								  				      
+				<div class="col-md-offset-1 col-md-11">								  				      
 					<%if inventory == 0%>
 						<button type="button" class="cart_unavailable btn btn-default pull-right" autocomplete="off" disabled="disabled">已搶購完</button>			
 					<%else%>
 						<%if user_signed_in?%>
 								<%=image_tag 'cart_icon.png', class: 'cart_icon_product_992', style: 'height: 35px; position: absolute; right: 62.5px; top: 5px; z-index: -1' %>	
-								<button type="button" class="add_to_cart add_to_cart_action btn orange_btn pull-right" autocomplete="off">加入購物車</button>			
+								<a class="add_to_cart add_to_cart_action btn orange_btn center-block" autocomplete="off">加入購物車</a>			
 						<%else%>
 							<%= form_tag  '/carts/addCart', method: 'get', class: 'add_to_cart_form' do %>				  	
-							  	<%= submit_tag '加入購物車',  class: "add_to_cart btn orange_btn pull-right" %>
+							  	<%= submit_tag '加入購物車',  class: "add_to_cart btn orange_btn" %>
 							<% end %>							
 						<%end%>
 					<%end%>		
@@ -234,21 +228,7 @@
 					<div class="pull-right" style="color: #B5841B; font-size: 16px; margin-top: 13px; margin-right: 10px;">
 					回饋金約			  				
 					</div>
-				</div>	-->
-				<div class="hidden-sm hidden-md hidden-lg col-xs-12 text-center">			  																	
-					<%if inventory == 0%>
-						<button type="button" class="cart_unavailable btn btn-default" autocomplete="off" disabled="disabled">已搶購完</button>			
-					<%else%>
-						<%if user_signed_in?%>
-							<%=image_tag 'cart_icon.png', class: 'cart_icon_product', style: 'height: 35px; position: absolute; top: 5px; z-index: -1' %>			  													  																												
-							<button type="button" class="add_to_cart add_to_cart_action btn orange_btn" autocomplete="off">加入購物車</button>			
-						<%else%>
-							<%= form_tag  '/carts/addCart', method: 'get', class: 'add_to_cart_form' do %>				  	
-							  	<%= submit_tag '加入購物車',  class: "add_to_cart btn orange_btn" %>
-							<% end %>							
-						<%end%>					
-					<%end%>	
-				</div>					
+				</div>	-->				
 			</div>		
 		</div>
 	</div>	

@@ -16,7 +16,7 @@ class ProductsController < ApplicationController
 
   def new
     product = Product.new
-    p_b= product.product_boxings.build() 
+    p_b = product.product_boxings.build() 
     p_b.product_pricings.build(quantity: 1)   
     p_b.product_pricings.build()       
     product.company = current_user.companies.first
