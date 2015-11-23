@@ -100,7 +100,7 @@ $('#product_boxing_tab').on('click', 'a', function(e) {
 
 	<%= f.fields_for :product_boxings, include_id: false do |p_b| %>	
 		<%unless p_b.object.deleted_c %>
-		addProductBoxing(<%=p_b.object.id%>, <%=p_b.object.quantity || 'null'%>, <%=p_b.object.size || 'null'%>, <%=p_b.object.product_pricings.first.id || 'null'%>, 
+		addProductBoxing(<%=p_b.object.id%>, <%=p_b.object.quantity || 'null'%>, <%=p_b.object.size || 0%>, <%=p_b.object.product_pricings.first.id || 'null'%>, 
 						 <%=p_b.object.product_pricings.first.price || 'null'%>, <%=p_b.object.product_pricings.second.id || 'null'%>, <%=p_b.object.product_pricings.second.quantity || 'null' %>, <%=p_b.object.product_pricings.second.price || 'null'%>)			
 		<%end%>
 	<% end %>
@@ -123,9 +123,9 @@ function addProductBoxing(id, quantity, size, price_id, price, bargain_price_id,
 	//quantity
 	var $form_group = $("<div>", {class: "form-group"});
 	var $label_1 = $("<label>", {class: "col-sm-offset-0 col-sm-2 col-xs-12 control-label vmiddle"});
-	$label_1.html('內含數量')
+	$label_1.html('內含')
 	var $col_1 = $("<div>", {class: "col-sm-5 col-xs-6 vmiddle"});
-	var $input = $("<input>", {class: "form-control", id: "product_product_boxings_attributes_"+id+"_quantity", name: "product[product_boxings_attributes]["+id+"][quantity]", type: 'text', value: quantity, onchange: 'changeQuantity('+id+')'});
+	var $input = $("<input>", {class: "form-control", id: "product_product_boxings_attributes_"+id+"_quantity", name: "product[product_boxings_attributes]["+id+"][quantity]", type: 'text', value: quantity, onchange: 'changeQuantity('+id+')', placeholder: '請填數量'});
 	var $col_2 = $("<div>", {class: "col-sm-5 col-xs-6 vmiddle"});
 	var $label_2 = $("<label>", {class: "control-label product_boxing_unit"});
 	$label_2.html($('#product_unit option:selected').text())	
@@ -168,7 +168,7 @@ function addProductBoxing(id, quantity, size, price_id, price, bargain_price_id,
 	var $label_1 = $("<label>", {class: "col-sm-offset-0 col-sm-2 col-xs-12 control-label vmiddle"});
 	$label_1.html('每箱賣')
 	var $col_1 = $("<div>", {class: "col-sm-5 col-xs-6 vmiddle"});
-	var $input = $("<input>", {class: "form-control", id: "product_product_boxings_attributes_"+id+"_product_pricings_attributes_0_price", name: "product[product_boxings_attributes]["+id+"][product_pricings_attributes][0][price]", value: price, onchange: "finalPrice()", type:"number"});
+	var $input = $("<input>", {class: "form-control", id: "product_product_boxings_attributes_"+id+"_product_pricings_attributes_0_price", name: "product[product_boxings_attributes]["+id+"][product_pricings_attributes][0][price]", value: price, onchange: "finalPrice()", type:"number", placeholder: '請填價錢'});
 	var $col_2 = $("<div>", {class: "col-sm-5 col-xs-6 vmiddle"});
 	var $label_2 = $("<label>", {class: "control-label"});
 	$label_2.append('元 + 運費 <span class="shipping_fee_'+id+'"></span>元 = <span class="final_price_'+id+'"></span>元')	
@@ -194,7 +194,7 @@ function addProductBoxing(id, quantity, size, price_id, price, bargain_price_id,
 	var $label_1 = $("<label>", {class: "col-sm-offset-0 col-sm-2 col-xs-12 control-label vmiddle"});
 	$label_1.html('促銷')
 	var $col_1 = $("<div>", {class: "col-sm-5 col-xs-6 vmiddle"});
-	var $input = $("<input>", {class: "form-control", id: "product_product_boxings_attributes_"+id+"_product_pricings_attributes_1_quantity", name: "product[product_boxings_attributes]["+id+"][product_pricings_attributes][1][quantity]", onchange: "finalPrice()", type: 'number', value: bargain_quantity});
+	var $input = $("<input>", {class: "form-control", id: "product_product_boxings_attributes_"+id+"_product_pricings_attributes_1_quantity", name: "product[product_boxings_attributes]["+id+"][product_pricings_attributes][1][quantity]", onchange: "finalPrice()", type: 'number', value: bargain_quantity, placeholder: '請填數量'});
 	var $col_2 = $("<div>", {class: "col-sm-5 col-xs-6 vmiddle"});
 	var $label_2 = $("<label>", {class: "control-label"});
 	$label_2.html('箱以上(含)')	
@@ -211,7 +211,7 @@ function addProductBoxing(id, quantity, size, price_id, price, bargain_price_id,
 	var $label_1 = $("<label>", {class: "col-sm-offset-0 col-sm-2 col-xs-12 control-label vmiddle"});
 	$label_1.html('每箱賣')
 	var $col_1 = $("<div>", {class: "col-sm-5 col-xs-6 vmiddle"});
-	var $input = $("<input>", {class: "form-control", id: "product_product_boxings_attributes_"+id+"_product_pricings_attributes_1_price", name: "product[product_boxings_attributes]["+id+"][product_pricings_attributes][1][price]", value: bargain_price, onchange: "finalPrice()", type:"number"});
+	var $input = $("<input>", {class: "form-control", id: "product_product_boxings_attributes_"+id+"_product_pricings_attributes_1_price", name: "product[product_boxings_attributes]["+id+"][product_pricings_attributes][1][price]", value: bargain_price, onchange: "finalPrice()", type:"number", placeholder: '請填價錢'});
 	var $col_2 = $("<div>", {class: "col-sm-5 col-xs-6 vmiddle"});
 	var $label_2 = $("<label>", {class: "control-label"});
 	$label_2.append('元 + 運費 <span class="bargain_shipping_fee_'+id+'"></span>元 = <span class="bargain_final_price_'+id+'"></span>元')	
@@ -398,7 +398,7 @@ function delProductBoxing(id){
 			<%= f.number_field :inventory, placeholder: '這批可以賣多少量', class: "form-control" %>
 		</div>
 		<div class="col-sm-1 col-lg-1">
-			<label class="control-label">箱</label>	
+			<label class="control-label product_boxing_unit"><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%></label>	
 		</div>			
 	</div>				
 	<div class="form-group">

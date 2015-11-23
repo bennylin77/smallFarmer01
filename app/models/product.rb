@@ -34,6 +34,7 @@ class Product < ActiveRecord::Base
   validate  :productImageMoreThan, on: :update   
 #product_boxing   
   validate  :productBoxingPresence, on: :update 
+  validate  :productBoxingNumericality, on: :update   
 #product_pricing
   validate  :quantityMostWithPrice, on: :update 
   validate  :moreThanOneMostWithLowerPrice, on: :update 
@@ -64,7 +65,7 @@ class Product < ActiveRecord::Base
     product_boxings.each do |product_boxing| 
       unless product_boxing.deleted_c 
         if product_boxing.quantity.blank?
-          errors.add('product_boxing', '請填寫 包裝種類_內含數量')          
+          errors.add('product_boxing', '請填寫 包裝種類_內含')          
         end     
         if product_boxing.size.blank?
           errors.add('product_size', '請填寫 包裝種類_箱子尺寸')          
@@ -72,6 +73,17 @@ class Product < ActiveRecord::Base
       end       
     end
   end 
+  def productBoxingNumericality
+    product_boxings.each do |product_boxing| 
+      unless product_boxing.deleted_c 
+        if product_boxing.quantity
+          if product_boxing.quantity <= 0
+            errors.add('product_boxing', '請填寫 包裝種類_內含需大於0')          
+          end  
+        end     
+      end       
+    end 
+  end
 #product_pricing
   def quantityMostWithPrice
     product_boxings.each do |product_boxing| 
@@ -113,8 +125,8 @@ class Product < ActiveRecord::Base
           if one != product_pricing
             if product_pricing.quantity
               if product_pricing.quantity <= 1
-                product_pricing.quantity = 0
-                errors.add(:quantity, "促銷箱數需大於1箱")
+                product_pricing.quantity = ''
+                errors.add(:quantity, "包裝種類_促銷箱數需大於1箱")
               end
             end
           end   
