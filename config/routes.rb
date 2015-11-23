@@ -94,8 +94,8 @@ Rails.application.routes.draw do
   match '/companies/:id/companyImagesUpload' => 'companies#companyImagesUpload', via: [:post], :as => :companyImagesUpload
   match '/companies/:id/companyImagesDelete' => 'companies#companyImagesDelete', via: [:post], :as => :companyImagesDelete
   match '/products/preview/:id' => 'products#preview', via: [:patch]   
-  match '/products/:id/productBoxingAdd' => 'productBoxingAdd', via: [:post], :as => :productBoxingAdd
-  match '/products/:id/productBoxingDelete' => 'productBoxingDelete', via: [:post], :as => :productBoxingDelete   
+  match '/products/:id/productBoxingAdd'    => 'products#productBoxingAdd', via: [:post], :as => :productBoxingAdd
+  match '/products/:id/productBoxingDelete' => 'products#productBoxingDelete', via: [:post], :as => :productBoxingDelete   
   match '/products/:id/productCoverUpload' => 'products#productCoverUpload', via: [:post], :as => :productCoverUpload
   match '/products/:id/productCoverDelete' => 'products#productCoverDelete', via: [:post], :as => :productCoverDelete    
   match '/products/:id/productImagesUpload' => 'products#productImagesUpload', via: [:post], :as => :productImagesUpload

@@ -38,7 +38,7 @@ class ProductsController < ApplicationController
   end
 
   def update
-    @product.update(product_params)  
+    @product.update(product_params)      
     @keywords = params[:keywords]     
     @product.shipping_time = params[:shipping_time_1].to_i | params[:shipping_time_2].to_i | params[:shipping_time_4].to_i |
                              params[:shipping_time_8].to_i | params[:shipping_time_16].to_i | params[:shipping_time_32].to_i |
@@ -79,27 +79,32 @@ class ProductsController < ApplicationController
   end
 
   def productBoxingAdd
-    if @product.product_boxings.size < 10
-      p_i = ProductImage.create(image: params[:product_image].first )
-      p_i.product = @product
-      p_i.save!  
-      render json: { initialPreview: [
-                        "<img src='"+p_i.image.url+"' class='file-preview-image'>",
-                     ],
-                     initialPreviewConfig: [{
-                        url: "/products/"+@product.id.to_s+"/productImagesDelete", key: p_i.id
-                     }]
-                   }
+    if @product.product_boxings.where( deleted_c: false ).size < 10 and @product.product_boxings.size < 99999  
+      p_b = ProductBoxing.new() 
+      p_b.product = @product
+      p_b.save!
+      p_p = ProductPricing.new(quantity: 1)   
+      p_p.product_boxing = p_b
+      p_p.save!
+      p_p_bargain = ProductPricing.new()      
+      p_p_bargain.product_boxing = p_b
+      p_p_bargain.save!       
+      render json: { success: '新增成功', id: p_b.id, price_id: p_p.id, bargain_price_id: p_p_bargain.id}
     else
-      render json: { error: '上傳超過8張照片' }
+      render json: { error: '包種種類不能多於十種' }
     end      
   end
 
   def productBoxingDelete
-    if @product.product_boxings.size > 1 and @product.product_boxings.where(id: params[:product_boxing_id]).first.update_attribute(:delete_c, true)   
-      render json: {success: '刪除成功'}     
+    if @product.product_boxings.where( deleted_c: false ).size > 1 
+      product_boxing = @product.product_boxings.where(id: params[:product_boxing_id]).first
+      if product_boxing.update_attribute(:deleted_c, true) and product_boxing.update_attribute(:deleted_at, Time.zone.now()) 
+        render json: {success: '刪除成功'}     
+      else
+        render json: {error: '刪除失敗'}  
+      end  
     else
-      render json: {error: '刪除失敗'}           
+      render json: {error: '包種種類不能少於一種'}           
     end     
   end
 

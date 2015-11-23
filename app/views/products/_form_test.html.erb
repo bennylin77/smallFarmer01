@@ -62,7 +62,7 @@
 </div>	
 <div class="form-group">
 	<div class="col-sm-offset-2 col-sm-10 col-lg-offset-3 col-lg-7">
-		<div id="product_boxing_content" class="tab-content" style="border: 1px solid #DDD; padding-top: 15px; border-top: none;">
+		<div id="product_boxing_content" class="tab-content" style="border: 1px solid #DDD; padding-top: 40px; padding-left: 5px; border-top: none;">
 		</div>
  	</div>
 </div>
@@ -73,28 +73,38 @@ $('#product_boxing_tab').on('click', 'a', function(e) {
   e.preventDefault()
   if( $(this).attr('id') == 'add_product_boxing' ) 
   {
-  	
-  	
-  	
-  	
-  	
-  	addProductBoxing()
-  	
-  	
-  	
-  	
-  	
-  	
+	var request = $.ajax({
+		url: "/products/<%=@product.id%>/productBoxingAdd",
+		type: "POST",
+		data: {},
+		dataType: "json",
+		async: false
+	});
+	request.done(function( message) {
+	 	if( message.success )
+	 	{
+			addProductBoxing(message.id, null, 0, message.price_id, null, message.bargain_price_id, null, null)  	 		 		
+	 		finalPrice()
+	 	}
+	 	else
+	 		toastr.warning(message.error)	
+	});
+	request.fail(function( jqXHR, textStatus ) {
+	});	  	
   }
   else
   	$(this).tab('show')
 })
 
 
-<% @product.product_boxings.each do |p_b|%>
-	addProductBoxing(<%=p_b.id%>, <%=p_b.quantity || 'null'%>, <%=p_b.size || 'null'%>, <%=p_b.product_pricings.first.id || 'null'%>, 
-					 <%=p_b.product_pricings.first.price || 'null'%>, <%=p_b.product_pricings.second.id || 'null'%>, <%=p_b.product_pricings.second.quantity || 'null' %>, <%=p_b.product_pricings.second.price || 'null'%>)			
-<% end %>
+
+	<%= f.fields_for :product_boxings, include_id: false do |p_b| %>	
+		<%unless p_b.object.deleted_c %>
+		addProductBoxing(<%=p_b.object.id%>, <%=p_b.object.quantity || 'null'%>, <%=p_b.object.size || 'null'%>, <%=p_b.object.product_pricings.first.id || 'null'%>, 
+						 <%=p_b.object.product_pricings.first.price || 'null'%>, <%=p_b.object.product_pricings.second.id || 'null'%>, <%=p_b.object.product_pricings.second.quantity || 'null' %>, <%=p_b.object.product_pricings.second.price || 'null'%>)			
+		<%end%>
+	<% end %>
+
 
 function addProductBoxing(id, quantity, size, price_id, price, bargain_price_id, bargain_quantity, bargain_price){
 	//li
@@ -102,7 +112,7 @@ function addProductBoxing(id, quantity, size, price_id, price, bargain_price_id,
 	var $a = $("<a>", {'href': "#product_boxing_"+id}); 
 	var $span_quantity = $("<span>", {'id': "product_boxing_li_quantity_"+id}); 
 	var $span_unit = $("<span>", {'class': "product_boxing_unit"}); 
-	$span_quantity.html(quantity)
+	$span_quantity.html(quantity || 'oo')
 	$span_unit.html($('#product_unit option:selected').text())
 	$a.append($span_quantity); 
 	$a.append($span_unit); 
@@ -113,9 +123,9 @@ function addProductBoxing(id, quantity, size, price_id, price, bargain_price_id,
 	//quantity
 	var $form_group = $("<div>", {class: "form-group"});
 	var $label_1 = $("<label>", {class: "col-sm-offset-0 col-sm-2 col-xs-12 control-label vmiddle"});
-	$label_1.html('內含')
+	$label_1.html('內含數量')
 	var $col_1 = $("<div>", {class: "col-sm-5 col-xs-6 vmiddle"});
-	var $input = $("<input>", {class: "form-control", id: "product_product_boxings_attributes_"+id+"_quantity", name: "product[product_boxings_attributes]["+id+"][quantity]", placeholder: "數量", type: 'text', value: quantity, onchange: 'changeQuantity('+id+')'});
+	var $input = $("<input>", {class: "form-control", id: "product_product_boxings_attributes_"+id+"_quantity", name: "product[product_boxings_attributes]["+id+"][quantity]", type: 'text', value: quantity, onchange: 'changeQuantity('+id+')'});
 	var $col_2 = $("<div>", {class: "col-sm-5 col-xs-6 vmiddle"});
 	var $label_2 = $("<label>", {class: "control-label product_boxing_unit"});
 	$label_2.html($('#product_unit option:selected').text())	
@@ -226,11 +236,27 @@ function addProductBoxing(id, quantity, size, price_id, price, bargain_price_id,
 	//show
 	$a.tab('show');  		
 }
-function delProductBoxing(id){
-	$("#product_boxing_"+id).remove()
-	$("#product_boxing_li_"+id).remove()
-	//show
-	$( "#product_boxing_tab li:last-child" ).prev().children().tab('show');  
+function delProductBoxing(id){	
+	var request = $.ajax({
+		url: "/products/<%=@product.id%>/productBoxingDelete",
+		type: "POST",
+		data: { product_boxing_id: id },
+		dataType: "json",
+		async: false
+	});
+	request.done(function( message) {
+	 	if( message.success == '刪除成功' )
+	 	{
+			$("#product_boxing_"+id).remove()
+			$("#product_boxing_li_"+id).remove()
+			//show
+			$( "#product_boxing_tab li:last-child" ).prev().children().tab('show');  	 		 		
+	 	}
+	 	else
+	 		toastr.warning(message.error)	
+	});
+	request.fail(function( jqXHR, textStatus ) {
+	});		
 }
 
 </script>

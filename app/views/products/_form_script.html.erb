@@ -7,6 +7,7 @@
 			 index.to_s != 'product_pricings.price' %>
 			toastr['error']('<%=value.first%>')	
 		<%end%>
+		toastr['error']('<%=value.first%>')	
 	<%end%>	
 <% end %>
 $("#product_cover").fileinput({showCaption: false,
@@ -141,7 +142,7 @@ function finalPrice(){
 		    	if( original_price ){
 		    		$('.final_price_'+id).html( parseInt(original_price) + shippingRates( box_size, cold_chain, 1))
 		    	}else
-		    		$('.final_price_'+id).html('xx')	    		
+		    		$('.final_price_'+id).html('oo')	    		
 		    	if( bargain_quantity ) 
 		    	{
 		    		$('.bargain_shipping_fee_'+id).html(shippingRates( box_size, cold_chain, bargain_quantity))
@@ -150,17 +151,17 @@ function finalPrice(){
 		    			$('.bargain_final_price_'+id).html( parseInt(bargain_price) + shippingRates( box_size, cold_chain, bargain_quantity))
 		    		}
 		    		else	
-		    			$('.bargain_final_price_'+id).html('xx')	    		    	
+		    			$('.bargain_final_price_'+id).html('oo')	    		    	
 		    	}else{
-			   		$('.bargain_shipping_fee_'+id).html('xx')		  	 	
-		    		$('.bargain_final_price_'+id).html('xx')	    		    	    		
+			   		$('.bargain_shipping_fee_'+id).html('oo')		  	 	
+		    		$('.bargain_final_price_'+id).html('oo')	    		    	    		
 		    	}   
 		    }	
 			else{
-				$('.shipping_fee_'+id).html('xx')		
-			   	$('.final_price_'+id).html('xx')	
-			   	$('.bargain_shipping_fee_'+id).html('xx')		
-			   	$('.bargain_final_price_'+id).html('xx')    	
+				$('.shipping_fee_'+id).html('oo')		
+			   	$('.final_price_'+id).html('oo')	
+			   	$('.bargain_shipping_fee_'+id).html('oo')		
+			   	$('.bargain_final_price_'+id).html('oo')    	
 			}		   	
 	   	
 	   	
