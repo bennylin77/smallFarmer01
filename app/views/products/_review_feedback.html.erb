@@ -1,6 +1,6 @@
 <% Order.joins(product_boxing: :product, invoice: {} ).where('products.id = ? and review_at IS NOT NULL', @product.id).order('id DESC').limit(5).each do |o| %>   
 <div class="row" style="margin-top: 10px; margin-left: 10px;">			
-	<div class="col-xs-12">	
+	<div class="col-md-offset-1 col-md-11">	
 	<%=image_tag o.invoice.user.avatar.url, class: 'review_feedback_avatar img-circle' %> 				
 	<div class="review_feedback_name"><%=o.invoice.user.email.gsub(/..@.*$/, '')%></div> 
 	<div class="review_feedback_date">
@@ -14,7 +14,7 @@
 </div>	
 <%unless o.review_feedback.blank?%>
 <div class="row" style="margin-left: 60px;">		
-	<div class="col-lg-offset-1 col-lg-11 review_feedback_content">
+	<div class="col-md-offset-1 col-md-11 review_feedback_content">
 		<%=o.review_feedback%>						
 	</div>
 </div>	
