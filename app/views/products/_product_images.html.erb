@@ -1,6 +1,6 @@
 <div class="product_image_container_gallery">
 <div class="row" style="margin-top: 40px; margin-bottom: 4px;">	
-	<div class="col-xs-6 col-sm-offset-1 col-sm-5 product_image_container_right">
+	<div class="col-xs-6 product_image_container_right">
 		<div class="product_image_container_outter">
 			<%=link_to @product.product_images.first.image.url, class: 'zoom' do %>
 			<div class="product_image_container" style="background-image: url('<%=@product.product_images.first.image.url%>')">	
@@ -8,7 +8,7 @@
 			<%end%>
 		</div>
 	</div>
-	<div class="col-xs-6 col-sm-5 product_image_container_left">
+	<div class="col-xs-6 product_image_container_left">
 		<div class="product_image_container_outter">			
 			<%=link_to @product.product_images.second.image.url, class: 'zoom' do %>
 			<div class="product_image_container" style="background-image: url('<%=@product.product_images.second.image.url%>')">	
@@ -18,7 +18,7 @@
 	</div>		
 </div>
 <div class="row" style="">			
-	<div class="col-xs-6 col-sm-offset-1 col-sm-5 product_image_container_right">
+	<div class="col-xs-6 product_image_container_right">
 		<div class="product_image_container_outter">					
 			<%=link_to @product.product_images.third.image.url, class: 'zoom' do %>
 			<div class="product_image_container" style="background-image: url('<%=@product.product_images.third.image.url%>')">	
@@ -26,7 +26,7 @@
 			<%end%>	
 		</div>					
 	</div>	
-	<div class="col-xs-6 col-sm-5 product_image_container_left">
+	<div class="col-xs-6 product_image_container_left">
 		<div class="product_image_container_outter">								
 			<%=link_to @product.product_images.fourth.image.url, class: 'zoom' do %>
 			<div class="product_image_container" style="background-image: url('<%=@product.product_images.fourth.image.url%>')">	

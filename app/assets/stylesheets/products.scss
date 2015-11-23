@@ -63,8 +63,8 @@
 }
 .product_name
 {  
-  font-weight: bold;
-  font-size: 24px;  
+  //font-weight: bold;
+  font-size: 23px;  
 }
 .product_excellent_no
 {
@@ -76,7 +76,7 @@
   font-size: 20px;    
 }
 .product_price{
-  font-size: 17px;    
+  font-size: 16px;    
 }
 .product_promote{
   font-size: 18px;   
@@ -86,7 +86,7 @@
   border-bottom: 1px solid #E7E7E7;  
 }
 .product_released_at{
-  font-size: 17px;   
+  font-size: 16px;   
   color: #e26131; 
 }
 .product_shipping_time_container{
@@ -195,7 +195,7 @@
 {  
   width: 100%;
   height: 0;
-  padding-bottom: 70% ; /* % of width, defines aspect ratio*/
+  padding-bottom: 65%; /* % of width, defines aspect ratio*/
   position: relative;
   margin: 0 auto;
   background-repeat: no-repeat;
@@ -227,10 +227,11 @@
     margin-right: -70px; color: black;
   }     
 }
-@media (max-width: 1600px) {
-}
-@media (max-width: 1400px) {
-
+@media (max-width: 1280px) {
+  .product_carousel_img
+  {  
+    padding-bottom: 70%; /* % of width, defines aspect ratio*/  
+  }    
 }
 @media (max-width: 992px) {
   .product_carousel_add_to_cart_container{
