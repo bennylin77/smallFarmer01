@@ -1,5 +1,5 @@
 .product_cover_parallax_parent {
-  height: 500px;
+  height: 70vh;
   overflow: hidden;
   margin-top: 100px;   
 }
@@ -8,20 +8,10 @@
   position: relative;
   top: 0%;
 }
-@media (max-width: 1344px) {
-  .product_cover_parallax_parent {
-    height: 350px;
-  }    
-}
 @media (max-width: 1195px) {
   .product_cover_parallax_parent {
     height: 400px;
     margin-top: 50px; 
-  }    
-}
-@media (max-width: 768px) {
-  .product_cover_parallax_parent {
-    height: 390px;
   }    
 }
 .product_farm_words{

@@ -21,7 +21,7 @@
 	</div>		
 </div>	
 <div class="container" itemscope itemtype="http://schema.org/Product" style="margin-bottom: 50px;">	
-	<ol class="breadcrumb hidden-xs" style="margin-top: 20px;">
+	<ol class="breadcrumb hidden-xs" style="margin-top: 0px;">
 	  <li><%= link_to '首頁', root_url %></li>
 	  <li><%= link_to '各地小農', controller: 'main', action: 'farms'%></li>
 	  <li>
@@ -321,12 +321,12 @@
 					<%=image_tag 'delivery_statis_'+deliveryStatisticsColor(product: @product)+'.png'%>					
 				</div>					
 			</div>	
+			<!--	
 			<div class="row">		
 				<div class="col-lg-11" style="margin-top: 40px;">
 					<div style="border-top: 1px solid #e7e7e7;"></div>
 				</div>					
-			</div>			
-			<!--	
+			</div>				
 			<div class="row" style="margin-bottom: 40px; margin-top: 50px;">		
 				<div class="col-lg-11">
 					<div class="section_title">金流去向</div>
