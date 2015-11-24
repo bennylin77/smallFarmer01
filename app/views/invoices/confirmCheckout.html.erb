@@ -23,14 +23,14 @@
 				<% end %>
 			</div>	
 			<div class="col-sm-2 col-xs-12 check_out_product_list_text vmiddle">
-				<% product.product_boxings.first.product_pricings.each do |pp| %>
+				<% c.product_boxing.product_pricings.each do |pp| %>
 					<%if pp.quantity == 1%>	
-						每箱<%= "%g" % product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %> <%= priceWithShippingRates(product_boxing: pp.product_boxing, quantity: pp.quantity)%>元
+						每箱<%= "%g" % c.product_boxing.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %> <%= priceWithShippingRates(product_boxing: c.product_boxing, quantity: pp.quantity) %>元
 					<%elsif pp.quantity%>
 						<br>
-						<%= pp.quantity %>箱以上，每箱<%= priceWithShippingRates(product_boxing: pp.product_boxing, quantity: pp.quantity)/3 %>元		
-					<%end%>
-				<%end%>  					
+						<%= pp.quantity %>箱以上，每箱<%= priceWithShippingRates(product_boxing: c.product_boxing, quantity: pp.quantity)/pp.quantity %>元		
+					<%end%>				
+				<%end%>  				
 			</div>			
 			<div class="col-sm-1 col-xs-12 check_out_product_list_text vmiddle">
 				<%= c.quantity%>箱
