@@ -31,7 +31,7 @@ $('.add_to_cart_action').click(function() {
 	var request = $.ajax({
 		url: "/carts/addCart",
 		type: "GET",
-		data: { id: <%=@product.product_boxings.first.id%>, quantity: $('#quantity').val() },
+		data: { id: $("input:radio[name=product_boxing]:checked").val(), quantity: $('#quantity').val() },
 		dataType: "json"
 	});
 	request.done(function( message ) {

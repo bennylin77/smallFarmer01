@@ -101,8 +101,8 @@ class Product < ActiveRecord::Base
   end 
   def moreThanOneMostWithLowerPrice
     product_boxings.each do |product_boxing| 
-      unless product_boxing.deleted_c         
-        one = product_boxing.product_pricings.where(quantity: 1).first 
+      unless product_boxing.deleted_c      
+        one = nil    
         product_boxing.product_pricings.each do |product_pricing|
           if product_pricing.quantity 
             if product_pricing.quantity > 1
@@ -111,6 +111,8 @@ class Product < ActiveRecord::Base
                   errors.add(:price, "包裝種類_'每箱'促銷價錢須小於等於原價")       
                 end
               end
+            elsif product_pricing.quantity == 1
+              one = product_pricing
             end
           end          
         end     

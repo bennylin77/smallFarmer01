@@ -1,4 +1,5 @@
 class CartsController < ApplicationController
+  include ProductsHelper
   before_filter :authenticate_user!
   before_action only: [:destroy, :updateCart] { |c| c.CartCheckUser(params[:id])}              
   before_action :set_cart, only: [:destroy, :updateCart]
@@ -59,12 +60,16 @@ class CartsController < ApplicationController
     price = 0
     current_user.carts.each do |c|  
       price = priceWithShippingRates(product_boxing: c.product_boxing, quantity: c.quantity )  
-      name = c.product_boxing.product.name
+      name = c.product_boxing.product.name.truncate(15, omission: '...') +'<br>'+
+             "%g" % c.product_boxing.quantity +
+             Hash[unitOptions].rassoc(c.product_boxing.product.unit).first + '裝'
+=begin      
       if c.product_boxing.product.released_at
         if c.product_boxing.product.released_at > Time.zone.now 
           name = c.product_boxing.product.name
         end
-      end           
+      end  
+=end               
       carts << 
       {
         id: c.product_boxing.product.id,  

@@ -20,28 +20,24 @@
 		<h2 class="visible-xs-block text-center"><%=@company.name %></h2>
 	</div>	
 	<div class="row">
-		<div class="col-lg-offset-1 col-lg-10">	
-			<div class="row">		
-				<div class="hidden-xs col-md-12 col-lg-offset-1 col-lg-10 product_farm_words">		
-					<%= image_tag @company.user.avatar.url, class: 'img-circle product_farm_words_avatar' %>		
-					<%= link_to @company do%>
-						<div class="product_farm_words_text">	
-							<%= truncate( @company.words, length: 120, omission: '... more') %>
-						</div>
-					<%end%>
-				</div>				
-				<div class="visible-xs-block col-xs-12 product_farm_words">		
-					<div class="row">
-						<div class="col-xs-12 text-center">					
-							<%= image_tag @company.user.avatar.url, class: 'img-circle product_farm_words_avatar', style: '' %>		
-						</div>
-						<%= link_to @company do%>				
-							<div class="col-xs-12 product_farm_words_text">	
-							<%= truncate( @company.words, length: 120, omission: '... more') %>
-							</div>
-						<%end%>				
+		<div class="hidden-xs col-sm-12 col-lg-offset-1 col-lg-10">	
+			<div class="product_farm_words"> 
+			<%= image_tag @company.user.avatar.url, class: 'img-circle product_farm_words_avatar' %>		
+			<%= link_to @company do%>
+				<div class="product_farm_words_text">	
+					<%= truncate( @company.words, length: 120, omission: '... more') %>
+				</div>
+			<%end%>
+			</div>
+		</div>			
+		<div class="hidden-sm hidden-md hidden-lg col-xs-12 product_farm_words text-center">		
+			<div>
+				<%= image_tag @company.user.avatar.url, class: 'img-circle product_farm_words_avatar', style: '',  itemprop: "image" %>		
+				<%= link_to @company do%>				
+					<div class="col-xs-12 product_farm_words_text">	
+						<%= truncate( @company.description, length: 120, omission: '... more') %>
 					</div>
-				</div>	
+				<%end%>				
 			</div>
 		</div>							
 	</div>					
