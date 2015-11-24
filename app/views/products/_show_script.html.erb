@@ -71,12 +71,8 @@ $('.add_to_cart_action').click(function() {
 		    if( $(window).width() < 1195)
 		    {
 		    	var cart = $('.navbar-toggle');
-		    	if( $(window).width() < 977) 
-		    		var imgtodrag =  $('.cart_icon_product');	    	
-		    	else
-		    		var imgtodrag =  $('.cart_icon_product_992');
-		    		
-		    		
+		    	var imgtodrag =  $('.cart_icon_product');	    	
+	    		
 			    if (imgtodrag) {
 		            var imgclone = imgtodrag.clone().offset({
 		                top: imgtodrag.offset().top,
@@ -111,15 +107,20 @@ $('.add_to_cart_action').click(function() {
 	}
 });
 $(".add_to_cart_form").submit( function(eventObj) {
+	if( $("input:radio[name=product_boxing]:checked").val() === undefined ){
+		toastr['warning']('您沒有選擇包裝喔！')
+		return false;
+	}else{
       $('<input />').attr('type', 'hidden')
           .attr('name', "id")
-          .attr('value', <%=@product.product_boxings.first.id%> )
+          .attr('value', $("input:radio[name=product_boxing]:checked").val() )
           .appendTo('.add_to_cart_form');
       $('<input />').attr('type', 'hidden')
           .attr('name', "quantity")
           .attr('value', $('#quantity').val() )
-          .appendTo('.add_to_cart_form');          
-      return true;
+          .appendTo('.add_to_cart_form');  
+          return true; 
+   	}              
 });
 //======================== total price ========================// 
 var pricing =  []
