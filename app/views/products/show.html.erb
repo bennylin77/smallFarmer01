@@ -139,16 +139,10 @@
 				</div>						
 				<%elsif p.quantity%>
 				<div class="row" style="margin-top: 22px;">	
-					<div class="col-md-offset-1 col-md-11 text-center">								
+					<div class="col-md-offset-1 col-md-11 text-center">
+						<div style="border-top: 1px solid #E7E7E7;"></div>								
 						<div class="product_promote">
-						<span style=""><%= p.quantity %>箱以上，每箱 <span style="font-size: 130%; color: #FF5600"><%= priceWithShippingRates( product_boxing: p.product_boxing, quantity: p.quantity )/p.quantity %>元</span></span>
-						</div>
-					</div>								
-				</div>	
-				<%else%>	
-				<div class="row" style="margin-top: 22px;">	
-					<div class="col-md-offset-1 col-md-11">								
-						<div class="product_promote" style="border-bottom: none;">
+						<span class="bargain_quantity"></span>箱以上，每箱 <span style="font-size: 130%; color: #FF5600"><span class="bargain_price"></span>元</span>
 						</div>
 					</div>								
 				</div>	
