@@ -102,7 +102,7 @@
 				                <%if @product.discount!=1%>
 									<small><s><%= p_b.product_pricings.where(quantity: 1).first.price.to_i + shippingRates(cold_chain: @product.cold_chain, box_size: p_b.size, quantity: 1) %></s></small> <span class="text-danger"><%= priceWithShippingRates( product_boxing: p_b, quantity: 1 ) %>元</span>
 								<%else%>
-									<span class="text-danger"><%= priceWithShippingRates( product_boxing: p_b, quantity: 1 ) %>元</span>								
+									<span><%= priceWithShippingRates( product_boxing: p_b, quantity: 1 ) %>元</span>								
 								<%end%>		                
 			                </label> 
 			                <%end%>						
