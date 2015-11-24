@@ -79,29 +79,24 @@
 }
 
 .product_btn_group .product_orange_btn{
-  //color: #ffffff !important;
-  //border: none;
   text-align: center;
   margin: 0px 12px 12px 0px !important; 
   width: 115px;
   background: none;
   border-radius: 0px;
-  //border-bottom: 2px solid #cccccc; 
 }
-.product_btn_group .product_orange_btn.active{
-  color: #ffffff;  
+.product_btn_group .product_orange_btn.discount{
+  width: 150px;
+}
+.product_btn_group .product_orange_btn.active, 
+.no-touch .product_btn_group .product_orange_btn:hover, 
+.product_btn_group .product_orange_btn.active span, 
+.no-touch .product_btn_group .product_orange_btn span:hover{
+  color: #ffffff !important; 
   background: #FF7833 !important;
   box-shadow: none !important;
   border-color: #ccc !important;
 }
-.no-touch .product_btn_group .product_orange_btn:hover{
-  color: #ffffff;  
-  background: #FF7833;
-  box-shadow: none !important;
-  border-color: #ccc !important;
-}
-
-
 .product_promote{
   font-size: 15px;   
   padding-top: 3px;
