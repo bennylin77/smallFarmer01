@@ -81,10 +81,10 @@
 .product_btn_group .product_orange_btn{
   //color: #ffffff !important;
   //border: none;
-  margin: 0px 7px 7px 0px !important; 
-  width: 130px;
+  text-align: center;
+  margin: 0px 12px 12px 0px !important; 
+  width: 115px;
   background: none;
-  padding: 7px 14px 5px !important; 
   border-radius: 0px;
   //border-bottom: 2px solid #cccccc; 
 }
@@ -103,23 +103,24 @@
 
 
 .product_promote{
-  font-size: 16px;   
+  font-size: 15px;   
   padding-top: 3px;
   padding-bottom: 3px;   
   border-top: 1px solid #E7E7E7;
   border-bottom: 1px solid #E7E7E7;  
 }
 .product_released_at{
-  font-size: 16px;   
+  font-size: 15px;   
   color: #e26131; 
 }
 .product_shipping_time_container{
 }
 .product_shipping_time_text{
   display: inline-block;
+  letter-spacing: 1px;
   top: 10px;
-  margin-right: 13px;
-  font-size: 17px;
+  margin-right: 10px;
+  font-size: 15px;
   vertical-align:bottom;
 }
 .product_shipping_time_weekdays{
@@ -136,14 +137,15 @@
   width: 20px;
 }
 .product_shipping_time_day{
+  font-size: 12px;
   text-align: center;
 }
 .product_shipping_time_circle{
   margin: 0 auto;
   background: #FF5600;
   border-radius: 8px;
-  width: 13px;
-  height: 13px;
+  width: 12px;
+  height: 12px;
   margin-top: 3px;
   border: 1px solid #FF5600; 
 }
@@ -157,16 +159,16 @@
   border: 1px solid #A7A7A7; 
 }
 .add_to_cart{
-  font-size: 20px;
+  font-size: 16px;
+  letter-spacing: 2px;
+  padding-top: 7px;
+  padding-bottom: 9px; 
 }
 .cart_unavailable{
-  border: none;
-  border-radius: 0;
-  font-size: 20px;
-  color: #ffffff;
-  padding: 7px 14px !important; 
-  box-shadow: 3px 3px rgb(209, 209, 200) !important;  
-  background: #afb3ad !important;    
+  font-size: 16px;
+  letter-spacing: 2px;
+  padding-top: 7px;
+  padding-bottom: 9px; 
 }
 .product_spec {
   font-size: 15px;

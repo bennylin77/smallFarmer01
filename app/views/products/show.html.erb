@@ -175,7 +175,7 @@
 					<%if @product.shipping_time != 0%>
 					<div class="row" style="margin-top: 20px;">								
 						<div class="col-md-offset-1 col-md-11">						
-							<div class='product_shipping_time_container pull-right'>
+							<div class='product_shipping_time_container'>
 								<%=render partial: "products/shipping_time", locals: { product: @product}%>
 							</div> 
 						</div>						
@@ -186,7 +186,7 @@
 				<%if @product.shipping_time != 0%>
 				<div class="row" style="margin-top: 20px;">								
 					<div class="col-md-offset-1 col-md-11">						
-						<div class='product_shipping_time_container pull-right'>
+						<div class='product_shipping_time_container'>
 							<%=render partial: "products/shipping_time", locals: { product: @product}%>
 						</div> 
 					</div>						
@@ -196,11 +196,11 @@
 			<div class="row" style="margin-top: 20px;">								
 				<div class="col-md-offset-1 col-md-11">								  				      
 					<%if inventory == 0%>
-						<button type="button" class="cart_unavailable btn btn-default pull-right" autocomplete="off" disabled="disabled">已搶購完</button>			
+						<a class="cart_unavailable btn light_gray_btn center-block" disabled="disabled">已搶購完</a>			
 					<%else%>
 						<%if user_signed_in?%>
-								<%=image_tag 'cart_icon.png', class: 'cart_icon_product_992', style: 'height: 35px; position: absolute; right: 62.5px; top: 5px; z-index: -1' %>	
-								<a class="add_to_cart add_to_cart_action btn orange_btn center-block" autocomplete="off">加入購物車</a>			
+								<%=image_tag 'cart_icon.png', class: 'cart_icon_product_992', style: 'height: 30px; position: absolute; right: 50%; top: 5px; z-index: -1' %>	
+								<a class="add_to_cart add_to_cart_action btn orange_btn center-block">加入購物車</a>			
 						<%else%>
 							<%= form_tag  '/carts/addCart', method: 'get', class: 'add_to_cart_form' do %>				  	
 							  	<%= submit_tag '加入購物車',  class: "add_to_cart btn orange_btn" %>
