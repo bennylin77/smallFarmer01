@@ -55,57 +55,60 @@ $("input:radio[name=product_boxing]").change(function(){
 
 $('.add_to_cart_action').click(function() {
 	//var $btn = $(this).button('加入中...')	
-	var request = $.ajax({
-		url: "/carts/addCart",
-		type: "GET",
-		data: { id: $("input:radio[name=product_boxing]:checked").val(), quantity: $('#quantity').val() },
-		dataType: "json"
-	});
-	request.done(function( message ) {
-		if(message.alert_class != 'success')
-			toastr[message.alert_class](message.message)
-	    //$btn.button('reset')		 
-	    if( $(window).width() < 1195)
-	    {
-	    	var cart = $('.navbar-toggle');
-	    	if( $(window).width() < 977) 
-	    		var imgtodrag =  $('.cart_icon_product');	    	
-	    	else
-	    		var imgtodrag =  $('.cart_icon_product_992');
-	    		
-	    		
-		    if (imgtodrag) {
-	            var imgclone = imgtodrag.clone().offset({
-	                top: imgtodrag.offset().top,
-	                left: imgtodrag.offset().left
-	            }).css({
-	                	'opacity': '0.5',
-	                    'position': 'absolute',
-	                    'height': '150px',
-	                    'width': '150px',
-	                    'z-index': '10000'
-	            }).appendTo($('body')).animate({
-	                'top': cart.offset().top + 10,
-	                'left': cart.offset().left + 10,
-	                'width': 75,
-	                'height': 75
-	            }, 1000);
-		    	
-		        imgclone.animate({
-	                'width': 0,
-	                'height': 0
-	            }, function () {
-	                $(this).detach()
-	            });
-		      }	    
-		}
-		else  
-			$( ".cart_menu_click" ).trigger( "click" )		    
-	    showCarts(); 		    
-	});
-	request.fail(function( jqXHR, textStatus ) {
-	});	
-
+	if( $("input:radio[name=product_boxing]:checked").val() === undefined ){
+		toastr['warning']('您沒有選擇包裝喔！')
+	}else{
+		var request = $.ajax({
+			url: "/carts/addCart",
+			type: "GET",
+			data: { id: $("input:radio[name=product_boxing]:checked").val(), quantity: $('#quantity').val() },
+			dataType: "json"
+		});
+		request.done(function( message ) {
+			if(message.alert_class != 'success')
+				toastr[message.alert_class](message.message)
+		    //$btn.button('reset')		 
+		    if( $(window).width() < 1195)
+		    {
+		    	var cart = $('.navbar-toggle');
+		    	if( $(window).width() < 977) 
+		    		var imgtodrag =  $('.cart_icon_product');	    	
+		    	else
+		    		var imgtodrag =  $('.cart_icon_product_992');
+		    		
+		    		
+			    if (imgtodrag) {
+		            var imgclone = imgtodrag.clone().offset({
+		                top: imgtodrag.offset().top,
+		                left: imgtodrag.offset().left
+		            }).css({
+		                	'opacity': '0.5',
+		                    'position': 'absolute',
+		                    'height': '150px',
+		                    'width': '150px',
+		                    'z-index': '10000'
+		            }).appendTo($('body')).animate({
+		                'top': cart.offset().top + 10,
+		                'left': cart.offset().left + 10,
+		                'width': 75,
+		                'height': 75
+		            }, 1000);
+			    	
+			        imgclone.animate({
+		                'width': 0,
+		                'height': 0
+		            }, function () {
+		                $(this).detach()
+		            });
+			      }	    
+			}
+			else  
+				$( ".cart_menu_click" ).trigger( "click" )		    
+		    showCarts(); 		    
+		});
+		request.fail(function( jqXHR, textStatus ) {
+		});	
+	}
 });
 $(".add_to_cart_form").submit( function(eventObj) {
       $('<input />').attr('type', 'hidden')

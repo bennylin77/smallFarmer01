@@ -122,7 +122,7 @@
 						<div class="btn-group product_btn_group" data-toggle="buttons">
 							<%@product.product_boxings.where(deleted_c: false).each do |p_b| %>
 			                <label class="btn btn-default product_orange_btn">
-			                    <input type="radio" name="product_boxing" value="<%=p_b.id%>" /> <%if p_b.quantity%><%= "%g" % p_b.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%> <%= priceWithShippingRates( product_boxing: p_b, quantity: 1) %>元
+			                    <input type="radio" name="product_boxing" autocomplete="off" value="<%=p_b.id%>" /> <%if p_b.quantity%><%= "%g" % p_b.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%> <%= priceWithShippingRates( product_boxing: p_b, quantity: 1) %>元
 			                </label> 						
 							<%end%>
 		            	</div>
@@ -137,17 +137,16 @@
 						<%= select_tag  :quantity, options_for_select( (1..max_quantity).map {|i| ['數量:  '+i.to_s+'箱', i] }   ), class: "form-control", style: 'height: 30px; padding: 3px 12px' %>				
 					</div>	  
 				</div>						
-				<%elsif p.quantity%>
-				<div class="row" style="margin-top: 22px;">	
-					<div class="col-md-offset-1 col-md-11 text-center">
-						<div style="border-top: 1px solid #E7E7E7;"></div>								
-						<div class="product_promote">
-						<span class="bargain_quantity"></span>箱以上，每箱 <span style="font-size: 130%; color: #FF5600"><span class="bargain_price"></span>元</span>
-						</div>
-					</div>								
-				</div>	
 				<%end%>								
-			<%end%>			
+			<%end%>	
+			<div class="row" style="margin-top: 22px;">	
+				<div class="col-md-offset-1 col-md-11 text-center">
+					<div style="border-top: 1px solid #E7E7E7;"></div>								
+					<div class="product_promote">
+					<span class="bargain_quantity"></span>箱以上，每箱 <span style="font-size: 130%; color: #FF5600"><span class="bargain_price"></span>元</span>
+					</div>
+				</div>								
+			</div>						
 			<%if @product.released_at%>
 				<%if @product.released_at > Time.zone.now %>
 				<div class="row" style="margin-top: 20px;">								
