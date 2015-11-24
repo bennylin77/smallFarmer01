@@ -84,15 +84,9 @@
 				<div class="fb-share-button" data-href="<%=Rails.configuration.smallfarmer01_host%>/products/<%=@product.id%>" data-layout="button_count"></div>		      
 		      </div>
 		    </div>
-		    -->			    			    
-			<%@product.product_boxings.first.product_pricings.each do |p| %>
-						<%max_quantity = 50%>
-						<%if inventory < max_quantity %>	
-							<% max_quantity = inventory %>
-						<%end%>			
-				<%if p.quantity == 1%>	
-				<%end%>								
-			<%end%>		
+		    -->			    	
+			<% inventory = @product.inventory %>
+			<% sold_out = true%>							
 			<div class="row product_price" style="margin-top: 10px;">
 				<div class="col-md-offset-1 col-md-11 text-left">選擇包裝</div>									
 			</div>
@@ -100,22 +94,26 @@
 				<div class="col-md-offset-1 col-md-11">
 					<div class="btn-group product_btn_group" data-toggle="buttons">
 						<%@product.product_boxings.where(deleted_c: false).each do |p_b| %>
-		                <label class="btn btn-default product_orange_btn <%if @product.discount!=1%>discount<%end%>">
-		                    <input type="radio" name="product_boxing" autocomplete="off" value="<%=p_b.id%>" /> 
-		                    <%if p_b.quantity%><%= "%g" % p_b.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%> 		              	                
-			                <%if @product.discount!=1%>
-								<small><s><%= p_b.product_pricings.where(quantity: 1).first.price.to_i + shippingRates(cold_chain: @product.cold_chain, box_size: p_b.size, quantity: 1) %></s></small> <span class="text-danger"><%= priceWithShippingRates( product_boxing: p_b, quantity: 1 ) %>元</span>
-							<%else%>
-								<span class="text-danger"><%= priceWithShippingRates( product_boxing: p_b, quantity: 1 ) %>元</span>								
-							<%end%>		                
-		                </label> 						
+							<%if p_b.quantity <= inventory%>
+							<% sold_out = false%>
+			                <label class="btn btn-default product_orange_btn <%if @product.discount!=1%>discount<%end%>">
+			                    <input type="radio" name="product_boxing" autocomplete="off" value="<%=p_b.id%>" /> 
+			                    <%if p_b.quantity%><%= "%g" % p_b.quantity %><%end%><%if @product.unit%><%= Hash[unitOptions].rassoc(@product.unit).first %><%end%> 		              	                
+				                <%if @product.discount!=1%>
+									<small><s><%= p_b.product_pricings.where(quantity: 1).first.price.to_i + shippingRates(cold_chain: @product.cold_chain, box_size: p_b.size, quantity: 1) %></s></small> <span class="text-danger"><%= priceWithShippingRates( product_boxing: p_b, quantity: 1 ) %>元</span>
+								<%else%>
+									<span class="text-danger"><%= priceWithShippingRates( product_boxing: p_b, quantity: 1 ) %>元</span>								
+								<%end%>		                
+			                </label> 
+			                <%end%>						
 						<%end%>
 		           	</div>
 	           	</div>
 			</div>								
 			<div class="row product_price" style="margin-top: 10px;">
-				<div class="col-md-offset-1 col-md-11">					
-					<%= select_tag  :quantity, options_for_select( (1..50).map {|i| ['數量:  '+i.to_s+'箱', i] }   ), class: "form-control", style: 'height: 30px; padding: 3px 12px' %>				
+				<div class="col-md-offset-1 col-md-11">	
+					 <% select_max = sold_out ? 0 : 30%>		
+					<%= select_tag  :quantity, options_for_select( (1..select_max).map {|i| ['數量:  '+i.to_s+'箱', i] }   ), class: "form-control", style: 'height: 30px; padding: 3px 12px' %>				
 				</div>	  
 			</div>						
 			<div class="row" style="margin-top: 22px;">	
@@ -156,8 +154,8 @@
 				<%end%>						
 			<%end%>								
 			<div class="row" style="margin-top: 20px;">								
-				<div class="col-md-offset-1 col-md-11">								  				      
-					<%if inventory == 0%>
+				<div class="col-md-offset-1 col-md-11">													  				      
+					<%if sold_out%>
 						<a class="cart_unavailable btn light_gray_btn center-block" disabled="disabled">已搶購完</a>			
 					<%else%>
 						<%if user_signed_in?%>
