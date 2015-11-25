@@ -31,17 +31,21 @@ var products = []
 var boxings = []
 var pricings = []
 <%@product.product_boxings.where(deleted_c: false).each do |p_b| %>
-	products.push({ id: <%=p_b.id %>, discount: <%= p_b.product.discount %>, cold_chain: <%= p_b.product.cold_chain %>})
-	boxings.push({ id: <%=p_b.id %>, size: <%= p_b.size %>})
-	pricing = new Array()
-	pricing.push({ price: <%= p_b.product_pricings.where.not(quantity: 1).first.price.to_i %>, quantity: <%= p_b.product_pricings.where.not(quantity: 1).first.quantity %> })
-	pricings.push({ id: <%=p_b.id %>, pricing: pricing})
+	<%unless p_b.product_pricings.where.not(quantity: 1).count==0%>
+		products.push({ id: <%=p_b.id %>, discount: <%= p_b.product.discount %>, cold_chain: <%= p_b.product.cold_chain %>})
+		boxings.push({ id: <%=p_b.id %>, size: <%= p_b.size %>})
+		pricing = new Array()
+		pricing.push({ price: <%= p_b.product_pricings.where.not(quantity: 1).first.price.to_i %>, quantity: <%= p_b.product_pricings.where.not(quantity: 1).first.quantity %> })
+		pricings.push({ id: <%=p_b.id %>, pricing: pricing})
+	<%end%>	
 <%end%>
 $('.product_promote').hide()
 $("input:radio[name=product_boxing]").change(function(){
 	var id = $("input:radio[name=product_boxing]:checked").val();
+	var bargain = false
 	$.each(pricings, function( i, v ) {	
 		if(v.id ==id ){		
+			bargain = true
 			shipping_rate_quantity = v.pricing[0].quantity 				
 			item_price = Math.ceil((v.pricing[0].price+shippingRates( boxings[i].size, products[i].cold_chain, shipping_rate_quantity))*products[i].discount)		
 			$('.bargain_quantity').text(v.pricing[0].quantity)
@@ -49,7 +53,9 @@ $("input:radio[name=product_boxing]").change(function(){
 			$('.product_promote').slideDown( "slow" )	
 			return false;	
 		}	
-	});		        
+	});
+	if(!bargain)
+		$('.product_promote').slideUp( "slow" )				        
 });
 
 

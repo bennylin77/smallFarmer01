@@ -85,6 +85,14 @@
 		      </div>
 		    </div>
 		    -->			    	
+		    
+			<% unpaid = 0 %>  
+			<% @product.product_boxings.each do |p_b| %>  
+			    <% unpaid_quantity = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', p_b.id, false, Time.zone.now ).sum(:quantity) %>        
+			    <% if unpaid_quantity != 0 %> 
+			    	<% unpaid = unpaid + unpaid_quantity*p_b.quantity %> 
+			    <% end %> 
+			<% end %>  		    
 			<% inventory = @product.inventory %>
 			<% sold_out = true%>							
 			<div class="row product_price" style="margin-top: 10px;">
@@ -94,7 +102,7 @@
 				<div class="col-md-offset-1 col-md-11">
 					<div class="btn-group product_btn_group" data-toggle="buttons">
 						<%@product.product_boxings.where(deleted_c: false).each do |p_b| %>
-							<%if p_b.quantity <= inventory%>
+							<%if p_b.quantity <= (inventory - unpaid)%>
 							<% sold_out = false%>
 			                <label class="btn btn-default product_orange_btn <%if @product.discount!=1%>discount<%end%>">
 			                    <input type="radio" name="product_boxing" autocomplete="off" value="<%=p_b.id%>" /> 

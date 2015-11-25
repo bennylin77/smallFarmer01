@@ -9,7 +9,7 @@
     <tr>
       <th></th>     	
       <th style="min-width: 75px;">商品編號</th>  	
-      <th>品項</th>
+      <th>商品</th>
       <th style="min-width: 120px;">出貨庫存</th>        
       <th style="min-width: 280px;">包裝價格</th>
       <th>縮網址</th>        
@@ -45,7 +45,17 @@
 			<dl>
 			  <dt>出貨日期</dt><dd><%= product.released_at.blank? ? '--' : product.released_at.strftime("%Y-%m-%d %H:%M") %></dd>
 			  <dt>本批數量</dt><dd><%= product.inventory.to_i %><%if product.unit%><%= Hash[unitOptions].rassoc(product.unit).first %><%end%></dd>
-			  <dt>尚未付款</dt><dd><%= Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', product.product_boxings.first.id, false, Time.zone.now ).sum(:quantity)%>箱</dd>
+			  <dt>尚未付款</dt>
+			  <dd>
+			      <% unpaid = 0 %>  
+			      <% product.product_boxings.each do |p_b| %>  
+			      	<% unpaid_quantity = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', p_b.id, false, Time.zone.now ).sum(:quantity) %>        
+			      	<% if unpaid_quantity != 0 %> 
+			        	<% unpaid = unpaid + unpaid_quantity*p_b.quantity %> 
+			        <% end %> 
+			      <% end %>   		
+			      <%= "%g" % unpaid%><%if product.unit%><%= Hash[unitOptions].rassoc(product.unit).first %><%end%>	  	
+			  </dd>
 			  <dt>已出貨</dt><dd><%= product.product_boxings.first.orders.where(called_smallfarmer_c: true).sum(:quantity) %>箱</dd>			
 			</dl>	
         </td>	            	

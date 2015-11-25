@@ -1,4 +1,5 @@
 class Product < ActiveRecord::Base
+  include ProductsHelper  
   belongs_to :company
   has_many   :product_images, dependent: :destroy   
   has_many   :product_boxings, dependent: :destroy     
@@ -46,9 +47,15 @@ class Product < ActiveRecord::Base
 
   def inventoryMoreThanUnpaid
     if inventory 
-      unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', self.product_boxings.first.id, false, Time.zone.now ).sum(:quantity)
+      unpaid = 0  
+      product_boxings.each do |p_b|  
+        unpaid_quantity = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', p_b.id, false, Time.zone.now ).sum(:quantity)       
+        if unpaid_quantity != 0
+          unpaid = unpaid + unpaid_quantity*p_b.quantity
+        end
+      end 
       if inventory <  unpaid
-        errors.add(:inventory, "本批數量不能低於尚未付款量 "+unpaid.to_s+"箱")
+        errors.add(:inventory, "本批數量不能低於尚未付款量 "+ ("%g" % unpaid).to_s + Hash[unitOptions].rassoc(unit).first)
       end  
     else
       errors.add(:inventory, "請填寫 本批數量")  

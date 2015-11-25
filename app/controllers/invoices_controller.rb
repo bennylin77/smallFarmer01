@@ -1,4 +1,5 @@
 class InvoicesController < ApplicationController
+  include ProductsHelper
   before_filter :authenticate_user!, except: [:allpayNotify, :allpayPaymentInfoNotify]   
   skip_before_action :verify_authenticity_token, only: [:allpayNotify, :allpayPaymentInfoNotify]
 
@@ -16,12 +17,33 @@ class InvoicesController < ApplicationController
   def create  
     #inventory AND available AND payment method
     current_user.carts.each do |c|        
+      unpaid = 0   
+      c.product_boxing.product.product_boxings.each do |p_b|
+        unpaid_quantity = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', p_b.id, false, Time.zone.now ).sum(:quantity)       
+        if unpaid_quantity != 0
+          unpaid = unpaid + unpaid_quantity*p_b.quantity
+        end
+      end  
+      # check same product in carts
+      unpaid_same_cart = 0
+      current_user.carts.each do |cc| 
+        if cc.product_boxing.product == c.product_boxing.product and cc != c
+          unpaid_same_cart = cc.quantity*cc.product_boxing.quantity       
+        end
+      end             
+      if c.product_boxing.product.inventory - unpaid - unpaid_same_cart - c.quantity*c.product_boxing.quantity < 0
+        flash[:warning] = c.product_boxing.product.name + '庫存剩 ' + ("%g" % (c.product_boxing.product.inventory - unpaid)).to_s + Hash[unitOptions].rassoc(c.product_boxing.product.unit).first    
+      elsif !c.product_boxing.product.available_c or c.product_boxing.product.deleted_c or c.product_boxing.deleted_c
+        flash[:warning] = c.product_boxing.product.name + '已下架'             
+      end      
+=begin      
       unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', c.product_boxing.id, false, Time.zone.now ).sum(:quantity)     
       if c.product_boxing.product.inventory - unpaid - c.quantity < 0
         flash[:warning] = c.product_boxing.product.name + '庫存剩'+(c.product_boxing.product.inventory - unpaid).to_s+'箱'
       elsif !c.product_boxing.product.available_c or c.product_boxing.product.deleted_c
         flash[:warning] = c.product_boxing.product.name + '已下架'                  
       end 
+=end            
     end
     if flash[:warning]
       redirect_to root_url  
@@ -243,17 +265,30 @@ class InvoicesController < ApplicationController
     
     ## inventory AND available AND payment method
     total_price = 0 
-    current_user.carts.each do |c|        
-      unpaid = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', c.product_boxing.id, false, Time.zone.now ).sum(:quantity)     
-      if c.product_boxing.product.inventory - unpaid - c.quantity < 0
-        current_user.errors.add('quantity_'+c.id.to_s, c.product_boxing.product.name + '庫存剩'+(c.product_boxing.product.inventory - unpaid).to_s+'箱')     
-      elsif !c.product_boxing.product.available_c or c.product_boxing.product.deleted_c
+    current_user.carts.each do |c| 
+      unpaid = 0   
+      c.product_boxing.product.product_boxings.each do |p_b|
+        unpaid_quantity = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', p_b.id, false, Time.zone.now ).sum(:quantity)       
+        if unpaid_quantity!=0
+          unpaid = unpaid + unpaid_quantity*p_b.quantity
+        end
+      end  
+      # check same product in carts
+      unpaid_same_cart = 0
+      current_user.carts.each do |cc| 
+        if cc.product_boxing.product == c.product_boxing.product and cc != c
+          unpaid_same_cart = cc.quantity*cc.product_boxing.quantity       
+        end
+      end             
+      if c.product_boxing.product.inventory - unpaid - unpaid_same_cart - c.quantity*c.product_boxing.quantity < 0
+        current_user.errors.add('quantity_'+c.id.to_s, c.product_boxing.product.name + '庫存剩 ' + ("%g" % (c.product_boxing.product.inventory - unpaid)).to_s + Hash[unitOptions].rassoc(c.product_boxing.product.unit).first)     
+      elsif !c.product_boxing.product.available_c or c.product_boxing.product.deleted_c or c.product_boxing.deleted_c
         current_user.errors.add('quantity_'+c.id.to_s, c.product_boxing.product.name + '已下架')             
       end  
       total_price = total_price + priceWithShippingRates(product_boxing: c.product_boxing, quantity: c.quantity )
       if c.gift_wrapping_c
         total_price = total_price + c.quantity*GLOBAL_VAR['GIFT_WRAPPING_FEE']
-      end
+      end   
     end   
     final_total_price = total_price - @coupon_using    
     if @payment_method.blank? and final_total_price!= 0 
@@ -302,7 +337,7 @@ class InvoicesController < ApplicationController
             invoice.confirmed_c = true          
             invoice.save!
             invoice.orders.each do |o| 
-              o.product_boxing.product.inventory = o.product_boxing.product.inventory - o.quantity
+              o.product_boxing.product.inventory = o.product_boxing.product.inventory - o.product_boxing.quantity*o.quantity
               o.product_boxing.product.save!                                   
             end    
             #prevent wrong email address so loop again         

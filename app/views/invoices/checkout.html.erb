@@ -230,7 +230,7 @@
 //====================== error ======================//
 <% @user.errors.messages.each do |index, value| %>
 	<%unless value.blank? %>
-		toastr["error"]('<%=value.first%>')	
+		toastr["warning"]('<%=value.first%>')	
 	<%end%>	
 <% end %>
 

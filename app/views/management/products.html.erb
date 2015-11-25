@@ -4,8 +4,8 @@
   <tr>
     <th>商品編號</th>  	
 	<th>商品</th>
-	<th style="min-width: 120px;">狀態</th>  
-	<th style="min-width: 220px;">價錢</th>	
+	<th style="min-width: 120px;">出貨庫存</th>  
+	<th style="min-width: 220px;">包裝價格</th>	
 	<th style="min-width: 100px;">甜度</th>		
 	<th style="min-width: 100px;">折扣</th>	
 	<th style="min-width: 100px;">有機</th>		
@@ -47,50 +47,64 @@
     	<div><%if product.available_c%>上架中<%else%>已下架<%end%></div>
 			<dl>
 			  <dt>出貨日期</dt><dd><%= product.released_at.blank? ? '--' : product.released_at.strftime("%Y-%m-%d %H:%M") %></dd>
-			  <dt>本批數量</dt><dd><%= product.inventory.to_i %>箱</dd>
-			  <dt>尚未付款</dt><dd><%= Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', product.product_boxings.first.id, false, Time.zone.now ).sum(:quantity)%>箱</dd>
+			  <dt>本批數量</dt><dd><%= product.inventory.to_i %><%if product.unit%><%= Hash[unitOptions].rassoc(product.unit).first %><%end%></dd>
+			  <dt>尚未付款</dt>
+			  <dd>
+			      <% unpaid = 0 %>  
+			      <% product.product_boxings.each do |p_b| %>  
+			      	<% unpaid_quantity = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', p_b.id, false, Time.zone.now ).sum(:quantity) %>        
+			      	<% if unpaid_quantity != 0 %> 
+			        	<% unpaid = unpaid + unpaid_quantity*p_b.quantity %> 
+			        <% end %> 
+			      <% end %>   		
+			      <%= "%g" % unpaid%><%if product.unit%><%= Hash[unitOptions].rassoc(product.unit).first %><%end%>	  	
+			  </dd>
 			  <dt>已出貨</dt><dd><%= product.product_boxings.first.orders.where(called_smallfarmer_c: true).sum(:quantity) %>箱</dd>			
-			</dl> 	
+			</dl>	
     </td>      
     <td>
-		<table class="table">
-			<tr>
-				<td>商品<span class="text-danger"><%= Hash[discountPercentageOptions].rassoc(product.discount).first %></span></td>
-			</tr>
-		<%product.product_boxings.first.product_pricings.each do |p| %>
-			<%if p.quantity == 1%>	
-				<tr>
-			        <%if product.product_boxings.first.quantity%>
-			        <td>每箱<%= "%g" % product.product_boxings.first.quantity %><%if product.unit%><%= Hash[unitOptions].rassoc(product.unit).first %><%end%></td>
-			        <%end%>					
-				</tr>
-				<tr>
-			        <td style="min-width: 120px;">每箱賣<%= p.price.to_i %>元&nbsp;</td>
-					<%if !product.cold_chain.blank? and !p.product_boxing.size.blank?%>
-					<td style="min-width: 90px;">運費<%=shippingRates(box_size: p.product_boxing.size ,quantity: p.quantity, cold_chain: product.cold_chain) %>元&nbsp;</td>
-					<td style="min-width: 120px;">最終售價
-						<%if product.discount!=1%><s><small><%= p.price.to_i + shippingRates(cold_chain: p.product_boxing.product.cold_chain, box_size: p.product_boxing.size, quantity: p.quantity )%></small></s><%end%>
-						<%=priceWithShippingRates(product_boxing: p.product_boxing, quantity: p.quantity) %>元 
-					</td>
-					<%end%>
-				</tr>				
-			<%elsif p.quantity%>
-				<tr class="text-danger">
-					<td><%= p.quantity %>箱以上(含)&nbsp;</td>
-				</tr>
-				<tr class="text-danger">
-			        <td>每箱賣<%= p.price.to_i %>元&nbsp;</td>
-					<%if !product.cold_chain.blank? and !p.product_boxing.size.blank?%>
-					<td>運費<%=shippingRates(box_size: p.product_boxing.size ,quantity: p.quantity, cold_chain: product.cold_chain) %>元&nbsp;</td>
-					<td>最終售價
-						<%if product.discount!=1%><s><small><%= p.price.to_i + shippingRates(cold_chain: p.product_boxing.product.cold_chain, box_size: p.product_boxing.size, quantity: p.quantity )%></small></s><%end%>
-						<%= priceWithShippingRates(product_boxing: p.product_boxing, quantity: p.quantity)/p.quantity %>元 
-					</td>
-					<%end%>
-				</tr>					
-			<%end%>
-		<%end%>   
-		</table>       	
+		<%if product.discount!= 1%>
+			商品<span class="text-danger"><%= Hash[discountPercentageOptions].rassoc(product.discount).first %></span>
+		<%end%>  
+		<%product.product_boxings.where(deleted_c: false).each do |p_b| %>
+		<table class="table table-striped table-bordered table-condensed">
+			<%p_b.product_pricings.each do |p| %>
+				<%if p.quantity == 1%>	
+					<tr>
+				        <%if p_b.quantity%>
+				        <td>內含<%= "%g" % p_b.quantity %><%if product.unit%><%= Hash[unitOptions].rassoc(product.unit).first %><%end%></td>
+				        <%end%>					
+					</tr>
+					<tr>
+						<%if p.price %>
+				        <td style="min-width: 120px;">每箱賣<%= p.price.to_i %>元&nbsp;</td>
+						<%end%>
+						<%if !product.cold_chain.blank? and !p.product_boxing.size.blank?%>
+						<td style="min-width: 90px;">運費<%=shippingRates(box_size: p.product_boxing.size ,quantity: p.quantity, cold_chain: product.cold_chain) %>元&nbsp;</td>
+						<td style="min-width: 120px;">最終售價
+							<%if product.discount!=1%><s><small><%= p.price.to_i + shippingRates(cold_chain: p.product_boxing.product.cold_chain, box_size: p.product_boxing.size, quantity: p.quantity )%></small></s><%end%>
+							<!--<%# priceWithShippingRates(product_boxing: p.product_boxing, quantity: p.quantity) %>元--> 
+						</td>
+						<%end%>
+					</tr>				
+				<%elsif p.quantity%>
+					<tr class="text-danger">
+						<td><%= p.quantity %>箱以上(含)&nbsp;</td>
+					</tr>
+					<tr class="text-danger">
+				        <td>每箱賣<%= p.price.to_i %>元&nbsp;</td>
+						<%if !product.cold_chain.blank? and !p.product_boxing.size.blank?%>
+						<td>運費<%=shippingRates(box_size: p.product_boxing.size ,quantity: p.quantity, cold_chain: product.cold_chain) %>元&nbsp;</td>
+						<td>最終售價
+							<%if product.discount!=1%><s><small><%= p.price.to_i + shippingRates(cold_chain: p.product_boxing.product.cold_chain, box_size: p.product_boxing.size, quantity: p.quantity )%></small></s><%end%>
+							<%= priceWithShippingRates(product_boxing: p.product_boxing, quantity: p.quantity)/p.quantity %>元 
+						</td>
+						<%end%>
+					</tr>					
+				<%end%>
+			<%end%>   
+		</table>  
+		<%end%>         	
     </td> 
   	<td>
 		<%= select_tag "sweet_degree", options_for_select((10..20).step(1), product.sweet_degree), prompt: '請選擇', class: 'form-control sweet_degree', 'data-id'=> product.id %>  		
