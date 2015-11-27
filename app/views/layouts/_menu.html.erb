@@ -14,7 +14,7 @@
 		  	<%=image_tag 'smallfarmer01.png', class: 'smallfarmer01-brand' %>
 		  	<%=image_tag 'logo.png', class: 'logo-brand' %>
 		  <%end%>     
-          <form class="navbar-form collapsed no_collapse_point" role="search" action="/main/search" method="get">
+          <form class="navbar-form collapsed no_collapse_point" role="search" action="/main/search" method="get" style="padding: 9px 15px;">
             <div class="form-group">
             <input type="text" class="form-control rounded typeahead" name="query" placeholder="找商品、小農？" value="<%= @query %>">
     	  	</div>

@@ -193,10 +193,10 @@ $(document).ready(function($) {
     //border
     
 	var tween = new TimelineLite();
-	tween.fromTo(".l1", 1, {height:0, ease: Linear.easeNone}, {height:50, ease: Linear.easeNone})
-		 .fromTo(".l2", 4, {width:0, ease: Linear.easeNone}, {width:185, ease: Linear.easeNone})
-	  	 .fromTo(".l3", 1, {height:0, ease: Linear.easeNone}, {height:50, ease: Linear.easeNone})
-	  	 .fromTo(".l4", 1, {width:0, ease: Linear.easeNone}, {width:185, ease: Linear.easeNone})
+	tween.fromTo(".l1", 1, {height:0, ease: Linear.easeNone}, {height:45, ease: Linear.easeNone})
+		 .fromTo(".l2", 4, {width:0, ease: Linear.easeNone}, {width:160, ease: Linear.easeNone})
+	  	 .fromTo(".l3", 1, {height:0, ease: Linear.easeNone}, {height:45, ease: Linear.easeNone})
+	  	 .fromTo(".l4", 1, {width:0, ease: Linear.easeNone}, {width:160, ease: Linear.easeNone})
 	
 	tween.timeScale(5) //play faster     
 	new ScrollMagic.Scene({triggerElement: ".farmer_video_container"})
