@@ -1,0 +1,204 @@
+<script>
+//======================== animate ========================// 
+var controller = new ScrollMagic.Controller({globalSceneOptions: {triggerHook: "onEnter", duration: "200%"}});
+function move (what, progress) {
+    var to = progress * 25;
+    TweenMax.to(what, 1, {y: '-'+to + "%", overwrite: 5, force3D: true});
+}
+new ScrollMagic.Scene({triggerElement: "#parallax1"})
+		.on("progress", function (e) {
+        	move ("#parallax1 > div", e.progress);
+        }).addTo(controller);	
+new ScrollMagic.Scene({triggerElement: ".product_excellent"})
+		.addTo(controller)
+		.on('start', function(e){
+			$('.product_excellent_no').each(function () {
+			  var $this = $(this);
+			  jQuery({ Counter: 0 }).animate({ Counter: $this.attr("data-count") }, {
+			    duration: 1000,
+			    easing: 'swing',
+			    step: function () {
+			      $this.text(Math.floor(this.Counter));
+			    },
+			  	complete: function() {
+			  		$this.html($this.attr("data-count"));
+			  	}		    
+			  });
+			});					
+		});	
+//======================== add cart ========================// 
+var products = [] 
+var boxings = []
+var pricings = []
+<%@product.product_boxings.where(deleted_c: false).each do |p_b| %>
+	<%unless p_b.product_pricings.where.not(quantity: 1).count==0%>
+		products.push({ id: <%=p_b.id %>, discount: <%= p_b.product.discount %>, cold_chain: <%= p_b.product.cold_chain %>})
+		boxings.push({ id: <%=p_b.id %>, size: <%= p_b.size %>})
+		pricing = new Array()
+		pricing.push({ price: <%= p_b.product_pricings.where.not(quantity: 1).first.price.to_i %>, quantity: <%= p_b.product_pricings.where.not(quantity: 1).first.quantity %> })
+		pricings.push({ id: <%=p_b.id %>, pricing: pricing})
+	<%end%>	
+<%end%>
+$('.product_promote').hide()
+$("input:radio[name=product_boxing]").change(function(){
+	var id = $("input:radio[name=product_boxing]:checked").val();
+	var bargain = false
+	$.each(pricings, function( i, v ) {	
+		if(v.id ==id ){		
+			bargain = true
+			shipping_rate_quantity = v.pricing[0].quantity 				
+			item_price = Math.ceil((v.pricing[0].price+shippingRates( boxings[i].size, products[i].cold_chain, shipping_rate_quantity))*products[i].discount)		
+			$('.bargain_quantity').text(v.pricing[0].quantity)
+			$('.bargain_price').text(item_price)
+			$('.product_promote').slideDown( "slow" )	
+			return false;	
+		}	
+	});
+	if(!bargain)
+		$('.product_promote').slideUp( "slow" )				        
+});
+
+
+$('.add_to_cart_action').click(function() {
+	//var $btn = $(this).button('加入中...')	
+	if( $("input:radio[name=product_boxing]:checked").val() === undefined ){
+		toastr['warning']('您沒有選擇包裝喔！')
+	}else{
+		var request = $.ajax({
+			url: "/carts/addCart",
+			type: "GET",
+			data: { id: $("input:radio[name=product_boxing]:checked").val(), quantity: $('#quantity').val() },
+			dataType: "json"
+		});
+		request.done(function( message ) {
+			if(message.alert_class != 'success')
+				toastr[message.alert_class](message.message)
+		    //$btn.button('reset')		 
+		    if( $(window).width() < 1195)
+		    {
+		    	var cart = $('.navbar-toggle');
+		    	var imgtodrag =  $('.cart_icon_product');	    	
+	    		
+			    if (imgtodrag) {
+		            var imgclone = imgtodrag.clone().offset({
+		                top: imgtodrag.offset().top,
+		                left: imgtodrag.offset().left
+		            }).css({
+		                	'opacity': '0.5',
+		                    'position': 'absolute',
+		                    'height': '150px',
+		                    'width': '150px',
+		                    'z-index': '10000'
+		            }).appendTo($('body')).animate({
+		                'top': cart.offset().top + 10,
+		                'left': cart.offset().left + 10,
+		                'width': 75,
+		                'height': 75
+		            }, 1000);
+			    	
+			        imgclone.animate({
+		                'width': 0,
+		                'height': 0
+		            }, function () {
+		                $(this).detach()
+		            });
+			      }	    
+			}
+			else  
+				$( ".cart_menu_click" ).trigger( "click" )		    
+		    showCarts(); 		    
+		});
+		request.fail(function( jqXHR, textStatus ) {
+		});	
+	}
+});
+$(".add_to_cart_form").submit( function(eventObj) {
+	if( $("input:radio[name=product_boxing]:checked").val() === undefined ){
+		toastr['warning']('您沒有選擇包裝喔！')
+		return false;
+	}else{
+      $('<input />').attr('type', 'hidden')
+          .attr('name', "id")
+          .attr('value', $("input:radio[name=product_boxing]:checked").val() )
+          .appendTo('.add_to_cart_form');
+      $('<input />').attr('type', 'hidden')
+          .attr('name', "quantity")
+          .attr('value', $('#quantity').val() )
+          .appendTo('.add_to_cart_form');  
+          return true; 
+   	}              
+});
+//======================== total price ========================// 
+var pricing =  []
+var cash_flow_layer = 600;
+var box_size = <%= @product.product_boxings.first.size %>;
+var cold_chain = <%= @product.cold_chain %>;
+var discount = <%= @product.discount %>
+<%@product.product_boxings.first.product_pricings.order('quantity desc').each do |p| %>
+	<% unless p.quantity.blank? %>
+		pricing.push({ price: <%= p.price.to_i %>, quantity: <%= p.quantity %>  })
+	<% end %>
+<%end%>
+countTotalPrice($('#quantity').val())
+function countTotalPrice(q){	
+	$.each(pricing, function( index, value ) {
+		if(q >= value.quantity)	
+		{		
+			shipping_rates = shippingRates( box_size, cold_chain, q)
+			total_price = q*Math.ceil((value.price+shipping_rates)*discount)
+			total_shipping_rates = q*shipping_rates
+			total_cash_flow = Math.round(total_price*<%=GLOBAL_VAR['CASH_FLOW_FEE']%> )
+			total_coupon = Math.round(total_price*<%=GLOBAL_VAR['COUPON_FEE']%> )
+			total_administration = Math.round(total_price*<%=GLOBAL_VAR['ADMINISTRATION_FEE']%>  )
+			total_farmer_get = total_price - total_shipping_rates //- total_administration - total_coupon - total_cash_flow 
+			
+			$('.total_price').html( total_price ); $('.total_quantity').html(q); 
+			$('.total_farmer_get').html( total_farmer_get );	
+			$('.total_shipping_rates').html( total_shipping_rates ); 							
+			$('.total_cash_flow').html( total_cash_flow  );	
+			$('.total_administration').html( total_administration  );			
+			$('.total_coupon').html( total_coupon );
+			$('.coupons_est').html( total_coupon );
+
+			$('.farmer_get_layer').css({"height": cash_flow_layer*0.7*(total_farmer_get/total_price)*0.65})
+			$('.farmer_get_inner').css({"height": cash_flow_layer*0.7*(total_farmer_get/total_price)*0.65})
+			$('.farmer_get_layer').animate({"height": cash_flow_layer*0.7*(total_farmer_get/total_price)}, 1000)
+			$('.farmer_get_inner').animate({"height": cash_flow_layer*0.7*(total_farmer_get/total_price)}, 1000)
+			$('.shipping_rates_layer').animate({"height": cash_flow_layer*(total_shipping_rates/total_price)})
+			$('.shipping_rates_inner').animate({"height": cash_flow_layer*(total_shipping_rates/total_price)})
+			$('.cash_flow_layer').animate({"height": cash_flow_layer*(total_cash_flow/total_price)})
+			$('.cash_flow_inner').animate({"height": cash_flow_layer*(total_cash_flow/total_price)})
+			$('.administration_layer').animate({"height": cash_flow_layer*(total_administration/total_price)})
+			$('.administration_inner').animate({"height": cash_flow_layer*(total_administration/total_price)})										
+			$('.coupon_layer').animate({"height": cash_flow_layer*(total_coupon/total_price)})
+			$('.coupon_inner').animate({"height": cash_flow_layer*(total_coupon/total_price)})						
+			
+			return false;
+		}	
+	});		
+}
+$('#quantity').change(function(){
+   countTotalPrice($('#quantity').val())
+});	
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "item": {
+      "@id": "<%=Rails.configuration.smallfarmer01_host%>/main/farms",
+      "name": "各地小農"
+    }
+  },{
+    "@type": "ListItem",
+    "position": 2,
+    "item": {
+      "@id": "<%=Rails.configuration.smallfarmer01_host%>/companies/<%=@product.company.id %>",
+      "name": "<%=@product.company.name%>"
+    }
+  }]
+}
+</script>

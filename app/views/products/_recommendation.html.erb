@@ -1,7 +1,7 @@
-<%Product.where(available_c: true, deleted_c: false).order("RAND()").limit(3).each_slice(3) do |p|%> 
+<%Product.where(available_c: true, deleted_c: false).order("RAND()").limit(4).each_slice(4) do |p|%> 
 	<div class="row">
 		<% p.each_with_index do |pp, index|%>
-			<%= render partial: "/main/product", locals: { product: pp, index: index, slice: 3 } %>			
+			<%= render partial: "/main/product", locals: { product: pp, index: index, slice: 4 } %>			
 		<%end%>	
 	</div>		
 <%end%>

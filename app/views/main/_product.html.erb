@@ -19,7 +19,7 @@
 		</div>
 		-->					
 	</div>
-	<div class="product_index_name"><%= product.name%><%= "%g" % product.product_boxings.first.quantity %><%= Hash[unitOptions].rassoc(product.unit).first %></div>				
+	<div class="product_index_name"><%= product.name%></div>				
 	<div class="product_index_company_name"><%= product.company.name%> |				
 		<% pricing = product.product_boxings.first.product_pricings.first %>
 		<%if product.discount!=1%>

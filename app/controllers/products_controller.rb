@@ -2,8 +2,8 @@ class ProductsController < ApplicationController
   layout "companies", only: [:index, :edit, :new, :create, :update, :preview, :available]  
   before_filter :authenticate_user!, except: [:show] 
   
-  before_action only: [:edit, :update, :preview, :destroy, :productImagesUpload, :productImagesDelete, :available, :productCoverUpload, :productCoverDelete] { |c| c.ProductCheckUser(params[:id])}      
-  before_action :set_product, only: [:show, :edit, :update, :preview, :destroy, :productImagesUpload, :productImagesDelete, :available, :productCoverUpload, :productCoverDelete]
+  before_action only: [:edit, :update, :preview, :destroy, :productImagesUpload, :productImagesDelete, :available, :productCoverUpload, :productCoverDelete, :productBoxingAdd, :productBoxingDelete] { |c| c.ProductCheckUser(params[:id])}      
+  before_action :set_product, only: [:show, :edit, :update, :preview, :destroy, :productImagesUpload, :productImagesDelete, :available, :productCoverUpload, :productCoverDelete, :productBoxingAdd, :productBoxingDelete]
   before_action :available?, only: [:show]
   before_action :delete?, only: [:show]  
 
@@ -16,7 +16,7 @@ class ProductsController < ApplicationController
 
   def new
     product = Product.new
-    p_b= product.product_boxings.build() 
+    p_b = product.product_boxings.build() 
     p_b.product_pricings.build(quantity: 1)   
     p_b.product_pricings.build()       
     product.company = current_user.companies.first
@@ -38,7 +38,7 @@ class ProductsController < ApplicationController
   end
 
   def update
-    @product.update(product_params)  
+    @product.update(product_params)      
     @keywords = params[:keywords]     
     @product.shipping_time = params[:shipping_time_1].to_i | params[:shipping_time_2].to_i | params[:shipping_time_4].to_i |
                              params[:shipping_time_8].to_i | params[:shipping_time_16].to_i | params[:shipping_time_32].to_i |
@@ -76,6 +76,36 @@ class ProductsController < ApplicationController
     @product.update_attribute(:deleted_at, Time.zone.now)     
     flash[:notice] ='成功刪除商品編號'+@product.id.to_s        
     redirect_to products_url
+  end
+
+  def productBoxingAdd
+    if @product.product_boxings.where( deleted_c: false ).size < 10 and @product.product_boxings.size < 99999  
+      p_b = ProductBoxing.new() 
+      p_b.product = @product
+      p_b.save!
+      p_p = ProductPricing.new(quantity: 1)   
+      p_p.product_boxing = p_b
+      p_p.save!
+      p_p_bargain = ProductPricing.new()      
+      p_p_bargain.product_boxing = p_b
+      p_p_bargain.save!       
+      render json: { success: '新增成功', id: p_b.id, price_id: p_p.id, bargain_price_id: p_p_bargain.id}
+    else
+      render json: { error: '包種種類不能多於十種' }
+    end      
+  end
+
+  def productBoxingDelete
+    if @product.product_boxings.where( deleted_c: false ).size > 1 
+      product_boxing = @product.product_boxings.where(id: params[:product_boxing_id]).first
+      if product_boxing.update_attribute(:deleted_c, true) and product_boxing.update_attribute(:deleted_at, Time.zone.now()) 
+        render json: {success: '刪除成功'}     
+      else
+        render json: {error: '刪除失敗'}  
+      end  
+    else
+      render json: {error: '包種種類不能少於一種'}           
+    end     
   end
 
   def productCoverUpload

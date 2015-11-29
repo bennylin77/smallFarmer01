@@ -1,7 +1,7 @@
 <%if user_signed_in?%> 
 <div class="row comment_post">
-	<div class="col-sm-offset-1 col-xs-1"><%= image_tag current_user.avatar.url, class: 'img-circle' %></div>
-	<div class="col-xs-10 col-sm-9 ">
+	<div class="col-xs-1"><%= image_tag current_user.avatar.url, class: 'img-circle' %></div>
+	<div class="col-xs-10">
 	  	<div class="comment_msg_post"><textarea class="form-control comment_textarea" rows="1" placeholder='想說什麼...' id="post_content"></textarea></div>
 	  	<button class="btn orange_btn pull-right" id="post_button" onclick="postComment()" data-loading-text="傳送中..." style="margin-top: 5px;">送出</button>
 	</div>
@@ -10,8 +10,8 @@
 <div class="row comment_post">
 	<%= form_tag  '/comments/post', method: 'get' do %>
 		<%= hidden_field_tag  :id,  product.id  %>	
-	  	<div class="col-sm-offset-1 col-xs-1"><%= image_tag 'default_avatar.png', class: 'img-circle' %></div>		    
-	  	<div class="col-xs-10 col-sm-9 ">
+	  	<div class="col-xs-1"><%= image_tag 'default_avatar.png', class: 'img-circle' %></div>		    
+	  	<div class="col-xs-10">
 	  		<div class="comment_msg_post"><textarea name="content" class="form-control comment_textarea" rows="1" placeholder='想說什麼...' id="post_content"></textarea></div>
 	  		<%= submit_tag '送出',  class: "btn orange_btn pull-right", style: "margin-top: 5px;"  %>
 	  	</div>
@@ -83,12 +83,12 @@ function addComment(comment, sub_comments)
 {
 	var $container =$("<div>", {id: 'comment_'+comment.id.toString()}); 
 	var $row_1 =$("<div>", {class: "row comment_row"}); 
-	$row_1.append('<div class="col-sm-offset-1 col-xs-1" style="margin-top: 10px;">'+
+	$row_1.append('<div class="col-xs-1" style="margin-top: 10px;">'+
 		     	  '<img src="'+comment.user_avatar_url+'" onerror="this.src=\''+default_avatar+'\'" alt="missing" width="43" height="43" class="img-circle">'+
 		     	  '</div>');//+
 				  //'<div class="col-sm-9 ">'+comment.user_last_name+' '+moment(comment.created_at, "YYYY-MM-DD HH:mm:ss" ).fromNow()+'<div class="comment_msg">'+comment.content+'</div>'+
 				  //'</div>');		
-	var $op_container =$("<div>", {class: 'col-xs-10 col-sm-9 comment_op'}); 	
+	var $op_container =$("<div>", {class: 'col-xs-10 comment_op'}); 	
 	$op_container.append(comment.email+' '+moment(comment.created_at, "YYYY-MM-DD HH:mm:ss" ).fromNow());		  
 	if(comment.user_id == current_user.id)			  
 	{			  		  
@@ -106,28 +106,28 @@ function addComment(comment, sub_comments)
 	if(current_user.id!=-1)
 	{
 		var $row_post_sub_comment =$("<div>", {class: "row comment_post", id: "post_sub_comment_"+comment.id.toString() }); 
-			$row_post_sub_comment.append('<div class="col-xs-1 col-xs-offset-1 col-sm-offset-2 col-sm-offset-2" style="margin-top: 0px;">'+
+			$row_post_sub_comment.append('<div class="col-xs-1 col-xs-offset-1" style="margin-top: 0px;">'+
 										 '<img src="'+current_user.avatar_url+'" onerror="this.src=\''+default_avatar+'\'" alt="missing" style="width: 43px; height: 43px" class="img-circle">'+
 										 '</div>'+				
-	  									 '<div class="col-xs-9 col-sm-8" ><div class="comment_msg_post"><textarea class="form-control comment_textarea" rows="1" placeholder="回應..." id="post_sub_content_'+comment.id.toString()+'"></textarea></div>'+		
+	  									 '<div class="col-xs-9" ><div class="comment_msg_post"><textarea class="form-control comment_textarea" rows="1" placeholder="回應..." id="post_sub_content_'+comment.id.toString()+'"></textarea></div>'+		
 	  							 		 '<button class="btn orange_btn pull-right" id="post_sub_button_'+comment.id.toString()+'" onclick="postSubComment('+comment.id.toString()+')" style="margin-top: 5px;">送出</button></div>');	  	
 	}
 	if(sub_comments.length==0 && current_user.id!=-1)
 	{
 		var $row_reply_but = $("<div>", {class: "row"}); 
-		$row_reply_but.append('<div class="col-xs-11 col-sm-11"><span onclick="$(\'#post_sub_comment_'+comment.id.toString()+'\').show();" style="cursor: pointer" class="pull-right comment_reply">回應</span></div>')	  
+		$row_reply_but.append('<div class="col-xs-11"><span onclick="$(\'#post_sub_comment_'+comment.id.toString()+'\').show();" style="cursor: pointer" class="pull-right comment_reply">回應</span></div>')	  
 		$container.append($row_reply_but);			
 		$row_post_sub_comment.hide();	
 	}
 	else
 		$.each( sub_comments, function( i, l ){
 			var $row_sub =$("<div>", {class: "row comment_sub_row", id: 'sub_comment_'+l.id.toString()}); 			
-			$row_sub.append('<div class="col-xs-1 col-xs-offset-1 col-sm-offset-2" style="margin-top: 10px;">'+
+			$row_sub.append('<div class="col-xs-1 col-xs-offset-1" style="margin-top: 10px;">'+
 				     	  '<img src="'+l.user_avatar_url+'" onerror="this.src=\''+default_avatar+'\'" alt="missing" width="43" height="43" class="img-circle">'+
 				     	  '</div>');
 						  //'<div class="col-sm-7">'+l.user_last_name+' '+moment(l.created_at, "YYYY-MM-DD HH:mm:ss" ).fromNow()+'<div class="comment_msg">'+l.content+'</div>'+
 						  //'</div>');
-			var $sub_op_container =$("<div>", {class: 'col-xs-9 col-sm-8 comment_op'}); 
+			var $sub_op_container =$("<div>", {class: 'col-xs-9 comment_op'}); 
 			$sub_op_container.append(l.email+' '+moment(l.created_at, "YYYY-MM-DD HH:mm:ss" ).fromNow());		  									  		
 			if(l.user_id == current_user.id)			  
 			{			  		  

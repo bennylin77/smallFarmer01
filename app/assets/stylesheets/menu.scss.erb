@@ -27,6 +27,10 @@
 .navbar-form{
   margin-top: 30px;
 }
+.navbar-form input{
+  padding: 0px 10px;
+}
+
 input.rounded {
   border-radius: 17px; 
   box-shadow: none !important;  
@@ -61,7 +65,7 @@ input.rounded:focus {
   position: relative;
   line-height: 20px;  
   display: block;
-  padding: 10px 12px;
+  padding: 12px 12px;
   color: #433E3C !important; 
 }
 .no-touch .navbar-right>li:hover{
@@ -72,18 +76,19 @@ input.rounded:focus {
   background: none !important; 
 } 
 .navbar-right>li .menu_right img{
-  height: 32px;
-  width: 32px;
+  height: 28px;
+  width: 28px;
   vertical-align: middle;
 }
 .badge {
   display: block;
   position: absolute;
-  top: 2px;
-  right: 1px;
-  line-height: 20px;
-  height: 20px;
-  padding: 0 7px;
+  top: 6px;
+  right: 2px;
+  font-size: 10px !important;
+  line-height: 18px;
+  height: 18px;
+  padding: 0 6px;
 }
 .badge-orange {
   background-color: #ff5600;
@@ -103,8 +108,7 @@ input.rounded:focus {
   box-shadow: none;  
   border-radius: 10px !important;  
 }
-
-
+//nav-shrink
 .navbar-shrink .navbar-brand{
     -webkit-transition: all .3s;
     -moz-transition: all .3s;
@@ -113,7 +117,7 @@ input.rounded:focus {
     height: 52px;   
   }  
 .navbar-shrink .navbar-brand img{
-    height: 24px; 
+    height: 22px; 
   } 
 .navbar-shrink .text-nav .text-nav_img{  
     width: 22px;
@@ -121,8 +125,8 @@ input.rounded:focus {
     display: inline-block; 
   }
 .navbar-shrink .text-nav .text-nav_text{
-    line-height: 16px;  
-    font-size: 16px;
+    line-height: 15px;  
+    font-size: 15px;
     margin-top: 0px;
     vertical-align: middle;    
     display: inline-block; 
@@ -134,7 +138,7 @@ input.rounded:focus {
 .navbar-shrink .navbar-right{
     margin-top: 0px;
 }  
-
+//responsive
 @media (min-width: 1195px) {
   .no_collapse_point{
     display: none !important;
@@ -187,7 +191,7 @@ input.rounded:focus {
     display: block;
     position: absolute; 
     font-size: 17px; 
-    top: 19px;
+    top: 17px;
     left: 60px;  
     color: #A7A7A7 !important;     
   }  
@@ -197,6 +201,10 @@ input.rounded:focus {
     left: 32px;
     right: auto;
   }
+  .navbar-toggle{
+    margin-top: 9px;
+    margin-bottom: 9px; 
+  } 
 }
 @media (min-width: 380px) {
   .logo-brand{
@@ -244,7 +252,7 @@ input.rounded:focus {
 .cart-dropdown-menu {
   visibility: visible;
   padding: 20px 20px;  
-  width: 250px !important;
+  width: 315px !important;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px 0px;  
 }
 .cart_lists li{
@@ -265,7 +273,7 @@ input.rounded:focus {
   vertical-align: middle;
 }
 .cart_content{
-  width: 100px;
+  width: 165px;
   margin-left: 15px;
   display: inline-block; 
   vertical-align: middle;   
