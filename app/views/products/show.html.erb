@@ -39,7 +39,8 @@
 	<div class="row">		
 		<div class="hidden-xs col-sm-12">	
 			<div class="product_farm_words"> 
-			<%= image_tag @product.company.user.avatar.url, class: 'img-circle product_farm_words_avatar' %>		
+            <div class="avatar_circle product_farm_words_avatar" style="  background-image: url(<%=@product.company.user.avatar.url%>);">
+            </div>			
 			<%= link_to @product.company do%>
 				<div class="product_farm_words_text">	
 					<%= truncate( @product.company.words, length: 120, omission: '... more') %>
@@ -49,7 +50,8 @@
 		</div>			
 		<div class="hidden-sm hidden-md hidden-lg col-xs-12 product_farm_words text-center">		
 			<div>
-				<%= image_tag @product.company.user.avatar.url, class: 'img-circle product_farm_words_avatar', style: '',  itemprop: "image" %>		
+            	<div class="avatar_circle product_farm_words_avatar" style="background-image: url(<%=@product.company.user.avatar.url%>);" itemprop="image" >
+            	</div>					
 				<%= link_to @product.company do%>				
 					<div class="col-xs-12 product_farm_words_text">	
 						<%= truncate( @product.company.description, length: 120, omission: '... more') %>

@@ -1,7 +1,9 @@
 <div class="container-fluid">
 	<div class="row">
         <div class="col-sm-3 col-lg-2 sidebar">
-		  <%= image_tag current_user.avatar.url, class: 'img-circle sidebar_user_img center-block'  %>        	
+		  <!--<%= image_tag current_user.avatar.url, class: 'img-circle sidebar_user_img center-block'  %>-->        	
+          <div class="avatar_circle sidebar_user_img center-block" style="  background-image: url(<%=current_user.avatar.url%>);">
+          </div>
           <div class="sidebar_info_title"><%=current_user.last_name%> <%=current_user.first_name%></div>      
           <ul class="description-sidebar hidden-xs">
 	          <li>	
