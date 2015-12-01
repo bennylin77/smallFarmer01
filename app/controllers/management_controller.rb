@@ -339,6 +339,14 @@ class ManagementController < ApplicationController
       else
         render json: {success: true, message: '商品編號 '+@product.id.to_s+' 農藥零檢出已停用'}          
       end   
+    when 'SGS'
+      params[:val] = params[:val] == 'true' ? true : false
+      @product.update_columns(SGS_c: params[:val])  
+      if params[:val]
+        render json: {success: true, message: '商品編號 '+@product.id.to_s+' SGS已認證'}    
+      else
+        render json: {success: true, message: '商品編號 '+@product.id.to_s+' SGS已停用'}          
+      end       
     when 'sweet_degree'  
       @product.update_columns(sweet_degree: params[:val])  
       render json: {success: true, message: '商品編號 '+@product.id.to_s+' 甜度已變更為'+@product.sweet_degree.to_s}                       

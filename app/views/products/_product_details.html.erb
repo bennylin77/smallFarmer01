@@ -29,9 +29,10 @@
 								</td>
 								<th>檢驗標章</th>
 								<td class="text-center">
-									<%if !@product.GAP_c and !@product.TAP_c and !@product.OTAP_c and
+									<%if !@product.GAP_c and !@product.TAP_c and !@product.OTAP_c and !@product.SGS_c and
 										 !@product.UTAP_c and !@product.pesticide_qualified_c and 
 										 !@product.pesticide_zero_c and @product.organic == GLOBAL_VAR['ORGANIC_NONE']%>尚未提供<%end%>									
+									<%if @product.SGS_c%><%=image_tag 'certification/sgs.png', class: '', style: 'height: 55px; width: 55px;'  %><%end%>		      									
 									<%if @product.GAP_c%><%=image_tag 'certification/gap.png', class: '', style: 'height: 55px; width: 55px;'  %><%end%>		      
 									<%if @product.TAP_c%><%=image_tag 'certification/tap.png', class: '', style: 'height: 50px; width: 50px;'  %><%end%>		      		      
 									<%if @product.OTAP_c%><%=image_tag 'certification/otap.png', class: '', style: 'height: 50px; width: 50px;'  %><%end%>		      		      
