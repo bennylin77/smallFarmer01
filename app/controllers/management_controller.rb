@@ -474,7 +474,6 @@ private
     unless current_user.email == 'bennylin77@gmail.com' or
            current_user.email == 'tony7066@yahoo.com.tw' or
            current_user.email == 'b97a01134@ntu.edu.tw' or
-           current_user.email == 'kais900202@hotmail.com' or
            current_user.email == 'cychang9612@gmail.com'
       flash["error"]="您沒有權限"
       redirect_to root_url         
