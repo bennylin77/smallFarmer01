@@ -8,7 +8,10 @@
 	<th style="min-width: 220px;">包裝價格</th>	
 	<th style="min-width: 100px;">甜度</th>		
 	<th style="min-width: 100px;">折扣</th>	
-	<th style="min-width: 100px;">有機</th>		
+	<th style="min-width: 100px;">有機</th>	
+	<th style="min-width: 118px;">
+		<%=image_tag 'certification/sgs.png', class: '', style: 'height: 55px; width: 55px;'  %>		      
+	</th>			
 	<th style="min-width: 118px;">
 		<%=image_tag 'certification/gap.png', class: '', style: 'height: 55px; width: 55px;'  %>		      
 	</th>	
@@ -114,7 +117,20 @@
 	</td>	  	
   	<td>
 		<%= select_tag "organic", options_for_select(organicOptions, product.organic), class: "form-control organic", 'data-id'=> product.id  %>
-	</td>	  	    
+	</td>
+  	<td>
+    	<div class="form-group">
+    		<div class="col-sm-12">
+    			<div class="input-group">
+    				<div id="" class="radioBtn btn-group">
+    					<a class="btn btn-primary btn-sm <%if product.SGS_c%>active<%else%>notActive<%end%>" data-toggle="SGS_<%=product.id %>" data-id="<%=product.id %>" data-title="true" data-kind="SGS" style="border: none;">是</a>
+    					<a class="btn btn-primary btn-sm <%if product.SGS_c%>notActive<%else%>active<%end%>" data-toggle="SGS_<%=product.id %>" data-id="<%=product.id %>" data-title="false" data-kind="SGS" style="border: none;">否</a>
+    					<input type="hidden" name="SGS_<%=product.id %>" id="SGS_<%=product.id %>" value="<%=product.SGS_c%>">
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+  	</td>		  	    
   	<td>
     	<div class="form-group">
     		<div class="col-sm-12">
