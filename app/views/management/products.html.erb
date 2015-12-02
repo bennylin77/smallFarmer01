@@ -54,7 +54,12 @@
 			  <dt>尚未付款</dt>
 			  <dd>
 			      <% unpaid = 0 %>  
+			      <% delivered = 0 %>  			      
 			      <% product.product_boxings.each do |p_b| %>  
+			      	<% delivered_quantity = Order.joins(product_boxing: {}).where('product_boxings.id = ?', p_b.id ).sum(:quantity) %>        
+			      	<% if delivered_quantity != 0 %> 
+			        	<% delivered = delivered + delivered_quantity*p_b.quantity %> 
+			        <% end %> 				      
 			      	<% unpaid_quantity = Order.joins(product_boxing: {}, invoice: {} ).where('product_boxings.id = ? and invoices.confirmed_c = ? and invoices.allpay_expired_at > ? ', p_b.id, false, Time.zone.now ).sum(:quantity) %>        
 			      	<% if unpaid_quantity != 0 %> 
 			        	<% unpaid = unpaid + unpaid_quantity*p_b.quantity %> 
@@ -62,7 +67,10 @@
 			      <% end %>   		
 			      <%= "%g" % unpaid%><%if product.unit%><%= Hash[unitOptions].rassoc(product.unit).first %><%end%>	  	
 			  </dd>
-			  <dt>已出貨</dt><dd><%= product.product_boxings.first.orders.where(called_smallfarmer_c: true).sum(:quantity) %>箱</dd>			
+			  <dt>已出貨</dt>
+			  <dd>
+			  	<%= "%g" % delivered %><%if product.unit%><%= Hash[unitOptions].rassoc(product.unit).first %><%end%>			  	
+			  </dd>			
 			</dl>	
     </td>      
     <td>
