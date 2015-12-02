@@ -20,13 +20,15 @@
 									<%unless @product.sweet_degree.blank? or @product.sweet_degree == 0 %><%=image_tag 'sweet_degree/'+@product.sweet_degree.to_s+'.png', class: 'product_sweet_degree', style: '' %><%else%>尚未提供<%end%>
 								</td>								
 							</tr>					
-							<tr>
-								<th>平均售價</th>
-								<td>
+							<tr itemprop="seller" itemscope itemtype="http://schema.org/Organization">
+								<th>農場名稱</th>
+								<td itemprop="name">
+									<!--
 									<meta itemprop="priceCurrency" content="TWD" />
 									<meta itemprop="price" content="<%= priceWithShippingRates( product_boxing: @product.product_boxings.where(deleted_c: false).first, quantity: 1 )%>" />									
-									<%=number_with_delimiter( (priceWithShippingRates( product_boxing: @product.product_boxings.where(deleted_c: false).first, quantity: 1 )/@product.product_boxings.where(deleted_c: false).first.quantity).round(1), delimiter: ',')%> <span style="font-size: 80%">元/<%= Hash[unitOptions].rassoc(@product.unit).first %>
-								</td>
+									-->									
+									<%=@product.company.name %>
+								</td>								
 								<th>檢驗標章</th>
 								<td class="text-center">
 									<%if !@product.GAP_c and !@product.TAP_c and !@product.OTAP_c and !@product.SGS_c and
@@ -45,15 +47,14 @@
 								</td>															
 							</tr>
 							<tr itemprop="seller" itemscope itemtype="http://schema.org/Organization">
-								<th>農場名稱</th>
-								<td itemprop="name">
-									<%=@product.company.name %>
-								</td>
-								<th>聯絡方式</th>
-								<td class="text-center">
-									<%=@product.company.phone_no.gsub(/^\+886/, '0') %><br>									
+								<th>聯絡地址</th>
+								<td>
 									<%=@product.company.county %><%=@product.company.district%><%=@product.company.address%>								
-								</td>								
+								</td>									
+								<th>聯絡電話</th>
+								<td class="text-center">
+									<%=@product.company.phone_no.gsub(/^\+886/, '0') %>								
+								</td>							
 							</tr>																
 							<tr>
 								<th>保存方式<br>賞味提醒</th>

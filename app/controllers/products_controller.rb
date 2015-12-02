@@ -34,7 +34,8 @@ class ProductsController < ApplicationController
     @shipping_time_1 = @product.shipping_time & 1; @shipping_time_2 = params[:shipping_time_2]; @shipping_time_4 = params[:shipping_time_4];
     @shipping_time_8 = @product.shipping_time & 8; @shipping_time_16 = params[:shipping_time_16]; @shipping_time_32 = params[:shipping_time_32];
     @shipping_time_64 = params[:shipping_time_64]; 
-    
+    @product.update_attribute(:available_c, false)   
+    flash.now[:warning] ='編輯商品後，請記得上架'    
   end
 
   def update
@@ -56,7 +57,7 @@ class ProductsController < ApplicationController
         @product.keywords<<keyword 
       end    
       @product.save!
-      flash[:notice] ='成功更改商品資料'
+      flash[:notice] ='已更改商品，請記得上架'
       redirect_to products_url      
     else  
       render 'edit'
@@ -88,7 +89,7 @@ class ProductsController < ApplicationController
       p_p.save!
       p_p_bargain = ProductPricing.new()      
       p_p_bargain.product_boxing = p_b
-      p_p_bargain.save!       
+      p_p_bargain.save!    
       render json: { success: '新增成功', id: p_b.id, price_id: p_p.id, bargain_price_id: p_p_bargain.id}
     else
       render json: { error: '包種種類不能多於十種' }
@@ -158,8 +159,7 @@ class ProductsController < ApplicationController
 
   def available
     if @product.available_c
-      @product.available_c = false
-      @product.save!    
+      @product.update_attribute(:available_c, false)
       flash[:alert] ='商品已下架'        
       redirect_to products_url      
     else  
