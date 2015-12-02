@@ -118,7 +118,7 @@
 		<%end%>         	
     </td> 
   	<td>
-		<%= select_tag "sweet_degree", options_for_select((10..20).step(1), product.sweet_degree), prompt: '請選擇', class: 'form-control sweet_degree', 'data-id'=> product.id %>  		
+		<%= select_tag "sweet_degree", options_for_select((10..21).step(1), product.sweet_degree), prompt: '請選擇', class: 'form-control sweet_degree', 'data-id'=> product.id %>  		
   	</td>	
   	<td>
 		<%= select_tag "discount", options_for_select(discountPercentageOptions, product.discount), class: "form-control discount", 'data-id'=> product.id  %>
