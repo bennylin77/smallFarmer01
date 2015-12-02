@@ -2,7 +2,8 @@
 				<div class="col-sm-12">
 					<div class="table-responsive">					
 						<table class="table	product_spec" itemprop="offers" itemscope itemtype="http://schema.org/Offer">								
-							<tr>
+							<tr itemprop="seller" itemscope itemtype="http://schema.org/Organization">
+								<!--
 								<th>
 									包裝種類
 								</th>								
@@ -14,13 +15,8 @@
 									<%if @product.unit == GLOBAL_VAR['UNIT_CATTY'] or @product.unit == GLOBAL_VAR['UNIT_KG'] %>			
 									<small> ±10%</small>
 									<%end%>
-								</td>										
-								<th>甜度</th>
-								<td class="text-center">
-									<%unless @product.sweet_degree.blank? or @product.sweet_degree == 0 %><%=image_tag 'sweet_degree/'+@product.sweet_degree.to_s+'.png', class: 'product_sweet_degree', style: '' %><%else%>尚未提供<%end%>
-								</td>								
-							</tr>					
-							<tr itemprop="seller" itemscope itemtype="http://schema.org/Organization">
+								</td>	
+								-->	
 								<th>農場名稱</th>
 								<td itemprop="name">
 									<!--
@@ -28,7 +24,18 @@
 									<meta itemprop="price" content="<%= priceWithShippingRates( product_boxing: @product.product_boxings.where(deleted_c: false).first, quantity: 1 )%>" />									
 									-->									
 									<%=@product.company.name %>
+								</td>																
+								<th>甜度</th>
+								<td class="text-center">
+									<%unless @product.sweet_degree.blank? or @product.sweet_degree == 0 %><%=image_tag 'sweet_degree/'+@product.sweet_degree.to_s+'.png', class: 'product_sweet_degree', style: '' %><%else%>尚未提供<%end%>
 								</td>								
+							</tr>					
+							<tr itemprop="seller" itemscope itemtype="http://schema.org/Organization">
+								<th>聯絡方式</th>
+								<td>
+									<%=@product.company.phone_no.gsub(/^\+886/, '0') %><br>	
+									<%=@product.company.county %><%=@product.company.district%><%=@product.company.address%>							
+								</td>																	
 								<th>檢驗標章</th>
 								<td class="text-center">
 									<%if !@product.GAP_c and !@product.TAP_c and !@product.OTAP_c and !@product.SGS_c and
@@ -46,6 +53,7 @@
 									<%end%>
 								</td>															
 							</tr>
+							<!--
 							<tr itemprop="seller" itemscope itemtype="http://schema.org/Organization">
 								<th>聯絡地址</th>
 								<td>
@@ -53,9 +61,11 @@
 								</td>									
 								<th>聯絡電話</th>
 								<td class="text-center">
-									<%=@product.company.phone_no.gsub(/^\+886/, '0') %>								
+									<%=@product.company.phone_no.gsub(/^\+886/, '0') %>	
+									<%=@product.company.county %><%=@product.company.district%><%=@product.company.address%>							
 								</td>							
-							</tr>																
+							</tr>
+							-->																
 							<tr>
 								<th>保存方式<br>賞味提醒</th>
 								<td colspan="3"><%= @product.preservation %></td>
