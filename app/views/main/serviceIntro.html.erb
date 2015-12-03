@@ -7,7 +7,7 @@
         <li class="page-scroll"><a href="#section_benefit">上架好處</a></li>
         <li class="page-scroll"><a href="#section_what_can_be_sold">能賣什麼</a></li>
         <li class="page-scroll"><a href="#section_cash_flow">金流和物流</a></li>
-        <li class="page-scroll"><a href="#section_service">提供服務</a></li>
+        <li class="page-scroll"><a href="#section_service">怎麼合作</a></li>
         <li><a href="/companies/apply" style="padding: 0px 0px;"><p class="navbar-btn farm_apply_button btn orange_btn">立刻申請上架</p></a></li>
      </ul>
   </div>
@@ -215,43 +215,62 @@
 		<span class="service_intro_sub_title">小農與小農1號怎麼合作？</span>
 		</div>
 	</div>	
-	
-	</div>
-	<div class="container-fluid">
-		
-			
-		<div class="row" style="margin-top: 30px;">	
-			<div class="col-sm-offset-1 col-sm-1 text-center">
-				<div class="service_intro_cooperation_container">農產品上架<br>自訂數量/價錢</div>
-			</div>
-			<div class="col-sm-1 text-center">
-				<%=image_tag 'index/arrow.png', class: "service_intro_cooperation_arrow"%>
-			</div>				
-			<div class="col-sm-1 text-center">
-				<div class="service_intro_cooperation_container">平台接單</div>
-			</div>					
-			<div class="col-sm-1 text-center">
-				<%=image_tag 'index/arrow.png', class: "service_intro_cooperation_arrow"%>
-			</div>					
-			<div class="col-sm-1 text-center">
-				<div class="service_intro_cooperation_container">裝箱出貨/<br>後台通知物流<br>（免填貨運單）</div>
-			</div>
-			<div class="col-sm-1 text-center">
-				<%=image_tag 'index/arrow.png', class: "service_intro_cooperation_arrow"%>
-			</div>
-			<div class="col-sm-1 text-center">
-				<div class="service_intro_cooperation_container">隔天黑貓收貨</div>
-			</div>		
-			<div class="col-sm-1 text-center">
-				<%=image_tag 'index/arrow.png', class: "service_intro_cooperation_arrow"%>				
-			</div>
-			<div class="col-sm-1 text-center">
-				<div class="service_intro_cooperation_container">匯入款項<br>（兩週結）</div>
-			</div>															
+	<div class="row text-center" style="margin-top: 30px; font-size: 16px;">	
+		<div class="col-sm-offset-2 col-sm-4" style="margin-top: 10px;">
+			<div style="width: 30px; height: 30px; border-radius: 50%; border: 1px solid #ff5600;" class="vmiddle"></div>
+			<div class="vmiddle">小農負責</div>
 		</div>	
+		<div class="col-sm-4" style="margin-top: 10px;">
+			<div style="width: 30px; height: 30px; border-radius: 50%; border: 1px solid #ff5600; background: #ff5600" class="vmiddle"></div>
+			<div class="vmiddle">小農1號負責</div>
+		</div>			
 	</div>
-	
-	<div class="container">
+
+		<div class="row" style="margin-top: 30px;">	
+			<div class="col-sm-offset-1 col-sm-2 col-xs-12 text-center service_intro_cooperation_col">
+				<div class="service_intro_cooperation_container vmiddle" style="padding-top: 40px">農產品上架<br>自訂數量/價錢</div>
+				<%=image_tag 'index/arrow.png', class: "service_intro_cooperation_arrow vmiddle hidden-sm hidden-xs"%>
+			</div>		
+			<div class="col-xs-12 text-center service_intro_cooperation_col hidden-sm hidden-md hidden-lg">
+				<%=image_tag 'index/arrow_down.png', class: "service_intro_cooperation_arrow_down"%>				
+			</div>						
+			<div class="col-xs-12 col-sm-2 text-center service_intro_cooperation_col">
+				<div class="service_intro_cooperation_container vmiddle service_intro_cooperation_background" style="padding-top: 50px">平台接單</div>
+				<%=image_tag 'index/arrow.png', class: "service_intro_cooperation_arrow vmiddle hidden-sm hidden-xs"%>				
+			</div>		
+			<div class="col-xs-12 text-center service_intro_cooperation_col hidden-sm hidden-md hidden-lg">
+				<%=image_tag 'index/arrow_down.png', class: "service_intro_cooperation_arrow_down"%>				
+			</div>											
+			<div class="col-xs-12 col-sm-2 text-center service_intro_cooperation_col">
+				<div class="service_intro_cooperation_container vmiddle" style="padding-top: 30px">裝箱出貨/<br>後台通知物流<br>（免填貨運單）</div>
+				<%=image_tag 'index/arrow.png', class: "service_intro_cooperation_arrow vmiddle hidden-sm hidden-xs"%>
+			</div>
+			<div class="col-xs-12 text-center service_intro_cooperation_col hidden-sm hidden-md hidden-lg">
+				<%=image_tag 'index/arrow_down.png', class: "service_intro_cooperation_arrow_down"%>				
+			</div>				
+			<div class="col-xs-12 col-sm-2 text-center service_intro_cooperation_col">
+				<div class="service_intro_cooperation_container vmiddle service_intro_cooperation_background" style="padding-top: 50px">隔天黑貓收貨</div>
+				<%=image_tag 'index/arrow.png', class: "service_intro_cooperation_arrow vmiddle hidden-sm hidden-xs"%>				
+			</div>
+			<div class="col-xs-12 text-center service_intro_cooperation_col hidden-sm hidden-md hidden-lg">
+				<%=image_tag 'index/arrow_down.png', class: "service_intro_cooperation_arrow_down"%>				
+			</div>				
+			<div class="col-xs-12 col-sm-2 text-center service_intro_cooperation_col">
+				<div class="service_intro_cooperation_container vmiddle service_intro_cooperation_background" style="padding-top: 40px">匯入款項<br>（兩週結）</div>
+				<%=image_tag 'index/arrow.png', class: "service_intro_cooperation_arrow vmiddle hidden-sm hidden-xs", style: 'visibility: hidden'%>
+			</div>															
+		</div>		
+		<div class="row"style="margin-top: 20px;">
+			<div class="col-sm-offset-3 col-sm-2 col-xs-offset-0 col-xs-4 text-center service_intro_cooperation_col">
+				<div class="service_intro_cooperation_container vmiddle service_intro_cooperation_background" style="padding-top: 40px; width: 105px; height: 105px;">線上客服</div>
+			</div>
+			<div class="col-sm-2 col-xs-4 text-center service_intro_cooperation_col">
+				<div class="service_intro_cooperation_container vmiddle service_intro_cooperation_background" style="padding-top: 30px; width: 105px; height: 105px;">提供<br>多樣付款方式</div>
+			</div>	
+			<div class="col-sm-2 col-xs-4 text-center service_intro_cooperation_col">
+				<div class="service_intro_cooperation_container vmiddle service_intro_cooperation_background" style="padding-top: 30px; width: 105px; height: 105px;">提供農友<br>每月報表對帳</div>
+			</div>															
+		</div>		
 	
 	<!--
 	<div class="row text-center" style="margin-top: 60px;" id="section_service">	
