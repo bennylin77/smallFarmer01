@@ -26,7 +26,7 @@
 			</div>
 			<%= link_to @company do%>
 				<div class="product_farm_words_text">	
-					<%= truncate( @company.words, length: 120, omission: '... more') %>
+					<%= @company.words %>
 				</div>
 			<%end%>
 			</div>
@@ -37,7 +37,7 @@
 				</div>				
 				<%= link_to @company do%>				
 					<div class="col-xs-12 product_farm_words_text">	
-						<%= truncate( @company.words, length: 120, omission: '... more') %>
+						<%= @company.words %>
 					</div>
 				<%end%>				
 			</div>
