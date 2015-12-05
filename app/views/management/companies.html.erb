@@ -33,7 +33,7 @@
   <tr id='company_container_<%=c.id %>'>
     <td><%= c.id %></td>  
     <td>
-    	<%= image_tag c.user.avatar.url, class: 'img-circle', style: 'height: 50px; width: 50px;' %>
+    	<div class="avatar_circle" style="background-image: url('<%= c.user.avatar.url%>'); height: 50px; width: 50px;"></div>
     	<%= c.user.last_name%><%= c.user.first_name%>
     </td>     	
     <td><%= c.name%><br>
