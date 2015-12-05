@@ -15,7 +15,7 @@
   <tr id='user_container_<%=u.id %>'>
     <td><%= u.id %></td>  	
     <td>
-    	<%= image_tag u.avatar.url, class: 'img-circle', style: 'height: 50px; width: 50px;' %><br>
+    	<div class="avatar_circle" style="background-image: url('<%= u.avatar.url%>'); height: 50px; width: 50px;"></div>
     	<%= u.last_name%> <%= u.first_name%>
     </td> 
     <td><%unless u.phone_no.blank?%><%= u.phone_no.gsub(/^\+886/, '0') %><%else%>--<%end%></td> 
