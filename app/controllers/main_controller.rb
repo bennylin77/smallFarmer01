@@ -9,7 +9,7 @@ class MainController < ApplicationController
       params[:query] = params[:query].gsub(/^\#{1}/, '') 
       keywords = Keyword.where('content LIKE ? and available_c = ?', "%#{params[:query]}%", true).limit(5)
       keywords.each do |k|
-        result<<{ id: k.id, content: k.content, size: k.products.size }
+        result<<{ id: k.id, content: k.content, size: k.products.where(available_c: true, deleted_c: false).size }
       end    
     when '1'   
       products = Product.where('name LIKE ?', "%#{params[:query]}%").limit(5)
