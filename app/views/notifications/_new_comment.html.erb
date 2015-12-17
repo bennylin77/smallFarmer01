@@ -7,7 +7,7 @@
 			<%end%>					
 		</div>	
 		<div class="col-sm-2 vmiddle text-center hidden-xs">
-			<%= image_tag notification.comment.user.avatar.url, class: 'img-circle', size: '70x70' %>
+			<div class="avatar_circle" style="background-image: url('<%= notification.comment.user.avatar.url%>'); height: 70px; width: 70px; margin: 0 auto;"></div>
 			<div><%= notification.comment.user.last_name %> <%= notification.comment.user.first_name %></div>				
 		</div>
 		<div class="col-sm-6 col-xs-7 vmiddle text-left">		
