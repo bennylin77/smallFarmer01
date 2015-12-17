@@ -102,6 +102,7 @@ Rails.application.routes.draw do
   match '/products/:id/productImagesDelete' => 'products#productImagesDelete', via: [:post], :as => :productImagesDelete
   match '/products/:id/available' => 'products#available', via: [:get], as: :available
   match '/orders/:id/confirm' => 'orders#confirm', via: [:get], as: :confirm
+  match '/orders/:id/confirmAndShippedBySelf' => 'orders#confirmAndShippedBySelf', via: [:get], as: :confirmAndShippedBySelf
   match '/management/:id/keywordCoverUpload' => 'management#keywordCoverUpload', via: [:post], :as => :keywordCoverUpload
   match '/management/:id/keywordCoverDelete' => 'management#keywordCoverDelete', via: [:post], :as => :keywordCoverDelete 
 

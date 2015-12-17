@@ -160,7 +160,16 @@
 					<div class="text-center"><%= o.called_smallfarmer_at.strftime("%Y-%m-%d %H:%M:%S")%><br>農夫已處理</div>					
 					<div class="text-center">&darr;</div>					
 					<%end%>	     
-				  	<div class="text-center"><%= Hash[orderCustomerStatusOptions].rassoc(s.status).first%></div>         							      
+				  	<div class="text-center">
+				  		<%= Hash[orderCustomerStatusOptions].rassoc(s.status).first%>
+				  	</div> 	
+				  	<div class="text-center">
+				  		<%if s.status == GLOBAL_VAR['ORDER_STATUS_SHIPPED_BY_COMPANY']%>
+				  			出貨問題請洽：<br>
+				  			<%= o.product_boxing.product.company.name %><br>
+				  			<%= o.product_boxing.product.company.phone_no.gsub(/^\+886/, '0') %>
+				  		<%end%>
+				  	</div>         							      
 	          	</td>          
 	          	<td><%receiver_address = s.receiver_address %>   
 					<div><%=receiver_address.last_name %> <%=receiver_address.first_name %></div>

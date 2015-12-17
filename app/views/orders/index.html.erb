@@ -30,8 +30,8 @@
     <td class="text-center">
     	<%if !o.called_smallfarmer_c%>
     		<%= link_to '通知物流', {controller: 'orders', action: 'confirm', id: o}, data: { confirm: '出貨編號:'+o.id.to_s+' 您確定要通知物流? '+expressComingDate( checked_time: Time.zone.now, words: true )+'物流會來取貨' }, class: 'btn orange_btn backend_btn'%>
-    	<%end%>
-    	<%if o.called_smallfarmer_c%>
+    		<%= link_to '自行出貨', {controller: 'orders', action: 'confirmAndShippedBySelf', id: o}, data: { confirm: '出貨編號:'+o.id.to_s+' 您確定要自行出貨?'}, class: 'btn orange_btn backend_btn'%>    		
+    	<%else%>
     		物流取貨時間: <%=expressComingDate checked_time: o.called_smallfarmer_at, words: false %>     	
     	<%end%>   		    	
     </td>  	
@@ -91,7 +91,7 @@
 		  <td>
 			<div class="text-center"><%= o.created_at.strftime("%Y-%m-%d %H:%M:%S") %><br>建立<%if o.preorder_c%><span class="text-danger">預購</span><%end%>出貨單</div>					
 			<div class="text-center">&darr;</div>				
-			<%if o.called_smallfarmer_c%>
+			<%if o.called_smallfarmer_c and s.status != GLOBAL_VAR['ORDER_STATUS_SHIPPED_BY_COMPANY'] %>
 			<div class="text-center">在<%= o.called_smallfarmer_at.strftime("%Y-%m-%d %H:%M:%S")%><br>通知物流</div>
 			<div class="text-center">&darr;</div>	
 			<%end%>

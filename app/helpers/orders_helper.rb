@@ -5,7 +5,8 @@ module OrdersHelper
      ['已通知物流', GLOBAL_VAR['ORDER_STATUS_CONFIRMED']],     
      ['物流處理中', GLOBAL_VAR['ORDER_STATUS_CALLED_LOGISTICS']],     
      ['運送中', GLOBAL_VAR['ORDER_STATUS_SHIPPING']],
-     ['已交付', GLOBAL_VAR['ORDER_STATUS_DELIVERED']]]
+     ['已交付', GLOBAL_VAR['ORDER_STATUS_DELIVERED']],
+     ['農夫已自行處理', GLOBAL_VAR['ORDER_STATUS_SHIPPED_BY_COMPANY']]]
   end  
   
   def orderCustomerStatusOptions
@@ -14,7 +15,8 @@ module OrdersHelper
      ['等待物流載貨', GLOBAL_VAR['ORDER_STATUS_CONFIRMED']],     
      ['物流處理中', GLOBAL_VAR['ORDER_STATUS_CALLED_LOGISTICS']],     
      ['運送中', GLOBAL_VAR['ORDER_STATUS_SHIPPING']],
-     ['已交付', GLOBAL_VAR['ORDER_STATUS_DELIVERED']]]
+     ['已交付', GLOBAL_VAR['ORDER_STATUS_DELIVERED']],
+     ['農夫已自行處理', GLOBAL_VAR['ORDER_STATUS_SHIPPED_BY_COMPANY']]]
   end    
 
   def orderBackendStatusOptions
@@ -23,7 +25,8 @@ module OrdersHelper
      ['等待小農通知物流', GLOBAL_VAR['ORDER_STATUS_CONFIRMED']],     
      ['已通知物流', GLOBAL_VAR['ORDER_STATUS_CALLED_LOGISTICS']],     
      ['運送中', GLOBAL_VAR['ORDER_STATUS_SHIPPING']],
-     ['已交付', GLOBAL_VAR['ORDER_STATUS_DELIVERED']]]
+     ['已交付', GLOBAL_VAR['ORDER_STATUS_DELIVERED']],
+     ['農夫已自行處理', GLOBAL_VAR['ORDER_STATUS_SHIPPED_BY_COMPANY']]]
   end  
   
   def orderReviewOptions
