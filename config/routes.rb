@@ -58,6 +58,7 @@ Rails.application.routes.draw do
   get    'management/bills'   
   get    'management/billShow'     
   get    'management/invoices'
+  get    'management/cancelInvoice'   
   get    'management/orders'
   get    'management/setOrder'  
   get    'management/setShipment'  

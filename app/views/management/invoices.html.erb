@@ -24,7 +24,8 @@
 		<abbr title="獲得回饋金為'總計'x4%, 並採取四捨五入"><small>總計x4%</small></abbr>
 	</th>
 	-->				 	
-	<th>購買項目</th> 								 		            
+	<th>購買項目</th> 
+	<th></th>								 		            
   </tr>
   <% @invoices.each do |i| %>
   <tr id='invoice_container_<%=i.id %>'>
@@ -160,6 +161,9 @@
     	<%end%>	        
       </table>    	
     </td> 	
+	<td>
+    	<%= link_to '刪除', {action: 'cancelInvoice', id: i.id}, data: { confirm: '訂單編號:'+i.id.to_s+' 您確定要刪除訂單?' }, class: 'btn dark_gray_btn backend_btn'%>	
+	</td>	    
   </tr>
   <%end%>  
 </table>
