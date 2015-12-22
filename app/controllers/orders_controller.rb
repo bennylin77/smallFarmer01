@@ -1,8 +1,8 @@
 class OrdersController < ApplicationController  
   before_filter :authenticate_user!
   
-  before_action only: [:confirm] { |c| c.OrderCheckUser(params[:id])}            
-  before_action :set_order, only: [:confirm]
+  before_action only: [:confirm, :confirmAndShippedBySelf] { |c| c.OrderCheckUser(params[:id])}            
+  before_action :set_order, only: [:confirm, :confirmAndShippedBySelf]
   
   def index    
     params[:called_smallfarmer_c] = params[:called_smallfarmer_c] == 'true' ? true : false    
@@ -29,6 +29,64 @@ class OrdersController < ApplicationController
     end      
     flash[:notice] ='已通知物流'        
     redirect_to  controller: 'orders', action: 'index', called_smallfarmer_c: 'false'     
+  end
+  
+  def confirmAndShippedBySelf
+    if !@order.called_smallfarmer_c
+      @order.called_smallfarmer_c = true
+      @order.called_smallfarmer_at = Time.zone.now
+      @order.called_logistics_c = true
+      @order.called_logistics_at = Time.zone.now 
+      @order.save!
+                  
+      @order.shipments.each do  |s|
+        s.delivered_c = true
+        s.delivered_at = Time.zone.now         
+        s.status = GLOBAL_VAR['ORDER_STATUS_SHIPPED_BY_COMPANY']   
+        s.save!                                
+        #bills
+        company = s.order.product_boxing.product.company   
+        bill = company.bills.where("end_at >= ?", Time.zone.now).first
+        if bill.blank?
+          bill = Bill.new
+          if Time.zone.now.day <= 15          
+            bill.begin_at = Date.civil(Time.zone.now.year, Time.zone.now.month, 1).midnight
+            bill.end_at = Date.civil(Time.zone.now.year, Time.zone.now.month, 16).midnight-1
+          else
+            bill.begin_at = Date.civil(Time.zone.now.year, Time.zone.now.month, 16).midnight
+            bill.end_at = ( Date.civil(Time.zone.now.year, Time.zone.now.month, -1)+1 ).midnight-1    
+          end  
+          bill.title = '小農一號合作農場帳單表'
+          bill.company = company
+        end
+        bill.orders << s.order
+        bill.save!            
+        #review
+        if s.order.review_at.blank? and s.order.invoice.notifications.where(category: GLOBAL_VAR['NOTIFICATION_PROMOTION'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_REVIEW']).count == 0
+          delivered_all = true          
+          s.order.invoice.orders.each do |i_o|
+            i_o.shipments.each do |ss| 
+              if !ss.delivered_c
+                delivered_all = false       
+              end
+            end
+          end      
+          if delivered_all
+            notify( s.order.invoice.user, { category: GLOBAL_VAR['NOTIFICATION_PROMOTION'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_REVIEW'], 
+                                            invoice_id: s.order.invoice.id}) 
+            System.sendReviewNotification( s.order.invoice ).deliver           
+            invoice = s.order.invoice
+            discount = 0 
+            invoice.invoice_coupon_lists.each do |i_c_l|
+              discount = discount + i_c_l.amount
+            end       
+          end
+        end         
+      end  
+      notficationRead( { user_id: current_user.id, category: GLOBAL_VAR['NOTIFICATION_PRODUCT'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_NEW_ORDER'], order_id: @order.id })
+    end      
+    flash[:notice] ='已確認自行出貨'        
+    redirect_to  controller: 'orders', action: 'index', called_smallfarmer_c: 'false'        
   end
   
   private   

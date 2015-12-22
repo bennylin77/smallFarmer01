@@ -31,8 +31,10 @@
 	  		<%cash_flow_idv = 0 %>
 		<%end%>	   
 	  <%if !o.problem_c%>
+	  	<%if o.shipments.first.status != GLOBAL_VAR['ORDER_STATUS_SHIPPED_BY_COMPANY']%>
+	  		<%shipping_rates = shipping_rates + o.shipping_rates.to_i%>
+	  	<%end%>
 	  	<%total_sales = total_sales + o.price.to_i + o.shipping_rates.to_i %>
-	  	<%shipping_rates = shipping_rates + o.shipping_rates.to_i%>   		 
 	  	<%cash_flow = cash_flow + cash_flow_idv  %>
 	  	<%coupon = coupon + ((o.price.to_i + o.shipping_rates.to_i)*GLOBAL_VAR['COUPON_FEE']).round %>  
 	  	<%administration = administration +((o.price.to_i + o.shipping_rates.to_i)*GLOBAL_VAR['ADMINISTRATION_FEE']).round %>   
@@ -66,14 +68,26 @@
 			<dt>銷售金額<dt>
     		<dd>+ <%= o.price.to_i + o.shipping_rates.to_i %>元</dd>    
     		<dt class="text-danger">運費<dt>	      
-    		<dd class="text-danger">- <%= o.shipping_rates.to_i %>元</dd> 
+    		<dd class="text-danger">
+    			<%if o.shipments.first.status != GLOBAL_VAR['ORDER_STATUS_SHIPPED_BY_COMPANY']%>
+    				- <%= o.shipping_rates.to_i %>元
+    			<%else%>
+    				- 0元
+    			<%end%>	
+    		</dd> 
     		<%if cash_flow_idv != 0%>
     		<dt class="text-danger">金流手續費<small><%=GLOBAL_VAR['CASH_FLOW_FEE']*100%>%</small><dt>	      
     		<dd class="text-danger">- <%= cash_flow_idv %>元</dd>     		
 			<%end%>	
 			<dt><dt><dd>＿＿＿＿＿</dd> 
     		<dt>應收金額<dt>	      
-    		<dd><%= o.price.to_i - cash_flow_idv %>元</dd> 
+    		<dd>
+    			<%if o.shipments.first.status != GLOBAL_VAR['ORDER_STATUS_SHIPPED_BY_COMPANY']%>    			
+    				<%= o.price.to_i - cash_flow_idv %>元
+    			<%else%>
+    				<%= o.price.to_i + o.shipping_rates.to_i - cash_flow_idv %>元    			
+    			<%end%>
+    		</dd> 
     	</dl>	    		
     </td>    	      	
 	<td>
@@ -112,9 +126,9 @@
 </div>
 <div class="row">
 	<div class="col-sm-offset-3 col-sm-6 col-xs-12">
-		<dl class="dl-horizontal">		  
-		  <dt style="font-size: 100%">總應收金額:</dt> <dd style="font-size: 100%"><%= total_sales - shipping_rates - cash_flow%>元</dd>		  
-		  <!--<dt>總運費支出:</dt><dd><%=shipping_rates %>元(<%= (shipping_rates.to_f/total_sales).round(3)*100 %>%)</dd>-->		  
+		<dl class="dl-horizontal">		 
+		  <dt>總運費支出:</dt><dd><%=shipping_rates %>元</dd>		  			 
+		  <!--<dt>總應收金額:</dt> <dd style="font-size: 100%"><%= total_sales - shipping_rates - cash_flow%>元</dd>-->		  
 		  <!--<dt>總金流手續費<small>(<%=GLOBAL_VAR['CASH_FLOW_FEE']*100%>%)</small>:</dt><dd><%=cash_flow %>元</dd>-->		  
 		  <!--<dt>總回饋金支出:</dt><dd><%=coupon %>元(<%=GLOBAL_VAR['COUPON_FEE']*100%>%)</dd>-->		  
 		  <!--<dt>總行政費支出:</dt><dd><%=administration %>元(<%=GLOBAL_VAR['ADMINISTRATION_FEE']*100%>%)</dd>-->

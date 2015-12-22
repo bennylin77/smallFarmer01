@@ -133,8 +133,7 @@ class ManagementController < ApplicationController
                  encoding: 'UTF8',
                  smbody: '小農1號提醒：如商品有異，請於到貨起48小時內聯絡0287326786。如為農民出貨瑕疵，我們將提供退款/補寄保障※請詳退換貨政策'                     
         }                                   
-        result = RestClient.get( Rails.configuration.mitake_sm_send_get_url, params: data)           
-            
+        result = RestClient.get( Rails.configuration.mitake_sm_send_get_url, params: data)                      
         #bills
         company = s.order.product_boxing.product.company   
         bill = company.bills.where("end_at >= ?", Time.zone.now).first
@@ -152,8 +151,7 @@ class ManagementController < ApplicationController
         end
         bill.orders << s.order
         bill.save!          
-      end   
-          
+      end          
       #review
       if s.order.review_at.blank? and s.order.invoice.notifications.where(category: GLOBAL_VAR['NOTIFICATION_PROMOTION'], sub_category: GLOBAL_VAR['NOTIFICATION_SUB_REVIEW']).count == 0
         delivered_all = true          
