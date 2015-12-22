@@ -32,7 +32,11 @@
     		<%= link_to '通知物流', {controller: 'orders', action: 'confirm', id: o}, data: { confirm: '出貨編號:'+o.id.to_s+' 您確定要通知物流? '+expressComingDate( checked_time: Time.zone.now, words: true )+'物流會來取貨' }, class: 'btn orange_btn backend_btn'%>
     		<%= link_to '自行出貨', {controller: 'orders', action: 'confirmAndShippedBySelf', id: o}, data: { confirm: '出貨編號:'+o.id.to_s+' 您確定要自行出貨?'}, class: 'btn orange_btn backend_btn'%>    		
     	<%else%>
-    		物流取貨時間: <%=expressComingDate checked_time: o.called_smallfarmer_at, words: false %>     	
+    		<%if o.shipments.first.status != GLOBAL_VAR['ORDER_STATUS_SHIPPED_BY_COMPANY']%>
+    			物流取貨時間: <%=expressComingDate checked_time: o.called_smallfarmer_at, words: false %>     	
+    		<%else%>
+    			自行出貨
+    		<%end%>
     	<%end%>   		    	
     </td>  	
     <td><%= o.id %></td>  	  
