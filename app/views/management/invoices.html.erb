@@ -32,8 +32,8 @@
     <td><%= i.id %></td>  	
     <td><%= i.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>   
     <td>
-    	<%= image_tag i.user.avatar.url, class: 'img-circle', style: 'height: 50px; width: 50px;' %>
-    	<%= i.user.last_name%><%= i.user.first_name%><br>
+    	<div class="avatar_circle" style="background-image: url('<%= i.user.avatar.url%>'); height: 50px; width: 50px;"></div>    	
+    	<%= i.user.last_name%> <%= i.user.first_name%><br>
 		<%unless i.user.phone_no.blank?%><%= i.user.phone_no.gsub(/^\+886/, '0') %><%end%><br>
     	<%= i.user.email %>
     </td>   
