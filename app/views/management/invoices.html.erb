@@ -24,15 +24,16 @@
 		<abbr title="獲得回饋金為'總計'x4%, 並採取四捨五入"><small>總計x4%</small></abbr>
 	</th>
 	-->				 	
-	<th>購買項目</th> 								 		            
+	<th>購買項目</th> 
+	<th></th>								 		            
   </tr>
   <% @invoices.each do |i| %>
   <tr id='invoice_container_<%=i.id %>'>
     <td><%= i.id %></td>  	
     <td><%= i.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>   
     <td>
-    	<%= image_tag i.user.avatar.url, class: 'img-circle', style: 'height: 50px; width: 50px;' %>
-    	<%= i.user.last_name%><%= i.user.first_name%><br>
+    	<div class="avatar_circle" style="background-image: url('<%= i.user.avatar.url%>'); height: 50px; width: 50px;"></div>    	
+    	<%= i.user.last_name%> <%= i.user.first_name%><br>
 		<%unless i.user.phone_no.blank?%><%= i.user.phone_no.gsub(/^\+886/, '0') %><%end%><br>
     	<%= i.user.email %>
     </td>   
@@ -160,6 +161,9 @@
     	<%end%>	        
       </table>    	
     </td> 	
+	<td>
+    	<%= link_to '刪除', {action: 'cancelInvoice', id: i.id}, data: { confirm: '訂單編號:'+i.id.to_s+' 您確定要刪除訂單?' }, class: 'btn dark_gray_btn backend_btn'%>	
+	</td>	    
   </tr>
   <%end%>  
 </table>

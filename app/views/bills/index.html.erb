@@ -12,7 +12,7 @@
 	<th style="min-width: 75px;">出貨數量</th>	
 	<th style="min-width: 150px;">款項</th>		
     <th>配送明細</th>  
-	<th style="min-width: 75px;">退換貨糾紛</th>	              
+	<th style="min-width: 75px;">退換貨</th>	              
   </tr>
   <%total_sales = 0%>
   <%shipping_rates = 0%>   
@@ -21,25 +21,25 @@
   <%administration = 0%>    
   <%sales_tax = 0%>      
   <% @bill.orders.each do |o| %>
-	   	<%if o.invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>
-	  		<%cash_flow_idv = ((o.price.to_i + o.shipping_rates.to_i)*GLOBAL_VAR['CASH_FLOW_FEE']).ceil %>
-		<%elsif o.invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM']%>		
-	  		<%cash_flow_idv = ((o.price.to_i + o.shipping_rates.to_i)*GLOBAL_VAR['CASH_FLOW_FEE']).ceil %>
-		<%elsif o.invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>		
-	  		<%cash_flow_idv = 0 %>
-		<%elsif o.invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_NO_NEED']%>		
-	  		<%cash_flow_idv = 0 %>
-		<%end%>	   
-	  <%if !o.problem_c%>
-	  	<%if o.shipments.first.status != GLOBAL_VAR['ORDER_STATUS_SHIPPED_BY_COMPANY']%>
-	  		<%shipping_rates = shipping_rates + o.shipping_rates.to_i%>
-	  	<%end%>
-	  	<%total_sales = total_sales + o.price.to_i + o.shipping_rates.to_i %>
-	  	<%cash_flow = cash_flow + cash_flow_idv  %>
-	  	<%coupon = coupon + ((o.price.to_i + o.shipping_rates.to_i)*GLOBAL_VAR['COUPON_FEE']).round %>  
-	  	<%administration = administration +((o.price.to_i + o.shipping_rates.to_i)*GLOBAL_VAR['ADMINISTRATION_FEE']).round %>   
-	  	<%sales_tax = sales_tax +((o.price.to_i + o.shipping_rates.to_i)*GLOBAL_VAR['SALES_TAX']).ceil %>     
+  	<%if o.invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CREDIT']%>
+	  	<%cash_flow_idv = ((o.price.to_i + o.shipping_rates.to_i)*GLOBAL_VAR['CASH_FLOW_FEE']).ceil %>
+	<%elsif o.invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_ATM']%>		
+	  	<%cash_flow_idv = ((o.price.to_i + o.shipping_rates.to_i)*GLOBAL_VAR['CASH_FLOW_FEE']).ceil %>
+	<%elsif o.invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_ALLPAY_CVS']%>		
+	  	<%cash_flow_idv = 0 %>
+	<%elsif o.invoice.payment_method == GLOBAL_VAR['PAYMENT_METHOD_NO_NEED']%>		
+	  	<%cash_flow_idv = 0 %>
+	<%end%>	   
+	<%if !o.problem_c%>	
+	  <%if o.shipments.first.status != GLOBAL_VAR['ORDER_STATUS_SHIPPED_BY_COMPANY']%>
+	  	<%shipping_rates = shipping_rates + o.shipping_rates.to_i%>
 	  <%end%>
+	  <%total_sales = total_sales + o.price.to_i + o.shipping_rates.to_i %>
+	  <%cash_flow = cash_flow + cash_flow_idv  %>
+	  <%coupon = coupon + ((o.price.to_i + o.shipping_rates.to_i)*GLOBAL_VAR['COUPON_FEE']).round %>  
+	  <%administration = administration +((o.price.to_i + o.shipping_rates.to_i)*GLOBAL_VAR['ADMINISTRATION_FEE']).round %>   
+	  <%sales_tax = sales_tax +((o.price.to_i + o.shipping_rates.to_i)*GLOBAL_VAR['SALES_TAX']).ceil %>     
+	<%end%>
   <tr>	
     <td><%= o.id %></td>  	  
     <td>

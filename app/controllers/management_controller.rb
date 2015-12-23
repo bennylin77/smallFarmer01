@@ -1,7 +1,8 @@
 class ManagementController < ApplicationController
   before_filter :authenticate_user!
   before_action :managementCheckUser
-
+  
+  before_action :set_invoice, only: [:cancelInvoice]  
   before_action :set_bill, only: [:billShow]  
   before_action :set_shipment, only: [:setShipment]  
   before_action :set_order, only: [:setOrder]
@@ -16,7 +17,31 @@ class ManagementController < ApplicationController
     else
       @paid_c = true
     end
-    @invoices = Invoice.where(paid_c: @paid_c).paginate(page: params[:page], per_page: 60).order('id DESC')       
+    @invoices = Invoice.where({paid_c: @paid_c, canceled_c: false}).paginate(page: params[:page], per_page: 60).order('id DESC')       
+  end
+  
+  def cancelInvoice
+    
+    @invoice.canceled_c = true
+    @invoice.canceled_at = Time.zone.now
+    @invoice.save!      
+    #Coupons
+    @invoice.invoice_coupon_lists.each do |i_c_l|
+      coupon = i_c_l.coupon
+      coupon.amount = coupon.amount + i_c_l.amount 
+      coupon.amount == 0 ? coupon.available_c = false : coupon.available_c = true 
+      coupon.save!
+      i_c_l.destroy
+    end     
+    @invoice.orders.each do |o|
+      o.problem_c = true
+      o.problem_at = Time.zone.now
+      o.called_smallfarmer_c = false 
+      o.called_logistics_c = false      
+      o.save!
+    end
+    flash[:alert] = '已成功刪除'
+    redirect_to controller: 'management', action: 'invoices'     
   end
   
 #======================# order #======================#   
@@ -26,7 +51,7 @@ class ManagementController < ApplicationController
     @called_smallfarmer_c = params[:called_smallfarmer_c]
     @called_logistics_c = params[:called_logistics_c]
       
-    @orders = Order.joins(:invoice).where('called_smallfarmer_c = ? and called_logistics_c = ? and invoices.confirmed_c = 1', 
+    @orders = Order.joins(:invoice).where('called_smallfarmer_c = ? and called_logistics_c = ? and invoices.confirmed_c = 1 and invoices.canceled_c = 0', 
                                     params[:called_smallfarmer_c], params[:called_logistics_c]).all.paginate(page: params[:page], per_page: 20).order('id DESC')    
   end
   
@@ -476,6 +501,10 @@ private
       flash["error"]="您沒有權限"
       redirect_to root_url         
     end  
+  end
+  
+  def set_invoice
+    @invoice = Invoice.find(params[:id])    
   end
   
   def set_shipment
