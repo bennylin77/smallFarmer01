@@ -156,7 +156,7 @@ class ManagementController < ApplicationController
                  password: Rails.configuration.mitake_password,
                  dstaddr:  s.receiver_address.phone_no.gsub(/^\+886/, '0'),
                  encoding: 'UTF8',
-                 smbody: '小農1號提醒：如商品有異，請於到貨起48小時內聯絡0287326786。如為農民出貨瑕疵，我們將提供退款/補寄保障※請詳退換貨政策'                     
+                 smbody: '小農1號提醒：如商品有異，請於到貨起48小時內聯絡農民。如為農民出貨瑕疵，我們將提供退款/補寄保障※請詳退換貨政策'                     
         }                                   
         result = RestClient.get( Rails.configuration.mitake_sm_send_get_url, params: data)                      
         #bills
