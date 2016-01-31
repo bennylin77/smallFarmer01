@@ -29,7 +29,7 @@
   <tr>
     <td class="text-center">
     	<%if !o.called_smallfarmer_c%>
-    		<%= link_to '通知物流', {controller: 'orders', action: 'confirm', id: o}, data: { confirm: '出貨編號:'+o.id.to_s+' 您確定要通知物流? '+expressComingDate( checked_time: Time.zone.now, words: true )+'物流會來取貨' }, class: 'btn orange_btn backend_btn'%>
+    		<!--<% link_to '', {controller: 'orders', action: 'confirm', id: o}, data: { confirm: '出貨編號:'+o.id.to_s+' 您確定要通知物流? '+expressComingDate( checked_time: Time.zone.now, words: true )+'物流會來取貨' }, class: 'btn orange_btn backend_btn'%>-->
     		<%= link_to '自行出貨', {controller: 'orders', action: 'confirmAndShippedBySelf', id: o}, data: { confirm: '出貨編號:'+o.id.to_s+' 您確定要自行出貨?'}, class: 'btn orange_btn backend_btn'%>    		
     	<%else%>
     		<%if o.shipments.first.status != GLOBAL_VAR['ORDER_STATUS_SHIPPED_BY_COMPANY']%>
