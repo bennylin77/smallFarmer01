@@ -30,8 +30,12 @@
           <ul class="nav navbar-nav navbar-right">
 			<%if user_signed_in?%>          	
 				<li><a href="/invoices/index" class="menu_right">					
-					<%= image_tag current_user.avatar.url, class: 'img-circle', style: '' %>
-		            <span class='mobile_menu_label'><%if current_user.last_name%><%=current_user.last_name+' '+current_user.first_name%><%end%></span>					
+					<%if !current_user.avatar.blank?%>			
+						<%= image_tag current_user.avatar.url, class: 'img-circle', style: 'border: 2px solid #a7a7a7' %>
+			    	<%else%>
+						<%= image_tag 'default_avatar.png', class: 'img-circle', style: 'border: 2px solid #a7a7a7' %>    	
+			    	<%end%>		
+			   		<span class='mobile_menu_label'><%if current_user.last_name%><%=current_user.last_name+' '+current_user.first_name%><%end%></span>					
 					</a>			
 				</li>      
 			<%end%>					       
