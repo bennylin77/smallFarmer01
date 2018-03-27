@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'json', github: 'flori/json', branch: 'v1.8'
+
 gem 'rails', '4.1.6'
 gem 'mysql2'
 gem 'sass-rails', '~> 5.0.3'

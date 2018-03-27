@@ -1,7 +1,14 @@
 <% content_for :title do %>
 	<title><%= Hash[keywordKindOptions].rassoc(@kind.to_i).first%> | 小農1號線上水果平台</title>  
 <% end %>
-<div class="container-fluid main_frontend" style="padding-top: 70px;"><br>
+<div class="container-fluid" style="background:#FF5600">
+	<div class="row">
+		<div class="text-center" style="color: #FFffff; margin-top: 100px; padding-top: 10px; padding-bottom: 5px;">
+			感謝小農之友的支持，小農1號自2016/4/2/起，將不再進行線上農產品交易。
+		</div>
+	</div>
+</div>
+<div class="container-fluid main_frontend" style="padding-top: 0px;"><br>
 	<% @products.each_slice(4) do |p|%> 
 		<div class="row">
 			<% p.each_with_index do |pp, index|%>

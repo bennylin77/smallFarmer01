@@ -14,7 +14,7 @@ class CommentsController < ApplicationController
     comment.user = current_user 
     comment.product = @product
     comment.save!
-    System.sendNewComment(comment).deliver      
+    #System.sendNewComment(comment).deliver      
     notify( @product.company.user, { category: GLOBAL_VAR['NOTIFICATION_COMMENT'], 
                                      sub_category: GLOBAL_VAR['NOTIFICATION_SUB_NEW_COMMENT'], 
                                      comment_id: comment.id})   

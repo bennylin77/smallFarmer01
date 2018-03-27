@@ -15,6 +15,11 @@
 			{class: 'keyword_description text-left'}, wrapper_tag: "div") %>	    	    
         </div>
         <div class="col-sm-9 col-lg-10 main_backend" style="border-left: 1px solid #E7E7E7; min-height: 600px;">
+			<div class="row" style="">
+				<div class="text-center" style="color: #FF5600; margin-top: 0px; padding-top: 10px; padding-bottom: 5px;">
+					感謝小農之友的支持，小農1號自2016/4/2/起，將不再進行線上農產品交易。
+				</div>
+			</div>			
 			<% @products.each_slice(4) do |p|%> 
 				<div class="row">
 					<% p.each_with_index do |pp, index|%>
